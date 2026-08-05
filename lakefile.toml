@@ -1,12 +1,11 @@
 name = "acl_geom"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["AclGeom"]
+defaultTargets = ["AclGeom", "AclGeomBook", "book"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 relaxedAutoImplicit = false
-weak.linter.mathlibStandardSet = true
 maxSynthPendingDepth = 3
 
 [[require]]
@@ -14,5 +13,24 @@ name = "mathlib"
 scope = "leanprover-community"
 rev = "v4.32.2"
 
+[[require]]
+name = "verso"
+git = "https://github.com/leanprover/verso"
+rev = "v4.32.0"
+
+# The formalization itself. The Mathlib linters only apply here, not to the
+# Verso document (where e.g. `#doc` commands are idiomatic).
 [[lean_lib]]
 name = "AclGeom"
+
+[lean_lib.leanOptions]
+weak.linter.mathlibStandardSet = true
+
+# The Verso (manual genre) exposition of the formalization.
+[[lean_lib]]
+name = "AclGeomBook"
+
+# Generates the website: `lake exe book` writes HTML to `_out`.
+[[lean_exe]]
+name = "book"
+root = "AclGeomBookMain"
