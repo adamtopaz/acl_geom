@@ -72,15 +72,29 @@ theorem le_racl_iff {S : Set K} {E : IntermediateField k K} :
     E ≤ racl k S ↔ ∀ x ∈ E, IsAlgebraic (adjoin k S) x :=
   ⟨fun h _ hx ↦ (mem_racl_iff k).1 (h hx), fun h x hx ↦ (mem_racl_iff k).2 (h x hx)⟩
 
+/-- An element annihilated by a nonzero polynomial whose coefficients lie in an
+intermediate field `E` is algebraic over `E`. -/
+theorem isAlgebraic_of_coeff_mem {E : IntermediateField k K} {x : K} {p : Polynomial K}
+    (hp : p ≠ 0) (hpx : p.eval x = 0) (hc : ∀ n, p.coeff n ∈ E) : IsAlgebraic E x := by
+  obtain ⟨q, hq⟩ := (Polynomial.mem_lifts (f := algebraMap E K) p).1 <|
+    (Polynomial.lifts_iff_coeff_lifts p).2 fun n ↦ ⟨(⟨p.coeff n, hc n⟩ : E), rfl⟩
+  refine ⟨q, fun h0 ↦ hp ?_, ?_⟩
+  · rw [← hq, h0, Polynomial.map_zero]
+  · rw [Polynomial.aeval_def, ← Polynomial.eval_map, hq, hpx]
+
+/-- Algebraicity over an intermediate field is monotone in the base field. -/
+theorem isAlgebraic_of_le {E₁ E₂ : IntermediateField k K} (h : E₁ ≤ E₂) {x : K}
+    (hx : IsAlgebraic E₁ x) : IsAlgebraic E₂ x := by
+  obtain ⟨p, hp0, hpx⟩ := hx
+  refine isAlgebraic_of_coeff_mem ((Polynomial.map_ne_zero_iff
+    (algebraMap E₁ K).injective).2 hp0) ?_ fun n ↦ ?_
+  · rw [Polynomial.eval_map, ← Polynomial.aeval_def, hpx]
+  · rw [Polynomial.coeff_map]
+    exact h (p.coeff n).2
+
 /-- Monotonicity of `racl` in the set argument. -/
-theorem racl_mono {S T : Set K} (h : S ⊆ T) : racl k S ≤ racl k T := by
-  intro x hx
-  rw [mem_racl_iff] at hx ⊢
-  -- Pass through the tower `k(S) ⊆ k(S)(T) = k(T)`.
-  have hx' : IsAlgebraic (adjoin (adjoin k S) T) x := hx.tower_top _
-  rw [isAlgebraic_iff_isIntegral] at hx' ⊢
-  rwa [show adjoin k T = (adjoin (adjoin k S) T).restrictScalars k by
-    rw [adjoin_adjoin_left, Set.union_eq_self_of_subset_left h]]
+theorem racl_mono {S T : Set K} (h : S ⊆ T) : racl k S ≤ racl k T := fun _ hx ↦
+  (mem_racl_iff k).2 (isAlgebraic_of_le (adjoin.mono k S T h) ((mem_racl_iff k).1 hx))
 
 variable (k)
 
@@ -102,16 +116,6 @@ theorem racl_racl (S : Set K) : racl k (racl k S : Set K) = racl k S := by
   exact isIntegral_trans x hx'
 
 variable {k}
-
-/-- An element annihilated by a nonzero polynomial whose coefficients lie in an
-intermediate field `E` is algebraic over `E`. -/
-theorem isAlgebraic_of_coeff_mem {E : IntermediateField k K} {x : K} {p : Polynomial K}
-    (hp : p ≠ 0) (hpx : p.eval x = 0) (hc : ∀ n, p.coeff n ∈ E) : IsAlgebraic E x := by
-  obtain ⟨q, hq⟩ := (Polynomial.mem_lifts (f := algebraMap E K) p).1 <|
-    (Polynomial.lifts_iff_coeff_lifts p).2 fun n ↦ ⟨(⟨p.coeff n, hc n⟩ : E), rfl⟩
-  refine ⟨q, fun h0 ↦ hp ?_, ?_⟩
-  · rw [← hq, h0, Polynomial.map_zero]
-  · rw [Polynomial.aeval_def, ← Polynomial.eval_map, hq, hpx]
 
 /-- Converse companion to `isAlgebraic_of_coeff_mem`: an element algebraic over
 an intermediate field `E` is annihilated by a nonzero polynomial over `K` whose
