@@ -20,16 +20,18 @@ the closed lattice, with closure
   suprema and `racl`;
 * exchange for `pointCl` (`pointCl_exchange`);
 * the inverse order isomorphisms between `ClosedIF k K` and the closed point
-  sets (`ClosedIF.pointSetIso`).
+  sets (`ClosedIF.pointSetIso`);
+* transport of order isomorphisms of closed lattices to geometry
+  equivalences of the point geometries (`Point.map`, `pointCl_map_iff` —
+  blueprint eq. 20.3).
 
-Transport of order isomorphisms to geometry equivalences (eq. 20.3) comes
-with the functorial layer; finite character of `pointCl` comes with finite
-rank (F6).
+Finite character of `pointCl` lives with the finite-rank predicates in
+`AclGeom.Geometry.FiniteRank`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M1, checklist F5).
+**Status:** M1, checklist F5 — complete.
 -/
 
 namespace AclGeom
@@ -202,6 +204,73 @@ def pointSetIso : ClosedIF k K ≃o ClosedPointSet k K where
 end ClosedIF
 
 end PointSetIso
+
+section TransportPoints
+
+/-- Order isomorphisms carry atoms to atoms. -/
+theorem IsAtom.orderIso_map {α β : Type*} [PartialOrder α] [OrderBot α]
+    [PartialOrder β] [OrderBot β] (e : α ≃o β) {a : α} (h : IsAtom a) :
+    IsAtom (e a) := by
+  constructor
+  · intro h0
+    exact h.1 (e.injective (by rw [h0, e.map_bot]))
+  · intro b hb
+    have hlt : e.symm b < a := by
+      rw [← e.symm_apply_apply a]
+      exact e.symm.strictMono hb
+    have hbot := h.2 _ hlt
+    calc b = e (e.symm b) := (e.apply_symm_apply b).symm
+    _ = e ⊥ := by rw [hbot]
+    _ = ⊥ := e.map_bot
+
+/-- Order isomorphisms preserve atoms. -/
+theorem isAtom_orderIso_iff {α β : Type*} [PartialOrder α] [OrderBot α]
+    [PartialOrder β] [OrderBot β] (e : α ≃o β) {a : α} :
+    IsAtom (e a) ↔ IsAtom a := by
+  refine ⟨fun h ↦ ?_, fun h ↦ IsAtom.orderIso_map e h⟩
+  have := IsAtom.orderIso_map e.symm h
+  rwa [e.symm_apply_apply] at this
+
+variable {l : Type*} {L : Type*} [Field l] [Field L] [Algebra l L]
+
+/-- An order isomorphism of closed lattices restricts to a bijection of
+points (blueprint eq. 20.3, first half). -/
+def Point.map (e : ClosedIF k K ≃o ClosedIF l L) : Point k K ≃ Point l L where
+  toFun P := ⟨e P.1, (isAtom_orderIso_iff e).2 P.2⟩
+  invFun Q := ⟨e.symm Q.1, (isAtom_orderIso_iff e.symm).2 Q.2⟩
+  left_inv P := Subtype.ext (e.symm_apply_apply P.1)
+  right_inv Q := Subtype.ext (e.apply_symm_apply Q.1)
+
+@[simp] theorem Point.map_coe (e : ClosedIF k K ≃o ClosedIF l L)
+    (P : Point k K) : (Point.map e P).1 = e P.1 := rfl
+
+/-- An order isomorphism of closed lattices preserves the point closure
+(blueprint eq. 20.3): the restriction to points is a geometry equivalence. -/
+theorem pointCl_map_iff (e : ClosedIF k K ≃o ClosedIF l L)
+    {S : Set (Point k K)} {P : Point k K} :
+    Point.map e P ∈ pointCl (Point.map e '' S) ↔ P ∈ pointCl S := by
+  have hsup : sSup (Subtype.val '' (Point.map e '' S))
+      = e (sSup (Subtype.val '' S)) := by
+    refine le_antisymm (sSup_le ?_) ?_
+    · rintro - ⟨-, ⟨Q, hQ, rfl⟩, rfl⟩
+      exact e.le_iff_le.2 (le_sSup ⟨Q, hQ, rfl⟩)
+    · rw [e.map_sSup]
+      refine iSup₂_le ?_
+      rintro - ⟨Q, hQ, rfl⟩
+      exact le_sSup ⟨Point.map e Q, ⟨Q, hQ, rfl⟩, rfl⟩
+  constructor
+  · intro h
+    refine mem_pointCl_iff.2 (e.le_iff_le.1 ?_)
+    calc e P.1 = (Point.map e P).1 := rfl
+    _ ≤ sSup (Subtype.val '' (Point.map e '' S)) := mem_pointCl_iff.1 h
+    _ = e (sSup (Subtype.val '' S)) := hsup
+  · intro h
+    refine mem_pointCl_iff.2 ?_
+    calc (Point.map e P).1 = e P.1 := rfl
+    _ ≤ e (sSup (Subtype.val '' S)) := e.le_iff_le.2 (mem_pointCl_iff.1 h)
+    _ = sSup (Subtype.val '' (Point.map e '' S)) := hsup.symm
+
+end TransportPoints
 
 end
 

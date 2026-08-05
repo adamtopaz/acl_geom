@@ -142,6 +142,47 @@ hypothesis that `k` is relatively algebraically closed in `K`, this is `k`. -/
 theorem coe_bot : ((⊥ : ClosedIF k K).1 : IntermediateField k K) =
     racl k ((⊥ : IntermediateField k K) : Set K) := rfl
 
+section Transport
+
+variable {L : Type*} [Field L] [Algebra k L]
+
+/-- Relative algebraic closedness is preserved by `k`-algebra isomorphisms. -/
+theorem _root_.AclGeom.IsRAC.map {E : IntermediateField k K} (hE : IsRAC E)
+    (σ : K ≃ₐ[k] L) : IsRAC (E.map σ.toAlgHom) := by
+  rw [isRAC_iff_racl_eq] at hE ⊢
+  calc racl k ((E.map σ.toAlgHom : IntermediateField k L) : Set L)
+      = racl k (σ '' (E : Set K)) := by rw [IntermediateField.coe_map]; rfl
+    _ = (racl k (E : Set K)).map σ.toAlgHom := (racl_map σ (E : Set K)).symm
+    _ = E.map σ.toAlgHom := by rw [hE]
+
+/-- Transport of the closed lattice along a `k`-algebra isomorphism of
+extensions (blueprint Prop `closed-complete-lattice`, last clause). For
+extensions over different base fields, transport the algebra structure along
+the base isomorphism first. -/
+def congr (σ : K ≃ₐ[k] L) : ClosedIF k K ≃o ClosedIF k L where
+  toFun E := ⟨E.1.map σ.toAlgHom, E.2.map σ⟩
+  invFun F := ⟨F.1.map σ.symm.toAlgHom, F.2.map σ.symm⟩
+  left_inv E := Subtype.ext <| by
+    ext x
+    simp [IntermediateField.mem_map]
+  right_inv F := Subtype.ext <| by
+    ext x
+    constructor
+    · rintro ⟨y, ⟨z, hz, rfl⟩, rfl⟩
+      simpa using hz
+    · intro hx
+      exact ⟨σ.symm x, ⟨x, hx, rfl⟩, by simp⟩
+  map_rel_iff' {E F} := by
+    rw [le_iff, le_iff]
+    constructor
+    · intro h x hx
+      obtain ⟨y, hy, hyx⟩ := h ⟨x, hx, rfl⟩
+      rwa [← σ.injective hyx]
+    · rintro h - ⟨x, hx, rfl⟩
+      exact ⟨x, h hx, rfl⟩
+
+end Transport
+
 theorem mem_sInf {s : Set (ClosedIF k K)} {x : K} :
     x ∈ sInf s ↔ ∀ E ∈ s, x ∈ E := by
   change x ∈ (sInf s).1 ↔ _
