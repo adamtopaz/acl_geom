@@ -25,9 +25,6 @@ name = "AclGeom"
 
 [lean_lib.leanOptions]
 weak.linter.mathlibStandardSet = true
-# No license has been chosen for this project yet, so the copyright-header
-# linter is off; see the M0 tracking issue.
-weak.linter.style.header = false
 
 # The Verso (manual genre) exposition of the formalization.
 [[lean_lib]]
