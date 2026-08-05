@@ -113,23 +113,27 @@ theorem isAlgebraic_of_coeff_mem {E : IntermediateField k K} {x : K} {p : Polyno
   · rw [← hq, h0, Polynomial.map_zero]
   · rw [Polynomial.aeval_def, ← Polynomial.eval_map, hq, hpx]
 
+/-- Converse companion to `isAlgebraic_of_coeff_mem`: an element algebraic over
+an intermediate field `E` is annihilated by a nonzero polynomial over `K` whose
+coefficients lie in `E`. -/
+theorem exists_poly_of_isAlgebraic {E : IntermediateField k K} {x : K}
+    (hx : IsAlgebraic E x) :
+    ∃ q : Polynomial K, q ≠ 0 ∧ q.eval x = 0 ∧ ∀ n, q.coeff n ∈ E := by
+  obtain ⟨p, hp0, hpx⟩ := hx
+  refine ⟨p.map (algebraMap E K),
+    (Polynomial.map_ne_zero_iff (algebraMap E K).injective).2 hp0, ?_, fun n ↦ ?_⟩
+  · rw [Polynomial.eval_map, ← Polynomial.aeval_def, hpx]
+  · rw [Polynomial.coeff_map]
+    exact (p.coeff n).2
+
 /-- Finite character: an element of `racl k S` already lies in `racl k T` for
 some finite `T ⊆ S` (blueprint Prop 4.1). -/
 theorem exists_finset_racl {S : Set K} {x : K} (hx : x ∈ racl k S) :
     ∃ T : Finset K, ↑T ⊆ S ∧ x ∈ racl k (T : Set K) := by
   classical
-  rw [mem_racl_iff] at hx
-  obtain ⟨p, hp0, hpx⟩ := hx
-  -- Push the annihilating polynomial down to `K[X]` and collect, for each of
-  -- its finitely many coefficients, a finite subset of `S` generating it.
-  set q : Polynomial K := p.map (algebraMap (adjoin k S) K) with hq
-  have hq0 : q ≠ 0 :=
-    (Polynomial.map_ne_zero_iff (algebraMap (adjoin k S) K).injective).2 hp0
-  have hqx : q.eval x = 0 := by
-    rw [hq, Polynomial.eval_map, ← Polynomial.aeval_def, hpx]
-  have hcoeff : ∀ n, q.coeff n ∈ adjoin k S := fun n ↦ by
-    rw [hq, Polynomial.coeff_map]
-    exact (p.coeff n).2
+  obtain ⟨q, hq0, hqx, hcoeff⟩ := exists_poly_of_isAlgebraic ((mem_racl_iff k).1 hx)
+  -- For each of the finitely many coefficients, collect a finite subset of `S`
+  -- generating it.
   choose T hTS hTmem using fun n ↦ exists_finset_of_mem_adjoin (hcoeff n)
   refine ⟨q.support.biUnion T, ?_, ?_⟩
   · intro y hy
@@ -200,6 +204,79 @@ theorem racl_exchange {S : Set K} {x y : K}
   exact h
 
 end Exchange
+
+section Equivariance
+
+variable {L : Type*} [Field L] [Algebra k L]
+
+/-- A `k`-algebra isomorphism carries `racl k S` into `racl k (σ '' S)`
+(one half of the equivariance in blueprint Prop 4.1). For extensions over
+different base fields, transport the algebra structure along the base
+isomorphism first. -/
+theorem mem_racl_map (σ : K ≃ₐ[k] L) {S : Set K} {x : K} (hx : x ∈ racl k S) :
+    σ x ∈ racl k (σ '' S) := by
+  obtain ⟨q, hq0, hqx, hc⟩ := exists_poly_of_isAlgebraic ((mem_racl_iff k).1 hx)
+  rw [mem_racl_iff]
+  refine isAlgebraic_of_coeff_mem (p := q.map (σ : K →+* L))
+    ((Polynomial.map_ne_zero_iff (σ : K →+* L).injective).2 hq0) ?_ fun n ↦ ?_
+  · rw [Polynomial.eval_map,
+      show σ x = (σ : K →+* L) x from rfl, Polynomial.eval₂_at_apply, hqx, map_zero]
+  · rw [Polynomial.coeff_map]
+    have h1 : σ (q.coeff n) ∈ (adjoin k S).map σ.toAlgHom := ⟨q.coeff n, hc n, rfl⟩
+    rw [adjoin_map] at h1
+    simpa using h1
+
+/-- Equivariance of `racl`, membership form. -/
+theorem mem_racl_map_iff (σ : K ≃ₐ[k] L) {S : Set K} {x : K} :
+    σ x ∈ racl k (σ '' S) ↔ x ∈ racl k S := by
+  refine ⟨fun h ↦ ?_, mem_racl_map σ⟩
+  have h2 := mem_racl_map σ.symm h
+  rwa [AlgEquiv.symm_apply_apply,
+    show σ.symm '' (σ '' S) = S by rw [← Set.image_comp]; simp] at h2
+
+/-- Equivariance of `racl` (blueprint Prop 4.1): a `k`-algebra isomorphism
+maps the relative algebraic closure of `S` onto that of `σ '' S`. -/
+theorem racl_map (σ : K ≃ₐ[k] L) (S : Set K) :
+    (racl k S).map σ.toAlgHom = racl k (σ '' S) := by
+  ext y
+  constructor
+  · rintro ⟨x, hx, rfl⟩
+    simpa using mem_racl_map σ hx
+  · intro hy
+    refine ⟨σ.symm y, ?_, by simp⟩
+    have h2 := mem_racl_map σ.symm hy
+    rwa [show σ.symm '' (σ '' S) = S by rw [← Set.image_comp]; simp] at h2
+
+end Equivariance
+
+section PowerInvariance
+
+/-- `racl` is invariant under replacing every generator by a fixed positive
+power. Over a perfect field this gives invariance of the closure under
+positive Frobenius iterates (blueprint Prop 4.1); the negative iterates are
+handled with the perfection layer, where inverse Frobenius is available. -/
+theorem racl_image_pow {m : ℕ} (hm : m ≠ 0) (S : Set K) :
+    racl k ((· ^ m) '' S) = racl k S := by
+  refine le_antisymm ?_ ?_
+  · -- Powers of members of `racl k S` stay in `racl k S`.
+    refine (racl_mono ?_).trans_eq (racl_racl k S)
+    rintro - ⟨s, hs, rfl⟩
+    exact pow_mem (subset_racl k S hs) m
+  · -- Each `s ∈ S` is a root of `X ^ m - C (s ^ m)`.
+    refine (racl_mono ?_).trans_eq (racl_racl k _)
+    intro s hs
+    rw [SetLike.mem_coe, mem_racl_iff]
+    have hsm : s ^ m ∈ adjoin k ((· ^ m) '' S) := subset_adjoin _ _ ⟨s, hs, rfl⟩
+    refine isAlgebraic_of_coeff_mem (p := Polynomial.X ^ m - Polynomial.C (s ^ m))
+      (Polynomial.X_pow_sub_C_ne_zero (Nat.pos_of_ne_zero hm) _) (by simp) fun n ↦ ?_
+    simp only [Polynomial.coeff_sub, Polynomial.coeff_X_pow, Polynomial.coeff_C]
+    rcases eq_or_ne n m with rfl | hnm
+    · simp [hm]
+    · rcases eq_or_ne n 0 with rfl | hn0
+      · simpa [hnm] using neg_mem hsm
+      · simp [hnm, hn0]
+
+end PowerInvariance
 
 end
 
