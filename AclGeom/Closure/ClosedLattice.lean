@@ -42,6 +42,21 @@ def IsRAC (E : IntermediateField k K) : Prop :=
 theorem IsRAC.mem_of_isAlgebraic {E : IntermediateField k K} (hE : IsRAC E) {x : K}
     (hx : IsAlgebraic E x) : x ∈ E := hE x hx
 
+/-- A relatively algebraically closed intermediate field contains any element
+some positive power of which it contains (via the annihilating polynomial
+`X ^ m - C (x ^ m)`). -/
+theorem IsRAC.mem_of_pow_mem {E : IntermediateField k K} (hE : IsRAC E) {x : K}
+    {m : ℕ} (hm : m ≠ 0) (hx : x ^ m ∈ E) : x ∈ E := by
+  refine hE x (isAlgebraic_of_coeff_mem
+    (p := Polynomial.X ^ m - Polynomial.C (x ^ m))
+    (Polynomial.X_pow_sub_C_ne_zero (Nat.pos_of_ne_zero hm) _) (by simp) fun n ↦ ?_)
+  rw [Polynomial.coeff_sub, Polynomial.coeff_X_pow, Polynomial.coeff_C]
+  rcases eq_or_ne n m with rfl | hnm
+  · simp [hm]
+  · rcases eq_or_ne n 0 with rfl | hn0
+    · simpa [hnm] using neg_mem hx
+    · simp [hnm, hn0]
+
 /-- `E` is relatively algebraically closed iff it is a fixed point of the
 relative algebraic closure operator. -/
 theorem isRAC_iff_racl_eq {E : IntermediateField k K} :
