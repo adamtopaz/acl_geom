@@ -17,5 +17,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+
+      # Cache compiled dependencies (verso and friends; the mathlib build
+      # cache is fetched separately by lean-action via `lake exe cache get`).
+      - name: Restore dependency build cache
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+
       - uses: leanprover/lean-action@v1
-      - uses: leanprover-community/docgen-action@v1
+
+      - name: Generate the Verso exposition
+        run: lake exe book
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _out/html-multi
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
