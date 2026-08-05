@@ -35,3 +35,4 @@ import AclGeom.Functorial.Literal
 import AclGeom.Functorial.FrobeniusQuotient
 import AclGeom.Main
 import AclGeom.MathlibAudit
+import AclGeom.Test.RationalFunctionField

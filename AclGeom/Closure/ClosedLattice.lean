@@ -142,6 +142,27 @@ hypothesis that `k` is relatively algebraically closed in `K`, this is `k`. -/
 theorem coe_bot : ((⊥ : ClosedIF k K).1 : IntermediateField k K) =
     racl k ((⊥ : IntermediateField k K) : Set K) := rfl
 
+/-- Membership in the bottom of the closed lattice is algebraicity over the
+base field. In particular, under the blueprint's hypothesis that `k` is
+relatively algebraically closed in `K`, the bottom is the image of `k`. -/
+theorem mem_bot_iff {x : K} :
+    x ∈ (⊥ : ClosedIF k K) ↔ IsAlgebraic k x := by
+  change x ∈ ((⊥ : ClosedIF k K)).1 ↔ _
+  rw [coe_bot, mem_racl_iff, adjoin_self]
+  constructor
+  · intro h
+    have hbot : Algebra.IsIntegral k (⊥ : IntermediateField k K) := by
+      constructor
+      intro y
+      obtain ⟨z, hz⟩ := IntermediateField.mem_bot.1 y.2
+      have : IsIntegral k (y : K) := hz ▸ isIntegral_algebraMap
+      exact (isIntegral_algHom_iff (⊥ : IntermediateField k K).val
+        Subtype.val_injective).1 this
+    rw [isAlgebraic_iff_isIntegral] at h ⊢
+    exact isIntegral_trans x h
+  · intro h
+    exact h.tower_top _
+
 section Transport
 
 variable {L : Type*} [Field L] [Algebra k L]
