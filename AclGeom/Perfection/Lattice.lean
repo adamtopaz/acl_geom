@@ -21,12 +21,14 @@ provides:
 * `Perfection.incl_mem_perfIF_iff`: the pullback equation (5.1) —
   intersecting `M^perf` with (the image of) `K` recovers `M`;
 * `Perfection.isRAC_perfIF` / `Perfection.perfClosed`: `M^perf` is
-  relatively algebraically closed in the perfection, so perfection maps the
-  closed lattice of `K/k` into that of `K^perf/k^perf`.
+  relatively algebraically closed in the perfection;
+* `Perfection.comapClosed` and equation (5.2)
+  (`perfClosed_comapClosed`): every closed subextension of the perfection
+  is the perfection of its pullback;
+* `Perfection.latticeIso`: the perfection order isomorphism
+  `𝒢(K/k) ≃o 𝒢(K^perf/k^perf)` — checklist item P2.
 
-Still to come (P2, P3): surjectivity onto the closed lattice of the
-perfection (eq. 5.2) and the order isomorphism, and the integral Frobenius
-action fixing every atom.
+Still to come (P3): the integral Frobenius action fixing every atom.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -196,6 +198,92 @@ theorem perfIF_le_iff {M N : ClosedIF k K} :
   · intro h x hx
     exact (π.incl_mem_perfIF_iff).1 (h ((π.incl_mem_perfIF_iff).2 hx))
   · exact π.perfIF_mono
+
+section Comap
+
+/-- Every element of `k` lands in the perfected base under the inclusion. -/
+theorem incl_algebraMap_mem_basePerf (c : k) :
+    π.incl (algebraMap k K c) ∈ π.basePerf k :=
+  π.mem_basePerf_iff.2 ⟨0, c, by simp⟩
+
+variable (k) in
+/-- The pullback to `K` of a closed subextension of the perfection
+(the inverse of the perfection order isomorphism; blueprint Prop
+`perf-lattice`). -/
+def comapIF (N : ClosedIF (π.basePerf k) π.carrier) : IntermediateField k K :=
+  (N.1.toSubfield.comap π.incl).toIntermediateField fun c ↦ by
+    change π.incl (algebraMap k K c) ∈ N.1.toSubfield
+    exact N.1.algebraMap_mem (⟨_, π.incl_algebraMap_mem_basePerf c⟩ : π.basePerf k)
+
+theorem mem_comapIF_iff {N : ClosedIF (π.basePerf k) π.carrier} {x : K} :
+    x ∈ π.comapIF k N ↔ π.incl x ∈ N :=
+  Iff.rfl
+
+/-- The pullback of a closed subextension of the perfection is closed in `K`
+(second half of blueprint Prop `perf-lattice`). -/
+theorem isRAC_comapIF (N : ClosedIF (π.basePerf k) π.carrier) :
+    IsRAC (π.comapIF k N) := by
+  intro y hy
+  obtain ⟨P, hP0, hPy, hPc⟩ := exists_poly_of_isAlgebraic hy
+  rw [mem_comapIF_iff]
+  refine ClosedIF.mem_val.1 <| N.2 (π.incl y) (isAlgebraic_of_coeff_mem
+    (p := P.map π.incl)
+    ((Polynomial.map_ne_zero_iff π.incl_injective).2 hP0) ?_ fun n ↦ ?_)
+  · rw [Polynomial.eval_map, Polynomial.eval₂_at_apply, hPy, map_zero]
+  · rw [Polynomial.coeff_map]
+    exact ClosedIF.mem_val.2 ((π.mem_comapIF_iff (N := N)).1 (hPc n))
+
+variable (k) in
+/-- The pullback, as a member of the closed lattice of `K/k`. -/
+def comapClosed (N : ClosedIF (π.basePerf k) π.carrier) : ClosedIF k K :=
+  ⟨π.comapIF k N, π.isRAC_comapIF N⟩
+
+/-- Equation (5.2) of the blueprint: every closed subextension of the
+perfection is the perfection of its pullback. -/
+theorem perfClosed_comapClosed (N : ClosedIF (π.basePerf k) π.carrier) :
+    π.perfClosed k (π.comapClosed k N) = N := by
+  refine Subtype.ext (SetLike.ext fun x ↦ ?_)
+  constructor
+  · rintro ⟨n, m, hm, hx⟩
+    -- `x ^ p ^ n = ι m ∈ N`, so `x ∈ N` since `N` is closed.
+    have h1 : π.incl m ∈ N.1 := ClosedIF.mem_val.2 ((π.mem_comapIF_iff).1 hm)
+    have h2 : x ^ π.p ^ n ∈ N.1 := hx ▸ h1
+    exact N.2.mem_of_pow_mem (expChar_pow_pos π.carrier π.p n).ne' h2
+  · intro hx
+    -- Some `p`-power of `x` comes from `K`, and lies in `N`.
+    obtain ⟨r, y, hy⟩ := π.exists_pow_incl x
+    have h1 : π.incl y ∈ N.1 := by
+      rw [hy]
+      exact pow_mem hx _
+    exact ⟨r, y, (π.mem_comapIF_iff).2 (ClosedIF.mem_val.1 h1), hy.symm⟩
+
+/-- The reverse round trip: pulling the perfection of a closed `M` back to
+`K` recovers `M` (restatement of equation 5.1). -/
+theorem comapClosed_perfClosed (M : ClosedIF k K) :
+    π.comapClosed k (π.perfClosed k M) = M := by
+  refine Subtype.ext (SetLike.ext fun x ↦ ?_)
+  constructor
+  · intro h
+    exact ClosedIF.mem_val.2 (π.incl_mem_perfIF_iff.1 ((π.mem_comapIF_iff).1 h))
+  · intro h
+    exact (π.mem_comapIF_iff).2
+      (ClosedIF.mem_val.1 (π.incl_mem_perfIF_iff.2 (ClosedIF.mem_val.1 h)))
+
+variable (k) in
+/-- The perfection order isomorphism (blueprint Prop `perf-lattice`):
+`𝒢(K/k) ≃o 𝒢(K^perf/k^perf)`, with `M ↦ M^perf` and inverse the pullback
+along the inclusion. -/
+def latticeIso : ClosedIF k K ≃o ClosedIF (π.basePerf k) π.carrier where
+  toFun := π.perfClosed k
+  invFun := π.comapClosed k
+  left_inv := π.comapClosed_perfClosed
+  right_inv := π.perfClosed_comapClosed
+  map_rel_iff' {M N} := by
+    rw [ClosedIF.le_iff, ClosedIF.le_iff]
+    exact π.perfIF_le_iff
+
+end Comap
+
 
 end Perfection
 
