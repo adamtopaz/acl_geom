@@ -1,6 +1,7 @@
 import VersoManual
 import Mathlib.Tactic.NormNum
 import AclGeom
+import AclGeomBook.Foundations
 
 -- The manual genre, used for book-like documents with chapters, cross-references,
 -- citations, and an index.
@@ -92,6 +93,8 @@ kernel is independently buildable.
 As the formalization proceeds, each layer will receive a chapter of this book
 presenting its main definitions and theorems, with all displayed Lean code
 elaborated against the actual development.
+
+{include 0 AclGeomBook.Foundations}
 
 # About this document
 %%%
