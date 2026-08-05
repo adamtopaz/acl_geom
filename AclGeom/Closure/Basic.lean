@@ -19,10 +19,11 @@ Contents (blueprint Prop 4.1):
 * `racl` and `mem_racl_iff`, the public membership criterion;
 * extensivity (`subset_racl`), monotonicity (`racl_mono`), and
   idempotence (`racl_racl`);
-* finite character (`exists_finset_racl`).
+* finite character (`exists_finset_racl`);
+* exchange (`isAlgebraic_adjoin_exchange`, `racl_exchange`).
 
-Still to come here (checklist F1, F2): exchange, equivariance, Frobenius
-invariance, and the finite representative calculus (blueprint Lemma 4.2).
+Still to come here (checklist F1, F2): equivariance, Frobenius invariance,
+and the finite representative calculus (blueprint Lemma 4.2).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -140,6 +141,65 @@ theorem exists_finset_racl {S : Set K} {x : K} (hx : x ∈ racl k S) :
     · exact adjoin.mono _ _ _ (by exact_mod_cast Finset.subset_biUnion_of_mem T hn)
         (hTmem n)
     · simp [Polynomial.notMem_support_iff.1 hn]
+
+section Exchange
+
+open scoped IntermediateField.algebraAdjoinAdjoin
+
+variable {F : Type*} [Field F] [Algebra F K]
+
+/-- Exchange over a base field: if `x` is algebraic over `F(y)` and
+transcendental over `F`, then `y` is algebraic over `F(x)`
+(the exchange step of blueprint Prop 4.1). -/
+theorem isAlgebraic_adjoin_exchange {x y : K}
+    (hx : IsAlgebraic (adjoin F {y}) x) (hx' : Transcendental F x) :
+    IsAlgebraic (adjoin F {x}) y := by
+  by_contra hy
+  -- Bridge `¬(algebraic over the field F(x))` down to the ring `F[x]`.
+  have hy' : Transcendental (Algebra.adjoin F ({x} : Set K)) y := fun h ↦
+    hy ((IsFractionRing.isAlgebraic_iff (Algebra.adjoin F ({x} : Set K)) (adjoin F {x}) K).1 h)
+  -- The pair `(y, x)` is then algebraically independent over `F`.
+  have hxInd : AlgebraicIndependent F (fun _ : Unit ↦ x) :=
+    algebraicIndependent_unique_type_iff.2 hx'
+  have hpair : AlgebraicIndependent F (fun o : Option Unit ↦ o.elim y fun _ ↦ x) := by
+    refine (hxInd.option_iff_transcendental y).2 ?_
+    rwa [Set.range_const]
+  -- Swap the pair to `(x, y)` and read the equivalence the other way:
+  -- `x` is transcendental over `F[y]`, contradicting `hx`.
+  have hfun : ((fun o : Option Unit ↦ o.elim y fun _ ↦ x) ∘ Equiv.swap none (some ())) =
+      fun o : Option Unit ↦ o.elim x fun _ ↦ y := by
+    funext o
+    rcases o with - | -
+    · simp
+    · simp
+  have hswap : AlgebraicIndependent F (fun o : Option Unit ↦ o.elim x fun _ ↦ y) :=
+    hfun ▸ hpair.comp (Equiv.swap none (some ())) (Equiv.injective _)
+  have hyInd : AlgebraicIndependent F (fun _ : Unit ↦ y) :=
+    hswap.comp some (Option.some_injective Unit)
+  have hxTr : Transcendental (Algebra.adjoin F (Set.range fun _ : Unit ↦ y)) x :=
+    (hyInd.option_iff_transcendental x).1 hswap
+  rw [Set.range_const] at hxTr
+  exact hxTr
+    ((IsFractionRing.isAlgebraic_iff (Algebra.adjoin F ({y} : Set K)) (adjoin F {y}) K).2 hx)
+
+/-- Exchange for `racl` (blueprint Prop 4.1): if `x ∈ racl k (S ∪ {y})` but
+`x ∉ racl k S`, then `y ∈ racl k (S ∪ {x})`. -/
+theorem racl_exchange {S : Set K} {x y : K}
+    (hxy : x ∈ racl k (insert y S)) (hx : x ∉ racl k S) :
+    y ∈ racl k (insert x S) := by
+  rw [mem_racl_iff] at hxy hx ⊢
+  have key : ∀ z : K, adjoin k (insert z S) =
+      (adjoin (adjoin k S) {z}).restrictScalars k := fun z ↦ by
+    rw [adjoin_adjoin_left, Set.union_singleton]
+  rw [key y] at hxy
+  rw [key x]
+  -- Transport across `restrictScalars` (definitionally the same carrier and
+  -- algebra map into `K`), apply exchange over the base field `adjoin k S`.
+  have hxy' : IsAlgebraic (adjoin (adjoin k S) {y}) x := hxy
+  have h := isAlgebraic_adjoin_exchange hxy' hx
+  exact h
+
+end Exchange
 
 end
 
