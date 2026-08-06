@@ -214,6 +214,20 @@ theorem aeval_partialAeval (E : IntermediateField k Ω) (c : Fin m → ↥E)
     · simp [partialAeval]
   exact congrArg (fun (g : MvPolynomial (Fin m ⊕ Fin n) k →ₐ[k] Ω) ↦ g f) h
 
+/-- Packaging lemma for the algebraicity hypothesis of
+`exists_joint_relocation`: if every generator in `T` is algebraic over
+`adjoin F S`, then the extension `adjoin F T / adjoin F S` is algebraic. -/
+theorem isAlgebraic_extendScalars_adjoin {F : Type*} [Field F] [Algebra F Ω]
+    {S T : Set Ω} (hle : adjoin F S ≤ adjoin F T)
+    (halg : ∀ x ∈ T, IsAlgebraic ↥(adjoin F S) x) :
+    Algebra.IsAlgebraic ↥(adjoin F S) ↥(extendScalars hle) := by
+  have key : extendScalars hle = adjoin ↥(adjoin F S) T := by
+    refine restrictScalars_injective F ?_
+    rw [adjoin_adjoin_left, extendScalars_restrictScalars, adjoin_union]
+    exact (sup_eq_right.2 hle).symm
+  rw [key]
+  exact isAlgebraic_adjoin fun x hx ↦ (halg x hx).isIntegral
+
 /-- Joint-relation relocation (step 1 of the fused curve-coset design):
 relocating `c₂` over the base `k(c₁)` preserves every joint `k`-polynomial
 relation with `c₁`, while making the new copy algebraic over prescribed
