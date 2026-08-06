@@ -655,6 +655,94 @@ theorem exists_evalFst_eq {u : Ω} (hu : Transcendental K u)
 
 end CurveDictionary
 
+section MinimalityCount
+
+open MvPolynomial IntermediateField
+open scoped IntermediateField.algebraAdjoinAdjoin
+
+variable {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
+
+/-- **The minimality count**: if the vanishing ideal of `(u, v)` is generated
+by `F`, then the minimal polynomial of `v` over `k(u)` has degree exactly the
+`Y`-degree of `F`. Divisibility gives `≤`; for `≥`, clearing denominators
+with the integer normalization and lifting through the reverse dictionary
+produces a member of the ideal, hence a multiple of `F`, of the minimal
+degree. -/
+theorem natDegree_minpoly_adjoin {u v : Ω} (hu : Transcendental k u)
+    {F : MvPolynomial (Fin 2) k} (hF0 : F ≠ 0)
+    (hFspan : idealOf k ![u, v] = Ideal.span {F})
+    (hv : IsAlgebraic ↥(adjoin k ({u} : Set Ω)) v) :
+    (minpoly ↥(adjoin k ({u} : Set Ω)) v).natDegree = degreeOf 1 F := by
+  classical
+  set m₀ := minpoly ↥(adjoin k ({u} : Set Ω)) v with hm₀def
+  have hm₀ne : m₀ ≠ 0 := minpoly.ne_zero hv.isIntegral
+  have hf0 : evalFst (K := k) u F ≠ 0 := fun h ↦
+    hF0 (evalFst_injective hu (by rw [h, map_zero]))
+  -- (≤): the minimal polynomial divides the partial evaluation of `F`.
+  have hFv : F ∈ idealOf k ![u, v] := hFspan ▸ Ideal.subset_span rfl
+  have hdvd : m₀ ∣ evalFst (K := k) u F := by
+    refine minpoly.dvd _ v ?_
+    rw [Polynomial.aeval_def]
+    exact mem_idealOf_iff_evalFst.1 hFv
+  have hle : m₀.natDegree ≤ degreeOf 1 F := by
+    rw [← natDegree_evalFst hu]
+    exact Polynomial.natDegree_le_of_dvd hdvd hf0
+  -- (≥): clear denominators and lift through the reverse dictionary.
+  set N := IsLocalization.integerNormalization
+    (nonZeroDivisors ↥(Algebra.adjoin k ({u} : Set Ω))) m₀ with hNdef
+  have hNne : N ≠ 0 := fun h0 ↦
+    hm₀ne ((IsLocalization.integerNormalization_eq_zero_iff le_rfl m₀).1 h0)
+  obtain ⟨W, hWeq, -⟩ := exists_evalFst_eq (K := k) hu N
+  have hinclinj : Function.Injective (Subalgebra.inclusion
+      (algebra_adjoin_le_adjoin k ({u} : Set Ω))).toRingHom := by
+    have h := Subalgebra.inclusion_injective
+      (algebra_adjoin_le_adjoin k ({u} : Set Ω))
+    exact h
+  have hWmem : W ∈ idealOf k ![u, v] := by
+    rw [mem_idealOf_iff_evalFst, hWeq, Polynomial.eval₂_map]
+    have hg : ((algebraMap ↥(adjoin k ({u} : Set Ω)) Ω).comp
+        (Subalgebra.inclusion (algebra_adjoin_le_adjoin k ({u} : Set Ω))).toRingHom) =
+        ((algebraMap ↥(adjoin k ({u} : Set Ω)) Ω).comp
+          (algebraMap ↥(Algebra.adjoin k ({u} : Set Ω))
+            ↥(adjoin k ({u} : Set Ω)))) := by
+      refine RingHom.ext fun x ↦ ?_
+      rfl
+    rw [hg, hNdef]
+    refine IsLocalization.integerNormalization_eval₂_eq_zero _ _ m₀ ?_
+    rw [← Polynomial.aeval_def]
+    exact minpoly.aeval _ v
+  rw [hFspan, Ideal.mem_span_singleton] at hWmem
+  obtain ⟨H₂, hH₂⟩ := hWmem
+  have hWne : W ≠ 0 := by
+    intro h0
+    rw [h0, map_zero] at hWeq
+    exact hNne ((Polynomial.map_eq_zero_iff hinclinj).1 hWeq.symm)
+  have hH₂ne : H₂ ≠ 0 := fun h ↦ hWne (by rw [hH₂, h, mul_zero])
+  have hNdeg : N.natDegree ≤ m₀.natDegree := by
+    rw [Polynomial.natDegree_le_iff_coeff_eq_zero]
+    intro i hi
+    have hnot : i ∉ m₀.support := fun hmem ↦
+      (Polynomial.mem_support_iff.1 hmem)
+        (Polynomial.coeff_eq_zero_of_natDegree_lt hi)
+    have hnotN : i ∉ N.support := fun hmem ↦
+      hnot (IsLocalization.integerNormalization_support _ _ hmem)
+    exact Polynomial.notMem_support_iff.1 hnotN
+  have hge : degreeOf 1 F ≤ m₀.natDegree := by
+    calc degreeOf 1 F = (evalFst (K := k) u F).natDegree :=
+          (natDegree_evalFst hu F).symm
+      _ ≤ (evalFst (K := k) u F).natDegree +
+            (evalFst (K := k) u H₂).natDegree := Nat.le_add_right _ _
+      _ = (evalFst (K := k) u W).natDegree := by
+          rw [hH₂, map_mul, Polynomial.natDegree_mul hf0 fun h ↦
+            hH₂ne (evalFst_injective hu (by rw [h, map_zero]))]
+      _ ≤ N.natDegree := by
+          rw [hWeq]
+          exact Polynomial.natDegree_map_le
+      _ ≤ m₀.natDegree := hNdeg
+  exact le_antisymm hle hge
+
+end MinimalityCount
+
 end
 
 end AclGeom
