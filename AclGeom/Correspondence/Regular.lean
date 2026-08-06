@@ -96,6 +96,35 @@ theorem isDomain_tensorProduct_of_fg
     · exact hy0 (by rw [← hy', h0, map_zero])
   exact NoZeroDivisors.to_isDomain _
 
+section FgReductions
+
+variable {k E F : Type*} [Field k] [Field E] [Field F] [Algebra k E] [Algebra k F]
+
+/-- Right-factor version of the finitely generated reduction, via
+commutativity of the tensor product. -/
+theorem isDomain_tensorProduct_of_fg_right
+    (h : ∀ F' : IntermediateField k F, F'.FG → IsDomain (E ⊗[k] F')) :
+    IsDomain (E ⊗[k] F) := by
+  have h' : ∀ F' : IntermediateField k F, F'.FG → IsDomain (F' ⊗[k] E) := by
+    intro F' hF'
+    haveI := h F' hF'
+    exact MulEquiv.isDomain (E ⊗[k] F')
+      (Algebra.TensorProduct.comm k F' E).toMulEquiv
+  haveI : IsDomain (F ⊗[k] E) := isDomain_tensorProduct_of_fg h'
+  exact MulEquiv.isDomain (F ⊗[k] E) (Algebra.TensorProduct.comm k E F).toMulEquiv
+
+/-- Combined reduction: domain-ness of `E ⊗[k] F` follows from domain-ness
+for all pairs of finitely generated subextensions (blueprint Lemma 8.1(a),
+first reduction). -/
+theorem isDomain_tensorProduct_of_fg_fg
+    (h : ∀ (E' : IntermediateField k E) (F' : IntermediateField k F),
+      E'.FG → F'.FG → IsDomain (E' ⊗[k] F')) :
+    IsDomain (E ⊗[k] F) :=
+  isDomain_tensorProduct_of_fg fun E' hE' ↦
+    isDomain_tensorProduct_of_fg_right fun F' hF' ↦ h E' F' hE' hF'
+
+end FgReductions
+
 section PurelyTranscendental
 
 open MvPolynomial
