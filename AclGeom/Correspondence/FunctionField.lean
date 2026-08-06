@@ -85,6 +85,31 @@ theorem aeval_eq_aeval_of_idealOf_eq {a b : Fin n → Ω}
   rw [h, mem_idealOf_iff, map_sub, sub_eq_zero] at this
   exact this
 
+/-- Transcendence of a coordinate transfers between tuples with equal
+vanishing ideals. -/
+theorem transcendental_of_idealOf_eq {a b : Fin n → Ω}
+    (h : idealOf k a = idealOf k b) {j : Fin n}
+    (ha : Transcendental k (a j)) : Transcendental k (b j) := by
+  intro hb
+  obtain ⟨p, hp0, hpz⟩ := hb
+  -- Insert the annihilating polynomial into the `j`-th coordinate.
+  set f : MvPolynomial (Fin n) k := Polynomial.aeval (X j : MvPolynomial (Fin n) k) p
+    with hf
+  have key : ∀ c : Fin n → Ω, aeval c f = Polynomial.aeval (c j) p := by
+    intro c
+    rw [hf]
+    have hcomp : ((aeval c : MvPolynomial (Fin n) k →ₐ[k] Ω).comp
+        (Polynomial.aeval (X j : MvPolynomial (Fin n) k) : Polynomial k →ₐ[k] _)) =
+        Polynomial.aeval (c j) := by
+      refine Polynomial.algHom_ext ?_
+      simp
+    exact congrArg (fun (g : Polynomial k →ₐ[k] Ω) ↦ g p) hcomp
+  have hfb : f ∈ idealOf k b := by
+    rw [mem_idealOf_iff, key, hpz]
+  rw [← h, mem_idealOf_iff, key] at hfb
+  exact ha ⟨p, hp0, hfb⟩
+
+
 end
 
 end AclGeom

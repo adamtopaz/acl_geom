@@ -282,6 +282,26 @@ theorem racl_image_pow {m : ℕ} (hm : m ≠ 0) (S : Set K) :
 
 end PowerInvariance
 
+section BaseMono
+
+variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- Relative algebraic closure is monotone in the base field: enlarging the
+base from `k` to an intermediate field `K₀` enlarges the closure. -/
+theorem racl_subset_racl_base (K₀ : IntermediateField k K) (S : Set K) :
+    (racl k S : Set K) ⊆ (racl ↥K₀ S : Set K) := by
+  intro x hx
+  rw [SetLike.mem_coe, mem_racl_iff] at hx
+  obtain ⟨q, hq0, hqx, hqc⟩ := exists_poly_of_isAlgebraic hx
+  have hsub : (adjoin k S : Set K) ⊆ ((adjoin ↥K₀ S : IntermediateField ↥K₀ K) : Set K) := by
+    have hle : adjoin k S ≤ (adjoin ↥K₀ S).restrictScalars k :=
+      adjoin_le_iff.2 fun y hy ↦ subset_adjoin ↥K₀ S hy
+    exact fun y hy ↦ hle hy
+  rw [SetLike.mem_coe, mem_racl_iff]
+  exact isAlgebraic_of_coeff_mem (E := adjoin ↥K₀ S) hq0 hqx fun m ↦ hsub (hqc m)
+
+end BaseMono
+
 end
 
 end AclGeom
