@@ -548,6 +548,111 @@ theorem natDegree_evalFst {u : Ω} (hu : Transcendental K u)
   rw [Equiv.swap_apply_right] at hswap
   exact hswap
 
+/-- `evalFst` is injective when `u` is transcendental over `K`. -/
+theorem evalFst_injective {u : Ω} (hu : Transcendental K u) :
+    Function.Injective (evalFst (K := K) u) := by
+  have htr : Transcendental K
+      (⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω))) := by
+    intro halg
+    exact hu (by
+      have := (halg.isIntegral.map (adjoin K ({u} : Set Ω)).val).isAlgebraic
+      simpa using this)
+  have hind : AlgebraicIndependent K
+      ![(⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω)))] :=
+    algebraicIndependent_unique_type_iff.2 htr
+  intro g₁ g₂ h
+  rw [evalFst_apply_eq, evalFst_apply_eq] at h
+  have h2 := Polynomial.map_injective _ (hind : Function.Injective _) h
+  have h3 := (finSuccEquiv K 1).injective h2
+  exact (rename_injective _ (Equiv.injective (Equiv.swap (0 : Fin 2) 1))) h3
+
+/-- The reverse dictionary on generators: substituting `X 0` into a
+one-variable polynomial partially evaluates to a constant. -/
+theorem evalFst_polyAevalX (u : Ω) (P : Polynomial K) :
+    evalFst (K := K) u (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) K) P) =
+      Polynomial.C (Polynomial.aeval
+        (⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω))) P) := by
+  have hcomp : ((evalFst (K := K) u (Ω := Ω)).comp
+      (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) K))) =
+      ((Polynomial.C : ↥(adjoin K ({u} : Set Ω)) →+* _).comp
+        (Polynomial.aeval
+          (⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω)))).toRingHom
+        : Polynomial K →+* _) := by
+    refine Polynomial.ringHom_ext (fun c ↦ ?_) ?_
+    · simp [evalFst]
+    · simp [evalFst]
+  exact congrArg (fun (f : Polynomial K →+* _) ↦ f P) hcomp
+
+/-- Joint evaluation through the `X 0` substitution: the reverse dictionary
+is compatible with taking points. -/
+theorem aeval_polyAevalX (u v : Ω) (P : Polynomial K) :
+    MvPolynomial.aeval ![u, v]
+      (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) K) P) =
+      Polynomial.aeval u P := by
+  have hcomp : ((MvPolynomial.aeval ![u, v]).comp
+      (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) K))) =
+      (Polynomial.aeval u : Polynomial K →ₐ[K] Ω) := by
+    refine Polynomial.algHom_ext ?_
+    simp
+  exact congrArg (fun (f : Polynomial K →ₐ[K] Ω) ↦ f P) hcomp
+
+/-- **The reverse dictionary**: every one-variable polynomial over the ring
+`K[u]` is the partial evaluation of a plane polynomial over `K` whose degree
+in the second variable is controlled. -/
+theorem exists_evalFst_eq {u : Ω} (hu : Transcendental K u)
+    (N : Polynomial ↥(Algebra.adjoin K ({u} : Set Ω))) :
+    ∃ W : MvPolynomial (Fin 2) K,
+      evalFst (K := K) u W = N.map (Subalgebra.inclusion
+        (algebra_adjoin_le_adjoin K ({u} : Set Ω))).toRingHom ∧
+      degreeOf 1 W ≤ N.natDegree := by
+  classical
+  -- Represent each coefficient as a polynomial value at `u`.
+  have hrepr : ∀ i : ℕ, ∃ P : Polynomial K,
+      Polynomial.aeval u P = (N.coeff i : Ω) := by
+    intro i
+    have hle := (Algebra.adjoin_singleton_eq_range_aeval K u).le
+    exact (AlgHom.mem_range _).1 (hle (N.coeff i).2)
+  choose P hP using hrepr
+  set W : MvPolynomial (Fin 2) K := ∑ i ∈ Finset.range (N.natDegree + 1),
+    Polynomial.aeval (X 0 : MvPolynomial (Fin 2) K) (P i) * X 1 ^ i with hW
+  have heq : evalFst (K := K) u W = N.map (Subalgebra.inclusion
+      (algebra_adjoin_le_adjoin K ({u} : Set Ω))).toRingHom := by
+    rw [hW, map_sum]
+    have hterm : ∀ i ∈ Finset.range (N.natDegree + 1),
+        evalFst (K := K) u
+          (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) K) (P i) * X 1 ^ i) =
+        Polynomial.C ((⟨(N.coeff i : Ω), algebra_adjoin_le_adjoin K _
+          (N.coeff i).2⟩ : ↥(adjoin K ({u} : Set Ω)))) * Polynomial.X ^ i := by
+      intro i _
+      rw [map_mul, map_pow, evalFst_polyAevalX]
+      have hXone : evalFst (K := K) u (X 1 : MvPolynomial (Fin 2) K) =
+          Polynomial.X := by
+        simp [evalFst]
+      rw [hXone]
+      congr 2
+      exact Subtype.ext ((Polynomial.aeval_algHom_apply
+        (adjoin K ({u} : Set Ω)).val _ _).symm.trans (hP i))
+    rw [Finset.sum_congr rfl hterm]
+    -- Compare with the coefficientwise image of `N`.
+    ext m
+    rw [Polynomial.finsetSum_coeff]
+    rw [Finset.sum_congr rfl fun i _ ↦ Polynomial.coeff_C_mul_X_pow _ i m]
+    rw [Finset.sum_ite_eq (Finset.range (N.natDegree + 1)) m
+      fun i ↦ (⟨(N.coeff i : Ω), algebra_adjoin_le_adjoin K _ (N.coeff i).2⟩ :
+        ↥(adjoin K ({u} : Set Ω)))]
+    rw [Polynomial.coeff_map]
+    by_cases hm : m ∈ Finset.range (N.natDegree + 1)
+    · rw [if_pos hm]
+      rfl
+    · rw [if_neg hm]
+      have hm' : N.natDegree < m := by
+        by_contra hle
+        exact hm (Finset.mem_range.2 (Nat.lt_succ_of_le (Nat.le_of_not_lt hle)))
+      rw [Polynomial.coeff_eq_zero_of_natDegree_lt hm', map_zero]
+  refine ⟨W, heq, ?_⟩
+  rw [← natDegree_evalFst hu W, heq]
+  exact Polynomial.natDegree_map_le
+
 end CurveDictionary
 
 end
