@@ -189,6 +189,64 @@ theorem exists_relocation [IsAlgClosed Ω] {n d : ℕ} {a : Fin n → Ω}
 
 end Assemble
 
+section Joint
+
+open MvPolynomial
+
+variable {m n : ℕ}
+
+/-- Partial evaluation: substituting the first block of variables by a tuple
+of an intermediate field turns a `k`-polynomial in `m + n` variables into an
+`E`-polynomial in the last `n` variables. -/
+noncomputable def partialAeval (E : IntermediateField k Ω) (c : Fin m → ↥E) :
+    MvPolynomial (Fin m ⊕ Fin n) k →ₐ[k] MvPolynomial (Fin n) ↥E :=
+  aeval (Sum.elim (fun i ↦ C (c i)) X)
+
+theorem aeval_partialAeval (E : IntermediateField k Ω) (c : Fin m → ↥E)
+    (w : Fin n → Ω) (f : MvPolynomial (Fin m ⊕ Fin n) k) :
+    aeval w (partialAeval (Ω := Ω) E c f) =
+      aeval (Sum.elim (fun i ↦ (c i : Ω)) w) f := by
+  have h : ((aeval w : MvPolynomial (Fin n) ↥E →ₐ[↥E] Ω).restrictScalars k).comp
+      (partialAeval (Ω := Ω) E c) = aeval (Sum.elim (fun i ↦ (c i : Ω)) w) := by
+    refine MvPolynomial.algHom_ext fun i ↦ ?_
+    rcases i with i | j
+    · simp [partialAeval]
+    · simp [partialAeval]
+  exact congrArg (fun (g : MvPolynomial (Fin m ⊕ Fin n) k →ₐ[k] Ω) ↦ g f) h
+
+/-- Joint-relation relocation (step 1 of the fused curve-coset design):
+relocating `c₂` over the base `k(c₁)` preserves every joint `k`-polynomial
+relation with `c₁`, while making the new copy algebraic over prescribed
+fresh elements. -/
+theorem exists_joint_relocation [IsAlgClosed Ω] {d : ℕ}
+    (c₁ : Fin m → Ω) {c₂ : Fin n → Ω} {t : Fin d → Ω}
+    (ht : AlgebraicIndependent ↥(adjoin k (Set.range c₁)) t)
+    (hle : adjoin ↥(adjoin k (Set.range c₁)) (Set.range t) ≤
+      adjoin ↥(adjoin k (Set.range c₁)) (Set.range c₂))
+    (halg : Algebra.IsAlgebraic
+      ↥(adjoin ↥(adjoin k (Set.range c₁)) (Set.range t)) ↥(extendScalars hle))
+    {s : Fin d → Ω}
+    (hs : AlgebraicIndependent ↥(adjoin k (Set.range c₁)) s) :
+    ∃ c₂' : Fin n → Ω,
+      (∀ f : MvPolynomial (Fin m ⊕ Fin n) k,
+        aeval (Sum.elim c₁ c₂') f = 0 ↔ aeval (Sum.elim c₁ c₂) f = 0) ∧
+      ∀ j, IsAlgebraic
+        ↥(adjoin ↥(adjoin k (Set.range c₁)) (Set.range s)) (c₂' j) := by
+  set K₀ := adjoin k (Set.range c₁)
+  obtain ⟨c₂', hideal, halg'⟩ := exists_relocation (k := ↥K₀) ht hle halg hs
+  refine ⟨c₂', fun f ↦ ?_, halg'⟩
+  set tc₁ : Fin m → ↥K₀ := fun i ↦ ⟨c₁ i, subset_adjoin k _ ⟨i, rfl⟩⟩ with htc₁
+  have hval : ∀ i, ((tc₁ i : ↥K₀) : Ω) = c₁ i := fun i ↦ rfl
+  have h1 : aeval (Sum.elim c₁ c₂') f =
+      aeval c₂' (partialAeval (Ω := Ω) K₀ tc₁ f) := by
+    rw [aeval_partialAeval]
+  have h2 : aeval (Sum.elim c₁ c₂) f =
+      aeval c₂ (partialAeval (Ω := Ω) K₀ tc₁ f) := by
+    rw [aeval_partialAeval]
+  rw [h1, h2, ← mem_idealOf_iff, ← mem_idealOf_iff, hideal]
+
+end Joint
+
 end
 
 end AclGeom
