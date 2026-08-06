@@ -1,0 +1,131 @@
+/-
+Copyright (c) 2026 Adam Topaz. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Adam Topaz, Claude
+-/
+import Mathlib.LinearAlgebra.Lagrange
+import Mathlib.RingTheory.Algebraic.Basic
+import Mathlib.FieldTheory.IsAlgClosed.Basic
+
+/-!
+# Rational function fields over a relatively closed base
+
+The specialization brick for base-change irreducibility (step 4a of the
+fused curve-coset chain): over an infinite field `k` that is algebraically
+closed in `K`, a polynomial in `K[t]` satisfying a nontrivial algebraic
+relation over `k[t]` has all its coefficients in `k`. Consequently `k(t)` is
+relatively algebraically closed in `K(t)`.
+
+The proof is by specialization: evaluating the relation at all but finitely
+many points `τ ∈ k` shows the value `x(τ)` is algebraic over `k`, hence lies
+in `k`; Lagrange interpolation through `deg x + 1` such nodes then forces
+every coefficient of `x` into `k`.
+
+This module is part of the formalization of the Evans–Hrushovski–Gismatullin
+reconstruction theorem; the source of truth is `sources/blueprint.tex`.
+
+**Status:** in progress (M3a, checklist C7 support).
+-/
+
+namespace AclGeom
+
+open Polynomial
+
+noncomputable section
+
+variable {k K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- **Specialization brick** (one-variable relative closure of rational
+function fields, polynomial form): if `k` is infinite and algebraically
+closed in `K`, then a polynomial `x ∈ K[t]` satisfying a nontrivial
+polynomial relation with coefficients in `k[t]` is defined over `k`. -/
+theorem exists_map_eq_of_eval₂_eq_zero [Infinite k]
+    (hk : ∀ y : K, IsAlgebraic k y → y ∈ (algebraMap k K).range)
+    {x : Polynomial K} {P : Polynomial (Polynomial k)} (hP : P ≠ 0)
+    (hPx : Polynomial.eval₂ (mapRingHom (algebraMap k K)) x P = 0) :
+    ∃ y : Polynomial k, x = y.map (algebraMap k K) := by
+  classical
+  set φ := algebraMap k K with hφ
+  -- A nonzero coefficient of the relation, whose roots are the bad nodes.
+  obtain ⟨i₀, hi₀⟩ := Polynomial.support_nonempty.2 hP
+  have hc₀ : P.coeff i₀ ≠ 0 := Polynomial.mem_support_iff.1 hi₀
+  set bad : Finset k := (P.coeff i₀).roots.toFinset with hbad
+  -- Specializing the relation at a good node makes the value algebraic.
+  have hval : ∀ τ : k, τ ∉ bad → ∃ c : k, x.eval (φ τ) = φ c := by
+    intro τ hτ
+    have hPτ : P.map (evalRingHom τ) ≠ 0 := by
+      intro h0
+      have hcoeff := congrArg (fun q ↦ Polynomial.coeff q i₀) h0
+      simp only [Polynomial.coeff_map, Polynomial.coeff_zero] at hcoeff
+      exact hτ (Multiset.mem_toFinset.2 (Polynomial.mem_roots'.2 ⟨hc₀, hcoeff⟩))
+    have hcomp : (evalRingHom (φ τ)).comp (mapRingHom φ) =
+        φ.comp (evalRingHom τ) := by
+      refine RingHom.ext fun q ↦ ?_
+      simp only [RingHom.comp_apply, coe_mapRingHom, coe_evalRingHom]
+      rw [eval_map, eval₂_at_apply]
+    have hrel : Polynomial.eval₂ (φ.comp (evalRingHom τ)) (x.eval (φ τ)) P = 0 := by
+      have h := congrArg (evalRingHom (φ τ)) hPx
+      rw [map_zero, Polynomial.hom_eval₂, hcomp] at h
+      exact h
+    have halg : IsAlgebraic k (x.eval (φ τ)) := by
+      refine ⟨P.map (evalRingHom τ), hPτ, ?_⟩
+      rw [Polynomial.aeval_def, Polynomial.eval₂_map]
+      exact hrel
+    obtain ⟨c, hc⟩ := RingHom.mem_range.1 (hk _ halg)
+    exact ⟨c, hc.symm⟩
+  -- Choose `natDegree x + 1` good nodes.
+  obtain ⟨s, hs_sub, hs_card⟩ := Set.Infinite.exists_subset_card_eq
+    ((Set.infinite_univ (α := k)).sdiff bad.finite_toSet) (x.natDegree + 1)
+  have hs_good : ∀ τ ∈ s, τ ∉ bad := fun τ hτ ↦ (hs_sub hτ).2
+  -- The interpolated polynomial over `k`.
+  set r : k → k := fun τ ↦ if h : τ ∉ bad then Classical.choose (hval τ h) else 0
+    with hr
+  have hrspec : ∀ τ ∈ s, x.eval (φ τ) = φ (r τ) := by
+    intro τ hτ
+    rw [hr]
+    simp only [hs_good τ hτ]
+    exact Classical.choose_spec (hval τ (hs_good τ hτ))
+  set y : Polynomial k := Lagrange.interpolate s id r with hy
+  refine ⟨y, ?_⟩
+  -- Two polynomials of degree `< s.card` agreeing on the `s`-nodes coincide.
+  have hinj : Set.InjOn (fun τ : k ↦ φ τ) s := fun a _ b _ h ↦
+    (algebraMap k K).injective h
+  refine Polynomial.eq_of_degrees_lt_of_eval_index_eq (v := fun τ : k ↦ φ τ)
+    s hinj ?_ ?_ ?_
+  · calc x.degree ≤ (x.natDegree : WithBot ℕ) := Polynomial.degree_le_natDegree
+      _ < (s.card : WithBot ℕ) := by
+          rw [hs_card]
+          exact_mod_cast Nat.lt_succ_self _
+  · calc (y.map φ).degree ≤ y.degree := Polynomial.degree_map_le
+      _ < (s.card : WithBot ℕ) :=
+          Lagrange.degree_interpolate_lt _ (Set.injOn_id _)
+  · intro τ hτ
+    have hnode := Lagrange.eval_interpolate_at_node (v := id) (r := r)
+      (Set.injOn_id _) hτ
+    simp only [id_eq] at hnode
+    rw [eval_map, eval₂_at_apply, hy, hnode]
+    exact hrspec τ hτ
+
+/-- The specialization brick in `IsAlgClosed` form: over an algebraically
+closed base every element of `K` algebraic over `k` already lies in `k`, and
+`k` is infinite. -/
+theorem exists_map_eq_of_eval₂_eq_zero_of_isAlgClosed [IsAlgClosed k]
+    {x : Polynomial K} {P : Polynomial (Polynomial k)} (hP : P ≠ 0)
+    (hPx : Polynomial.eval₂ (mapRingHom (algebraMap k K)) x P = 0) :
+    ∃ y : Polynomial k, x = y.map (algebraMap k K) := by
+  have hk : ∀ y : K, IsAlgebraic k y → y ∈ (algebraMap k K).range := by
+    intro y hy
+    have hint : IsIntegral k y := hy.isIntegral
+    refine ⟨-(minpoly k y).coeff 0, ?_⟩
+    have hq : (minpoly k y).leadingCoeff = 1 := minpoly.monic hint
+    have h1 : (minpoly k y).degree = 1 :=
+      IsAlgClosed.degree_eq_one_of_irreducible k (minpoly.irreducible hint)
+    have h0 : aeval y (minpoly k y) = 0 := minpoly.aeval k y
+    rw [eq_X_add_C_of_degree_eq_one h1, hq, C_1, one_mul, aeval_add, aeval_X,
+      aeval_C, add_eq_zero_iff_eq_neg] at h0
+    exact (map_neg (algebraMap k K) ((minpoly k y).coeff 0)).symm ▸ h0.symm
+  exact exists_map_eq_of_eval₂_eq_zero hk hP hPx
+
+end
+
+end AclGeom
