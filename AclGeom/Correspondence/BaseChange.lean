@@ -7,7 +7,7 @@ import Mathlib.LinearAlgebra.Lagrange
 import Mathlib.RingTheory.Algebraic.Basic
 import Mathlib.FieldTheory.IsAlgClosed.Basic
 import Mathlib.RingTheory.Polynomial.GaussLemma
-import AclGeom.Correspondence.FunctionField
+import AclGeom.Correspondence.CurveIdeal
 
 /-!
 # Rational function fields over a relatively closed base
@@ -848,6 +848,182 @@ theorem natDegree_minpoly_adjoin {u v : Ω} (hu : Transcendental k u)
   exact le_antisymm hle hge
 
 end MinimalityCount
+
+section Assembly
+
+open MvPolynomial IntermediateField
+
+variable {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
+
+/-- Coefficient extension along an injective map preserves the degree in each
+variable. -/
+theorem degreeOf_map_eq {K : Type*} [Field K] [Algebra k K] (i : Fin 2)
+    (F : MvPolynomial (Fin 2) k) :
+    degreeOf i (MvPolynomial.map (algebraMap k K) F) = degreeOf i F := by
+  have hsupp : (MvPolynomial.map (algebraMap k K) F).support = F.support := by
+    refine Finset.ext fun m ↦ ?_
+    rw [MvPolynomial.mem_support_iff, MvPolynomial.mem_support_iff,
+      MvPolynomial.coeff_map]
+    exact map_ne_zero_iff _ (algebraMap k K).injective
+  rw [degreeOf_eq_sup, degreeOf_eq_sup, hsupp]
+
+/-- Vanishing ideals transform by the variable swap. -/
+theorem idealOf_swap_span {u v : Ω} {F : MvPolynomial (Fin 2) k}
+    (h : idealOf k ![u, v] = Ideal.span {F}) :
+    idealOf k ![v, u] = Ideal.span {rename (Equiv.swap (0 : Fin 2) 1) F} := by
+  classical
+  have hcomp : ∀ g : MvPolynomial (Fin 2) k,
+      MvPolynomial.aeval (![v, u] : Fin 2 → Ω) g =
+        MvPolynomial.aeval ![u, v] (rename (Equiv.swap (0 : Fin 2) 1) g) := by
+    intro g
+    have hfun : ((![u, v] : Fin 2 → Ω) ∘ (Equiv.swap (0 : Fin 2) 1)) = ![v, u] := by
+      funext i
+      fin_cases i <;> simp
+    rw [aeval_rename, hfun]
+  have hswapswap : ∀ g : MvPolynomial (Fin 2) k,
+      rename (Equiv.swap (0 : Fin 2) 1) (rename (Equiv.swap (0 : Fin 2) 1) g) =
+        g := by
+    intro g
+    rw [rename_rename]
+    have hid : ((Equiv.swap (0 : Fin 2) 1) ∘ (Equiv.swap (0 : Fin 2) 1)) = id := by
+      funext i
+      fin_cases i <;> simp
+    rw [hid, rename_id]
+    rfl
+  ext g
+  rw [mem_idealOf_iff, Ideal.mem_span_singleton]
+  constructor
+  · intro hg
+    have hmem : rename (Equiv.swap (0 : Fin 2) 1) g ∈ idealOf k ![u, v] := by
+      rw [mem_idealOf_iff, ← hcomp]
+      exact hg
+    rw [h, Ideal.mem_span_singleton] at hmem
+    obtain ⟨c, hc⟩ := hmem
+    refine ⟨rename (Equiv.swap (0 : Fin 2) 1) c, ?_⟩
+    have := congrArg (rename (Equiv.swap (0 : Fin 2) 1)) hc
+    rw [hswapswap, map_mul] at this
+    exact this
+  · rintro ⟨c, rfl⟩
+    rw [hcomp, map_mul, hswapswap F, map_mul]
+    have hF0' : MvPolynomial.aeval (![u, v] : Fin 2 → Ω) F = 0 :=
+      (mem_idealOf_iff k).1 (h ▸ Ideal.subset_span rfl)
+    rw [hF0', zero_mul]
+
+/-- The degree count in the second variable: a cofactor of the extended
+generator against the `K`-generator has no `Y`-degree. -/
+theorem degreeOf_one_factor_eq_zero [IsAlgClosed k] {K : IntermediateField k Ω}
+    {u v : Ω} (hu : Transcendental ↥K u) (hv : v ∈ racl k {u})
+    {F : MvPolynomial (Fin 2) k} (hF0 : F ≠ 0)
+    (hFspan : idealOf k ![u, v] = Ideal.span {F})
+    {G H : MvPolynomial (Fin 2) ↥K}
+    (hGspan : idealOf ↥K ![u, v] = Ideal.span {G})
+    (hFGH : MvPolynomial.map (algebraMap k ↥K) F = G * H) :
+    degreeOf 1 H = 0 := by
+  classical
+  have huk : Transcendental k u := fun h ↦ hu (h.tower_top ↥K)
+  have hvalg : IsAlgebraic ↥(adjoin k ({u} : Set Ω)) v := (mem_racl_iff k).1 hv
+  have hFK0 : MvPolynomial.map (algebraMap k ↥K) F ≠ 0 := fun h ↦
+    hF0 (MvPolynomial.map_injective _ (algebraMap k ↥K).injective
+      (by rw [h, map_zero]))
+  have hG0 : G ≠ 0 := fun h ↦ hFK0 (by rw [hFGH, h, zero_mul])
+  have hH0 : H ≠ 0 := fun h ↦ hFK0 (by rw [hFGH, h, mul_zero])
+  -- The minimal polynomial divides the partial evaluation of `G`.
+  have hGv : G ∈ idealOf ↥K ![u, v] := hGspan ▸ Ideal.subset_span rfl
+  have hmdvd : minpoly ↥(adjoin ↥K ({u} : Set Ω)) v ∣ evalFst (K := ↥K) u G := by
+    refine minpoly.dvd _ v ?_
+    rw [Polynomial.aeval_def]
+    exact mem_idealOf_iff_evalFst.1 hGv
+  have hGne : evalFst (K := ↥K) u G ≠ 0 := fun h ↦
+    hG0 (evalFst_injective hu (by rw [h, map_zero]))
+  have h1 : (minpoly ↥(adjoin ↥K ({u} : Set Ω)) v).natDegree ≤ degreeOf 1 G := by
+    rw [← natDegree_evalFst hu]
+    exact Polynomial.natDegree_le_of_dvd hmdvd hGne
+  have h2 : (minpoly ↥(adjoin ↥K ({u} : Set Ω)) v).natDegree = degreeOf 1 F := by
+    rw [natDegree_minpoly_adjoin_eq hu hvalg]
+    exact natDegree_minpoly_adjoin huk hF0 hFspan hvalg
+  have hadd : degreeOf 1 (MvPolynomial.map (algebraMap k ↥K) F) =
+      degreeOf 1 G + degreeOf 1 H := by
+    rw [← natDegree_evalFst hu, hFGH, map_mul,
+      Polynomial.natDegree_mul hGne fun h ↦
+        hH0 (evalFst_injective hu (by rw [h, map_zero])),
+      natDegree_evalFst hu, natDegree_evalFst hu]
+  have hFKdeg : degreeOf 1 (MvPolynomial.map (algebraMap k ↥K) F) =
+      degreeOf 1 F := degreeOf_map_eq 1 F
+  omega
+
+/-- **Base-change irreducibility** (steps 4a/4b of the fused curve-coset
+chain): for `k` algebraically closed and a plane point `(u, v)` two-way
+generic over the intermediate field `K` and two-way interalgebraic over `k`,
+the vanishing ideal over `K` is generated by the extension of the generator
+over `k`. In particular the extended generator is prime. -/
+theorem idealOf_map_eq_span [IsAlgClosed k] {K : IntermediateField k Ω}
+    {u v : Ω} (hu : Transcendental ↥K u) (hv : v ∈ racl k {u})
+    (hv' : Transcendental ↥K v) (hu' : u ∈ racl k {v})
+    {F : MvPolynomial (Fin 2) k} (hF0 : F ≠ 0)
+    (hFspan : idealOf k ![u, v] = Ideal.span {F}) :
+    idealOf ↥K ![u, v] =
+      Ideal.span {MvPolynomial.map (algebraMap k ↥K) F} := by
+  classical
+  have hvK : v ∈ racl ↥K {u} := racl_subset_racl_base K {u} hv
+  obtain ⟨G, hGp, hGspan⟩ := exists_prime_span_idealOf ↥K hu hvK
+  have hFKmem : MvPolynomial.map (algebraMap k ↥K) F ∈ idealOf ↥K ![u, v] := by
+    rw [mem_idealOf_iff, MvPolynomial.aeval_map_algebraMap]
+    exact (mem_idealOf_iff k).1 (hFspan ▸ Ideal.subset_span rfl)
+  obtain ⟨H, hFGH⟩ := Ideal.mem_span_singleton.1 (hGspan ▸ hFKmem)
+  have hFK0 : MvPolynomial.map (algebraMap k ↥K) F ≠ 0 := fun h ↦
+    hF0 (MvPolynomial.map_injective _ (algebraMap k ↥K).injective
+      (by rw [h, map_zero]))
+  have hH0 : H ≠ 0 := fun h ↦ hFK0 (by rw [hFGH, h, mul_zero])
+  -- Count in the second variable.
+  have hcount1 : degreeOf 1 H = 0 :=
+    degreeOf_one_factor_eq_zero hu hv hF0 hFspan hGspan hFGH
+  -- Count in the first variable, by swapping.
+  have hcount0 : degreeOf 0 H = 0 := by
+    have hswapF : idealOf k ![v, u] =
+        Ideal.span {rename (Equiv.swap (0 : Fin 2) 1) F} := idealOf_swap_span hFspan
+    have hswapG : idealOf ↥K ![v, u] =
+        Ideal.span {rename (Equiv.swap (0 : Fin 2) 1) G} := idealOf_swap_span hGspan
+    have hswapF0 : rename (Equiv.swap (0 : Fin 2) 1) F ≠ 0 := fun h ↦
+      hF0 (rename_injective _ (Equiv.injective _) (by rw [h, map_zero]))
+    have hswapFGH : MvPolynomial.map (algebraMap k ↥K)
+        (rename (Equiv.swap (0 : Fin 2) 1) F) =
+        rename (Equiv.swap (0 : Fin 2) 1) G *
+          rename (Equiv.swap (0 : Fin 2) 1) H := by
+      rw [map_rename, hFGH, map_mul]
+    have h1 := degreeOf_one_factor_eq_zero hv' hu' hswapF0 hswapF hswapG hswapFGH
+    have h2 := degreeOf_rename_of_injective
+      (Equiv.injective (Equiv.swap (0 : Fin 2) 1)) (p := H) 0
+    rw [Equiv.swap_apply_left] at h2
+    rw [← h2]
+    exact h1
+  -- The cofactor is a nonzero constant, hence a unit.
+  have htot : H.totalDegree = 0 := by
+    refine Nat.eq_zero_of_le_zero ?_
+    rw [totalDegree_eq]
+    refine Finset.sup_le fun m hm ↦ ?_
+    have h0 : m 0 = 0 := Nat.eq_zero_of_le_zero
+      ((monomial_le_degreeOf 0 hm).trans (le_of_eq hcount0))
+    have h1 : m 1 = 0 := Nat.eq_zero_of_le_zero
+      ((monomial_le_degreeOf 1 hm).trans (le_of_eq hcount1))
+    have hm0 : m = 0 := by
+      ext i
+      fin_cases i
+      · exact h0
+      · exact h1
+    rw [hm0]
+    simp
+  have hHC : H = MvPolynomial.C (H.coeff 0) :=
+    totalDegree_eq_zero_iff_eq_C.1 htot
+  have hc0 : H.coeff 0 ≠ 0 := fun h ↦ hH0 (by rw [hHC, h, map_zero])
+  have hHunit : IsUnit H := by
+    rw [hHC]
+    exact (isUnit_iff_ne_zero.2 hc0).map
+      (MvPolynomial.C : ↥K →+* MvPolynomial (Fin 2) ↥K)
+  rw [hGspan]
+  exact Ideal.span_singleton_eq_span_singleton.2
+    ⟨hHunit.unit, by rw [IsUnit.unit_spec]; exact hFGH.symm⟩
+
+end Assembly
 
 end
 
