@@ -100,9 +100,32 @@ theorem y₂_mem_baseRacl : S.y₂ ∈ racl ↥S.base {S.x₂} :=
 theorem x₂_mem_baseRacl : S.x₂ ∈ racl ↥S.base {S.y₂} :=
   racl_subset_racl_base S.base {S.y₂} S.x₂_mem
 
+/-- `x₂` is not algebraic over the base, in `racl` form. -/
+theorem x₂_notMem_base : S.x₂ ∉ racl k {S.x₁, S.y₁} := fun hmem ↦
+  S.transcendental_x₂ ((mem_racl_iff k).1 hmem)
+
+/-- The first coordinate of the sum correspondence is transcendental:
+subtracting `x₁` would otherwise make `x₂` algebraic over `k(x₁)`. -/
+theorem sum_fst_transcendental : Transcendental k (S.x₁ + S.x₂) := by
+  intro halg
+  have hmem : S.x₁ + S.x₂ ∈ racl k {S.x₁} :=
+    (mem_racl_iff k).2 (halg.tower_top _)
+  have hx₂ : S.x₂ ∈ racl k {S.x₁} := by
+    have := sub_mem hmem (subset_racl k _ rfl)
+    simpa using this
+  exact S.x₂_notMem hx₂
+
 section Relocation
 
 open MvPolynomial
+
+/-- The relation-preservation property produced by `exists_pair_relocation`:
+`c₂'` satisfies exactly the joint `k`-polynomial relations with `(x₁, y₁)`
+that `(x₂, y₂)` does. -/
+def JointRel (c₂' : Fin 2 → Ω) : Prop :=
+  ∀ f : MvPolynomial (Fin 2 ⊕ Fin 2) k,
+    aeval (Sum.elim ![S.x₁, S.y₁] c₂') f = 0 ↔
+      aeval (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂]) f = 0
 
 /-- Joint relocation of the second pair (step 1 of the fused curve-coset
 chain, instantiated to the `AddCorrSetup` data): given `s` transcendental over
@@ -111,10 +134,7 @@ exactly the same joint `k`-polynomial relations with `(x₁, y₁)` and algebrai
 over `k(x₁, y₁, s)`. -/
 theorem exists_pair_relocation [IsAlgClosed Ω] {s : Ω}
     (hs : Transcendental ↥S.base s) :
-    ∃ c₂' : Fin 2 → Ω,
-      (∀ f : MvPolynomial (Fin 2 ⊕ Fin 2) k,
-        aeval (Sum.elim ![S.x₁, S.y₁] c₂') f = 0 ↔
-          aeval (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂]) f = 0) ∧
+    ∃ c₂' : Fin 2 → Ω, S.JointRel c₂' ∧
       ∀ j, IsAlgebraic ↥(adjoin ↥S.base ({s} : Set Ω)) (c₂' j) := by
   have hbase : S.base = adjoin k (Set.range ![S.x₁, S.y₁]) :=
     congrArg (adjoin k) (Matrix.range_cons_cons_empty S.x₁ S.y₁ ![]).symm
@@ -146,6 +166,74 @@ theorem exists_pair_relocation [IsAlgClosed Ω] {s : Ω}
   refine ⟨c₂', hrel, fun j ↦ ?_⟩
   have h := halg j
   rwa [Matrix.range_cons_empty] at h
+
+variable {S} {c₂' : Fin 2 → Ω}
+
+/-- A joint relocation has the same joint vanishing ideal. -/
+theorem JointRel.idealOf_eq (hrel : S.JointRel c₂') :
+    idealOf k (Sum.elim ![S.x₁, S.y₁] c₂') =
+      idealOf k (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂]) :=
+  idealOf_eq_of_aeval_iff k hrel
+
+/-- The sum pair of a joint relocation is a generic point of the same
+sum locus (step 2a of the fused curve-coset chain, instantiated). -/
+theorem JointRel.sum_idealOf_eq (hrel : S.JointRel c₂') :
+    idealOf k (![S.x₁, S.y₁] + c₂') =
+      idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) :=
+  idealOf_add_eq_of_joint hrel
+
+/-- The relocated pair is still a finite correspondence: second coordinate
+algebraic over the first. -/
+theorem JointRel.snd_mem (hrel : S.JointRel c₂') : c₂' 1 ∈ racl k {c₂' 0} := by
+  have hv : Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] (Sum.inr 1) ∈ racl k
+      (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] '' {Sum.inr 0}) := by
+    simpa [Set.image_singleton] using S.y₂_mem
+  have h := mem_racl_image_of_idealOf_eq k hrel.idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- … and conversely. -/
+theorem JointRel.fst_mem (hrel : S.JointRel c₂') : c₂' 0 ∈ racl k {c₂' 1} := by
+  have hv : Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] (Sum.inr 0) ∈ racl k
+      (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] '' {Sum.inr 1}) := by
+    simpa [Set.image_singleton] using S.x₂_mem
+  have h := mem_racl_image_of_idealOf_eq k hrel.idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- The relocated first coordinate stays generic over the base `k(x₁, y₁)`. -/
+theorem JointRel.fst_notMem_base (hrel : S.JointRel c₂') :
+    c₂' 0 ∉ racl k {S.x₁, S.y₁} := by
+  have hv : Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] (Sum.inr 0) ∉ racl k
+      (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] '' {Sum.inl 0, Sum.inl 1}) := by
+    simpa [Set.image_insert_eq, Set.image_singleton] using S.x₂_notMem_base
+  have h := notMem_racl_image_of_idealOf_eq k hrel.idealOf_eq.symm hv
+  simpa [Set.image_insert_eq, Set.image_singleton] using h
+
+/-- The sum pair of a joint relocation is still a finite correspondence. -/
+theorem JointRel.sum_snd_mem (hrel : S.JointRel c₂') :
+    S.y₁ + c₂' 1 ∈ racl k {S.x₁ + c₂' 0} := by
+  have hv : (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) 1 ∈ racl k
+      ((![S.x₁, S.y₁] + ![S.x₂, S.y₂]) '' {(0 : Fin 2)}) := by
+    simpa [Set.image_singleton] using S.sum_mem
+  have h := mem_racl_image_of_idealOf_eq k hrel.sum_idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- … and conversely. -/
+theorem JointRel.sum_fst_mem (hrel : S.JointRel c₂') :
+    S.x₁ + c₂' 0 ∈ racl k {S.y₁ + c₂' 1} := by
+  have hv : (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) 0 ∈ racl k
+      ((![S.x₁, S.y₁] + ![S.x₂, S.y₂]) '' {(1 : Fin 2)}) := by
+    simpa [Set.image_singleton] using S.sum_mem'
+  have h := mem_racl_image_of_idealOf_eq k hrel.sum_idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- The relocated sum coordinate is transcendental: the relocated sum pair
+is a generic point of a one-dimensional locus. -/
+theorem JointRel.sum_fst_transcendental (hrel : S.JointRel c₂') :
+    Transcendental k (S.x₁ + c₂' 0) := by
+  have hv : Transcendental k ((![S.x₁, S.y₁] + ![S.x₂, S.y₂]) 0) := by
+    simpa using S.sum_fst_transcendental
+  have h := transcendental_of_idealOf_eq k hrel.sum_idealOf_eq.symm hv
+  simpa using h
 
 end Relocation
 
