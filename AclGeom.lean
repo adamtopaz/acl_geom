@@ -13,6 +13,7 @@ import AclGeom.Perfection.Lattice
 import AclGeom.Correspondence.AddPolynomial
 import AclGeom.Correspondence.FunctionField
 import AclGeom.Correspondence.Regular
+import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.GroupChunk
 import AclGeom.Correspondence.Additive
 import AclGeom.Correspondence.Multiplicative
