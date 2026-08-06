@@ -163,6 +163,59 @@ theorem mem_idealOf_iff_evalFst {u v : Ω} {g : MvPolynomial (Fin 2) K} :
         (evalFst (K := K) u g) = 0 := by
   rw [mem_idealOf_iff, eval₂_evalFst]
 
+/-- `evalFst` factors through the variable-separation equivalence: it is the
+coefficientwise evaluation of the `Y`-separated form. -/
+theorem evalFst_apply_eq (u : Ω) (g : MvPolynomial (Fin 2) K) :
+    evalFst (K := K) u g =
+      (finSuccEquiv K 1 (rename (Equiv.swap 0 1) g)).map
+        (MvPolynomial.aeval
+          ![(⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω)))]).toRingHom := by
+  have hcomp : (evalFst (K := K) u (Ω := Ω)).toRingHom =
+      ((Polynomial.mapRingHom (MvPolynomial.aeval
+          ![(⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω)))]).toRingHom).comp
+        ((finSuccEquiv K 1 : MvPolynomial (Fin 2) K ≃ₐ[K] _).toRingEquiv.toRingHom.comp
+          (rename (Equiv.swap (0 : Fin 2) 1)).toRingHom)) := by
+    have hXone : finSuccEquiv K 1 (X (1 : Fin 2)) = Polynomial.C (X 0) := by
+      have h := finSuccEquiv_X_succ (R := K) (n := 1) (j := 0)
+      simpa using h
+    have hC : ∀ c : K, finSuccEquiv K 1 (MvPolynomial.C c) =
+        Polynomial.C (MvPolynomial.C c) := fun c ↦ by
+      simp [finSuccEquiv_apply, eval₂Hom_C]
+    refine MvPolynomial.ringHom_ext (fun c ↦ ?_) (fun i ↦ ?_)
+    · simp [evalFst, hC]
+    · fin_cases i
+      · have h1 : (Equiv.swap (0 : Fin 2) 1) 0 = 1 := by decide
+        simp [evalFst, h1, hXone]
+      · have h1 : (Equiv.swap (0 : Fin 2) 1) 1 = 0 := by decide
+        simp [evalFst, h1, finSuccEquiv_X_zero]
+  exact congrArg (fun (f : MvPolynomial (Fin 2) K →+* _) ↦ f g) hcomp
+
+/-- **Degree preservation**: for `u` transcendental over `K`, the partial
+evaluation at `u` preserves the degree in the second variable. This is the
+count that transfers divisibility bounds between the plane and `K(u)[Y]`. -/
+theorem natDegree_evalFst {u : Ω} (hu : Transcendental K u)
+    (g : MvPolynomial (Fin 2) K) :
+    (evalFst (K := K) u g).natDegree = g.degreeOf 1 := by
+  have htr : Transcendental K
+      (⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω))) := by
+    intro halg
+    exact hu (by
+      have := (halg.isIntegral.map
+        (adjoin K ({u} : Set Ω)).val).isAlgebraic
+      simpa using this)
+  have hind : AlgebraicIndependent K
+      ![(⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω)))] :=
+    algebraicIndependent_unique_type_iff.2 htr
+  have hinj : Function.Injective (MvPolynomial.aeval
+      ![(⟨u, subset_adjoin K _ rfl⟩ : ↥(adjoin K ({u} : Set Ω)))]).toRingHom :=
+    hind
+  rw [evalFst_apply_eq, Polynomial.natDegree_map_eq_of_injective hinj,
+    natDegree_finSuccEquiv]
+  have hswap := degreeOf_rename_of_injective
+    (Equiv.injective (Equiv.swap (0 : Fin 2) 1)) (p := g) 1
+  rw [Equiv.swap_apply_right] at hswap
+  exact hswap
+
 end CurveDictionary
 
 end
