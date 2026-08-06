@@ -213,6 +213,69 @@ theorem IsAdditive.coeff_eq_zero_of_ne_pow (p : ℕ) [CharP K p] (hp : p.Prime)
 
 end IsAdditive
 
+section Simultaneous
+
+variable {K : Type*} [Field K]
+
+open Polynomial in
+/-- Support comparison for blueprint Lemma `simultaneous-coset` (8.9): if the
+curve `P(x) - Q(y) = e` (with `P, Q` of zero constant term) coincides, as a
+polynomial identity in `K[x][y]`, with a scalar multiple of the binomial
+curve `x^m = c·y^n`, then `e = 0` and `P, Q` are single monomials of degrees
+exactly `m` and `n`. The outer variable is `y`, the inner one `x`. -/
+theorem eq_monomial_of_eq_smul_binomial {P Q : Polynomial K} {e c l : K}
+    {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0) (hP0 : P.coeff 0 = 0) (hQ0 : Q.coeff 0 = 0)
+    (h : C P - Q.map (C : K →+* Polynomial K) - C (C e) =
+      l • (C ((X : Polynomial K) ^ m) -
+        C (Polynomial.C c) * (X : Polynomial (Polynomial K)) ^ n)) :
+    e = 0 ∧ P = C l * X ^ m ∧ Q = C (l * c) * X ^ n := by
+  -- Outer coefficient at `0`: `P - C e = C l * X ^ m`.
+  have h0 : P - C e = C l * X ^ m := by
+    have h0' := congrArg (fun F ↦ Polynomial.coeff F 0) h
+    simp only [coeff_sub, coeff_smul, coeff_map, coeff_C_zero, coeff_C_mul,
+      coeff_X_pow, if_neg (fun hh : (0 : ℕ) = n ↦ hn hh.symm), mul_zero, sub_zero, hQ0,
+      map_zero, smul_eq_C_mul] at h0'
+    rw [← h0']
+  -- Its constant coefficient gives `e = 0`.
+  have he : e = 0 := by
+    have hc := congrArg (fun F ↦ Polynomial.coeff F 0) h0
+    simp only [coeff_sub, coeff_C_zero, coeff_C_mul, coeff_X_pow,
+      if_neg (fun hh : (0 : ℕ) = m ↦ hm hh.symm), mul_zero, hP0, zero_sub] at hc
+    exact neg_eq_zero.1 hc
+  refine ⟨he, ?_, ?_⟩
+  · rw [← h0, he, map_zero, sub_zero]
+  -- Outer coefficients at `j ≠ 0` determine `Q`.
+  · ext j
+    rcases eq_or_ne j 0 with rfl | hj0
+    · simp [hQ0, Ne.symm hn]
+    have hj := congrArg (fun F ↦ Polynomial.coeff F j) h
+    simp only [coeff_sub, coeff_smul, coeff_map, coeff_C, if_neg hj0,
+      coeff_C_mul, coeff_X_pow, zero_sub, sub_zero, zero_sub] at hj
+    rcases eq_or_ne j n with rfl | hjn
+    · rw [if_pos rfl, mul_one, smul_neg] at hj
+      -- hj : -(C (Q.coeff j)) = -(l • C c)
+      have := neg_injective hj
+      rw [smul_eq_C_mul, ← map_mul] at this
+      rw [coeff_C_mul, coeff_X_pow, if_pos rfl, mul_one]
+      exact C_injective this
+    · rw [if_neg hjn, mul_zero, neg_zero, smul_zero, neg_eq_zero] at hj
+      rw [coeff_C_mul, coeff_X_pow, if_neg hjn, mul_zero]
+      exact C_injective (by rw [hj, map_zero])
+
+open Polynomial in
+/-- If an additive polynomial is a single nonzero monomial, its exponent is a
+`p`-power (blueprint Lemma 8.9, final normalization step). -/
+theorem IsAdditive.pow_exponent_of_monomial (p : ℕ) [CharP K p] (hp : p.Prime)
+    [Infinite K] {P : Polynomial K} (hP : IsAdditive P) {l : K} {m : ℕ}
+    (hl : l ≠ 0) (hPm : P = C l * X ^ m) : ∃ r, m = p ^ r := by
+  by_contra hcon
+  push_neg at hcon
+  have hz := hP.coeff_eq_zero_of_ne_pow p hp (i := m) hcon
+  rw [hPm, coeff_C_mul, coeff_X_pow, if_pos rfl, mul_one] at hz
+  exact hl hz
+
+end Simultaneous
+
 end
 
 end AclGeom
