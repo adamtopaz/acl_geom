@@ -2,6 +2,7 @@ import VersoManual
 import Mathlib.Tactic.NormNum
 import AclGeom
 import AclGeomBook.Foundations
+import AclGeomBook.Perfection
 
 -- The manual genre, used for book-like documents with chapters, cross-references,
 -- citations, and an index.
@@ -95,6 +96,8 @@ presenting its main definitions and theorems, with all displayed Lean code
 elaborated against the actual development.
 
 {include 0 AclGeomBook.Foundations}
+
+{include 0 AclGeomBook.Perfection}
 
 # About this document
 %%%

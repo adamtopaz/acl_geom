@@ -45,20 +45,37 @@ this bundle keeps every statement uniform in the characteristic. -/
 structure Perfection (K : Type u) [Field K] : Type (u + 1) where
   /-- The underlying perfect field. -/
   carrier : Type u
+  /-- The carrier is a field. -/
   [field : Field carrier]
   /-- The characteristic exponent of `K` (and of the perfection). -/
   p : ℕ
+  /-- `p` is the characteristic exponent of the base. -/
   [expCharBase : ExpChar K p]
+  /-- `p` is the characteristic exponent of the carrier. -/
   [expCharCarrier : ExpChar carrier p]
   /-- The inclusion of `K` into its perfection. -/
   incl : K →+* carrier
+  /-- The carrier is perfect. -/
   [perfect : PerfectRing carrier p]
+  /-- The inclusion exhibits the carrier as a perfect closure of `K`. -/
   [isPerfectClosure : IsPerfectClosure incl p]
 
 namespace Perfection
 
 attribute [instance] Perfection.field Perfection.expCharBase Perfection.expCharCarrier
   Perfection.perfect Perfection.isPerfectClosure
+
+/-- In characteristic zero, `K` is its own perfection, with characteristic
+exponent `1` and the identity inclusion. -/
+def ofCharZero (K : Type u) [Field K] [CharZero K] : Perfection K where
+  carrier := K
+  p := 1
+  incl := RingHom.id K
+  isPerfectClosure :=
+    { pow_mem' := fun x ↦ ⟨0, x, by simp⟩
+      ker_le' := by
+        rw [(RingHom.injective_iff_ker_eq_bot _).1 fun _ _ h ↦ h]
+        exact bot_le }
 
 variable {K : Type*} [Field K] (π : Perfection K)
 

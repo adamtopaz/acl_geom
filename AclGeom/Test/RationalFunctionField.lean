@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import AclGeom.Geometry.FiniteRank
+import AclGeom.Perfection.Lattice
 
 /-!
 # Acceptance test for milestone M1: rational function fields
@@ -111,6 +112,37 @@ theorem rankLE_top : RankLE n (⊤ : ClosedIF k (RatFn k n)) := by
   have h2 : (sSup ((fun x ↦ ClosedIF.point k x) '' Set.range (t k n))).1 = ⊤ := by
     rw [sSup_point_image, racl_range_t]
   rw [h1, ClosedIF.le_iff, ClosedIF.coe_top, h2]
+
+section PerfectionAcceptance
+
+/-!
+Acceptance for milestone M2: for any chosen perfection, the perfection order
+isomorphism round-trips every closed subfield by extensional equality, and
+every integral Frobenius power induces the identity on the closed lattice
+(hence on every point of the geometry).
+-/
+
+variable (π : Perfection (RatFn k n))
+
+example : ClosedIF k (RatFn k n) ≃o ClosedIF (π.basePerf k) π.carrier :=
+  π.latticeIso k
+
+example (M : ClosedIF k (RatFn k n)) : π.comapClosed k (π.perfClosed k M) = M :=
+  π.comapClosed_perfClosed M
+
+example (N : ClosedIF (π.basePerf k) π.carrier) :
+    π.perfClosed k (π.comapClosed k N) = N :=
+  π.perfClosed_comapClosed N
+
+example (m : ℤ) (N : ClosedIF (π.basePerf k) π.carrier) :
+    π.frobZPow m '' (N.1 : Set π.carrier) = (N.1 : Set π.carrier) :=
+  π.frobZPow_image_closed m N
+
+/-- In characteristic zero the canonical perfection is available: the field
+itself. -/
+example : Perfection ℚ := Perfection.ofCharZero ℚ
+
+end PerfectionAcceptance
 
 end
 
