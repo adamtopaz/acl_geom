@@ -139,6 +139,46 @@ theorem translate_eq_of_idealOf_le
   rw [hD, map_sub, aevalSnd_addSubst, aevalSnd_rename_inl, sub_eq_zero] at hDw
   exact hDw
 
+/-- **Properness of the stabilizer**: a translation vector fixing a prime
+generator cannot be algebraically independent — otherwise evaluating the
+identity at the origin makes the generator constant. Consequently the
+translation locus of the curve-coset chain is at most one-dimensional. -/
+theorem not_algebraicIndependent_of_translate_eq
+    {K : Type*} [Field K] [Algebra k K]
+    {c : Fin 2 → K} {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hid : translate c (MvPolynomial.map (algebraMap k K) F) =
+      MvPolynomial.map (algebraMap k K) F)
+    (hc : AlgebraicIndependent k c) : False := by
+  classical
+  have h0 := congrArg (aeval (fun _ : Fin 2 ↦ (0 : K))) hid
+  rw [aeval_translate] at h0
+  have hzero : (fun j ↦ (0 : K) + algebraMap K K (c j)) = c := by
+    funext j
+    simp
+  rw [hzero] at h0
+  -- Both sides through the coefficient extension.
+  rw [MvPolynomial.aeval_map_algebraMap, MvPolynomial.aeval_map_algebraMap] at h0
+  -- The generator satisfies a relation at the independent point.
+  have hsq : (aeval c) (C (aeval (fun _ : Fin 2 ↦ (0 : k)) F) :
+      MvPolynomial (Fin 2) k) = aeval (fun _ : Fin 2 ↦ (0 : K)) F := by
+    rw [aeval_C]
+    have hcomp2 : ((algebraMap k K).comp
+        ((aeval (fun _ : Fin 2 ↦ (0 : k))).toRingHom :
+          MvPolynomial (Fin 2) k →+* k)) =
+        ((aeval (fun _ : Fin 2 ↦ (0 : K))).toRingHom :
+          MvPolynomial (Fin 2) k →+* K) := by
+      refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun i ↦ ?_) <;> simp
+    exact congrArg (fun (f : MvPolynomial (Fin 2) k →+* K) ↦ f F) hcomp2
+  have hmem : F - C (aeval (fun _ : Fin 2 ↦ (0 : k)) F) ∈ idealOf k c := by
+    rw [mem_idealOf_iff, map_sub, hsq, h0, sub_self]
+  rw [(idealOf_eq_bot_iff k).2 hc, Ideal.mem_bot, sub_eq_zero] at hmem
+  -- A constant cannot be prime.
+  rcases eq_or_ne (aeval (fun _ : Fin 2 ↦ (0 : k)) F) 0 with hc0 | hc0
+  · rw [hc0, map_zero] at hmem
+    exact hFp.ne_zero hmem
+  · exact hFp.not_unit (hmem ▸ (isUnit_iff_ne_zero.2 hc0).map
+      (C : k →+* MvPolynomial (Fin 2) k))
+
 end
 
 end AclGeom
