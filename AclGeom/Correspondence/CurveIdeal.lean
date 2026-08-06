@@ -402,6 +402,59 @@ theorem idealOf_translate_span {Ω : Type*} [Field Ω] [Algebra K Ω]
 
 end Translation
 
+section Scaling
+
+variable {σ : Type*} {K : Type*} [Field K]
+
+/-- The scaling substitution `X j ↦ C (c j) * X j` — the multiplicative
+analogue of `translate`. -/
+def scale (c : σ → K) : MvPolynomial σ K →ₐ[K] MvPolynomial σ K :=
+  aeval fun j ↦ C (c j) * X j
+
+@[simp]
+theorem scale_X (c : σ → K) (j : σ) : scale c (X j) = C (c j) * X j := by
+  simp [scale]
+
+@[simp]
+theorem scale_C (c : σ → K) (a : K) : scale c (C a) = C a := by
+  simp [scale, algebraMap_eq]
+
+/-- Scaling acts on a monomial by the corresponding monomial value. -/
+theorem scale_monomial (c : σ → K) (m : σ →₀ ℕ) (a : K) :
+    scale c (monomial m a) = monomial m ((m.prod fun j e ↦ c j ^ e) * a) := by
+  classical
+  rw [scale, aeval_monomial]
+  have hprod : (m.prod fun j e ↦ (C (c j) * X j : MvPolynomial σ K) ^ e) =
+      C (m.prod fun j e ↦ c j ^ e) * m.prod fun j e ↦ (X j : MvPolynomial σ K) ^ e := by
+    rw [Finsupp.prod, Finsupp.prod, Finsupp.prod, map_prod,
+      ← Finset.prod_mul_distrib]
+    refine Finset.prod_congr rfl fun j _ ↦ ?_
+    rw [mul_pow, C_pow]
+  have hmono : (m.prod fun j e ↦ (X j : MvPolynomial σ K) ^ e) =
+      monomial m (1 : K) := by
+    rw [monomial_eq, C_1, one_mul]
+  rw [hprod, MvPolynomial.algebraMap_eq, hmono, ← mul_assoc, ← C_mul,
+    C_mul_monomial, mul_one, mul_comm a (m.prod fun j e ↦ c j ^ e)]
+
+/-- The coefficient formula for scaling: each coefficient is multiplied by
+the corresponding monomial value. In particular the support is preserved
+when the scaling vector has no zero entries. -/
+theorem coeff_scale (c : σ → K) (g : MvPolynomial σ K) (m : σ →₀ ℕ) :
+    coeff m (scale c g) = (m.prod fun j e ↦ c j ^ e) * coeff m g := by
+  classical
+  conv_lhs => rw [g.as_sum, map_sum]
+  rw [Finset.sum_congr rfl fun m' _ ↦ scale_monomial c m' (coeff m' g)]
+  rw [MvPolynomial.coeff_sum]
+  rw [Finset.sum_congr rfl fun m' _ ↦ MvPolynomial.coeff_monomial m m' _]
+  by_cases hm : m ∈ g.support
+  · rw [Finset.sum_ite_eq' g.support m
+      fun m' ↦ (m'.prod fun j e ↦ c j ^ e) * coeff m' g, if_pos hm]
+  · rw [Finset.sum_ite_eq' g.support m
+      fun m' ↦ (m'.prod fun j e ↦ c j ^ e) * coeff m' g, if_neg hm]
+    rw [MvPolynomial.notMem_support_iff.1 hm, mul_zero]
+
+end Scaling
+
 end
 
 end AclGeom
