@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import Mathlib.LinearAlgebra.Lagrange
 import Mathlib.RingTheory.Algebraic.Basic
 import Mathlib.FieldTheory.IsAlgClosed.Basic
+import AclGeom.Correspondence.FunctionField
 
 /-!
 # Rational function fields over a relatively closed base
@@ -125,6 +126,44 @@ theorem exists_map_eq_of_eval₂_eq_zero_of_isAlgClosed [IsAlgClosed k]
       aeval_C, add_eq_zero_iff_eq_neg] at h0
     exact (map_neg (algebraMap k K) ((minpoly k y).coeff 0)).symm ▸ h0.symm
   exact exists_map_eq_of_eval₂_eq_zero hk hP hPx
+
+section CurveDictionary
+
+open MvPolynomial IntermediateField
+
+variable {Ω : Type*} [Field Ω] [Algebra K Ω]
+
+/-- Partial evaluation of a plane polynomial at a point `u` in the first
+coordinate: `g(X, Y) ↦ g(u, Y)`, a one-variable polynomial with coefficients
+in `K(u)`. This is the dictionary between the curve ideal in `K[X, Y]` and
+minimal polynomials over `K(u)`. -/
+def evalFst (u : Ω) :
+    MvPolynomial (Fin 2) K →ₐ[K] Polynomial ↥(adjoin K ({u} : Set Ω)) :=
+  aeval ![Polynomial.C ⟨u, subset_adjoin K _ rfl⟩, Polynomial.X]
+
+/-- Evaluating the second variable recovers the joint evaluation: the
+dictionary is compatible with taking points. -/
+theorem eval₂_evalFst (u v : Ω) (g : MvPolynomial (Fin 2) K) :
+    Polynomial.eval₂ (algebraMap ↥(adjoin K ({u} : Set Ω)) Ω) v
+      (evalFst (K := K) u g) = MvPolynomial.aeval ![u, v] g := by
+  have hcomp : ((Polynomial.eval₂RingHom
+        (algebraMap ↥(adjoin K ({u} : Set Ω)) Ω) v).comp
+      (evalFst (K := K) u).toRingHom) = (MvPolynomial.aeval ![u, v]).toRingHom := by
+    refine MvPolynomial.ringHom_ext (fun c ↦ ?_) (fun i ↦ ?_)
+    · simp [evalFst, IntermediateField.algebraMap_apply]
+    · fin_cases i <;> simp [evalFst]
+  exact congrArg (fun (f : MvPolynomial (Fin 2) K →+* Ω) ↦ f g) hcomp
+
+/-- Membership in the vanishing ideal of a plane point, through the
+dictionary: `g` vanishes at `(u, v)` iff its partial evaluation at `u`
+annihilates `v`. -/
+theorem mem_idealOf_iff_evalFst {u v : Ω} {g : MvPolynomial (Fin 2) K} :
+    g ∈ idealOf K ![u, v] ↔
+      Polynomial.eval₂ (algebraMap ↥(adjoin K ({u} : Set Ω)) Ω) v
+        (evalFst (K := K) u g) = 0 := by
+  rw [mem_idealOf_iff, eval₂_evalFst]
+
+end CurveDictionary
 
 end
 
