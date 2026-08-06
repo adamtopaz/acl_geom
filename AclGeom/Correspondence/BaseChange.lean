@@ -457,6 +457,112 @@ theorem minpoly_coeff_mem [IsAlgClosed k] {K : IntermediateField k Ω}
   exact mem_adjoin_base_of_isAlgebraic
     (fun y hy ↦ mem_range_algebraMap_of_isAlgebraic hy) hu hmem halg
 
+/-- **The degree bridge**: the minimal polynomial over `K(u)` has the same
+degree as the one over `k(u)` — it descends coefficientwise by
+`minpoly_coeff_mem`, and the descended polynomial mutually divides the
+`k(u)`-minimal polynomial. -/
+theorem natDegree_minpoly_adjoin_eq [IsAlgClosed k] {K : IntermediateField k Ω}
+    {u v : Ω} (hu : Transcendental ↥K u)
+    (hv : IsAlgebraic ↥(adjoin k ({u} : Set Ω)) v) :
+    (minpoly ↥(adjoin ↥K ({u} : Set Ω)) v).natDegree =
+      (minpoly ↥(adjoin k ({u} : Set Ω)) v).natDegree := by
+  classical
+  set L₀ : IntermediateField k Ω := adjoin k ({u} : Set Ω) with hL₀
+  set L : IntermediateField ↥K Ω := adjoin ↥K ({u} : Set Ω) with hL
+  have hle : L₀ ≤ L.restrictScalars k := by
+    rw [hL₀]
+    refine adjoin_le_iff.2 ?_
+    intro x hx
+    rcases hx with rfl
+    exact subset_adjoin ↥K _ rfl
+  set incl : ↥L₀ →ₐ[k] ↥(L.restrictScalars k) := IntermediateField.inclusion hle
+  letI : Algebra ↥L₀ ↥L := incl.toRingHom.toAlgebra
+  haveI htow : IsScalarTower ↥L₀ ↥L Ω := IsScalarTower.of_algebraMap_eq' rfl
+  have hinj : Function.Injective (algebraMap ↥L₀ ↥L) := by
+    intro a b hab
+    have h2 : ((a : Ω)) = ((b : Ω)) := congrArg (Subtype.val : ↥L → Ω) hab
+    exact Subtype.ext h2
+  have hvL : IsAlgebraic ↥L v := by
+    obtain ⟨p, hp0, hpv⟩ := hv
+    refine ⟨p.map (algebraMap ↥L₀ ↥L), ?_, ?_⟩
+    · exact fun h ↦ hp0 ((Polynomial.map_eq_zero_iff hinj).1 h)
+    · rw [Polynomial.aeval_map_algebraMap]
+      exact hpv
+  set m₀ := minpoly ↥L₀ v with hm₀def
+  set m := minpoly ↥L v with hmdef
+  have hm₀monic : m₀.Monic := minpoly.monic hv.isIntegral
+  have hmmonic : m.Monic := minpoly.monic hvL.isIntegral
+  -- The descended polynomial `m'`.
+  set m' : Polynomial ↥L₀ := ∑ i ∈ Finset.range (m.natDegree + 1),
+    Polynomial.C (⟨(m.coeff i : Ω), minpoly_coeff_mem hu hv i⟩ : ↥L₀) *
+      Polynomial.X ^ i with hm'def
+  have hm'coeff : ∀ j, ((m'.coeff j : Ω)) = (m.coeff j : Ω) := by
+    intro j
+    rw [hm'def, Polynomial.finsetSum_coeff]
+    rw [Finset.sum_congr rfl fun i _ ↦ Polynomial.coeff_C_mul_X_pow _ i j]
+    rw [Finset.sum_ite_eq (Finset.range (m.natDegree + 1)) j
+      fun i ↦ (⟨(m.coeff i : Ω), minpoly_coeff_mem hu hv i⟩ : ↥L₀)]
+    by_cases hj : j ∈ Finset.range (m.natDegree + 1)
+    · rw [if_pos hj]
+    · rw [if_neg hj]
+      have hj' : m.natDegree < j := by
+        by_contra hle'
+        exact hj (Finset.mem_range.2 (Nat.lt_succ_of_le (Nat.le_of_not_lt hle')))
+      rw [Polynomial.coeff_eq_zero_of_natDegree_lt hj']
+      simp
+  have hmap : m'.map (algebraMap ↥L₀ ↥L) = m := by
+    ext j
+    rw [Polynomial.coeff_map]
+    have h2 : (((algebraMap ↥L₀ ↥L) (m'.coeff j) : ↥L) : Ω) =
+        ((m.coeff j : ↥L) : Ω) := by
+      have h3 : (((algebraMap ↥L₀ ↥L) (m'.coeff j) : ↥L) : Ω) =
+          ((m'.coeff j : ↥L₀) : Ω) := rfl
+      rw [h3]
+      exact hm'coeff j
+    exact h2
+  -- Mutual divisibility with the `k(u)`-minimal polynomial.
+  have hm'v : Polynomial.aeval v m' = 0 := by
+    have h := minpoly.aeval ↥L v
+    rw [← hmdef, ← hmap, Polynomial.aeval_map_algebraMap] at h
+    exact h
+  have hdvd₀ : m₀ ∣ m' := minpoly.dvd ↥L₀ v hm'v
+  have hdvd' : m' ∣ m₀ := by
+    have hmdvd : m ∣ m₀.map (algebraMap ↥L₀ ↥L) := by
+      refine minpoly.dvd ↥L v ?_
+      rw [Polynomial.aeval_map_algebraMap]
+      exact minpoly.aeval ↥L₀ v
+    have hm'monic : m'.Monic := by
+      have h1 : (algebraMap ↥L₀ ↥L) m'.leadingCoeff = 1 := by
+        have h2 : m'.natDegree = m.natDegree := by
+          rw [← hmap, Polynomial.natDegree_map_eq_of_injective hinj]
+        rw [Polynomial.leadingCoeff, h2]
+        refine Subtype.ext ?_
+        rw [show (((algebraMap ↥L₀ ↥L) (m'.coeff m.natDegree) : ↥L) : Ω) =
+          ((m'.coeff m.natDegree : ↥L₀) : Ω) from rfl, hm'coeff]
+        exact congrArg Subtype.val hmmonic
+      exact hinj (by rw [h1, map_one])
+    have hmod : (m₀ %ₘ m').map (algebraMap ↥L₀ ↥L) = 0 := by
+      rw [Polynomial.map_modByMonic _ hm'monic, hmap]
+      exact (Polynomial.modByMonic_eq_zero_iff_dvd hmmonic).2 hmdvd
+    have h0 : m₀ %ₘ m' = 0 := (Polynomial.map_eq_zero_iff hinj).1 hmod
+    exact (Polynomial.modByMonic_eq_zero_iff_dvd hm'monic).1 h0
+  have hm'monic : m'.Monic := by
+    have h2 : m'.natDegree = m.natDegree := by
+      rw [← hmap, Polynomial.natDegree_map_eq_of_injective hinj]
+    have h1 : (algebraMap ↥L₀ ↥L) m'.leadingCoeff = 1 := by
+      rw [Polynomial.leadingCoeff, h2]
+      refine Subtype.ext ?_
+      rw [show (((algebraMap ↥L₀ ↥L) (m'.coeff m.natDegree) : ↥L) : Ω) =
+        ((m'.coeff m.natDegree : ↥L₀) : Ω) from rfl, hm'coeff]
+      exact congrArg Subtype.val hmmonic
+    exact hinj (by rw [h1, map_one])
+  have hm'eq : m' = m₀ :=
+    Polynomial.eq_of_monic_of_associated hm'monic hm₀monic
+      (associated_of_dvd_dvd hdvd' hdvd₀)
+  calc m.natDegree = m'.natDegree := by
+        rw [← hmap, Polynomial.natDegree_map_eq_of_injective hinj]
+    _ = m₀.natDegree := by rw [hm'eq]
+
 end MinpolyDescent
 
 section CurveDictionary
