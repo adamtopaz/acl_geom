@@ -284,6 +284,75 @@ def latticeIso : ClosedIF k K ≃o ClosedIF (π.basePerf k) π.carrier where
 
 end Comap
 
+section Frobenius
+
+/-- The integral Frobenius action on the perfection (blueprint checklist P3):
+`n ↦ Frob^n` as a group power of `frobeniusEquiv` in the automorphism group.
+The group-power laws supply `Frob^(m+n) = Frob^m * Frob^n` and the negative
+iterates for free; in characteristic zero (`p = 1`), Frobenius is the
+identity map on elements. -/
+def frobZPow (n : ℤ) : RingAut π.carrier :=
+  (frobeniusEquiv π.carrier π.p : RingAut π.carrier) ^ n
+
+@[simp] theorem frobZPow_zero : π.frobZPow 0 = 1 := rfl
+
+theorem frobZPow_add (m n : ℤ) :
+    π.frobZPow (m + n) = π.frobZPow m * π.frobZPow n :=
+  zpow_add _ m n
+
+theorem frobZPow_neg (n : ℤ) : π.frobZPow (-n) = (π.frobZPow n)⁻¹ :=
+  zpow_neg _ n
+
+/-- Every closed subextension of the perfection is stable, elementwise, under
+every integral Frobenius power: closed subextensions are perfect, so both
+Frobenius and its inverse preserve them (blueprint P3). In particular every
+atom of the perfected geometry is fixed. -/
+theorem frobZPow_mem_iff (n : ℤ) {N : ClosedIF (π.basePerf k) π.carrier}
+    (x : π.carrier) : π.frobZPow n x ∈ N.1 ↔ x ∈ N.1 := by
+  set F : RingAut π.carrier := (frobeniusEquiv π.carrier π.p : RingAut π.carrier)
+    with hF
+  have h1 : ∀ y : π.carrier, F y ∈ N.1 ↔ y ∈ N.1 := by
+    intro y
+    have hy : F y = y ^ π.p := by
+      rw [hF]
+      change frobeniusEquiv π.carrier π.p y = y ^ π.p
+      rw [frobeniusEquiv_apply, frobenius_def]
+    rw [hy]
+    exact ⟨fun h ↦ N.2.mem_of_pow_mem (expChar_pos π.carrier π.p).ne' h,
+      fun h ↦ pow_mem h _⟩
+  have h2 : ∀ y : π.carrier, F⁻¹ y ∈ N.1 ↔ y ∈ N.1 := by
+    intro y
+    have hFy : F (F⁻¹ y) = y := RingEquiv.apply_symm_apply F y
+    constructor
+    · intro h
+      have := (h1 (F⁻¹ y)).2 h
+      rwa [hFy] at this
+    · intro h
+      refine (h1 (F⁻¹ y)).1 ?_
+      rwa [hFy]
+  induction n using Int.induction_on generalizing x with
+  | zero => simp [frobZPow]
+  | succ i ih =>
+    rw [frobZPow, zpow_add_one]
+    exact (ih (F x)).trans (h1 x)
+  | pred i ih =>
+    rw [frobZPow, zpow_sub_one]
+    exact (ih (F⁻¹ x)).trans (h2 x)
+
+/-- The setwise form: integral Frobenius powers fix every closed
+subextension of the perfection. -/
+theorem frobZPow_image_closed (n : ℤ) (N : ClosedIF (π.basePerf k) π.carrier) :
+    π.frobZPow n '' (N.1 : Set π.carrier) = (N.1 : Set π.carrier) := by
+  ext y
+  constructor
+  · rintro ⟨z, hz, rfl⟩
+    exact (π.frobZPow_mem_iff n z).2 hz
+  · intro hy
+    refine ⟨π.frobZPow (-n) y, (π.frobZPow_mem_iff (-n) y).2 hy, ?_⟩
+    rw [frobZPow_neg]
+    exact (π.frobZPow n).apply_symm_apply y
+
+end Frobenius
 
 end Perfection
 
