@@ -247,6 +247,37 @@ theorem exists_joint_relocation [IsAlgClosed Ω] {d : ℕ}
 
 end Joint
 
+section SumLocus
+
+open MvPolynomial
+
+variable {n : ℕ}
+
+/-- The sum substitution `X j ↦ X (inl j) + X (inr j)`. -/
+noncomputable def addSubst :
+    MvPolynomial (Fin n) k →ₐ[k] MvPolynomial (Fin n ⊕ Fin n) k :=
+  aeval fun j ↦ X (Sum.inl j) + X (Sum.inr j)
+
+theorem aeval_addSubst (u v : Fin n → Ω) (h : MvPolynomial (Fin n) k) :
+    aeval (Sum.elim u v) (addSubst (k := k) h) = aeval (u + v) h := by
+  have hcomp : ((aeval (Sum.elim u v) : MvPolynomial (Fin n ⊕ Fin n) k →ₐ[k] Ω).comp
+      (addSubst (k := k))) = aeval (u + v) := by
+    refine MvPolynomial.algHom_ext fun j ↦ ?_
+    simp [addSubst]
+  exact congrArg (fun (g : MvPolynomial (Fin n) k →ₐ[k] Ω) ↦ g h) hcomp
+
+/-- Step 2a of the fused curve-coset design: a joint-relation-preserving
+relocation of `c₂` preserves the vanishing ideal of the componentwise sum. -/
+theorem idealOf_add_eq_of_joint {c₁ c₂ c₂' : Fin n → Ω}
+    (H : ∀ f : MvPolynomial (Fin n ⊕ Fin n) k,
+      aeval (Sum.elim c₁ c₂') f = 0 ↔ aeval (Sum.elim c₁ c₂) f = 0) :
+    idealOf k (c₁ + c₂') = idealOf k (c₁ + c₂) := by
+  ext h
+  rw [mem_idealOf_iff, mem_idealOf_iff, ← aeval_addSubst, ← aeval_addSubst]
+  exact H (addSubst (k := k) h)
+
+end SumLocus
+
 end
 
 end AclGeom
