@@ -290,6 +290,30 @@ theorem idealOf_add_eq_of_joint {c₁ c₂ c₂' : Fin n → Ω}
   rw [mem_idealOf_iff, mem_idealOf_iff, ← aeval_addSubst, ← aeval_addSubst]
   exact H (addSubst (k := k) h)
 
+/-- The product substitution `X j ↦ X (inl j) * X (inr j)` — the
+multiplicative analogue of `addSubst`. -/
+noncomputable def mulSubst :
+    MvPolynomial (Fin n) k →ₐ[k] MvPolynomial (Fin n ⊕ Fin n) k :=
+  aeval fun j ↦ X (Sum.inl j) * X (Sum.inr j)
+
+theorem aeval_mulSubst (u v : Fin n → Ω) (h : MvPolynomial (Fin n) k) :
+    aeval (Sum.elim u v) (mulSubst (k := k) h) = aeval (u * v) h := by
+  have hcomp : ((aeval (Sum.elim u v) : MvPolynomial (Fin n ⊕ Fin n) k →ₐ[k] Ω).comp
+      (mulSubst (k := k))) = aeval (u * v) := by
+    refine MvPolynomial.algHom_ext fun j ↦ ?_
+    simp [mulSubst]
+  exact congrArg (fun (g : MvPolynomial (Fin n) k →ₐ[k] Ω) ↦ g h) hcomp
+
+/-- The multiplicative form of step 2a: a joint-relation-preserving
+relocation preserves the vanishing ideal of the componentwise product. -/
+theorem idealOf_mul_eq_of_joint {c₁ c₂ c₂' : Fin n → Ω}
+    (H : ∀ f : MvPolynomial (Fin n ⊕ Fin n) k,
+      aeval (Sum.elim c₁ c₂') f = 0 ↔ aeval (Sum.elim c₁ c₂) f = 0) :
+    idealOf k (c₁ * c₂') = idealOf k (c₁ * c₂) := by
+  ext h
+  rw [mem_idealOf_iff, mem_idealOf_iff, ← aeval_mulSubst, ← aeval_mulSubst]
+  exact H (mulSubst (k := k) h)
+
 /-- The difference substitution `X j ↦ X (inl j) - X (inr j)`. -/
 noncomputable def subSubst :
     MvPolynomial (Fin n) k →ₐ[k] MvPolynomial (Fin n ⊕ Fin n) k :=
