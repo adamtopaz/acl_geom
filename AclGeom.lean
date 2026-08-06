@@ -16,6 +16,7 @@ import AclGeom.Correspondence.Regular
 import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.CurveIdeal
 import AclGeom.Correspondence.BaseChange
+import AclGeom.Correspondence.TranslationDescent
 import AclGeom.Correspondence.GroupChunk
 import AclGeom.Correspondence.Additive
 import AclGeom.Correspondence.Multiplicative
