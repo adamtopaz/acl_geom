@@ -107,6 +107,88 @@ theorem exists_extension_of_isAlgebraic [IsAlgClosed Ω]
 
 end Extend
 
+section Assemble
+
+/-- Every value of the relocation embedding lies in `k(s)`. -/
+theorem adjoinTranscendentalAlgHom_mem {ι : Type*} {t s : ι → Ω}
+    (ht : AlgebraicIndependent k t) (hs : AlgebraicIndependent k s)
+    (x : ↥(adjoin k (Set.range t))) :
+    adjoinTranscendentalAlgHom ht hs x ∈ adjoin k (Set.range s) := by
+  change (adjoin k (Set.range s)).val
+    (hs.aevalEquivField (ht.aevalEquivField.symm x)) ∈ adjoin k (Set.range s)
+  exact SetLike.coe_mem _
+
+/-- Independent realization of a generic point (blueprint Lemma 8.1(b)):
+given a tuple `a` with a transcendence basis `t` inside `k(a)`, and any other
+algebraically independent tuple `s`, there is a tuple `b` with the same
+vanishing ideal as `a` all of whose coordinates are algebraic over `k(s)`.
+Choosing `s` algebraically independent over a prescribed field `E₀` makes
+the new copy of the locus generically independent from `E₀`. -/
+theorem exists_relocation [IsAlgClosed Ω] {n d : ℕ} {a : Fin n → Ω}
+    {t : Fin d → Ω} (ht : AlgebraicIndependent k t)
+    (hle : adjoin k (Set.range t) ≤ adjoin k (Set.range a))
+    (halg : Algebra.IsAlgebraic ↥(adjoin k (Set.range t)) ↥(extendScalars hle))
+    {s : Fin d → Ω} (hs : AlgebraicIndependent k s) :
+    ∃ b : Fin n → Ω, idealOf k b = idealOf k a ∧
+      ∀ j, IsAlgebraic ↥(adjoin k (Set.range s)) (b j) := by
+  classical
+  -- Relocate the transcendental part, then extend algebraically.
+  obtain ⟨ψ, hψ⟩ := exists_extension_of_isAlgebraic (halg := halg) hle
+    (adjoinTranscendentalAlgHom ht hs)
+  set ta : Fin n → ↥(adjoin k (Set.range a)) :=
+    fun j ↦ ⟨a j, subset_adjoin k _ ⟨j, rfl⟩⟩ with hta
+  refine ⟨fun j ↦ ψ (ta j), ?_, ?_⟩
+  · -- Same vanishing ideal: evaluation factors through the embedding.
+    ext f
+    rw [mem_idealOf_iff, mem_idealOf_iff]
+    have h1 : MvPolynomial.aeval (fun j ↦ ψ (ta j)) f = ψ (MvPolynomial.aeval ta f) := by
+      rw [MvPolynomial.comp_aeval_apply]
+    have h2 : MvPolynomial.aeval a f =
+        (adjoin k (Set.range a)).val (MvPolynomial.aeval ta f) := by
+      rw [MvPolynomial.comp_aeval_apply]
+      rfl
+    rw [h1, h2]
+    constructor
+    · intro h
+      have h4 : ψ (MvPolynomial.aeval ta f) = ψ 0 := by
+        rw [map_zero]
+        exact h
+      rw [ψ.injective h4, map_zero]
+    · intro h
+      have h4 : (adjoin k (Set.range a)).val (MvPolynomial.aeval ta f) =
+          (adjoin k (Set.range a)).val 0 := by
+        rw [map_zero]
+        exact h
+      rw [(adjoin k (Set.range a)).val.injective h4, map_zero]
+  · -- Coordinates are algebraic over `k(s)`.
+    intro j
+    -- `a j` is algebraic over `k(t)`.
+    obtain ⟨p, hp0, hpz⟩ := (halg.isAlgebraic
+      (⟨(ta j).1, (ta j).2⟩ : ↥(extendScalars hle)))
+    -- Push the annihilating polynomial through the embedding.
+    refine isAlgebraic_of_coeff_mem (p := p.map ((adjoinTranscendentalAlgHom ht hs) :
+        ↥(adjoin k (Set.range t)) →+* Ω))
+      ((Polynomial.map_ne_zero_iff (RingHom.injective _)).2 hp0) ?_ fun m ↦ ?_
+    · -- Evaluation: `ψ` extends the relocation on `k(t)`.
+      have hcomp : ((ψ : ↥(adjoin k (Set.range a)) →+* Ω).comp
+          (algebraMap ↥(adjoin k (Set.range t)) ↥(extendScalars hle))) =
+          ((adjoinTranscendentalAlgHom ht hs) : ↥(adjoin k (Set.range t)) →+* Ω) := by
+        refine RingHom.ext fun y ↦ ?_
+        exact hψ y
+      rw [Polynomial.eval_map, ← hcomp]
+      have h3 : ψ ((Polynomial.aeval (⟨(ta j).1, (ta j).2⟩ :
+          ↥(extendScalars hle))) p) = 0 := by
+        rw [hpz]
+        exact map_zero ψ
+      rw [← h3, Polynomial.aeval_def]
+      exact (Polynomial.hom_eval₂ p
+        (algebraMap ↥(adjoin k (Set.range t)) ↥(extendScalars hle))
+        ψ.toRingHom ⟨(ta j).1, (ta j).2⟩).symm
+    · rw [Polynomial.coeff_map]
+      exact adjoinTranscendentalAlgHom_mem ht hs _
+
+end Assemble
+
 end
 
 end AclGeom
