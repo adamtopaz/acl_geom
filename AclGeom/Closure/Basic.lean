@@ -119,6 +119,18 @@ theorem racl_racl (S : Set K) : racl k (racl k S : Set K) = racl k S := by
 
 variable {k}
 
+/-- The closure of a subset of `racl k S` is contained in `racl k S`. -/
+theorem racl_le_of_subset_racl {S T : Set K} (h : T ⊆ racl k S) :
+    racl k T ≤ racl k S := by
+  rw [← racl_racl k S]
+  exact racl_mono h
+
+/-- Absorption: inserting an element of the closure changes nothing. -/
+theorem racl_insert_of_mem {S : Set K} {y : K} (hy : y ∈ racl k S) :
+    racl k (insert y S) = racl k S :=
+  le_antisymm (racl_le_of_subset_racl (Set.insert_subset hy (subset_racl k S)))
+    (racl_mono (Set.subset_insert y S))
+
 /-- Converse companion to `isAlgebraic_of_coeff_mem`: an element algebraic over
 an intermediate field `E` is annihilated by a nonzero polynomial over `K` whose
 coefficients lie in `E`. -/
@@ -191,6 +203,18 @@ theorem isAlgebraic_adjoin_exchange {x y : K}
   rw [Set.range_const] at hxTr
   exact hxTr
     ((IsFractionRing.isAlgebraic_iff (Algebra.adjoin F ({y} : Set K)) (adjoin F {y}) K).2 hx)
+
+/-- Adjoining then closing collapses a tower step: membership in
+`racl k (insert z S)` is algebraicity over `k(S)(z)`. -/
+theorem mem_racl_insert_iff {S : Set K} {z x : K} :
+    x ∈ racl k (insert z S) ↔
+      IsAlgebraic ↥(adjoin ↥(adjoin k S) ({z} : Set K)) x := by
+  rw [mem_racl_iff]
+  have key : adjoin k (insert z S) =
+      (adjoin (adjoin k S) {z}).restrictScalars k := by
+    rw [adjoin_adjoin_left, Set.union_singleton]
+  rw [key]
+  exact ⟨fun h ↦ h, fun h ↦ h⟩
 
 /-- Exchange for `racl` (blueprint Prop 4.1): if `x ∈ racl k (S ∪ {y})` but
 `x ∉ racl k S`, then `y ∈ racl k (S ∪ {x})`. -/
@@ -319,6 +343,19 @@ theorem AlgebraicIndependent.notMem_racl_pair {x y : K}
   refine racl_mono ?_ hy
   intro z hz
   refine ⟨0, ?_, ?_⟩
+  · simp
+  · simpa using hz.symm
+
+/-- The symmetric pair form of blueprint Lemma 4.2(a): the first member of
+an independent pair is not algebraic over the second. -/
+theorem AlgebraicIndependent.notMem_racl_pair' {x y : K}
+    (h : AlgebraicIndependent k ![x, y]) : x ∉ racl k {y} := by
+  intro hx
+  have h0 := algebraicIndependent_iff_forall_notMem_racl.1 h 0
+  refine h0 ?_
+  refine racl_mono ?_ hx
+  intro z hz
+  refine ⟨1, ?_, ?_⟩
   · simp
   · simpa using hz.symm
 

@@ -85,6 +85,10 @@ independence hypothesis). -/
 theorem x₂_notMem : S.x₂ ∉ racl k {S.x₁} :=
   AlgebraicIndependent.notMem_racl_pair S.indep
 
+/-- … and symmetrically. -/
+theorem x₁_notMem : S.x₁ ∉ racl k {S.x₂} :=
+  AlgebraicIndependent.notMem_racl_pair' S.indep
+
 /-- `x₂` remains transcendental over the enlarged base `k(x₁, y₁)`
 (first pregeometry count of the curve-coset chain). -/
 theorem transcendental_x₂ : Transcendental ↥S.base S.x₂ := by
@@ -234,6 +238,81 @@ theorem JointRel.sum_fst_transcendental (hrel : S.JointRel c₂') :
     simpa using S.sum_fst_transcendental
   have h := transcendental_of_idealOf_eq k hrel.sum_idealOf_eq.symm hv
   simpa using h
+
+variable {s : Ω}
+
+/-- Convert the algebraicity output of `exists_pair_relocation` to closure
+form over `k`: the relocated coordinates lie in `racl k {x₁, s}` — the
+generator `y₁` is absorbed by `y₁ ∈ racl k {x₁}`. -/
+theorem racl_pair_of_relocation {z : Ω}
+    (halg : IsAlgebraic ↥(adjoin ↥S.base ({s} : Set Ω)) z) :
+    z ∈ racl k {S.x₁, s} := by
+  have h1 : z ∈ racl k (insert s {S.x₁, S.y₁}) := mem_racl_insert_iff.2 halg
+  have hy₁ : S.y₁ ∈ racl k {S.x₁, s} :=
+    racl_mono (Set.singleton_subset_iff.2 (Set.mem_insert _ _)) S.y₁_mem
+  have hins : (insert s {S.x₁, S.y₁} : Set Ω) = insert S.y₁ {S.x₁, s} := by
+    rw [Set.insert_comm s S.x₁, Set.pair_comm s S.y₁, Set.insert_comm S.x₁ S.y₁]
+  rw [hins, racl_insert_of_mem hy₁] at h1
+  exact h1
+
+/-- With `s` chosen independent from `{x₁, x₂}`, the relocated first
+coordinate stays outside `racl k {x₁, x₂}`: by exchange it is
+interalgebraic with `s` over `k(x₁)`. -/
+theorem JointRel.fst_notMem_pair (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    c₂' 0 ∉ racl k {S.x₁, S.x₂} := by
+  intro hmem
+  have h0 : c₂' 0 ∉ racl k {S.x₁} := fun h ↦ hrel.fst_notMem_base
+    (racl_mono (Set.singleton_subset_iff.2 (Set.mem_insert _ _)) h)
+  have hexch : s ∈ racl k (insert (c₂' 0) {S.x₁}) := by
+    refine racl_exchange ?_ h0
+    rwa [Set.pair_comm S.x₁ s] at halg
+  have hsub : (insert (c₂' 0) {S.x₁} : Set Ω) ⊆ racl k {S.x₁, S.x₂} := by
+    rintro z (rfl | rfl)
+    · exact hmem
+    · exact subset_racl k _ (Set.mem_insert _ _)
+  exact hs (racl_le_of_subset_racl hsub hexch)
+
+/-- Triple independence, permuted: `x₁` is not algebraic over `{x₂, x₂'}`. -/
+theorem JointRel.x₁_notMem_pair (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    S.x₁ ∉ racl k {S.x₂, c₂' 0} := by
+  intro hmem
+  have hexch : c₂' 0 ∈ racl k (insert S.x₁ {S.x₂}) := by
+    refine racl_exchange ?_ S.x₁_notMem
+    rwa [Set.pair_comm S.x₂ (c₂' 0)] at hmem
+  exact hrel.fst_notMem_pair hs halg hexch
+
+/-- The δ-side genericity count of the fused curve-coset chain (step 2b):
+the first coordinate of the relocated sum point is not algebraic over the
+translation element `δ = c₂ − c₂'`. Hence the relocated sum point stays a
+generic point of the sum locus even over `k(δ)`. -/
+theorem JointRel.sum_fst_notMem_delta (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    S.x₁ + c₂' 0 ∉ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} := by
+  intro hmem
+  -- Both coordinates of `δ` lie in `racl k {x₂, x₂'}` …
+  have hx₂'mem : c₂' 0 ∈ racl k {S.x₂, c₂' 0} :=
+    subset_racl k _ (Set.mem_insert_iff.2 (Or.inr rfl))
+  have hy₂'mem : c₂' 1 ∈ racl k {S.x₂, c₂' 0} := by
+    refine racl_le_of_subset_racl ?_ hrel.snd_mem
+    rintro z rfl
+    exact hx₂'mem
+  have hy₂mem : S.y₂ ∈ racl k {S.x₂, c₂' 0} := by
+    refine racl_le_of_subset_racl ?_ S.y₂_mem
+    rintro z rfl
+    exact subset_racl k _ (Set.mem_insert _ _)
+  have hδsub : ({S.x₂ - c₂' 0, S.y₂ - c₂' 1} : Set Ω) ⊆ racl k {S.x₂, c₂' 0} := by
+    rintro z (rfl | rfl)
+    · exact sub_mem (subset_racl k _ (Set.mem_insert _ _)) hx₂'mem
+    · exact sub_mem hy₂mem hy₂'mem
+  -- … so the sum coordinate would land there, forcing `x₁` in as well.
+  have hsum : S.x₁ + c₂' 0 ∈ racl k {S.x₂, c₂' 0} :=
+    racl_le_of_subset_racl hδsub hmem
+  have hx₁ : S.x₁ ∈ racl k {S.x₂, c₂' 0} := by
+    have := sub_mem hsum hx₂'mem
+    simpa using this
+  exact hrel.x₁_notMem_pair hs halg hx₁
 
 end Relocation
 
