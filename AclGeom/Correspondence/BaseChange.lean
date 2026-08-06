@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import Mathlib.LinearAlgebra.Lagrange
 import Mathlib.RingTheory.Algebraic.Basic
 import Mathlib.FieldTheory.IsAlgClosed.Basic
+import Mathlib.RingTheory.Polynomial.GaussLemma
 import AclGeom.Correspondence.FunctionField
 
 /-!
@@ -107,25 +108,27 @@ theorem exists_map_eq_of_eval₂_eq_zero [Infinite k]
     rw [eval_map, eval₂_at_apply, hy, hnode]
     exact hrspec τ hτ
 
-/-- The specialization brick in `IsAlgClosed` form: over an algebraically
-closed base every element of `K` algebraic over `k` already lies in `k`, and
-`k` is infinite. -/
+/-- Over an algebraically closed base, algebraic elements of any extension
+already lie in the base (element-level form). -/
+theorem mem_range_algebraMap_of_isAlgebraic [IsAlgClosed k] {y : K}
+    (hy : IsAlgebraic k y) : y ∈ (algebraMap k K).range := by
+  have hint : IsIntegral k y := hy.isIntegral
+  refine ⟨-(minpoly k y).coeff 0, ?_⟩
+  have hq : (minpoly k y).leadingCoeff = 1 := minpoly.monic hint
+  have h1 : (minpoly k y).degree = 1 :=
+    IsAlgClosed.degree_eq_one_of_irreducible k (minpoly.irreducible hint)
+  have h0 : aeval y (minpoly k y) = 0 := minpoly.aeval k y
+  rw [eq_X_add_C_of_degree_eq_one h1, hq, C_1, one_mul, aeval_add, aeval_X,
+    aeval_C, add_eq_zero_iff_eq_neg] at h0
+  exact (map_neg (algebraMap k K) ((minpoly k y).coeff 0)).symm ▸ h0.symm
+
+/-- The specialization brick in `IsAlgClosed` form. -/
 theorem exists_map_eq_of_eval₂_eq_zero_of_isAlgClosed [IsAlgClosed k]
     {x : Polynomial K} {P : Polynomial (Polynomial k)} (hP : P ≠ 0)
     (hPx : Polynomial.eval₂ (mapRingHom (algebraMap k K)) x P = 0) :
-    ∃ y : Polynomial k, x = y.map (algebraMap k K) := by
-  have hk : ∀ y : K, IsAlgebraic k y → y ∈ (algebraMap k K).range := by
-    intro y hy
-    have hint : IsIntegral k y := hy.isIntegral
-    refine ⟨-(minpoly k y).coeff 0, ?_⟩
-    have hq : (minpoly k y).leadingCoeff = 1 := minpoly.monic hint
-    have h1 : (minpoly k y).degree = 1 :=
-      IsAlgClosed.degree_eq_one_of_irreducible k (minpoly.irreducible hint)
-    have h0 : aeval y (minpoly k y) = 0 := minpoly.aeval k y
-    rw [eq_X_add_C_of_degree_eq_one h1, hq, C_1, one_mul, aeval_add, aeval_X,
-      aeval_C, add_eq_zero_iff_eq_neg] at h0
-    exact (map_neg (algebraMap k K) ((minpoly k y).coeff 0)).symm ▸ h0.symm
-  exact exists_map_eq_of_eval₂_eq_zero hk hP hPx
+    ∃ y : Polynomial k, x = y.map (algebraMap k K) :=
+  exists_map_eq_of_eval₂_eq_zero (fun _ hy ↦ mem_range_algebraMap_of_isAlgebraic hy)
+    hP hPx
 
 section CoordPoly
 
@@ -390,6 +393,71 @@ theorem mem_adjoin_base_of_isAlgebraic [Infinite k]
   exact div_mem (hmemP _) (hmemP _)
 
 end Descent
+
+section MinpolyDescent
+
+open IntermediateField
+
+variable {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
+
+/-- **Minimal polynomials descend** (the keystone of base-change
+irreducibility): for `k` algebraically closed, `K` an intermediate field, and
+`u` transcendental over `K`, the coefficients of the minimal polynomial over
+`K(u)` of an element algebraic over `k(u)` already lie in `k(u)`. The
+coefficients are integral over `k(u)` by the Gauss argument (they divide the
+image of the monic minimal polynomial from below), and integral elements of
+`K(u)` over `k(u)` descend by the specialization brick. -/
+theorem minpoly_coeff_mem [IsAlgClosed k] {K : IntermediateField k Ω}
+    {u v : Ω} (hu : Transcendental ↥K u)
+    (hv : IsAlgebraic ↥(adjoin k ({u} : Set Ω)) v) (i : ℕ) :
+    ((minpoly ↥(adjoin ↥K ({u} : Set Ω)) v).coeff i : Ω) ∈
+      adjoin k ({u} : Set Ω) := by
+  classical
+  set L₀ : IntermediateField k Ω := adjoin k ({u} : Set Ω) with hL₀
+  set L : IntermediateField ↥K Ω := adjoin ↥K ({u} : Set Ω) with hL
+  -- The inclusion `k(u) → K(u)` as an algebra.
+  have hle : L₀ ≤ L.restrictScalars k := by
+    rw [hL₀]
+    refine adjoin_le_iff.2 ?_
+    intro x hx
+    rcases hx with rfl
+    exact subset_adjoin ↥K _ rfl
+  set incl : ↥L₀ →ₐ[k] ↥(L.restrictScalars k) := IntermediateField.inclusion hle
+  letI : Algebra ↥L₀ ↥L := incl.toRingHom.toAlgebra
+  haveI htow : IsScalarTower ↥L₀ ↥L Ω := IsScalarTower.of_algebraMap_eq' rfl
+  -- The two minimal polynomials.
+  have hvL : IsAlgebraic ↥L v := by
+    obtain ⟨p, hp0, hpv⟩ := hv
+    refine ⟨p.map (algebraMap ↥L₀ ↥L), ?_, ?_⟩
+    · exact fun h ↦ hp0 ((Polynomial.map_eq_zero_iff
+        (algebraMap ↥L₀ ↥L).injective).1 h)
+    · rw [Polynomial.aeval_map_algebraMap]
+      exact hpv
+  set m₀ := minpoly ↥L₀ v with hm₀
+  set m := minpoly ↥L v with hm
+  have hm₀monic : m₀.Monic := minpoly.monic hv.isIntegral
+  have hmdvd : m ∣ m₀.map (algebraMap ↥L₀ ↥L) := by
+    refine minpoly.dvd ↥L v ?_
+    rw [Polynomial.aeval_map_algebraMap]
+    exact minpoly.aeval ↥L₀ v
+  -- Gauss: the coefficients of `m` are integral over `k(u)`.
+  have hmmonic : m.Monic := minpoly.monic hvL.isIntegral
+  have hlifts := integralClosure.mem_lifts_of_monic_of_dvd_map ↥L
+    hm₀monic hmmonic hmdvd
+  rw [Polynomial.lifts_iff_coeff_lifts] at hlifts
+  obtain ⟨w, hw⟩ := hlifts i
+  -- `w` is integral over `k(u)`; push everything into `Ω` and descend.
+  have hint : IsIntegral ↥L₀ (m.coeff i) := by
+    have h2 : IsIntegral ↥L₀
+        (algebraMap ↥(integralClosure ↥L₀ ↥L) ↥L w) := w.2
+    exact hw ▸ h2
+  have halg : IsAlgebraic ↥L₀ ((m.coeff i : ↥L) : Ω) :=
+    (hint.map (IsScalarTower.toAlgHom ↥L₀ ↥L Ω)).isAlgebraic
+  have hmem : ((m.coeff i : ↥L) : Ω) ∈ adjoin ↥K ({u} : Set Ω) := (m.coeff i).2
+  exact mem_adjoin_base_of_isAlgebraic
+    (fun y hy ↦ mem_range_algebraMap_of_isAlgebraic hy) hu hmem halg
+
+end MinpolyDescent
 
 section CurveDictionary
 
