@@ -7,6 +7,7 @@ import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.AddPolynomial
 import AclGeom.Correspondence.CurveIdeal
 import AclGeom.Correspondence.BaseChange
+import AclGeom.Correspondence.TranslationDescent
 import AclGeom.Closure.ClosedLattice
 
 /-!
@@ -483,6 +484,68 @@ theorem JointRel.translate_deltaVec_eq [IsAlgClosed k]
   have hFK0 : FK ≠ 0 := fun h ↦ hF0 (MvPolynomial.map_injective _
     (algebraMap k ↥(deltaField S c₂')).injective (by rw [map_zero]; exact h))
   exact translate_eq_self_of_span_eq hFK0 htrans.symm
+
+/-- The translation element has interalgebraic coordinates: its locus is a
+genuine curve. Independence would make the stabilizer improper; the
+degenerate direction is ruled out by exchange against the transcendence of
+`δ₁`. -/
+theorem JointRel.delta_snd_mem [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    S.y₂ - c₂' 1 ∈ racl k {S.x₂ - c₂' 0} := by
+  classical
+  have hid := hrel.translate_deltaVec_eq hs halg hFp.ne_zero hFspan
+  have hnindK : ¬AlgebraicIndependent k (deltaVec S c₂') := fun h ↦
+    not_algebraicIndependent_of_translate_eq hFp hid h
+  have hnind : ¬AlgebraicIndependent k ![S.x₂ - c₂' 0, S.y₂ - c₂' 1] := by
+    intro h
+    refine hnindK (AlgebraicIndependent.of_comp (deltaField S c₂').val ?_)
+    have hcomp : (⇑(deltaField S c₂').val ∘ deltaVec S c₂') =
+        ![S.x₂ - c₂' 0, S.y₂ - c₂' 1] := by
+      funext i
+      fin_cases i <;> rfl
+    rwa [hcomp]
+  rw [algebraicIndependent_iff_forall_notMem_racl] at hnind
+  push Not at hnind
+  rw [Fin.exists_fin_two] at hnind
+  rcases hnind with hi | hi
+  · have himg : (![S.x₂ - c₂' 0, S.y₂ - c₂' 1] ''
+        ({(0 : Fin 2)}ᶜ : Set (Fin 2))) = {S.y₂ - c₂' 1} := by
+      have hcompl : ({(0 : Fin 2)}ᶜ : Set (Fin 2)) = {1} := by
+        ext i
+        fin_cases i <;> simp
+      rw [hcompl, Set.image_singleton]
+      simp
+    rw [himg] at hi
+    have hδ₁ : S.x₂ - c₂' 0 ∉ racl k (∅ : Set Ω) :=
+      notMem_racl_empty_of_transcendental (delta_fst_transcendental hs halg)
+    have hxy : S.x₂ - c₂' 0 ∈
+        racl k (insert (S.y₂ - c₂' 1) (∅ : Set Ω)) := by
+      simpa using hi
+    have hexch := racl_exchange hxy hδ₁
+    simpa using hexch
+  · have himg : (![S.x₂ - c₂' 0, S.y₂ - c₂' 1] ''
+        ({(1 : Fin 2)}ᶜ : Set (Fin 2))) = {S.x₂ - c₂' 0} := by
+      have hcompl : ({(1 : Fin 2)}ᶜ : Set (Fin 2)) = {0} := by
+        ext i
+        fin_cases i <;> simp
+      rw [hcompl, Set.image_singleton]
+      simp
+    rw [himg] at hi
+    exact hi
+
+/-- The translation locus is a plane curve: its vanishing ideal is generated
+by a single prime polynomial. -/
+theorem JointRel.exists_prime_span_delta [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    ∃ G : MvPolynomial (Fin 2) k, Prime G ∧
+      idealOf k ![S.x₂ - c₂' 0, S.y₂ - c₂' 1] = Ideal.span {G} :=
+  exists_prime_span_idealOf k (delta_fst_transcendental hs halg)
+    (hrel.delta_snd_mem hs halg hFp hFspan)
 
 end TranslationIdentity
 
