@@ -20,10 +20,12 @@ Contents (blueprint Prop 4.1):
 * extensivity (`subset_racl`), monotonicity (`racl_mono`), and
   idempotence (`racl_racl`);
 * finite character (`exists_finset_racl`);
-* exchange (`isAlgebraic_adjoin_exchange`, `racl_exchange`).
-
-Still to come here (checklist F1, F2): equivariance, Frobenius invariance,
-and the finite representative calculus (blueprint Lemma 4.2).
+* exchange (`isAlgebraic_adjoin_exchange`, `racl_exchange`);
+* equivariance (`racl_map`) and power invariance (`racl_image_pow`);
+* base monotonicity (`racl_subset_racl_base`);
+* the representative calculus, part (a)
+  (`algebraicIndependent_iff_forall_notMem_racl`): independence is exactly
+  avoidance of the closures of the other members (blueprint Lemma 4.2(a)).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -281,6 +283,46 @@ theorem racl_image_pow {m : ℕ} (hm : m ≠ 0) (S : Set K) :
       · simp [hnm, hn0]
 
 end PowerInvariance
+
+section RepresentativeCalculus
+
+open scoped IntermediateField.algebraAdjoinAdjoin
+
+variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- Blueprint Lemma 4.2(a): a family is algebraically independent over `k`
+iff no member lies in the relative algebraic closure of the others. -/
+theorem algebraicIndependent_iff_forall_notMem_racl {ι : Type*} {v : ι → K} :
+    AlgebraicIndependent k v ↔ ∀ i, v i ∉ racl k (v '' {i}ᶜ) := by
+  constructor
+  · intro h i hmem
+    refine ((AlgebraicIndependent.iff_transcendental_adjoin_image (x := v) i).1 h).2 ?_
+    exact (IsFractionRing.isAlgebraic_iff (Algebra.adjoin k (v '' {i}ᶜ))
+      (adjoin k (v '' {i}ᶜ)) K).2 ((mem_racl_iff k).1 hmem)
+  · intro h
+    refine algebraicIndependent_of_finite_type' (algebraMap k K).injective
+      fun t _ _ i hit halg ↦ h i ?_
+    rw [mem_racl_iff]
+    have h2 : IsAlgebraic (adjoin k (v '' t)) (v i) :=
+      (IsFractionRing.isAlgebraic_iff (Algebra.adjoin k (v '' t))
+        (adjoin k (v '' t)) K).1 halg
+    refine isAlgebraic_of_le (adjoin.mono _ _ _ (Set.image_mono ?_)) h2
+    exact fun j hj hji ↦ hit (hji ▸ hj)
+
+/-- The pair form of blueprint Lemma 4.2(a), forward direction: the second
+member of an independent pair is not algebraic over the first. -/
+theorem AlgebraicIndependent.notMem_racl_pair {x y : K}
+    (h : AlgebraicIndependent k ![x, y]) : y ∉ racl k {x} := by
+  intro hy
+  have h1 := algebraicIndependent_iff_forall_notMem_racl.1 h 1
+  refine h1 ?_
+  refine racl_mono ?_ hy
+  intro z hz
+  refine ⟨0, ?_, ?_⟩
+  · simp
+  · simpa using hz.symm
+
+end RepresentativeCalculus
 
 section BaseMono
 
