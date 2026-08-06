@@ -131,6 +131,23 @@ theorem racl_insert_of_mem {S : Set K} {y : K} (hy : y ∈ racl k S) :
   le_antisymm (racl_le_of_subset_racl (Set.insert_subset hy (subset_racl k S)))
     (racl_mono (Set.subset_insert y S))
 
+/-- A transcendental element avoids the closure of the empty set. -/
+theorem notMem_racl_empty_of_transcendental {x : K} (hx : Transcendental k x) :
+    x ∉ racl k (∅ : Set K) := by
+  intro hmem
+  refine hx ?_
+  have halg : IsAlgebraic ↥(adjoin k (∅ : Set K)) x := (mem_racl_iff k).1 hmem
+  rw [adjoin_empty] at halg
+  haveI : Algebra.IsIntegral k ↥(⊥ : IntermediateField k K) := by
+    refine ⟨fun z ↦ ?_⟩
+    obtain ⟨c, hc⟩ := IntermediateField.mem_bot.1 z.2
+    have hz : z = algebraMap k ↥(⊥ : IntermediateField k K) c :=
+      Subtype.ext hc.symm
+    rw [hz]
+    exact isIntegral_algebraMap
+  rw [isAlgebraic_iff_isIntegral] at halg ⊢
+  exact isIntegral_trans x halg
+
 /-- Converse companion to `isAlgebraic_of_coeff_mem`: an element algebraic over
 an intermediate field `E` is annihilated by a nonzero polynomial over `K` whose
 coefficients lie in `E`. -/

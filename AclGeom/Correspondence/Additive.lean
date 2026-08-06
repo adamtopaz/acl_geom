@@ -275,6 +275,30 @@ theorem JointRel.fst_notMem_pair (hrel : S.JointRel c₂')
     · exact subset_racl k _ (Set.mem_insert _ _)
   exact hs (racl_le_of_subset_racl hsub hexch)
 
+/-- The independent fresh element keeps `x₂` transcendental over
+`k(x₁, s)`. -/
+theorem x₂_notMem_fresh (hs : s ∉ racl k {S.x₁, S.x₂}) :
+    S.x₂ ∉ racl k {S.x₁, s} := by
+  intro hmem
+  have hexch : s ∈ racl k (insert S.x₂ {S.x₁}) := by
+    refine racl_exchange ?_ S.x₂_notMem
+    rwa [Set.pair_comm S.x₁ s] at hmem
+  refine hs ?_
+  rwa [Set.pair_comm S.x₂ S.x₁] at hexch
+
+/-- The first coordinate of the translation element is transcendental
+over `k`: otherwise `x₂` would fall into `k(x₁, s)`. -/
+theorem delta_fst_transcendental (hs : s ∉ racl k {S.x₁, S.x₂})
+    {c₂'' : Fin 2 → Ω} (halg : c₂'' 0 ∈ racl k {S.x₁, s}) :
+    Transcendental k (S.x₂ - c₂'' 0) := by
+  intro h
+  have hδ : S.x₂ - c₂'' 0 ∈ racl k {S.x₁, s} :=
+    (mem_racl_iff k).2 (h.tower_top _)
+  have hx₂ : S.x₂ ∈ racl k {S.x₁, s} := by
+    have := add_mem hδ halg
+    simpa using this
+  exact x₂_notMem_fresh hs hx₂
+
 /-- Triple independence, permuted: `x₁` is not algebraic over `{x₂, x₂'}`. -/
 theorem JointRel.x₁_notMem_pair (hrel : S.JointRel c₂')
     (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
