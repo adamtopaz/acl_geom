@@ -10,6 +10,7 @@ import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.Jacobson.Ring
 import Mathlib.RingTheory.UniqueFactorizationDomain.Ideal
 import Mathlib.RingTheory.Polynomial.UniqueFactorization
+import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
 
 /-!
 # The curve ideal is principal
@@ -120,6 +121,218 @@ theorem exists_prime_span_idealOf {u v : Ω} (hu : Transcendental k u)
     have h3 : n = 1 := by omega
     exact_mod_cast congrArg (Nat.cast : ℕ → ℕ∞) h3
   exact Ideal.eq_span_singleton_of_height_eq_one hheight hfP hf
+
+section Translation
+
+variable {σ : Type*} {K : Type*} [Field K]
+
+/-- The translation substitution `X j ↦ X j + C (c j)`. -/
+def translate (c : σ → K) : MvPolynomial σ K →ₐ[K] MvPolynomial σ K :=
+  aeval fun j ↦ X j + C (c j)
+
+@[simp]
+theorem translate_X (c : σ → K) (j : σ) :
+    translate c (X j) = X j + C (c j) := by
+  simp [translate]
+
+@[simp]
+theorem translate_C (c : σ → K) (a : K) : translate c (C a) = C a := by
+  simp [translate, algebraMap_eq]
+
+/-- Degree drop, one-variable core: translating `X j ^ n` changes it only in
+total degree `< n`. -/
+theorem totalDegree_translate_pow_sub_lt (c : σ → K) (j : σ) {n : ℕ}
+    (hn : 0 < n) :
+    ((X j + C (c j)) ^ n - X j ^ n : MvPolynomial σ K).totalDegree < n := by
+  induction n with
+  | zero => exact absurd hn (lt_irrefl 0)
+  | succ m ih =>
+    rcases Nat.eq_zero_or_pos m with rfl | hm
+    · simpa [totalDegree_C] using Nat.zero_lt_one
+    · have key : ((X j + C (c j)) ^ (m + 1) - X j ^ (m + 1) : MvPolynomial σ K) =
+          ((X j + C (c j)) ^ m - X j ^ m) * (X j + C (c j)) + X j ^ m * C (c j) := by
+        ring
+      rw [key]
+      refine lt_of_le_of_lt (totalDegree_add _ _) (max_lt ?_ ?_)
+      · refine lt_of_le_of_lt (totalDegree_mul _ _) ?_
+        have h1 := ih hm
+        have h2 : (X j + C (c j) : MvPolynomial σ K).totalDegree ≤ 1 := by
+          refine le_trans (totalDegree_add _ _) ?_
+          simp [totalDegree_X, totalDegree_C]
+        omega
+      · refine lt_of_le_of_lt (totalDegree_mul _ _) ?_
+        rw [totalDegree_C, totalDegree_X_pow]
+        omega
+
+/-- A `ℕ`-valued finsupp with zero value sum is zero. -/
+theorem finsupp_sum_id_eq_zero_iff {m : σ →₀ ℕ} :
+    (m.sum fun _ e ↦ e) = 0 ↔ m = 0 := by
+  constructor
+  · intro h
+    ext a
+    rcases eq_or_ne (m a) 0 with h0 | h0
+    · simp [h0]
+    · exact absurd ((Finset.sum_eq_zero_iff.1 h) a (Finsupp.mem_support_iff.2 h0)) h0
+  · intro h
+    simp [h]
+
+/-- Degree drop for monomials: translation changes a monomial only in total
+degree strictly below its own. -/
+theorem totalDegree_translate_monomial_sub_lt (c : σ → K) {m : σ →₀ ℕ}
+    (hm : 0 < m.sum fun _ e ↦ e) :
+    (translate c (monomial m 1) - monomial m 1).totalDegree <
+      m.sum fun _ e ↦ e := by
+  induction m using Finsupp.induction with
+  | zero => simp at hm
+  | single_add j n m' hjm' hn ih =>
+    have hsum : ((Finsupp.single j n + m').sum fun _ e ↦ e) =
+        n + m'.sum fun _ e ↦ e := by
+      rw [Finsupp.sum_add_index' (fun _ ↦ rfl) fun _ _ _ ↦ rfl]
+      rw [Finsupp.sum_single_index rfl]
+    have hn' : 0 < n := Nat.pos_of_ne_zero hn
+    -- Split the monomial and its translation into the two factors.
+    have hmono : (monomial (Finsupp.single j n + m') (1 : K)) =
+        monomial (Finsupp.single j n) 1 * monomial m' 1 := by
+      rw [monomial_mul, mul_one]
+    have htrA : translate c (monomial (Finsupp.single j n) (1 : K)) =
+        (X j + C (c j)) ^ n := by
+      rw [← X_pow_eq_monomial, map_pow, translate_X]
+    rcases eq_or_ne m' 0 with rfl | hm'0
+    · rw [add_zero, ← X_pow_eq_monomial, map_pow, translate_X,
+        Finsupp.sum_single_index rfl]
+      exact totalDegree_translate_pow_sub_lt c j hn'
+    · have hm'pos : 0 < m'.sum fun _ e ↦ e := by
+        rcases Nat.eq_zero_or_pos (m'.sum fun _ e ↦ e) with hz | hp
+        · exact absurd (finsupp_sum_id_eq_zero_iff.1 hz) hm'0
+        · exact hp
+      have ihm := ih hm'pos
+      have hB₀deg : (monomial m' (1 : K)).totalDegree = m'.sum fun _ e ↦ e :=
+        totalDegree_monomial m' one_ne_zero
+      have hBdeg : (translate c (monomial m' 1)).totalDegree ≤
+          m'.sum fun _ e ↦ e := by
+        have hsplit : translate c (monomial m' (1 : K)) =
+            (translate c (monomial m' 1) - monomial m' 1) + monomial m' 1 := by
+          ring
+        rw [hsplit]
+        refine le_trans (totalDegree_add _ _) (max_le (le_of_lt ?_) ?_)
+        · exact hB₀deg ▸ ihm
+        · exact le_of_eq hB₀deg
+      -- Decompose the difference along the two factors.
+      have hkey : translate c (monomial (Finsupp.single j n + m') 1) -
+          monomial (Finsupp.single j n + m') 1 =
+          ((X j + C (c j)) ^ n - X j ^ n) * translate c (monomial m' 1) +
+            X j ^ n * (translate c (monomial m' 1) - monomial m' 1) := by
+        rw [hmono, map_mul, htrA, X_pow_eq_monomial]
+        ring
+      rw [hkey, hsum]
+      refine lt_of_le_of_lt (totalDegree_add _ _) (max_lt ?_ ?_)
+      · refine lt_of_le_of_lt (totalDegree_mul _ _) ?_
+        have h1 := totalDegree_translate_pow_sub_lt c j hn' (σ := σ)
+        omega
+      · refine lt_of_le_of_lt (totalDegree_mul _ _) ?_
+        rw [totalDegree_X_pow]
+        omega
+
+/-- Degree drop for polynomials: translating a polynomial of positive total
+degree changes it only in strictly smaller total degree. -/
+theorem totalDegree_translate_sub_lt (c : σ → K) {F : MvPolynomial σ K}
+    (hF : 0 < F.totalDegree) :
+    (translate c F - F).totalDegree < F.totalDegree := by
+  classical
+  have hrepr : translate c F - F = ∑ m ∈ F.support,
+      C (coeff m F) * (translate c (monomial m 1) - monomial m 1) := by
+    conv_lhs => rw [F.as_sum]
+    rw [map_sum, ← Finset.sum_sub_distrib]
+    refine Finset.sum_congr rfl fun m _ ↦ ?_
+    have hCm : monomial m (coeff m F) = C (coeff m F) * monomial m 1 := by
+      rw [C_mul_monomial, mul_one]
+    rw [hCm, map_mul, translate_C, mul_sub]
+  rw [hrepr]
+  refine lt_of_le_of_lt (totalDegree_finsetSum _ _) ?_
+  rw [Finset.sup_lt_iff (by simpa using hF)]
+  intro m hmF
+  refine lt_of_le_of_lt (totalDegree_mul _ _) ?_
+  rw [totalDegree_C, zero_add]
+  rcases Nat.eq_zero_or_pos (m.sum fun _ e ↦ e) with hz | hp
+  · have hm0 : m = 0 := finsupp_sum_id_eq_zero_iff.1 hz
+    subst hm0
+    have h1 : (monomial (0 : σ →₀ ℕ) (1 : K)) = 1 := by
+      rw [monomial_zero']
+      exact C_1
+    rw [h1, map_one, sub_self]
+    simpa using hF
+  · exact lt_of_lt_of_le (totalDegree_translate_monomial_sub_lt c hp)
+      (le_totalDegree hmF)
+
+/-- **Rigidity of the generator under translation**: a translation that fixes
+the ideal generated by `F` fixes `F` itself. The translation perturbs `F`
+only below its top degree, so the comparison unit is a constant, and a
+top-degree coefficient forces it to be `1` (step 4c of the fused curve-coset
+chain). -/
+theorem translate_eq_self_of_span_eq {c : σ → K} {F : MvPolynomial σ K}
+    (hF : F ≠ 0) (h : Ideal.span {translate c F} = Ideal.span {F}) :
+    translate c F = F := by
+  classical
+  rcases Nat.eq_zero_or_pos F.totalDegree with h0 | hpos
+  · have hFC : F = C (F.coeff 0) := totalDegree_eq_zero_iff_eq_C.1 h0
+    rw [hFC, translate_C]
+  · obtain ⟨u, hu⟩ := Ideal.span_singleton_eq_span_singleton.1 h
+    have hτF : translate c F ≠ 0 := by
+      intro h0
+      rw [h0, zero_mul] at hu
+      exact hF hu.symm
+    have hdrop := totalDegree_translate_sub_lt c hpos
+    -- The translation preserves the total degree.
+    have hτdeg : (translate c F).totalDegree = F.totalDegree := by
+      have hle : (translate c F).totalDegree ≤ F.totalDegree := by
+        have hsplit : translate c F = (translate c F - F) + F := by ring
+        rw [hsplit]
+        exact le_trans (totalDegree_add _ _) (max_le (le_of_lt hdrop) le_rfl)
+      have hge : F.totalDegree ≤ (translate c F).totalDegree := by
+        have hsplit : F = translate c F + -(translate c F - F) := by ring
+        have hFle : F.totalDegree ≤ max (translate c F).totalDegree
+            (translate c F - F).totalDegree := by
+          calc F.totalDegree
+              = (translate c F + -(translate c F - F)).totalDegree := by
+                rw [← hsplit]
+            _ ≤ max (translate c F).totalDegree
+                (-(translate c F - F)).totalDegree := totalDegree_add _ _
+            _ = max (translate c F).totalDegree
+                (translate c F - F).totalDegree := by rw [totalDegree_neg]
+        rcases max_cases (translate c F).totalDegree
+            (translate c F - F).totalDegree with ⟨hmax, -⟩ | ⟨hmax, -⟩ <;>
+          rw [hmax] at hFle <;> omega
+      omega
+    -- The unit is a nonzero constant.
+    have hudeg : (u : MvPolynomial σ K).totalDegree = 0 := by
+      have hprod := totalDegree_mul_of_isDomain hτF u.ne_zero
+      rw [hu, hτdeg] at hprod
+      omega
+    set a : K := coeff 0 (u : MvPolynomial σ K) with ha_def
+    have ha : (u : MvPolynomial σ K) = C a := totalDegree_eq_zero_iff_eq_C.1 hudeg
+    -- A top-degree coefficient of `F` is unchanged by the translation,
+    -- forcing the unit to be `1`.
+    obtain ⟨e, heF, hesum⟩ := F.support.exists_mem_eq_sup
+      (support_nonempty.2 hF) fun m : σ →₀ ℕ ↦ Multiset.card (Finsupp.toMultiset m)
+    have hesum' : F.totalDegree = ∑ i ∈ e.support, e i := by
+      rw [totalDegree_eq, hesum, Finsupp.card_toMultiset]
+      rfl
+    have hcoeff : coeff e F ≠ 0 := mem_support_iff.1 heF
+    have htop : coeff e (translate c F) = coeff e F := by
+      have hzero : coeff e (translate c F - F) = 0 :=
+        coeff_eq_zero_of_totalDegree_lt (hesum' ▸ hdrop)
+      have hsplit : translate c F = (translate c F - F) + F := by ring
+      rw [hsplit, coeff_add, hzero, zero_add]
+    rw [mul_comm] at hu
+    have hcmp : coeff e F = a * coeff e F := by
+      nth_rewrite 1 [← hu]
+      rw [ha, coeff_C_mul, htop]
+    have ha1 : a = 1 :=
+      mul_right_cancel₀ hcoeff (by rw [← hcmp, one_mul])
+    rw [ha, ha1, C_1, one_mul] at hu
+    exact hu
+
+end Translation
 
 end
 
