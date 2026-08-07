@@ -236,6 +236,20 @@ theorem JointRel.mul_fst_transcendental (hrel : S.JointRel c₂') :
   have h := transcendental_of_idealOf_eq k hrel.mul_idealOf_eq.symm hv
   simpa using h
 
+/-- The relocated coordinates stay nonzero: vanishing is a joint relation. -/
+theorem JointRel.fst_ne (hrel : S.JointRel c₂') : c₂' 0 ≠ 0 := by
+  intro h0
+  have h := (hrel (MvPolynomial.X (Sum.inr 0))).1 (by simp [h0])
+  simp at h
+  exact S.x₂_ne h
+
+/-- … both of them. -/
+theorem JointRel.snd_ne (hrel : S.JointRel c₂') : c₂' 1 ≠ 0 := by
+  intro h0
+  have h := (hrel (MvPolynomial.X (Sum.inr 1))).1 (by simp [h0])
+  simp at h
+  exact S.y₂_ne h
+
 end Relocation
 
 end MulCorrSetup
