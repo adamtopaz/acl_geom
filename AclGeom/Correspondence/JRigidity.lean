@@ -487,6 +487,179 @@ theorem monomial_isAdditive_charP (p : ℕ) [CharP k p] (hp : p.Prime)
 
 end PPower
 
+section Master
+
+/-- Additive monomials are classified by the exponential characteristic. -/
+theorem monomial_isAdditive_expChar (q : ℕ) [hq : ExpChar k q] [Infinite k]
+    {l : k} (hl : l ≠ 0) {m : ℕ}
+    (h : IsAdditive (Polynomial.C l * Polynomial.X ^ m)) :
+    ∃ r : ℕ, m = q ^ r := by
+  rcases hq with _ | hp
+  · exact ⟨0, by rw [pow_zero]; exact monomial_isAdditive_charZero hl h⟩
+  · exact monomial_isAdditive_charP _ hp hl h
+
+/-- Evaluating an axes split at a pair. -/
+theorem aeval_pair_of_split {G : MvPolynomial (Fin 2) k}
+    {P Q : Polynomial k}
+    (hsplit : G = Polynomial.aeval (X 0) P + Polynomial.aeval (X 1) Q)
+    (u v : Ω) :
+    aeval ![u, v] G = Polynomial.aeval u P + Polynomial.aeval v Q := by
+  rw [hsplit, map_add, ← Polynomial.aeval_algHom_apply,
+    ← Polynomial.aeval_algHom_apply, aeval_X, aeval_X]
+  have h0 : (![u, v] : Fin 2 → Ω) 0 = u := rfl
+  have h1 : (![u, v] : Fin 2 → Ω) 1 = v := rfl
+  rw [h0, h1]
+
+/-- **Simultaneous additive–multiplicative cosets** (blueprint
+Lemma 8.9): two independent finite correspondences whose sums and products
+are both interalgebraic satisfy a common monomial relation, in one of the
+two orientations, with exponents that are powers of the exponential
+characteristic and a common constant. -/
+theorem simultaneous_coset [IsAlgClosed k] [IsAlgClosed Ω]
+    (q : ℕ) [ExpChar k q] (S : AddCorrSetup k Ω)
+    (hy₁0 : S.y₁ ≠ 0) (hy₂0 : S.y₂ ≠ 0)
+    (hmul : S.y₁ * S.y₂ ∈ racl k {S.x₁ * S.x₂})
+    (hmul' : S.x₁ * S.x₂ ∈ racl k {S.y₁ * S.y₂})
+    {s s' : Ω}
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (hss' : s' ∉ racl k {S.x₁, S.x₂, s}) :
+    ∃ (c : k) (m n r t : ℕ), c ≠ 0 ∧ m = q ^ r ∧ n = q ^ t ∧
+      ((S.x₁ ^ m = algebraMap k Ω c * S.y₁ ^ n ∧
+        S.x₂ ^ m = algebraMap k Ω c * S.y₂ ^ n) ∨
+       (S.y₁ ^ n = algebraMap k Ω c * S.x₁ ^ m ∧
+        S.y₂ ^ n = algebraMap k Ω c * S.x₂ ^ m)) := by
+  classical
+  -- The structured additive data.
+  obtain ⟨G, P, Q, hGp, hsplit, hP0, hQ0, hPne, hQne, hPadd, hQadd,
+    d₁, d₂, hd₁, hd₂⟩ := S.exists_delta_gen_data hs hss'
+  -- The multiplicative data on the same pairs.
+  obtain ⟨a, b, c₁, c₂, ha0, hb0, hcop, hc₁0, hc₂0, h₁raw, h₂raw⟩ :=
+    (⟨S.x₁, S.y₁, S.x₂, S.y₂, S.indep, hy₁0, hy₂0, S.y₁_mem, S.x₁_mem,
+      S.y₂_mem, S.x₂_mem, hmul, hmul'⟩ :
+      MulCorrSetup k Ω).exists_coset_equations_coprime hs
+  have h₁ : S.x₁ ^ a * S.y₁ ^ b = algebraMap k Ω c₁ := h₁raw
+  have h₂ : S.x₂ ^ a * S.y₂ ^ b = algebraMap k Ω c₂ := h₂raw
+  -- The curve generators.
+  have hx₁tr : Transcendental k S.x₁ := fun h ↦
+    S.x₁_notMem (racl_mono (Set.empty_subset _)
+      ((mem_racl_iff k).2 (h.tower_top _)))
+  have hx₂tr : Transcendental k S.x₂ := fun h ↦
+    S.x₂_notMem (racl_mono (Set.empty_subset _)
+      ((mem_racl_iff k).2 (h.tower_top _)))
+  obtain ⟨G₁, hG₁p, hG₁span⟩ := exists_prime_span_idealOf k hx₁tr S.y₁_mem
+  obtain ⟨G₂, hG₂p, hG₂span⟩ := exists_prime_span_idealOf k hx₂tr S.y₂_mem
+  -- Transcendence bookkeeping and split values, for the mixed rule-out.
+  have hx₁r : S.x₁ ∉ racl k (∅ : Set Ω) := fun h ↦
+    S.x₁_notMem (racl_mono (Set.empty_subset _) h)
+  have hx₂r : S.x₂ ∉ racl k (∅ : Set Ω) := fun h ↦
+    S.x₂_notMem (racl_mono (Set.empty_subset _) h)
+  have hy₁r : S.y₁ ∉ racl k (∅ : Set Ω) := by
+    intro h
+    have h2 := racl_insert_of_mem (S := (∅ : Set Ω)) h
+    refine hx₁r ?_
+    have h3 : S.x₁ ∈ racl k (insert S.y₁ (∅ : Set Ω)) := by
+      have hins : (insert S.y₁ (∅ : Set Ω)) = {S.y₁} := by simp
+      rw [hins]
+      exact S.x₁_mem
+    rwa [h2] at h3
+  have hy₂r : S.y₂ ∉ racl k (∅ : Set Ω) := by
+    intro h
+    have h2 := racl_insert_of_mem (S := (∅ : Set Ω)) h
+    refine hx₂r ?_
+    have h3 : S.x₂ ∈ racl k (insert S.y₂ (∅ : Set Ω)) := by
+      have hins : (insert S.y₂ (∅ : Set Ω)) = {S.y₂} := by simp
+      rw [hins]
+      exact S.x₂_mem
+    rwa [h2] at h3
+  have hval₁ : Polynomial.aeval S.x₁ P + Polynomial.aeval S.y₁ Q =
+      algebraMap k Ω d₁ := by
+    rw [← aeval_pair_of_split hsplit]
+    exact hd₁
+  have hx₁0 : S.x₁ ≠ 0 := fun h0 ↦ hx₁r (by rw [h0]; exact zero_mem _)
+  have hx₂0 : S.x₂ ≠ 0 := fun h0 ↦ hx₂r (by rw [h0]; exact zero_mem _)
+  -- Exponent data.
+  have hmA : a.natAbs ≠ 0 := Int.natAbs_ne_zero.2 ha0
+  have hnA : b.natAbs ≠ 0 := Int.natAbs_ne_zero.2 hb0
+  have hcopA : Nat.gcd a.natAbs b.natAbs = 1 := hcop
+  -- Case on the shared signs of the exponents.
+  rcases sign_cases_of_zpow_relation hx₁0 hy₁0 ha0 hb0 h₁ with
+    ⟨hap, hbn, hbin₁⟩ | ⟨han, hbp, hbin₁⟩ | ⟨hap, hbp, hmix₁⟩ |
+    ⟨han, hbn, hmix₁⟩
+  · -- First orientation: `x^m = c·y^n` at both curves.
+    have hbin₂ : S.x₂ ^ a.natAbs = algebraMap k Ω c₂ * S.y₂ ^ b.natAbs := by
+      rcases sign_cases_of_zpow_relation hx₂0 hy₂0 ha0 hb0 h₂ with
+        ⟨_, _, hb⟩ | ⟨h, _, _⟩ | ⟨_, h, _⟩ | ⟨h, _, _⟩
+      · exact hb
+      · exact absurd h (asymm hap)
+      · exact absurd h (asymm hbn)
+      · exact absurd h (asymm hap)
+    obtain ⟨hd₁0, l₁, hl₁0, hP₁, hQ₁⟩ := simultaneous_coset_at_curve hG₁p
+      hG₁span hGp hP0 hQ0 hsplit hd₁ hc₁0 hmA hnA hcopA hbin₁
+    obtain ⟨hd₂0, l₂, hl₂0, hP₂, hQ₂⟩ := simultaneous_coset_at_curve hG₂p
+      hG₂span hGp hP0 hQ0 hsplit hd₂ hc₂0 hmA hnA hcopA hbin₂
+    have hll : l₁ = l₂ := by
+      have h := hP₁.symm.trans hP₂
+      have hc := congrArg (fun r ↦ Polynomial.coeff r a.natAbs) h
+      simpa [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow] using hc
+    have hcc : c₁ = c₂ := by
+      have h := hQ₁.symm.trans hQ₂
+      have hc : l₁ * c₁ = l₂ * c₂ := by
+        have h1 := congrArg (fun r ↦ Polynomial.coeff r b.natAbs) h
+        simpa [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, mul_assoc]
+          using h1
+      rw [hll] at hc
+      exact mul_left_cancel₀ hl₂0 hc
+    obtain ⟨r, hr⟩ := monomial_isAdditive_expChar q hl₁0 (by
+      rw [← hP₁]; exact hPadd)
+    have hQform : Q = Polynomial.C (-(l₁ * c₁)) * Polynomial.X ^ b.natAbs := by
+      rw [hQ₁, map_neg]
+    obtain ⟨t, ht⟩ := monomial_isAdditive_expChar q
+      (neg_ne_zero.2 (mul_ne_zero hl₁0 hc₁0)) (by
+        rw [← hQform]; exact hQadd)
+    refine ⟨c₁, a.natAbs, b.natAbs, r, t, hc₁0, hr, ht, Or.inl ⟨hbin₁, ?_⟩⟩
+    rw [hcc]
+    exact hbin₂
+  · -- Second orientation: `y^n = c·x^m` at both curves.
+    have hbin₂ : S.y₂ ^ b.natAbs = algebraMap k Ω c₂ * S.x₂ ^ a.natAbs := by
+      rcases sign_cases_of_zpow_relation hx₂0 hy₂0 ha0 hb0 h₂ with
+        ⟨h, _, _⟩ | ⟨_, _, hb⟩ | ⟨h, _, _⟩ | ⟨_, h, _⟩
+      · exact absurd h (asymm han)
+      · exact hb
+      · exact absurd h (asymm han)
+      · exact absurd h (asymm hbp)
+    obtain ⟨hd₁0, l₁, hl₁0, hQ₁, hP₁⟩ := simultaneous_coset_at_curve' hG₁p
+      hG₁span hGp hP0 hQ0 hsplit hd₁ hc₁0 hmA hnA hcopA hbin₁
+    obtain ⟨hd₂0, l₂, hl₂0, hQ₂, hP₂⟩ := simultaneous_coset_at_curve' hG₂p
+      hG₂span hGp hP0 hQ0 hsplit hd₂ hc₂0 hmA hnA hcopA hbin₂
+    have hll : l₁ = l₂ := by
+      have h := hQ₁.symm.trans hQ₂
+      have hc := congrArg (fun r ↦ Polynomial.coeff r b.natAbs) h
+      simpa [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow] using hc
+    have hcc : c₁ = c₂ := by
+      have h := hP₁.symm.trans hP₂
+      have hc : l₁ * c₁ = l₂ * c₂ := by
+        have h1 := congrArg (fun r ↦ Polynomial.coeff r a.natAbs) h
+        simpa [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, mul_assoc]
+          using h1
+      rw [hll] at hc
+      exact mul_left_cancel₀ hl₂0 hc
+    obtain ⟨t, ht⟩ := monomial_isAdditive_expChar q hl₁0 (by
+      rw [← hQ₁]; exact hQadd)
+    have hPform : P = Polynomial.C (-(l₁ * c₁)) * Polynomial.X ^ a.natAbs := by
+      rw [hP₁, map_neg]
+    obtain ⟨r, hr⟩ := monomial_isAdditive_expChar q
+      (neg_ne_zero.2 (mul_ne_zero hl₁0 hc₁0)) (by
+        rw [← hPform]; exact hPadd)
+    refine ⟨c₁, a.natAbs, b.natAbs, r, t, hc₁0, hr, ht, Or.inr ⟨hbin₁, ?_⟩⟩
+    rw [hcc]
+    exact hbin₂
+  · -- Mixed signs are impossible.
+    exact absurd hval₁ (fun hv ↦ rule_out_mixed_at_curve hx₁r hy₁r hc₁0
+      hmA hnA hmix₁ hPne hP0 hQ0 hv)
+  · exact absurd hval₁ (fun hv ↦ rule_out_mixed_at_curve hx₁r hy₁r
+      (inv_ne_zero hc₁0) hmA hnA hmix₁ hPne hP0 hQ0 hv)
+
+end Master
+
 end
 
 end AclGeom
