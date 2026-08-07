@@ -1251,6 +1251,172 @@ theorem JointRel.translate_delta_self_eq [IsAlgClosed k]
   rw [← hqid, hdeg1] at hdeg2
   omega
 
+/-- **Additivity of the δ-curve generator** (blueprint Lemma 8.7(a), the
+division argument): the generator splits sums, as an identity of joint
+polynomials. The additivity defect is divisible by the generator in each
+variable block, the two block extensions are coprime primes, and the total
+degree bound leaves no room for the product. -/
+theorem JointRel.addSubst_delta_gen_eq [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F})
+    {G₂ : MvPolynomial (Fin 2) k} (hG₂0 : G₂ ≠ 0)
+    (hG₂span : idealOf k ![S.x₂, S.y₂] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    (hGspan : idealOf k (![S.x₂, S.y₂] - c₂') = Ideal.span {G}) :
+    addSubst (k := k) G = rename Sum.inl G + rename Sum.inr G := by
+  classical
+  -- Push the self-invariance to `Ω`.
+  have hself := hrel.translate_delta_self_eq hs halg hrel' hss' halg' hFp
+    hFspan hG₂0 hG₂span hGp hGspan
+  have hcoe : (fun j ↦ algebraMap ↥(deltaField S c₂') Ω
+      (deltaVec S c₂' j)) = ![S.x₂, S.y₂] - c₂' := by
+    funext j
+    fin_cases j <;> rfl
+  have hmapmap : MvPolynomial.map (algebraMap ↥(deltaField S c₂') Ω)
+      (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) =
+      MvPolynomial.map (algebraMap k Ω) G := by
+    rw [MvPolynomial.map_map, ← IsScalarTower.algebraMap_eq]
+  have hselfΩ : translate (![S.x₂, S.y₂] - c₂' : Fin 2 → Ω)
+      (MvPolynomial.map (algebraMap k Ω) G) =
+      MvPolynomial.map (algebraMap k Ω) G := by
+    have h := congrArg (MvPolynomial.map (algebraMap ↥(deltaField S c₂') Ω))
+      hself
+    rwa [map_translate, hmapmap, hcoe] at h
+  -- The additivity defect has vanishing first-block evaluation at δ.
+  have hδG : aeval (![S.x₂, S.y₂] - c₂') G = 0 := by
+    have hmem : G ∈ idealOf k (![S.x₂, S.y₂] - c₂') := by
+      rw [hGspan]
+      exact Ideal.subset_span rfl
+    exact (mem_idealOf_iff _).1 hmem
+  have hf : aevalFst (k := k) (![S.x₂, S.y₂] - c₂' : Fin 2 → Ω)
+      (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) = 0 := by
+    rw [map_sub, map_sub, aevalFst_addSubst, aevalFst_rename_inl,
+      aevalFst_rename_inr, hselfΩ, hδG, map_zero, sub_zero, sub_self]
+  -- Hence it is a multiple of the generator in the first block.
+  have hker : ∀ h : MvPolynomial (Fin 2) k,
+      aeval (![S.x₂, S.y₂] - c₂' : Fin 2 → Ω) h = 0 →
+      h ∈ Ideal.span {G} := by
+    intro h hh
+    rw [← hGspan]
+    exact (mem_idealOf_iff _).2 hh
+  have hmeml := mem_span_rename_inl_of_aevalFst_eq_zero hker hf
+  -- The defect is symmetric under the block swap …
+  have hswapAdd : rename Sum.swap (addSubst (k := k) G) =
+      addSubst (k := k) G := by
+    have hcomp : ((rename
+        (Sum.swap : Fin 2 ⊕ Fin 2 → Fin 2 ⊕ Fin 2)).toRingHom.comp
+        (addSubst (k := k)).toRingHom) = (addSubst (k := k)).toRingHom := by
+      refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun j ↦ ?_)
+      · simp [addSubst, MvPolynomial.algebraMap_eq]
+      · simp [addSubst, add_comm]
+    exact congrArg (fun (F : MvPolynomial (Fin 2) k →+* _) ↦ F G) hcomp
+  have hswapl : rename Sum.swap
+      (rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G) = rename Sum.inr G := by
+    rw [rename_rename]
+    congr 1
+  have hswapr : rename Sum.swap
+      (rename (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) G) = rename Sum.inl G := by
+    rw [rename_rename]
+    congr 1
+  have hswapD : rename Sum.swap
+      (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) =
+      addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G := by
+    rw [map_sub, map_sub, hswapAdd, hswapl, hswapr]
+    ring
+  -- … so it is a multiple in the second block as well.
+  have hmemr : (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) ∈
+      Ideal.span {rename (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) G} := by
+    rw [Ideal.mem_span_singleton'] at hmeml ⊢
+    obtain ⟨R, hR⟩ := hmeml
+    refine ⟨rename Sum.swap R, ?_⟩
+    have h := congrArg
+      (rename (Sum.swap : Fin 2 ⊕ Fin 2 → Fin 2 ⊕ Fin 2)) hR
+    rwa [map_mul, hswapl, hswapD] at h
+  -- The two block extensions are coprime primes.
+  have hpl := prime_rename_inl (k := k) hGp
+  have hpr := prime_rename_inr (k := k) hGp
+  have hndvd : ¬ rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G ∣
+      rename Sum.inr G := by
+    intro hdvd
+    obtain ⟨u, hu⟩ := hdvd
+    have h := congrArg
+      (aeval (Sum.elim (fun _ ↦ (0 : MvPolynomial (Fin 2) k)) X)) hu
+    rw [map_mul] at h
+    have h1 : aeval (Sum.elim (fun _ ↦ (0 : MvPolynomial (Fin 2) k)) X)
+        (rename (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) G) = G := by
+      rw [aeval_rename]
+      have hcompr : ((Sum.elim (fun _ ↦ (0 : MvPolynomial (Fin 2) k)) X :
+          Fin 2 ⊕ Fin 2 → MvPolynomial (Fin 2) k) ∘ Sum.inr) = X := by
+        funext j
+        rfl
+      rw [hcompr, aeval_X_left_apply]
+    have h2 : aeval (Sum.elim (fun _ ↦ (0 : MvPolynomial (Fin 2) k)) X)
+        (rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G) = 0 := by
+      rw [aeval_rename]
+      have hcompl : ((Sum.elim (fun _ ↦ (0 : MvPolynomial (Fin 2) k)) X :
+          Fin 2 ⊕ Fin 2 → MvPolynomial (Fin 2) k) ∘ Sum.inl) =
+          (0 : Fin 2 → MvPolynomial (Fin 2) k) := by
+        funext j
+        rfl
+      rw [hcompl, MvPolynomial.aeval_zero,
+        hrel.constantCoeff_delta_gen hs halg hG₂0 hG₂span hGspan, map_zero]
+    rw [h1, h2, zero_mul] at h
+    exact hGp.ne_zero h
+  -- Combine the divisibilities and compare degrees.
+  by_contra hne
+  have hDne : addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G
+      ≠ 0 := by
+    intro h0
+    rw [sub_sub, sub_eq_zero] at h0
+    exact hne h0
+  have hdvdl : rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G ∣
+      (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) :=
+    Ideal.mem_span_singleton.1 hmeml
+  have hdvdr : rename (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) G ∣
+      (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) :=
+    Ideal.mem_span_singleton.1 hmemr
+  obtain ⟨m, hm⟩ := hdvdr
+  have hpm : rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G ∣ m := by
+    rcases hpl.dvd_or_dvd (hm ▸ hdvdl) with h | h
+    · exact absurd h hndvd
+    · exact h
+  obtain ⟨t, ht⟩ := hpm
+  have hDfact : addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G =
+      rename Sum.inr G * rename Sum.inl G * t := by
+    rw [hm, ht, mul_assoc]
+  have ht0 : t ≠ 0 := by
+    intro h0
+    rw [h0, mul_zero] at hDfact
+    exact hDne hDfact
+  have hpos : 0 < G.totalDegree := by
+    rcases Nat.eq_zero_or_pos G.totalDegree with h0 | h
+    · exfalso
+      have hC := totalDegree_eq_zero_iff_eq_C.1 h0
+      have ha : G.coeff 0 ≠ 0 := fun h00 ↦
+        hGp.ne_zero (by rw [hC, h00, map_zero])
+      exact hGp.not_unit
+        (by rw [hC]; exact (isUnit_iff_ne_zero.2 ha).map C)
+    · exact h
+  have htotl : (rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G).totalDegree =
+      G.totalDegree := totalDegree_rename_of_injective Sum.inl_injective G
+  have htotr : (rename (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) G).totalDegree =
+      G.totalDegree := totalDegree_rename_of_injective Sum.inr_injective G
+  have hDdeg : (addSubst (k := k) G - rename Sum.inl G -
+      rename Sum.inr G).totalDegree ≤ G.totalDegree := by
+    refine le_trans (totalDegree_sub _ _) (max_le ?_ (le_of_eq htotr))
+    refine le_trans (totalDegree_sub _ _) (max_le ?_ (le_of_eq htotl))
+    exact totalDegree_addSubst_le G
+  have hmul1 := totalDegree_mul_of_isDomain
+    (mul_ne_zero hpr.ne_zero hpl.ne_zero) ht0
+  have hmul2 := totalDegree_mul_of_isDomain hpr.ne_zero hpl.ne_zero
+  rw [hDfact, hmul1, hmul2, htotl, htotr] at hDdeg
+  omega
+
 end TranslationIdentity
 
 end AddCorrSetup
