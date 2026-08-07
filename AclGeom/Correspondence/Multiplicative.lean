@@ -132,6 +132,35 @@ theorem mul_fst_ne : S.x₁ * S.x₂ ≠ 0 :=
 theorem mul_snd_ne : S.y₁ * S.y₂ ≠ 0 :=
   mul_ne_zero S.y₁_ne S.y₂_ne
 
+section Relocation
+
+open MvPolynomial
+
+/-- The relation-preservation property for the multiplicative chain:
+`c₂'` satisfies exactly the joint `k`-polynomial relations with `(x₁, y₁)`
+that `(x₂, y₂)` does. -/
+def JointRel (c₂' : Fin 2 → Ω) : Prop :=
+  ∀ f : MvPolynomial (Fin 2 ⊕ Fin 2) k,
+    aeval (Sum.elim ![S.x₁, S.y₁] c₂') f = 0 ↔
+      aeval (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂]) f = 0
+
+variable {S} {c₂' : Fin 2 → Ω}
+
+/-- A joint relocation has the same joint vanishing ideal. -/
+theorem JointRel.idealOf_eq (hrel : S.JointRel c₂') :
+    idealOf k (Sum.elim ![S.x₁, S.y₁] c₂') =
+      idealOf k (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂]) :=
+  idealOf_eq_of_aeval_iff k hrel
+
+/-- The product pair of a joint relocation is a generic point of the same
+product locus (the multiplicative step 2a, instantiated). -/
+theorem JointRel.mul_idealOf_eq (hrel : S.JointRel c₂') :
+    idealOf k (![S.x₁, S.y₁] * c₂') =
+      idealOf k (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) :=
+  idealOf_mul_eq_of_joint hrel
+
+end Relocation
+
 end MulCorrSetup
 
 end
