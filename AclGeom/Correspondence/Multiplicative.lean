@@ -894,6 +894,56 @@ theorem exists_coset_equations [IsAlgClosed k] [IsAlgClosed Ω] {s : Ω}
   exact ⟨a, b, c₁, c / c₁, ha0, hb0, hc₁0, div_ne_zero hc0 hc₁0,
     hc₁eq.symm, hν₂eq⟩
 
+/-- The multiplicative coset equations with **coprime** exponents:
+extracting the gcd only changes the constants, since the root of the
+monomial value is itself algebraic over the algebraically closed base. -/
+theorem exists_coset_equations_coprime [IsAlgClosed k] [IsAlgClosed Ω]
+    {s : Ω} (hs : s ∉ racl k {S.x₁, S.x₂}) :
+    ∃ (a b : ℤ) (c₁ c₂ : k), a ≠ 0 ∧ b ≠ 0 ∧ Int.gcd a b = 1 ∧
+      c₁ ≠ 0 ∧ c₂ ≠ 0 ∧
+      S.x₁ ^ a * S.y₁ ^ b = algebraMap k Ω c₁ ∧
+      S.x₂ ^ a * S.y₂ ^ b = algebraMap k Ω c₂ := by
+  classical
+  obtain ⟨a, b, c₁, c₂, ha, hb, hc₁, hc₂, h₁, h₂⟩ :=
+    S.exists_coset_equations hs
+  have hdpos : 0 < Int.gcd a b := by
+    rcases Nat.eq_zero_or_pos (Int.gcd a b) with h0 | h
+    · exact absurd (Int.gcd_eq_zero_iff.1 h0).1 ha
+    · exact h
+  obtain ⟨a', b', hcop, ha', hb'⟩ := Int.exists_gcd_one hdpos
+  have ha'0 : a' ≠ 0 := by
+    intro h0
+    rw [h0, zero_mul] at ha'
+    exact ha ha'
+  have hb'0 : b' ≠ 0 := by
+    intro h0
+    rw [h0, zero_mul] at hb'
+    exact hb hb'
+  -- The gcd-th root of the monomial value is algebraic, hence in `k`.
+  have hkey : ∀ (x y : Ω) (c : k), x ≠ 0 → y ≠ 0 →
+      x ^ a * y ^ b = algebraMap k Ω c →
+      ∃ c' : k, c' ≠ 0 ∧ x ^ a' * y ^ b' = algebraMap k Ω c' := by
+    intro x y c hx hy h
+    have hzd : (x ^ a' * y ^ b') ^ ((Int.gcd a b : ℤ)) =
+        algebraMap k Ω c := by
+      rw [mul_zpow, ← zpow_mul, ← zpow_mul, ← ha', ← hb']
+      exact h
+    have hzne : x ^ a' * y ^ b' ≠ 0 :=
+      mul_ne_zero (zpow_ne_zero _ hx) (zpow_ne_zero _ hy)
+    have hzmem : (x ^ a' * y ^ b') ^ ((Int.gcd a b : ℤ)) ∈
+        racl k (∅ : Set Ω) := by
+      rw [hzd]
+      exact IntermediateField.algebraMap_mem _ _
+    have hz : x ^ a' * y ^ b' ∈ racl k (∅ : Set Ω) := by
+      refine mem_racl_empty_of_zpow ?_ hzmem
+      exact_mod_cast hdpos.ne'
+    obtain ⟨c', hc'⟩ := mem_range_algebraMap_of_isAlgebraic
+      (isAlgebraic_of_mem_racl_empty hz)
+    refine ⟨c', fun h0 ↦ hzne ?_, hc'.symm⟩
+    rw [← hc', h0, map_zero]
+  obtain ⟨c₁', hc₁'0, h₁'⟩ := hkey S.x₁ S.y₁ c₁ S.x₁_ne S.y₁_ne h₁
+  obtain ⟨c₂', hc₂'0, h₂'⟩ := hkey S.x₂ S.y₂ c₂ S.x₂_ne S.y₂_ne h₂
+  exact ⟨a', b', c₁', c₂', ha'0, hb'0, hcop, hc₁'0, hc₂'0, h₁', h₂'⟩
 
 end Endgame
 
