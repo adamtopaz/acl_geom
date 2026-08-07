@@ -115,6 +115,150 @@ theorem sign_cases_of_zpow_relation {x y : Ω} (hx : x ≠ 0) (hy : y ≠ 0)
 
 end SignCases
 
+section PerCurve
+
+/-- If a prime binomial and another polynomial both lie in a prime
+principal ideal, the binomial divides the polynomial. -/
+theorem dvd_of_both_mem_span {R : Type*} [CommRing R] [IsDomain R]
+    {g b a : R} (hg : Prime g) (hb : Prime b)
+    (hbmem : b ∈ Ideal.span {g}) (hamem : a ∈ Ideal.span {g}) :
+    b ∣ a := by
+  have h1 : g ∣ b := Ideal.mem_span_singleton.1 hbmem
+  have h2 : g ∣ a := Ideal.mem_span_singleton.1 hamem
+  exact (hg.associated_of_dvd hb h1).symm.dvd.trans h2
+
+/-- **Simultaneous cosets at one curve, first orientation**: a curve
+carrying both the additive coset equation of the axes-supported prime
+δ-generator and a multiplicative binomial equation `x^m = c·y^n` forces
+the coset constant to vanish and the two one-variable parts to be exact
+monomials. -/
+theorem simultaneous_coset_at_curve [IsAlgClosed k]
+    {x y : Ω} {G₂ : MvPolynomial (Fin 2) k} (hG₂p : Prime G₂)
+    (hG₂span : idealOf k ![x, y] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    {P Q : Polynomial k} (hP0 : P.coeff 0 = 0) (hQ0 : Q.coeff 0 = 0)
+    (hsplit : G = Polynomial.aeval (X 0) P + Polynomial.aeval (X 1) Q)
+    {d : k} (hval : aeval ![x, y] G = algebraMap k Ω d)
+    {c : k} (hc : c ≠ 0) {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
+    (hcop : Nat.gcd m n = 1)
+    (hbin : x ^ m = algebraMap k Ω c * y ^ n) :
+    d = 0 ∧ ∃ l : k, l ≠ 0 ∧ P = Polynomial.C l * Polynomial.X ^ m ∧
+      Q = -(Polynomial.C (l * c)) * Polynomial.X ^ n := by
+  have hBmem : ((X 0 : MvPolynomial (Fin 2) k) ^ m - C c * X 1 ^ n) ∈
+      Ideal.span {G₂} := by
+    rw [← hG₂span]
+    exact binomial_mem_idealOf hbin
+  have hAmem : (G - C d) ∈ Ideal.span {G₂} := by
+    rw [← hG₂span]
+    exact shifted_gen_mem_idealOf hval
+  have hdvd := dvd_of_both_mem_span hG₂p (mvBinomial_prime hc hm hn hcop)
+    hBmem hAmem
+  exact eq_smul_binomial_of_dvd_shift hGp hP0 hQ0 hsplit hc hm hn hcop hdvd
+
+/-- Swapping the coordinates exchanges the two one-variable parts of an
+axes-supported polynomial. -/
+theorem rename_swap_split {P Q : Polynomial k}
+    {G : MvPolynomial (Fin 2) k}
+    (hsplit : G = Polynomial.aeval (X 0) P + Polynomial.aeval (X 1) Q) :
+    rename (Equiv.swap (0 : Fin 2) 1) G =
+      Polynomial.aeval (X 0) Q + Polynomial.aeval (X 1) P := by
+  have h0 : (rename (Equiv.swap (0 : Fin 2) 1)).comp
+      (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) k)) =
+      Polynomial.aeval (X 1) := by
+    refine Polynomial.algHom_ext ?_
+    rw [AlgHom.comp_apply, Polynomial.aeval_X, Polynomial.aeval_X, rename_X]
+    norm_num
+  have h1 : (rename (Equiv.swap (0 : Fin 2) 1)).comp
+      (Polynomial.aeval (X 1 : MvPolynomial (Fin 2) k)) =
+      Polynomial.aeval (X 0) := by
+    refine Polynomial.algHom_ext ?_
+    rw [AlgHom.comp_apply, Polynomial.aeval_X, Polynomial.aeval_X, rename_X]
+    norm_num
+  rw [hsplit, map_add]
+  rw [← AlgHom.comp_apply, ← AlgHom.comp_apply, h0, h1]
+  ring
+
+/-- The vanishing ideal of the swapped pair is spanned by the renamed
+generator. -/
+theorem idealOf_swap_pair {x y : Ω} {G₂ : MvPolynomial (Fin 2) k}
+    (hG₂span : idealOf k ![x, y] = Ideal.span {G₂}) :
+    idealOf k ![y, x] =
+      Ideal.span {rename (Equiv.swap (0 : Fin 2) 1) G₂} := by
+  ext f
+  rw [mem_idealOf_iff]
+  have htuple : ((![x, y] : Fin 2 → Ω) ∘ ⇑(Equiv.swap (0 : Fin 2) 1)) =
+      ![y, x] := by
+    funext j
+    fin_cases j <;> simp
+  have hswap : aeval ![y, x] f =
+      aeval ![x, y] (rename (Equiv.swap (0 : Fin 2) 1) f) := by
+    rw [aeval_rename, htuple]
+  rw [hswap, ← mem_idealOf_iff, hG₂span, Ideal.mem_span_singleton,
+    Ideal.mem_span_singleton]
+  have hswapswap : ∀ g : MvPolynomial (Fin 2) k,
+      rename (Equiv.swap (0 : Fin 2) 1)
+        (rename (Equiv.swap (0 : Fin 2) 1) g) = g := by
+    intro g
+    rw [rename_rename]
+    have hcomp : (⇑(Equiv.swap (0 : Fin 2) 1) ∘
+        ⇑(Equiv.swap (0 : Fin 2) 1)) = id := by
+      funext i
+      simp
+    rw [hcomp, rename_id]
+    rfl
+  constructor
+  · intro hdvd
+    obtain ⟨t, ht⟩ := hdvd
+    refine ⟨rename (Equiv.swap (0 : Fin 2) 1) t, ?_⟩
+    have h := congrArg (rename (Equiv.swap (0 : Fin 2) 1)) ht
+    rw [hswapswap, map_mul] at h
+    exact h
+  · intro hdvd
+    obtain ⟨t, ht⟩ := hdvd
+    refine ⟨rename (Equiv.swap (0 : Fin 2) 1) t, ?_⟩
+    have h := congrArg (rename (Equiv.swap (0 : Fin 2) 1)) ht
+    rw [map_mul, hswapswap] at h
+    exact h
+
+/-- **Simultaneous cosets at one curve, second orientation**: the binomial
+equation `y^n = c·x^m` forces the same conclusions with the roles of the
+two one-variable parts exchanged. -/
+theorem simultaneous_coset_at_curve' [IsAlgClosed k]
+    {x y : Ω} {G₂ : MvPolynomial (Fin 2) k} (hG₂p : Prime G₂)
+    (hG₂span : idealOf k ![x, y] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    {P Q : Polynomial k} (hP0 : P.coeff 0 = 0) (hQ0 : Q.coeff 0 = 0)
+    (hsplit : G = Polynomial.aeval (X 0) P + Polynomial.aeval (X 1) Q)
+    {d : k} (hval : aeval ![x, y] G = algebraMap k Ω d)
+    {c : k} (hc : c ≠ 0) {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
+    (hcop : Nat.gcd m n = 1)
+    (hbin : y ^ n = algebraMap k Ω c * x ^ m) :
+    d = 0 ∧ ∃ l : k, l ≠ 0 ∧ Q = Polynomial.C l * Polynomial.X ^ n ∧
+      P = -(Polynomial.C (l * c)) * Polynomial.X ^ m := by
+  have hG₂p' : Prime (rename (Equiv.swap (0 : Fin 2) 1) G₂) := by
+    have h := (MulEquiv.prime_iff
+      (renameEquiv k (Equiv.swap (0 : Fin 2) 1))).2 hG₂p
+    simpa [renameEquiv] using h
+  have hGp' : Prime (rename (Equiv.swap (0 : Fin 2) 1) G) := by
+    have h := (MulEquiv.prime_iff
+      (renameEquiv k (Equiv.swap (0 : Fin 2) 1))).2 hGp
+    simpa [renameEquiv] using h
+  have hspan' := idealOf_swap_pair hG₂span
+  have hsplit' := rename_swap_split hsplit
+  have hval' : aeval ![y, x] (rename (Equiv.swap (0 : Fin 2) 1) G) =
+      algebraMap k Ω d := by
+    rw [aeval_rename]
+    have ht : ((![y, x] : Fin 2 → Ω) ∘ ⇑(Equiv.swap (0 : Fin 2) 1)) =
+        ![x, y] := by
+      funext j
+      fin_cases j <;> simp
+    rw [ht]
+    exact hval
+  exact simultaneous_coset_at_curve hG₂p' hspan' hGp' hQ0 hP0 hsplit' hval'
+    hc hn hm ((Nat.gcd_comm n m).trans hcop) hbin
+
+end PerCurve
+
 end
 
 end AclGeom
