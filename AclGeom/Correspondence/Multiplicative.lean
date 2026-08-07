@@ -250,6 +250,105 @@ theorem JointRel.snd_ne (hrel : S.JointRel c₂') : c₂' 1 ≠ 0 := by
   simp at h
   exact S.y₂_ne h
 
+variable (S) in
+/-- `x₂` is not algebraic over the base, in `racl` form. -/
+theorem x₂_notMem_base : S.x₂ ∉ racl k {S.x₁, S.y₁} := fun hmem ↦
+  S.transcendental_x₂ ((mem_racl_iff k).1 hmem)
+
+/-- The relocated first coordinate stays generic over the base. -/
+theorem JointRel.fst_notMem_base (hrel : S.JointRel c₂') :
+    c₂' 0 ∉ racl k {S.x₁, S.y₁} := by
+  have hv : Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] (Sum.inr 0) ∉ racl k
+      (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] '' {Sum.inl 0, Sum.inl 1}) := by
+    simpa [Set.image_insert_eq, Set.image_singleton] using S.x₂_notMem_base
+  have h := notMem_racl_image_of_idealOf_eq k hrel.idealOf_eq.symm hv
+  simpa [Set.image_insert_eq, Set.image_singleton] using h
+
+variable {s : Ω}
+
+variable (S) in
+/-- Convert the algebraicity output of `exists_pair_relocation` to closure
+form over `k`. -/
+theorem racl_pair_of_relocation {z : Ω}
+    (halg : IsAlgebraic ↥(adjoin ↥S.base ({s} : Set Ω)) z) :
+    z ∈ racl k {S.x₁, s} := by
+  have h1 : z ∈ racl k (insert s {S.x₁, S.y₁}) := mem_racl_insert_iff.2 halg
+  have hy₁ : S.y₁ ∈ racl k {S.x₁, s} :=
+    racl_mono (Set.singleton_subset_iff.2 (Set.mem_insert _ _)) S.y₁_mem
+  have hins : (insert s {S.x₁, S.y₁} : Set Ω) = insert S.y₁ {S.x₁, s} := by
+    rw [Set.insert_comm s S.x₁, Set.pair_comm s S.y₁, Set.insert_comm S.x₁ S.y₁]
+  rw [hins, racl_insert_of_mem hy₁] at h1
+  exact h1
+
+variable (S) in
+/-- The independent fresh element keeps `x₂` transcendental over
+`k(x₁, s)`. -/
+theorem x₂_notMem_fresh (hs : s ∉ racl k {S.x₁, S.x₂}) :
+    S.x₂ ∉ racl k {S.x₁, s} := by
+  intro hmem
+  have hexch : s ∈ racl k (insert S.x₂ {S.x₁}) := by
+    refine racl_exchange ?_ S.x₂_notMem
+    rwa [Set.pair_comm S.x₁ s] at hmem
+  refine hs ?_
+  rwa [Set.pair_comm S.x₂ S.x₁] at hexch
+
+/-- With `s` independent from `{x₁, x₂}`, the relocated first coordinate
+stays outside `racl k {x₁, x₂}`. -/
+theorem JointRel.fst_notMem_pair (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    c₂' 0 ∉ racl k {S.x₁, S.x₂} := by
+  intro hmem
+  have h0 : c₂' 0 ∉ racl k {S.x₁} := fun h ↦ hrel.fst_notMem_base
+    (racl_mono (Set.singleton_subset_iff.2 (Set.mem_insert _ _)) h)
+  have hexch : s ∈ racl k (insert (c₂' 0) {S.x₁}) := by
+    refine racl_exchange ?_ h0
+    rwa [Set.pair_comm S.x₁ s] at halg
+  have hsub : (insert (c₂' 0) {S.x₁} : Set Ω) ⊆ racl k {S.x₁, S.x₂} := by
+    rintro z (rfl | rfl)
+    · exact hmem
+    · exact subset_racl k _ (Set.mem_insert _ _)
+  exact hs (racl_le_of_subset_racl hsub hexch)
+
+/-- Triple independence, permuted. -/
+theorem JointRel.x₁_notMem_pair (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    S.x₁ ∉ racl k {S.x₂, c₂' 0} := by
+  intro hmem
+  have hexch : c₂' 0 ∈ racl k (insert S.x₁ {S.x₂}) := by
+    refine racl_exchange ?_ S.x₁_notMem
+    rwa [Set.pair_comm S.x₂ (c₂' 0)] at hmem
+  exact hrel.fst_notMem_pair hs halg hexch
+
+/-- The ρ-side genericity count: the relocated product coordinate is not
+algebraic over the ratio element `ρ = c₂ / c₂'`. -/
+theorem JointRel.mul_fst_notMem_rho (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    S.x₁ * c₂' 0 ∉ racl k {S.x₂ / c₂' 0, S.y₂ / c₂' 1} := by
+  intro hmem
+  have hx₂'mem : c₂' 0 ∈ racl k {S.x₂, c₂' 0} :=
+    subset_racl k _ (Set.mem_insert_iff.2 (Or.inr rfl))
+  have hy₂'mem : c₂' 1 ∈ racl k {S.x₂, c₂' 0} := by
+    refine racl_le_of_subset_racl ?_ hrel.snd_mem
+    rintro z rfl
+    exact hx₂'mem
+  have hy₂mem : S.y₂ ∈ racl k {S.x₂, c₂' 0} := by
+    refine racl_le_of_subset_racl ?_ S.y₂_mem
+    rintro z rfl
+    exact subset_racl k _ (Set.mem_insert _ _)
+  have hρsub : ({S.x₂ / c₂' 0, S.y₂ / c₂' 1} : Set Ω) ⊆
+      racl k {S.x₂, c₂' 0} := by
+    rintro z (rfl | rfl)
+    · exact div_mem (subset_racl k _ (Set.mem_insert _ _)) hx₂'mem
+    · exact div_mem hy₂mem hy₂'mem
+  have hmul : S.x₁ * c₂' 0 ∈ racl k {S.x₂, c₂' 0} :=
+    racl_le_of_subset_racl hρsub hmem
+  have hx₁ : S.x₁ ∈ racl k {S.x₂, c₂' 0} := by
+    have hdiv := div_mem hmul hx₂'mem
+    have hcancel : S.x₁ * c₂' 0 / c₂' 0 = S.x₁ := by
+      rw [mul_div_assoc, div_self hrel.fst_ne, mul_one]
+    rwa [hcancel] at hdiv
+  exact hrel.x₁_notMem_pair hs halg hx₁
+
 end Relocation
 
 end MulCorrSetup
