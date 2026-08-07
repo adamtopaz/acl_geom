@@ -236,6 +236,38 @@ theorem mem_sSup_iff_mem_racl {s : Set (ClosedIF k K)} {x : K} :
       x ∈ racl k ((sSup (Subtype.val '' s) : IntermediateField k K) : Set K) :=
   Iff.rfl
 
+/-- The binary supremum is the relative algebraic closure of the union. -/
+theorem coe_sup (E F : ClosedIF k K) :
+    ((E ⊔ F).1 : IntermediateField k K) = racl k ((E : Set K) ∪ F) := by
+  refine le_antisymm ?_ ?_
+  · have h : E ⊔ F ≤ ⟨racl k ((E : Set K) ∪ F), isRAC_racl _⟩ := by
+      refine sup_le ?_ ?_ <;> rw [le_iff]
+      · calc E.1 ≤ racl k (E : Set K) := fun x hx ↦ subset_racl k _ hx
+          _ ≤ racl k ((E : Set K) ∪ F) := racl_mono Set.subset_union_left
+      · calc F.1 ≤ racl k (F : Set K) := fun x hx ↦ subset_racl k _ hx
+          _ ≤ racl k ((E : Set K) ∪ F) := racl_mono Set.subset_union_right
+    exact le_iff.1 h
+  · have hsub : (E : Set K) ∪ F ⊆ ((E ⊔ F).1 : Set K) :=
+      Set.union_subset (le_iff.1 le_sup_left) (le_iff.1 le_sup_right)
+    calc racl k ((E : Set K) ∪ F) ≤ racl k ((E ⊔ F).1 : Set K) :=
+          racl_mono hsub
+      _ = (E ⊔ F).1 := isRAC_iff_racl_eq.1 (E ⊔ F).2
+
+/-- Membership in a binary supremum, via the closure of the union. -/
+theorem mem_sup_iff {E F : ClosedIF k K} {x : K} :
+    x ∈ E ⊔ F ↔ x ∈ racl k ((E : Set K) ∪ F) := by
+  change x ∈ ((E ⊔ F).1 : IntermediateField k K) ↔ _
+  rw [coe_sup]
+
+/-- The set-level form of `coe_sup`, for rewriting inside `racl`
+arguments. -/
+theorem coe_set_sup (E F : ClosedIF k K) :
+    ((E ⊔ F : ClosedIF k K) : Set K) =
+      (racl k ((E : Set K) ∪ F) : Set K) := by
+  have h := coe_sup E F
+  calc ((E ⊔ F : ClosedIF k K) : Set K) = ((E ⊔ F).1 : Set K) := rfl
+    _ = (racl k ((E : Set K) ∪ F) : Set K) := by rw [h]
+
 end ClosedIF
 
 end

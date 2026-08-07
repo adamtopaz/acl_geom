@@ -114,6 +114,116 @@ theorem RankLE.mono {m n : ℕ} (hmn : m ≤ n) {E : ClosedIF k K}
   refine le_iSup_of_le (Fin.castLE hmn i) ?_
   simp [i.isLt]
 
+section RankBridge
+
+/-! ### The rank bridge
+
+Joins of principal closures at explicit generators, and the transfer of
+algebraic independence of the generators to geometric rank. These are the
+working lemmas of the configuration layer: every rank clause of a
+configuration witness is verified by exhibiting generators and computing
+with `racl`. -/
+
+/-- The join of a family of principal closures is the relative algebraic
+closure of the set of generators. -/
+theorem coe_iSup_point {ι : Type*} (v : ι → K) :
+    ((⨆ i, ClosedIF.point k (v i)).1 : IntermediateField k K) =
+      racl k (Set.range v) := by
+  have h1 : (⨆ i, ClosedIF.point k (v i)) =
+      sSup ((fun x ↦ ClosedIF.point k x) '' Set.range v) := by
+    rw [iSup]
+    congr 1
+    ext P
+    constructor
+    · rintro ⟨i, rfl⟩
+      exact ⟨v i, ⟨i, rfl⟩, rfl⟩
+    · rintro ⟨x, ⟨i, rfl⟩, rfl⟩
+      exact ⟨i, rfl⟩
+  rw [h1, sSup_point_image]
+
+/-- Membership in a join of principal closures is relative algebraicity
+over the generators. -/
+theorem mem_iSup_point_iff {ι : Type*} {v : ι → K} {z : K} :
+    z ∈ (⨆ i, ClosedIF.point k (v i)) ↔ z ∈ racl k (Set.range v) := by
+  change z ∈ ((⨆ i, ClosedIF.point k (v i)).1 : IntermediateField k K) ↔ _
+  rw [coe_iSup_point]
+
+/-- Joins of principal closures agree whenever the generator sets have the
+same relative algebraic closure — the absorption workhorse for rank
+computations at dependent generators. -/
+theorem iSup_point_congr {ι κ : Type*} {v : ι → K} {w : κ → K}
+    (h : racl k (Set.range v) = racl k (Set.range w)) :
+    (⨆ i, ClosedIF.point k (v i)) = ⨆ j, ClosedIF.point k (w j) :=
+  Subtype.ext (by rw [coe_iSup_point, coe_iSup_point, h])
+
+/-- An algebraically independent family of generators yields an independent
+family of points. -/
+theorem pointIndep_point {n : ℕ} {v : Fin n → K}
+    (hv : AlgebraicIndependent k v) (h0 : ∀ i, v i ∉ (⊥ : ClosedIF k K)) :
+    PointIndep k K fun i ↦ Point.mk' k (v i) (h0 i) := by
+  intro i hi
+  rw [mem_pointCl_iff] at hi
+  have hmem : v i ∈ sSup (Subtype.val ''
+      ((fun j ↦ (Point.mk' k (v j) (h0 j) : Point k K)) '' {j | j ≠ i})) :=
+    ClosedIF.point_le_iff.1 hi
+  have himg : Subtype.val ''
+      ((fun j ↦ (Point.mk' k (v j) (h0 j) : Point k K)) '' {j | j ≠ i}) =
+      (fun x ↦ ClosedIF.point k x) '' (v '' {j | j ≠ i}) := by
+    rw [Set.image_image, Set.image_image]
+    rfl
+  rw [himg] at hmem
+  have hmem' : v i ∈ racl k (v '' {j | j ≠ i}) := by
+    change v i ∈ (sSup ((fun x ↦ ClosedIF.point k x) ''
+      (v '' {j | j ≠ i}))).1 at hmem
+    rwa [sSup_point_image] at hmem
+  have hne := algebraicIndependent_iff_forall_notMem_racl.1 hv i
+  have hcompl : ({i}ᶜ : Set (Fin n)) = {j | j ≠ i} := by
+    ext j
+    simp
+  rw [hcompl] at hne
+  exact hne hmem'
+
+/-- The join of principal closures at an algebraically independent
+`n`-tuple of generators has rank exactly `n` — the bridge from field
+theory to geometric rank. -/
+theorem rankEq_iSup_point {n : ℕ} {v : Fin n → K}
+    (hv : AlgebraicIndependent k v) :
+    RankEq n (⨆ i, ClosedIF.point k (v i)) := by
+  have h0 : ∀ i, v i ∉ (⊥ : ClosedIF k K) := fun i hi ↦
+    hv.transcendental i (ClosedIF.mem_bot_iff.1 hi)
+  exact ⟨fun i ↦ Point.mk' k (v i) (h0 i), pointIndep_point hv h0, rfl⟩
+
+/-- Rank transfers along equalities of closed elements. -/
+theorem RankEq.congr {n : ℕ} {E F : ClosedIF k K} (h : E = F)
+    (hE : RankEq n E) : RankEq n F :=
+  h ▸ hE
+
+/-- The working form of the rank bridge: a closed element whose underlying
+field is the closure of an independent `n`-tuple of generators has rank
+exactly `n`. Rank clauses of configuration witnesses are verified by
+computing the left-hand side with `coe_sup`/`coe_set_sup`/`coe_set_point`
+and the `racl_union` absorptions. -/
+theorem rankEq_of_coe_eq_racl {n : ℕ} {E : ClosedIF k K} {v : Fin n → K}
+    (hv : AlgebraicIndependent k v)
+    (h : (E.1 : IntermediateField k K) = racl k (Set.range v)) :
+    RankEq n E := by
+  have hE : E = ⨆ i, ClosedIF.point k (v i) :=
+    Subtype.ext (h.trans (coe_iSup_point v).symm)
+  exact (rankEq_iSup_point hv).congr hE.symm
+
+/-- Binary suprema as indexed suprema over `Fin 2`, for feeding pair joins
+to the rank bridge. -/
+theorem sup_eq_iSup_two {α : Type*} [CompleteLattice α] (a b : α) :
+    a ⊔ b = ⨆ i, (![a, b] : Fin 2 → α) i := by
+  refine le_antisymm (sup_le ?_ ?_) (iSup_le fun i ↦ ?_)
+  · exact le_iSup_of_le 0 (by simp)
+  · exact le_iSup_of_le 1 (by simp)
+  · fin_cases i
+    · exact le_sup_left
+    · exact le_sup_right
+
+end RankBridge
+
 end
 
 end AclGeom

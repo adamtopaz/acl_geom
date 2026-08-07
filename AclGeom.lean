@@ -42,3 +42,4 @@ import AclGeom.Functorial.FrobeniusQuotient
 import AclGeom.Main
 import AclGeom.MathlibAudit
 import AclGeom.Test.RationalFunctionField
+import AclGeom.Test.ConfigRank

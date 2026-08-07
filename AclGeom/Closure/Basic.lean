@@ -526,6 +526,32 @@ theorem racl_neg (z : K) :
       neg_mem (subset_racl k _ rfl)
     rwa [neg_neg] at hmem
 
+/-- Mutual containment of generating sets in each other's closures gives
+equality of closures. -/
+theorem racl_congr_of_subset_racl {S T : Set K} (hST : S ⊆ racl k T)
+    (hTS : T ⊆ racl k S) : racl k S = racl k T :=
+  le_antisymm (racl_le_of_subset_racl hST) (racl_le_of_subset_racl hTS)
+
+/-- Closing part of a generating set first does not change the closure. -/
+theorem racl_union_left (S T : Set K) :
+    racl k ((racl k S : Set K) ∪ T) = racl k (S ∪ T) := by
+  refine le_antisymm ?_ ?_
+  · have h1 : (racl k S : Set K) ∪ T ⊆ (racl k (S ∪ T) : Set K) := by
+      refine Set.union_subset ?_ ?_
+      · exact SetLike.coe_subset_coe.2 (racl_mono Set.subset_union_left)
+      · exact fun z hz ↦ subset_racl k _ (Set.mem_union_right _ hz)
+    calc racl k ((racl k S : Set K) ∪ T)
+        ≤ racl k (racl k (S ∪ T) : Set K) := racl_mono h1
+      _ = racl k (S ∪ T) := racl_racl _ _
+  · refine racl_mono (Set.union_subset_union_left T ?_)
+    exact subset_racl k S
+
+/-- Closing part of a generating set first does not change the closure. -/
+theorem racl_union_right (S T : Set K) :
+    racl k (S ∪ (racl k T : Set K)) = racl k (S ∪ T) := by
+  rw [Set.union_comm S, Set.union_comm S]
+  exact racl_union_left T S
+
 /-- Pairwise closure exclusion gives algebraic independence. -/
 theorem algebraicIndependent_pair {z₁ z₂ : K} (h₁ : z₁ ∉ racl k {z₂})
     (h₂ : z₂ ∉ racl k {z₁}) : AlgebraicIndependent k ![z₁, z₂] := by

@@ -59,6 +59,10 @@ instance : IsConcreteLE (ClosedIF k K) K where
 theorem mem_point_self (x : K) : x ∈ point k x :=
   subset_racl k {x} rfl
 
+/-- The set underlying a principal closure. -/
+theorem coe_set_point (x : K) :
+    ((point k x : ClosedIF k K) : Set K) = (racl k {x} : Set K) := rfl
+
 /-- The universal property of the principal closure: `point k x ≤ E` iff
 `x ∈ E`. -/
 theorem point_le_iff {x : K} {E : ClosedIF k K} : point k x ≤ E ↔ x ∈ E := by
