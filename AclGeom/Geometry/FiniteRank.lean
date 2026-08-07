@@ -222,6 +222,40 @@ theorem sup_eq_iSup_two {α : Type*} [CompleteLattice α] (a b : α) :
     · exact le_sup_left
     · exact le_sup_right
 
+/-- The underlying field of a join of two principal closures. -/
+theorem coe_sup_point₂ (z₁ z₂ : K) :
+    ((ClosedIF.point k z₁ ⊔ ClosedIF.point k z₂).1 :
+      IntermediateField k K) = racl k {z₁, z₂} := by
+  refine ClosedIF.coe_eq_racl_of_le ?_ ?_
+  · have h1 : z₁ ∈ racl k ({z₁, z₂} : Set K) :=
+      subset_racl k _ (by simp)
+    have h2 : z₂ ∈ racl k ({z₁, z₂} : Set K) :=
+      subset_racl k _ (by simp)
+    exact sup_le (ClosedIF.point_le_iff.2 h1) (ClosedIF.point_le_iff.2 h2)
+  · rintro z (rfl | rfl)
+    · exact (ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self z)
+    · exact (ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self z)
+
+/-- The underlying field of a join of three principal closures. -/
+theorem coe_sup_point₃ (z₁ z₂ z₃ : K) :
+    ((ClosedIF.point k z₁ ⊔ (ClosedIF.point k z₂ ⊔ ClosedIF.point k z₃)).1 :
+      IntermediateField k K) = racl k {z₁, z₂, z₃} := by
+  refine ClosedIF.coe_eq_racl_of_le ?_ ?_
+  · have h1 : z₁ ∈ racl k ({z₁, z₂, z₃} : Set K) :=
+      subset_racl k _ (by simp)
+    have h2 : z₂ ∈ racl k ({z₁, z₂, z₃} : Set K) :=
+      subset_racl k _ (by simp)
+    have h3 : z₃ ∈ racl k ({z₁, z₂, z₃} : Set K) :=
+      subset_racl k _ (by simp)
+    exact sup_le (ClosedIF.point_le_iff.2 h1)
+      (sup_le (ClosedIF.point_le_iff.2 h2) (ClosedIF.point_le_iff.2 h3))
+  · rintro z (rfl | rfl | rfl)
+    · exact (ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self z)
+    · exact (ClosedIF.le_iff.1 (le_sup_left.trans le_sup_right))
+        (ClosedIF.mem_point_self z)
+    · exact (ClosedIF.le_iff.1 (le_sup_right.trans le_sup_right))
+        (ClosedIF.mem_point_self z)
+
 end RankBridge
 
 end
