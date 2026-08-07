@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import Mathlib.FieldTheory.IsAlgClosed.Basic
 import Mathlib.Algebra.Polynomial.Expand
+import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
 import Mathlib.RingTheory.Ideal.Maps
 
 /-!
@@ -376,6 +377,168 @@ theorem mvBinomial_prime [IsAlgClosed K] {c : K} (hc : c ≠ 0) {m n : ℕ}
     exact hassoc.prime (cosetBinomial_prime (inv_ne_zero hc) hn hm
       ((Nat.gcd_comm n m).trans hcop))
   exact (MulEquiv.prime_iff (nestEquiv K)).1 hprime
+
+/-- The bivariate parametrization: `X 0 ↦ α·T^n`, `X 1 ↦ T^m`. -/
+def mvParam (α : K) (n m : ℕ) : MvPolynomial (Fin 2) K →ₐ[K] Polynomial K :=
+  MvPolynomial.aeval ![Polynomial.C α * Polynomial.X ^ n, Polynomial.X ^ m]
+
+theorem mvParam_binomial {α c : K} {m n : ℕ} (hroot : α ^ m = c) :
+    mvParam α n m ((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+      MvPolynomial.C c * MvPolynomial.X 1 ^ n) = 0 := by
+  rw [mvParam, map_sub, map_mul, map_pow, map_pow, MvPolynomial.aeval_X,
+    MvPolynomial.aeval_X, MvPolynomial.aeval_C]
+  have h0 : (![Polynomial.C α * Polynomial.X ^ n, Polynomial.X ^ m] :
+      Fin 2 → Polynomial K) 0 = Polynomial.C α * Polynomial.X ^ n := rfl
+  have h1 : (![Polynomial.C α * Polynomial.X ^ n, Polynomial.X ^ m] :
+      Fin 2 → Polynomial K) 1 = Polynomial.X ^ m := rfl
+  rw [h0, h1, mul_pow, ← Polynomial.C_pow, hroot, ← pow_mul, ← pow_mul,
+    mul_comm n m]
+  have halg : (algebraMap K (Polynomial K)) c = Polynomial.C c := rfl
+  rw [halg, sub_self]
+
+/-- **The simultaneous-coset core classification**: an axes-supported prime
+whose constant shift is divisible by a primitive binomial *is* a scalar
+multiple of that binomial — the shift vanishes and the two one-variable
+parts are monomials. -/
+theorem eq_smul_binomial_of_dvd_shift [IsAlgClosed K]
+    {G : MvPolynomial (Fin 2) K} (hGp : Prime G)
+    {P Q : Polynomial K} (hP0 : P.coeff 0 = 0) (hQ0 : Q.coeff 0 = 0)
+    (hsplit : G = Polynomial.aeval (MvPolynomial.X 0) P +
+      Polynomial.aeval (MvPolynomial.X 1) Q)
+    {c d : K} (hc : c ≠ 0) {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
+    (hcop : Nat.gcd m n = 1)
+    (hdvd : ((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+      MvPolynomial.C c * MvPolynomial.X 1 ^ n) ∣ (G - MvPolynomial.C d)) :
+    d = 0 ∧ ∃ l : K, l ≠ 0 ∧
+      P = Polynomial.C l * Polynomial.X ^ m ∧
+      Q = -(Polynomial.C (l * c)) * Polynomial.X ^ n := by
+  classical
+  obtain ⟨α, hα⟩ := IsAlgClosed.exists_pow_nat_eq c (Nat.pos_of_ne_zero hm)
+  -- Composition computations for the parametrization.
+  have hcomp0 : ∀ p : Polynomial K,
+      mvParam α n m (Polynomial.aeval (MvPolynomial.X 0) p) =
+        Polynomial.aeval (Polynomial.C α * Polynomial.X ^ n) p := by
+    intro p
+    rw [← Polynomial.aeval_algHom_apply, mvParam, MvPolynomial.aeval_X]
+    rfl
+  have hcomp1 : ∀ p : Polynomial K,
+      mvParam α n m (Polynomial.aeval (MvPolynomial.X 1) p) =
+        Polynomial.aeval (Polynomial.X ^ m) p := by
+    intro p
+    rw [← Polynomial.aeval_algHom_apply, mvParam, MvPolynomial.aeval_X]
+    rfl
+  -- The image of the shifted generator vanishes.
+  have hGval : mvParam α n m G = Polynomial.C d := by
+    obtain ⟨R, hR⟩ := hdvd
+    have h := congrArg (mvParam α n m) hR
+    rw [map_sub, map_mul, mvParam_binomial hα, zero_mul] at h
+    rw [sub_eq_zero] at h
+    rw [h]
+    exact MvPolynomial.aeval_C _ _
+  -- The constant coefficient forces the shift to vanish.
+  have hd0 : d = 0 := by
+    have hc0 := congrArg (fun p ↦ Polynomial.coeff p 0) hGval
+    simp only [Polynomial.coeff_C_zero] at hc0
+    rw [hsplit, map_add, hcomp0, hcomp1] at hc0
+    have he0 : ∀ (s : Polynomial K), s.eval 0 = 0 →
+        ∀ p : Polynomial K, p.coeff 0 = 0 →
+        (Polynomial.aeval s p).coeff 0 = 0 := by
+      intro s hs p hp
+      have haev : Polynomial.aeval s p = p.comp s := rfl
+      rw [haev, Polynomial.coeff_zero_eq_eval_zero, Polynomial.eval_comp,
+        hs, ← Polynomial.coeff_zero_eq_eval_zero, hp]
+    rw [Polynomial.coeff_add,
+      he0 _ (by simp [Polynomial.eval_pow, zero_pow hn]) _ hP0,
+      he0 _ (by simp [zero_pow hm]) _ hQ0, add_zero] at hc0
+    exact hc0.symm
+  -- The binomial is associated to the prime generator.
+  subst hd0
+  rw [map_zero, sub_zero] at hdvd
+  have hassoc : Associated ((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+      MvPolynomial.C c * MvPolynomial.X 1 ^ n) G :=
+    (mvBinomial_prime hc hm hn hcop).associated_of_dvd hGp hdvd
+  obtain ⟨u, hu⟩ := hassoc
+  -- Units are nonzero constants.
+  have hudeg : ((u : MvPolynomial (Fin 2) K)).totalDegree = 0 := by
+    have h1 : ((u : MvPolynomial (Fin 2) K) *
+        ((u⁻¹ : (MvPolynomial (Fin 2) K)ˣ) :
+          MvPolynomial (Fin 2) K)).totalDegree = 0 := by
+      rw [Units.mul_inv]
+      exact MvPolynomial.totalDegree_one
+    rw [MvPolynomial.totalDegree_mul_of_isDomain (Units.ne_zero u)
+      (Units.ne_zero u⁻¹)] at h1
+    omega
+  set l := MvPolynomial.coeff 0 (u : MvPolynomial (Fin 2) K) with hldef
+  have hCform : (u : MvPolynomial (Fin 2) K) = MvPolynomial.C l :=
+    MvPolynomial.totalDegree_eq_zero_iff_eq_C.1 hudeg
+  refine ⟨rfl, l, ?_, ?_, ?_⟩
+  · intro h0
+    have hne := Units.ne_zero u
+    rw [hCform, h0, map_zero] at hne
+    exact hne rfl
+  · -- Extract `P` by evaluating the second variable at zero.
+    have hΦG : MvPolynomial.aeval
+        (![Polynomial.X, (0 : Polynomial K)] : Fin 2 → Polynomial K) G =
+        P := by
+      rw [hsplit, map_add, ← Polynomial.aeval_algHom_apply,
+        ← Polynomial.aeval_algHom_apply, MvPolynomial.aeval_X,
+        MvPolynomial.aeval_X]
+      have h0 : (![Polynomial.X, (0 : Polynomial K)] : Fin 2 → Polynomial K)
+          0 = Polynomial.X := rfl
+      have h1 : (![Polynomial.X, (0 : Polynomial K)] : Fin 2 → Polynomial K)
+          1 = 0 := rfl
+      rw [h0, h1, Polynomial.aeval_X_left_apply]
+      have hQ0' : Polynomial.aeval (0 : Polynomial K) Q = 0 := by
+        rw [Polynomial.aeval_def, Polynomial.eval₂_at_zero, hQ0, map_zero]
+      rw [hQ0', add_zero]
+    have hΦB : MvPolynomial.aeval
+        (![Polynomial.X, (0 : Polynomial K)] : Fin 2 → Polynomial K)
+        (((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+          MvPolynomial.C c * MvPolynomial.X 1 ^ n) *
+          (u : MvPolynomial (Fin 2) K)) =
+        Polynomial.C l * Polynomial.X ^ m := by
+      rw [hCform, map_mul, MvPolynomial.aeval_C, map_sub, map_mul, map_pow,
+        map_pow, MvPolynomial.aeval_X, MvPolynomial.aeval_X,
+        MvPolynomial.aeval_C]
+      have h0 : (![Polynomial.X, (0 : Polynomial K)] : Fin 2 → Polynomial K)
+          0 = Polynomial.X := rfl
+      have h1 : (![Polynomial.X, (0 : Polynomial K)] : Fin 2 → Polynomial K)
+          1 = 0 := rfl
+      rw [h0, h1, zero_pow hn, mul_zero, sub_zero, Polynomial.algebraMap_eq]
+      ring
+    rw [← hΦG, ← hu, hΦB]
+  · -- Extract `Q` by evaluating the first variable at zero.
+    have hΦG : MvPolynomial.aeval
+        (![(0 : Polynomial K), Polynomial.X] : Fin 2 → Polynomial K) G =
+        Q := by
+      rw [hsplit, map_add, ← Polynomial.aeval_algHom_apply,
+        ← Polynomial.aeval_algHom_apply, MvPolynomial.aeval_X,
+        MvPolynomial.aeval_X]
+      have h0 : (![(0 : Polynomial K), Polynomial.X] : Fin 2 → Polynomial K)
+          0 = 0 := rfl
+      have h1 : (![(0 : Polynomial K), Polynomial.X] : Fin 2 → Polynomial K)
+          1 = Polynomial.X := rfl
+      rw [h0, h1, Polynomial.aeval_X_left_apply]
+      have hP0' : Polynomial.aeval (0 : Polynomial K) P = 0 := by
+        rw [Polynomial.aeval_def, Polynomial.eval₂_at_zero, hP0, map_zero]
+      rw [hP0', zero_add]
+    have hΦB : MvPolynomial.aeval
+        (![(0 : Polynomial K), Polynomial.X] : Fin 2 → Polynomial K)
+        (((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+          MvPolynomial.C c * MvPolynomial.X 1 ^ n) *
+          (u : MvPolynomial (Fin 2) K)) =
+        -(Polynomial.C (l * c)) * Polynomial.X ^ n := by
+      rw [hCform, map_mul, MvPolynomial.aeval_C, map_sub, map_mul, map_pow,
+        map_pow, MvPolynomial.aeval_X, MvPolynomial.aeval_X,
+        MvPolynomial.aeval_C]
+      have h0 : (![(0 : Polynomial K), Polynomial.X] : Fin 2 → Polynomial K)
+          0 = 0 := rfl
+      have h1 : (![(0 : Polynomial K), Polynomial.X] : Fin 2 → Polynomial K)
+          1 = Polynomial.X := rfl
+      rw [h0, h1, zero_pow hm, zero_sub, Polynomial.algebraMap_eq,
+        Polynomial.C_mul]
+      ring
+    rw [← hΦG, ← hu, hΦB]
 
 end MvForm
 
