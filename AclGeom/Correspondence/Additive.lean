@@ -1647,6 +1647,53 @@ theorem JointRel.aeval_delta_gen_split [IsAlgClosed k]
   exact hrel.aeval_delta_gen_add hs halg hrel' hss' halg' hFp hFspan hG₂0
     hG₂span hGp hGspan _ _
 
+/-- The δ-curve generator is literally the sum of its one-variable
+specializations, as a polynomial identity — its support lies on the two
+coordinate axes. -/
+theorem JointRel.delta_gen_eq_split [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F})
+    {G₂ : MvPolynomial (Fin 2) k} (hG₂0 : G₂ ≠ 0)
+    (hG₂span : idealOf k ![S.x₂, S.y₂] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    (hGspan : idealOf k (![S.x₂, S.y₂] - c₂') = Ideal.span {G}) :
+    G = Polynomial.aeval (X 0 : MvPolynomial (Fin 2) k)
+        (aeval ![Polynomial.X, (0 : Polynomial k)] G) +
+      Polynomial.aeval (X 1 : MvPolynomial (Fin 2) k)
+        (aeval ![(0 : Polynomial k), Polynomial.X] G) := by
+  classical
+  have hsplit := hrel.aeval_delta_gen_split hs halg hrel' hss' halg' hFp
+    hFspan hG₂0 hG₂span hGp hGspan
+  haveI : Infinite Ω := Infinite.of_injective (algebraMap k Ω)
+    (algebraMap k Ω).injective
+  apply MvPolynomial.map_injective (algebraMap k Ω)
+    (algebraMap k Ω).injective
+  apply MvPolynomial.funext
+  intro x
+  rw [MvPolynomial.eval_map, MvPolynomial.eval_map, ← MvPolynomial.aeval_def,
+    ← MvPolynomial.aeval_def]
+  have hx : x = ![x 0, x 1] := by
+    funext j
+    fin_cases j <;> rfl
+  rw [map_add]
+  have h1 : aeval x (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) k)
+      (aeval ![Polynomial.X, (0 : Polynomial k)] G)) =
+      Polynomial.aeval (x 0) (aeval ![Polynomial.X, (0 : Polynomial k)] G) := by
+    rw [← Polynomial.aeval_algHom_apply, aeval_X]
+  have h2 : aeval x (Polynomial.aeval (X 1 : MvPolynomial (Fin 2) k)
+      (aeval ![(0 : Polynomial k), Polynomial.X] G)) =
+      Polynomial.aeval (x 1) (aeval ![(0 : Polynomial k), Polynomial.X] G) := by
+    rw [← Polynomial.aeval_algHom_apply, aeval_X]
+  rw [h1, h2]
+  have hs2 := hsplit (x 0) (x 1)
+  rw [show (![x 0, x 1] : Fin 2 → Ω) = x from hx.symm] at hs2
+  exact hs2
+
 /-- The first one-variable specialization is an additive polynomial. -/
 theorem JointRel.isAdditive_delta_gen_fst [IsAlgClosed k]
     (hrel : S.JointRel c₂')
