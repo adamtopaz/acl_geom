@@ -160,6 +160,49 @@ theorem joint_aeval_eq_zero {c : Fin 2 → K} {q : Fin 2 → Ω}
     exact hw
   rw [hGw, mul_zero]
 
+/-- First-block evaluation of the sum substitution is the translation of
+the extended polynomial. -/
+theorem aevalFst_addSubst (c : Fin 2 → K) (F : MvPolynomial (Fin 2) k) :
+    aevalFst (k := k) c (addSubst (k := k) F) =
+      translate c (MvPolynomial.map (algebraMap k K) F) := by
+  have hcomp : ((aevalFst (k := k) c).toRingHom.comp
+      (addSubst (k := k)).toRingHom) =
+      ((translate c).toRingHom.comp
+        (MvPolynomial.map (algebraMap k K) :
+          MvPolynomial (Fin 2) k →+* MvPolynomial (Fin 2) K)) := by
+    refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun j ↦ ?_)
+    · simp [aevalFst, addSubst, translate, MvPolynomial.algebraMap_eq]
+    · simp [aevalFst, addSubst, translate, add_comm]
+  exact congrArg (fun (f : MvPolynomial (Fin 2) k →+* _) ↦ f F) hcomp
+
+/-- First-block evaluation of the first-block inclusion is the constant of
+the evaluation. -/
+theorem aevalFst_rename_inl (c : Fin 2 → K) (F : MvPolynomial (Fin 2) k) :
+    aevalFst (k := k) c (rename Sum.inl F) = C (aeval c F) := by
+  have hcomp : ((aevalFst (k := k) c).toRingHom.comp
+      (rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2)).toRingHom) =
+      ((C : K →+* MvPolynomial (Fin 2) K).comp
+        ((aeval c : MvPolynomial (Fin 2) k →ₐ[k] K) :
+          MvPolynomial (Fin 2) k →+* K)) := by
+    refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun j ↦ ?_)
+    · simp [aevalFst, MvPolynomial.algebraMap_eq]
+    · simp [aevalFst]
+  exact congrArg (fun (f : MvPolynomial (Fin 2) k →+* _) ↦ f F) hcomp
+
+/-- First-block evaluation of the second-block inclusion is coefficient
+extension. -/
+theorem aevalFst_rename_inr (c : Fin 2 → K) (F : MvPolynomial (Fin 2) k) :
+    aevalFst (k := k) c (rename Sum.inr F) =
+      MvPolynomial.map (algebraMap k K) F := by
+  have hcomp : ((aevalFst (k := k) c).toRingHom.comp
+      (rename (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2)).toRingHom) =
+      (MvPolynomial.map (algebraMap k K) :
+        MvPolynomial (Fin 2) k →+* MvPolynomial (Fin 2) K) := by
+    refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun j ↦ ?_)
+    · simp [aevalFst, MvPolynomial.algebraMap_eq]
+    · simp [aevalFst]
+  exact congrArg (fun (f : MvPolynomial (Fin 2) k →+* _) ↦ f F) hcomp
+
 /-- Bridged form of `joint_aeval_eq_zero`: the first block is given as an
 `Ω`-tuple together with the equation identifying it as the image of a
 `K`-tuple. Keeping the concrete coercion inside a hypothesis avoids

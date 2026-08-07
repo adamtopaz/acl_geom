@@ -978,6 +978,279 @@ theorem JointRel.chunk_add [IsAlgClosed k]
     abel
   rwa [harith] at h
 
+/-- The second coordinate of the translation element is also transcendental
+over `k`. -/
+theorem JointRel.delta_snd_transcendental (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    Transcendental k (S.y₂ - c₂' 1) := by
+  intro h
+  have hδ₁ : S.y₂ - c₂' 1 ∈ racl k (∅ : Set Ω) :=
+    (mem_racl_iff k).2 (h.tower_top _)
+  have hc₂'1 : c₂' 1 ∈ racl k {S.x₁, s} :=
+    racl_le_of_subset_racl (Set.singleton_subset_iff.2 halg) hrel.snd_mem
+  have hy₂ : S.y₂ ∈ racl k {S.x₁, s} := by
+    have h2 := add_mem (racl_mono (Set.empty_subset _) hδ₁) hc₂'1
+    have hcancel : S.y₂ - c₂' 1 + c₂' 1 = S.y₂ := by ring
+    rwa [hcancel] at h2
+  have hx₂ : S.x₂ ∈ racl k {S.x₁, s} :=
+    racl_le_of_subset_racl (Set.singleton_subset_iff.2 hy₂) S.x₂_mem
+  exact S.x₂_notMem_fresh hs hx₂
+
+/-- The translation element is two-way interalgebraic: exchange upgrades
+`delta_snd_mem`. -/
+theorem JointRel.delta_fst_mem [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    S.x₂ - c₂' 0 ∈ racl k {S.y₂ - c₂' 1} := by
+  have hδ₁tr : S.y₂ - c₂' 1 ∉ racl k (∅ : Set Ω) :=
+    notMem_racl_empty_of_transcendental
+      (hrel.delta_snd_transcendental hs halg)
+  have hins : (insert (S.x₂ - c₂' 0) (∅ : Set Ω)) = {S.x₂ - c₂' 0} := by simp
+  have h1 : S.y₂ - c₂' 1 ∈ racl k (insert (S.x₂ - c₂' 0) (∅ : Set Ω)) := by
+    rw [hins]
+    exact hrel.delta_snd_mem hs halg hFp hFspan
+  have h2 := racl_exchange h1 hδ₁tr
+  have hins2 : (insert (S.y₂ - c₂' 1) (∅ : Set Ω)) = {S.y₂ - c₂' 1} := by simp
+  rwa [hins2] at h2
+
+/-- With the second fresh element independent of the whole first
+configuration, the second translation element stays generic over `k(δ)`. -/
+theorem JointRel.deltaStar_fst_notMem_delta (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'}) :
+    S.x₂ - c₂'' 0 ∉ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} := by
+  intro hmem
+  -- Everything on the `c₂'` side lives in `racl k {x₁, x₂, s}`.
+  have hx₁T : S.x₁ ∈ racl k {S.x₁, S.x₂, s} :=
+    subset_racl k _ (Set.mem_insert _ _)
+  have hx₂T : S.x₂ ∈ racl k {S.x₁, S.x₂, s} :=
+    subset_racl k _ (Set.mem_insert_of_mem _ (Set.mem_insert _ _))
+  have hsT : s ∈ racl k {S.x₁, S.x₂, s} :=
+    subset_racl k _ (Set.mem_insert_of_mem _ (Set.mem_insert_of_mem _ rfl))
+  have hc₂'0T : c₂' 0 ∈ racl k {S.x₁, S.x₂, s} := by
+    refine racl_le_of_subset_racl ?_ halg
+    rintro z (rfl | rfl)
+    · exact hx₁T
+    · exact hsT
+  have hy₂T : S.y₂ ∈ racl k {S.x₁, S.x₂, s} :=
+    racl_le_of_subset_racl (Set.singleton_subset_iff.2 hx₂T) S.y₂_mem
+  have hc₂'1T : c₂' 1 ∈ racl k {S.x₁, S.x₂, s} :=
+    racl_le_of_subset_racl (Set.singleton_subset_iff.2 hc₂'0T) hrel.snd_mem
+  have hT : racl k ({S.x₂ - c₂' 0, S.y₂ - c₂' 1} : Set Ω) ≤
+      racl k {S.x₁, S.x₂, s} := by
+    refine racl_le_of_subset_racl ?_
+    rintro z (rfl | rfl)
+    · exact sub_mem hx₂T hc₂'0T
+    · exact sub_mem hy₂T hc₂'1T
+  have hδT : S.x₂ - c₂'' 0 ∈ racl k {S.x₁, S.x₂, s} := hT hmem
+  have hc₂''0T : c₂'' 0 ∈ racl k {S.x₁, S.x₂, s} := by
+    have h1 := sub_mem hx₂T hδT
+    have hcancel : S.x₂ - (S.x₂ - c₂'' 0) = c₂'' 0 := by ring
+    rwa [hcancel] at h1
+  -- Exchange the second fresh element into the configuration.
+  have hc₂''0base : c₂'' 0 ∉ racl k {S.x₁} := fun h ↦
+    hrel'.fst_notMem_base (racl_mono (Set.singleton_subset_iff.2
+      (Set.mem_insert _ _)) h)
+  have hs'exch : s' ∈ racl k {c₂'' 0, S.x₁} := by
+    refine racl_exchange ?_ hc₂''0base
+    rwa [Set.pair_comm S.x₁ s'] at halg'
+  have hs'T : s' ∈ racl k {S.x₁, S.x₂, s} := by
+    refine racl_le_of_subset_racl ?_ hs'exch
+    rintro z (rfl | rfl)
+    · exact hc₂''0T
+    · exact hx₁T
+  exact hss' hs'T
+
+/-- … in both coordinates. -/
+theorem JointRel.deltaStar_snd_notMem_delta [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    S.y₂ - c₂'' 1 ∉ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} := by
+  intro hmem
+  have hs'₂ : s' ∉ racl k {S.x₁, S.x₂} := fun h ↦
+    hss' (racl_mono (Set.insert_subset_insert
+      (Set.singleton_subset_iff.2 (Set.mem_insert _ _))) h)
+  have hfst : S.x₂ - c₂'' 0 ∈ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} :=
+    racl_le_of_subset_racl (Set.singleton_subset_iff.2 hmem)
+      (hrel'.delta_fst_mem hs'₂ halg' hFp hFspan)
+  exact hrel.deltaStar_fst_notMem_delta hs halg hrel' hss' halg' hfst
+
+/-- Base-change irreducibility at the second translation element over
+`k(δ)`: the δ-curve generator stays a generator. -/
+theorem JointRel.deltaStar_span [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F})
+    {G₂ : MvPolynomial (Fin 2) k} (hG₂0 : G₂ ≠ 0)
+    (hG₂span : idealOf k ![S.x₂, S.y₂] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    (hGspan : idealOf k (![S.x₂, S.y₂] - c₂') = Ideal.span {G}) :
+    idealOf ↥(deltaField S c₂') (![S.x₂, S.y₂] - c₂'') =
+      Ideal.span {MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G} := by
+  have hs'₂ : s' ∉ racl k {S.x₁, S.x₂} := fun h ↦
+    hss' (racl_mono (Set.insert_subset_insert
+      (Set.singleton_subset_iff.2 (Set.mem_insert _ _))) h)
+  have htuple : (![S.x₂, S.y₂] - c₂'' : Fin 2 → Ω) =
+      ![S.x₂ - c₂'' 0, S.y₂ - c₂'' 1] := by
+    funext j
+    fin_cases j <;> rfl
+  have hGspan' : idealOf k ![S.x₂ - c₂'' 0, S.y₂ - c₂'' 1] =
+      Ideal.span {G} := by
+    rw [← htuple, ← delta_idealOf_eq_of_two_relocations hrel hs halg hrel'
+      hs'₂ halg' hG₂0 hG₂span, hGspan]
+  have hu : Transcendental ↥(deltaField S c₂') (S.x₂ - c₂'' 0) := fun h ↦
+    hrel.deltaStar_fst_notMem_delta hs halg hrel' hss' halg'
+      ((mem_racl_iff k).2 h)
+  have hv' : Transcendental ↥(deltaField S c₂') (S.y₂ - c₂'' 1) := fun h ↦
+    hrel.deltaStar_snd_notMem_delta hs halg hrel' hss' halg' hFp hFspan
+      ((mem_racl_iff k).2 h)
+  have h := idealOf_map_eq_span hu
+    (hrel'.delta_snd_mem hs'₂ halg' hFp hFspan) hv'
+    (hrel'.delta_fst_mem hs'₂ halg' hFp hFspan) hGp.ne_zero hGspan'
+  rwa [← htuple] at h
+
+/-- **Self-invariance of the δ-curve generator** (the Hopf identity in
+exact form): the generator over `k(δ)` is fixed by translation by `δ`
+itself. The pair-additivity defect of `G`, first-block evaluated at `δ`,
+is `translate δ G_K − G_K`; it lies in the span of `G_K` by the group
+chunk, and the translation degree drop forces the quotient to vanish. -/
+theorem JointRel.translate_delta_self_eq [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F})
+    {G₂ : MvPolynomial (Fin 2) k} (hG₂0 : G₂ ≠ 0)
+    (hG₂span : idealOf k ![S.x₂, S.y₂] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    (hGspan : idealOf k (![S.x₂, S.y₂] - c₂') = Ideal.span {G}) :
+    translate (deltaVec S c₂')
+        (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) =
+      MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G := by
+  classical
+  have hs'₂ : s' ∉ racl k {S.x₁, S.x₂} := fun h ↦
+    hss' (racl_mono (Set.insert_subset_insert
+      (Set.singleton_subset_iff.2 (Set.mem_insert _ _))) h)
+  -- The three vanishing statements feeding the joint defect.
+  have hδG : aeval (![S.x₂, S.y₂] - c₂') G = 0 := by
+    have hmem : G ∈ idealOf k (![S.x₂, S.y₂] - c₂') := by
+      rw [hGspan]
+      exact Ideal.subset_span rfl
+    exact (mem_idealOf_iff _).1 hmem
+  have hδsG : aeval (![S.x₂, S.y₂] - c₂'') G = 0 := by
+    have hmem : G ∈ idealOf k (![S.x₂, S.y₂] - c₂'') := by
+      rw [← delta_idealOf_eq_of_two_relocations hrel hs halg hrel' hs'₂
+        halg' hG₂0 hG₂span, hGspan]
+      exact Ideal.subset_span rfl
+    exact (mem_idealOf_iff _).1 hmem
+  have hsumG := hrel.chunk_add hs halg hrel' hs'₂ halg' hFp hFspan hG₂0
+    hG₂span hGspan
+  -- The pair-additivity defect vanishes at `(δ, δ*)`.
+  have hD : aeval (Sum.elim (![S.x₂, S.y₂] - c₂') (![S.x₂, S.y₂] - c₂''))
+      (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) = 0 := by
+    have hinl : ((Sum.elim (![S.x₂, S.y₂] - c₂') (![S.x₂, S.y₂] - c₂'') ∘
+        Sum.inl : Fin 2 → Ω)) = ![S.x₂, S.y₂] - c₂' := by
+      funext j
+      rfl
+    have hinr : ((Sum.elim (![S.x₂, S.y₂] - c₂') (![S.x₂, S.y₂] - c₂'') ∘
+        Sum.inr : Fin 2 → Ω)) = ![S.x₂, S.y₂] - c₂'' := by
+      funext j
+      rfl
+    rw [map_sub, map_sub, aeval_addSubst, aeval_rename, aeval_rename, hinl,
+      hinr, hsumG, hδG, hδsG, sub_zero, sub_zero]
+  -- First-block evaluation lands in the span of the extended generator.
+  have hcoe : (fun j ↦ algebraMap ↥(deltaField S c₂') Ω
+      (deltaVec S c₂' j)) = ![S.x₂, S.y₂] - c₂' := by
+    funext j
+    fin_cases j <;> rfl
+  have hmemK : aevalFst (k := k) (deltaVec S c₂')
+      (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) ∈
+      idealOf ↥(deltaField S c₂') (![S.x₂, S.y₂] - c₂'') := by
+    rw [mem_idealOf_iff, aeval_aevalFst, hcoe]
+    exact hD
+  rw [hrel.deltaStar_span hs halg hrel' hss' halg' hFp hFspan hG₂0 hG₂span
+    hGp hGspan, Ideal.mem_span_singleton'] at hmemK
+  obtain ⟨q, hq⟩ := hmemK
+  -- The first-block evaluation is the translation defect.
+  have hzeroK : aeval (deltaVec S c₂') G = (0 : ↥(deltaField S c₂')) := by
+    apply (algebraMap ↥(deltaField S c₂') Ω).injective
+    rw [map_zero, ← aeval_algebraMap_apply]
+    have hcomp : (algebraMap ↥(deltaField S c₂') Ω ∘ deltaVec S c₂') =
+        ![S.x₂, S.y₂] - c₂' := by
+      funext j
+      fin_cases j <;> rfl
+    rw [hcomp]
+    exact hδG
+  have hDsplit : aevalFst (k := k) (deltaVec S c₂')
+      (addSubst (k := k) G - rename Sum.inl G - rename Sum.inr G) =
+      translate (deltaVec S c₂')
+          (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) -
+        MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G := by
+    rw [map_sub, map_sub, aevalFst_addSubst, aevalFst_rename_inl,
+      aevalFst_rename_inr, hzeroK, map_zero, sub_zero]
+  have hqid : q * MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G =
+      translate (deltaVec S c₂')
+          (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) -
+        MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G :=
+    hq.trans hDsplit
+  -- Degree bookkeeping kills the quotient.
+  have hGK0 : MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G ≠ 0 :=
+    fun h ↦ hGp.ne_zero (MvPolynomial.map_injective _
+      (algebraMap k ↥(deltaField S c₂')).injective
+      (by rw [map_zero]; exact h))
+  have hpos : 0 < G.totalDegree := by
+    rcases Nat.eq_zero_or_pos G.totalDegree with h0 | h
+    · exfalso
+      have hC := totalDegree_eq_zero_iff_eq_C.1 h0
+      have ha : G.coeff 0 ≠ 0 := fun h00 ↦
+        hGp.ne_zero (by rw [hC, h00, map_zero])
+      exact hGp.not_unit
+        (by rw [hC]; exact (isUnit_iff_ne_zero.2 ha).map C)
+    · exact h
+  have hposK : 0 < (MvPolynomial.map
+      (algebraMap k ↥(deltaField S c₂')) G).totalDegree := by
+    have hdegeq : (MvPolynomial.map
+        (algebraMap k ↥(deltaField S c₂')) G).totalDegree =
+        G.totalDegree := by
+      rw [MvPolynomial.totalDegree, MvPolynomial.totalDegree,
+        support_map_of_injective G
+          (algebraMap k ↥(deltaField S c₂')).injective]
+    rwa [hdegeq]
+  rcases eq_or_ne (translate (deltaVec S c₂')
+      (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G))
+      (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) with heq | hne
+  · exact heq
+  exfalso
+  have hsubne : translate (deltaVec S c₂')
+      (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) -
+      MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G ≠ 0 :=
+    sub_ne_zero.2 hne
+  have hq0 : q ≠ 0 := by
+    intro h0
+    rw [h0, zero_mul] at hqid
+    exact hsubne hqid.symm
+  have hdeg1 := totalDegree_mul_of_isDomain hq0 hGK0
+  have hdeg2 : (translate (deltaVec S c₂')
+      (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) -
+      MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G).totalDegree <
+      (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G).totalDegree :=
+    totalDegree_translate_sub_lt _ hposK
+  rw [← hqid, hdeg1] at hdeg2
+  omega
+
 end TranslationIdentity
 
 end AddCorrSetup
