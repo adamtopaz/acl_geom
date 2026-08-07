@@ -398,6 +398,66 @@ theorem racl_subset_racl_base (K₀ : IntermediateField k K) (S : Set K) :
 
 end BaseMono
 
+section Intersection
+
+variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- Two independent extensions of a common base intersect in the base: if
+`w` is algebraic over both `k(A, a)` and `k(A, b)`, and `b` is not algebraic
+over `k(A, a)`, then `w` is algebraic over `k(A)` already. -/
+theorem mem_racl_of_mem_racl_insert {A : Set K} {a b w : K}
+    (hwa : w ∈ racl k (insert a A)) (hwb : w ∈ racl k (insert b A))
+    (hb : b ∉ racl k (insert a A)) : w ∈ racl k A := by
+  by_contra hw
+  have hbex : b ∈ racl k (insert w A) := racl_exchange hwb hw
+  have hwsub : (insert w A : Set K) ⊆ racl k (insert a A) := by
+    rintro z (rfl | hz)
+    · exact hwa
+    · exact subset_racl k _ (Set.mem_insert_of_mem _ hz)
+  exact hb (racl_le_of_subset_racl hwsub hbex)
+
+/-- Elements of `racl k ∅` are algebraic over `k`. -/
+theorem isAlgebraic_of_mem_racl_empty {x : K}
+    (hx : x ∈ racl k (∅ : Set K)) : IsAlgebraic k x := by
+  by_contra h
+  exact notMem_racl_empty_of_transcendental h hx
+
+/-- An element is algebraic over any of its powers. -/
+theorem mem_racl_singleton_pow {x : K} {n : ℕ} (hn : n ≠ 0) :
+    x ∈ racl k {x ^ n} := by
+  rw [mem_racl_iff]
+  refine ⟨Polynomial.X ^ n - Polynomial.C ⟨x ^ n, subset_adjoin k _ rfl⟩,
+    Polynomial.X_pow_sub_C_ne_zero (Nat.pos_of_ne_zero hn) _, ?_⟩
+  rw [map_sub, Polynomial.aeval_X_pow, Polynomial.aeval_C]
+  exact sub_self _
+
+/-- An element is algebraic over any of its integer powers. -/
+theorem mem_racl_singleton_zpow {x : K} {a : ℤ} (ha : a ≠ 0) :
+    x ∈ racl k {x ^ a} := by
+  rcases a with n | n
+  · rw [Int.ofNat_eq_natCast, zpow_natCast]
+    exact mem_racl_singleton_pow (Int.ofNat_ne_zero.1 ha)
+  · rw [zpow_negSucc]
+    have hx : x ^ (n + 1) ∈ racl k {(x ^ (n + 1))⁻¹} := by
+      have hgen : (x ^ (n + 1))⁻¹ ∈ racl k {(x ^ (n + 1))⁻¹} :=
+        subset_racl k _ rfl
+    -- The inverse of the generator recovers the power.
+      have hinv := inv_mem hgen
+      rwa [inv_inv] at hinv
+    exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 hx)
+      (mem_racl_singleton_pow (Nat.succ_ne_zero n))
+
+/-- Algebraicity descends along nonzero integer powers, in `racl` form. -/
+theorem mem_racl_empty_of_zpow {x : K} {a : ℤ} (ha : a ≠ 0)
+    (h : x ^ a ∈ racl k (∅ : Set K)) : x ∈ racl k (∅ : Set K) := by
+  have h1 : x ∈ racl k {x ^ a} := mem_racl_singleton_zpow ha
+  have h2 : racl k ({x ^ a} : Set K) = racl k (∅ : Set K) := by
+    have h3 := racl_insert_of_mem (S := (∅ : Set K)) h
+    simpa using h3
+  rwa [h2] at h1
+
+end Intersection
+
 end
 
 end AclGeom

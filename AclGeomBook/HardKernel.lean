@@ -231,8 +231,41 @@ interalgebraic: the ratio locus is a genuine curve.
 
 {docstring AclGeom.MulCorrSetup.JointRel.exists_prime_span_rho}
 
-The remaining endgames — the classification of the translation-invariant
-generator through the additive-polynomial library on the additive side, and
-the exponent-lattice argument extracting the binomial equation
-$`X^mY^n = c` on the multiplicative side — are under construction; their
-progress is tracked on the project's issue tracker.
+# The multiplicative endgame
+%%%
+tag := "multiplicative-endgame"
+%%%
+
+The classical endgame identifies the one-dimensional stabilizer subgroup
+with the kernel of a character of $`\mathbb G_m^2` and reads off the coset
+equations. The formalization takes a shorter, purely elementwise route.
+The scaling relation at a support difference $`d = m - m'` of the
+product-locus generator says exactly that the monomial value
+$`\mu = (x_1x_2)^{d_0}(y_1y_2)^{d_1}` is *invariant under relocation* of
+the second pair. An element algebraic over two independent extensions of a
+common base is algebraic over the base — an exchange argument:
+
+{docstring AclGeom.mem_racl_of_mem_racl_insert}
+
+Applying this twice — against the fresh transcendental direction, then
+against the generic direction of the product point itself — drops $`\mu`
+into $`k`:
+
+{docstring AclGeom.MulCorrSetup.JointRel.zpow_rho_support_eq_one}
+
+{docstring AclGeom.MulCorrSetup.JointRel.exists_algebraMap_eq_zpow_mul}
+
+Splitting $`\mu` along the independence of the two correspondence pairs
+and descending each factor the same way yields both coset equations with
+the same exponents, which are nonzero because algebraicity descends along
+nonzero integer powers:
+
+{docstring AclGeom.mem_racl_empty_of_zpow}
+
+{docstring AclGeom.MulCorrSetup.exists_coset_equations}
+
+This completes the multiplicative correspondence theorem (blueprint
+Theorem 8.9). The remaining endgame on the additive side — the
+classification of the translation-invariant generator through the
+additive-polynomial library — is under construction; progress is tracked
+on the project's issue tracker.

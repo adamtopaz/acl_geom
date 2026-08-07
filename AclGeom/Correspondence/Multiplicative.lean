@@ -607,6 +607,154 @@ theorem JointRel.rho_snd_mem [IsAlgClosed k] (hrel : S.JointRel c₂')
     rw [himg] at hi
     exact hi
 
+/-- The Ω-level form of the exact scaling identity: at any two support
+monomials of the generator, the ratio element satisfies the same monomial
+value. -/
+theorem JointRel.rho_pow_support_eq [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hF0 : F ≠ 0)
+    (hFspan : idealOf k (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) = Ideal.span {F})
+    {m m' : Fin 2 →₀ ℕ} (hm : m ∈ F.support) (hm' : m' ∈ F.support) :
+    (S.x₂ / c₂' 0) ^ m 0 * (S.y₂ / c₂' 1) ^ m 1 =
+      (S.x₂ / c₂' 0) ^ m' 0 * (S.y₂ / c₂' 1) ^ m' 1 := by
+  have hsupmap : (MvPolynomial.map (algebraMap k ↥(rhoField S c₂')) F).support
+      = F.support :=
+    support_map_of_injective F (algebraMap k ↥(rhoField S c₂')).injective
+  have hrelmon := hrel.monomial_prod_rhoVec_eq hs halg hF0 hFspan m
+    (hsupmap ▸ hm) m' (hsupmap ▸ hm')
+  have hval := congrArg (rhoField S c₂').val hrelmon
+  have hconv : ∀ mm : Fin 2 →₀ ℕ,
+      (rhoField S c₂').val (mm.prod fun j e ↦ rhoVec S c₂' j ^ e) =
+        (S.x₂ / c₂' 0) ^ mm 0 * (S.y₂ / c₂' 1) ^ mm 1 := by
+    intro mm
+    rw [Finsupp.prod_fintype _ _ fun j ↦ pow_zero _, Fin.prod_univ_two,
+      map_mul, map_pow, map_pow]
+    rfl
+  rwa [hconv, hconv] at hval
+
+/-- The `ℤ`-exponent form: the support difference kills the ratio element,
+`ρ^(m−m') = 1`. -/
+theorem JointRel.zpow_rho_support_eq_one [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hF0 : F ≠ 0)
+    (hFspan : idealOf k (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) = Ideal.span {F})
+    {m m' : Fin 2 →₀ ℕ} (hm : m ∈ F.support) (hm' : m' ∈ F.support) :
+    (S.x₂ / c₂' 0) ^ ((m 0 : ℤ) - m' 0) *
+      (S.y₂ / c₂' 1) ^ ((m 1 : ℤ) - m' 1) = 1 := by
+  have hρ₀ : S.x₂ / c₂' 0 ≠ 0 := div_ne_zero S.x₂_ne hrel.fst_ne
+  have hρ₁ : S.y₂ / c₂' 1 ≠ 0 := div_ne_zero S.y₂_ne hrel.snd_ne
+  have h := hrel.rho_pow_support_eq hs halg hF0 hFspan hm hm'
+  rw [zpow_sub₀ hρ₀, zpow_sub₀ hρ₁, zpow_natCast, zpow_natCast,
+    zpow_natCast, zpow_natCast, div_mul_div_comm, h, div_self]
+  exact mul_ne_zero (pow_ne_zero _ hρ₀) (pow_ne_zero _ hρ₁)
+
+/-- Intermediate fields are closed under integer powers (helper avoiding a
+slow instance search). -/
+private theorem zpow_mem_racl {A : Set Ω} {x : Ω} (hx : x ∈ racl k A)
+    (n : ℤ) : x ^ n ∈ racl k A := by
+  rcases n with n | n
+  · rw [Int.ofNat_eq_natCast, zpow_natCast]
+    exact pow_mem hx n
+  · rw [zpow_negSucc]
+    exact inv_mem (pow_mem hx (n + 1))
+
+/-- **Relocation invariance of monomial values** (the coset-constant step):
+any support-difference monomial value of the product point is fixed by the
+relocation, hence algebraic over every side of the independence, hence in
+`k`. -/
+theorem JointRel.exists_algebraMap_eq_zpow_mul [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hF0 : F ≠ 0)
+    (hFspan : idealOf k (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) = Ideal.span {F})
+    {m m' : Fin 2 →₀ ℕ} (hm : m ∈ F.support) (hm' : m' ∈ F.support) :
+    ∃ c : k, c ≠ 0 ∧
+      (S.x₁ * S.x₂) ^ ((m 0 : ℤ) - m' 0) *
+        (S.y₁ * S.y₂) ^ ((m 1 : ℤ) - m' 1) = algebraMap k Ω c := by
+  set a : ℤ := (m 0 : ℤ) - m' 0 with ha
+  set b : ℤ := (m 1 : ℤ) - m' 1 with hb
+  set μ : Ω := (S.x₁ * S.x₂) ^ a * (S.y₁ * S.y₂) ^ b with hμ
+  -- Nonvanishing of all the bases.
+  have hx₂' : c₂' 0 ≠ 0 := hrel.fst_ne
+  have hy₂' : c₂' 1 ≠ 0 := hrel.snd_ne
+  have hμ0 : μ ≠ 0 := mul_ne_zero (zpow_ne_zero _ S.mul_fst_ne)
+    (zpow_ne_zero _ S.mul_snd_ne)
+  -- Invariance: μ is also the monomial value of the relocated product point.
+  have hxconv : S.x₁ * c₂' 0 * (S.x₂ / c₂' 0) = S.x₁ * S.x₂ := by
+    rw [mul_assoc, mul_comm (c₂' 0), div_mul_cancel₀ _ hx₂']
+  have hyconv : S.y₁ * c₂' 1 * (S.y₂ / c₂' 1) = S.y₁ * S.y₂ := by
+    rw [mul_assoc, mul_comm (c₂' 1), div_mul_cancel₀ _ hy₂']
+  have hsplit : μ = ((S.x₁ * c₂' 0) ^ a * (S.y₁ * c₂' 1) ^ b) *
+      ((S.x₂ / c₂' 0) ^ a * (S.y₂ / c₂' 1) ^ b) := by
+    rw [hμ, mul_mul_mul_comm ((S.x₁ * c₂' 0) ^ a), ← mul_zpow, ← mul_zpow,
+      hxconv, hyconv]
+  have hinv : μ = (S.x₁ * c₂' 0) ^ a * (S.y₁ * c₂' 1) ^ b := by
+    rw [hsplit, hrel.zpow_rho_support_eq_one hs halg hF0 hFspan hm hm',
+      mul_one]
+  -- μ is algebraic over both independent sides.
+  have hmem₁ : μ ∈ racl k {S.x₂, S.x₁} := by
+    have hx₁m : S.x₁ ∈ racl k {S.x₂, S.x₁} :=
+      subset_racl k _ (Set.mem_insert_iff.2 (Or.inr rfl))
+    have hx₂m : S.x₂ ∈ racl k {S.x₂, S.x₁} :=
+      subset_racl k _ (Set.mem_insert _ _)
+    have hx : S.x₁ * S.x₂ ∈ racl k {S.x₂, S.x₁} :=
+      MulMemClass.mul_mem hx₁m hx₂m
+    have hy : S.y₁ * S.y₂ ∈ racl k {S.x₂, S.x₁} := by
+      refine MulMemClass.mul_mem ?_ ?_
+      · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 hx₁m) S.y₁_mem
+      · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 hx₂m) S.y₂_mem
+    exact MulMemClass.mul_mem (zpow_mem_racl hx a) (zpow_mem_racl hy b)
+  have hmem₂ : μ ∈ racl k {s, S.x₁} := by
+    have hx₂'r : c₂' 0 ∈ racl k {s, S.x₁} := by
+      rwa [Set.pair_comm s S.x₁]
+    have hy₂'r : c₂' 1 ∈ racl k {s, S.x₁} :=
+      racl_le_of_subset_racl (Set.singleton_subset_iff.2 hx₂'r) hrel.snd_mem
+    have hx₁r : S.x₁ ∈ racl k {s, S.x₁} :=
+      subset_racl k _ (Set.mem_insert_iff.2 (Or.inr rfl))
+    have hy₁r : S.y₁ ∈ racl k {s, S.x₁} :=
+      racl_le_of_subset_racl (Set.singleton_subset_iff.2 hx₁r) S.y₁_mem
+    rw [hinv]
+    exact MulMemClass.mul_mem
+      (zpow_mem_racl (MulMemClass.mul_mem hx₁r hx₂'r) a)
+      (zpow_mem_racl (MulMemClass.mul_mem hy₁r hy₂'r) b)
+  -- Descend to `racl k {x₁}`, then to `racl k ∅`, then to `k`.
+  have hmemx₁ : μ ∈ racl k {S.x₁} := by
+    refine mem_racl_of_mem_racl_insert (a := S.x₂) (b := s) hmem₁ hmem₂ ?_
+    rwa [Set.pair_comm S.x₁ S.x₂] at hs
+  have hins₁ : (insert S.x₁ (∅ : Set Ω)) = {S.x₁} := by simp
+  have hins₂ : (insert (S.x₁ * S.x₂) (∅ : Set Ω)) = {S.x₁ * S.x₂} := by simp
+  have hmemempty : μ ∈ racl k (∅ : Set Ω) := by
+    -- `x₁x₂` is not algebraic over `x₁` alone …
+    have hx₁x₂ : S.x₁ * S.x₂ ∉ racl k (insert S.x₁ (∅ : Set Ω)) := by
+      rw [hins₁]
+      intro hmem
+      have hx₁m : S.x₁ ∈ racl k {S.x₁} := subset_racl k _ rfl
+      have hdiv := div_mem hmem hx₁m
+      rw [mul_div_cancel_left₀ _ S.x₁_ne] at hdiv
+      exact S.x₂_notMem hdiv
+    -- … and μ is algebraic over `x₁x₂` alone.
+    have hμx₂ : μ ∈ racl k (insert (S.x₁ * S.x₂) (∅ : Set Ω)) := by
+      rw [hins₂]
+      have hxm : S.x₁ * S.x₂ ∈ racl k {S.x₁ * S.x₂} := subset_racl k _ rfl
+      have hym : S.y₁ * S.y₂ ∈ racl k {S.x₁ * S.x₂} :=
+        racl_le_of_subset_racl (Set.singleton_subset_iff.2 hxm) S.mul_mem
+      exact MulMemClass.mul_mem (zpow_mem_racl hxm a) (zpow_mem_racl hym b)
+    -- `x₁` transcendental keeps the two directions independent.
+    have hx₁empty : S.x₁ ∉ racl k (∅ : Set Ω) := fun h ↦
+      S.x₁_notMem (racl_mono (Set.empty_subset _) h)
+    refine mem_racl_of_mem_racl_insert (a := S.x₁ * S.x₂) (b := S.x₁)
+      hμx₂ ?_ ?_
+    · rw [hins₁]
+      exact hmemx₁
+    · intro hmem
+      exact hx₁x₂ (racl_exchange hmem hx₁empty)
+  have halgμ : IsAlgebraic k μ := isAlgebraic_of_mem_racl_empty hmemempty
+  obtain ⟨c, hc⟩ := mem_range_algebraMap_of_isAlgebraic halgμ
+  refine ⟨c, fun h0 ↦ ?_, hc.symm⟩
+  rw [h0, map_zero] at hc
+  exact hμ0 hc.symm
+
 /-- The ratio locus is a plane curve: its vanishing ideal is generated by a
 single prime polynomial. -/
 theorem JointRel.exists_prime_span_rho [IsAlgClosed k]
@@ -620,6 +768,134 @@ theorem JointRel.exists_prime_span_rho [IsAlgClosed k]
     (hrel.rho_snd_mem hs halg hFp hFspan)
 
 end ScalingIdentity
+
+section Endgame
+
+open MvPolynomial
+
+/-- **The multiplicative correspondence theorem** (blueprint Theorem 8.9):
+two finite correspondences with independent generic points and
+interalgebraic products satisfy multiplicative coset equations
+`x_i^a y_i^b = c_i` with common nonzero integer exponents and nonzero
+constants from `k`. The exponents arise as a support difference of the
+product-locus generator; the constants are the relocation-invariant
+monomial values, split along the independence of the two pairs. -/
+theorem exists_coset_equations [IsAlgClosed k] [IsAlgClosed Ω] {s : Ω}
+    (hs : s ∉ racl k {S.x₁, S.x₂}) :
+    ∃ (a b : ℤ) (c₁ c₂ : k), a ≠ 0 ∧ b ≠ 0 ∧ c₁ ≠ 0 ∧ c₂ ≠ 0 ∧
+      S.x₁ ^ a * S.y₁ ^ b = algebraMap k Ω c₁ ∧
+      S.x₂ ^ a * S.y₂ ^ b = algebraMap k Ω c₂ := by
+  classical
+  -- The fresh element is transcendental over the base `k(x₁, y₁)`.
+  have hsbase : s ∉ racl k {S.x₁, S.y₁} := by
+    intro hmem
+    refine hs (racl_le_of_subset_racl ?_ hmem)
+    rintro z (rfl | rfl)
+    · exact subset_racl k _ (Set.mem_insert _ _)
+    · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2
+        (subset_racl k _ (Set.mem_insert _ _))) S.y₁_mem
+  have hstr : Transcendental ↥S.base s := fun halg ↦
+    hsbase ((mem_racl_iff k).2 halg)
+  -- Relocate, and pick up the product-locus generator.
+  obtain ⟨c₂', hrel, halgrel⟩ := S.exists_pair_relocation hstr
+  have halg : c₂' 0 ∈ racl k {S.x₁, s} :=
+    S.racl_pair_of_relocation (halgrel 0)
+  obtain ⟨F, hFp, hFspan⟩ := S.exists_prime_span_mul
+  -- Two distinct support monomials give the exponents.
+  have hFmem : F ∈ idealOf k (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) := by
+    rw [hFspan]
+    exact Ideal.subset_span rfl
+  have hv0 : ∀ j, (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) j ≠ 0 := by
+    intro j
+    fin_cases j
+    · exact S.mul_fst_ne
+    · exact S.mul_snd_ne
+  obtain ⟨m, hm, m', hm', hmne⟩ := exists_support_pair_of_aeval_eq_zero hv0
+    hFp.ne_zero ((mem_idealOf_iff _).1 hFmem)
+  set a : ℤ := (m 0 : ℤ) - m' 0 with ha
+  set b : ℤ := (m 1 : ℤ) - m' 1 with hb
+  have hab : ¬(a = 0 ∧ b = 0) := by
+    rintro ⟨ha0, hb0⟩
+    rw [ha, sub_eq_zero] at ha0
+    rw [hb, sub_eq_zero] at hb0
+    exact hmne (Finsupp.ext (Fin.forall_fin_two.2
+      ⟨by exact_mod_cast ha0, by exact_mod_cast hb0⟩))
+  -- The invariant monomial value of the product point.
+  obtain ⟨c, hc0, hc⟩ := hrel.exists_algebraMap_eq_zpow_mul hs halg
+    hFp.ne_zero hFspan hm hm'
+  -- Split along the independence of the two pairs.
+  have hμν : (S.x₁ * S.x₂) ^ a * (S.y₁ * S.y₂) ^ b =
+      (S.x₁ ^ a * S.y₁ ^ b) * (S.x₂ ^ a * S.y₂ ^ b) := by
+    rw [mul_zpow, mul_zpow, mul_mul_mul_comm]
+  have hν₁ne : S.x₁ ^ a * S.y₁ ^ b ≠ 0 :=
+    mul_ne_zero (zpow_ne_zero _ S.x₁_ne) (zpow_ne_zero _ S.y₁_ne)
+  have hν₂ne : S.x₂ ^ a * S.y₂ ^ b ≠ 0 :=
+    mul_ne_zero (zpow_ne_zero _ S.x₂_ne) (zpow_ne_zero _ S.y₂_ne)
+  have hx₁self : S.x₁ ∈ racl k {S.x₁} := subset_racl k _ rfl
+  have hx₂self : S.x₂ ∈ racl k {S.x₂} := subset_racl k _ rfl
+  have hν₁mem₁ : S.x₁ ^ a * S.y₁ ^ b ∈ racl k {S.x₁} :=
+    MulMemClass.mul_mem (zpow_mem_racl hx₁self a) (zpow_mem_racl S.y₁_mem b)
+  have hν₁eq : S.x₁ ^ a * S.y₁ ^ b =
+      algebraMap k Ω c / (S.x₂ ^ a * S.y₂ ^ b) := by
+    rw [eq_div_iff hν₂ne, ← hμν]
+    exact hc
+  have hν₁mem₂ : S.x₁ ^ a * S.y₁ ^ b ∈ racl k {S.x₂} := by
+    rw [hν₁eq]
+    refine div_mem (IntermediateField.algebraMap_mem _ c) ?_
+    exact MulMemClass.mul_mem (zpow_mem_racl hx₂self a)
+      (zpow_mem_racl S.y₂_mem b)
+  -- Both directions are independent, so the value descends to `k`.
+  have hins₁ : (insert S.x₁ (∅ : Set Ω)) = {S.x₁} := by simp
+  have hins₂ : (insert S.x₂ (∅ : Set Ω)) = {S.x₂} := by simp
+  have hν₁empty : S.x₁ ^ a * S.y₁ ^ b ∈ racl k (∅ : Set Ω) := by
+    refine mem_racl_of_mem_racl_insert (a := S.x₁) (b := S.x₂) ?_ ?_ ?_
+    · rw [hins₁]
+      exact hν₁mem₁
+    · rw [hins₂]
+      exact hν₁mem₂
+    · rw [hins₁]
+      exact S.x₂_notMem
+  obtain ⟨c₁, hc₁eq⟩ := mem_range_algebraMap_of_isAlgebraic
+    (isAlgebraic_of_mem_racl_empty hν₁empty)
+  have hc₁0 : c₁ ≠ 0 := by
+    intro h0
+    rw [h0, map_zero] at hc₁eq
+    exact hν₁ne hc₁eq.symm
+  -- The second constant is the quotient.
+  have hν₂eq : S.x₂ ^ a * S.y₂ ^ b = algebraMap k Ω (c / c₁) := by
+    rw [map_div₀, hc₁eq, eq_div_iff hν₁ne, mul_comm, ← hμν]
+    exact hc
+  -- Nonzero exponents: a degenerate direction would make a transcendental
+  -- coordinate algebraic.
+  have hx₁tr : S.x₁ ∉ racl k (∅ : Set Ω) := fun h ↦
+    S.x₁_notMem (racl_mono (Set.empty_subset _) h)
+  have hy₁tr : S.y₁ ∉ racl k (∅ : Set Ω) := by
+    intro h
+    have hy₁racl : racl k ({S.y₁} : Set Ω) = racl k (∅ : Set Ω) := by
+      have h2 := racl_insert_of_mem (S := (∅ : Set Ω)) h
+      simpa using h2
+    have hx₁m := S.x₁_mem
+    rw [hy₁racl] at hx₁m
+    exact hx₁tr hx₁m
+  have ha0 : a ≠ 0 := by
+    intro h0
+    have hb0 : b ≠ 0 := fun hb' ↦ hab ⟨h0, hb'⟩
+    have hyb : S.y₁ ^ b ∈ racl k (∅ : Set Ω) := by
+      have h1 := hν₁empty
+      rwa [h0, zpow_zero, one_mul] at h1
+    exact hy₁tr (mem_racl_empty_of_zpow hb0 hyb)
+  have hb0 : b ≠ 0 := by
+    intro h0
+    have ha0' : a ≠ 0 := fun ha' ↦ hab ⟨ha', h0⟩
+    have hxa : S.x₁ ^ a ∈ racl k (∅ : Set Ω) := by
+      have h1 := hν₁empty
+      rwa [h0, zpow_zero, mul_one] at h1
+    exact hx₁tr (mem_racl_empty_of_zpow ha0' hxa)
+  exact ⟨a, b, c₁, c / c₁, ha0, hb0, hc₁0, div_ne_zero hc0 hc₁0,
+    hc₁eq.symm, hν₂eq⟩
+
+
+end Endgame
 
 end MulCorrSetup
 
