@@ -240,6 +240,196 @@ theorem joint_idealOf_eq {c : Fin 2 → K} {q q' : Fin 2 → Ω}
   · exact joint_aeval_eq_zero hspan (hzero hspan') h
   · exact joint_aeval_eq_zero hspan' (hzero hspan) h
 
+/-- Translation commutes with coefficient maps. -/
+theorem map_translate {L : Type*} [Field L] (f : K →+* L) (c : Fin 2 → K)
+    (g : MvPolynomial (Fin 2) K) :
+    MvPolynomial.map f (translate c g) =
+      translate (fun j ↦ f (c j)) (MvPolynomial.map f g) := by
+  have hcomp : ((MvPolynomial.map f).comp (translate c).toRingHom :
+      MvPolynomial (Fin 2) K →+* MvPolynomial (Fin 2) L) =
+      ((translate fun j ↦ f (c j)).toRingHom.comp (MvPolynomial.map f)) := by
+    refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun j ↦ ?_)
+    · simp [translate, MvPolynomial.algebraMap_eq]
+    · simp [translate]
+  exact congrArg (fun (F : MvPolynomial (Fin 2) K →+* _) ↦ F g) hcomp
+
+/-- The universal coefficient view with the first block as coefficients. -/
+def toVUPoly :
+    MvPolynomial (Fin 2 ⊕ Fin 2) k →ₐ[k]
+      MvPolynomial (Fin 2) (MvPolynomial (Fin 2) k) :=
+  aeval (Sum.elim (fun j ↦ C (X j)) fun j ↦ X j)
+
+/-- `aevalFst` factors through the first-block universal coefficient
+view. -/
+theorem aevalFst_eq_map_toVUPoly (c : Fin 2 → K)
+    (g : MvPolynomial (Fin 2 ⊕ Fin 2) k) :
+    aevalFst (k := k) c g =
+      MvPolynomial.map ((aeval c : MvPolynomial (Fin 2) k →ₐ[k] K) :
+        MvPolynomial (Fin 2) k →+* K) (toVUPoly (k := k) g) := by
+  have hcomp : (aevalFst (k := k) c).toRingHom =
+      ((MvPolynomial.map ((aeval c : MvPolynomial (Fin 2) k →ₐ[k] K) :
+        MvPolynomial (Fin 2) k →+* K)).comp (toVUPoly (k := k)).toRingHom) := by
+    refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun i ↦ ?_)
+    · simp [aevalFst, toVUPoly, MvPolynomial.algebraMap_eq]
+    · rcases i with j | j
+      · simp [aevalFst, toVUPoly]
+      · simp [aevalFst, toVUPoly]
+  exact congrArg (fun (f : MvPolynomial (Fin 2 ⊕ Fin 2) k →+* _) ↦ f g) hcomp
+
+/-- The coefficient bridge for the first block. -/
+theorem coeff_aevalFst (c : Fin 2 → K) (g : MvPolynomial (Fin 2 ⊕ Fin 2) k)
+    (m : Fin 2 →₀ ℕ) :
+    coeff m (aevalFst (k := k) c g) =
+      aeval c (coeff m (toVUPoly (k := k) g)) := by
+  rw [aevalFst_eq_map_toVUPoly, MvPolynomial.coeff_map]
+  rfl
+
+/-- Reassembling a universal-coefficient polynomial into the joint ring. -/
+noncomputable def fromVUPoly :
+    MvPolynomial (Fin 2) (MvPolynomial (Fin 2) k) →+*
+      MvPolynomial (Fin 2 ⊕ Fin 2) k :=
+  eval₂Hom (rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) :
+    MvPolynomial (Fin 2) k →ₐ[k] MvPolynomial (Fin 2 ⊕ Fin 2) k).toRingHom
+    fun j ↦ X (Sum.inr j)
+
+/-- The universal coefficient view is a section of reassembly. -/
+theorem fromVUPoly_toVUPoly (g : MvPolynomial (Fin 2 ⊕ Fin 2) k) :
+    fromVUPoly (k := k) (toVUPoly (k := k) g) = g := by
+  have hcomp : ((fromVUPoly (k := k)).comp (toVUPoly (k := k)).toRingHom) =
+      RingHom.id (MvPolynomial (Fin 2 ⊕ Fin 2) k) := by
+    refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun i ↦ ?_)
+    · simp [fromVUPoly, toVUPoly, MvPolynomial.algebraMap_eq]
+    · rcases i with j | j
+      · simp [fromVUPoly, toVUPoly]
+      · simp [fromVUPoly, toVUPoly]
+  exact congrArg (fun (F : MvPolynomial (Fin 2 ⊕ Fin 2) k →+* _) ↦ F g) hcomp
+
+/-- Membership in the span of a constant-coefficient polynomial is a
+coefficientwise condition. -/
+theorem mem_span_C_iff {R : Type*} [CommRing R] {g : R}
+    {p : MvPolynomial (Fin 2) R} :
+    p ∈ Ideal.span {(C g : MvPolynomial (Fin 2) R)} ↔
+      ∀ m, coeff m p ∈ Ideal.span {g} := by
+  constructor
+  · intro hp m
+    rw [Ideal.mem_span_singleton'] at hp
+    obtain ⟨q, hq⟩ := hp
+    rw [Ideal.mem_span_singleton]
+    exact ⟨coeff m q, by rw [← hq, mul_comm q (C g), coeff_C_mul]⟩
+  · intro h
+    classical
+    choose r hr using fun m ↦ Ideal.mem_span_singleton.1 (h m)
+    rw [Ideal.mem_span_singleton']
+    refine ⟨∑ m ∈ p.support, monomial m (r m), ?_⟩
+    rw [Finset.sum_mul]
+    conv_rhs => rw [p.as_sum]
+    refine Finset.sum_congr rfl fun m hm ↦ ?_
+    rw [mul_comm, C_mul_monomial, ← hr m]
+
+/-- **The kernel of first-block evaluation**: if the vanishing of `w` is
+controlled by `G`, a joint polynomial with vanishing first-block evaluation
+is a multiple of the first-block extension of `G`. -/
+theorem mem_span_rename_inl_of_aevalFst_eq_zero {G : MvPolynomial (Fin 2) k}
+    {w : Fin 2 → K}
+    (hker : ∀ h : MvPolynomial (Fin 2) k, aeval w h = 0 →
+      h ∈ Ideal.span {G})
+    {f : MvPolynomial (Fin 2 ⊕ Fin 2) k} (hf : aevalFst (k := k) w f = 0) :
+    f ∈ Ideal.span {rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G} := by
+  classical
+  have hcoeff : ∀ m, coeff m (toVUPoly (k := k) f) ∈ Ideal.span {G} := by
+    intro m
+    refine hker _ ?_
+    have h := congrArg (fun p ↦ coeff m p) hf
+    simp only [coeff_zero] at h
+    rwa [coeff_aevalFst] at h
+  have hspan : toVUPoly (k := k) f ∈
+      Ideal.span {(C G : MvPolynomial (Fin 2) (MvPolynomial (Fin 2) k))} :=
+    mem_span_C_iff.2 hcoeff
+  rw [Ideal.mem_span_singleton'] at hspan
+  obtain ⟨q, hq⟩ := hspan
+  rw [Ideal.mem_span_singleton']
+  refine ⟨fromVUPoly (k := k) q, ?_⟩
+  have h1 := congrArg (fromVUPoly (k := k)) hq
+  rw [map_mul, fromVUPoly_toVUPoly] at h1
+  rw [← h1]
+  congr 1
+  simp [fromVUPoly]
+
+/-- Renaming along an injective map preserves the total degree. -/
+theorem totalDegree_rename_of_injective {σ τ : Type*} [DecidableEq τ]
+    {f : σ → τ} (hf : Function.Injective f) (p : MvPolynomial σ k) :
+    (rename f p).totalDegree = p.totalDegree := by
+  classical
+  rw [MvPolynomial.totalDegree, MvPolynomial.totalDegree,
+    support_rename_of_injective hf, Finset.sup_image]
+  refine Finset.sup_congr rfl fun m _ ↦ ?_
+  exact Finsupp.sum_mapDomain_index (h := fun _ e ↦ e) (fun _ ↦ rfl)
+    fun _ _ _ ↦ rfl
+
+/-- The sum substitution does not raise the total degree. -/
+theorem totalDegree_addSubst_le (g : MvPolynomial (Fin 2) k) :
+    (addSubst (k := k) g).totalDegree ≤ g.totalDegree := by
+  classical
+  rw [show addSubst (k := k) g =
+    eval₂ (algebraMap k (MvPolynomial (Fin 2 ⊕ Fin 2) k))
+      (fun j ↦ X (Sum.inl j) + X (Sum.inr j)) g from rfl, eval₂_eq]
+  refine le_trans (totalDegree_finsetSum _ _) ?_
+  refine Finset.sup_le fun d hd ↦ ?_
+  refine le_trans (totalDegree_mul _ _) ?_
+  have hC : (algebraMap k (MvPolynomial (Fin 2 ⊕ Fin 2) k)
+      (coeff d g)).totalDegree = 0 := by
+    rw [MvPolynomial.algebraMap_eq, totalDegree_C]
+  rw [hC, zero_add]
+  refine le_trans (totalDegree_finsetProd _ _) ?_
+  refine le_trans (Finset.sum_le_sum fun i _ ↦ ?_)
+    (by rw [← Finsupp.sum]; exact le_totalDegree hd)
+  refine le_trans (totalDegree_pow _ _) ?_
+  have hXX : (X (Sum.inl i) + X (Sum.inr i) :
+      MvPolynomial (Fin 2 ⊕ Fin 2) k).totalDegree ≤ 1 :=
+    le_trans (totalDegree_add _ _)
+      (max_le (le_of_eq (totalDegree_X _)) (le_of_eq (totalDegree_X _)))
+  calc d i * (X (Sum.inl i) + X (Sum.inr i) :
+      MvPolynomial (Fin 2 ⊕ Fin 2) k).totalDegree
+      ≤ d i * 1 := Nat.mul_le_mul_left _ hXX
+    _ = d i := mul_one _
+
+/-- Primality of the curve generator persists into the first block of the
+joint ring. -/
+theorem prime_rename_inl {G : MvPolynomial (Fin 2) k} (hG : Prime G) :
+    Prime (rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G) := by
+  classical
+  have heq : (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) =
+      ((↑) : Set.range (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) → Fin 2 ⊕ Fin 2) ∘
+        (Equiv.ofInjective _ Sum.inl_injective) := by
+    funext j
+    simp
+  have h2 : Prime (rename (⇑(Equiv.ofInjective
+      (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) Sum.inl_injective)) G) := by
+    have h := (MulEquiv.prime_iff (renameEquiv k (Equiv.ofInjective
+      (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) Sum.inl_injective))).2 hG
+    simpa [renameEquiv] using h
+  have h3 := (prime_rename_iff
+    (Set.range (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2))).2 h2
+  rwa [rename_rename, ← heq] at h3
+
+/-- … and into the second block. -/
+theorem prime_rename_inr {G : MvPolynomial (Fin 2) k} (hG : Prime G) :
+    Prime (rename (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) G) := by
+  classical
+  have heq : (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) =
+      ((↑) : Set.range (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) → Fin 2 ⊕ Fin 2) ∘
+        (Equiv.ofInjective _ Sum.inr_injective) := by
+    funext j
+    simp
+  have h2 : Prime (rename (⇑(Equiv.ofInjective
+      (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) Sum.inr_injective)) G) := by
+    have h := (MulEquiv.prime_iff (renameEquiv k (Equiv.ofInjective
+      (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2) Sum.inr_injective))).2 hG
+    simpa [renameEquiv] using h
+  have h3 := (prime_rename_iff
+    (Set.range (Sum.inr : Fin 2 → Fin 2 ⊕ Fin 2))).2 h2
+  rwa [rename_rename, ← heq] at h3
+
 end JointDetermination
 
 /-- **Descent of translation invariance** (step 4d): if translation by `c`
