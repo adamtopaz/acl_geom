@@ -95,7 +95,44 @@ from the singleton-closure calculus:
 
 {docstring AclGeom.ClosedIF.point_pow}
 
-The witness structure `QWitness`, the clauses of $`\Psi`, the geometric
-$`Q`, and the correctness theorems (blueprint Thms q-correct, qp-correct,
-j-acf-correct) are the next steps of this layer; progress is tracked on
-the project's issue tracker.
+# The geometric relations
+%%%
+tag := "geometric-relations"
+%%%
+
+Gismatullin makes the Evans–Hrushovski witness completely explicit: the
+geometric `Q` quantifies a twenty-one-point configuration. Per the
+blueprint, the witness is a structure with named fields rather than a
+21-tuple — the intersection equations stay readable and permutation
+errors are impossible:
+
+{docstring AclGeom.QWitness}
+
+The seven clauses of $`\Psi` are the rank-four joins, the incidences of
+the generic points, three universal clauses quantifying over atoms (which
+make the correspondences *irreducible*), the dependent triple inside
+$`A, B, C`, the partial quadrangle, and the seven meet equations of the
+affine grid:
+
+{docstring AclGeom.QWitness.Psi}
+
+{docstring AclGeom.QGeom}
+
+The multiplicative structure enters through the projective multiplication
+diagram — eight points and seven concurrent rank-two lines — which
+converts the ratio output of `Q` into a product point:
+
+{docstring AclGeom.MulDiagram}
+
+{docstring AclGeom.Q'Geom}
+
+The geometric `J` is then a conjunction of one `Q`-instance and two
+`Q′`-instances, the second of which reuses the same sum points against
+the shifted representative `a+1`:
+
+{docstring AclGeom.JGeom}
+
+The correctness theorems (blueprint Thms q-correct, qp-correct,
+j-acf-correct) — soundness via the explicit witness table and
+completeness via the affine grid extraction — are the next steps of this
+layer; progress is tracked on the project's issue tracker.

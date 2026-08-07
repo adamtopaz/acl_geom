@@ -8,16 +8,75 @@ import AclGeom.Config.Psi
 /-!
 # The multiplication diagram and the geometric Q′
 
-`MulDiagram` on eight points (seven rank-two lines plus nondegeneracy) and
-`Q'_geom` defined from `Q_geom` and a multiplication diagram
-(blueprint §multiplication diagram).
+The projective multiplication diagram, stated without a picture
+(blueprint §multiplication diagram):
 
-**Status:** skeleton (M0); contents arrive with M4 (checklist G4 definition side).
+* `MulDiagram X Y V E A₀ B₀ C₀ D₀`: eight pairwise distinct points, the
+  seven rank-two lines
+  `{X, A₀, B₀}`, `{A₀, Y, C₀}`, `{A₀, E, D₀}`, `{B₀, Y, D₀}`,
+  `{X, C₀, D₀}`, `{B₀, C₀, V}`, `{X, Y, E, V}` (the last a common
+  rank-two line through four points), and the nondegeneracy clause
+  `rk(X ∨ Y ∨ A₀) = 3`;
+* `Q'Geom X Y S E`: the geometric relation `Q′` — a `Q`-witness on
+  `(X, Y, S, V)` together with a multiplication diagram converting the
+  ratio point `V` into the product point `E`.
+
+The coordinate check (blueprint Lemma mul-diagram) and the correctness
+theorem for `Q′` (blueprint Thm qp-correct) arrive with checklist G4.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
+
+**Status:** in progress (M4, checklist G4 definition side).
 -/
 
 namespace AclGeom
+
+noncomputable section
+
+variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- The projective multiplication diagram on eight points (blueprint
+§multiplication diagram): seven rank-two lines and the nondegeneracy
+clauses. Semantically, with `x, y, a` independent, the points are
+`x, y, x/y, xy, a, ax, ay, axy`. -/
+structure MulDiagram (X Y V E A₀ B₀ C₀ D₀ : Point k K) : Prop where
+  /-- The eight points are pairwise distinct; in particular any two named
+  points on a displayed line are distinct, so every line is genuine. -/
+  distinct : Function.Injective ![X, Y, V, E, A₀, B₀, C₀, D₀]
+  /-- The line `{X, A₀, B₀}` (semantically `ax = a · x`). -/
+  line_XAB : RankEq 2 (X.1 ⊔ (A₀.1 ⊔ B₀.1))
+  /-- The line `{A₀, Y, C₀}` (semantically `ay = a · y`). -/
+  line_AYC : RankEq 2 (A₀.1 ⊔ (Y.1 ⊔ C₀.1))
+  /-- The line `{A₀, E, D₀}` (semantically `axy = a · xy`). -/
+  line_AED : RankEq 2 (A₀.1 ⊔ (E.1 ⊔ D₀.1))
+  /-- The line `{B₀, Y, D₀}` (semantically `axy = (ax) · y`). -/
+  line_BYD : RankEq 2 (B₀.1 ⊔ (Y.1 ⊔ D₀.1))
+  /-- The line `{X, C₀, D₀}` (semantically `axy = x · (ay)`). -/
+  line_XCD : RankEq 2 (X.1 ⊔ (C₀.1 ⊔ D₀.1))
+  /-- The line `{B₀, C₀, V}` (semantically `x/y = (ax)/(ay)`). -/
+  line_BCV : RankEq 2 (B₀.1 ⊔ (C₀.1 ⊔ V.1))
+  /-- The common line through `X, Y, E, V` (semantically the
+  multiplicative relations among `x, y, xy, x/y`). -/
+  line_XYEV : RankEq 2 (X.1 ⊔ (Y.1 ⊔ (E.1 ⊔ V.1)))
+  /-- Nondegeneracy: `X, Y, A₀` are in general position. -/
+  rank_XYA : RankEq 3 (X.1 ⊔ (Y.1 ⊔ A₀.1))
+
+/-- The geometric relation `Q′` (blueprint §multiplication diagram):
+a `Q`-witness produces the ratio point `V` from `(X, Y, S)`, and a
+multiplication diagram converts it into the product point `E`. -/
+def Q'Geom (X Y S E : Point k K) : Prop :=
+  ∃ V A₀ B₀ C₀ D₀ : Point k K,
+    QGeom X Y S V ∧ MulDiagram X Y V E A₀ B₀ C₀ D₀
+
+/-- The geometric relation `J` — the Evans–Hrushovski identity reproduced
+by Gismatullin (blueprint §geometric definition of J):
+`J(X, P, Q, R, A)` is one `Q`-instance and two `Q′`-instances. The third
+conjunct exploits `[a+1] = [a]` and `x(a+1) = x + xa`, so the same pair
+`(P, R)` of sum points appears against both product coordinates. -/
+def JGeom (X P Q R A : Point k K) : Prop :=
+  QGeom X Q R A ∧ Q'Geom X A P Q ∧ Q'Geom X A P R
+
+end
 
 end AclGeom
