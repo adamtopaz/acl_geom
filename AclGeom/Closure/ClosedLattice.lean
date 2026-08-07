@@ -268,6 +268,15 @@ theorem coe_set_sup (E F : ClosedIF k K) :
   calc ((E ⊔ F : ClosedIF k K) : Set K) = ((E ⊔ F).1 : Set K) := rfl
     _ = (racl k ((E : Set K) ∪ F) : Set K) := by rw [h]
 
+/-- Sandwich form: a closed element bounded above by the closure of `S`
+and containing `S` has the closure of `S` as its underlying field. -/
+theorem coe_eq_racl_of_le {E : ClosedIF k K} {S : Set K}
+    (h1 : E ≤ ⟨racl k S, isRAC_racl _⟩) (h2 : S ⊆ (E : Set K)) :
+    (E.1 : IntermediateField k K) = racl k S := by
+  refine le_antisymm (le_iff.1 h1) ?_
+  calc racl k S ≤ racl k (E : Set K) := racl_mono h2
+    _ = E.1 := isRAC_iff_racl_eq.1 E.2
+
 end ClosedIF
 
 end

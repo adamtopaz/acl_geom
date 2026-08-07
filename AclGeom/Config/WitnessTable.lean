@@ -555,6 +555,158 @@ theorem qWitness_Z_notLe :
   exact qtable_Z_notMem_abcd hind
     (ClosedIF.point_le_iff.1 (hle.trans (qWitness_ABC_le hind)))
 
+/-! ### Clause (i): the four rank-four joins
+
+All four joins `A∨B∨C`, `A∨B`, `B∨C`, `A∨C` have underlying field
+`racl k {a, b, c, d}` — the birational changes
+`(a,b,c,d) ↔ (c,d,ac,bc+d)` and `(a,b,c,d) ↔ (a,b,ac,bc+d)` recover the
+generators — so each has rank four by the rank bridge. -/
+
+theorem qtable_indep_abcd : AlgebraicIndependent k ![a, b, c, d] := by
+  have h := AlgebraicIndependent.comp hind
+    (Fin.castLE (by norm_num : (4 : ℕ) ≤ 5))
+    (Fin.strictMono_castLE _).injective
+  have heq : (![a, b, c, d, x] ∘ Fin.castLE (by norm_num : (4 : ℕ) ≤ 5)) =
+      ![a, b, c, d] := by
+    funext i
+    fin_cases i <;> rfl
+  rwa [heq] at h
+
+/-- The generator range, normalized. -/
+theorem qtable_range_abcd :
+    Set.range ![a, b, c, d] = ({a, b, c, d} : Set K) := by
+  ext z
+  simp [Matrix.range_cons, Matrix.range_empty]
+  tauto
+
+/-- Clause (i), total join: `rk(A ∨ B ∨ C) = 4`. -/
+theorem qWitness_rank_ABC :
+    RankEq 4 ((qWitness hind).A ⊔ (qWitness hind).B ⊔ (qWitness hind).C) := by
+  refine rankEq_of_coe_eq_racl (qtable_indep_abcd hind) ?_
+  rw [qtable_range_abcd hind]
+  refine ClosedIF.coe_eq_racl_of_le (qWitness_ABC_le hind) ?_
+  rintro z (rfl | rfl | rfl | rfl)
+  · exact (ClosedIF.le_iff.1 (le_sup_left.trans le_sup_left))
+      ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self z))
+  · exact (ClosedIF.le_iff.1 (le_sup_left.trans le_sup_left))
+      ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self z))
+  · exact (ClosedIF.le_iff.1 (le_sup_right.trans le_sup_left))
+      ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self z))
+  · exact (ClosedIF.le_iff.1 (le_sup_right.trans le_sup_left))
+      ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self z))
+
+/-- Clause (i): `rk(A ∨ B) = 4`. -/
+theorem qWitness_rank_AB :
+    RankEq 4 ((qWitness hind).A ⊔ (qWitness hind).B) := by
+  refine rankEq_of_coe_eq_racl (qtable_indep_abcd hind) ?_
+  rw [qtable_range_abcd hind]
+  have ha : a ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hb : b ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hc : c ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hd : d ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  refine ClosedIF.coe_eq_racl_of_le ?_ ?_
+  · refine sup_le ?_ ?_
+    · exact sup_le (ClosedIF.point_le_iff.2 ha) (ClosedIF.point_le_iff.2 hb)
+    · exact sup_le (ClosedIF.point_le_iff.2 hc) (ClosedIF.point_le_iff.2 hd)
+  · rintro z (rfl | rfl | rfl | rfl)
+    · exact (ClosedIF.le_iff.1 le_sup_left)
+        ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self z))
+    · exact (ClosedIF.le_iff.1 le_sup_left)
+        ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self z))
+    · exact (ClosedIF.le_iff.1 le_sup_right)
+        ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self z))
+    · exact (ClosedIF.le_iff.1 le_sup_right)
+        ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self z))
+
+/-- Clause (i): `rk(B ∨ C) = 4` — the generators are recovered by
+`a = (ac)/c` and `b = ((bc+d)-d)/c`. -/
+theorem qWitness_rank_BC :
+    RankEq 4 ((qWitness hind).B ⊔ (qWitness hind).C) := by
+  refine rankEq_of_coe_eq_racl (qtable_indep_abcd hind) ?_
+  rw [qtable_range_abcd hind]
+  have ha : a ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hb : b ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hc : c ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hd : d ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hacm : a * c ∈ racl k ({a, b, c, d} : Set K) :=
+    MulMemClass.mul_mem ha hc
+  have hbcd : b * c + d ∈ racl k ({a, b, c, d} : Set K) :=
+    add_mem (MulMemClass.mul_mem hb hc) hd
+  set E := (qWitness hind).B ⊔ (qWitness hind).C with hE
+  have hcE : c ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_left)
+      ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self c))
+  have hdE : d ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_left)
+      ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self d))
+  have hacE : a * c ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_right)
+      ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self _))
+  have hbcdE : b * c + d ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_right)
+      ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self _))
+  have haE : a ∈ (E.1 : IntermediateField k K) := by
+    have h := MulMemClass.mul_mem hacE (inv_mem hcE)
+    rwa [mul_inv_cancel_right₀ (qtable_c_ne_zero hind)] at h
+  have hbE : b ∈ (E.1 : IntermediateField k K) := by
+    have h := MulMemClass.mul_mem (sub_mem hbcdE hdE) (inv_mem hcE)
+    rwa [add_sub_cancel_right, mul_inv_cancel_right₀
+      (qtable_c_ne_zero hind)] at h
+  refine ClosedIF.coe_eq_racl_of_le ?_ ?_
+  · refine sup_le ?_ ?_
+    · exact sup_le (ClosedIF.point_le_iff.2 hc) (ClosedIF.point_le_iff.2 hd)
+    · exact sup_le (ClosedIF.point_le_iff.2 hacm)
+        (ClosedIF.point_le_iff.2 hbcd)
+  · rintro z (rfl | rfl | rfl | rfl)
+    · exact haE
+    · exact hbE
+    · exact hcE
+    · exact hdE
+
+/-- Clause (i): `rk(A ∨ C) = 4` — the generators are recovered by
+`c = (ac)/a` and `d = (bc+d) - bc`. -/
+theorem qWitness_rank_AC :
+    RankEq 4 ((qWitness hind).A ⊔ (qWitness hind).C) := by
+  refine rankEq_of_coe_eq_racl (qtable_indep_abcd hind) ?_
+  rw [qtable_range_abcd hind]
+  have ha : a ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hb : b ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hc : c ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hd : d ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+  have hacm : a * c ∈ racl k ({a, b, c, d} : Set K) :=
+    MulMemClass.mul_mem ha hc
+  have hbcd : b * c + d ∈ racl k ({a, b, c, d} : Set K) :=
+    add_mem (MulMemClass.mul_mem hb hc) hd
+  set E := (qWitness hind).A ⊔ (qWitness hind).C with hE
+  have haE : a ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_left)
+      ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self a))
+  have hbe : b ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_left)
+      ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self b))
+  have hacE : a * c ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_right)
+      ((ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self _))
+  have hbcdE : b * c + d ∈ (E.1 : IntermediateField k K) :=
+    (ClosedIF.le_iff.1 le_sup_right)
+      ((ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self _))
+  have hcE : c ∈ (E.1 : IntermediateField k K) := by
+    have h := MulMemClass.mul_mem (inv_mem haE) hacE
+    rwa [inv_mul_cancel_left₀ (qtable_a_ne_zero hind)] at h
+  have hdE : d ∈ (E.1 : IntermediateField k K) := by
+    have h := sub_mem hbcdE (MulMemClass.mul_mem hbe hcE)
+    rwa [add_sub_cancel_left] at h
+  refine ClosedIF.coe_eq_racl_of_le ?_ ?_
+  · refine sup_le ?_ ?_
+    · exact sup_le (ClosedIF.point_le_iff.2 ha) (ClosedIF.point_le_iff.2 hb)
+    · exact sup_le (ClosedIF.point_le_iff.2 hacm)
+        (ClosedIF.point_le_iff.2 hbcd)
+  · rintro z (rfl | rfl | rfl | rfl)
+    · exact haE
+    · exact hbe
+    · exact hcE
+    · exact hdE
+
 end QTable
 
 end
