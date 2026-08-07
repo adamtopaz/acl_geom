@@ -268,6 +268,19 @@ theorem coe_set_sup (E F : ClosedIF k K) :
   calc ((E ⊔ F : ClosedIF k K) : Set K) = ((E ⊔ F).1 : Set K) := rfl
     _ = (racl k ((E : Set K) ∪ F) : Set K) := by rw [h]
 
+/-- Membership in a binary infimum. -/
+theorem mem_inf_iff {E F : ClosedIF k K} {x : K} :
+    x ∈ E ⊓ F ↔ x ∈ E ∧ x ∈ F := by
+  rw [← sInf_pair, mem_sInf]
+  constructor
+  · intro h
+    exact ⟨h E (by simp), h F (by simp)⟩
+  · rintro ⟨h1, h2⟩ G hG
+    rcases Set.mem_insert_iff.1 hG with rfl | hG
+    · exact h1
+    · rw [Set.mem_singleton_iff.1 hG]
+      exact h2
+
 /-- Sandwich form: a closed element bounded above by the closure of `S`
 and containing `S` has the closure of `S` as its underlying field. -/
 theorem coe_eq_racl_of_le {E : ClosedIF k K} {S : Set K}
