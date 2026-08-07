@@ -532,6 +532,12 @@ theorem racl_congr_of_subset_racl {S T : Set K} (hST : S ⊆ racl k T)
     (hTS : T ⊆ racl k S) : racl k S = racl k T :=
   le_antisymm (racl_le_of_subset_racl hST) (racl_le_of_subset_racl hTS)
 
+/-- Elements algebraic over the base lie in the closure of the empty set —
+the converse of `isAlgebraic_of_mem_racl_empty`. -/
+theorem mem_racl_empty_of_isAlgebraic {x : K} (hx : IsAlgebraic k x) :
+    x ∈ racl k (∅ : Set K) :=
+  (mem_racl_iff k).2 (hx.tower_top _)
+
 /-- Closing part of a generating set first does not change the closure. -/
 theorem racl_union_left (S T : Set K) :
     racl k ((racl k S : Set K) ∪ T) = racl k (S ∪ T) := by
@@ -575,6 +581,28 @@ theorem algebraicIndependent_pair {z₁ z₂ : K} (h₁ : z₁ ∉ racl k {z₂}
       simp
     rw [himg]
     exact h₂
+
+/-- No member of an independent family is algebraic over any subfamily
+avoiding it. -/
+theorem AlgebraicIndependent.notMem_racl_image {n : ℕ} {v : Fin n → K}
+    (hv : AlgebraicIndependent k v) {S : Set (Fin n)} {i : Fin n}
+    (hi : i ∉ S) : v i ∉ racl k (v '' S) := by
+  intro hmem
+  refine algebraicIndependent_iff_forall_notMem_racl.1 hv i ?_
+  refine racl_mono (Set.image_mono ?_) hmem
+  exact fun j hj hji ↦ hi ((hji : j = i) ▸ hj)
+
+/-- Any two distinct members of an independent family form an independent
+pair. -/
+theorem AlgebraicIndependent.comp_pair {n : ℕ} {v : Fin n → K}
+    (hv : AlgebraicIndependent k v) {i j : Fin n} (hij : i ≠ j) :
+    AlgebraicIndependent k ![v i, v j] := by
+  refine algebraicIndependent_pair ?_ ?_
+  · have h := AlgebraicIndependent.notMem_racl_image hv (S := {j}) hij
+    rwa [Set.image_singleton] at h
+  · have h := AlgebraicIndependent.notMem_racl_image hv (S := {i})
+      (Ne.symm hij)
+    rwa [Set.image_singleton] at h
 
 end SingletonCalculus
 

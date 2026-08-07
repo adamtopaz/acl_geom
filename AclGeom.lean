@@ -25,6 +25,7 @@ import AclGeom.Correspondence.JRigidity
 import AclGeom.Config.Language
 import AclGeom.Config.Semantic
 import AclGeom.Config.Psi
+import AclGeom.Config.WitnessTable
 import AclGeom.Config.Multiplication
 import AclGeom.Transfer.FiniteUnion
 import AclGeom.Transfer.Intersections
