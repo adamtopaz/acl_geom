@@ -313,6 +313,78 @@ polynomials of the classification:
 {docstring AclGeom.AddCorrSetup.exists_coset_equations}
 
 This is the two-pair core of the additive correspondence theorem
-(blueprint Theorem 8.8). The three-pair statement, the simultaneous-coset
-lemma, and the rigidity of `j` (blueprint 8.10) are the remaining steps of
-the hard kernel; progress is tracked on the project's issue tracker.
+(blueprint Theorem 8.8).
+
+# The simultaneous-coset lemma
+%%%
+tag := "simultaneous-coset"
+%%%
+
+Blueprint 8.9-lemma combines the additive and multiplicative coset
+equations at each of the two correspondence curves. The polynomial input
+is a classification of the primes that can divide a shifted
+additive-split polynomial: they are the coset binomials
+$`X^m - c\,Y^n`, which are prime exactly when the exponents are coprime —
+proved by a parametrization-kernel argument rather than Newton polygons:
+
+{docstring AclGeom.cosetBinomial_prime}
+
+{docstring AclGeom.mvBinomial_prime}
+
+{docstring AclGeom.eq_smul_binomial_of_dvd_shift}
+
+At each curve, both the multiplicative binomial and the shifted additive
+generator vanish on the generic point, so the prime generator divides
+both; a sign trichotomy on the integer exponents and an elementary
+denominator-clearing argument rule out the mixed orientations:
+
+{docstring AclGeom.sign_cases_of_zpow_relation}
+
+{docstring AclGeom.simultaneous_coset_at_curve}
+
+{docstring AclGeom.no_mixed_relation}
+
+The classification leaves a monomial additive polynomial on each side,
+and additivity of a monomial pins its exponent to a power of the
+exponential characteristic — a statement uniform across characteristics:
+
+{docstring AclGeom.monomial_isAdditive_expChar}
+
+{docstring AclGeom.simultaneous_coset}
+
+# Rigidity of `j`
+%%%
+tag := "j-rigidity"
+%%%
+
+The last theorem of the hard kernel (blueprint Theorem 8.10) upgrades the
+simultaneous coset relations to an exact common power of Frobenius, using
+the fifth `j`-coordinate $`x(1+a) \sim y(1+b)`. Three steps. First, a
+degenerate application of the multiplicative correspondence theorem — at
+the pair $`(t, t)` — shows that interalgebraic elements whose products
+with a common generic factor remain interalgebraic differ by a constant:
+
+{docstring AclGeom.base_ratio}
+
+Second, perfection: the base field is algebraically closed, so the coset
+constant has roots of every Frobenius order, and injectivity of the
+Frobenius turns the coset relation into an exact twist
+$`y = \lambda\,x^{q^e}` in one direction or the other:
+
+{docstring AclGeom.pow_expChar_pow_injective}
+
+{docstring AclGeom.frobenius_normalize}
+
+Third, the normalization: applying the Frobenius to the fifth coordinate
+(freshman's dream), dropping constant factors, and comparing coefficients
+at the transcendental $`a^{q^e}` via the base-ratio lemma forces
+$`\lambda = 1`:
+
+{docstring AclGeom.lambda_eq_one}
+
+{docstring AclGeom.j_rigidity}
+
+With this, the hard kernel (milestone M3) is complete: the additive and
+multiplicative correspondence theorems, the simultaneous-coset lemma, and
+the rigidity of `j` are all proved elementwise, uniformly in the
+exponential characteristic.

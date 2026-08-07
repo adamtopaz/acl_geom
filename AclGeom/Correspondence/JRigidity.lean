@@ -798,6 +798,362 @@ theorem algebraicIndependent_pair {z₁ z₂ : Ω} (h₁ : z₁ ∉ racl k {z₂
 
 end FrobeniusHelpers
 
+section LambdaOne
+
+/-- **The normalization step of j-rigidity**: if the two pairs agree up to
+a Frobenius power and a common scalar, the fifth `j`-coordinate forces the
+scalar to be one — via the base-ratio lemma at the twisted coordinates. -/
+theorem lambda_eq_one [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ) [ExpChar k q]
+    {x a y b : Ω} (hind : AlgebraicIndependent k ![x, a])
+    (hjj : y * (1 + b) ∈ racl k {x * (1 + a)})
+    (hjj' : x * (1 + a) ∈ racl k {y * (1 + b)})
+    {lam : k} (hlam0 : lam ≠ 0) {e : ℕ}
+    (hy : y = algebraMap k Ω lam * x ^ q ^ e)
+    (hb : b = algebraMap k Ω lam * a ^ q ^ e)
+    {s : Ω} (hs : s ∉ racl k {x, a}) :
+    lam = 1 := by
+  classical
+  haveI : ExpChar Ω q :=
+    expChar_of_injective_ringHom (algebraMap k Ω).injective q
+  have hq0 : q ^ e ≠ 0 := (pow_pos (expChar_pos k q) e).ne'
+  have haT : a ∉ racl k {x} := AlgebraicIndependent.notMem_racl_pair hind
+  have hxT : x ∉ racl k {a} := AlgebraicIndependent.notMem_racl_pair' hind
+  have har : a ∉ racl k (∅ : Set Ω) := fun h ↦
+    haT (racl_mono (Set.empty_subset _) h)
+  have hawr : a ^ q ^ e ∉ racl k (∅ : Set Ω) := by
+    intro h
+    have h5 : a ∈ racl k {a ^ q ^ e} := mem_racl_singleton_pow hq0
+    exact har (racl_le_of_subset_racl (Set.singleton_subset_iff.2 h) h5)
+  -- The Frobenius twist of the fifth coordinate.
+  have hfresh : (x * (1 + a)) ^ q ^ e =
+      x ^ q ^ e * (1 + a ^ q ^ e) := by
+    rw [mul_pow, add_pow_expChar_pow, one_pow]
+  have hchain : racl k ({x * (1 + a)} : Set Ω) =
+      racl k {x ^ q ^ e * (1 + a ^ q ^ e)} := by
+    rw [← hfresh]
+    exact (racl_pow _ hq0).symm
+  -- The right side in twisted coordinates.
+  have hyb : y * (1 + b) = algebraMap k Ω lam *
+      (x ^ q ^ e * (1 + algebraMap k Ω lam * a ^ q ^ e)) := by
+    rw [hy, hb]
+    ring
+  -- The two twisted right factors are mutually interalgebraic with `a`.
+  have hu₁a : racl k ({1 + a ^ q ^ e} : Set Ω) = racl k {a} := by
+    rw [racl_one_add, racl_pow _ hq0]
+  have hu₂a : racl k ({1 + algebraMap k Ω lam * a ^ q ^ e} : Set Ω) =
+      racl k {a} := by
+    rw [racl_one_add, racl_algebraMap_mul hlam0, racl_pow _ hq0]
+  have hxwx : racl k ({x ^ q ^ e} : Set Ω) = racl k {x} :=
+    racl_pow _ hq0
+  -- Membership hypotheses of the base-ratio lemma.
+  have hself₁ : (1 + a ^ q ^ e) ∈ racl k ({1 + a ^ q ^ e} : Set Ω) :=
+    subset_racl k _ rfl
+  have hself₂ : (1 + algebraMap k Ω lam * a ^ q ^ e) ∈
+      racl k ({1 + algebraMap k Ω lam * a ^ q ^ e} : Set Ω) :=
+    subset_racl k _ rfl
+  have hu₂mem : (1 + algebraMap k Ω lam * a ^ q ^ e) ∈
+      racl k ({1 + a ^ q ^ e} : Set Ω) := by
+    rw [hu₁a, ← hu₂a]
+    exact hself₂
+  have hu₁mem : (1 + a ^ q ^ e) ∈
+      racl k ({1 + algebraMap k Ω lam * a ^ q ^ e} : Set Ω) := by
+    rw [hu₂a, ← hu₁a]
+    exact hself₁
+  have hmaplam0 : algebraMap k Ω lam ≠ 0 := fun h ↦
+    hlam0 ((algebraMap k Ω).injective (by rw [h, map_zero]))
+  have hu₂0 : (1 + algebraMap k Ω lam * a ^ q ^ e) ≠ 0 := by
+    intro h0
+    refine hawr ?_
+    have h1 : algebraMap k Ω lam * a ^ q ^ e = -1 := by
+      rw [add_comm] at h0
+      exact eq_neg_of_add_eq_zero_left h0
+    have h2 : a ^ q ^ e = (algebraMap k Ω lam)⁻¹ * (-1 : Ω) := by
+      rw [← h1, ← mul_assoc, inv_mul_cancel₀ hmaplam0, one_mul]
+    rw [h2]
+    exact MulMemClass.mul_mem
+      (inv_mem (IntermediateField.algebraMap_mem _ _))
+      (neg_mem (one_mem _))
+  -- Independence of the base-ratio pair.
+  have hindpair : AlgebraicIndependent k
+      ![1 + a ^ q ^ e, x ^ q ^ e] := by
+    refine algebraicIndependent_pair ?_ ?_
+    · intro h
+      rw [hxwx] at h
+      have h2 : a ∈ racl k {x} := by
+        have h3 : (1 + a ^ q ^ e) ∈ racl k {x} := h
+        have h4 : a ^ q ^ e ∈ racl k {x} := by
+          have := sub_mem h3 (one_mem (racl k {x}))
+          have harith : 1 + a ^ q ^ e - 1 = a ^ q ^ e := by ring
+          rwa [harith] at this
+        have h5 : a ∈ racl k {a ^ q ^ e} := mem_racl_singleton_pow hq0
+        exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 h4) h5
+      exact haT h2
+    · intro h
+      rw [hu₁a] at h
+      have h2 : x ∈ racl k {a} := by
+        have h5 : x ∈ racl k {x ^ q ^ e} := mem_racl_singleton_pow hq0
+        exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 h) h5
+      exact hxT h2
+  -- The product interalgebraicities from the fifth coordinate.
+  have hArel : racl k ({x ^ q ^ e * (1 + a ^ q ^ e)} : Set Ω) =
+      racl k {x * (1 + a)} := hchain.symm
+  have hBrel : racl k ({x ^ q ^ e *
+      (1 + algebraMap k Ω lam * a ^ q ^ e)} : Set Ω) =
+      racl k {y * (1 + b)} := by
+    have h1 : racl k ({y * (1 + b)} : Set Ω) =
+        racl k {x ^ q ^ e * (1 + algebraMap k Ω lam * a ^ q ^ e)} := by
+      rw [hyb]
+      exact racl_algebraMap_mul hlam0 _
+    exact h1.symm
+  have hmulmem : (1 + algebraMap k Ω lam * a ^ q ^ e) * x ^ q ^ e ∈
+      racl k {(1 + a ^ q ^ e) * x ^ q ^ e} := by
+    have h1 : (1 + algebraMap k Ω lam * a ^ q ^ e) * x ^ q ^ e ∈
+        racl k {x ^ q ^ e * (1 + algebraMap k Ω lam * a ^ q ^ e)} := by
+      rw [mul_comm]
+      exact subset_racl k _ rfl
+    rw [hBrel] at h1
+    have h2 : racl k ({y * (1 + b)} : Set Ω) ≤
+        racl k {x * (1 + a)} :=
+      racl_le_of_subset_racl (Set.singleton_subset_iff.2 hjj)
+    have h3 := h2 h1
+    rw [← hArel] at h3
+    have h4 : ({x ^ q ^ e * (1 + a ^ q ^ e)} : Set Ω) =
+        {(1 + a ^ q ^ e) * x ^ q ^ e} := by
+      rw [mul_comm]
+    rwa [h4] at h3
+  have hmulmem' : (1 + a ^ q ^ e) * x ^ q ^ e ∈
+      racl k {(1 + algebraMap k Ω lam * a ^ q ^ e) * x ^ q ^ e} := by
+    have h1 : (1 + a ^ q ^ e) * x ^ q ^ e ∈
+        racl k {x ^ q ^ e * (1 + a ^ q ^ e)} := by
+      rw [mul_comm]
+      exact subset_racl k _ rfl
+    rw [hArel] at h1
+    have h2 : racl k ({x * (1 + a)} : Set Ω) ≤
+        racl k {y * (1 + b)} :=
+      racl_le_of_subset_racl (Set.singleton_subset_iff.2 hjj')
+    have h3 := h2 h1
+    rw [← hBrel] at h3
+    have h4 : ({x ^ q ^ e *
+        (1 + algebraMap k Ω lam * a ^ q ^ e)} : Set Ω) =
+        {(1 + algebraMap k Ω lam * a ^ q ^ e) * x ^ q ^ e} := by
+      rw [mul_comm]
+    rwa [h4] at h3
+  -- The fresh direction.
+  have hsfresh : s ∉ racl k {1 + a ^ q ^ e, x ^ q ^ e} := by
+    intro hmem
+    refine hs (racl_le_of_subset_racl ?_ hmem)
+    rintro z (rfl | rfl)
+    · have h1 : (1 + a ^ q ^ e) ∈ racl k ({a} : Set Ω) := by
+        rw [← hu₁a]
+        exact hself₁
+      refine racl_mono ?_ h1
+      exact Set.singleton_subset_iff.2 (Set.mem_insert_of_mem _ rfl)
+    · have h1 : x ^ q ^ e ∈ racl k ({x} : Set Ω) := by
+        rw [← hxwx]
+        exact subset_racl k _ rfl
+      refine racl_mono ?_ h1
+      exact Set.singleton_subset_iff.2 (Set.mem_insert _ _)
+  -- Apply the base-ratio lemma and compare coefficients.
+  obtain ⟨e', he'0, he'⟩ := base_ratio hindpair hu₂0 hu₂mem hu₁mem
+    hmulmem hmulmem' hsfresh
+  -- `1 + λ·a^w = e'·(1 + a^w)`: transcendence of `a^w` forces `λ = e' = 1`.
+  have hkey : algebraMap k Ω (lam - e') * a ^ q ^ e =
+      algebraMap k Ω (e' - 1) := by
+    have h : (1 : Ω) + algebraMap k Ω lam * a ^ q ^ e =
+        algebraMap k Ω e' + algebraMap k Ω e' * a ^ q ^ e := by
+      rw [he']
+      ring
+    rw [map_sub, map_sub, map_one, sub_mul]
+    calc algebraMap k Ω lam * a ^ q ^ e - algebraMap k Ω e' * a ^ q ^ e
+        = 1 + algebraMap k Ω lam * a ^ q ^ e - 1
+            - algebraMap k Ω e' * a ^ q ^ e := by ring
+      _ = algebraMap k Ω e' + algebraMap k Ω e' * a ^ q ^ e - 1
+            - algebraMap k Ω e' * a ^ q ^ e := by rw [h]
+      _ = algebraMap k Ω e' - 1 := by ring
+  have hlame : lam = e' := by
+    by_contra hne
+    have hsub0 : lam - e' ≠ 0 := sub_ne_zero.2 hne
+    have hmapsub0 : algebraMap k Ω (lam - e') ≠ 0 := fun h ↦
+      hsub0 ((algebraMap k Ω).injective (by rw [h, map_zero]))
+    refine hawr ?_
+    have haw : a ^ q ^ e =
+        (algebraMap k Ω (lam - e'))⁻¹ * algebraMap k Ω (e' - 1) := by
+      rw [← hkey, ← mul_assoc, inv_mul_cancel₀ hmapsub0, one_mul]
+    rw [haw]
+    exact MulMemClass.mul_mem
+      (inv_mem (IntermediateField.algebraMap_mem _ _))
+      (IntermediateField.algebraMap_mem _ _)
+  have he'1 : e' = 1 := by
+    have h0 : algebraMap k Ω (e' - 1) = 0 := by
+      rw [← hkey, hlame, sub_self, map_zero, zero_mul]
+    have h1 : e' - 1 = 0 :=
+      (algebraMap k Ω).injective (by rw [h0, map_zero])
+    exact sub_eq_zero.1 h1
+  rw [hlame, he'1]
+
+end LambdaOne
+
+section Normalize
+
+/-- **Perfection normalization**: a simultaneous coset relation between
+Frobenius powers of two pairs reduces, after extracting roots of the
+constant (the base field is algebraically closed, hence perfect), to an
+exact Frobenius-twist relation `w = λ·z^{qᵉ}` — in one direction or the
+other according to the comparison of the two Frobenius heights. -/
+theorem frobenius_normalize [IsAlgClosed k] (q : ℕ) [ExpChar k q]
+    {c : k} (hc0 : c ≠ 0) {r t : ℕ} {x y a b : Ω}
+    (h₁ : x ^ q ^ r = algebraMap k Ω c * y ^ q ^ t)
+    (h₂ : a ^ q ^ r = algebraMap k Ω c * b ^ q ^ t) :
+    (∃ (lam : k) (e : ℕ), lam ≠ 0 ∧
+        y = algebraMap k Ω lam * x ^ q ^ e ∧
+        b = algebraMap k Ω lam * a ^ q ^ e) ∨
+    (∃ (lam : k) (e : ℕ), lam ≠ 0 ∧
+        x = algebraMap k Ω lam * y ^ q ^ e ∧
+        a = algebraMap k Ω lam * b ^ q ^ e) := by
+  classical
+  haveI : ExpChar Ω q :=
+    expChar_of_injective_ringHom (algebraMap k Ω).injective q
+  rcases le_or_gt t r with hle | hlt
+  · -- Extract a `q^t`-th root of the constant and cancel the outer power.
+    obtain ⟨c', hc'⟩ := IsAlgClosed.exists_pow_nat_eq c
+      (n := q ^ t) (pow_pos (expChar_pos k q) t)
+    have hc'0 : c' ≠ 0 := by
+      intro h0
+      rw [h0, zero_pow (pow_pos (expChar_pos k q) t).ne'] at hc'
+      exact hc0 hc'.symm
+    have hmapc'0 : algebraMap k Ω c' ≠ 0 := fun h ↦
+      hc'0 ((algebraMap k Ω).injective (by rw [h, map_zero]))
+    have key : ∀ z w : Ω, z ^ q ^ r = algebraMap k Ω c * w ^ q ^ t →
+        z ^ q ^ (r - t) = algebraMap k Ω c' * w := by
+      intro z w h
+      have hkey : (z ^ q ^ (r - t)) ^ q ^ t =
+          (algebraMap k Ω c' * w) ^ q ^ t := by
+        rw [← pow_mul, ← pow_add, Nat.sub_add_cancel hle, h, mul_pow,
+          ← map_pow, hc']
+      exact pow_expChar_pow_injective q t hkey
+    have hx := key x y h₁
+    have ha := key a b h₂
+    refine Or.inl ⟨c'⁻¹, r - t, inv_ne_zero hc'0, ?_, ?_⟩
+    · rw [map_inv₀, hx, ← mul_assoc, inv_mul_cancel₀ hmapc'0, one_mul]
+    · rw [map_inv₀, ha, ← mul_assoc, inv_mul_cancel₀ hmapc'0, one_mul]
+  · -- Extract a `q^r`-th root instead; the twist lands on the other side.
+    obtain ⟨c'', hc''⟩ := IsAlgClosed.exists_pow_nat_eq c
+      (n := q ^ r) (pow_pos (expChar_pos k q) r)
+    have hc''0 : c'' ≠ 0 := by
+      intro h0
+      rw [h0, zero_pow (pow_pos (expChar_pos k q) r).ne'] at hc''
+      exact hc0 hc''.symm
+    have key : ∀ z w : Ω, z ^ q ^ r = algebraMap k Ω c * w ^ q ^ t →
+        z = algebraMap k Ω c'' * w ^ q ^ (t - r) := by
+      intro z w h
+      have hkey : z ^ q ^ r =
+          (algebraMap k Ω c'' * w ^ q ^ (t - r)) ^ q ^ r := by
+        rw [h, mul_pow, ← map_pow, hc'', ← pow_mul, ← pow_add,
+          Nat.sub_add_cancel hlt.le]
+      exact pow_expChar_pow_injective q r hkey
+    exact Or.inr ⟨c'', t - r, hc''0, key x y h₁, key a b h₂⟩
+
+end Normalize
+
+section JRigidityMain
+
+/-- **Rigidity of `j` (blueprint Theorem 8.10, elementwise core)**: if two
+independent generic pairs `(x, y)` and `(a, b)` satisfy the five
+`j`-coordinate interalgebraicity relations — coordinatewise, additive,
+multiplicative, and the mixed coordinate `x(1+a) ∼ y(1+b)` — then the two
+pairs are related by an exact common power of Frobenius. -/
+theorem j_rigidity [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ) [ExpChar k q]
+    {x a y b : Ω} (hind : AlgebraicIndependent k ![x, a])
+    (hy : y ∈ racl k {x}) (hx : x ∈ racl k {y})
+    (hb : b ∈ racl k {a}) (ha : a ∈ racl k {b})
+    (hadd : y + b ∈ racl k {x + a}) (hadd' : x + a ∈ racl k {y + b})
+    (hmul : y * b ∈ racl k {x * a}) (hmul' : x * a ∈ racl k {y * b})
+    (hjj : y * (1 + b) ∈ racl k {x * (1 + a)})
+    (hjj' : x * (1 + a) ∈ racl k {y * (1 + b)})
+    {s s' : Ω} (hs : s ∉ racl k {x, a}) (hss' : s' ∉ racl k {x, a, s}) :
+    ∃ u v : ℕ, y ^ q ^ v = x ^ q ^ u ∧ b ^ q ^ v = a ^ q ^ u := by
+  classical
+  -- Nondegeneracy of the second coordinates.
+  have hy0 : y ≠ 0 := by
+    intro h0
+    rw [h0] at hx
+    have h1 : x ∈ racl k (∅ : Set Ω) :=
+      racl_le_of_subset_racl (Set.singleton_subset_iff.2 (zero_mem _)) hx
+    exact AlgebraicIndependent.notMem_racl_pair' hind
+      (racl_mono (Set.empty_subset _) h1)
+  have hb0 : b ≠ 0 := by
+    intro h0
+    rw [h0] at ha
+    have h1 : a ∈ racl k (∅ : Set Ω) :=
+      racl_le_of_subset_racl (Set.singleton_subset_iff.2 (zero_mem _)) ha
+    exact AlgebraicIndependent.notMem_racl_pair hind
+      (racl_mono (Set.empty_subset _) h1)
+  -- The two normalized shapes both close via `lambda_eq_one`.
+  have shapeA : ∀ lam : k, lam ≠ 0 → ∀ e : ℕ,
+      y = algebraMap k Ω lam * x ^ q ^ e →
+      b = algebraMap k Ω lam * a ^ q ^ e →
+      ∃ u v : ℕ, y ^ q ^ v = x ^ q ^ u ∧ b ^ q ^ v = a ^ q ^ u := by
+    intro lam hlam0 e hye hbe
+    have h1 := lambda_eq_one q hind hjj hjj' hlam0 hye hbe hs
+    rw [h1, map_one, one_mul] at hye hbe
+    exact ⟨e, 0, by rw [pow_zero, pow_one, hye],
+      by rw [pow_zero, pow_one, hbe]⟩
+  have shapeB : ∀ lam : k, lam ≠ 0 → ∀ e : ℕ,
+      x = algebraMap k Ω lam * y ^ q ^ e →
+      a = algebraMap k Ω lam * b ^ q ^ e →
+      ∃ u v : ℕ, y ^ q ^ v = x ^ q ^ u ∧ b ^ q ^ v = a ^ q ^ u := by
+    intro lam hlam0 e hxe hae
+    -- The swapped pair is independent and the fresh element stays fresh.
+    have hyb' : y ∉ racl k {b} := by
+      intro h
+      have h2 : x ∈ racl k {b} :=
+        racl_le_of_subset_racl (Set.singleton_subset_iff.2 h) hx
+      have h3 : x ∈ racl k {a} :=
+        racl_le_of_subset_racl (Set.singleton_subset_iff.2 hb) h2
+      exact AlgebraicIndependent.notMem_racl_pair' hind h3
+    have hby' : b ∉ racl k {y} := by
+      intro h
+      have h2 : a ∈ racl k {y} :=
+        racl_le_of_subset_racl (Set.singleton_subset_iff.2 h) ha
+      have h3 : a ∈ racl k {x} :=
+        racl_le_of_subset_racl (Set.singleton_subset_iff.2 hy) h2
+      exact AlgebraicIndependent.notMem_racl_pair hind h3
+    have hindyb : AlgebraicIndependent k ![y, b] :=
+      algebraicIndependent_pair hyb' hby'
+    have hsyb : s ∉ racl k {y, b} := by
+      intro hmem
+      refine hs (racl_le_of_subset_racl ?_ hmem)
+      rintro z (rfl | rfl)
+      · refine racl_mono ?_ hy
+        exact Set.singleton_subset_iff.2 (Set.mem_insert _ _)
+      · refine racl_mono ?_ hb
+        exact Set.singleton_subset_iff.2 (Set.mem_insert_of_mem _ rfl)
+    have h1 := lambda_eq_one q hindyb hjj' hjj hlam0 hxe hae hsyb
+    rw [h1, map_one, one_mul] at hxe hae
+    exact ⟨0, e, by rw [pow_zero, pow_one]; exact hxe.symm,
+      by rw [pow_zero, pow_one]; exact hae.symm⟩
+  -- Assemble the correspondence setup and run the simultaneous coset lemma.
+  obtain ⟨c, m, n, r, t, hc0, hm, hn, hor⟩ :=
+    simultaneous_coset q
+      (⟨x, y, a, b, hind, hy, hx, hb, ha, hadd, hadd'⟩ : AddCorrSetup k Ω)
+      hy0 hb0 hmul hmul' hs hss'
+  subst hm hn
+  rcases hor with ⟨h1raw, h2raw⟩ | ⟨h1raw, h2raw⟩
+  · have h1 : x ^ q ^ r = algebraMap k Ω c * y ^ q ^ t := h1raw
+    have h2 : a ^ q ^ r = algebraMap k Ω c * b ^ q ^ t := h2raw
+    rcases frobenius_normalize q hc0 h1 h2 with
+      ⟨lam, e, hl0, hye, hbe⟩ | ⟨lam, e, hl0, hxe, hae⟩
+    · exact shapeA lam hl0 e hye hbe
+    · exact shapeB lam hl0 e hxe hae
+  · have h1 : y ^ q ^ t = algebraMap k Ω c * x ^ q ^ r := h1raw
+    have h2 : b ^ q ^ t = algebraMap k Ω c * a ^ q ^ r := h2raw
+    rcases frobenius_normalize q hc0 h1 h2 with
+      ⟨lam, e, hl0, hxe, hae⟩ | ⟨lam, e, hl0, hye, hbe⟩
+    · exact shapeB lam hl0 e hxe hae
+    · exact shapeA lam hl0 e hye hbe
+
+end JRigidityMain
+
 end
 
 end AclGeom
