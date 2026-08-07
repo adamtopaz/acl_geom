@@ -584,6 +584,26 @@ theorem monomial_prod_eq_of_span_scale_eq {c : σ → K} (hc : ∀ j, c j ≠ 0)
     exact one_ne_zero hk.symm
   exact mul_left_cancel₀ hlam0 ((key m hm).trans (key m' hm').symm)
 
+/-- A nonzero polynomial vanishing at a point with all coordinates nonzero
+has at least two monomials in its support (a single monomial cannot vanish
+at such a point). -/
+theorem exists_support_pair_of_aeval_eq_zero [Fintype σ]
+    {Ω : Type*} [Field Ω] [Algebra K Ω] {v : σ → Ω} (hv : ∀ j, v j ≠ 0)
+    {F : MvPolynomial σ K} (hF0 : F ≠ 0) (hF : aeval v F = 0) :
+    ∃ m ∈ F.support, ∃ m' ∈ F.support, m ≠ m' := by
+  classical
+  obtain ⟨m₀, hm₀⟩ :=
+    Finset.nonempty_iff_ne_empty.2 fun h ↦ hF0 (support_eq_empty.1 h)
+  by_contra hcon
+  push_neg at hcon
+  have hsup : F.support = {m₀} :=
+    Finset.eq_singleton_iff_unique_mem.2 ⟨hm₀, fun m hm ↦ hcon m hm m₀ hm₀⟩
+  rw [aeval_def, eval₂_eq, hsup, Finset.sum_singleton] at hF
+  rcases mul_eq_zero.1 hF with h | h
+  · exact mem_support_iff.1 hm₀ ((map_eq_zero _).1 h)
+  · obtain ⟨j, _, hj⟩ := Finset.prod_eq_zero_iff.1 h
+    exact hv j (pow_eq_zero_iff'.1 hj).1
+
 end Scaling
 
 end

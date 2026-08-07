@@ -193,9 +193,46 @@ genuine curve:
 
 {docstring AclGeom.AddCorrSetup.JointRel.exists_prime_span_delta}
 
-The remaining step of the additive chain — the classification of the
-resulting translation-invariant generator through the additive-polynomial
-library — and the multiplicative counterpart (for which the scaling
-machinery `AclGeom.scale` with its rigidity and transport lemmas is already
-in place) are under construction; their progress is tracked on the
-project's issue tracker.
+# The multiplicative correspondence theorem: state of the argument
+%%%
+tag := "multiplicative-correspondence"
+%%%
+
+The multiplicative chain (blueprint Theorem 8.9) runs in parallel with the
+additive one — products replace sums, and the ratio element
+$`\rho = c_2 / c_2'` replaces the translation element $`\delta`:
+
+{docstring AclGeom.MulCorrSetup}
+
+{docstring AclGeom.MulCorrSetup.exists_pair_relocation}
+
+{docstring AclGeom.MulCorrSetup.exists_prime_span_mul}
+
+The genericity counts go through with division playing the role of
+subtraction, and the same base-change machinery applies over $`k(\rho)`.
+The structural difference appears at the rigidity step: a scaling
+substitution multiplies each monomial coefficient by the monomial value of
+the scaling vector, so instead of an exact fixed-point identity the chain
+produces *monomial relations* on $`\rho`:
+
+{docstring AclGeom.scale}
+
+{docstring AclGeom.monomial_prod_eq_of_span_scale_eq}
+
+{docstring AclGeom.MulCorrSetup.JointRel.monomial_prod_rhoVec_eq}
+
+These relations are nontrivial — a single monomial cannot vanish at the
+nowhere-zero product point — which forces the coordinates of $`\rho` to be
+interalgebraic: the ratio locus is a genuine curve.
+
+{docstring AclGeom.exists_support_pair_of_aeval_eq_zero}
+
+{docstring AclGeom.MulCorrSetup.JointRel.rho_snd_mem}
+
+{docstring AclGeom.MulCorrSetup.JointRel.exists_prime_span_rho}
+
+The remaining endgames — the classification of the translation-invariant
+generator through the additive-polynomial library on the additive side, and
+the exponent-lattice argument extracting the binomial equation
+$`X^mY^n = c` on the multiplicative side — are under construction; their
+progress is tracked on the project's issue tracker.
