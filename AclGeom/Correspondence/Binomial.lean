@@ -300,6 +300,85 @@ theorem cosetBinomial_prime [IsAlgClosed K] {c : K} (hc : c ≠ 0) {m n : ℕ}
     exact hc (by simpa using hcoeff)
   exact (Ideal.span_singleton_prime hb0).1 hprime_ideal
 
+section MvForm
+
+open MvPolynomial
+
+variable (K) in
+/-- The nested-polynomial presentation of the bivariate polynomial ring:
+`X 1` becomes the inner variable, `X 0` the outer one. -/
+def nestEquiv : MvPolynomial (Fin 2) K ≃ₐ[K] Polynomial (Polynomial K) :=
+  (MvPolynomial.finSuccEquiv K 1).trans
+    (Polynomial.mapAlgEquiv (MvPolynomial.uniqueAlgEquiv K (Fin 1)))
+
+theorem nestEquiv_X_zero :
+    nestEquiv K (MvPolynomial.X 0) =
+      (Polynomial.X : Polynomial (Polynomial K)) := by
+  rw [nestEquiv, AlgEquiv.trans_apply, MvPolynomial.finSuccEquiv_X_zero,
+    Polynomial.coe_mapAlgEquiv, Polynomial.map_X]
+
+theorem nestEquiv_X_one :
+    nestEquiv K (MvPolynomial.X 1) = Polynomial.C Polynomial.X := by
+  rw [nestEquiv, AlgEquiv.trans_apply]
+  have hXone : MvPolynomial.finSuccEquiv K 1 (MvPolynomial.X (1 : Fin 2)) =
+      Polynomial.C (MvPolynomial.X 0) := by
+    have h := MvPolynomial.finSuccEquiv_X_succ (R := K) (n := 1) (j := 0)
+    simpa using h
+  rw [hXone, Polynomial.coe_mapAlgEquiv, Polynomial.map_C]
+  congr 1
+  have h2 : MvPolynomial.uniqueAlgEquiv K (Fin 1) (MvPolynomial.X 0) =
+      Polynomial.X := by
+    have hX : (MvPolynomial.X (0 : Fin 1) : MvPolynomial (Fin 1) K) =
+        MvPolynomial.monomial (Finsupp.single 0 1) 1 := by
+      rw [MvPolynomial.monomial_eq]
+      simp
+    rw [hX, MvPolynomial.uniqueAlgEquiv_monomial]
+    simp [Polynomial.monomial_one_one_eq_X]
+  exact h2
+
+theorem nestEquiv_C (a : K) :
+    nestEquiv K (MvPolynomial.C a) = Polynomial.C (Polynomial.C a) := by
+  have h : nestEquiv K (MvPolynomial.C a) = algebraMap K _ a :=
+    (nestEquiv K).commutes a
+  rw [h]
+  rfl
+
+/-- **Primality of primitive binomials, bivariate form**:
+`X₀^m − c·X₁^n` is prime for coprime positive exponents over an
+algebraically closed field. -/
+theorem mvBinomial_prime [IsAlgClosed K] {c : K} (hc : c ≠ 0) {m n : ℕ}
+    (hm : m ≠ 0) (hn : n ≠ 0) (hcop : Nat.gcd m n = 1) :
+    Prime ((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+      MvPolynomial.C c * MvPolynomial.X 1 ^ n) := by
+  have himage : nestEquiv K
+      ((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+        MvPolynomial.C c * MvPolynomial.X 1 ^ n) =
+      -Polynomial.C (Polynomial.C c) * cosetBinomial c⁻¹ n m := by
+    rw [map_sub, map_mul, map_pow, map_pow, nestEquiv_X_zero, nestEquiv_X_one,
+      nestEquiv_C, cosetBinomial]
+    rw [neg_mul, mul_sub, ← Polynomial.C_pow, ← Polynomial.C_mul,
+      ← mul_assoc, ← Polynomial.C_mul, ← Polynomial.C_mul,
+      mul_inv_cancel₀ hc, Polynomial.C_1, Polynomial.C_1, one_mul]
+    ring
+  have hunit : IsUnit (-Polynomial.C (Polynomial.C c) :
+      Polynomial (Polynomial K)) := by
+    refine IsUnit.neg ?_
+    rw [Polynomial.isUnit_C, Polynomial.isUnit_C]
+    exact isUnit_iff_ne_zero.2 hc
+  have hprime : Prime (nestEquiv K
+      ((MvPolynomial.X 0 : MvPolynomial (Fin 2) K) ^ m -
+        MvPolynomial.C c * MvPolynomial.X 1 ^ n)) := by
+    rw [himage]
+    obtain ⟨u, hu⟩ := hunit
+    have hassoc : Associated (cosetBinomial c⁻¹ n m)
+        (-Polynomial.C (Polynomial.C c) * cosetBinomial c⁻¹ n m) :=
+      ⟨u, by rw [hu]; ring⟩
+    exact hassoc.prime (cosetBinomial_prime (inv_ne_zero hc) hn hm
+      ((Nat.gcd_comm n m).trans hcop))
+  exact (MulEquiv.prime_iff (nestEquiv K)).1 hprime
+
+end MvForm
+
 end
 
 end AclGeom
