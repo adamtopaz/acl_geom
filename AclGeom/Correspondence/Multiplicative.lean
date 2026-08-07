@@ -144,6 +144,41 @@ def JointRel (c₂' : Fin 2 → Ω) : Prop :=
     aeval (Sum.elim ![S.x₁, S.y₁] c₂') f = 0 ↔
       aeval (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂]) f = 0
 
+/-- Joint relocation of the second pair, exactly as in the additive chain:
+the construction is independent of the group operation. -/
+theorem exists_pair_relocation [IsAlgClosed Ω] {s : Ω}
+    (hs : Transcendental ↥S.base s) :
+    ∃ c₂' : Fin 2 → Ω, S.JointRel c₂' ∧
+      ∀ j, IsAlgebraic ↥(adjoin ↥S.base ({s} : Set Ω)) (c₂' j) := by
+  have hbase : S.base = adjoin k (Set.range ![S.x₁, S.y₁]) :=
+    congrArg (adjoin k) (Matrix.range_cons_cons_empty S.x₁ S.y₁ ![]).symm
+  have hx₂ : Transcendental ↥S.base S.x₂ := S.transcendental_x₂
+  have hy₂ : S.y₂ ∈ racl ↥S.base {S.x₂} := S.y₂_mem_baseRacl
+  rw [hbase] at hs hx₂ hy₂ ⊢
+  have ht : AlgebraicIndependent ↥(adjoin k (Set.range ![S.x₁, S.y₁]))
+      ![S.x₂] := algebraicIndependent_unique_type_iff.2 hx₂
+  have hs' : AlgebraicIndependent ↥(adjoin k (Set.range ![S.x₁, S.y₁]))
+      ![s] := algebraicIndependent_unique_type_iff.2 hs
+  have hsub : (Set.range ![S.x₂] : Set Ω) ⊆ Set.range ![S.x₂, S.y₂] := by
+    rw [Matrix.range_cons_empty, Matrix.range_cons_cons_empty]
+    exact Set.singleton_subset_iff.2 (Set.mem_insert _ _)
+  have hle : adjoin ↥(adjoin k (Set.range ![S.x₁, S.y₁])) (Set.range ![S.x₂]) ≤
+      adjoin ↥(adjoin k (Set.range ![S.x₁, S.y₁])) (Set.range ![S.x₂, S.y₂]) :=
+    adjoin.mono _ _ _ hsub
+  have hgen : ∀ x ∈ Set.range ![S.x₂, S.y₂], IsAlgebraic
+      ↥(adjoin ↥(adjoin k (Set.range ![S.x₁, S.y₁])) (Set.range ![S.x₂])) x := by
+    rw [Matrix.range_cons_empty, Matrix.range_cons_cons_empty]
+    rintro x (rfl | rfl)
+    · exact isAlgebraic_algebraMap
+        (⟨S.x₂, subset_adjoin _ _ rfl⟩ :
+          ↥(adjoin ↥(adjoin k (Set.range ![S.x₁, S.y₁])) {S.x₂}))
+    · exact (mem_racl_iff _).1 hy₂
+  obtain ⟨c₂', hrel, halg⟩ := exists_joint_relocation ![S.x₁, S.y₁] ht hle
+    (isAlgebraic_extendScalars_adjoin hle hgen) hs'
+  refine ⟨c₂', hrel, fun j ↦ ?_⟩
+  have h := halg j
+  rwa [Matrix.range_cons_empty] at h
+
 variable {S} {c₂' : Fin 2 → Ω}
 
 /-- A joint relocation has the same joint vanishing ideal. -/
