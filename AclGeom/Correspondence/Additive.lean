@@ -547,6 +547,155 @@ theorem JointRel.exists_prime_span_delta [IsAlgClosed k]
   exists_prime_span_idealOf k (delta_fst_transcendental hs halg)
     (hrel.delta_snd_mem hs halg hFp hFspan)
 
+/-- The relocated pair is a generic point of the same correspondence curve:
+its own vanishing ideal is preserved (restriction of the joint ideal
+equality to the second block of variables). -/
+theorem JointRel.pair_idealOf_eq (hrel : S.JointRel c₂') :
+    idealOf k c₂' = idealOf k ![S.x₂, S.y₂] := by
+  refine idealOf_eq_of_aeval_iff k fun g ↦ ?_
+  have hcomp₁ : (Sum.elim ![S.x₁, S.y₁] c₂' ∘ Sum.inr : Fin 2 → Ω) = c₂' := by
+    funext j
+    rfl
+  have hcomp₂ : (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] ∘ Sum.inr :
+      Fin 2 → Ω) = ![S.x₂, S.y₂] := by
+    funext j
+    rfl
+  have h1 : aeval (Sum.elim ![S.x₁, S.y₁] c₂') (rename Sum.inr g) =
+      aeval c₂' g := by
+    rw [aeval_rename, hcomp₁]
+  have h2 : aeval (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂]) (rename Sum.inr g) =
+      aeval ![S.x₂, S.y₂] g := by
+    rw [aeval_rename, hcomp₂]
+  rw [← h1, ← h2]
+  exact hrel (rename Sum.inr g)
+
+/-- The unrelocated pair coordinate stays transcendental over `k(δ)`: the
+δ-locus is one-dimensional, and pulling `x₂` into it would drag `c₂' 0`
+into `k(x₂)`. -/
+theorem JointRel.pair_fst_notMem_delta [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    S.x₂ ∉ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} := by
+  intro hmem
+  -- The δ-locus is one-dimensional.
+  have hδ₁ : S.y₂ - c₂' 1 ∈ racl k {S.x₂ - c₂' 0} :=
+    hrel.delta_snd_mem hs halg hFp hFspan
+  have hD : racl k ({S.x₂ - c₂' 0, S.y₂ - c₂' 1} : Set Ω) ≤
+      racl k {S.x₂ - c₂' 0} := by
+    refine racl_le_of_subset_racl ?_
+    rintro z (rfl | rfl)
+    · exact subset_racl k _ rfl
+    · exact hδ₁
+  have hx₂δ : S.x₂ ∈ racl k {S.x₂ - c₂' 0} := hD hmem
+  -- Exchange against the transcendence of δ₀.
+  have hx₂e : S.x₂ ∉ racl k (∅ : Set Ω) := fun h ↦
+    S.x₂_notMem (racl_mono (Set.empty_subset _) h)
+  have hins₀ : (insert (S.x₂ - c₂' 0) (∅ : Set Ω)) = {S.x₂ - c₂' 0} := by
+    simp
+  have hins₂ : (insert S.x₂ (∅ : Set Ω)) = {S.x₂} := by simp
+  have hexch : S.x₂ - c₂' 0 ∈ racl k {S.x₂} := by
+    have h1 : S.x₂ ∈ racl k (insert (S.x₂ - c₂' 0) (∅ : Set Ω)) := by
+      rw [hins₀]
+      exact hx₂δ
+    have h2 := racl_exchange h1 hx₂e
+    rwa [hins₂] at h2
+  have hc₂'0 : c₂' 0 ∈ racl k {S.x₂} := by
+    have hx₂self : S.x₂ ∈ racl k {S.x₂} := subset_racl k _ rfl
+    have hsub := sub_mem hx₂self hexch
+    have hcancel : S.x₂ - (S.x₂ - c₂' 0) = c₂' 0 := by ring
+    rwa [hcancel] at hsub
+  refine hrel.fst_notMem_pair hs halg ?_
+  exact racl_mono (Set.subset_insert _ _) hc₂'0
+
+/-- … and so does the second coordinate. -/
+theorem JointRel.pair_snd_notMem_delta [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    S.y₂ ∉ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} := fun hmem ↦
+  hrel.pair_fst_notMem_delta hs halg hFp hFspan
+    (racl_le_of_subset_racl (Set.singleton_subset_iff.2 hmem) S.x₂_mem)
+
+/-- The relocated pair coordinates stay transcendental over `k(δ)` as well:
+adding `δ₀` moves between the two pair points. -/
+theorem JointRel.reloc_fst_notMem_delta [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    c₂' 0 ∉ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} := by
+  intro hmem
+  have hδ₀m : S.x₂ - c₂' 0 ∈ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} :=
+    subset_racl k _ (Set.mem_insert _ _)
+  have hx₂m := add_mem hδ₀m hmem
+  have hcancel : S.x₂ - c₂' 0 + c₂' 0 = S.x₂ := by ring
+  rw [hcancel] at hx₂m
+  exact hrel.pair_fst_notMem_delta hs halg hFp hFspan hx₂m
+
+/-- … in both coordinates. -/
+theorem JointRel.reloc_snd_notMem_delta [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F}) :
+    c₂' 1 ∉ racl k {S.x₂ - c₂' 0, S.y₂ - c₂' 1} := fun hmem ↦
+  hrel.reloc_fst_notMem_delta hs halg hFp hFspan
+    (racl_le_of_subset_racl (Set.singleton_subset_iff.2 hmem) hrel.fst_mem)
+
+/-- **The exact translation identity at the correspondence curve**: the
+generator of `Loc(x₂, y₂)` over `k(δ)` is literally fixed by the
+translation substitution by `δ = c₂ − c₂'`. This upgrades the generic coset
+statement `C₂ − δ = C₂` to an identity of polynomials, the input to the
+group-chunk argument of the additive endgame. -/
+theorem JointRel.translate_pair_eq [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F})
+    {G : MvPolynomial (Fin 2) k} (hG0 : G ≠ 0)
+    (hGspan : idealOf k ![S.x₂, S.y₂] = Ideal.span {G}) :
+    translate (deltaVec S c₂')
+        (MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G) =
+      MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G := by
+  classical
+  set GK := MvPolynomial.map (algebraMap k ↥(deltaField S c₂')) G with hGK
+  -- Genericity of the pair over `k(δ)`, and its span.
+  have hu : Transcendental ↥(deltaField S c₂') S.x₂ := fun h ↦
+    hrel.pair_fst_notMem_delta hs halg hFp hFspan ((mem_racl_iff k).2 h)
+  have hv' : Transcendental ↥(deltaField S c₂') S.y₂ := fun h ↦
+    hrel.pair_snd_notMem_delta hs halg hFp hFspan ((mem_racl_iff k).2 h)
+  have hspan_d : idealOf ↥(deltaField S c₂') ![S.x₂, S.y₂] =
+      Ideal.span {GK} :=
+    idealOf_map_eq_span hu S.y₂_mem hv' S.x₂_mem hG0 hGspan
+  -- Genericity of the relocated pair over `k(δ)`, and its span.
+  have hud' : Transcendental ↥(deltaField S c₂') (c₂' 0) := fun h ↦
+    hrel.reloc_fst_notMem_delta hs halg hFp hFspan ((mem_racl_iff k).2 h)
+  have hvd'' : Transcendental ↥(deltaField S c₂') (c₂' 1) := fun h ↦
+    hrel.reloc_snd_notMem_delta hs halg hFp hFspan ((mem_racl_iff k).2 h)
+  have hpair : c₂' = ![c₂' 0, c₂' 1] := by
+    funext i
+    fin_cases i <;> rfl
+  have hGspan_d' : idealOf k ![c₂' 0, c₂' 1] = Ideal.span {G} := by
+    rw [← hpair, hrel.pair_idealOf_eq, hGspan]
+  have hspan_d' : idealOf ↥(deltaField S c₂') ![c₂' 0, c₂' 1] =
+      Ideal.span {GK} :=
+    idealOf_map_eq_span hud' hrel.snd_mem hvd'' hrel.fst_mem hG0 hGspan_d'
+  -- Transport the pair span along the translation and compare.
+  have htrans := idealOf_translate_span (c := deltaVec S c₂') hspan_d
+  have htuple : (fun j ↦ (![S.x₂, S.y₂] : Fin 2 → Ω) j -
+      algebraMap ↥(deltaField S c₂') Ω (deltaVec S c₂' j)) =
+      ![c₂' 0, c₂' 1] := by
+    funext j
+    fin_cases j
+    · show S.x₂ - (S.x₂ - c₂' 0) = c₂' 0
+      ring
+    · show S.y₂ - (S.y₂ - c₂' 1) = c₂' 1
+      ring
+  rw [htuple, hspan_d'] at htrans
+  have hGK0 : GK ≠ 0 := fun h ↦ hG0 (MvPolynomial.map_injective _
+    (algebraMap k ↥(deltaField S c₂')).injective (by rw [map_zero]; exact h))
+  exact translate_eq_self_of_span_eq hGK0 htrans.symm
+
 end TranslationIdentity
 
 end AddCorrSetup
