@@ -160,6 +160,38 @@ theorem qtable_d_notMem_abcx : d ∉ racl k ({a, b, c, x} : Set K) := by
     (S := {0, 1, 2, 4}) (i := 3) (by decide)
   simpa [Set.image_insert_eq] using h
 
+theorem qtable_x_notMem_abcd : x ∉ racl k ({a, b, c, d} : Set K) := by
+  have h := AlgebraicIndependent.notMem_racl_image hind
+    (S := {0, 1, 2, 3}) (i := 4) (by decide)
+  simpa [Set.image_insert_eq] using h
+
+/-- The point `Y = [ax+b]` is generic over the configuration base: `b` and
+`a` recover `x` from it. -/
+theorem qtable_Y_notMem_abcd :
+    a * x + b ∉ racl k ({a, b, c, d} : Set K) := by
+  intro hY
+  have ha : a ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have hb : b ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have h := MulMemClass.mul_mem (inv_mem ha) (sub_mem hY hb)
+  rw [add_sub_cancel_right,
+    inv_mul_cancel_left₀ (qtable_a_ne_zero hind)] at h
+  exact qtable_x_notMem_abcd hind h
+
+/-- The point `Z = [c(ax+b)+d]` is generic over the configuration base. -/
+theorem qtable_Z_notMem_abcd :
+    c * (a * x + b) + d ∉ racl k ({a, b, c, d} : Set K) := by
+  intro hZ
+  have hc : c ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have hd : d ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have h := MulMemClass.mul_mem (inv_mem hc) (sub_mem hZ hd)
+  rw [add_sub_cancel_right,
+    inv_mul_cancel_left₀ (qtable_c_ne_zero hind)] at h
+  exact qtable_Y_notMem_abcd hind h
+
 /-! ### Transcendence of the table entries
 
 Each composite entry of table 7.1 is transcendental over the base, by the
@@ -326,6 +358,202 @@ theorem qtable_Z_notMem_bot :
   have h := sub_mem hZ (MulMemClass.mul_mem hc
     (add_mem (MulMemClass.mul_mem ha hx) hb))
   rwa [add_sub_cancel_left] at h
+
+/-! ### The witness
+
+The twenty-one points of blueprint table 7.1, assembled. -/
+
+/-- The soundness witness of blueprint table 7.1: the twenty-one points of
+the `Q`-configuration as principal closures of rational expressions in the
+independent generators `a, b, c, d, x` (with `u = b`, `v = ax`). -/
+def qWitness : QWitness k K where
+  A₁ := Point.mk' k a (qtable_a_notMem_bot hind)
+  A₂ := Point.mk' k b (qtable_b_notMem_bot hind)
+  B₁ := Point.mk' k c (qtable_c_notMem_bot hind)
+  B₂ := Point.mk' k d (qtable_d_notMem_bot hind)
+  C₁ := Point.mk' k (a * c) (qtable_mul_ac_notMem_bot hind)
+  C₂ := Point.mk' k (b * c + d) (qtable_bcd_notMem_bot hind)
+  D := Point.mk' k (a * x) (qtable_mul_ax_notMem_bot hind)
+  E := Point.mk' k (c * (a * x + b)) (qtable_E_notMem_bot hind)
+  F := Point.mk' k (a * c * x) (qtable_acx_notMem_bot hind)
+  G := Point.mk' k (b * c) (qtable_mul_bc_notMem_bot hind)
+  H := Point.mk' k (a / b) (qtable_div_ab_notMem_bot hind)
+  I := Point.mk' k (a * x / b) (qtable_axb_notMem_bot hind)
+  P := Point.mk' k b (qtable_b_notMem_bot hind)
+  Q := Point.mk' k d (qtable_d_notMem_bot hind)
+  R := Point.mk' k (b * c + d) (qtable_bcd_notMem_bot hind)
+  S := Point.mk' k a (qtable_a_notMem_bot hind)
+  T := Point.mk' k c (qtable_c_notMem_bot hind)
+  U := Point.mk' k (a * c) (qtable_mul_ac_notMem_bot hind)
+  X := Point.mk' k x (qtable_x_notMem_bot hind)
+  Y := Point.mk' k (a * x + b) (qtable_Y_notMem_bot hind)
+  Z := Point.mk' k (c * (a * x + b) + d) (qtable_Z_notMem_bot hind)
+
+/-! ### Clause (v): the dependent triple sits inside `A, B, C` -/
+
+theorem qWitness_S_le : (qWitness hind).S.1 ≤ (qWitness hind).A :=
+  le_sup_left
+
+theorem qWitness_T_le : (qWitness hind).T.1 ≤ (qWitness hind).B :=
+  le_sup_left
+
+theorem qWitness_U_le : (qWitness hind).U.1 ≤ (qWitness hind).C :=
+  le_sup_left
+
+/-- Clause (v), rank part: the triple `([a], [c], [ac])` is dependent. -/
+theorem qWitness_rank_STU :
+    RankEq 2 ((qWitness hind).S.1 ⊔
+      ((qWitness hind).T.1 ⊔ (qWitness hind).U.1)) := by
+  have hac : AlgebraicIndependent k ![a, c] := by
+    simpa using AlgebraicIndependent.comp_pair hind
+      (i := 0) (j := 2) (by decide)
+  refine rankEq_of_coe_eq_racl hac ?_
+  show ((ClosedIF.point k a ⊔ (ClosedIF.point k c ⊔
+    ClosedIF.point k (a * c))).1 : IntermediateField k K) = _
+  rw [ClosedIF.coe_sup]
+  simp only [ClosedIF.coe_set_sup, ClosedIF.coe_set_point]
+  have hrange : Set.range ![a, c] = {a, c} := by
+    rw [Matrix.range_cons, Matrix.range_cons, Matrix.range_empty]
+    simp only [Set.union_empty, Set.union_singleton]
+    exact Set.pair_comm c a
+  rw [hrange]
+  have ha : a ∈ racl k ({a, c} : Set K) :=
+    subset_racl k _ (Set.mem_insert _ _)
+  have hc : c ∈ racl k ({a, c} : Set K) :=
+    subset_racl k _ (Set.mem_insert_of_mem _ rfl)
+  have hacm : a * c ∈ racl k ({a, c} : Set K) :=
+    MulMemClass.mul_mem ha hc
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rintro z (hz | hz)
+    · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 ha) hz
+    · have hle : racl k ((racl k {c} : Set K) ∪
+          (racl k {a * c} : Set K)) ≤ racl k ({a, c} : Set K) := by
+        refine racl_le_of_subset_racl (Set.union_subset ?_ ?_)
+        · exact fun w hw ↦
+            racl_le_of_subset_racl (Set.singleton_subset_iff.2 hc) hw
+        · exact fun w hw ↦
+            racl_le_of_subset_racl (Set.singleton_subset_iff.2 hacm) hw
+      exact hle hz
+  · rintro z (rfl | rfl)
+    · refine subset_racl k _ ?_
+      refine Set.mem_union_left _ ?_
+      exact subset_racl k _ rfl
+    · refine subset_racl k _ ?_
+      refine Set.mem_union_right _ ?_
+      refine subset_racl k _ ?_
+      refine Set.mem_union_left _ ?_
+      exact subset_racl k _ rfl
+
+/-! ### Clause (ii): the incidences of `X` and `Z` -/
+
+/-- Clause (ii), first part: `X ≤ A ∨ Y`, because `x = ((ax+b) - b)/a`. -/
+theorem qWitness_X_le :
+    (qWitness hind).X.1 ≤ (qWitness hind).A ⊔ (qWitness hind).Y.1 := by
+  refine ClosedIF.point_le_iff.2 ?_
+  rw [ClosedIF.mem_sup_iff]
+  have ha : a ∈ racl k (((qWitness hind).A : Set K) ∪
+      ((qWitness hind).Y.1 : Set K)) := by
+    refine subset_racl k _ (Set.mem_union_left _ ?_)
+    exact (ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self a)
+  have hb : b ∈ racl k (((qWitness hind).A : Set K) ∪
+      ((qWitness hind).Y.1 : Set K)) := by
+    refine subset_racl k _ (Set.mem_union_left _ ?_)
+    exact (ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self b)
+  have hY : a * x + b ∈ racl k (((qWitness hind).A : Set K) ∪
+      ((qWitness hind).Y.1 : Set K)) := by
+    refine subset_racl k _ (Set.mem_union_right _ ?_)
+    exact ClosedIF.mem_point_self _
+  have h := MulMemClass.mul_mem (inv_mem ha) (sub_mem hY hb)
+  have harith : a⁻¹ * (a * x + b - b) = x := by
+    rw [add_sub_cancel_right, inv_mul_cancel_left₀ (qtable_a_ne_zero hind)]
+  rwa [harith] at h
+
+/-- Clause (ii), second part: `Z ≤ (B ∨ Y) ∧ (C ∨ X)`, because
+`z = cY + d = (ac)x + (bc+d)`. -/
+theorem qWitness_Z_le :
+    (qWitness hind).Z.1 ≤
+      ((qWitness hind).B ⊔ (qWitness hind).Y.1) ⊓
+        ((qWitness hind).C ⊔ (qWitness hind).X.1) := by
+  refine le_inf ?_ ?_
+  · refine ClosedIF.point_le_iff.2 ?_
+    rw [ClosedIF.mem_sup_iff]
+    have hc : c ∈ racl k (((qWitness hind).B : Set K) ∪
+        ((qWitness hind).Y.1 : Set K)) := by
+      refine subset_racl k _ (Set.mem_union_left _ ?_)
+      exact (ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self c)
+    have hd : d ∈ racl k (((qWitness hind).B : Set K) ∪
+        ((qWitness hind).Y.1 : Set K)) := by
+      refine subset_racl k _ (Set.mem_union_left _ ?_)
+      exact (ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self d)
+    have hY : a * x + b ∈ racl k (((qWitness hind).B : Set K) ∪
+        ((qWitness hind).Y.1 : Set K)) := by
+      refine subset_racl k _ (Set.mem_union_right _ ?_)
+      exact ClosedIF.mem_point_self _
+    exact add_mem (MulMemClass.mul_mem hc hY) hd
+  · refine ClosedIF.point_le_iff.2 ?_
+    rw [ClosedIF.mem_sup_iff]
+    have hac : a * c ∈ racl k (((qWitness hind).C : Set K) ∪
+        ((qWitness hind).X.1 : Set K)) := by
+      refine subset_racl k _ (Set.mem_union_left _ ?_)
+      exact (ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self _)
+    have hbcd : b * c + d ∈ racl k (((qWitness hind).C : Set K) ∪
+        ((qWitness hind).X.1 : Set K)) := by
+      refine subset_racl k _ (Set.mem_union_left _ ?_)
+      exact (ClosedIF.le_iff.1 le_sup_right) (ClosedIF.mem_point_self _)
+    have hx : x ∈ racl k (((qWitness hind).C : Set K) ∪
+        ((qWitness hind).X.1 : Set K)) := by
+      refine subset_racl k _ (Set.mem_union_right _ ?_)
+      exact ClosedIF.mem_point_self _
+    have h := add_mem (MulMemClass.mul_mem hac hx) hbcd
+    have harith : a * c * x + (b * c + d) = c * (a * x + b) + d := by
+      ring
+    rwa [harith] at h
+
+/-! ### Clause (iii): genericity of `X, Y, Z` over `A ∨ B ∨ C` -/
+
+/-- The join `A ∨ B ∨ C` is bounded by the closure of the four
+generators (the entries `ac` and `bc+d` are absorbed). -/
+theorem qWitness_ABC_le :
+    (qWitness hind).A ⊔ (qWitness hind).B ⊔ (qWitness hind).C ≤
+      ⟨racl k ({a, b, c, d} : Set K), isRAC_racl _⟩ := by
+  have ha : a ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have hb : b ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have hc : c ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have hd : d ∈ racl k ({a, b, c, d} : Set K) :=
+    subset_racl k _ (by simp)
+  have hacm : a * c ∈ racl k ({a, b, c, d} : Set K) :=
+    MulMemClass.mul_mem ha hc
+  have hbcd : b * c + d ∈ racl k ({a, b, c, d} : Set K) :=
+    add_mem (MulMemClass.mul_mem hb hc) hd
+  refine sup_le (sup_le ?_ ?_) ?_
+  · exact sup_le (ClosedIF.point_le_iff.2 ha) (ClosedIF.point_le_iff.2 hb)
+  · exact sup_le (ClosedIF.point_le_iff.2 hc) (ClosedIF.point_le_iff.2 hd)
+  · exact sup_le (ClosedIF.point_le_iff.2 hacm)
+      (ClosedIF.point_le_iff.2 hbcd)
+
+theorem qWitness_X_notLe :
+    ¬ (qWitness hind).X.1 ≤
+      (qWitness hind).A ⊔ (qWitness hind).B ⊔ (qWitness hind).C := by
+  intro hle
+  exact qtable_x_notMem_abcd hind
+    (ClosedIF.point_le_iff.1 (hle.trans (qWitness_ABC_le hind)))
+
+theorem qWitness_Y_notLe :
+    ¬ (qWitness hind).Y.1 ≤
+      (qWitness hind).A ⊔ (qWitness hind).B ⊔ (qWitness hind).C := by
+  intro hle
+  exact qtable_Y_notMem_abcd hind
+    (ClosedIF.point_le_iff.1 (hle.trans (qWitness_ABC_le hind)))
+
+theorem qWitness_Z_notLe :
+    ¬ (qWitness hind).Z.1 ≤
+      (qWitness hind).A ⊔ (qWitness hind).B ⊔ (qWitness hind).C := by
+  intro hle
+  exact qtable_Z_notMem_abcd hind
+    (ClosedIF.point_le_iff.1 (hle.trans (qWitness_ABC_le hind)))
 
 end QTable
 
