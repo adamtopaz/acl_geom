@@ -387,7 +387,105 @@ theorem no_mixed_relation {t : Ω} (htr : Transcendental k t)
     · exact h
     · exact absurd h (pow_ne_zero _ hγ))
 
+/-- **Mixed rule-out at a curve point**: a pair satisfying a same-sign
+monomial relation cannot satisfy an axes-supported relation with nonzero
+first part — parametrize the point by a transcendental root and apply the
+denominator-clearing contradiction. -/
+theorem rule_out_mixed_at_curve [IsAlgClosed k] [IsAlgClosed Ω]
+    {x y : Ω} (hxr : x ∉ racl k (∅ : Set Ω)) (hyr : y ∉ racl k (∅ : Set Ω))
+    {c' : k} (hc' : c' ≠ 0) {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
+    (hmix : x ^ m * y ^ n = algebraMap k Ω c')
+    {p q : Polynomial k} (hp : p ≠ 0) (hp0 : p.coeff 0 = 0)
+    (hq0 : q.coeff 0 = 0) {d : k}
+    (hval : Polynomial.aeval x p + Polynomial.aeval y q =
+      algebraMap k Ω d) :
+    False := by
+  classical
+  have hy0 : y ≠ 0 := by
+    rintro rfl
+    exact hyr (zero_mem _)
+  have hx0 : x ≠ 0 := by
+    rintro rfl
+    exact hxr (zero_mem _)
+  -- A transcendental root parametrizing the second coordinate.
+  obtain ⟨t, ht⟩ := IsAlgClosed.exists_pow_nat_eq (y⁻¹)
+    (Nat.pos_of_ne_zero hm)
+  have ht0 : t ≠ 0 := by
+    rintro rfl
+    rw [zero_pow hm] at ht
+    exact hy0 (by rw [← inv_inv y, ← ht, inv_zero])
+  have hyt : y = (t ^ m)⁻¹ := by
+    rw [ht, inv_inv]
+  have httr : Transcendental k t := by
+    intro halg
+    refine hyr ?_
+    have htm : t ∈ racl k (∅ : Set Ω) :=
+      (mem_racl_iff k).2 (halg.tower_top _)
+    rw [hyt]
+    exact inv_mem (pow_mem htm m)
+  -- The coefficient of the parametrization is algebraic, hence in `k`.
+  have hxm : x ^ m = algebraMap k Ω c' * t ^ (m * n) := by
+    have h1 : y ^ n = (t ^ (m * n))⁻¹ := by
+      rw [hyt, ← inv_pow, ← pow_mul, inv_pow]
+    rw [h1, ← div_eq_mul_inv, div_eq_iff (pow_ne_zero _ ht0)] at hmix
+    exact hmix
+  have hγΩ : (x * (t ^ n)⁻¹) ^ m = algebraMap k Ω c' := by
+    rw [mul_pow, inv_pow, ← pow_mul, hxm, mul_comm m n]
+    field_simp
+  have hγmem : x * (t ^ n)⁻¹ ∈ racl k (∅ : Set Ω) := by
+    have h1 : (x * (t ^ n)⁻¹) ^ ((m : ℤ)) ∈ racl k (∅ : Set Ω) := by
+      rw [zpow_natCast, hγΩ]
+      exact IntermediateField.algebraMap_mem _ _
+    exact mem_racl_empty_of_zpow (by exact_mod_cast hm) h1
+  obtain ⟨γ, hγeq⟩ := mem_range_algebraMap_of_isAlgebraic
+    (isAlgebraic_of_mem_racl_empty hγmem)
+  have hγ0 : γ ≠ 0 := by
+    intro h0
+    rw [h0, map_zero] at hγeq
+    exact (mul_ne_zero hx0 (inv_ne_zero (pow_ne_zero _ ht0))) hγeq.symm
+  have hxt : x = algebraMap k Ω γ * t ^ n := by
+    rw [hγeq]
+    field_simp
+  exact no_mixed_relation httr hγ0 hp hp0 hq0 hm hn
+    (by rw [← hxt, ← hyt]; exact hval)
+
 end MixedRuleOut
+
+section PPower
+
+open Polynomial
+
+/-- The exponent of a nonzero additive monomial in characteristic zero
+is one. -/
+theorem monomial_isAdditive_charZero [CharZero k] {l : k} (hl : l ≠ 0)
+    {m : ℕ} (h : IsAdditive (Polynomial.C l * Polynomial.X ^ m)) :
+    m = 1 := by
+  by_contra hne
+  have hC := h.eq_C_mul_X
+  have hc := congrArg (fun r ↦ Polynomial.coeff r m) hC
+  have hlhs : Polynomial.coeff (Polynomial.C l * Polynomial.X ^ m) m = l := by
+    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl, mul_one]
+  have hrhs : Polynomial.coeff (Polynomial.C
+      ((Polynomial.C l * Polynomial.X ^ m).coeff 1) * Polynomial.X) m = 0 := by
+    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X,
+      if_neg (fun h ↦ hne h.symm), mul_zero]
+  rw [hlhs, hrhs] at hc
+  exact hl hc
+
+/-- The exponent of a nonzero additive monomial in characteristic `p` is a
+`p`-power. -/
+theorem monomial_isAdditive_charP (p : ℕ) [CharP k p] (hp : p.Prime)
+    [Infinite k] {l : k} (hl : l ≠ 0) {m : ℕ}
+    (h : IsAdditive (Polynomial.C l * Polynomial.X ^ m)) :
+    ∃ r : ℕ, m = p ^ r := by
+  by_contra hne
+  push Not at hne
+  have h0 := h.coeff_eq_zero_of_ne_pow p hp hne
+  rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl,
+    mul_one] at h0
+  exact hl h0
+
+end PPower
 
 end
 
