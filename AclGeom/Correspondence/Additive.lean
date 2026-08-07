@@ -696,6 +696,97 @@ theorem JointRel.translate_pair_eq [IsAlgClosed k] (hrel : S.JointRel c₂')
     (algebraMap k ↥(deltaField S c₂')).injective (by rw [map_zero]; exact h))
   exact translate_eq_self_of_span_eq hGK0 htrans.symm
 
+/-- The relocated first coordinate stays transcendental over `k(x₂, y₂)`. -/
+theorem JointRel.fst_notMem_pairRacl (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    c₂' 0 ∉ racl k {S.x₂, S.y₂} := by
+  intro hmem
+  have hD : racl k ({S.x₂, S.y₂} : Set Ω) ≤ racl k {S.x₂} := by
+    refine racl_le_of_subset_racl ?_
+    rintro z (rfl | rfl)
+    · exact subset_racl k _ rfl
+    · exact S.y₂_mem
+  refine hrel.fst_notMem_pair hs halg ?_
+  exact racl_mono (Set.subset_insert _ _) (hD hmem)
+
+/-- … and the second. -/
+theorem JointRel.snd_notMem_pairRacl (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s}) :
+    c₂' 1 ∉ racl k {S.x₂, S.y₂} := fun hmem ↦
+  hrel.fst_notMem_pairRacl hs halg
+    (racl_le_of_subset_racl (Set.singleton_subset_iff.2 hmem) hrel.fst_mem)
+
+/-- The relocated pair spans the extended curve ideal over `k(x₂, y₂)`:
+base-change irreducibility at the relocated point over the field generated
+by the original pair. -/
+theorem JointRel.reloc_span_pairField [IsAlgClosed k] (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    {G : MvPolynomial (Fin 2) k} (hG0 : G ≠ 0)
+    (hGspan : idealOf k ![S.x₂, S.y₂] = Ideal.span {G}) :
+    idealOf ↥(adjoin k ({S.x₂, S.y₂} : Set Ω)) c₂' =
+      Ideal.span {MvPolynomial.map
+        (algebraMap k ↥(adjoin k ({S.x₂, S.y₂} : Set Ω))) G} := by
+  have hu : Transcendental ↥(adjoin k ({S.x₂, S.y₂} : Set Ω)) (c₂' 0) :=
+    fun h ↦ hrel.fst_notMem_pairRacl hs halg ((mem_racl_iff k).2 h)
+  have hv' : Transcendental ↥(adjoin k ({S.x₂, S.y₂} : Set Ω)) (c₂' 1) :=
+    fun h ↦ hrel.snd_notMem_pairRacl hs halg ((mem_racl_iff k).2 h)
+  have hpair : c₂' = ![c₂' 0, c₂' 1] := by
+    funext i
+    fin_cases i <;> rfl
+  have hGspan' : idealOf k ![c₂' 0, c₂' 1] = Ideal.span {G} := by
+    rw [← hpair, hrel.pair_idealOf_eq, hGspan]
+  have h := idealOf_map_eq_span hu hrel.snd_mem hv' hrel.fst_mem hG0 hGspan'
+  rwa [← hpair] at h
+
+variable {c₂'' : Fin 2 → Ω} {s' : Ω}
+
+/-- **Joint-type determination at the correspondence curve**: two joint
+relocations of the pair have the same joint vanishing ideal with it. -/
+theorem joint_idealOf_eq_of_two_relocations [IsAlgClosed k]
+    (hrel : S.JointRel c₂') (hs : s ∉ racl k {S.x₁, S.x₂})
+    (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'') (hs' : s' ∉ racl k {S.x₁, S.x₂})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {G : MvPolynomial (Fin 2) k} (hG0 : G ≠ 0)
+    (hGspan : idealOf k ![S.x₂, S.y₂] = Ideal.span {G}) :
+    idealOf k (Sum.elim ![S.x₂, S.y₂] c₂') =
+      idealOf k (Sum.elim ![S.x₂, S.y₂] c₂'') := by
+  have hx₂K : S.x₂ ∈ adjoin k ({S.x₂, S.y₂} : Set Ω) :=
+    subset_adjoin k _ (Set.mem_insert _ _)
+  have hy₂K : S.y₂ ∈ adjoin k ({S.x₂, S.y₂} : Set Ω) :=
+    subset_adjoin k _ (Set.mem_insert_of_mem _ rfl)
+  have h := joint_idealOf_eq
+    (c := (![⟨S.x₂, hx₂K⟩, ⟨S.y₂, hy₂K⟩] :
+      Fin 2 → ↥(adjoin k ({S.x₂, S.y₂} : Set Ω))))
+    (hrel.reloc_span_pairField hs halg hG0 hGspan)
+    (hrel'.reloc_span_pairField hs' halg' hG0 hGspan)
+  have hcoe : (fun j ↦ algebraMap ↥(adjoin k ({S.x₂, S.y₂} : Set Ω)) Ω
+      ((![⟨S.x₂, hx₂K⟩, ⟨S.y₂, hy₂K⟩] :
+        Fin 2 → ↥(adjoin k ({S.x₂, S.y₂} : Set Ω))) j)) = ![S.x₂, S.y₂] := by
+    funext j
+    fin_cases j <;> rfl
+  rwa [hcoe] at h
+
+/-- **The δ-curve does not depend on the choice of relocation**: the two
+translation elements have the same vanishing ideal. -/
+theorem delta_idealOf_eq_of_two_relocations [IsAlgClosed k]
+    (hrel : S.JointRel c₂') (hs : s ∉ racl k {S.x₁, S.x₂})
+    (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'') (hs' : s' ∉ racl k {S.x₁, S.x₂})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {G : MvPolynomial (Fin 2) k} (hG0 : G ≠ 0)
+    (hGspan : idealOf k ![S.x₂, S.y₂] = Ideal.span {G}) :
+    idealOf k (![S.x₂, S.y₂] - c₂') = idealOf k (![S.x₂, S.y₂] - c₂'') := by
+  have h := joint_idealOf_eq_of_two_relocations hrel hs halg hrel' hs' halg'
+    hG0 hGspan
+  refine idealOf_sub_eq_of_joint fun f ↦ ⟨fun h0 ↦ ?_, fun h0 ↦ ?_⟩
+  · have h1 := aeval_eq_aeval_of_idealOf_eq k h (f := f) (g := 0)
+      (by simpa using h0)
+    simpa using h1
+  · have h1 := aeval_eq_aeval_of_idealOf_eq k h.symm (f := f) (g := 0)
+      (by simpa using h0)
+    simpa using h1
+
 end TranslationIdentity
 
 end AddCorrSetup
