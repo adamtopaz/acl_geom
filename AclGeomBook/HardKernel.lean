@@ -265,7 +265,54 @@ nonzero integer powers:
 {docstring AclGeom.MulCorrSetup.exists_coset_equations}
 
 This completes the multiplicative correspondence theorem (blueprint
-Theorem 8.9). The remaining endgame on the additive side — the
-classification of the translation-invariant generator through the
-additive-polynomial library — is under construction; progress is tracked
-on the project's issue tracker.
+Theorem 8.9).
+
+# The additive endgame
+%%%
+tag := "additive-endgame"
+%%%
+
+The additive side classifies the δ-curve itself. Its generator is
+canonical — independent of the relocation used to construct it — by
+joint-type determination along the correspondence curve:
+
+{docstring AclGeom.joint_idealOf_eq}
+
+{docstring AclGeom.AddCorrSetup.delta_idealOf_eq_of_two_relocations}
+
+A second, independent relocation then produces an independent generic
+point δ* of the *same* curve, and the exact translation identity at the
+correspondence curve pushes their sum back onto it — the group chunk —
+while a transfer to the diagonal puts the origin on the curve:
+
+{docstring AclGeom.AddCorrSetup.JointRel.translate_pair_eq}
+
+{docstring AclGeom.AddCorrSetup.JointRel.chunk_add}
+
+{docstring AclGeom.AddCorrSetup.JointRel.constantCoeff_delta_gen}
+
+The chunk upgrades to the Hopf identity in exact form — the generator is
+fixed by translation by its own generic point — and then to full
+additivity by the division argument: the additivity defect is a multiple
+of the generator in each variable block, the block extensions are coprime
+primes, and the total degree leaves no room for their product.
+
+{docstring AclGeom.AddCorrSetup.JointRel.translate_delta_self_eq}
+
+{docstring AclGeom.mem_span_rename_inl_of_aevalFst_eq_zero}
+
+{docstring AclGeom.AddCorrSetup.JointRel.addSubst_delta_gen_eq}
+
+The coset constants descend to `k` by the same relocation-invariance and
+double-exchange argument as in the multiplicative endgame, and splitting
+the generator into its one-variable specializations produces the additive
+polynomials of the classification:
+
+{docstring AclGeom.AddCorrSetup.JointRel.exists_coset_constants}
+
+{docstring AclGeom.AddCorrSetup.exists_coset_equations}
+
+This is the two-pair core of the additive correspondence theorem
+(blueprint Theorem 8.8). The three-pair statement, the simultaneous-coset
+lemma, and the rigidity of `j` (blueprint 8.10) are the remaining steps of
+the hard kernel; progress is tracked on the project's issue tracker.
