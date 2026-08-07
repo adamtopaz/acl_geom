@@ -721,6 +721,83 @@ theorem base_ratio [IsAlgClosed k] [IsAlgClosed Ω] {u₁ u₂ t : Ω}
 
 end BaseRatio
 
+section FrobeniusHelpers
+
+/-- Mutual membership gives equality of singleton closures. -/
+theorem racl_singleton_congr {z w : Ω} (hzw : z ∈ racl k {w})
+    (hwz : w ∈ racl k {z}) : racl k ({z} : Set Ω) = racl k {w} :=
+  le_antisymm (racl_le_of_subset_racl (Set.singleton_subset_iff.2 hzw))
+    (racl_le_of_subset_racl (Set.singleton_subset_iff.2 hwz))
+
+/-- Scaling by a nonzero constant preserves the singleton closure. -/
+theorem racl_algebraMap_mul {e : k} (he : e ≠ 0) (z : Ω) :
+    racl k ({algebraMap k Ω e * z} : Set Ω) = racl k {z} := by
+  refine racl_singleton_congr ?_ ?_
+  · exact MulMemClass.mul_mem (IntermediateField.algebraMap_mem _ _)
+      (subset_racl k _ rfl)
+  · have hmem : algebraMap k Ω e⁻¹ * (algebraMap k Ω e * z) ∈
+        racl k ({algebraMap k Ω e * z} : Set Ω) :=
+      MulMemClass.mul_mem (IntermediateField.algebraMap_mem _ _)
+        (subset_racl k _ rfl)
+    have h : algebraMap k Ω e⁻¹ * (algebraMap k Ω e * z) = z := by
+      rw [← mul_assoc, ← map_mul, inv_mul_cancel₀ he, map_one, one_mul]
+    rwa [h] at hmem
+
+/-- Adding one preserves the singleton closure. -/
+theorem racl_one_add (z : Ω) :
+    racl k ({1 + z} : Set Ω) = racl k {z} := by
+  refine racl_singleton_congr ?_ ?_
+  · exact add_mem (one_mem _) (subset_racl k _ rfl)
+  · have hmem : (1 + z) - 1 ∈ racl k ({1 + z} : Set Ω) :=
+      sub_mem (subset_racl k _ rfl) (one_mem _)
+    have h : (1 + z) - 1 = z := by ring
+    rwa [h] at hmem
+
+/-- Nonzero powers preserve the singleton closure. -/
+theorem racl_pow (z : Ω) {w : ℕ} (hw : w ≠ 0) :
+    racl k ({z ^ w} : Set Ω) = racl k {z} := by
+  have hz : z ∈ racl k ({z} : Set Ω) := subset_racl k _ rfl
+  exact racl_singleton_congr (pow_mem hz w) (mem_racl_singleton_pow hw)
+
+/-- Powers by the exponential characteristic are injective on a field. -/
+theorem pow_expChar_pow_injective (q : ℕ) [hq : ExpChar Ω q] (n : ℕ) :
+    Function.Injective fun z : Ω ↦ z ^ q ^ n := by
+  rcases hq with _ | hp
+  · intro z w h
+    simpa using h
+  · haveI : ExpChar Ω q := ExpChar.prime hp
+    intro z w h
+    have h2 : (frobenius Ω q)^[n] z = (frobenius Ω q)^[n] w := by
+      rw [iterate_frobenius, iterate_frobenius]
+      exact h
+    exact Function.Injective.iterate (frobenius_inj Ω q) n h2
+
+/-- Pairwise closure exclusion gives algebraic independence. -/
+theorem algebraicIndependent_pair {z₁ z₂ : Ω} (h₁ : z₁ ∉ racl k {z₂})
+    (h₂ : z₂ ∉ racl k {z₁}) : AlgebraicIndependent k ![z₁, z₂] := by
+  rw [algebraicIndependent_iff_forall_notMem_racl, Fin.forall_fin_two]
+  constructor
+  · have himg : ((![z₁, z₂] : Fin 2 → Ω) ''
+        ({(0 : Fin 2)}ᶜ : Set (Fin 2))) = {z₂} := by
+      have hcompl : ({(0 : Fin 2)}ᶜ : Set (Fin 2)) = {1} := by
+        ext i
+        fin_cases i <;> simp
+      rw [hcompl, Set.image_singleton]
+      simp
+    rw [himg]
+    exact h₁
+  · have himg : ((![z₁, z₂] : Fin 2 → Ω) ''
+        ({(1 : Fin 2)}ᶜ : Set (Fin 2))) = {z₁} := by
+      have hcompl : ({(1 : Fin 2)}ᶜ : Set (Fin 2)) = {0} := by
+        ext i
+        fin_cases i <;> simp
+      rw [hcompl, Set.image_singleton]
+      simp
+    rw [himg]
+    exact h₂
+
+end FrobeniusHelpers
+
 end
 
 end AclGeom
