@@ -660,6 +660,67 @@ theorem simultaneous_coset [IsAlgClosed k] [IsAlgClosed Ω]
 
 end Master
 
+section BaseRatio
+
+/-- **The base-ratio lemma** (blueprint Corollary of Theorem 8.9): two
+interalgebraic nonzero elements whose products with a common independent
+transcendental are interalgebraic differ by a constant. Obtained from the
+multiplicative correspondence theorem applied to the pair and the
+degenerate correspondence `(t, t)`: the second coset equation forces the
+exponents to cancel, and the first then bounds the ratio. -/
+theorem base_ratio [IsAlgClosed k] [IsAlgClosed Ω] {u₁ u₂ t : Ω}
+    (hind : AlgebraicIndependent k ![u₁, t]) (hu₂0 : u₂ ≠ 0)
+    (hu₂ : u₂ ∈ racl k {u₁}) (hu₁ : u₁ ∈ racl k {u₂})
+    (hmul : u₂ * t ∈ racl k {u₁ * t}) (hmul' : u₁ * t ∈ racl k {u₂ * t})
+    {s : Ω} (hs : s ∉ racl k {u₁, t}) :
+    ∃ e : k, e ≠ 0 ∧ u₂ = algebraMap k Ω e * u₁ := by
+  classical
+  have ht0 : t ≠ 0 := by
+    intro h0
+    have h := AlgebraicIndependent.notMem_racl_pair hind
+    rw [h0] at h
+    exact h (zero_mem _)
+  have hu₁0 : u₁ ≠ 0 := by
+    intro h0
+    have h := AlgebraicIndependent.notMem_racl_pair' hind
+    rw [h0] at h
+    exact h (zero_mem _)
+  have htt : t ∈ racl k ({t} : Set Ω) := subset_racl k _ rfl
+  obtain ⟨a, b, c₁, c₂, ha0, hb0, hc₁0, hc₂0, h₁raw, h₂raw⟩ :=
+    (⟨u₁, u₂, t, t, hind, hu₂0, ht0, hu₂, hu₁, htt, htt, hmul, hmul'⟩ :
+      MulCorrSetup k Ω).exists_coset_equations hs
+  have h₁ : u₁ ^ a * u₂ ^ b = algebraMap k Ω c₁ := h₁raw
+  have h₂ : t ^ a * t ^ b = algebraMap k Ω c₂ := h₂raw
+  -- The degenerate pair forces the exponents to cancel.
+  have httr : t ∉ racl k (∅ : Set Ω) := fun h ↦
+    AlgebraicIndependent.notMem_racl_pair hind
+      (racl_mono (Set.empty_subset _) h)
+  have hab : a + b = 0 := by
+    by_contra hne
+    rw [← zpow_add₀ ht0] at h₂
+    refine httr (mem_racl_empty_of_zpow hne ?_)
+    rw [h₂]
+    exact IntermediateField.algebraMap_mem _ _
+  have hbeq : b = -a := by omega
+  -- The ratio has a constant power, hence is a constant.
+  have hratio : (u₁ * u₂⁻¹) ^ a = algebraMap k Ω c₁ := by
+    rw [mul_zpow, ← h₁, hbeq, zpow_neg, inv_zpow]
+  have hrmem : u₁ * u₂⁻¹ ∈ racl k (∅ : Set Ω) := by
+    refine mem_racl_empty_of_zpow ha0 ?_
+    rw [hratio]
+    exact IntermediateField.algebraMap_mem _ _
+  obtain ⟨e', he'⟩ := mem_range_algebraMap_of_isAlgebraic
+    (isAlgebraic_of_mem_racl_empty hrmem)
+  have he'0 : e' ≠ 0 := by
+    intro h0
+    rw [h0, map_zero] at he'
+    exact (mul_ne_zero hu₁0 (inv_ne_zero hu₂0)) he'.symm
+  refine ⟨e'⁻¹, inv_ne_zero he'0, ?_⟩
+  rw [map_inv₀, he', mul_inv, inv_inv]
+  field_simp
+
+end BaseRatio
+
 end
 
 end AclGeom
