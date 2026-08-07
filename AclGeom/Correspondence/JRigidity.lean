@@ -259,6 +259,136 @@ theorem simultaneous_coset_at_curve' [IsAlgClosed k]
 
 end PerCurve
 
+section MixedRuleOut
+
+/-- **Mixed-sign rule-out**: an axes-supported relation with nonzero first
+one-variable part is incompatible with a mixed monomial parametrization at
+a transcendental parameter — clearing denominators produces a nonzero
+polynomial vanishing at the transcendental. -/
+theorem no_mixed_relation {t : Ω} (htr : Transcendental k t)
+    {γ : k} (hγ : γ ≠ 0) {p q : Polynomial k} (hp : p ≠ 0)
+    (hp0 : p.coeff 0 = 0) (hq0 : q.coeff 0 = 0) {d : k}
+    {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
+    (hval : Polynomial.aeval (algebraMap k Ω γ * t ^ n) p +
+      Polynomial.aeval ((t ^ m)⁻¹) q = algebraMap k Ω d) :
+    False := by
+  classical
+  have ht0 : t ≠ 0 := by
+    rintro rfl
+    exact htr (isAlgebraic_zero)
+  set N : ℕ := m * q.natDegree with hN
+  set R : Polynomial k :=
+    (Finset.range (p.natDegree + 1)).sum
+      (fun i ↦ Polynomial.C (p.coeff i * γ ^ i) *
+        Polynomial.X ^ (N + n * i)) +
+    (Finset.range (q.natDegree + 1)).sum
+      (fun j ↦ Polynomial.C (q.coeff j) * Polynomial.X ^ (N - m * j)) -
+    Polynomial.C d * Polynomial.X ^ N with hR
+  -- The cleared relation evaluates to zero at `t`.
+  have haev : Polynomial.aeval t R = 0 := by
+    have hmul := congrArg (fun z ↦ t ^ N * z) hval
+    simp only [mul_add] at hmul
+    have hp' : t ^ N * Polynomial.aeval (algebraMap k Ω γ * t ^ n) p =
+        (Finset.range (p.natDegree + 1)).sum
+          (fun i ↦ algebraMap k Ω (p.coeff i * γ ^ i) * t ^ (N + n * i)) := by
+      rw [Polynomial.aeval_eq_sum_range, Finset.mul_sum]
+      refine Finset.sum_congr rfl fun i _ ↦ ?_
+      rw [Algebra.smul_def, mul_pow, ← map_pow, pow_add, pow_mul]
+      rw [map_mul]
+      ring
+    have hq' : t ^ N * Polynomial.aeval ((t ^ m)⁻¹) q =
+        (Finset.range (q.natDegree + 1)).sum
+          (fun j ↦ algebraMap k Ω (q.coeff j) * t ^ (N - m * j)) := by
+      rw [Polynomial.aeval_eq_sum_range, Finset.mul_sum]
+      refine Finset.sum_congr rfl fun j hj ↦ ?_
+      rw [Algebra.smul_def, inv_pow, ← pow_mul]
+      have hle : m * j ≤ N := by
+        rw [hN]
+        exact Nat.mul_le_mul_left m (Nat.lt_succ_iff.1
+          (Finset.mem_range.1 hj))
+      have hsplitpow : t ^ N = t ^ (m * j) * t ^ (N - m * j) := by
+        rw [← pow_add, Nat.add_sub_cancel' hle]
+      rw [hsplitpow]
+      field_simp
+    rw [hp', hq'] at hmul
+    rw [hR]
+    rw [map_sub, map_add, map_sum, map_sum]
+    have hterm1 : ∀ i ∈ Finset.range (p.natDegree + 1),
+        Polynomial.aeval t (Polynomial.C (p.coeff i * γ ^ i) *
+          Polynomial.X ^ (N + n * i)) =
+        algebraMap k Ω (p.coeff i * γ ^ i) * t ^ (N + n * i) := by
+      intro i _
+      rw [map_mul, map_pow, Polynomial.aeval_C, Polynomial.aeval_X]
+    have hterm2 : ∀ j ∈ Finset.range (q.natDegree + 1),
+        Polynomial.aeval t (Polynomial.C (q.coeff j) *
+          Polynomial.X ^ (N - m * j)) =
+        algebraMap k Ω (q.coeff j) * t ^ (N - m * j) := by
+      intro j _
+      rw [map_mul, map_pow, Polynomial.aeval_C, Polynomial.aeval_X]
+    rw [Finset.sum_congr rfl hterm1, Finset.sum_congr rfl hterm2,
+      map_mul, map_pow, Polynomial.aeval_C, Polynomial.aeval_X, hmul]
+    ring
+  -- Transcendence forces the polynomial to vanish identically.
+  have hR0 : R = 0 := by
+    by_contra hRne
+    exact htr ⟨R, hRne, haev⟩
+  -- Extract the top coefficient of the `p`-part.
+  have hi₀ : 1 ≤ p.natDegree := by
+    rcases Nat.eq_zero_or_pos p.natDegree with h0 | h
+    · exfalso
+      have hC := Polynomial.eq_C_of_natDegree_eq_zero h0
+      rw [hC, hp0, map_zero] at hp
+      exact hp rfl
+    · exact h
+  have hcoeff := congrArg (fun r ↦ Polynomial.coeff r (N + n * p.natDegree))
+    hR0
+  simp only [Polynomial.coeff_zero] at hcoeff
+  rw [hR] at hcoeff
+  rw [Polynomial.coeff_sub, Polynomial.coeff_add,
+    Polynomial.finsetSum_coeff, Polynomial.finsetSum_coeff] at hcoeff
+  have hsum1 : ((Finset.range (p.natDegree + 1)).sum fun i ↦
+      (Polynomial.C (p.coeff i * γ ^ i) *
+        Polynomial.X ^ (N + n * i)).coeff (N + n * p.natDegree)) =
+      p.coeff p.natDegree * γ ^ p.natDegree := by
+    rw [Finset.sum_eq_single p.natDegree]
+    · rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl,
+        mul_one]
+    · intro i _ hne
+      rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow,
+        if_neg (by
+          intro heq
+          exact hne (by
+            have := Nat.add_left_cancel heq.symm
+            exact Nat.eq_of_mul_eq_mul_left (Nat.pos_of_ne_zero hn) this)),
+        mul_zero]
+    · intro hnotmem
+      exact absurd (Finset.mem_range.2 (Nat.lt_succ_self _)) hnotmem
+  have hsum2 : ((Finset.range (q.natDegree + 1)).sum fun j ↦
+      (Polynomial.C (q.coeff j) *
+        Polynomial.X ^ (N - m * j)).coeff (N + n * p.natDegree)) = 0 := by
+    refine Finset.sum_eq_zero fun j _ ↦ ?_
+    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_neg, mul_zero]
+    intro heq
+    have h1 : N - m * j ≤ N := Nat.sub_le _ _
+    have h2 : N < N + n * p.natDegree := by
+      have := Nat.mul_le_mul (Nat.pos_of_ne_zero hn) hi₀
+      omega
+    omega
+  have hsum3 : (Polynomial.C d *
+      Polynomial.X ^ N).coeff (N + n * p.natDegree) = 0 := by
+    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_neg, mul_zero]
+    have := Nat.mul_le_mul (Nat.pos_of_ne_zero hn) hi₀
+    omega
+  rw [hsum1, hsum2, hsum3, add_zero, sub_zero] at hcoeff
+  have hlead : p.coeff p.natDegree ≠ 0 := Polynomial.leadingCoeff_ne_zero.2 hp
+  exact hlead (by
+    have := mul_eq_zero.1 hcoeff
+    rcases this with h | h
+    · exact h
+    · exact absurd h (pow_ne_zero _ hγ))
+
+end MixedRuleOut
+
 end
 
 end AclGeom
