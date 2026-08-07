@@ -458,6 +458,100 @@ theorem mem_racl_empty_of_zpow {x : K} {a : ℤ} (ha : a ≠ 0)
 
 end Intersection
 
+section SingletonCalculus
+
+variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- Mutual membership gives equality of singleton closures. -/
+theorem racl_singleton_congr {z w : K} (hzw : z ∈ racl k {w})
+    (hwz : w ∈ racl k {z}) : racl k ({z} : Set K) = racl k {w} :=
+  le_antisymm (racl_le_of_subset_racl (Set.singleton_subset_iff.2 hzw))
+    (racl_le_of_subset_racl (Set.singleton_subset_iff.2 hwz))
+
+/-- Scaling by a nonzero constant preserves the singleton closure. -/
+theorem racl_algebraMap_mul {e : k} (he : e ≠ 0) (z : K) :
+    racl k ({algebraMap k K e * z} : Set K) = racl k {z} := by
+  refine racl_singleton_congr ?_ ?_
+  · exact MulMemClass.mul_mem (IntermediateField.algebraMap_mem _ _)
+      (subset_racl k _ rfl)
+  · have hmem : algebraMap k K e⁻¹ * (algebraMap k K e * z) ∈
+        racl k ({algebraMap k K e * z} : Set K) :=
+      MulMemClass.mul_mem (IntermediateField.algebraMap_mem _ _)
+        (subset_racl k _ rfl)
+    have h : algebraMap k K e⁻¹ * (algebraMap k K e * z) = z := by
+      rw [← mul_assoc, ← map_mul, inv_mul_cancel₀ he, map_one, one_mul]
+    rwa [h] at hmem
+
+/-- Translating by a constant preserves the singleton closure. -/
+theorem racl_add_algebraMap (z : K) (e : k) :
+    racl k ({z + algebraMap k K e} : Set K) = racl k {z} := by
+  refine racl_singleton_congr ?_ ?_
+  · exact add_mem (subset_racl k _ rfl) (IntermediateField.algebraMap_mem _ _)
+  · have hmem : (z + algebraMap k K e) - algebraMap k K e ∈
+        racl k ({z + algebraMap k K e} : Set K) :=
+      sub_mem (subset_racl k _ rfl) (IntermediateField.algebraMap_mem _ _)
+    rwa [add_sub_cancel_right] at hmem
+
+/-- Adding one preserves the singleton closure. -/
+theorem racl_one_add (z : K) :
+    racl k ({1 + z} : Set K) = racl k {z} := by
+  refine racl_singleton_congr ?_ ?_
+  · exact add_mem (one_mem _) (subset_racl k _ rfl)
+  · have hmem : (1 + z) - 1 ∈ racl k ({1 + z} : Set K) :=
+      sub_mem (subset_racl k _ rfl) (one_mem _)
+    have h : (1 + z) - 1 = z := by ring
+    rwa [h] at hmem
+
+/-- Nonzero powers preserve the singleton closure. -/
+theorem racl_pow (z : K) {w : ℕ} (hw : w ≠ 0) :
+    racl k ({z ^ w} : Set K) = racl k {z} := by
+  have hz : z ∈ racl k ({z} : Set K) := subset_racl k _ rfl
+  exact racl_singleton_congr (pow_mem hz w) (mem_racl_singleton_pow hw)
+
+/-- Inversion preserves the singleton closure. -/
+theorem racl_inv (z : K) :
+    racl k ({z⁻¹} : Set K) = racl k {z} := by
+  refine racl_singleton_congr ?_ ?_
+  · exact inv_mem (subset_racl k _ rfl)
+  · have hmem : (z⁻¹)⁻¹ ∈ racl k ({z⁻¹} : Set K) :=
+      inv_mem (subset_racl k _ rfl)
+    rwa [inv_inv] at hmem
+
+/-- Negation preserves the singleton closure. -/
+theorem racl_neg (z : K) :
+    racl k ({-z} : Set K) = racl k {z} := by
+  refine racl_singleton_congr ?_ ?_
+  · exact neg_mem (subset_racl k _ rfl)
+  · have hmem : -(-z) ∈ racl k ({-z} : Set K) :=
+      neg_mem (subset_racl k _ rfl)
+    rwa [neg_neg] at hmem
+
+/-- Pairwise closure exclusion gives algebraic independence. -/
+theorem algebraicIndependent_pair {z₁ z₂ : K} (h₁ : z₁ ∉ racl k {z₂})
+    (h₂ : z₂ ∉ racl k {z₁}) : AlgebraicIndependent k ![z₁, z₂] := by
+  rw [algebraicIndependent_iff_forall_notMem_racl, Fin.forall_fin_two]
+  constructor
+  · have himg : ((![z₁, z₂] : Fin 2 → K) ''
+        ({(0 : Fin 2)}ᶜ : Set (Fin 2))) = {z₂} := by
+      have hcompl : ({(0 : Fin 2)}ᶜ : Set (Fin 2)) = {1} := by
+        ext i
+        fin_cases i <;> simp
+      rw [hcompl, Set.image_singleton]
+      simp
+    rw [himg]
+    exact h₁
+  · have himg : ((![z₁, z₂] : Fin 2 → K) ''
+        ({(1 : Fin 2)}ᶜ : Set (Fin 2))) = {z₁} := by
+      have hcompl : ({(1 : Fin 2)}ᶜ : Set (Fin 2)) = {0} := by
+        ext i
+        fin_cases i <;> simp
+      rw [hcompl, Set.image_singleton]
+      simp
+    rw [himg]
+    exact h₂
+
+end SingletonCalculus
+
 end
 
 end AclGeom

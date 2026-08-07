@@ -4,6 +4,7 @@ import AclGeom
 import AclGeomBook.Foundations
 import AclGeomBook.Perfection
 import AclGeomBook.HardKernel
+import AclGeomBook.Configurations
 
 -- The manual genre, used for book-like documents with chapters, cross-references,
 -- citations, and an index.
@@ -101,6 +102,8 @@ elaborated against the actual development.
 {include 0 AclGeomBook.Perfection}
 
 {include 0 AclGeomBook.HardKernel}
+
+{include 0 AclGeomBook.Configurations}
 
 # About this document
 %%%
