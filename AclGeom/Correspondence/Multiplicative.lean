@@ -194,6 +194,48 @@ theorem JointRel.mul_idealOf_eq (hrel : S.JointRel c₂') :
       idealOf k (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) :=
   idealOf_mul_eq_of_joint hrel
 
+/-- The relocated pair is still a finite correspondence. -/
+theorem JointRel.snd_mem (hrel : S.JointRel c₂') : c₂' 1 ∈ racl k {c₂' 0} := by
+  have hv : Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] (Sum.inr 1) ∈ racl k
+      (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] '' {Sum.inr 0}) := by
+    simpa [Set.image_singleton] using S.y₂_mem
+  have h := mem_racl_image_of_idealOf_eq k hrel.idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- … and conversely. -/
+theorem JointRel.fst_mem (hrel : S.JointRel c₂') : c₂' 0 ∈ racl k {c₂' 1} := by
+  have hv : Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] (Sum.inr 0) ∈ racl k
+      (Sum.elim ![S.x₁, S.y₁] ![S.x₂, S.y₂] '' {Sum.inr 1}) := by
+    simpa [Set.image_singleton] using S.x₂_mem
+  have h := mem_racl_image_of_idealOf_eq k hrel.idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- The relocated product pair is still a two-way correspondence. -/
+theorem JointRel.mul_snd_mem (hrel : S.JointRel c₂') :
+    S.y₁ * c₂' 1 ∈ racl k {S.x₁ * c₂' 0} := by
+  have hv : (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) 1 ∈ racl k
+      ((![S.x₁, S.y₁] * ![S.x₂, S.y₂]) '' {(0 : Fin 2)}) := by
+    simpa [Set.image_singleton] using S.mul_mem
+  have h := mem_racl_image_of_idealOf_eq k hrel.mul_idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- … and conversely. -/
+theorem JointRel.mul_fst_mem (hrel : S.JointRel c₂') :
+    S.x₁ * c₂' 0 ∈ racl k {S.y₁ * c₂' 1} := by
+  have hv : (![S.x₁, S.y₁] * ![S.x₂, S.y₂]) 0 ∈ racl k
+      ((![S.x₁, S.y₁] * ![S.x₂, S.y₂]) '' {(1 : Fin 2)}) := by
+    simpa [Set.image_singleton] using S.mul_mem'
+  have h := mem_racl_image_of_idealOf_eq k hrel.mul_idealOf_eq.symm hv
+  simpa [Set.image_singleton] using h
+
+/-- The relocated product coordinate is transcendental. -/
+theorem JointRel.mul_fst_transcendental (hrel : S.JointRel c₂') :
+    Transcendental k (S.x₁ * c₂' 0) := by
+  have hv : Transcendental k ((![S.x₁, S.y₁] * ![S.x₂, S.y₂]) 0) := by
+    simpa using S.mul_fst_transcendental
+  have h := transcendental_of_idealOf_eq k hrel.mul_idealOf_eq.symm hv
+  simpa using h
+
 end Relocation
 
 end MulCorrSetup
