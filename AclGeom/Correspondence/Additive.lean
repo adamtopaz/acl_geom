@@ -1417,6 +1417,183 @@ theorem JointRel.addSubst_delta_gen_eq [IsAlgClosed k]
   rw [hDfact, hmul1, hmul2, htotl, htotr] at hDdeg
   omega
 
+/-- Evaluation form of the additivity: the generator value splits sums of
+tuples. -/
+theorem JointRel.aeval_delta_gen_add [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F})
+    {G₂ : MvPolynomial (Fin 2) k} (hG₂0 : G₂ ≠ 0)
+    (hG₂span : idealOf k ![S.x₂, S.y₂] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    (hGspan : idealOf k (![S.x₂, S.y₂] - c₂') = Ideal.span {G})
+    (u v : Fin 2 → Ω) :
+    aeval (u + v) G = aeval u G + aeval v G := by
+  have hadd := hrel.addSubst_delta_gen_eq hs halg hrel' hss' halg' hFp
+    hFspan hG₂0 hG₂span hGp hGspan
+  have h := congrArg (aeval (Sum.elim u v) :
+    MvPolynomial (Fin 2 ⊕ Fin 2) k →ₐ[k] Ω) hadd
+  have hinl : ((Sum.elim u v : Fin 2 ⊕ Fin 2 → Ω) ∘ Sum.inl) = u := by
+    funext j
+    rfl
+  have hinr : ((Sum.elim u v : Fin 2 ⊕ Fin 2 → Ω) ∘ Sum.inr) = v := by
+    funext j
+    rfl
+  rwa [aeval_addSubst, map_add, aeval_rename, aeval_rename, hinl, hinr] at h
+
+/-- **The coset constants** (towards blueprint Theorem 8.8): the generator
+value at each correspondence pair is a constant from `k` — the additive
+form of the relocation-invariance descent. -/
+theorem JointRel.exists_coset_constants [IsAlgClosed k]
+    (hrel : S.JointRel c₂')
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (halg : c₂' 0 ∈ racl k {S.x₁, s})
+    (hrel' : S.JointRel c₂'')
+    (hss' : s' ∉ racl k {S.x₁, S.x₂, s})
+    (halg' : c₂'' 0 ∈ racl k {S.x₁, s'})
+    {F : MvPolynomial (Fin 2) k} (hFp : Prime F)
+    (hFspan : idealOf k (![S.x₁, S.y₁] + ![S.x₂, S.y₂]) = Ideal.span {F})
+    {G₂ : MvPolynomial (Fin 2) k} (hG₂0 : G₂ ≠ 0)
+    (hG₂span : idealOf k ![S.x₂, S.y₂] = Ideal.span {G₂})
+    {G : MvPolynomial (Fin 2) k} (hGp : Prime G)
+    (hGspan : idealOf k (![S.x₂, S.y₂] - c₂') = Ideal.span {G}) :
+    ∃ d₁ d₂ : k, aeval ![S.x₁, S.y₁] G = algebraMap k Ω d₁ ∧
+      aeval ![S.x₂, S.y₂] G = algebraMap k Ω d₂ := by
+  classical
+  have hν := hrel.aeval_delta_gen_add hs halg hrel' hss' halg' hFp hFspan
+    hG₂0 hG₂span hGp hGspan
+  have hδG : aeval (![S.x₂, S.y₂] - c₂') G = 0 := by
+    have hmem : G ∈ idealOf k (![S.x₂, S.y₂] - c₂') := by
+      rw [hGspan]
+      exact Ideal.subset_span rfl
+    exact (mem_idealOf_iff _).1 hmem
+  -- Membership helper: the generator value at a tuple with coordinates in
+  -- an intermediate field lies in it.
+  have hmemT : ∀ (T : IntermediateField k Ω) (a : Fin 2 → Ω),
+      (∀ j, a j ∈ T) → aeval a G ∈ T := by
+    intro T a ha
+    have hcomp : (algebraMap ↥T Ω ∘ fun j ↦ (⟨a j, ha j⟩ : ↥T)) = a := by
+      funext j
+      rfl
+    have h := aeval_algebraMap_apply Ω (fun j ↦ (⟨a j, ha j⟩ : ↥T)) G
+    rw [hcomp] at h
+    rw [h]
+    exact (aeval (fun j ↦ (⟨a j, ha j⟩ : ↥T)) G).2
+  -- The value at the second pair is relocation-invariant.
+  have hpair : c₂' = ![c₂' 0, c₂' 1] := by
+    funext i
+    fin_cases i <;> rfl
+  have hinv₂ : aeval ![S.x₂, S.y₂] G = aeval c₂' G := by
+    have harith : (![S.x₂, S.y₂] : Fin 2 → Ω) =
+        c₂' + (![S.x₂, S.y₂] - c₂') := by
+      abel
+    rw [harith, hν, hδG, add_zero]
+  -- Descend the value into `k`.
+  have hw₂x₂ : aeval ![S.x₂, S.y₂] G ∈ racl k {S.x₂} := by
+    refine hmemT _ _ ?_
+    intro j
+    fin_cases j
+    · exact subset_racl k _ rfl
+    · exact S.y₂_mem
+  have hw₂x₁s : aeval ![S.x₂, S.y₂] G ∈ racl k {S.x₁, s} := by
+    rw [hinv₂]
+    refine hmemT _ _ ?_
+    intro j
+    fin_cases j
+    · exact halg
+    · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 halg)
+        hrel.snd_mem
+  have hw₂x₁ : aeval ![S.x₂, S.y₂] G ∈ racl k {S.x₁} := by
+    refine mem_racl_of_mem_racl_insert (a := S.x₂) (b := s) ?_ ?_ ?_
+    · exact racl_mono (Set.singleton_subset_iff.2 (Set.mem_insert _ _)) hw₂x₂
+    · rwa [Set.pair_comm S.x₁ s] at hw₂x₁s
+    · rwa [Set.pair_comm S.x₁ S.x₂] at hs
+  have hins₁ : (insert S.x₁ (∅ : Set Ω)) = {S.x₁} := by simp
+  have hins₂ : (insert S.x₂ (∅ : Set Ω)) = {S.x₂} := by simp
+  have hw₂empty : aeval ![S.x₂, S.y₂] G ∈ racl k (∅ : Set Ω) := by
+    refine mem_racl_of_mem_racl_insert (a := S.x₁) (b := S.x₂) ?_ ?_ ?_
+    · rw [hins₁]
+      exact hw₂x₁
+    · rw [hins₂]
+      exact hw₂x₂
+    · rw [hins₁]
+      exact S.x₂_notMem
+  obtain ⟨d₂, hd₂⟩ := mem_range_algebraMap_of_isAlgebraic
+    (isAlgebraic_of_mem_racl_empty hw₂empty)
+  -- The value at the sum pair is also relocation-invariant, and descends.
+  have hinvD : aeval ![S.x₁ + S.x₂, S.y₁ + S.y₂] G =
+      aeval ![S.x₁ + c₂' 0, S.y₁ + c₂' 1] G := by
+    have harith : (![S.x₁ + S.x₂, S.y₁ + S.y₂] : Fin 2 → Ω) =
+        ![S.x₁ + c₂' 0, S.y₁ + c₂' 1] + (![S.x₂, S.y₂] - c₂') := by
+      funext j
+      fin_cases j
+      · show S.x₁ + S.x₂ = S.x₁ + c₂' 0 + (S.x₂ - c₂' 0)
+        ring
+      · show S.y₁ + S.y₂ = S.y₁ + c₂' 1 + (S.y₂ - c₂' 1)
+        ring
+    rw [harith, hν, hδG, add_zero]
+  have hwDsum : aeval ![S.x₁ + S.x₂, S.y₁ + S.y₂] G ∈
+      racl k {S.x₁ + S.x₂} := by
+    refine hmemT _ _ ?_
+    intro j
+    fin_cases j
+    · exact subset_racl k _ rfl
+    · exact S.sum_mem
+  have hwDx₁s : aeval ![S.x₁ + S.x₂, S.y₁ + S.y₂] G ∈
+      racl k {S.x₁, s} := by
+    rw [hinvD]
+    have hx₁m : S.x₁ ∈ racl k {S.x₁, s} := subset_racl k _ (Set.mem_insert _ _)
+    refine hmemT _ _ ?_
+    intro j
+    fin_cases j
+    · exact add_mem hx₁m halg
+    · refine add_mem ?_ ?_
+      · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 hx₁m)
+          S.y₁_mem
+      · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2 halg)
+          hrel.snd_mem
+  have hwDx₁x₂ : aeval ![S.x₁ + S.x₂, S.y₁ + S.y₂] G ∈
+      racl k {S.x₂, S.x₁} := by
+    refine racl_le_of_subset_racl (Set.singleton_subset_iff.2 ?_) hwDsum
+    exact add_mem (subset_racl k _ (Set.mem_insert_of_mem _ rfl))
+      (subset_racl k _ (Set.mem_insert _ _))
+  have hwDx₁ : aeval ![S.x₁ + S.x₂, S.y₁ + S.y₂] G ∈ racl k {S.x₁} := by
+    refine mem_racl_of_mem_racl_insert (a := S.x₂) (b := s) hwDx₁x₂ ?_ ?_
+    · rwa [Set.pair_comm S.x₁ s] at hwDx₁s
+    · rwa [Set.pair_comm S.x₁ S.x₂] at hs
+  have hwDempty : aeval ![S.x₁ + S.x₂, S.y₁ + S.y₂] G ∈
+      racl k (∅ : Set Ω) := by
+    have hinsD : (insert (S.x₁ + S.x₂) (∅ : Set Ω)) = {S.x₁ + S.x₂} := by
+      simp
+    refine mem_racl_of_mem_racl_insert (a := S.x₁) (b := S.x₁ + S.x₂)
+      ?_ ?_ ?_
+    · rw [hins₁]
+      exact hwDx₁
+    · rw [hinsD]
+      exact hwDsum
+    · rw [hins₁]
+      intro hmem
+      have hx₁m : S.x₁ ∈ racl k {S.x₁} := subset_racl k _ rfl
+      have h1 := sub_mem hmem hx₁m
+      have hcancel : S.x₁ + S.x₂ - S.x₁ = S.x₂ := by ring
+      rw [hcancel] at h1
+      exact S.x₂_notMem h1
+  obtain ⟨dD, hdD⟩ := mem_range_algebraMap_of_isAlgebraic
+    (isAlgebraic_of_mem_racl_empty hwDempty)
+  -- Split the sum value into the two pair values.
+  have hsplit : aeval ![S.x₁ + S.x₂, S.y₁ + S.y₂] G =
+      aeval ![S.x₁, S.y₁] G + aeval ![S.x₂, S.y₂] G := by
+    have hconv : (![S.x₁ + S.x₂, S.y₁ + S.y₂] : Fin 2 → Ω) =
+        ![S.x₁, S.y₁] + ![S.x₂, S.y₂] := by
+      rw [Matrix.cons_add_cons, Matrix.cons_add_cons, Matrix.empty_add_empty]
+    rw [hconv, hν]
+  refine ⟨dD - d₂, d₂, ?_, hd₂.symm⟩
+  rw [map_sub, hdD, hd₂, hsplit]
+  ring
+
 end TranslationIdentity
 
 end AddCorrSetup
