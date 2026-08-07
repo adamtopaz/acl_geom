@@ -1764,6 +1764,145 @@ section Endgame
 
 open MvPolynomial
 
+/-- **Structured form of the additive endgame**: the prime δ-curve
+generator together with its axes split, the nondegeneracy and additivity
+of its one-variable parts, and its constant values at both correspondence
+pairs. This is the input to the simultaneous-coset lemma. -/
+theorem exists_delta_gen_data [IsAlgClosed k] [IsAlgClosed Ω] {s s' : Ω}
+    (hs : s ∉ racl k {S.x₁, S.x₂}) (hss' : s' ∉ racl k {S.x₁, S.x₂, s}) :
+    ∃ (G : MvPolynomial (Fin 2) k) (P Q : Polynomial k),
+      Prime G ∧
+      G = Polynomial.aeval (X 0) P + Polynomial.aeval (X 1) Q ∧
+      P.coeff 0 = 0 ∧ Q.coeff 0 = 0 ∧ P ≠ 0 ∧ Q ≠ 0 ∧
+      IsAdditive P ∧ IsAdditive Q ∧
+      ∃ d₁ d₂ : k,
+        aeval ![S.x₁, S.y₁] G = algebraMap k Ω d₁ ∧
+        aeval ![S.x₂, S.y₂] G = algebraMap k Ω d₂ := by
+  classical
+  -- The two relocations.
+  have hbaseLe : racl k ({S.x₁, S.y₁} : Set Ω) ≤ racl k {S.x₁, S.x₂} := by
+    refine racl_le_of_subset_racl ?_
+    rintro z (rfl | rfl)
+    · exact subset_racl k _ (Set.mem_insert _ _)
+    · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2
+        (subset_racl k _ (Set.mem_insert _ _))) S.y₁_mem
+  have hbaseLe' : racl k ({S.x₁, S.y₁} : Set Ω) ≤
+      racl k {S.x₁, S.x₂, s} := by
+    refine racl_le_of_subset_racl ?_
+    rintro z (rfl | rfl)
+    · exact subset_racl k _ (Set.mem_insert _ _)
+    · exact racl_le_of_subset_racl (Set.singleton_subset_iff.2
+        (subset_racl k _ (Set.mem_insert _ _))) S.y₁_mem
+  have hstr : Transcendental ↥S.base s := fun halg ↦
+    hs (hbaseLe ((mem_racl_iff k).2 halg))
+  have hstr' : Transcendental ↥S.base s' := fun halg ↦
+    hss' (hbaseLe' ((mem_racl_iff k).2 halg))
+  obtain ⟨c₂', hrel, halgraw⟩ := S.exists_pair_relocation hstr
+  obtain ⟨c₂'', hrel', halgraw'⟩ := S.exists_pair_relocation hstr'
+  have halg : c₂' 0 ∈ racl k {S.x₁, s} :=
+    S.racl_pair_of_relocation (halgraw 0)
+  have halg' : c₂'' 0 ∈ racl k {S.x₁, s'} :=
+    S.racl_pair_of_relocation (halgraw' 0)
+  -- The three generators.
+  obtain ⟨F, hFp, hFspan⟩ := S.exists_prime_span_sum
+  have hx₂tr : Transcendental k S.x₂ := fun h ↦
+    S.x₂_notMem (racl_mono (Set.empty_subset _)
+      ((mem_racl_iff k).2 (h.tower_top _)))
+  obtain ⟨G₂, hG₂p, hG₂span⟩ := exists_prime_span_idealOf k hx₂tr S.y₂_mem
+  obtain ⟨G, hGp, hGspan₀⟩ := hrel.exists_prime_span_delta hs halg hFp hFspan
+  have htuple : (![S.x₂, S.y₂] - c₂' : Fin 2 → Ω) =
+      ![S.x₂ - c₂' 0, S.y₂ - c₂' 1] := by
+    funext j
+    fin_cases j <;> rfl
+  have hGspan : idealOf k (![S.x₂, S.y₂] - c₂') = Ideal.span {G} := by
+    rw [htuple, hGspan₀]
+  -- The constants, the split, and the additivity.
+  obtain ⟨d₁, d₂, hd₁, hd₂⟩ := hrel.exists_coset_constants hs halg hrel'
+    hss' halg' hFp hFspan hG₂p.ne_zero hG₂span hGp hGspan
+  have hsplit := hrel.aeval_delta_gen_split hs halg hrel' hss' halg' hFp
+    hFspan hG₂p.ne_zero hG₂span hGp hGspan
+  have hsplitpoly := hrel.delta_gen_eq_split hs halg hrel' hss' halg' hFp
+    hFspan hG₂p.ne_zero hG₂span hGp hGspan
+  have hpadd := hrel.isAdditive_delta_gen_fst hs halg hrel' hss' halg' hFp
+    hFspan hG₂p.ne_zero hG₂span hGp hGspan
+  have hqadd := hrel.isAdditive_delta_gen_snd hs halg hrel' hss' halg' hFp
+    hFspan hG₂p.ne_zero hG₂span hGp hGspan
+  -- Zero constant terms of the one-variable parts.
+  have h00 : (![(0 : Ω), 0] : Fin 2 → Ω) = 0 := by
+    funext j
+    fin_cases j <;> rfl
+  have hG00 : aeval (![(0 : Ω), 0] : Fin 2 → Ω) G = 0 := by
+    rw [h00, MvPolynomial.aeval_zero,
+      hrel.constantCoeff_delta_gen hs halg hG₂p.ne_zero hG₂span hGspan,
+      map_zero]
+  have hcoeff0 : ∀ r : Polynomial k,
+      Polynomial.aeval (0 : Ω) r = 0 → r.coeff 0 = 0 := by
+    intro r hr
+    have h := Polynomial.aeval_algebraMap_apply_eq_algebraMap_eval
+      (0 : k) r (A := Ω)
+    rw [map_zero, hr] at h
+    have h2 : Polynomial.eval 0 r = 0 :=
+      (algebraMap k Ω).injective (by rw [map_zero, ← h])
+    rwa [Polynomial.coeff_zero_eq_eval_zero]
+  have hP0 : (aeval ![Polynomial.X, (0 : Polynomial k)] G).coeff 0 = 0 := by
+    refine hcoeff0 _ ?_
+    rw [polynomial_aeval_fst]
+    have ht : (![(0 : Ω), 0] : Fin 2 → Ω) = ![0, 0] := rfl
+    rw [← ht]
+    exact hG00
+  have hQ0 : (aeval ![(0 : Polynomial k), Polynomial.X] G).coeff 0 = 0 := by
+    refine hcoeff0 _ ?_
+    rw [polynomial_aeval_snd]
+    exact hG00
+  -- Nondegeneracy.
+  have hδG : aeval (![S.x₂, S.y₂] - c₂') G = 0 := by
+    have hmem : G ∈ idealOf k (![S.x₂, S.y₂] - c₂') := by
+      rw [hGspan]
+      exact Ideal.subset_span rfl
+    exact (mem_idealOf_iff _).1 hmem
+  have hδsplit : Polynomial.aeval (S.x₂ - c₂' 0)
+      (aeval ![Polynomial.X, (0 : Polynomial k)] G) +
+      Polynomial.aeval (S.y₂ - c₂' 1)
+        (aeval ![(0 : Polynomial k), Polynomial.X] G) = 0 := by
+    rw [← hsplit (S.x₂ - c₂' 0) (S.y₂ - c₂' 1), ← htuple]
+    exact hδG
+  haveI : Infinite Ω := Infinite.of_injective (algebraMap k Ω)
+    (algebraMap k Ω).injective
+  have hG0_of : aeval ![Polynomial.X, (0 : Polynomial k)] G = 0 →
+      aeval ![(0 : Polynomial k), Polynomial.X] G = 0 → False := by
+    intro hp0 hq0
+    refine hGp.ne_zero ?_
+    have hmapG : MvPolynomial.map (algebraMap k Ω) G = 0 := by
+      apply MvPolynomial.funext
+      intro x
+      have hx : x = ![x 0, x 1] := by
+        funext j
+        fin_cases j <;> rfl
+      rw [MvPolynomial.eval_map, ← MvPolynomial.aeval_def, map_zero, hx,
+        hsplit (x 0) (x 1), hp0, hq0, map_zero, map_zero, add_zero]
+    exact MvPolynomial.map_injective _ (algebraMap k Ω).injective
+      (by rw [hmapG, map_zero])
+  have hq0 : aeval ![(0 : Polynomial k), Polynomial.X] G ≠ 0 := by
+    intro hq
+    rcases eq_or_ne (aeval ![Polynomial.X, (0 : Polynomial k)] G) 0 with
+      hp | hp
+    · exact hG0_of hp hq
+    · have hroot : Polynomial.aeval (S.x₂ - c₂' 0)
+          (aeval ![Polynomial.X, (0 : Polynomial k)] G) = 0 := by
+        have h := hδsplit
+        rwa [hq, map_zero, add_zero] at h
+      exact delta_fst_transcendental hs halg ⟨_, hp, hroot⟩
+  have hp0 : aeval ![Polynomial.X, (0 : Polynomial k)] G ≠ 0 := by
+    intro hp
+    have hroot : Polynomial.aeval (S.y₂ - c₂' 1)
+        (aeval ![(0 : Polynomial k), Polynomial.X] G) = 0 := by
+      have h := hδsplit
+      rwa [hp, map_zero, zero_add] at h
+    exact hrel.delta_snd_transcendental hs halg ⟨_, hq0, hroot⟩
+  exact ⟨G, aeval ![Polynomial.X, (0 : Polynomial k)] G,
+    aeval ![(0 : Polynomial k), Polynomial.X] G, hGp, hsplitpoly, hP0, hQ0,
+    hp0, hq0, hpadd, hqadd, d₁, d₂, hd₁, hd₂⟩
+
 /-- **The additive correspondence theorem** (blueprint Theorem 8.8,
 two-pair core): two finite correspondences with independent generic points
 and interalgebraic sums satisfy additive coset equations
