@@ -281,7 +281,7 @@ joint-type determination along the correspondence curve:
 {docstring AclGeom.AddCorrSetup.delta_idealOf_eq_of_two_relocations}
 
 A second, independent relocation then produces an independent generic
-point δ* of the *same* curve, and the exact translation identity at the
+point of the *same* curve, and the exact translation identity at the
 correspondence curve pushes their sum back onto it — the group chunk —
 while a transfer to the diagonal puts the origin on the curve:
 
