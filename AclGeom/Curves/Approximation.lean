@@ -166,6 +166,97 @@ theorem valuation_indicator_of_gt_one {y : F} (hy : 1 < O.valuation y)
 
 end Indicator
 
+section WeakApproximation
+
+variable [IsAlgClosed k] [IsFunctionFieldOneVar k F]
+
+/-- **Weak approximation, existence form** (Stichtenoth Theorem 1.3.1,
+the core induction): given a place `P₀` distinct from each of finitely
+many places `Ps j`, some element is large at `P₀` and small at every
+`Ps j`. The boundary case `v y = 1` at the new place is handled by
+multiplying with a separator; the case `v y > 1` by the ultrametric
+indicator `y^n/(1+y^n)`; the Archimedean property supplies the power. -/
+theorem Place.exists_one_lt_forall_lt_one {r : ℕ} (P₀ : Place k F)
+    (Ps : Fin r → Place k F) (hne : ∀ j, P₀ ≠ Ps j) :
+    ∃ z : F, 1 < P₀.val.valuation z ∧
+      ∀ j, (Ps j).val.valuation z < 1 := by
+  classical
+  induction r with
+  | zero =>
+    obtain ⟨x, hx⟩ : ∃ x : F, x ∉ P₀.val := by
+      by_contra hc
+      push Not at hc
+      exact P₀.ne_top (by ext y; simpa using hc y)
+    refine ⟨x, ?_, fun j ↦ j.elim0⟩
+    exact lt_of_not_ge fun h ↦ hx (P₀.val.mem_of_valuation_le_one x h)
+  | succ r ih =>
+    obtain ⟨y, hy₀, hyj⟩ := ih (fun j ↦ Ps j.castSucc)
+      (fun j ↦ hne j.castSucc)
+    obtain ⟨w, hwlast, hw₀⟩ := exists_lt_one_gt_one (hne (Fin.last r)).symm
+    have hy0 : y ≠ 0 := by
+      intro h0
+      rw [h0, Valuation.map_zero] at hy₀
+      simp at hy₀
+    have hw0 : w ≠ 0 := by
+      intro h0
+      rw [h0, Valuation.map_zero] at hw₀
+      simp at hw₀
+    -- A uniform power making `y`-smallness beat `w` at the old places.
+    have harch : ∀ j : Fin r, ∃ n : ℕ,
+        (Ps j.castSucc).val.valuation y ^ n <
+          (Ps j.castSucc).val.valuation w⁻¹ := fun j ↦
+      (Ps j.castSucc).exists_pow_valuation_lt hy0 (hyj j)
+        (inv_ne_zero hw0)
+    choose ns hns using harch
+    set n : ℕ := (Finset.univ.sup ns) + 1 with hn
+    have hn0 : n ≠ 0 := Nat.succ_ne_zero _
+    have hyn : ∀ j : Fin r, (Ps j.castSucc).val.valuation y ^ n *
+        (Ps j.castSucc).val.valuation w < 1 := by
+      intro j
+      have h1 : (Ps j.castSucc).val.valuation y ^ n ≤
+          (Ps j.castSucc).val.valuation y ^ ns j :=
+        pow_le_pow_right_of_le_one' (hyj j).le
+          (le_trans (Finset.le_sup (Finset.mem_univ j)) (Nat.le_succ _))
+      have h2 : (Ps j.castSucc).val.valuation y ^ n <
+          (Ps j.castSucc).val.valuation w⁻¹ :=
+        lt_of_le_of_lt h1 (hns j)
+      have hwv : (0 : _) < (Ps j.castSucc).val.valuation w :=
+        zero_lt_iff.2 ((Valuation.ne_zero_iff _).2 hw0)
+      have h3 := (OrderIso.mulRight₀ _ hwv).strictMono h2
+      simp only [OrderIso.mulRight₀_apply] at h3
+      rwa [map_inv₀, inv_mul_cancel₀ hwv.ne'] at h3
+    rcases lt_trichotomy ((Ps (Fin.last r)).val.valuation y) 1 with
+      hcase | hcase | hcase
+    · -- `y` is already small at the new place.
+      refine ⟨y, hy₀, fun j ↦ ?_⟩
+      refine Fin.lastCases ?_ (fun i ↦ ?_) j
+      · exact hcase
+      · exact hyj i
+    · -- Boundary: multiply a power of `y` with the separator.
+      refine ⟨y ^ n * w, ?_, fun j ↦ ?_⟩
+      · rw [Valuation.map_mul, Valuation.map_pow]
+        exact one_lt_mul (one_lt_pow₀ hy₀ hn0).le hw₀
+      · refine Fin.lastCases ?_ (fun i ↦ ?_) j
+        · rw [Valuation.map_mul, Valuation.map_pow, hcase, one_pow,
+            one_mul]
+          exact hwlast
+        · rw [Valuation.map_mul, Valuation.map_pow]
+          exact hyn i
+    · -- `y` is large at the new place: use the indicator.
+      refine ⟨y ^ n / (1 + y ^ n) * w, ?_, fun j ↦ ?_⟩
+      · rw [Valuation.map_mul, valuation_indicator_of_gt_one hy₀ hn0,
+          one_mul]
+        exact hw₀
+      · refine Fin.lastCases ?_ (fun i ↦ ?_) j
+        · rw [Valuation.map_mul,
+            valuation_indicator_of_gt_one hcase hn0, one_mul]
+          exact hwlast
+        · rw [Valuation.map_mul,
+            valuation_indicator_of_lt_one (hyj i) hn0]
+          exact hyn i
+
+end WeakApproximation
+
 end
 
 end AclGeom
