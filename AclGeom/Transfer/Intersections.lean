@@ -5,7 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import Mathlib.RingTheory.AlgebraicIndependent.TranscendenceBasis
 import Mathlib.Combinatorics.Matroid.Rank.ENat
-import AclGeom.Closure.Basic
+import AclGeom.Closure.Ambient
 
 /-!
 # Finite generators for intersections of absolute closures
@@ -69,24 +69,6 @@ theorem mem_matroidClosure_iff {S : Set Ω} {x : Ω}
 end MatroidBridge
 
 section PolyCharacterization
-
-/-- Membership in `racl k S` via an ambient-coefficient annihilator: `x` is
-in the closure iff some nonzero polynomial over `Ω` with coefficients in
-`k(S)` vanishes at `x`. -/
-theorem mem_racl_iff_exists_poly {S : Set Ω} {x : Ω} :
-    x ∈ racl k S ↔ ∃ p : Polynomial Ω, p ≠ 0 ∧ p.eval x = 0 ∧
-      ∀ n, p.coeff n ∈ adjoin k S := by
-  constructor
-  · intro hx
-    obtain ⟨g, hg0, hgx⟩ := (mem_racl_iff k).1 hx
-    refine ⟨g.map (algebraMap (adjoin k S) Ω), ?_, ?_, fun n ↦ ?_⟩
-    · exact (Polynomial.map_ne_zero_iff
-        (algebraMap (adjoin k S) Ω).injective).2 hg0
-    · rw [Polynomial.eval_map, ← Polynomial.aeval_def, hgx]
-    · rw [Polynomial.coeff_map]
-      exact (g.coeff n).2
-  · rintro ⟨p, hp0, hpx, hpc⟩
-    exact (mem_racl_iff k).2 (isAlgebraic_of_coeff_mem hp0 hpx hpc)
 
 /-- **Conjugates do not leave a closure defined over a subfield**
 (the divisibility replacement for the blueprint's automorphism argument):

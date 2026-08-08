@@ -121,6 +121,31 @@ is deferred to the descent milestone alongside its trdeg interface:
 
 {docstring AclGeom.one_quantifier_transfer}
 
+# Toward descent
+%%%
+tag := "descent-foundation"
+%%%
+
 The remaining piece of this layer is the application to the geometric
-`J`-predicate (blueprint §9's descent theorem), tracked on the M5
-milestone issue.
+`J`-predicate (blueprint §9's descent theorem), whose foundations are in
+place. The opening line of the blueprint's proof — the point geometry of a
+subextension embeds in that of the ambient field — is the ambient
+invariance of `racl`, proved by transporting ambient-coefficient
+annihilators along the inclusion:
+
+{docstring AclGeom.coe_mem_racl_image_iff}
+
+The `(2) ⇒ (1)` arrow (descent of a semantic `j`-tuple to a perfect
+subfield) is prepared by a *finite Galois* replacement for the blueprint's
+automorphism argument: instead of extending conjugations to automorphisms
+of `Ω` and iterating against an infinite orbit, a finite-order `σ` with
+j-rigidity output `(σx)^{q^v} = x^{q^u}` telescopes through one full
+period to `x^{q^{rv}} = x^{q^{ru}}`, forcing the exponents to agree and
+`σ` to fix `x` outright:
+
+{docstring AclGeom.orbit_exponent_eq}
+
+{docstring AclGeom.ringEquiv_fix_of_pow_orbit}
+
+The assembly — normal closures, separability from perfectness, and the
+interface to the semantic `J` — is tracked on the M5 milestone issue.

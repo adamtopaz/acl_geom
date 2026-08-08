@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import AclGeom.Closure.Basic
+import AclGeom.Closure.Ambient
 import AclGeom.Closure.ClosedLattice
 import AclGeom.Geometry.Points
 import AclGeom.Geometry.Equivalence
@@ -37,6 +38,7 @@ import AclGeom.Config.Multiplication
 import AclGeom.Transfer.FiniteUnion
 import AclGeom.Transfer.Intersections
 import AclGeom.Transfer.OneQuantifier
+import AclGeom.Transfer.Descent
 import AclGeom.Config.Correctness
 import AclGeom.Interpretation.FrobClass
 import AclGeom.Interpretation.GenericOps
