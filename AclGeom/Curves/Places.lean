@@ -408,6 +408,10 @@ theorem valuation_eq_pow_uniformizer
       have hwt : w = w / t * t := (div_mul_cancel₀ w htF).symm
       rw [hwt, Valuation.map_mul, hj', pow_succ]
 
+set_option maxRecDepth 4000 in
+set_option maxHeartbeats 1000000 in
+-- The ideal-lattice instance chain over the subtype `↥O` is deep: both
+-- recursion depth and heartbeats are raised for this single theorem.
 open IntermediateField in
 /-- **Valuation subrings of one-variable function fields are discrete
 valuation rings** (Stichtenoth Theorem 1.1.6): a valuation subring of
@@ -426,9 +430,13 @@ theorem isDiscreteValuationRing_of_valuationSubring
     constructor
     intro I
     by_cases hI0 : I = ⊥
-    · exact ⟨⟨0, by simp [hI0]⟩⟩
+    · refine ⟨⟨0, ?_⟩⟩
+      rw [hI0]
+      exact (Ideal.span_singleton_eq_bot.2 rfl).symm
     by_cases hItop : I = ⊤
-    · exact ⟨⟨1, by simp [hItop, Ideal.span_singleton_one]⟩⟩
+    · refine ⟨⟨1, ?_⟩⟩
+      rw [hItop]
+      exact (Ideal.span_singleton_one).symm
     -- Classified values of nonzero ideal elements.
     have hmemval : ∀ x : ↥O, x ∈ I → x ≠ 0 → ∃ j : ℕ, 0 < j ∧
         O.valuation ↑x = O.valuation t ^ j := by
@@ -470,8 +478,7 @@ theorem isDiscreteValuationRing_of_valuationSubring
         · rw [Valuation.ne_zero_iff]
           exact hw₀F
       refine ⟨⟨_, hdiv⟩, Subtype.ext ?_⟩
-      show ((↑x : F) / ↑w₀) * ↑w₀ = ↑x
-      exact div_mul_cancel₀ _ hw₀F
+      exact div_mul_cancel₀ (↑x : F) hw₀F
     · rintro ⟨a, rfl⟩
       exact I.mul_mem_left a hw₀I
   haveI := hpid
