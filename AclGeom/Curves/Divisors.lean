@@ -371,11 +371,51 @@ theorem ord_pos_iff (P : Place k F) {f : F} (hf : f ≠ 0) :
     rw [h1] at hlt
     exact hlt.not_ge h2
 
+theorem pi_ne_zero (P : Place k F) : P.pi ≠ 0 := fun h ↦
+  P.pi_valuation_ne_zero (by rw [h, Valuation.map_zero])
+
+theorem ord_pi (P : Place k F) : P.ord P.pi = 1 :=
+  P.ord_eq_of_valuation_eq_zpow P.pi_ne_zero (by rw [zpow_one])
+
+/-- Order of an integer power. -/
+theorem ord_zpow (P : Place k F) {f : F} (hf : f ≠ 0) (n : ℤ) :
+    P.ord (f ^ n) = n * P.ord f := by
+  refine P.ord_eq_of_valuation_eq_zpow (zpow_ne_zero n hf) ?_
+  rw [map_zpow₀, P.valuation_eq_zpow_ord hf, ← zpow_mul, mul_comm]
+
 /-- Nonzero constants have order zero everywhere. -/
 theorem ord_algebraMap (P : Place k F) {c : k} (hc : c ≠ 0) :
     P.ord (algebraMap k F c) = 0 :=
   (P.ord_eq_zero_iff ((map_ne_zero (algebraMap k F)).2 hc)).2
     (valuation_algebraMap_eq_one P.algebraMap_mem hc)
+
+/-- Negation preserves the order. -/
+theorem ord_neg (P : Place k F) {f : F} (hf : f ≠ 0) :
+    P.ord (-f) = P.ord f := by
+  refine P.ord_eq_of_valuation_eq_zpow (neg_ne_zero.2 hf) ?_
+  rw [Valuation.map_neg, P.valuation_eq_zpow_ord hf]
+
+/-- Nonnegative order characterizes integrality. -/
+theorem ord_nonneg_iff (P : Place k F) {f : F} (hf : f ≠ 0) :
+    0 ≤ P.ord f ↔ P.val.valuation f ≤ 1 := by
+  have h1 := P.valuation_eq_zpow_ord hf
+  constructor
+  · intro h0
+    rw [h1]
+    calc P.val.valuation P.pi ^ P.ord f
+        ≤ P.val.valuation P.pi ^ (0 : ℤ) :=
+          zpow_le_zpow_right_of_le_one₀ P.pi_valuation_pos
+            P.pi_valuation_lt_one.le h0
+      _ = 1 := zpow_zero _
+  · intro hle
+    by_contra hc
+    push Not at hc
+    have h2 : P.val.valuation P.pi ^ (0 : ℤ) <
+        P.val.valuation P.pi ^ P.ord f :=
+      zpow_lt_zpow_right_of_lt_one₀ P.pi_valuation_pos
+        P.pi_valuation_lt_one hc
+    rw [zpow_zero, ← h1] at h2
+    exact h2.not_ge hle
 
 /-- The order reverses the valuation comparison. -/
 theorem valuation_le_valuation_iff (P : Place k F) {f g : F} (hf : f ≠ 0)
