@@ -350,6 +350,30 @@ theorem algebraicIndependent_iff_forall_notMem_racl {ι : Type*} {v : ι → K} 
     refine isAlgebraic_of_le (adjoin.mono _ _ _ (Set.image_mono ?_)) h2
     exact fun j hj hji ↦ hit (hji ▸ hj)
 
+/-- Chain extension: an independent tuple extends by any element outside
+the closure of its range. -/
+theorem algebraicIndependent_snoc {n : ℕ} {t : Fin n → K}
+    (ht : AlgebraicIndependent k t) {z : K}
+    (hz : z ∉ racl k (Set.range t)) :
+    AlgebraicIndependent k (Fin.snoc t z) := by
+  have htr : Transcendental (Algebra.adjoin k (Set.range t)) z := by
+    intro halg
+    refine hz ?_
+    rw [mem_racl_iff]
+    exact (IsFractionRing.isAlgebraic_iff (Algebra.adjoin k (Set.range t))
+      (adjoin k (Set.range t)) K).1 halg
+  have h1 : AlgebraicIndependent k (fun o : Option (Fin n) ↦ o.elim z t) :=
+    (AlgebraicIndependent.option_iff_transcendental ht z).2 htr
+  have h2 := AlgebraicIndependent.comp h1 finSuccEquivLast
+    (Equiv.injective _)
+  have heq : ((fun o : Option (Fin n) ↦ o.elim z t) ∘ finSuccEquivLast) =
+      Fin.snoc t z := by
+    funext i
+    refine Fin.lastCases ?_ (fun j ↦ ?_) i
+    · simp [finSuccEquivLast_last]
+    · simp [finSuccEquivLast_castSucc]
+  rwa [heq] at h2
+
 /-- The pair form of blueprint Lemma 4.2(a), forward direction: the second
 member of an independent pair is not algebraic over the first. -/
 theorem AlgebraicIndependent.notMem_racl_pair {x y : K}
