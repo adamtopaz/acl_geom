@@ -131,6 +131,96 @@ theorem exists_valuation_eq_zpow_of_mem_adjoin
   refine ⟨(m₁ : ℤ) - (m₂ : ℤ), ?_⟩
   rw [hpq, map_div₀, hm₁, hm₂, zpow_sub₀ hzv, zpow_natCast, zpow_natCast]
 
+/-- Ultrametric sums: a finite sum with a strictly dominating term has the
+dominating term's value. -/
+theorem valuation_sum_eq_of_forall_lt {ι : Type*} {s : Finset ι}
+    {f : ι → F} {j : ι} (hj : j ∈ s)
+    (hmax : ∀ i ∈ s, i ≠ j → O.valuation (f i) < O.valuation (f j)) :
+    O.valuation (∑ i ∈ s, f i) = O.valuation (f j) := by
+  classical
+  by_cases h0 : O.valuation (f j) = 0
+  · have hs : s = {j} := by
+      refine Finset.eq_singleton_iff_unique_mem.2 ⟨hj, fun i hi ↦ ?_⟩
+      by_contra hij
+      have h1 := hmax i hi hij
+      rw [h0] at h1
+      exact zero_le.not_gt h1
+    rw [hs, Finset.sum_singleton]
+  · rw [← Finset.add_sum_erase s f hj]
+    refine Valuation.map_add_eq_of_lt_left _ ?_
+    exact O.valuation.map_sum_lt h0 fun i hi ↦
+      hmax i (Finset.mem_of_mem_erase hi) (Finset.ne_of_mem_erase hi)
+
+open IntermediateField in
+/-- **Coset independence** (the counting half of Stichtenoth Theorem
+1.1.6): elements of `F` whose values lie in pairwise distinct cosets of
+the cyclic group `⟨v z⟩` are linearly independent over the subfield
+`k(z)`. Consequently the index of `⟨v z⟩` in the value group is bounded
+by `[F : k(z)]`. -/
+theorem linearIndependent_of_pairwise_valuation_ne {ι : Type*} [Fintype ι]
+    (hk : ∀ c : k, algebraMap k F c ∈ O) {z : F} (hz0 : z ≠ 0)
+    (hz : O.valuation z < 1) {w : ι → F} (hw0 : ∀ i, w i ≠ 0)
+    (hne : ∀ i j : ι, i ≠ j → ∀ m : ℤ,
+      O.valuation (w i) ≠ O.valuation (w j) * O.valuation z ^ m) :
+    LinearIndependent (↥(adjoin k ({z} : Set F))) w := by
+  classical
+  have hzv : O.valuation z ≠ 0 := (Valuation.ne_zero_iff _).2 hz0
+  rw [Fintype.linearIndependent_iff]
+  intro g hsum i₀
+  by_contra hg₀
+  set s : Finset ι := Finset.univ.filter (fun i ↦ g i ≠ 0) with hsdef
+  have hi₀s : i₀ ∈ s := by simp [hsdef, hg₀]
+  -- Each summand is a nonzero value.
+  have hcoe0 : ∀ i ∈ s, ((g i : F)) ≠ 0 := by
+    intro i hi
+    rw [hsdef, Finset.mem_filter] at hi
+    simpa using hi.2
+  have hval : ∀ i ∈ s, O.valuation ((g i : F) * w i) ≠ 0 := by
+    intro i hi
+    rw [Valuation.ne_zero_iff]
+    exact mul_ne_zero (hcoe0 i hi) (hw0 i)
+  -- Distinct summands have distinct values: the coefficients only move
+  -- values inside a coset of `⟨v z⟩`.
+  have hdist : ∀ i ∈ s, ∀ j ∈ s, i ≠ j →
+      O.valuation ((g i : F) * w i) ≠ O.valuation ((g j : F) * w j) := by
+    intro i hi j hj hij heq
+    obtain ⟨mi, hmi⟩ := exists_valuation_eq_zpow_of_mem_adjoin hk hz0 hz
+      (SetLike.coe_mem (g i)) (hcoe0 i hi)
+    obtain ⟨mj, hmj⟩ := exists_valuation_eq_zpow_of_mem_adjoin hk hz0 hz
+      (SetLike.coe_mem (g j)) (hcoe0 j hj)
+    rw [Valuation.map_mul, Valuation.map_mul, hmi, hmj] at heq
+    refine hne i j hij (mj - mi) ?_
+    have h2 : O.valuation z ^ mi ≠ 0 := zpow_ne_zero _ hzv
+    calc O.valuation (w i)
+        = (O.valuation z ^ mi)⁻¹ *
+          (O.valuation z ^ mi * O.valuation (w i)) := by
+          rw [inv_mul_cancel_left₀ h2]
+      _ = (O.valuation z ^ mi)⁻¹ *
+          (O.valuation z ^ mj * O.valuation (w j)) := by rw [heq]
+      _ = O.valuation (w j) * O.valuation z ^ (mj - mi) := by
+          rw [zpow_sub₀ hzv, div_eq_mul_inv,
+            mul_comm (O.valuation z ^ mj) (O.valuation (w j)),
+            mul_left_comm ((O.valuation z ^ mi)⁻¹) (O.valuation (w j))
+              (O.valuation z ^ mj),
+            mul_comm ((O.valuation z ^ mi)⁻¹) (O.valuation z ^ mj)]
+  -- Pick the summand of maximal value; it strictly dominates.
+  obtain ⟨j, hjs, hjmax⟩ := s.exists_max_image
+    (fun i ↦ O.valuation ((g i : F) * w i)) ⟨i₀, hi₀s⟩
+  have hstrict : ∀ i ∈ s, i ≠ j →
+      O.valuation ((g i : F) * w i) < O.valuation ((g j : F) * w j) :=
+    fun i hi hij ↦ lt_of_le_of_ne (hjmax i hi) (hdist i hi j hjs hij)
+  -- The support sum is the full sum, which vanishes.
+  have hss : ∑ i ∈ s, (g i : F) * w i = 0 := by
+    rw [← hsum]
+    rw [show ∑ i : ι, g i • w i = ∑ i : ι, (g i : F) * w i from
+      Finset.sum_congr rfl fun i _ ↦ by rw [Algebra.smul_def]; rfl]
+    refine Finset.sum_subset (Finset.subset_univ s) fun i _ hi ↦ ?_
+    rw [hsdef, Finset.mem_filter, not_and, not_not] at hi
+    rw [hi (Finset.mem_univ i), ZeroMemClass.coe_zero, zero_mul]
+  have h0 := valuation_sum_eq_of_forall_lt hjs hstrict
+  rw [hss, Valuation.map_zero] at h0
+  exact hval j hjs h0.symm
+
 end
 
 end AclGeom
