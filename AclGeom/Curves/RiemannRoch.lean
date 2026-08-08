@@ -227,6 +227,146 @@ theorem riemannSpace_eq_or_eq_sup (D : Divisor k F) (P : Place k F) :
 
 end OneStep
 
+section Dimension
+
+/-- `L(0)` is exactly the constants: elements without poles descend to
+the base field. -/
+theorem riemannSpace_zero :
+    RiemannSpace (0 : Divisor k F) =
+      LinearMap.range (Algebra.linearMap k F) := by
+  ext f
+  constructor
+  · intro hf
+    rcases eq_or_ne f 0 with rfl | hf0
+    · exact ⟨0, map_zero _⟩
+    have hle : ∀ P : Place k F, P.val.valuation f ≤ 1 := by
+      intro P
+      rw [← P.ord_nonneg_iff hf0]
+      rcases hf with h | h
+      · exact absurd h hf0
+      · have h1 := h P
+        simp only [Finsupp.coe_zero, Pi.zero_apply, neg_zero] at h1
+        exact h1
+    obtain ⟨c, hc⟩ := exists_algebraMap_eq_of_forall_valuation_le_one hle
+    exact ⟨c, hc⟩
+  · rintro ⟨c, rfl⟩
+    exact algebraMap_mem_riemannSpace le_rfl c
+
+/-- The degree is additive across the one-point decrement. -/
+theorem deg_sub_single (D : Divisor k F) (P : Place k F) :
+    Divisor.deg (D - Finsupp.single P 1) = Divisor.deg D - 1 := by
+  classical
+  rw [Divisor.deg, Divisor.deg, Finsupp.sum_sub_index (fun _ _ _ ↦ rfl),
+    Finsupp.sum_single_index rfl]
+
+/-- **Finiteness and the elementary dimension bound** for effective
+divisors: `ℓ(D) ≤ deg D + 1`, by induction along one-point decrements
+from `L(0) = k`. -/
+theorem finiteDimensional_riemannSpace_of_nonneg
+    {D : Divisor k F} (hD : 0 ≤ D) :
+    FiniteDimensional k (RiemannSpace D) ∧
+      (Module.finrank k (RiemannSpace D) : ℤ) ≤ Divisor.deg D + 1 := by
+  classical
+  induction hmeas : (Divisor.deg D).toNat using Nat.strong_induction_on
+    generalizing D with
+  | _ n ih =>
+  have hdeg0 : 0 ≤ Divisor.deg D := by
+    rw [Divisor.deg]
+    exact Finsupp.sum_nonneg fun P _ ↦ hD P
+  rcases eq_or_ne D 0 with rfl | hD0
+  · constructor
+    · rw [riemannSpace_zero]
+      infer_instance
+    · rw [riemannSpace_zero]
+      have h1 : Module.finrank k
+          (LinearMap.range (Algebra.linearMap k F)) = 1 := by
+        rw [LinearMap.finrank_range_of_inj
+          (show Function.Injective (Algebra.linearMap k F) from
+            (algebraMap k F).injective), Module.finrank_self]
+      have h2 : Divisor.deg (0 : Divisor k F) = 0 := by
+        rw [Divisor.deg, Finsupp.sum_zero_index]
+      rw [h1, h2]
+      norm_num
+  · -- Pick a point in the support and step down.
+    obtain ⟨P, hP⟩ := Finsupp.support_nonempty_iff.2 hD0
+    have hDP : 0 < D P := by
+      have h1 : (0 : ℤ) ≤ D P := by simpa using hD P
+      have h2 : D P ≠ 0 := Finsupp.mem_support_iff.1 hP
+      omega
+    have hD' : 0 ≤ D - Finsupp.single P 1 := by
+      intro Q
+      rcases eq_or_ne Q P with rfl | hQ
+      · simp only [Finsupp.coe_zero, Pi.zero_apply, Finsupp.sub_apply,
+          Finsupp.single_eq_same]
+        omega
+      · simp only [Finsupp.coe_zero, Pi.zero_apply, Finsupp.sub_apply,
+          Finsupp.single_eq_of_ne hQ, sub_zero]
+        exact hD Q
+    have hdeg' : Divisor.deg (D - Finsupp.single P 1) =
+        Divisor.deg D - 1 := deg_sub_single D P
+    have hdegP : D P ≤ Divisor.deg D := by
+      rw [Divisor.deg, Finsupp.sum]
+      exact Finset.single_le_sum (fun Q _ ↦ by simpa using hD Q) hP
+    have hmeas' : (Divisor.deg (D - Finsupp.single P 1)).toNat < n := by
+      omega
+    obtain ⟨ihfd, ihrk⟩ := ih _ hmeas' hD' rfl
+    rcases riemannSpace_eq_or_eq_sup D P with heq | ⟨f₀, hf₀, heq⟩
+    · rw [heq]
+      refine ⟨ihfd, ?_⟩
+      omega
+    · haveI := ihfd
+      rcases eq_or_ne f₀ 0 with rfl | hf₀0
+      · rw [heq]
+        have hspan : Submodule.span k ({0} : Set F) = ⊥ :=
+          Submodule.span_zero_singleton k
+        rw [hspan, sup_bot_eq]
+        exact ⟨ihfd, by omega⟩
+      constructor
+      · rw [heq]
+        infer_instance
+      · rw [heq]
+        have h1 := Submodule.finrank_sup_add_finrank_inf_eq
+          (RiemannSpace (D - Finsupp.single P 1))
+          (Submodule.span k {f₀})
+        have h2 : Module.finrank k (Submodule.span k {f₀}) = 1 :=
+          finrank_span_singleton hf₀0
+        rw [h2] at h1
+        have h4 : Module.finrank k
+            ↥(RiemannSpace (D - Finsupp.single P 1) ⊔
+              Submodule.span k {f₀}) ≤
+            Module.finrank k
+              ↥(RiemannSpace (D - Finsupp.single P 1)) + 1 := by
+          omega
+        have h5 : ((Module.finrank k
+            ↥(RiemannSpace (D - Finsupp.single P 1) ⊔
+              Submodule.span k {f₀})) : ℤ) ≤
+            ((Module.finrank k
+              ↥(RiemannSpace (D - Finsupp.single P 1))) : ℤ) + 1 := by
+          exact_mod_cast h4
+        omega
+
+/-- The positive part of a divisor. -/
+noncomputable def Divisor.pos (D : Divisor k F) : Divisor k F :=
+  D.mapRange (fun m ↦ max m 0) (by simp)
+
+theorem Divisor.le_pos (D : Divisor k F) : D ≤ D.pos := fun P ↦ by
+  rw [Divisor.pos, Finsupp.mapRange_apply]
+  exact le_max_left _ _
+
+theorem Divisor.pos_nonneg (D : Divisor k F) : 0 ≤ D.pos := fun P ↦ by
+  rw [Divisor.pos, Finsupp.mapRange_apply]
+  simpa using le_max_right (D P) 0
+
+/-- **Riemann–Roch spaces are finite-dimensional.** -/
+instance finiteDimensional_riemannSpace (D : Divisor k F) :
+    FiniteDimensional k (RiemannSpace D) := by
+  haveI := (finiteDimensional_riemannSpace_of_nonneg
+    (Divisor.pos_nonneg D)).1
+  exact Submodule.finiteDimensional_of_le
+    (riemannSpace_mono (Divisor.le_pos D))
+
+end Dimension
+
 end
 
 end AclGeom
