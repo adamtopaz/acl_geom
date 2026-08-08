@@ -498,6 +498,8 @@ variable (k F) in
 /-- A **function field of one variable** over `k`: some element
 transcendental over `k` over whose simple extension `F` is finite. -/
 class IsFunctionFieldOneVar : Prop where
+  /-- Some element is transcendental over `k` with `F` finite over its
+  simple extension. -/
   exists_transcendental_finite : ∃ x : F, Transcendental k x ∧
     FiniteDimensional (↥(adjoin k ({x} : Set F))) F
 
@@ -587,6 +589,82 @@ theorem isDiscreteValuationRing_of_isFunctionField
   exact isDiscreteValuationRing_of_valuationSubring hk hz0 hz
 
 end FunctionField
+
+section PlaceStructure
+
+open IntermediateField
+
+/-- Over an algebraically closed base, algebraic elements descend to the
+base: the element-level relative algebraic closedness used throughout the
+curve library. -/
+theorem exists_algebraMap_eq_of_isAlgebraic [IsAlgClosed k] {y : F}
+    (hy : IsAlgebraic k y) : ∃ c : k, algebraMap k F c = y := by
+  have h1 : y ∈ adjoin k ({y} : Set F) := subset_adjoin k _ rfl
+  haveI : Algebra.IsAlgebraic k ↥(adjoin k ({y} : Set F)) :=
+    isAlgebraic_adjoin_simple hy.isIntegral
+  rw [IntermediateField.eq_bot_of_isAlgClosed_of_isAlgebraic
+    (adjoin k ({y} : Set F)), IntermediateField.mem_bot] at h1
+  exact h1
+
+/-- A nontrivial valuation subring has a nonzero maximal-ideal element:
+the inverse of anything outside it. -/
+theorem exists_valuation_lt_one_of_ne_top (hO : O ≠ ⊤) :
+    ∃ z : F, z ≠ 0 ∧ O.valuation z < 1 := by
+  obtain ⟨x, hx⟩ : ∃ x : F, x ∉ O := by
+    by_contra hc
+    push Not at hc
+    exact hO (by ext y; simpa using hc y)
+  have hx0 : x ≠ 0 := fun h ↦ hx (h ▸ zero_mem O)
+  have hmem : x⁻¹ ∈ O := by
+    rcases O.mem_or_inv_mem x with h | h
+    · exact absurd h hx
+    · exact h
+  refine ⟨x⁻¹, inv_ne_zero hx0, ?_⟩
+  rcases O.valuation_lt_one_or_eq_one ⟨x⁻¹, hmem⟩ with h | h
+  · exact h
+  · exfalso
+    refine hx (O.mem_of_valuation_le_one x ?_)
+    have h2 : O.valuation x * O.valuation x⁻¹ = 1 := by
+      rw [← Valuation.map_mul, mul_inv_cancel₀ hx0, Valuation.map_one]
+    have h3 : O.valuation x⁻¹ = 1 := h
+    rw [h3, mul_one] at h2
+    exact h2.le
+
+variable (k F) in
+/-- A **place** of `F/k`: a nontrivial valuation subring of `F` containing
+the base field. Over a one-variable function field these are exactly the
+discrete valuation rings of `F/k` (`Place.isDiscreteValuationRing`). -/
+structure Place where
+  /-- The underlying valuation subring. -/
+  val : ValuationSubring F
+  /-- Base-field elements belong to the subring. -/
+  algebraMap_mem' : ∀ c : k, algebraMap k F c ∈ val
+  /-- The subring is proper. -/
+  ne_top' : val ≠ ⊤
+
+namespace Place
+
+variable {P : Place k F}
+
+theorem algebraMap_mem (P : Place k F) (c : k) :
+    algebraMap k F c ∈ P.val := P.algebraMap_mem' c
+
+theorem ne_top (P : Place k F) : P.val ≠ ⊤ := P.ne_top'
+
+/-- The valuation attached to a place. -/
+def valuation (P : Place k F) := P.val.valuation
+
+/-- Every place of a one-variable function field over an algebraically
+closed base is a discrete valuation ring (Stichtenoth Theorem 1.1.6). -/
+instance isDiscreteValuationRing [IsAlgClosed k] [IsFunctionFieldOneVar k F]
+    (P : Place k F) : IsDiscreteValuationRing (↥P.val) := by
+  obtain ⟨z, hz0, hz⟩ := exists_valuation_lt_one_of_ne_top P.ne_top
+  exact isDiscreteValuationRing_of_isFunctionField P.algebraMap_mem
+    (fun y hy ↦ exists_algebraMap_eq_of_isAlgebraic hy) hz0 hz
+
+end Place
+
+end PlaceStructure
 
 end
 
