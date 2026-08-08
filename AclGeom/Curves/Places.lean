@@ -221,6 +221,122 @@ theorem linearIndependent_of_pairwise_valuation_ne {ι : Type*} [Fintype ι]
   rw [hss, Valuation.map_zero] at h0
   exact hval j hjs h0.symm
 
+open IntermediateField in
+/-- **Pigeonhole through the coset bound**: when `F` is finite over
+`k(z)`, some positive power `d ≤ [F : k(z)]` of every nonzero value lands
+in the cyclic group `⟨v z⟩`. -/
+theorem exists_pow_valuation_eq_zpow
+    (hk : ∀ c : k, algebraMap k F c ∈ O) {z : F} (hz0 : z ≠ 0)
+    (hz : O.valuation z < 1)
+    [FiniteDimensional (↥(adjoin k ({z} : Set F))) F]
+    {w : F} (hw0 : w ≠ 0) :
+    ∃ d : ℕ, 0 < d ∧
+      d ≤ Module.finrank (↥(adjoin k ({z} : Set F))) F ∧
+      ∃ m : ℤ, O.valuation w ^ d = O.valuation z ^ m := by
+  classical
+  set n := Module.finrank (↥(adjoin k ({z} : Set F))) F with hn
+  by_contra hcon
+  push Not at hcon
+  have hvw : O.valuation w ≠ 0 := (Valuation.ne_zero_iff _).2 hw0
+  have hvz : O.valuation z ≠ 0 := (Valuation.ne_zero_iff _).2 hz0
+  -- Cancellation kernel: a coset relation between two powers yields the
+  -- claimed relation for the difference of exponents.
+  have hkey : ∀ i j : ℕ, i < j → j ≤ n → ∀ m : ℤ,
+      O.valuation w ^ j = O.valuation w ^ i * O.valuation z ^ m →
+      False := by
+    intro i j hij hjn m heq
+    refine hcon (j - i) (by omega) (by omega) m ?_
+    have h1 : O.valuation w ^ i * O.valuation w ^ (j - i) =
+        O.valuation w ^ i * O.valuation z ^ m := by
+      rw [← pow_add, Nat.add_sub_cancel' hij.le]
+      exact heq
+    exact mul_left_cancel₀ (pow_ne_zero i hvw) h1
+  -- Otherwise all powers of `w` lie in distinct cosets: independence.
+  have hne : ∀ i j : Fin (n + 1), i ≠ j → ∀ m : ℤ,
+      O.valuation (w ^ (i : ℕ)) ≠
+        O.valuation (w ^ (j : ℕ)) * O.valuation z ^ m := by
+    intro i j hij m heq
+    rw [Valuation.map_pow, Valuation.map_pow] at heq
+    rcases Nat.lt_or_ge (i : ℕ) (j : ℕ) with hlt | hge
+    · refine hkey i j hlt (by omega) (-m) ?_
+      rw [heq, mul_assoc, ← zpow_add₀ hvz, add_neg_cancel, zpow_zero,
+        mul_one]
+    · have hgt : (j : ℕ) < (i : ℕ) :=
+        lt_of_le_of_ne hge fun h ↦ hij (Fin.ext h.symm)
+      exact hkey j i hgt (by omega) m heq
+  have hind := linearIndependent_of_pairwise_valuation_ne hk hz0 hz
+    (w := fun i : Fin (n + 1) ↦ w ^ (i : ℕ))
+    (fun i ↦ pow_ne_zero _ hw0) hne
+  have hcard := hind.fintype_card_le_finrank
+  rw [Fintype.card_fin] at hcard
+  omega
+
+open IntermediateField in
+/-- **Uniformizer existence** (the discreteness core of Stichtenoth
+Theorem 1.1.6): when `F` is finite over `k(z)` for a nonzero
+maximal-ideal element `z`, the values below `1` attain a maximum — the
+value of a uniformizer. Proof: raising to the `n!`-th power lands every
+such value in `⟨v z⟩` with a positive exponent, and the least exponent is
+attained. -/
+theorem exists_valuation_uniformizer
+    (hk : ∀ c : k, algebraMap k F c ∈ O) {z : F} (hz0 : z ≠ 0)
+    (hz : O.valuation z < 1)
+    [FiniteDimensional (↥(adjoin k ({z} : Set F))) F] :
+    ∃ t : F, O.valuation t ≠ 0 ∧ O.valuation t < 1 ∧
+      ∀ w : F, O.valuation w ≠ 0 → O.valuation w < 1 →
+        O.valuation w ≤ O.valuation t := by
+  classical
+  set n := Module.finrank (↥(adjoin k ({z} : Set F))) F with hn
+  have hvz : O.valuation z ≠ 0 := (Valuation.ne_zero_iff _).2 hz0
+  have hvzpos : 0 < O.valuation z := zero_lt_iff.2 hvz
+  -- Uniform exponent: the `n!`-th power of every small value is a
+  -- positive power of `v z`.
+  have huni : ∀ w : F, O.valuation w ≠ 0 → O.valuation w < 1 →
+      ∃ M : ℕ, 0 < M ∧
+        O.valuation w ^ n.factorial = O.valuation z ^ (M : ℤ) := by
+    intro w hw0v hwlt
+    have hw0 : w ≠ 0 := fun h ↦ hw0v (by rw [h, Valuation.map_zero])
+    obtain ⟨d, hd0, hdn, m, hm⟩ :=
+      exists_pow_valuation_eq_zpow hk hz0 hz hw0
+    obtain ⟨e, he⟩ : d ∣ n.factorial := Nat.dvd_factorial hd0 hdn
+    have h1 : O.valuation w ^ n.factorial =
+        O.valuation z ^ (m * (e : ℤ)) := by
+      rw [he, pow_mul, hm, zpow_mul, zpow_natCast]
+    -- Positivity of the exponent: the power is below one.
+    have h2 : O.valuation z ^ (m * (e : ℤ)) < 1 := by
+      rw [← h1]
+      have hlt1 : O.valuation w ^ n.factorial < 1 ^ n.factorial :=
+        pow_lt_pow_left₀ hwlt zero_le n.factorial_ne_zero
+      rwa [one_pow] at hlt1
+    have h3 : 0 < m * (e : ℤ) := by
+      by_contra hc
+      push Not at hc
+      have h4 : (1 : _) ≤ O.valuation z ^ (m * (e : ℤ)) := by
+        calc (1 : _) = O.valuation z ^ (0 : ℤ) := by simp
+          _ ≤ O.valuation z ^ (m * (e : ℤ)) :=
+            zpow_le_zpow_right_of_le_one₀ hvzpos hz.le hc
+      exact h4.not_gt h2
+    exact ⟨(m * (e : ℤ)).toNat, by omega, by
+      rw [h1, Int.toNat_of_nonneg h3.le]⟩
+  -- The attained exponents form a nonempty set of naturals; take the min.
+  set A : Set ℕ := {M | 0 < M ∧ ∃ w : F, O.valuation w ≠ 0 ∧
+    O.valuation w < 1 ∧
+    O.valuation w ^ n.factorial = O.valuation z ^ (M : ℤ)} with hA
+  have hAne : A.Nonempty := by
+    obtain ⟨M, hM0, hMz⟩ := huni z hvz hz
+    exact ⟨M, hM0, z, hvz, hz, hMz⟩
+  obtain ⟨-, t, ht0, htlt, htM⟩ := Nat.sInf_mem hAne
+  refine ⟨t, ht0, htlt, fun w hw0v hwlt ↦ ?_⟩
+  obtain ⟨M, hM0, hMw⟩ := huni w hw0v hwlt
+  have hle : sInf A ≤ M := Nat.sInf_le ⟨hM0, w, hw0v, hwlt, hMw⟩
+  -- Compare through the `n!`-th powers.
+  have h2 : O.valuation w ^ n.factorial ≤ O.valuation t ^ n.factorial := by
+    rw [hMw, htM]
+    exact zpow_le_zpow_right_of_le_one₀ hvzpos hz.le (by exact_mod_cast hle)
+  by_contra hc
+  push Not at hc
+  exact ((pow_lt_pow_left₀ hc zero_le n.factorial_ne_zero).not_ge h2).elim
+
 end
 
 end AclGeom
