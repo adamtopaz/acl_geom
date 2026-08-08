@@ -94,6 +94,33 @@ algebraic over the smaller closure.
 
 {docstring AclGeom.inf_lt_inf_iff_of_le}
 
-With these three bricks, the specialized one-quantifier transfer (blueprint
-Theorem one-quantifier-transfer) is Boolean assembly; it is the remaining
-piece of this layer's foundation, tracked on the M5 milestone issue.
+# The one-quantifier transfer
+%%%
+tag := "one-quantifier"
+%%%
+
+The three bricks assemble into the transfer principle (blueprint Theorem
+one-quantifier-transfer). A disjunct of the normal form is a conjunction
+of memberships `z ∈ racl k (Aᵢ)` and non-memberships `z ∉ racl k (Bⱼ)`;
+iterating the intersection generator fuses the memberships into a single
+closure `racl k C`, on which each excluded closure traces as another
+finitely generated closure:
+
+{docstring AclGeom.exists_finite_iInter_generator}
+
+A witness in `K` exists exactly when the subfield `racl k C ⊓ K` is not
+covered by the traced subfields — the relative no-field-cover:
+
+{docstring AclGeom.exists_intermediateField_eq_of_subset_iUnion}
+
+Each covering equality is the negation of a strict inclusion, which
+transfers between `K₁` and `K₂`. As long as at least one membership
+conjunct is present, no transcendence-degree hypothesis is needed —
+blueprint hypothesis (9.4) enters only the degenerate no-`Aᵢ` case, which
+is deferred to the descent milestone alongside its trdeg interface:
+
+{docstring AclGeom.one_quantifier_transfer}
+
+The remaining piece of this layer is the application to the geometric
+`J`-predicate (blueprint §9's descent theorem), tracked on the M5
+milestone issue.

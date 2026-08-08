@@ -104,13 +104,48 @@ theorem exists_eq_top_of_subfield_cover {F : Type*} [Field F]
     rw [hyval]
     exact zpow_mem hj m
 
+/-- Relative form of blueprint Lemma no-field-cover: if finitely many
+subfields lying below a subfield `E` cover `E`, one of them equals `E`. -/
+theorem exists_eq_of_subset_iUnion {F : Type*} [Field F]
+    {n : ℕ} {E : Subfield F} {S : Fin n → Subfield F}
+    (hle : ∀ i, S i ≤ E) (hcov : (E : Set F) ⊆ ⋃ i, (S i : Set F)) :
+    ∃ i, S i = E := by
+  -- Pull everything back to the field `E` and apply the absolute form.
+  obtain ⟨i, hi⟩ := exists_eq_top_of_subfield_cover
+    (fun i ↦ (S i).comap E.subtype) (fun x ↦ by
+      obtain ⟨j, hj⟩ := Set.mem_iUnion.1 (hcov x.2)
+      exact ⟨j, Subfield.mem_comap.2 hj⟩)
+  refine ⟨i, le_antisymm (hle i) fun x hx ↦ ?_⟩
+  have h1 : (⟨x, hx⟩ : E) ∈ (S i).comap E.subtype := by
+    rw [hi]
+    exact Subfield.mem_top _
+  exact Subfield.mem_comap.1 h1
+
+/-- Relative no-field-cover for intermediate fields: if finitely many
+intermediate fields lying below `E` cover `E`, one of them equals `E`. -/
+theorem exists_intermediateField_eq_of_subset_iUnion {k F : Type*}
+    [Field k] [Field F] [Algebra k F] {n : ℕ}
+    {E : IntermediateField k F} {S : Fin n → IntermediateField k F}
+    (hle : ∀ i, S i ≤ E) (hcov : (E : Set F) ⊆ ⋃ i, (S i : Set F)) :
+    ∃ i, S i = E := by
+  obtain ⟨i, hi⟩ := exists_eq_of_subset_iUnion
+    (E := E.toSubfield) (S := fun i ↦ (S i).toSubfield)
+    (fun i x hx ↦ (E.mem_toSubfield x).2
+      (hle i (((S i).mem_toSubfield x).1 hx)))
+    (by simpa using hcov)
+  refine ⟨i, le_antisymm (hle i) fun x hx ↦ ?_⟩
+  have h1 : x ∈ (S i).toSubfield := by
+    rw [hi]
+    exact (E.mem_toSubfield x).2 hx
+  exact ((S i).mem_toSubfield x).1 h1
+
 /-- Avoidance form of blueprint Lemma no-field-cover: finitely many proper
 subfields miss a common element. -/
 theorem exists_notMem_of_ne_top {F : Type*} [Field F]
     {n : ℕ} (S : Fin n → Subfield F) (hS : ∀ i, S i ≠ ⊤) :
     ∃ x : F, ∀ i, x ∉ S i := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨i, hi⟩ := exists_eq_top_of_subfield_cover S h
   exact hS i hi
 
