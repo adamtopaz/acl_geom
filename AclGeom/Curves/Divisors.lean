@@ -371,6 +371,41 @@ theorem ord_pos_iff (P : Place k F) {f : F} (hf : f ≠ 0) :
     rw [h1] at hlt
     exact hlt.not_ge h2
 
+/-- Nonzero constants have order zero everywhere. -/
+theorem ord_algebraMap (P : Place k F) {c : k} (hc : c ≠ 0) :
+    P.ord (algebraMap k F c) = 0 :=
+  (P.ord_eq_zero_iff ((map_ne_zero (algebraMap k F)).2 hc)).2
+    (valuation_algebraMap_eq_one P.algebraMap_mem hc)
+
+/-- The order reverses the valuation comparison. -/
+theorem valuation_le_valuation_iff (P : Place k F) {f g : F} (hf : f ≠ 0)
+    (hg : g ≠ 0) :
+    P.val.valuation f ≤ P.val.valuation g ↔ P.ord g ≤ P.ord f := by
+  rw [P.valuation_eq_zpow_ord hf, P.valuation_eq_zpow_ord hg]
+  constructor
+  · intro h
+    by_contra hc
+    push Not at hc
+    exact ((zpow_lt_zpow_right_of_lt_one₀ P.pi_valuation_pos
+      P.pi_valuation_lt_one hc).not_ge h).elim
+  · intro h
+    exact zpow_le_zpow_right_of_le_one₀ P.pi_valuation_pos
+      P.pi_valuation_lt_one.le h
+
+/-- Ultrametric superadditivity of the order. -/
+theorem min_ord_le_ord_add (P : Place k F) {f g : F} (hf : f ≠ 0)
+    (hg : g ≠ 0) (hfg : f + g ≠ 0) :
+    min (P.ord f) (P.ord g) ≤ P.ord (f + g) := by
+  have hmax := P.val.valuation.map_add f g
+  rcases max_cases (P.val.valuation f) (P.val.valuation g) with
+    ⟨hmx, -⟩ | ⟨hmx, -⟩
+  · rw [hmx] at hmax
+    have h1 := (P.valuation_le_valuation_iff hfg hf).1 hmax
+    exact le_trans (min_le_left _ _) h1
+  · rw [hmx] at hmax
+    have h1 := (P.valuation_le_valuation_iff hfg hg).1 hmax
+    exact le_trans (min_le_right _ _) h1
+
 end Place
 
 /-- A **divisor** on the places of `F/k`: a finitely supported integer
