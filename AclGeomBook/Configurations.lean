@@ -132,7 +132,64 @@ the shifted representative `a+1`:
 
 {docstring AclGeom.JGeom}
 
-The correctness theorems (blueprint Thms q-correct, qp-correct,
-j-acf-correct) — soundness via the explicit witness table and
-completeness via the affine grid extraction — are the next steps of this
-layer; progress is tracked on the project's issue tracker.
+# Soundness of the geometric Q
+%%%
+tag := "q-soundness"
+%%%
+
+The soundness direction of blueprint Theorem q-correct is proved by
+exhibiting the explicit 21-point witness of table 7.1: given five
+independent generators, every entry is a rational monomial expression and
+every clause of $`\Psi` verifies elementwise. The verification runs on a
+small toolkit. Geometric rank clauses reduce to field theory through the
+*rank bridge*:
+
+{docstring AclGeom.rankEq_of_coe_eq_racl}
+
+{docstring AclGeom.pointIndep_point}
+
+Each table entry is transcendental by a uniform *recovery principle* —
+dividing or subtracting away side factors recovers a generator that the
+independence hypothesis keeps free:
+
+{docstring AclGeom.notMem_bot_of_recover}
+
+The witness itself, and the assembled verification:
+
+{docstring AclGeom.qWitness}
+
+{docstring AclGeom.qWitness_psi}
+
+Two clauses deserve comment. The seven meet equations of clause (vii)
+are literal independent-variable intersections (blueprint eq. 8.9a) —
+and that identity is exactly the exchange brick
+`mem_racl_of_mem_racl_insert` already proved for the hard kernel's
+multiplicative endgame, so no linear-disjointness theory is needed:
+
+{docstring AclGeom.sup_point_inf_sup_point_eq}
+
+The universal atom clauses (iv) are proved by a *specialization
+argument* replacing the blueprint's derivation calculation: a relation
+over the atom's closure collapses to a one-variable polynomial identity,
+which specializes at two base points and recovers both line coefficients
+inside the atom — contradicting their independence:
+
+{docstring AclGeom.line_relation_specialize}
+
+{docstring AclGeom.notMem_racl_line}
+
+Consequently every clause holds with only an infinite base field — no
+algebraic closure enters the soundness direction. The packaged statement
+produces the witness generators from any semantic quadruple by a greedy
+fresh chain:
+
+{docstring AclGeom.algebraicIndependent_snoc}
+
+{docstring AclGeom.qtable_indep_of_fresh}
+
+{docstring AclGeom.qGeom_of_qSem}
+
+The completeness direction — the affine grid extraction of blueprint
+Lemma 8.5, resting on the rational group chunk and the affine-action
+classification — is the remaining chunk of this layer; progress and
+design discussion are tracked on the project's issue tracker.
