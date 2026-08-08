@@ -487,6 +487,79 @@ theorem divisorOf_mul {f g : F} (hf : f ≠ 0) (hg : g ≠ 0) :
 
 end Ord
 
+section RefinedApproximation
+
+variable [IsAlgClosed k] [IsFunctionFieldOneVar k F]
+
+/-- **Refined indicators**: at a place distinct from finitely many
+others, an element within any prescribed uniformizer power of `1` there
+and of `0` at the others. -/
+theorem Place.exists_indicator {r : ℕ} (P₀ : Place k F)
+    (Ps : Fin r → Place k F) (hne : ∀ j, P₀ ≠ Ps j) (m : ℕ) :
+    ∃ χ : F,
+      P₀.val.valuation (χ - 1) ≤ P₀.val.valuation P₀.pi ^ m ∧
+      ∀ j, (Ps j).val.valuation χ ≤
+        (Ps j).val.valuation ((Ps j).pi) ^ m := by
+  classical
+  obtain ⟨y, hy₀, hyj⟩ := P₀.exists_one_lt_forall_lt_one Ps hne
+  have hy0 : y ≠ 0 := by
+    intro h0
+    rw [h0, Valuation.map_zero] at hy₀
+    simp at hy₀
+  have hyv : P₀.val.valuation y ≠ 0 := (Valuation.ne_zero_iff _).2 hy0
+  -- Per-place exponents beating the target, then a common one.
+  obtain ⟨n₀, hn₀⟩ : ∃ n : ℕ, P₀.val.valuation y⁻¹ ^ n <
+      P₀.val.valuation (P₀.pi ^ m) := by
+    refine P₀.exists_pow_valuation_lt (inv_ne_zero hy0) ?_
+      (pow_ne_zero m P₀.pi_ne_zero)
+    rw [map_inv₀, inv_lt_one₀ (zero_lt_iff.2 hyv)]
+    exact hy₀
+  rw [Valuation.map_pow] at hn₀
+  have hjarch : ∀ j, ∃ n : ℕ, (Ps j).val.valuation y ^ n <
+      (Ps j).val.valuation ((Ps j).pi ^ m) := fun j ↦
+    (Ps j).exists_pow_valuation_lt hy0 (hyj j)
+      (pow_ne_zero m (Ps j).pi_ne_zero)
+  choose ns hns using hjarch
+  set n : ℕ := max n₀ (Finset.univ.sup ns) + 1 with hn
+  have hn0 : n ≠ 0 := Nat.succ_ne_zero _
+  refine ⟨y ^ n / (1 + y ^ n), ?_, ?_⟩
+  · -- At `P₀`: the indicator error is `v(y)⁻¹ ^ n`.
+    have hden : (1 : F) + y ^ n ≠ 0 := by
+      intro h0
+      have h2 := valuation_indicator_of_gt_one (O := P₀.val) hy₀ hn0
+      rw [h0, div_zero, Valuation.map_zero] at h2
+      exact zero_ne_one h2
+    have h1 : y ^ n / (1 + y ^ n) - 1 = -(1 / (1 + y ^ n)) := by
+      field_simp
+      ring
+    have hden_val : P₀.val.valuation (1 + y ^ n) =
+        P₀.val.valuation (y ^ n) := by
+      refine Valuation.map_add_eq_of_lt_right _ ?_
+      rw [Valuation.map_one, Valuation.map_pow]
+      exact one_lt_pow₀ hy₀ hn0
+    rw [h1, Valuation.map_neg, one_div, map_inv₀, hden_val,
+      Valuation.map_pow, ← inv_pow, ← map_inv₀]
+    have h4 : P₀.val.valuation y⁻¹ ^ n ≤ P₀.val.valuation y⁻¹ ^ n₀ :=
+      pow_le_pow_right_of_le_one' (by
+        rw [map_inv₀, inv_le_one₀ (zero_lt_iff.2 hyv)]
+        exact hy₀.le) (by omega)
+    exact le_trans h4 hn₀.le
+  · -- At the other places: the indicator itself is small.
+    intro j
+    rw [valuation_indicator_of_lt_one (hyj j) hn0]
+    have h5 : (Ps j).val.valuation y ^ n ≤
+        (Ps j).val.valuation y ^ ns j :=
+      pow_le_pow_right_of_le_one' (hyj j).le
+        (le_trans (Finset.le_sup (Finset.mem_univ j))
+          (by omega))
+    have h6 := hns j
+    rw [Valuation.map_pow] at h6
+    exact le_trans h5 h6.le
+
+
+end RefinedApproximation
+
+
 end
 
 end AclGeom
