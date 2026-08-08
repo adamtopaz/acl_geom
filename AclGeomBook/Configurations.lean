@@ -189,7 +189,36 @@ fresh chain:
 
 {docstring AclGeom.qGeom_of_qSem}
 
-The completeness direction — the affine grid extraction of blueprint
-Lemma 8.5, resting on the rational group chunk and the affine-action
-classification — is the remaining chunk of this layer; progress and
-design discussion are tracked on the project's issue tracker.
+# Soundness of Q′ and J
+%%%
+tag := "qprime-j-soundness"
+%%%
+
+The multiplication diagram's coordinate check (blueprint Lemma
+mul-diagram, forward half) verifies the eight monomial points at an
+independent triple — every displayed line is one rational identity, and
+the twenty-eight distinctness facts are uniform closure recoveries:
+
+{docstring AclGeom.mulDiagram_of_indep}
+
+Q′-soundness then composes the `Q`-soundness at the ratio point with a
+diagram at one fresh parameter, and J-soundness is the three-conjunct
+identity with the blueprint's normalizations `[x/(xa)] = [a]`,
+`[a+1] = [a]`, and `x(a+1) = x + xa`:
+
+{docstring AclGeom.q'Geom_of_q'Sem}
+
+{docstring AclGeom.jGeom_of_jSem}
+
+The semantic projection identity — `Q` is the `P`-projection of `J` —
+follows from the same normalization calculus:
+
+{docstring AclGeom.qSem_iff_exists_jSem}
+
+With this, the soundness half of the configuration layer is complete:
+`QSem → QGeom`, `Q'Sem → Q'Geom`, and `JSem → JGeom` all hold over any
+infinite base field, given a supply of fresh elements over small sets.
+The completeness directions — resting on the affine grid extraction of
+blueprint Lemma 8.5, the rational group chunk, and the affine-action
+classification — are the remaining chunk of this layer; the design
+discussion is tracked on the project's issue tracker.
