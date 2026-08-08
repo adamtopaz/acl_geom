@@ -5,7 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import Mathlib.RingTheory.Valuation.ValuationSubring
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
+import AclGeom.Closure.Basic
 
 /-!
 # Toward places of a one-variable function field
@@ -489,6 +489,104 @@ theorem isDiscreteValuationRing_of_valuationSubring
     (O.valuation_lt_one_iff _).2 hz
   rw [hbot, Submodule.mem_bot] at hzmem
   exact hz0 (by simpa using congrArg Subtype.val hzmem)
+
+section FunctionField
+
+open IntermediateField
+
+variable (k F) in
+/-- A **function field of one variable** over `k`: some element
+transcendental over `k` over whose simple extension `F` is finite. -/
+class IsFunctionFieldOneVar : Prop where
+  exists_transcendental_finite : ∃ x : F, Transcendental k x ∧
+    FiniteDimensional (↥(adjoin k ({x} : Set F))) F
+
+set_option maxHeartbeats 1000000 in
+-- The mixed-base adjoin tower makes the `isDefEq` checks between the
+-- `restrictScalars` and `toSubfield` presentations expensive.
+/-- Abstract tower step: if `F` is finite over `k(x₀)` and `x₀` is
+integral over an intermediate field `E`, then `F` is finite over `E`.
+Kept abstract in `E`: instantiating the nested adjoin tower at a concrete
+adjoin makes instance elaboration diverge. -/
+theorem finiteDimensional_of_isIntegral_of_adjoin_finite
+    {E : IntermediateField k F} {x₀ : F}
+    [FiniteDimensional (↥(adjoin k ({x₀} : Set F))) F]
+    (hint : IsIntegral (↥E) x₀) : FiniteDimensional (↥E) F := by
+  have hx₀mem : x₀ ∈ adjoin (↥E) ({x₀} : Set F) :=
+    subset_adjoin (↥E) ({x₀} : Set F) rfl
+  have hx₀mem' : x₀ ∈ (adjoin (↥E) ({x₀} : Set F)).restrictScalars k :=
+    (mem_restrictScalars k).2 hx₀mem
+  have hle : adjoin k ({x₀} : Set F) ≤
+      (adjoin (↥E) ({x₀} : Set F)).restrictScalars k := by
+    rw [adjoin_le_iff]
+    exact Set.singleton_subset_iff.2 hx₀mem'
+  have hsub : (adjoin k ({x₀} : Set F)).toSubfield ≤
+      (adjoin (↥E) ({x₀} : Set F)).toSubfield := by
+    intro y hy
+    have h1 := hle ((mem_toSubfield _ _).1 hy)
+    exact (mem_toSubfield _ _).2 ((mem_restrictScalars k).1 h1)
+  letI : Algebra (↥(adjoin k ({x₀} : Set F)))
+      (↥(adjoin (↥E) ({x₀} : Set F))) :=
+    (Subfield.inclusion hsub).toAlgebra
+  haveI : IsScalarTower (↥(adjoin k ({x₀} : Set F)))
+      (↥(adjoin (↥E) ({x₀} : Set F))) F :=
+    IsScalarTower.of_algebraMap_eq' rfl
+  haveI h1 : FiniteDimensional (↥(adjoin (↥E) ({x₀} : Set F))) F :=
+    FiniteDimensional.right (↥(adjoin k ({x₀} : Set F))) _ _
+  haveI h2 : FiniteDimensional (↥E) ↥(adjoin (↥E) ({x₀} : Set F)) :=
+    IntermediateField.adjoin.finiteDimensional hint
+  exact FiniteDimensional.trans (↥E) (↥(adjoin (↥E) ({x₀} : Set F))) F
+
+/-- In a one-variable function field, `F` is finite over `k(z)` for
+*every* transcendental `z`: the exchange property of the closure
+pregeometry relocates the finiteness witness. -/
+theorem finiteDimensional_adjoin_of_transcendental
+    [IsFunctionFieldOneVar k F] {z : F} (hz : Transcendental k z) :
+    FiniteDimensional (↥(adjoin k ({z} : Set F))) F := by
+  classical
+  obtain ⟨x₀, hx₀, hfin⟩ :=
+    IsFunctionFieldOneVar.exists_transcendental_finite (k := k) (F := F)
+  haveI := hfin
+  -- Everything is algebraic over `k(x₀)`; exchange puts `x₀` over `k(z)`.
+  have hzx : z ∈ racl k (insert x₀ (∅ : Set F)) := by
+    have h0 : z ∈ racl k ({x₀} : Set F) := by
+      rw [mem_racl_iff]
+      exact (IsIntegral.of_finite (↥(adjoin k ({x₀} : Set F))) z).isAlgebraic
+    simpa using h0
+  have hx₀z : x₀ ∈ racl k ({z} : Set F) := by
+    have h1 := racl_exchange hzx (notMem_racl_empty_of_transcendental hz)
+    simpa using h1
+  exact finiteDimensional_of_isIntegral_of_adjoin_finite
+    (isAlgebraic_iff_isIntegral.1 ((mem_racl_iff k).1 hx₀z))
+
+/-- Over a relatively algebraically closed base, nonzero maximal-ideal
+elements of a valuation subring are transcendental. -/
+theorem transcendental_of_valuation_lt_one
+    (hk : ∀ c : k, algebraMap k F c ∈ O)
+    (hrac : ∀ y : F, IsAlgebraic k y → ∃ c : k, algebraMap k F c = y)
+    {z : F} (hz0 : z ≠ 0) (hz : O.valuation z < 1) :
+    Transcendental k z := by
+  intro halg
+  obtain ⟨c, hc⟩ := hrac z halg
+  have hc0 : c ≠ 0 := fun h ↦ hz0 (by rw [← hc, h, map_zero])
+  have h1 := valuation_algebraMap_eq_one hk hc0
+  rw [hc] at h1
+  exact hz.ne h1
+
+/-- **Places of a one-variable function field are discrete valuation
+rings** — the packaged form of Stichtenoth Theorem 1.1.6, with the
+finiteness hypothesis discharged from the function-field axioms. -/
+theorem isDiscreteValuationRing_of_isFunctionField
+    [IsFunctionFieldOneVar k F]
+    (hk : ∀ c : k, algebraMap k F c ∈ O)
+    (hrac : ∀ y : F, IsAlgebraic k y → ∃ c : k, algebraMap k F c = y)
+    {z : F} (hz0 : z ≠ 0) (hz : O.valuation z < 1) :
+    IsDiscreteValuationRing (↥O) := by
+  have htr := transcendental_of_valuation_lt_one hk hrac hz0 hz
+  haveI := finiteDimensional_adjoin_of_transcendental (k := k) htr
+  exact isDiscreteValuationRing_of_valuationSubring hk hz0 hz
+
+end FunctionField
 
 end
 
