@@ -290,6 +290,131 @@ theorem mtable_indep_ax_ay : AlgebraicIndependent k ![a * x, a * y] := by
       rwa [inv_mul_cancel_left₀ (mtable_a_ne_zero hind)] at h3
     exact mtable_y_notMem_ax hind hy
 
+
+/-! ### The seven rank-two lines and the nondegeneracy clause -/
+
+theorem mtable_line_XAB :
+    RankEq 2 (ClosedIF.point k x ⊔
+      (ClosedIF.point k a ⊔ ClosedIF.point k (a * x))) := by
+  refine rankEq_two_points (mtable_indep_xa hind) ?_
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rw [Set.insert_subset_iff, Set.insert_subset_iff,
+      Set.singleton_subset_iff]
+    have hx : x ∈ racl k ({x, a} : Set K) := subset_racl k _ (by simp)
+    have ha : a ∈ racl k ({x, a} : Set K) := subset_racl k _ (by simp)
+    exact ⟨hx, ha, MulMemClass.mul_mem ha hx⟩
+  · rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    exact ⟨subset_racl k _ (by simp), subset_racl k _ (by simp)⟩
+
+theorem mtable_line_AYC :
+    RankEq 2 (ClosedIF.point k a ⊔
+      (ClosedIF.point k y ⊔ ClosedIF.point k (a * y))) := by
+  refine rankEq_two_points (mtable_indep_ay hind) ?_
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rw [Set.insert_subset_iff, Set.insert_subset_iff,
+      Set.singleton_subset_iff]
+    have ha : a ∈ racl k ({a, y} : Set K) := subset_racl k _ (by simp)
+    have hy : y ∈ racl k ({a, y} : Set K) := subset_racl k _ (by simp)
+    exact ⟨ha, hy, MulMemClass.mul_mem ha hy⟩
+  · rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    exact ⟨subset_racl k _ (by simp), subset_racl k _ (by simp)⟩
+
+theorem mtable_line_AED :
+    RankEq 2 (ClosedIF.point k a ⊔
+      (ClosedIF.point k (x * y) ⊔ ClosedIF.point k (a * x * y))) := by
+  refine rankEq_two_points (mtable_indep_a_xy hind) ?_
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rw [Set.insert_subset_iff, Set.insert_subset_iff,
+      Set.singleton_subset_iff]
+    have ha : a ∈ racl k ({a, x * y} : Set K) := subset_racl k _ (by simp)
+    have hm : x * y ∈ racl k ({a, x * y} : Set K) :=
+      subset_racl k _ (by simp)
+    have hprod := MulMemClass.mul_mem ha hm
+    have harith : a * (x * y) = a * x * y := by ring
+    rw [harith] at hprod
+    exact ⟨ha, hm, hprod⟩
+  · rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    exact ⟨subset_racl k _ (by simp), subset_racl k _ (by simp)⟩
+
+theorem mtable_line_BYD :
+    RankEq 2 (ClosedIF.point k (a * x) ⊔
+      (ClosedIF.point k y ⊔ ClosedIF.point k (a * x * y))) := by
+  refine rankEq_two_points (mtable_indep_ax_y hind) ?_
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rw [Set.insert_subset_iff, Set.insert_subset_iff,
+      Set.singleton_subset_iff]
+    have hax : a * x ∈ racl k ({a * x, y} : Set K) :=
+      subset_racl k _ (by simp)
+    have hy : y ∈ racl k ({a * x, y} : Set K) := subset_racl k _ (by simp)
+    exact ⟨hax, hy, MulMemClass.mul_mem hax hy⟩
+  · rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    exact ⟨subset_racl k _ (by simp), subset_racl k _ (by simp)⟩
+
+theorem mtable_line_XCD :
+    RankEq 2 (ClosedIF.point k x ⊔
+      (ClosedIF.point k (a * y) ⊔ ClosedIF.point k (a * x * y))) := by
+  refine rankEq_two_points (mtable_indep_x_ay hind) ?_
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rw [Set.insert_subset_iff, Set.insert_subset_iff,
+      Set.singleton_subset_iff]
+    have hx : x ∈ racl k ({x, a * y} : Set K) := subset_racl k _ (by simp)
+    have hay : a * y ∈ racl k ({x, a * y} : Set K) :=
+      subset_racl k _ (by simp)
+    have hprod := MulMemClass.mul_mem hx hay
+    have harith : x * (a * y) = a * x * y := by ring
+    rw [harith] at hprod
+    exact ⟨hx, hay, hprod⟩
+  · rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    exact ⟨subset_racl k _ (by simp), subset_racl k _ (by simp)⟩
+
+theorem mtable_line_BCV :
+    RankEq 2 (ClosedIF.point k (a * x) ⊔
+      (ClosedIF.point k (a * y) ⊔ ClosedIF.point k (x / y))) := by
+  refine rankEq_two_points (mtable_indep_ax_ay hind) ?_
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rw [Set.insert_subset_iff, Set.insert_subset_iff,
+      Set.singleton_subset_iff]
+    have hax : a * x ∈ racl k ({a * x, a * y} : Set K) :=
+      subset_racl k _ (by simp)
+    have hay : a * y ∈ racl k ({a * x, a * y} : Set K) :=
+      subset_racl k _ (by simp)
+    have hq := MulMemClass.mul_mem hax (inv_mem hay)
+    have ha0 : a ≠ 0 := mtable_a_ne_zero hind
+    have harith : a * x * (a * y)⁻¹ = x / y := by
+      rw [mul_inv, div_eq_mul_inv,
+        show a * x * (a⁻¹ * y⁻¹) = a * a⁻¹ * (x * y⁻¹) from by ring,
+        mul_inv_cancel₀ ha0, one_mul]
+    rw [harith] at hq
+    exact ⟨hax, hay, hq⟩
+  · rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    exact ⟨subset_racl k _ (by simp), subset_racl k _ (by simp)⟩
+
+theorem mtable_line_XYEV :
+    RankEq 2 (ClosedIF.point k x ⊔ (ClosedIF.point k y ⊔
+      (ClosedIF.point k (x * y) ⊔ ClosedIF.point k (x / y)))) := by
+  refine rankEq_of_coe_eq_racl (mtable_indep_xy hind) ?_
+  rw [range_pair]
+  have hx : x ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
+  have hy : y ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
+  have hm : x * y ∈ racl k ({x, y} : Set K) := MulMemClass.mul_mem hx hy
+  have hq : x / y ∈ racl k ({x, y} : Set K) := by
+    rw [div_eq_mul_inv]
+    exact MulMemClass.mul_mem hx (inv_mem hy)
+  refine ClosedIF.coe_eq_racl_of_le ?_ ?_
+  · refine sup_le (ClosedIF.point_le_iff.2 hx) ?_
+    refine sup_le (ClosedIF.point_le_iff.2 hy) ?_
+    exact sup_le (ClosedIF.point_le_iff.2 hm) (ClosedIF.point_le_iff.2 hq)
+  · rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    constructor
+    · exact (ClosedIF.le_iff.1 le_sup_left) (ClosedIF.mem_point_self x)
+    · exact (ClosedIF.le_iff.1 (le_sup_left.trans le_sup_right))
+        (ClosedIF.mem_point_self y)
+
+theorem mtable_rank_XYA :
+    RankEq 3 (ClosedIF.point k x ⊔
+      (ClosedIF.point k y ⊔ ClosedIF.point k a)) := by
+  exact rankEq_three_points hind rfl
+
 end MulTable
 
 end
