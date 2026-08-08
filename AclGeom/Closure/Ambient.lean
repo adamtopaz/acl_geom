@@ -122,6 +122,28 @@ theorem coe_mem_racl_pair_iff {N : IntermediateField k Ω} {w₁ w₂ x : N} :
   simpa [Set.image_pair] using
     coe_mem_racl_image_iff (S := ({w₁, w₂} : Set N)) (x := x)
 
+/-- Equivariance of ambient closure membership under automorphisms of a
+subextension: interalgebraicity relations between elements of `N` are
+preserved by any `k`-automorphism of `N`, viewed in `Ω`. -/
+theorem coe_mem_racl_singleton_map {N : IntermediateField k Ω}
+    (σ : N ≃ₐ[k] N) {z w : N}
+    (h : (z : Ω) ∈ racl k ({(w : Ω)} : Set Ω)) :
+    (σ z : Ω) ∈ racl k ({(σ w : Ω)} : Set Ω) := by
+  rw [coe_mem_racl_singleton_iff] at h ⊢
+  simpa [Set.image_singleton] using mem_racl_map σ h
+
+/-- Equivariance of ambient transcendence under automorphisms of a
+subextension. -/
+theorem coe_notMem_racl_empty_map {N : IntermediateField k Ω}
+    (σ : N ≃ₐ[k] N) {z : N}
+    (h : (z : Ω) ∉ racl k (∅ : Set Ω)) :
+    (σ z : Ω) ∉ racl k (∅ : Set Ω) := by
+  intro hmem
+  rw [coe_mem_racl_empty_iff] at hmem
+  have h2 := mem_racl_map σ.symm hmem
+  rw [Set.image_empty, AlgEquiv.symm_apply_apply] at h2
+  exact h ((coe_mem_racl_empty_iff (N := N)).2 h2)
+
 end
 
 end AclGeom

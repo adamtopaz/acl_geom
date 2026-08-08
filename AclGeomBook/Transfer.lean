@@ -145,7 +145,14 @@ period to `x^{q^{rv}} = x^{q^{ru}}`, forcing the exponents to agree and
 
 {docstring AclGeom.orbit_exponent_eq}
 
-{docstring AclGeom.ringEquiv_fix_of_pow_orbit}
+{docstring AclGeom.ringHom_fix_of_pow_orbit}
+
+The brick is packaged at the level of an abstract finite Galois
+extension — every automorphism has finite order, so an element on which
+the whole group acts by Frobenius twists is fixed pointwise and lies in
+the base field:
+
+{docstring AclGeom.mem_bot_of_forall_algEquiv_frobenius}
 
 The assembly — normal closures, separability from perfectness, and the
 interface to the semantic `J` — is tracked on the M5 milestone issue.
