@@ -49,64 +49,90 @@ theorem mem_racl_iff_exists_poly {S : Set Ω} {x : Ω} :
   · rintro ⟨p, hp0, hpx, hpc⟩
     exact (mem_racl_iff k).2 (isAlgebraic_of_coeff_mem hp0 hpx hpc)
 
-/-- **Ambient invariance of `racl`** (blueprint §9.1, opening line): for a
-subextension `N` of `Ω/k`, membership in the closure of a subset of `N` is
-the same computed in `N` or in `Ω`. -/
-theorem coe_mem_racl_image_iff {N : IntermediateField k Ω} {S : Set N}
-    {x : N} :
-    (x : Ω) ∈ racl k ((↑) '' S : Set Ω) ↔ x ∈ racl k S := by
+/-- **Ambient invariance of `racl`** (blueprint §9.1, opening line), in
+embedding form: along any `k`-algebra embedding `ι : N →ₐ[k] Ω` of a
+field `N`, closure membership is the same computed in `N` or in `Ω`. -/
+theorem algHom_mem_racl_image_iff {N : Type*} [Field N] [Algebra k N]
+    (ι : N →ₐ[k] Ω) {S : Set N} {x : N} :
+    ι x ∈ racl k (⇑ι '' S) ↔ x ∈ racl k S := by
+  have hinj : Function.Injective ι.toRingHom := ι.toRingHom.injective
   constructor
   · intro hx
     obtain ⟨p, hp0, hpx, hpc⟩ := mem_racl_iff_exists_poly.1 hx
-    -- The coefficients lie in `N`, so the annihilator lifts to `N[X]`.
-    have hadj : adjoin k (((↑) : N → Ω) '' S) =
-        (adjoin k S).map N.val := (adjoin_map k S N.val).symm
-    have hN : ∀ n, p.coeff n ∈ N := fun n ↦ by
+    -- The coefficients lie in the image of `N`, so the annihilator lifts.
+    have hadj : adjoin k (⇑ι '' S) = (adjoin k S).map ι :=
+      (adjoin_map k S ι).symm
+    have hN : ∀ n, p.coeff n ∈ Set.range ι.toRingHom := fun n ↦ by
       have h1 := hpc n
       rw [hadj] at h1
       obtain ⟨c₀, -, hc⟩ := h1
-      rw [← hc]
-      exact c₀.2
-    obtain ⟨q₀, hq₀⟩ := (Polynomial.mem_lifts
-        (f := algebraMap N Ω) p).1 <|
-      (Polynomial.lifts_iff_coeff_lifts p).2 fun n ↦ ⟨⟨p.coeff n, hN n⟩, rfl⟩
+      exact ⟨c₀, hc⟩
+    obtain ⟨q₀, hq₀⟩ := (Polynomial.mem_lifts (f := ι.toRingHom) p).1 <|
+      (Polynomial.lifts_iff_coeff_lifts p).2 hN
     refine mem_racl_iff_exists_poly.2 ⟨q₀, ?_, ?_, fun n ↦ ?_⟩
     · intro h0
       rw [h0, Polynomial.map_zero] at hq₀
       exact hp0 hq₀.symm
-    · have h1 : algebraMap N Ω (q₀.eval x) = p.eval (x : Ω) := by
+    · have h1 : ι.toRingHom (q₀.eval x) = p.eval (ι x) := by
         rw [← hq₀, Polynomial.eval_map,
-          show ((x : Ω)) = algebraMap N Ω x from rfl,
-          Polynomial.eval₂_at_apply]
+          show ι x = ι.toRingHom x from rfl, Polynomial.eval₂_at_apply]
       rw [hpx] at h1
-      exact (algebraMap N Ω).injective (by rw [h1, map_zero])
-    · have h1 : (q₀.coeff n : Ω) = p.coeff n := by
+      exact hinj (by rw [h1, map_zero])
+    · have h1 : ι.toRingHom (q₀.coeff n) = p.coeff n := by
         rw [← hq₀, Polynomial.coeff_map]
-        rfl
       have h2 := hpc n
-      rw [hadj, ← h1] at h2
+      rw [hadj] at h2
       obtain ⟨c₀, hc₀, hc⟩ := h2
-      have h3 : c₀ = q₀.coeff n := Subtype.ext hc
+      have h3 : c₀ = q₀.coeff n := hinj (hc.trans h1.symm)
       rwa [← h3]
   · intro hx
     obtain ⟨q₀, hq0, hqx, hqc⟩ :=
       (mem_racl_iff_exists_poly (S := S) (x := x)).1 hx
     refine mem_racl_iff_exists_poly.2
-      ⟨q₀.map (algebraMap N Ω), ?_, ?_, fun n ↦ ?_⟩
-    · exact (Polynomial.map_ne_zero_iff (algebraMap N Ω).injective).2 hq0
-    · rw [Polynomial.eval_map,
-        show ((x : Ω)) = algebraMap N Ω x from rfl,
+      ⟨q₀.map ι.toRingHom, ?_, ?_, fun n ↦ ?_⟩
+    · exact (Polynomial.map_ne_zero_iff hinj).2 hq0
+    · rw [Polynomial.eval_map, show ι x = ι.toRingHom x from rfl,
         Polynomial.eval₂_at_apply, hqx, map_zero]
     · rw [Polynomial.coeff_map]
-      have h1 : (algebraMap N Ω) (q₀.coeff n) ∈ (adjoin k S).map N.val :=
+      have h1 : ι.toRingHom (q₀.coeff n) ∈ (adjoin k S).map ι :=
         ⟨q₀.coeff n, hqc n, rfl⟩
-      rwa [adjoin_map k S N.val] at h1
+      rwa [adjoin_map k S ι] at h1
+
+/-- Ambient invariance in embedding form, singleton case. -/
+theorem algHom_mem_racl_singleton_iff {N : Type*} [Field N] [Algebra k N]
+    (ι : N →ₐ[k] Ω) {w x : N} :
+    ι x ∈ racl k ({ι w} : Set Ω) ↔ x ∈ racl k ({w} : Set N) := by
+  simpa [Set.image_singleton] using
+    algHom_mem_racl_image_iff ι (S := ({w} : Set N)) (x := x)
+
+/-- Ambient invariance in embedding form, empty case: algebraicity over
+the base is absolute. -/
+theorem algHom_mem_racl_empty_iff {N : Type*} [Field N] [Algebra k N]
+    (ι : N →ₐ[k] Ω) {x : N} :
+    ι x ∈ racl k (∅ : Set Ω) ↔ x ∈ racl k (∅ : Set N) := by
+  simpa [Set.image_empty] using
+    algHom_mem_racl_image_iff ι (S := (∅ : Set N)) (x := x)
+
+/-- Equivariance of ambient closure membership along an embedding: a
+`k`-automorphism of the source preserves interalgebraicity relations seen
+through the embedding. -/
+theorem algHom_mem_racl_singleton_map {N : Type*} [Field N] [Algebra k N]
+    (ι : N →ₐ[k] Ω) (σ : N ≃ₐ[k] N) {z w : N}
+    (h : ι z ∈ racl k ({ι w} : Set Ω)) :
+    ι (σ z) ∈ racl k ({ι (σ w)} : Set Ω) := by
+  rw [algHom_mem_racl_singleton_iff] at h ⊢
+  simpa [Set.image_singleton] using mem_racl_map σ h
+
+/-- Ambient invariance of `racl` for a subextension `N` of `Ω/k`. -/
+theorem coe_mem_racl_image_iff {N : IntermediateField k Ω} {S : Set N}
+    {x : N} :
+    (x : Ω) ∈ racl k ((↑) '' S : Set Ω) ↔ x ∈ racl k S :=
+  algHom_mem_racl_image_iff N.val
 
 /-- Ambient invariance, singleton form. -/
 theorem coe_mem_racl_singleton_iff {N : IntermediateField k Ω} {w x : N} :
-    (x : Ω) ∈ racl k ({(w : Ω)} : Set Ω) ↔ x ∈ racl k ({w} : Set N) := by
-  simpa [Set.image_singleton] using
-    coe_mem_racl_image_iff (S := ({w} : Set N)) (x := x)
+    (x : Ω) ∈ racl k ({(w : Ω)} : Set Ω) ↔ x ∈ racl k ({w} : Set N) :=
+  algHom_mem_racl_singleton_iff N.val
 
 /-- Ambient invariance, empty-set form: algebraicity over the base is
 absolute. -/
