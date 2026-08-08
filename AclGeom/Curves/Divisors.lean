@@ -221,6 +221,197 @@ theorem finite_setOf_one_lt_valuation {f : F} (hf0 : f ≠ 0) :
 
 end Finiteness
 
+section Ord
+
+variable [IsAlgClosed k] [IsFunctionFieldOneVar k F]
+
+namespace Place
+
+/-- Packaged uniformizer existence for a place. -/
+theorem exists_uniformizer (P : Place k F) :
+    ∃ t : F, P.val.valuation t ≠ 0 ∧ P.val.valuation t < 1 ∧
+      ∀ w : F, P.val.valuation w ≠ 0 → P.val.valuation w < 1 →
+        P.val.valuation w ≤ P.val.valuation t := by
+  obtain ⟨z, hz0, hz⟩ := exists_valuation_lt_one_of_ne_top P.ne_top
+  have htr := transcendental_of_valuation_lt_one P.algebraMap_mem
+    (fun y hy ↦ exists_algebraMap_eq_of_isAlgebraic hy) hz0 hz
+  haveI := finiteDimensional_adjoin_of_transcendental (k := k) htr
+  exact exists_valuation_uniformizer P.algebraMap_mem hz0 hz
+
+/-- A chosen uniformizer for a place: an element whose value is the
+maximum among nonzero values below one. -/
+noncomputable def pi (P : Place k F) : F := P.exists_uniformizer.choose
+
+theorem pi_valuation_ne_zero (P : Place k F) :
+    P.val.valuation P.pi ≠ 0 := P.exists_uniformizer.choose_spec.1
+
+theorem pi_valuation_lt_one (P : Place k F) :
+    P.val.valuation P.pi < 1 := P.exists_uniformizer.choose_spec.2.1
+
+theorem le_pi_valuation (P : Place k F) {w : F}
+    (hw0 : P.val.valuation w ≠ 0) (hwlt : P.val.valuation w < 1) :
+    P.val.valuation w ≤ P.val.valuation P.pi :=
+  P.exists_uniformizer.choose_spec.2.2 w hw0 hwlt
+
+theorem pi_valuation_pos (P : Place k F) :
+    (0 : _) < P.val.valuation P.pi :=
+  zero_lt_iff.2 P.pi_valuation_ne_zero
+
+/-- Every nonzero element's value is a unique integer power of the
+uniformizer's value. -/
+theorem existsUnique_zpow_valuation (P : Place k F) {f : F}
+    (hf : f ≠ 0) : ∃! m : ℤ,
+      P.val.valuation f = P.val.valuation P.pi ^ m := by
+  have hfv : P.val.valuation f ≠ 0 := (Valuation.ne_zero_iff _).2 hf
+  have huniq : ∀ m m' : ℤ, P.val.valuation P.pi ^ m =
+      P.val.valuation P.pi ^ m' → m = m' := fun m m' h ↦
+    zpow_left_injective_of_lt_one P.pi_valuation_pos
+      P.pi_valuation_lt_one h
+  -- Existence by trichotomy, through the value classification.
+  obtain ⟨z, hz0, hz⟩ := exists_valuation_lt_one_of_ne_top P.ne_top
+  have htr := transcendental_of_valuation_lt_one P.algebraMap_mem
+    (fun y hy ↦ exists_algebraMap_eq_of_isAlgebraic hy) hz0 hz
+  haveI := finiteDimensional_adjoin_of_transcendental (k := k) htr
+  have hclass : ∀ w : F, P.val.valuation w ≠ 0 → P.val.valuation w < 1 →
+      ∃ j : ℕ, 0 < j ∧
+        P.val.valuation w = P.val.valuation P.pi ^ j :=
+    fun w hw0 hwlt ↦ valuation_eq_pow_uniformizer P.algebraMap_mem hz0 hz
+      P.pi_valuation_ne_zero P.pi_valuation_lt_one
+      (fun w' h1 h2 ↦ P.le_pi_valuation h1 h2) hw0 hwlt
+  rcases lt_trichotomy (P.val.valuation f) 1 with hlt | heq | hgt
+  · obtain ⟨j, -, hj⟩ := hclass f hfv hlt
+    refine ⟨(j : ℤ), ?_, fun m hm ↦ huniq m j ?_⟩
+    · change P.val.valuation f = P.val.valuation P.pi ^ ((j : ℕ) : ℤ)
+      rw [hj, zpow_natCast]
+    · have hm' : P.val.valuation f = P.val.valuation P.pi ^ m := hm
+      rw [← hm', hj, zpow_natCast]
+  · refine ⟨0, ?_, fun m hm ↦ huniq m 0 ?_⟩
+    · change P.val.valuation f = P.val.valuation P.pi ^ (0 : ℤ)
+      rw [heq, zpow_zero]
+    · have hm' : P.val.valuation f = P.val.valuation P.pi ^ m := hm
+      rw [← hm', heq, zpow_zero]
+  · have hfv' : P.val.valuation f⁻¹ ≠ 0 := by
+      rw [map_inv₀]
+      exact inv_ne_zero hfv
+    have hlt' : P.val.valuation f⁻¹ < 1 := by
+      rw [map_inv₀, inv_lt_one₀ (zero_lt_iff.2 hfv)]
+      exact hgt
+    obtain ⟨j, -, hj⟩ := hclass f⁻¹ hfv' hlt'
+    rw [map_inv₀] at hj
+    refine ⟨-(j : ℤ), ?_, fun m hm ↦ huniq m (-(j : ℤ)) ?_⟩
+    · change P.val.valuation f = P.val.valuation P.pi ^ (-(j : ℤ))
+      rw [zpow_neg, zpow_natCast, ← hj, inv_inv]
+    · have hm' : P.val.valuation f = P.val.valuation P.pi ^ m := hm
+      rw [← hm', zpow_neg, zpow_natCast, ← hj, inv_inv]
+
+open Classical in
+/-- The **order** of `f` at a place: the integer exponent of the
+uniformizer's value, positive at zeros, negative at poles, `0` at units
+(and junk `0` at `f = 0`). -/
+noncomputable def ord (P : Place k F) (f : F) : ℤ :=
+  if hf : f = 0 then 0
+  else (P.existsUnique_zpow_valuation hf).exists.choose
+
+theorem valuation_eq_zpow_ord (P : Place k F) {f : F} (hf : f ≠ 0) :
+    P.val.valuation f = P.val.valuation P.pi ^ P.ord f := by
+  rw [ord, dif_neg hf]
+  exact (P.existsUnique_zpow_valuation hf).exists.choose_spec
+
+theorem ord_eq_of_valuation_eq_zpow (P : Place k F) {f : F} (hf : f ≠ 0)
+    {m : ℤ} (h : P.val.valuation f = P.val.valuation P.pi ^ m) :
+    P.ord f = m := by
+  have h1 := P.valuation_eq_zpow_ord hf
+  exact zpow_left_injective_of_lt_one P.pi_valuation_pos
+    P.pi_valuation_lt_one (h1.symm.trans h)
+
+/-- Additivity of the order. -/
+theorem ord_mul (P : Place k F) {f g : F} (hf : f ≠ 0) (hg : g ≠ 0) :
+    P.ord (f * g) = P.ord f + P.ord g := by
+  refine P.ord_eq_of_valuation_eq_zpow (mul_ne_zero hf hg) ?_
+  rw [Valuation.map_mul, P.valuation_eq_zpow_ord hf,
+    P.valuation_eq_zpow_ord hg,
+    zpow_add₀ P.pi_valuation_ne_zero]
+
+theorem ord_inv (P : Place k F) {f : F} (hf : f ≠ 0) :
+    P.ord f⁻¹ = -P.ord f := by
+  refine P.ord_eq_of_valuation_eq_zpow (inv_ne_zero hf) ?_
+  rw [map_inv₀, P.valuation_eq_zpow_ord hf, ← zpow_neg]
+
+theorem ord_eq_zero_iff (P : Place k F) {f : F} (hf : f ≠ 0) :
+    P.ord f = 0 ↔ P.val.valuation f = 1 := by
+  constructor
+  · intro h0
+    have h1 := P.valuation_eq_zpow_ord hf
+    rw [h0, zpow_zero] at h1
+    exact h1
+  · intro h1
+    exact P.ord_eq_of_valuation_eq_zpow hf (by rw [h1, zpow_zero])
+
+theorem ord_pos_iff (P : Place k F) {f : F} (hf : f ≠ 0) :
+    0 < P.ord f ↔ P.val.valuation f < 1 := by
+  have h1 := P.valuation_eq_zpow_ord hf
+  constructor
+  · intro h0
+    rw [h1]
+    calc P.val.valuation P.pi ^ P.ord f
+        < P.val.valuation P.pi ^ (0 : ℤ) :=
+          zpow_lt_zpow_right_of_lt_one₀ P.pi_valuation_pos
+            P.pi_valuation_lt_one h0
+      _ = 1 := zpow_zero _
+  · intro hlt
+    by_contra hc
+    push Not at hc
+    have h2 : P.val.valuation P.pi ^ (0 : ℤ) ≤
+        P.val.valuation P.pi ^ P.ord f := by
+      rcases eq_or_lt_of_le hc with heq | hlt'
+      · rw [heq]
+      · exact (zpow_lt_zpow_right_of_lt_one₀ P.pi_valuation_pos
+          P.pi_valuation_lt_one hlt').le
+    rw [zpow_zero] at h2
+    rw [h1] at hlt
+    exact hlt.not_ge h2
+
+end Place
+
+/-- A **divisor** on the places of `F/k`: a finitely supported integer
+combination of places. -/
+abbrev Divisor (k F : Type*) [Field k] [Field F] [Algebra k F] :=
+  Place k F →₀ ℤ
+
+/-- The **degree** of a divisor: the sum of its coefficients. -/
+noncomputable def Divisor.deg (D : Divisor k F) : ℤ := D.sum fun _ m ↦ m
+
+variable (k) in
+/-- The **principal divisor** of a nonzero element: orders at all places
+(junk `0` at `f = 0`). -/
+noncomputable def divisorOf (f : F) : Divisor k F := by
+  classical
+  exact if hf : f = 0 then 0 else
+    Finsupp.ofSupportFinite (fun P ↦ P.ord f) (by
+      refine Set.Finite.subset ((finite_setOf_valuation_lt_one hf).union
+        (finite_setOf_one_lt_valuation hf)) ?_
+      intro P hP
+      rw [Function.mem_support] at hP
+      rcases lt_trichotomy (P.val.valuation f) 1 with hlt | heq | hgt
+      · exact Or.inl hlt
+      · exact absurd ((P.ord_eq_zero_iff hf).2 heq) hP
+      · exact Or.inr hgt)
+
+theorem divisorOf_apply {f : F} (hf : f ≠ 0) (P : Place k F) :
+    divisorOf k f P = P.ord f := by
+  rw [divisorOf, dif_neg hf]
+  rfl
+
+/-- Principal divisors are additive. -/
+theorem divisorOf_mul {f g : F} (hf : f ≠ 0) (hg : g ≠ 0) :
+    divisorOf k (f * g) = divisorOf k f + divisorOf k g := by
+  ext P
+  rw [Finsupp.add_apply, divisorOf_apply (mul_ne_zero hf hg),
+    divisorOf_apply hf, divisorOf_apply hg]
+  exact P.ord_mul hf hg
+
+end Ord
+
 end
 
 end AclGeom
