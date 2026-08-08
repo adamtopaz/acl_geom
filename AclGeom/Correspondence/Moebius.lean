@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import AclGeom.Closure.Basic
-import AclGeom.Correspondence.FunctionField
+import AclGeom.Correspondence.BaseChange
 
 /-!
 # Bidegree-(1,1) correspondences are Möbius graphs
@@ -251,6 +251,63 @@ theorem exists_moebius_of_bidegree_le_one {z w : Ω}
             ring
 
 end Moebius
+
+section DegreeOne
+
+variable {k : Type*} {Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
+
+/-- **Degree-(1,1) correspondence germs are Möbius** (the go/no-go bridge
+of the rational-curve route): an interalgebraic pair of transcendentals
+whose minimal polynomials over each other's simple adjoins are linear
+satisfies a Möbius relation with nonvanishing denominator. The prime
+generator of the pair ideal has bidegree `(1,1)` by the degree
+dictionary, and the bilinear classification applies. -/
+theorem exists_moebius_of_minpoly_natDegree_one {z w : Ω}
+    (hz : z ∉ racl k (∅ : Set Ω)) (hw : w ∉ racl k (∅ : Set Ω))
+    (hwz : w ∈ racl k ({z} : Set Ω)) (hzw : z ∈ racl k ({w} : Set Ω))
+    (h1 : (minpoly ↥(IntermediateField.adjoin k ({z} : Set Ω)) w).natDegree
+      = 1)
+    (h2 : (minpoly ↥(IntermediateField.adjoin k ({w} : Set Ω)) z).natDegree
+      = 1) :
+    ∃ a b c d : k,
+      algebraMap k Ω c * z + algebraMap k Ω d ≠ 0 ∧
+      w * (algebraMap k Ω c * z + algebraMap k Ω d) =
+        algebraMap k Ω a * z + algebraMap k Ω b := by
+  classical
+  have hztr : Transcendental k z := fun halg ↦
+    hz (mem_racl_empty_of_isAlgebraic halg)
+  have hwtr : Transcendental k w := fun halg ↦
+    hw (mem_racl_empty_of_isAlgebraic halg)
+  obtain ⟨F, hFp, hFspan⟩ := exists_prime_span_idealOf k hztr hwz
+  have hF0 : F ≠ 0 := hFp.ne_zero
+  have hvalg : IsAlgebraic ↥(IntermediateField.adjoin k ({z} : Set Ω)) w :=
+    (mem_racl_iff k).1 hwz
+  have hd1 : degreeOf 1 F = 1 := by
+    rw [← natDegree_minpoly_adjoin hztr hF0 hFspan hvalg]
+    exact h1
+  have hswap := idealOf_swap_span hFspan
+  have hswap0 : rename (Equiv.swap (0 : Fin 2) 1) F ≠ 0 := by
+    intro h
+    refine hF0 (rename_injective (⇑(Equiv.swap (0 : Fin 2) 1))
+      (Equiv.injective (Equiv.swap (0 : Fin 2) 1)) ?_)
+    rw [h, map_zero]
+  have hzalg : IsAlgebraic ↥(IntermediateField.adjoin k ({w} : Set Ω)) z :=
+    (mem_racl_iff k).1 hzw
+  have hd0' : degreeOf 1 (rename (Equiv.swap (0 : Fin 2) 1) F) = 1 := by
+    rw [← natDegree_minpoly_adjoin hwtr hswap0 hswap hzalg]
+    exact h2
+  have hd0 : degreeOf 0 F = 1 := by
+    have h := degreeOf_rename_of_injective
+      (Equiv.injective (Equiv.swap (0 : Fin 2) 1)) (0 : Fin 2) (p := F)
+    rw [show (Equiv.swap (0 : Fin 2) 1) 0 = 1 from Equiv.swap_apply_left 0 1]
+      at h
+    rw [← h]
+    exact hd0'
+  have hvan : aeval ![z, w] F = 0 :=
+    (mem_idealOf_iff _).1 (hFspan ▸ Ideal.subset_span rfl)
+  exact exists_moebius_of_bidegree_le_one hz hF0 hd0.le hd1.le hvan
+
+end DegreeOne
 
 end
 
