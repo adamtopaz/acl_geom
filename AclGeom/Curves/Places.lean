@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import Mathlib.RingTheory.Valuation.ValuationSubring
+import Mathlib.RingTheory.Valuation.LocalSubring
 import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import AclGeom.Closure.Basic
 
@@ -663,6 +664,76 @@ instance isDiscreteValuationRing [IsAlgClosed k] [IsFunctionFieldOneVar k F]
     (fun y hy ↦ exists_algebraMap_eq_of_isAlgebraic hy) hz0 hz
 
 end Place
+
+/-- **Every transcendental element has a zero place** (place-existence
+via mathlib's Chevalley dominance): the ideal `(f)` of `k[f]` is proper —
+invertibility of `f` in `k[f]` would make it algebraic — and a valuation
+subring absorbing `k[f]` with `f` a nonunit is a place. -/
+theorem exists_place_valuation_lt_one {f : F} (hf : Transcendental k f) :
+    ∃ P : Place k F, P.val.valuation f < 1 := by
+  classical
+  have hf0 : f ≠ 0 := fun h ↦ hf (h ▸ isAlgebraic_zero)
+  set A : Subring F := (Algebra.adjoin k ({f} : Set F)).toSubring with hA
+  have hfA : f ∈ A := Algebra.subset_adjoin rfl
+  have hInetop : Ideal.span {(⟨f, hfA⟩ : A)} ≠ ⊤ := by
+    intro htop
+    rw [Ideal.span_singleton_eq_top, isUnit_iff_exists_inv] at htop
+    obtain ⟨b, hb⟩ := htop
+    -- The inverse of `f` in `k[f]` is a polynomial in `f`.
+    have hbmem : (b : F) ∈ Algebra.adjoin k ({f} : Set F) := b.2
+    rw [Algebra.adjoin_singleton_eq_range_aeval] at hbmem
+    obtain ⟨p, hp⟩ := hbmem
+    have hp' : Polynomial.aeval f p = (b : F) := hp
+    have hb' : f * Polynomial.aeval f p = 1 := by
+      have h1 := congrArg (Subtype.val) hb
+      push_cast at h1
+      rw [hp']
+      exact_mod_cast h1
+    refine hf ⟨Polynomial.X * p - 1, ?_, ?_⟩
+    · intro h0
+      have h1 := congrArg (fun q ↦ Polynomial.coeff q 0) h0
+      simp only [Polynomial.coeff_sub, Polynomial.mul_coeff_zero,
+        Polynomial.coeff_X_zero, Polynomial.coeff_one_zero, zero_mul,
+        zero_sub, Polynomial.coeff_zero] at h1
+      exact (neg_ne_zero.2 one_ne_zero) h1
+    · rw [map_sub, map_mul, Polynomial.aeval_X, map_one, hb', sub_self]
+  obtain ⟨B, hAB, hIB⟩ :=
+    Ideal.image_subset_nonunits_valuationSubring _ hInetop
+  have hfB : f ∈ B.nonunits :=
+    hIB ⟨⟨f, hfA⟩, Ideal.subset_span rfl, rfl⟩
+  refine ⟨⟨B, fun c ↦ hAB ?_, ?_⟩, ?_⟩
+  · exact (Algebra.adjoin k ({f} : Set F)).algebraMap_mem c
+  · intro htop
+    rcases B.mem_nonunits_iff_or.1 hfB with h1 | h1
+    · exact hf0 h1
+    · rw [htop] at h1
+      exact h1 trivial
+  · exact B.mem_nonunits_iff.1 hfB
+
+/-- Every transcendental element has a pole place. -/
+theorem exists_place_one_lt_valuation {f : F} (hf : Transcendental k f) :
+    ∃ P : Place k F, 1 < P.val.valuation f := by
+  have hfinv : Transcendental k f⁻¹ := fun halg ↦
+    hf (IsAlgebraic.inv_iff.1 halg)
+  obtain ⟨P, hP⟩ := exists_place_valuation_lt_one hfinv
+  refine ⟨P, ?_⟩
+  have hf0 : f ≠ 0 := fun h ↦ hf (h ▸ isAlgebraic_zero)
+  rwa [map_inv₀, inv_lt_one₀
+    (zero_lt_iff.2 ((Valuation.ne_zero_iff _).2 hf0))] at hP
+
+/-- **Elements without poles are constants** (Stichtenoth Corollary
+1.1.20 over an algebraically closed base). -/
+theorem exists_algebraMap_eq_of_forall_valuation_le_one [IsAlgClosed k]
+    {f : F} (h : ∀ P : Place k F, P.val.valuation f ≤ 1) :
+    ∃ c : k, algebraMap k F c = f := by
+  by_contra hnc
+  push Not at hnc
+  have htr : Transcendental k f := by
+    intro halg
+    obtain ⟨c, hc⟩ := exists_algebraMap_eq_of_isAlgebraic halg
+    exact hnc c hc
+  obtain ⟨P, hP⟩ := exists_place_one_lt_valuation htr
+  exact (h P).not_gt hP
 
 end PlaceStructure
 
