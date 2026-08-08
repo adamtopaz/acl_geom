@@ -557,6 +557,90 @@ theorem Place.exists_indicator {r : ℕ} (P₀ : Place k F)
     exact le_trans h5 h6.le
 
 
+/-- **Full approximation** (Stichtenoth Theorem 1.3.1): prescribed
+target values at finitely many distinct places, matched to any prescribed
+uniformizer power. The approximant is `∑ aᵢ χᵢ` for indicators of order
+beating the pole orders of the targets. -/
+theorem Place.exists_forall_sub_valuation_le {r : ℕ}
+    (P : Fin r → Place k F) (hinj : Function.Injective P)
+    (a : Fin r → F) (m : ℕ) :
+    ∃ z : F, ∀ i, (P i).val.valuation (z - a i) ≤
+      (P i).val.valuation ((P i).pi) ^ m := by
+  classical
+  rcases r with _ | r'
+  · exact ⟨0, fun i ↦ i.elim0⟩
+  set B : ℕ := Finset.univ.sup
+    (fun p : Fin (r' + 1) × Fin (r' + 1) ↦
+      (-(P p.1).ord (a p.2)).toNat) with hB
+  set M : ℕ := m + B with hM
+  have hord_bound : ∀ i j : Fin (r' + 1), a j ≠ 0 →
+      -(B : ℤ) ≤ (P i).ord (a j) := by
+    intro i j _
+    have h1 : (-(P i).ord (a j)).toNat ≤ B :=
+      Finset.le_sup (f := fun p : Fin (r' + 1) × Fin (r' + 1) ↦
+        (-(P p.1).ord (a p.2)).toNat) (Finset.mem_univ (i, j))
+    omega
+  have hχex : ∀ i : Fin (r' + 1), ∃ χ : F,
+      (P i).val.valuation (χ - 1) ≤
+        (P i).val.valuation ((P i).pi) ^ M ∧
+      ∀ j : Fin r', (P (i.succAbove j)).val.valuation χ ≤
+        (P (i.succAbove j)).val.valuation
+          ((P (i.succAbove j)).pi) ^ M :=
+    fun i ↦ (P i).exists_indicator (fun j ↦ P (i.succAbove j))
+      (fun j h ↦ (Fin.succAbove_ne i j) (hinj h).symm) M
+  choose χ hχ₁ hχ₂ using hχex
+  have hχsmall : ∀ i i' : Fin (r' + 1), i' ≠ i →
+      (P i).val.valuation (χ i') ≤
+        (P i).val.valuation ((P i).pi) ^ M := by
+    intro i i' hne
+    obtain ⟨j, hj⟩ := Fin.exists_succAbove_eq (Ne.symm hne)
+    have h1 := hχ₂ i' j
+    rwa [hj] at h1
+  -- Each summand is bounded by the final target.
+  have hterm : ∀ i i' : Fin (r' + 1),
+      (P i).val.valuation (a i') *
+        (P i).val.valuation ((P i).pi) ^ M ≤
+      (P i).val.valuation ((P i).pi) ^ m := by
+    intro i i'
+    rcases eq_or_ne (a i') 0 with h0 | h0
+    · rw [h0, Valuation.map_zero, zero_mul]
+      exact zero_le
+    have h1 : (P i).val.valuation (a i') ≤
+        (P i).val.valuation ((P i).pi) ^ (-(B : ℤ)) := by
+      rw [(P i).valuation_eq_zpow_ord h0]
+      exact zpow_le_zpow_right_of_le_one₀ (P i).pi_valuation_pos
+        (P i).pi_valuation_lt_one.le (hord_bound i i' h0)
+    calc (P i).val.valuation (a i') *
+        (P i).val.valuation ((P i).pi) ^ M
+        ≤ (P i).val.valuation ((P i).pi) ^ (-(B : ℤ)) *
+          (P i).val.valuation ((P i).pi) ^ M := by
+          rcases eq_or_ne ((P i).val.valuation ((P i).pi) ^ M) 0 with
+            hz | hz
+          · rw [hz, mul_zero, mul_zero]
+          · exact (OrderIso.mulRight₀ _ (zero_lt_iff.2 hz)).monotone h1
+      _ = (P i).val.valuation ((P i).pi) ^ (m : ℤ) := by
+          rw [← zpow_natCast ((P i).val.valuation ((P i).pi)) M,
+            ← zpow_add₀ (P i).pi_valuation_ne_zero]
+          congr 1
+          omega
+      _ = (P i).val.valuation ((P i).pi) ^ m := zpow_natCast _ m
+  refine ⟨∑ i', a i' * χ i', fun i ↦ ?_⟩
+  have hsplit : (∑ i', a i' * χ i') - a i =
+      a i * (χ i - 1) + ∑ i' ∈ Finset.univ.erase i, a i' * χ i' := by
+    rw [← Finset.add_sum_erase _ _ (Finset.mem_univ i)]
+    ring
+  rw [hsplit]
+  refine le_trans (Valuation.map_add _ _ _) (max_le ?_ ?_)
+  · rw [Valuation.map_mul]
+    refine le_trans ?_ (hterm i i)
+    gcongr
+    exact hχ₁ i
+  · refine Valuation.map_sum_le _ fun i' hi' ↦ ?_
+    rw [Valuation.map_mul]
+    refine le_trans ?_ (hterm i i')
+    gcongr
+    exact hχsmall i i' (Finset.ne_of_mem_erase hi')
+
 end RefinedApproximation
 
 
