@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import AclGeom.Config.Quadrangle
 import AclGeom.Correspondence.CurveIdeal
+import AclGeom.Correspondence.Binomial
 
 /-!
 # The atom clause: no rank-one parameter captures a generic line
@@ -167,6 +168,172 @@ theorem line_relation_specialize
   rw [← hsq (algebraMap k K ξ), hzero, map_zero]
 
 end Collapse
+
+section Specialize
+
+/-- Evaluating the nested presentation at a constant outer value and then
+a point recovers the direct two-variable evaluation. Generic, to keep the
+kernel work trivial. -/
+private theorem nestEval_square {R A : Type*} [Field R] [CommRing A]
+    (g : R →+* A) (c : R) (y : A) :
+    (Polynomial.eval₂RingHom g y).comp
+      ((Polynomial.evalRingHom (Polynomial.C c)).comp
+        (nestEquiv R).toAlgHom.toRingHom) =
+    MvPolynomial.eval₂Hom g ![g c, y] := by
+  refine MvPolynomial.ringHom_ext (fun r ↦ ?_) (fun i ↦ ?_)
+  · have hC : (nestEquiv R).toAlgHom.toRingHom (MvPolynomial.C r) =
+        Polynomial.C (Polynomial.C r) := nestEquiv_C r
+    simp only [RingHom.comp_apply, hC, Polynomial.coe_evalRingHom,
+      Polynomial.eval_C, Polynomial.coe_eval₂RingHom, Polynomial.eval₂_C,
+      MvPolynomial.eval₂Hom_C]
+  · fin_cases i
+    · have hX : (nestEquiv R).toAlgHom.toRingHom
+          (MvPolynomial.X ⟨0, by omega⟩) = Polynomial.X :=
+        nestEquiv_X_zero (K := R)
+      simp only [RingHom.comp_apply, hX, Polynomial.coe_evalRingHom,
+        Polynomial.eval_X, Polynomial.coe_eval₂RingHom,
+        Polynomial.eval₂_C, MvPolynomial.eval₂Hom_X']
+      rfl
+    · have hX : (nestEquiv R).toAlgHom.toRingHom
+          (MvPolynomial.X ⟨1, by omega⟩) = Polynomial.C Polynomial.X :=
+        nestEquiv_X_one (K := R)
+      simp only [RingHom.comp_apply, hX, Polynomial.coe_evalRingHom,
+        Polynomial.eval_C, Polynomial.coe_eval₂RingHom,
+        Polynomial.eval₂_X, MvPolynomial.eval₂Hom_X']
+      rfl
+
+/-- A nonzero nested polynomial vanishes at only finitely many constant
+outer values. -/
+private theorem finite_bad_eval {R : Type*} [Field R]
+    {P : Polynomial (Polynomial R)} (hP : P ≠ 0) :
+    {c : R | Polynomial.eval (Polynomial.C c) P = 0}.Finite := by
+  have hroots : {q : Polynomial R | Polynomial.IsRoot P q}.Finite :=
+    Polynomial.finite_setOf_isRoot hP
+  have hsub : {c : R | Polynomial.eval (Polynomial.C c) P = 0} ⊆
+      Polynomial.C ⁻¹' {q : Polynomial R | Polynomial.IsRoot P q} :=
+    fun c hc ↦ hc
+  exact (hroots.preimage (Set.injOn_of_injective Polynomial.C_injective)).subset
+    hsub
+
+variable {u v w t : K}
+
+/-- At a specialization point where the `Y`-collapse stays nonzero, the
+line value is algebraic over the atom closure. -/
+theorem line_value_mem
+    (hw : w ∉ racl k ({u, v} : Set K))
+    (ht : t ∈ racl k ({u, v} : Set K))
+    {G : MvPolynomial (Fin 2) ↥(racl k ({t} : Set K))}
+    (hG : MvPolynomial.aeval ![w, u * w + v] G = 0) {ξ : k}
+    (hQ : Polynomial.eval
+        (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
+        (nestEquiv ↥(racl k ({t} : Set K)) G) ≠ 0) :
+    u * algebraMap k K ξ + v ∈ racl k ({t} : Set K) := by
+  have hspec := line_relation_specialize hw ht hG ξ
+  have hsq := DFunLike.congr_fun (nestEval_square
+    (algebraMap ↥(racl k ({t} : Set K)) K)
+    (algebraMap k ↥(racl k ({t} : Set K)) ξ)
+    (u * algebraMap k K ξ + v)) G
+  simp only [RingHom.comp_apply] at hsq
+  have htow : algebraMap ↥(racl k ({t} : Set K)) K
+      (algebraMap k ↥(racl k ({t} : Set K)) ξ) = algebraMap k K ξ :=
+    (IsScalarTower.algebraMap_apply k ↥(racl k ({t} : Set K)) K ξ).symm
+  rw [htow] at hsq
+  have hzero : Polynomial.eval₂RingHom
+      (algebraMap ↥(racl k ({t} : Set K)) K)
+      (u * algebraMap k K ξ + v)
+      (Polynomial.eval
+        (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
+        (nestEquiv ↥(racl k ({t} : Set K)) G)) = 0 := by
+    have h1 : Polynomial.eval₂RingHom
+        (algebraMap ↥(racl k ({t} : Set K)) K)
+        (u * algebraMap k K ξ + v)
+        (Polynomial.eval
+          (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
+          (nestEquiv ↥(racl k ({t} : Set K)) G)) =
+        MvPolynomial.eval₂Hom
+          (algebraMap ↥(racl k ({t} : Set K)) K)
+          ![algebraMap k K ξ, u * algebraMap k K ξ + v] G := hsq
+    have h3 : MvPolynomial.eval₂Hom
+        (algebraMap ↥(racl k ({t} : Set K)) K)
+        ![algebraMap k K ξ, u * algebraMap k K ξ + v] G =
+        MvPolynomial.aeval
+          ![algebraMap k K ξ, u * algebraMap k K ξ + v] G := rfl
+    rw [h1, h3, hspec]
+  have halg : IsAlgebraic ↥(racl k ({t} : Set K))
+      (u * algebraMap k K ξ + v) := ⟨_, hQ, hzero⟩
+  exact IsRAC.mem_of_isAlgebraic (isRAC_racl _) halg
+
+/-- Two distinct specializations with algebraic line values exist: the
+collapse is nonzero at all but finitely many base points, and the base
+field is infinite. -/
+theorem exists_two_specializations [Infinite k]
+    (hw : w ∉ racl k ({u, v} : Set K))
+    (ht : t ∈ racl k ({u, v} : Set K))
+    {G : MvPolynomial (Fin 2) ↥(racl k ({t} : Set K))} (hG0 : G ≠ 0)
+    (hG : MvPolynomial.aeval ![w, u * w + v] G = 0) :
+    ∃ ξ₁ ξ₂ : k, ξ₁ ≠ ξ₂ ∧
+      u * algebraMap k K ξ₁ + v ∈ racl k ({t} : Set K) ∧
+      u * algebraMap k K ξ₂ + v ∈ racl k ({t} : Set K) := by
+  classical
+  have hĜ0 : nestEquiv ↥(racl k ({t} : Set K)) G ≠ 0 := by
+    intro h0
+    exact hG0 ((nestEquiv _).injective (by rw [h0, map_zero]))
+  have hfin := finite_bad_eval hĜ0
+  have hbadk : {ξ : k | Polynomial.eval
+      (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
+      (nestEquiv ↥(racl k ({t} : Set K)) G) = 0}.Finite := by
+    refine (hfin.preimage (Set.injOn_of_injective ?_)).subset fun ξ hξ ↦ hξ
+    exact (algebraMap k ↥(racl k ({t} : Set K))).injective
+  have hgood : {ξ : k | Polynomial.eval
+      (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
+      (nestEquiv ↥(racl k ({t} : Set K)) G) = 0}ᶜ.Infinite :=
+    Set.Finite.infinite_compl hbadk
+  obtain ⟨ξ₁, hξ₁, ξ₂, hξ₂, hne⟩ := hgood.nontrivial
+  exact ⟨ξ₁, ξ₂, hne, line_value_mem hw ht hG hξ₁,
+    line_value_mem hw ht hG hξ₂⟩
+
+/-- **The atom clause, elementwise** (blueprint clause (iv), by the
+specialization route): no transcendental parameter `t` algebraic over the
+independent line coefficients `u, v` can make the generic direction `w`
+algebraic over `{t, uw + v}`. -/
+theorem notMem_racl_line [Infinite k]
+    (hu0 : u ∉ racl k (∅ : Set K))
+    (hvu : v ∉ racl k ({u} : Set K))
+    (hw : w ∉ racl k ({u, v} : Set K))
+    (ht : t ∈ racl k ({u, v} : Set K))
+    (ht0 : t ∉ racl k (∅ : Set K)) :
+    w ∉ racl k ({t, u * w + v} : Set K) := by
+  intro hmem
+  obtain ⟨G, hG0, hG⟩ := exists_line_relation (line_mem_of_mem hw ht hmem)
+  obtain ⟨ξ₁, ξ₂, hne, h1, h2⟩ := exists_two_specializations hw ht hG0 hG
+  -- Differencing the two values recovers `u`.
+  have hu : u ∈ racl k ({t} : Set K) := by
+    have hsub := sub_mem h1 h2
+    have harith : (u * algebraMap k K ξ₁ + v) -
+        (u * algebraMap k K ξ₂ + v) = u * algebraMap k K (ξ₁ - ξ₂) := by
+      rw [map_sub]
+      ring
+    rw [harith] at hsub
+    have hinv : algebraMap k K (ξ₁ - ξ₂)⁻¹ ∈ racl k ({t} : Set K) :=
+      IntermediateField.algebraMap_mem _ _
+    have h := MulMemClass.mul_mem hsub hinv
+    rwa [mul_assoc, ← map_mul, mul_inv_cancel₀ (sub_ne_zero.2 hne),
+      map_one, mul_one] at h
+  -- Then the constant term recovers `v`.
+  have hv : v ∈ racl k ({t} : Set K) := by
+    have hux : u * algebraMap k K ξ₁ ∈ racl k ({t} : Set K) :=
+      MulMemClass.mul_mem hu (IntermediateField.algebraMap_mem _ _)
+    have h := sub_mem h1 hux
+    rwa [add_sub_cancel_left] at h
+  -- Exchange the transcendental `u` against `t`.
+  have hu' : u ∈ racl k (insert t (∅ : Set K)) := by
+    simpa using hu
+  have ht' := racl_exchange hu' hu0
+  have ht'' : t ∈ racl k ({u} : Set K) := by
+    simpa using ht'
+  exact hvu (racl_le_of_subset_racl (Set.singleton_subset_iff.2 ht'') hv)
+
+end Specialize
 
 end LineClause
 
