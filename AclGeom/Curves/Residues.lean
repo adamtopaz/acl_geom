@@ -270,6 +270,125 @@ theorem linearIndependent_of_residue_independent
   rw [hkey] at hunit
   exact hsmall.ne hunit
 
+section ResidueField
+
+variable [IsAlgClosed k] [IsFunctionFieldOneVar k F]
+
+/-- **Residue fields are the base field** (Stichtenoth 1.1.15 over an
+algebraically closed base): every element integral at a place is
+congruent to a base constant modulo the maximal ideal. If not, the
+powers of the element would have independent residues — a minimal
+vanishing combination factors over the algebraically closed base, and a
+small-valued linear factor yields a reduction — contradicting the
+degree bound. -/
+theorem Place.exists_residue (P : Place k F) {u : F}
+    (hu : P.val.valuation u ≤ 1) :
+    ∃ c : k, P.val.valuation (u - algebraMap k F c) < 1 := by
+  classical
+  by_contra hno
+  push Not at hno
+  -- Every difference with a constant is then exactly a unit.
+  have hsub1 : ∀ c : k, P.val.valuation (u - algebraMap k F c) = 1 := by
+    intro c
+    have hle : P.val.valuation (u - algebraMap k F c) ≤ 1 := by
+      refine le_trans (Valuation.map_sub _ _ _) ?_
+      rw [max_le_iff]
+      exact ⟨hu, (P.val.valuation_le_one_iff _).2 (P.algebraMap_mem c)⟩
+    exact le_antisymm hle (hno c)
+  -- The transcendence data for the independence bound.
+  obtain ⟨x, hx0, hx⟩ := exists_valuation_lt_one_of_ne_top P.ne_top
+  have hxtr := transcendental_of_valuation_lt_one P.algebraMap_mem
+    (fun y hy ↦ exists_algebraMap_eq_of_isAlgebraic hy) hx0 hx
+  haveI := finiteDimensional_adjoin_of_transcendental (k := k) hxtr
+  set n := Module.finrank (↥(adjoin k ({x} : Set F))) F with hn
+  -- The residues of the powers of `u` are independent.
+  have hres : ∀ c : Fin (n + 1) → k, (∃ i, c i ≠ 0) →
+      P.val.valuation (∑ i, algebraMap k F (c i) * u ^ (i : ℕ)) = 1 := by
+    intro c hc
+    set p : Polynomial k := ∑ i : Fin (n + 1), Polynomial.C (c i) *
+      Polynomial.X ^ (i : ℕ) with hpdef
+    obtain ⟨i₀, hi₀⟩ := hc
+    have hp0 : p ≠ 0 := by
+      intro h0
+      refine hi₀ ?_
+      have h1 := congrArg (fun q ↦ Polynomial.coeff q (i₀ : ℕ)) h0
+      simp only [hpdef, Polynomial.finsetSum_coeff,
+        Polynomial.coeff_C_mul_X_pow, Polynomial.coeff_zero] at h1
+      rw [Finset.sum_eq_single i₀] at h1
+      · simpa using h1
+      · intro j _ hji
+        exact if_neg fun h ↦ hji (Fin.val_injective h).symm
+      · intro h
+        exact absurd (Finset.mem_univ i₀) h
+    have hsum : ∑ i, algebraMap k F (c i) * u ^ (i : ℕ) =
+        Polynomial.aeval u p := by
+      rw [hpdef, map_sum]
+      refine Finset.sum_congr rfl fun i _ ↦ ?_
+      rw [map_mul, Polynomial.aeval_C, map_pow, Polynomial.aeval_X]
+    rw [hsum]
+    -- Normalize monic and factor over the algebraically closed base.
+    have hlc : p.leadingCoeff ≠ 0 := Polynomial.leadingCoeff_ne_zero.2 hp0
+    set q : Polynomial k := p * Polynomial.C p.leadingCoeff⁻¹ with hqdef
+    have hqmonic : q.Monic := Polynomial.monic_mul_leadingCoeff_inv hp0
+    have hqsplit : q.Splits := IsAlgClosed.splits q
+    have hfac : q = (q.roots.map fun a ↦ Polynomial.X -
+        Polynomial.C a).prod := hqsplit.eq_prod_roots_of_monic hqmonic
+    -- Each root gives a unit difference; the product is a unit.
+    have haq : Polynomial.aeval u q =
+        (q.roots.map fun a ↦ u - algebraMap k F a).prod := by
+      conv_lhs => rw [hfac]
+      rw [show (Polynomial.aeval u : Polynomial k →ₐ[k] F) _ =
+        ((Polynomial.aeval u : Polynomial k →ₐ[k] F) :
+          Polynomial k →* F) _ from rfl, map_multiset_prod,
+        Multiset.map_map]
+      refine congrArg Multiset.prod (Multiset.map_congr rfl fun a _ ↦ ?_)
+      simp [Polynomial.aeval_C]
+    have hvq : P.val.valuation (Polynomial.aeval u q) = 1 := by
+      rw [haq, map_multiset_prod]
+      refine Multiset.prod_eq_one ?_
+      intro γ hγ
+      obtain ⟨b, hb, rfl⟩ := Multiset.mem_map.1 hγ
+      obtain ⟨a, -, rfl⟩ := Multiset.mem_map.1 hb
+      exact hsub1 a
+    have hpq : p = q * Polynomial.C p.leadingCoeff := by
+      rw [hqdef, mul_assoc, ← Polynomial.C_mul, inv_mul_cancel₀ hlc,
+        Polynomial.C_1, mul_one]
+    rw [hpq, map_mul, Polynomial.aeval_C, Valuation.map_mul, hvq, one_mul]
+    exact valuation_algebraMap_eq_one P.algebraMap_mem hlc
+  -- Independence of the powers contradicts the finrank bound.
+  have hwO : ∀ i : Fin (n + 1), P.val.valuation (u ^ (i : ℕ)) ≤ 1 := by
+    intro i
+    rw [Valuation.map_pow]
+    exact pow_le_one₀ zero_le hu
+  have hind := linearIndependent_of_residue_independent P.algebraMap_mem
+    hxtr hx hwO hres
+  have hcard := hind.fintype_card_le_finrank
+  rw [Fintype.card_fin] at hcard
+  omega
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- Uniqueness of the residue constant. -/
+theorem Place.residue_unique (P : Place k F) {u : F} {c c' : k}
+    (hc : P.val.valuation (u - algebraMap k F c) < 1)
+    (hc' : P.val.valuation (u - algebraMap k F c') < 1) : c = c' := by
+  by_contra hne
+  have h1 : u - algebraMap k F c' - (u - algebraMap k F c) =
+      algebraMap k F (c - c') := by
+    rw [map_sub]
+    ring
+  have h2 : P.val.valuation (algebraMap k F (c - c')) = 1 :=
+    valuation_algebraMap_eq_one P.algebraMap_mem (sub_ne_zero.2 hne)
+  have h3 := Valuation.map_sub P.val.valuation
+    (u - algebraMap k F c') (u - algebraMap k F c)
+  rw [h1, h2] at h3
+  rcases max_cases (P.val.valuation (u - algebraMap k F c'))
+    (P.val.valuation (u - algebraMap k F c)) with ⟨hm, -⟩ | ⟨hm, -⟩ <;>
+    rw [hm] at h3
+  · exact (lt_of_le_of_lt h3 hc').ne rfl
+  · exact (lt_of_le_of_lt h3 hc).ne rfl
+
+end ResidueField
+
 end
 
 end AclGeom
