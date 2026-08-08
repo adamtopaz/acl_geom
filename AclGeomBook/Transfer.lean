@@ -154,5 +154,21 @@ the base field:
 
 {docstring AclGeom.mem_bot_of_forall_algEquiv_frobenius}
 
-The assembly — normal closures, separability from perfectness, and the
-interface to the semantic `J` — is tracked on the M5 milestone issue.
+Two more foundations close the gap to the assembly. Closures are
+insensitive to enlarging the base by algebraic elements — this is how
+statements over `k̄` (where j-rigidity lives) and over `k` (where the
+Galois conjugation lives) exchange freely, and it makes pair independence
+transfer as well:
+
+{docstring AclGeom.mem_racl_base_iff_of_algebraic}
+
+{docstring AclGeom.algebraicIndependent_pair_base_of_algebraic}
+
+And any two elements algebraic over a perfect subfield lie in a finite
+Galois subextension — the splitting field of the product of their minimal
+polynomials, with separability supplied by perfectness:
+
+{docstring AclGeom.exists_finiteDimensional_isGalois_mem}
+
+The remaining assembly — every conjugation preserves the five j-points,
+j-rigidity feeds the fixing brick — is tracked on the M5 milestone issue.

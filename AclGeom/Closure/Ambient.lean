@@ -122,6 +122,51 @@ theorem coe_mem_racl_pair_iff {N : IntermediateField k Ω} {w₁ w₂ x : N} :
   simpa [Set.image_pair] using
     coe_mem_racl_image_iff (S := ({w₁, w₂} : Set N)) (x := x)
 
+/-- **Base insensitivity of the closure** (blueprint §9.1: closures over
+`k` and over `k̄` agree): enlarging the base field by elements algebraic
+over it does not change `racl`. -/
+theorem mem_racl_base_iff_of_algebraic {K₀ : IntermediateField k Ω}
+    (halg : ∀ y ∈ K₀, IsAlgebraic k y) {S : Set Ω} {z : Ω} :
+    z ∈ racl (↥K₀) S ↔ z ∈ racl k S := by
+  constructor
+  · intro hz
+    -- Transport the annihilator to the `k`-closure of `↑K₀ ∪ S`, then
+    -- absorb the algebraic generators.
+    have h1 : IsAlgebraic (adjoin (↥K₀) S) z := (mem_racl_iff (↥K₀)).1 hz
+    have h2 : z ∈ racl k ((K₀ : Set Ω) ∪ S) := by
+      refine mem_racl_iff_exists_poly.2 ?_
+      obtain ⟨p, hp0, hpz⟩ := h1
+      refine ⟨p.map (algebraMap (adjoin (↥K₀) S) Ω),
+        (Polynomial.map_ne_zero_iff
+          (algebraMap (adjoin (↥K₀) S) Ω).injective).2 hp0,
+        ?_, fun n ↦ ?_⟩
+      · rw [Polynomial.eval_map, ← Polynomial.aeval_def, hpz]
+      · rw [Polynomial.coeff_map]
+        have h3 : ((p.coeff n : ↥(adjoin (↥K₀) S)) : Ω) ∈
+            (adjoin (↥K₀) S).restrictScalars k :=
+          (mem_restrictScalars k).2 (p.coeff n).2
+        rwa [restrictScalars_adjoin] at h3
+    refine racl_le_of_subset_racl ?_ h2
+    rintro y (hy | hy)
+    · exact racl_mono (Set.empty_subset S)
+        (mem_racl_empty_of_isAlgebraic (halg y hy))
+    · exact subset_racl k S hy
+  · intro hz
+    exact racl_subset_racl_base K₀ S hz
+
+/-- Pair independence is insensitive to algebraic base enlargement: an
+independent pair over `k` stays independent over any subextension of
+algebraic elements. -/
+theorem algebraicIndependent_pair_base_of_algebraic
+    {K₀ : IntermediateField k Ω} (halg : ∀ y ∈ K₀, IsAlgebraic k y)
+    {x a : Ω} (hind : AlgebraicIndependent k ![x, a]) :
+    AlgebraicIndependent (↥K₀) ![x, a] := by
+  refine algebraicIndependent_pair ?_ ?_
+  · rw [mem_racl_base_iff_of_algebraic halg]
+    exact AlgebraicIndependent.notMem_racl_pair' hind
+  · rw [mem_racl_base_iff_of_algebraic halg]
+    exact AlgebraicIndependent.notMem_racl_pair hind
+
 /-- Equivariance of ambient closure membership under automorphisms of a
 subextension: interalgebraicity relations between elements of `N` are
 preserved by any `k`-automorphism of `N`, viewed in `Ω`. -/

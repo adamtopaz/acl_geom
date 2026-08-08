@@ -133,6 +133,43 @@ theorem mem_bot_of_forall_algEquiv_frobenius {F L : Type*} [Field F]
 
 end GaloisFixing
 
+section GaloisEnvelope
+
+open IntermediateField
+
+/-- **The Galois envelope**: any two elements algebraic over a perfect
+subfield of an algebraically closed field lie in a finite Galois
+subextension — the splitting field of the product of their minimal
+polynomials. Perfectness supplies separability; no purely inseparable
+bookkeeping is needed. -/
+theorem exists_finiteDimensional_isGalois_mem {F : Type*} [Field F]
+    [Algebra F Ω] [IsAlgClosed Ω] [PerfectField F] {x a : Ω}
+    (hx : IsIntegral F x) (ha : IsIntegral F a) :
+    ∃ L : IntermediateField F Ω, x ∈ L ∧ a ∈ L ∧
+      FiniteDimensional F L ∧ IsGalois F L := by
+  classical
+  set f : Polynomial F := minpoly F x * minpoly F a with hf
+  have hf0 : f ≠ 0 := mul_ne_zero (minpoly.ne_zero hx) (minpoly.ne_zero ha)
+  have hsplits : (f.map (algebraMap F Ω)).Splits := IsAlgClosed.splits _
+  haveI hsf : Polynomial.IsSplittingField F (adjoin F (f.rootSet Ω)) f :=
+    IntermediateField.adjoin_rootSet_isSplittingField hsplits
+  haveI hfd : FiniteDimensional F (adjoin F (f.rootSet Ω)) :=
+    Polynomial.IsSplittingField.finiteDimensional _ f
+  haveI : Normal F (adjoin F (f.rootSet Ω)) :=
+    Normal.of_isSplittingField f
+  haveI : Algebra.IsAlgebraic F (adjoin F (f.rootSet Ω)) :=
+    Algebra.IsAlgebraic.of_finite F _
+  haveI : Algebra.IsSeparable F (adjoin F (f.rootSet Ω)) := inferInstance
+  refine ⟨adjoin F (f.rootSet Ω), ?_, ?_, hfd, ⟨⟩⟩
+  · refine subset_adjoin F _ ?_
+    rw [Polynomial.mem_rootSet]
+    exact ⟨hf0, by rw [hf, map_mul, minpoly.aeval, zero_mul]⟩
+  · refine subset_adjoin F _ ?_
+    rw [Polynomial.mem_rootSet]
+    exact ⟨hf0, by rw [hf, map_mul, minpoly.aeval, mul_zero]⟩
+
+end GaloisEnvelope
+
 end
 
 end AclGeom
