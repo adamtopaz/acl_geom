@@ -894,6 +894,135 @@ theorem mulDiagram_of_indep :
 
 end MulTable
 
+section QPrimeSoundness
+
+variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- **Soundness of the geometric `Q′`** (blueprint Thm qp-correct, one
+direction): every semantic quadruple is geometric — the ratio point
+supplies the `Q`-witness, and a fresh parameter builds the
+multiplication diagram converting it into the product point. -/
+theorem q'Geom_of_q'Sem [Infinite k] {X Y Z W : Point k K}
+    (hfresh : ∀ S : Finset K, S.card ≤ 4 → ∃ z, z ∉ racl k (S : Set K))
+    (h : Q'Sem X Y Z W) : Q'Geom X Y Z W := by
+  classical
+  obtain ⟨u, v, hpair, hX, hY, hZ, hW⟩ := h
+  obtain ⟨a, ha⟩ := hfresh {u, v} (by
+    have h1 := Finset.card_insert_le u ({v} : Finset K)
+    have h2 : ({v} : Finset K).card = 1 := Finset.card_singleton v
+    omega)
+  have ha' : a ∉ racl k ({u, v} : Set K) := by simpa using ha
+  have htriple : AlgebraicIndependent k ![u, v, a] := by
+    have hra : a ∉ racl k (Set.range ![u, v]) := by
+      rwa [range_pair]
+    have hsnoc := algebraicIndependent_snoc hpair hra
+    have heq : Fin.snoc ![u, v] a = ![u, v, a] := by
+      funext i
+      fin_cases i <;> simp [Fin.snoc]
+    rwa [heq] at hsnoc
+  set V : Point k K := Point.mk' k (u / v) (mtable_div_notMem_bot htriple)
+    with hV
+  have hQ : QGeom X Y Z V :=
+    qGeom_of_qSem hfresh ⟨u, v, hpair, hX, hY, hZ, rfl⟩
+  have hM := mulDiagram_of_indep htriple
+  have e1 : Point.mk' k u (mtable_x_notMem_bot htriple) = X :=
+    Subtype.ext (by rw [hX]; rfl)
+  have e2 : Point.mk' k v (mtable_y_notMem_bot htriple) = Y :=
+    Subtype.ext (by rw [hY]; rfl)
+  have e4 : Point.mk' k (u * v) (mtable_mul_notMem_bot htriple) = W :=
+    Subtype.ext (by rw [hW]; rfl)
+  rw [e1, e2, e4] at hM
+  exact ⟨V, _, _, _, _, hQ, hM⟩
+
+end QPrimeSoundness
+
+section JSoundness
+
+variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- **Soundness of the geometric `J`** (blueprint Thm j-acf-correct, one
+direction): the value of the `j`-map at an independent pair satisfies the
+three-conjunct geometric identity — using the normalizations
+`[x/(xa)] = [1/a] = [a]`, `[a+1] = [a]`, and `x(a+1) = x + xa`. -/
+theorem jGeom_of_jSem [Infinite k] {X : Fin 5 → Point k K}
+    (hfresh : ∀ S : Finset K, S.card ≤ 4 → ∃ z, z ∉ racl k (S : Set K))
+    (h : JSem X) : JGeom (X 0) (X 1) (X 2) (X 3) (X 4) := by
+  classical
+  obtain ⟨x, a, hpair, h0, h1, h2, h3, h4⟩ := h
+  have hx0 : x ∉ racl k (∅ : Set K) := fun hm ↦
+    AlgebraicIndependent.notMem_racl_pair' hpair
+      (racl_mono (Set.empty_subset _) hm)
+  have ha0 : a ∉ racl k (∅ : Set K) := fun hm ↦
+    AlgebraicIndependent.notMem_racl_pair hpair
+      (racl_mono (Set.empty_subset _) hm)
+  have hxne : x ≠ 0 := by
+    intro he
+    rw [he] at hx0
+    exact hx0 (zero_mem _)
+  have hane : a ≠ 0 := by
+    intro he
+    rw [he] at ha0
+    exact ha0 (zero_mem _)
+  have hax : a ∉ racl k ({x} : Set K) :=
+    AlgebraicIndependent.notMem_racl_pair hpair
+  have hxa : x ∉ racl k ({a} : Set K) :=
+    AlgebraicIndependent.notMem_racl_pair' hpair
+  -- `xa ∉ racl{x}` and `x ∉ racl{xa}`.
+  have hprod_x : x * a ∉ racl k ({x} : Set K) := by
+    intro hm
+    have hxx : x ∈ racl k ({x} : Set K) := subset_racl k _ rfl
+    exact hax (mem_of_mul_mem_left hxx hxne hm)
+  have hx_prod : x ∉ racl k ({x * a} : Set K) := by
+    intro hm
+    have hm' : x ∈ racl k (insert (x * a) (∅ : Set K)) := by simpa using hm
+    have h5 := racl_exchange hm' hx0
+    have h6 : x * a ∈ racl k ({x} : Set K) := by simpa using h5
+    exact hprod_x h6
+  -- Conjunct 1: `QGeom ([x], [xa], [x+xa], [a])` via the ratio witness.
+  have hc1 : QGeom (X 0) (X 2) (X 3) (X 4) := by
+    refine qGeom_of_qSem hfresh ⟨x, x * a,
+      algebraicIndependent_pair hx_prod hprod_x, h0, h2, h3, ?_⟩
+    rw [h4]
+    have harith : x / (x * a) = a⁻¹ := by
+      field_simp
+    rw [harith, ClosedIF.point_inv]
+  -- Conjunct 2: `Q'Geom ([x], [a], [x+a], [xa])` literally.
+  have hc2 : Q'Geom (X 0) (X 4) (X 1) (X 2) :=
+    q'Geom_of_q'Sem hfresh ⟨x, a, hpair, h0, h4, h1, h2⟩
+  -- Conjunct 3: `Q'Geom ([x], [a], [x+a], [x+xa])` at the shifted
+  -- representative `a + 1`.
+  have hshift : ClosedIF.point k (a + 1) = ClosedIF.point k a := by
+    have hone : a + (1 : K) = a + algebraMap k K 1 := by rw [map_one]
+    rw [hone, ClosedIF.point_add_algebraMap]
+  have hc3 : Q'Geom (X 0) (X 4) (X 1) (X 3) := by
+    have hpair' : AlgebraicIndependent k ![x, a + 1] := by
+      refine algebraicIndependent_pair ?_ ?_
+      · intro hm
+        refine hxa ?_
+        have heq : racl k ({a + 1} : Set K) = racl k ({a} : Set K) := by
+          have hone : a + (1 : K) = a + algebraMap k K 1 := by rw [map_one]
+          rw [hone, racl_add_algebraMap]
+        rwa [heq] at hm
+      · intro hm
+        have ha' : a ∈ racl k ({x} : Set K) := by
+          have h5 := sub_mem hm (one_mem (racl k ({x} : Set K)))
+          rwa [add_sub_cancel_right] at h5
+        exact hax ha'
+    refine q'Geom_of_q'Sem hfresh ⟨x, a + 1, hpair', h0, ?_, ?_, ?_⟩
+    · rw [h4, hshift]
+    · rw [h1]
+      have harith : x + (a + 1) = x + a + 1 := by ring
+      rw [harith]
+      have hone : x + a + (1 : K) = x + a + algebraMap k K 1 := by
+        rw [map_one]
+      rw [hone, ClosedIF.point_add_algebraMap]
+    · rw [h3]
+      have harith : x * (a + 1) = x + x * a := by ring
+      rw [harith]
+  exact ⟨hc1, hc2, hc3⟩
+
+end JSoundness
+
 end
 
 end AclGeom
