@@ -3,7 +3,7 @@ Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
-import AclGeom.Config.Quadrangle
+import AclGeom.Config.MeetEquations
 import AclGeom.Correspondence.CurveIdeal
 import AclGeom.Correspondence.Binomial
 
@@ -334,6 +334,185 @@ theorem notMem_racl_line [Infinite k]
   exact hvu (racl_le_of_subset_racl (Set.singleton_subset_iff.2 ht'') hv)
 
 end Specialize
+
+section Instances
+
+variable {u v w t : K}
+
+/-- The value form of the atom clause: the line value is not algebraic
+over the parameter and the direction. One more exchange reduces it to
+`notMem_racl_line`. -/
+theorem line_value_notMem [Infinite k]
+    (hu0 : u ∉ racl k (∅ : Set K))
+    (hvu : v ∉ racl k ({u} : Set K))
+    (hw : w ∉ racl k ({u, v} : Set K))
+    (ht : t ∈ racl k ({u, v} : Set K))
+    (ht0 : t ∉ racl k (∅ : Set K)) :
+    u * w + v ∉ racl k ({t, w} : Set K) := by
+  intro hmem
+  have hune : u ≠ 0 := by
+    intro h0
+    rw [h0] at hu0
+    exact hu0 (zero_mem _)
+  have hval : u * w + v ∉ racl k ({t} : Set K) := by
+    intro h
+    have h2 : u * w + v ∈ racl k ({u, v} : Set K) :=
+      racl_le_of_subset_racl (Set.singleton_subset_iff.2 ht) h
+    have hu : u ∈ racl k ({u, v} : Set K) := subset_racl k _ (by simp)
+    have hv : v ∈ racl k ({u, v} : Set K) := subset_racl k _ (by simp)
+    have h3 := MulMemClass.mul_mem (inv_mem hu) (sub_mem h2 hv)
+    rw [add_sub_cancel_right, inv_mul_cancel_left₀ hune] at h3
+    exact hw h3
+  have hmem' : u * w + v ∈ racl k (insert w ({t} : Set K)) := by
+    rwa [Set.pair_comm t w] at hmem
+  have h := racl_exchange hmem' hval
+  have h' : w ∈ racl k ({t, u * w + v} : Set K) := by
+    rwa [Set.pair_comm (u * w + v) t] at h
+  exact notMem_racl_line hu0 hvu hw ht ht0 h'
+
+end Instances
+
+section QTable
+
+variable {a b c d x : K} (hind : AlgebraicIndependent k ![a, b, c, d, x])
+
+include hind
+
+theorem qtable_a_notMem_empty : a ∉ racl k (∅ : Set K) := fun h ↦
+  AlgebraicIndependent.transcendental hind 0
+    (isAlgebraic_of_mem_racl_empty h)
+
+theorem qtable_c_notMem_empty : c ∉ racl k (∅ : Set K) := fun h ↦
+  AlgebraicIndependent.transcendental hind 2
+    (isAlgebraic_of_mem_racl_empty h)
+
+theorem qtable_ac_notMem_empty : a * c ∉ racl k (∅ : Set K) := by
+  intro h
+  exact qtable_mul_ac_notMem_bot hind
+    (ClosedIF.mem_bot_iff.2 (isAlgebraic_of_mem_racl_empty h))
+
+theorem qtable_d_notMem_c : d ∉ racl k ({c} : Set K) := by
+  have h : AlgebraicIndependent k ![c, d] := by
+    simpa using AlgebraicIndependent.comp_pair hind
+      (i := 2) (j := 3) (by decide)
+  exact AlgebraicIndependent.notMem_racl_pair h
+
+/-- `bc + d ∉ racl{ac}`: the closure of `ac` lies in `racl{a, c}`, and
+membership there would recover `d` over `{a, b, c}`. -/
+theorem qtable_bcd_notMem_ac : b * c + d ∉ racl k ({a * c} : Set K) := by
+  intro hmem
+  have hsub : racl k ({a * c} : Set K) ≤ racl k ({a, b, c} : Set K) := by
+    refine racl_le_of_subset_racl (Set.singleton_subset_iff.2 ?_)
+    have ha : a ∈ racl k ({a, b, c} : Set K) := subset_racl k _ (by simp)
+    have hc : c ∈ racl k ({a, b, c} : Set K) := subset_racl k _ (by simp)
+    exact MulMemClass.mul_mem ha hc
+  have h2 := hsub hmem
+  have hb : b ∈ racl k ({a, b, c} : Set K) := subset_racl k _ (by simp)
+  have hc : c ∈ racl k ({a, b, c} : Set K) := subset_racl k _ (by simp)
+  have hd : d ∈ racl k ({a, b, c} : Set K) := by
+    have h3 := sub_mem h2 (MulMemClass.mul_mem hb hc)
+    rwa [add_sub_cancel_left] at h3
+  exact qtable_d_notMem_abc hind hd
+
+theorem qtable_Y_notMem_cd : a * x + b ∉ racl k ({c, d} : Set K) := by
+  intro hmem
+  have hsub : racl k ({c, d} : Set K) ≤ racl k ({a, b, c, d} : Set K) := by
+    refine racl_le_of_subset_racl ?_
+    rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    exact ⟨subset_racl k _ (by simp), subset_racl k _ (by simp)⟩
+  exact qtable_Y_notMem_abcd hind (hsub hmem)
+
+theorem qtable_x_notMem_ac_bcd :
+    x ∉ racl k ({a * c, b * c + d} : Set K) := by
+  intro hmem
+  have hsub : racl k ({a * c, b * c + d} : Set K) ≤
+      racl k ({a, b, c, d} : Set K) := by
+    refine racl_le_of_subset_racl ?_
+    rw [Set.insert_subset_iff, Set.singleton_subset_iff]
+    have ha : a ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+    have hb : b ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+    have hc : c ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+    have hd : d ∈ racl k ({a, b, c, d} : Set K) := subset_racl k _ (by simp)
+    exact ⟨MulMemClass.mul_mem ha hc,
+      add_mem (MulMemClass.mul_mem hb hc) hd⟩
+  exact qtable_x_notMem_abcd hind (hsub hmem)
+
+omit hind in
+/-- A point below a join of two principal closures has its representative
+algebraic over the two generators. -/
+theorem point_rep_mem_of_le {p q : K} {P : Point k K}
+    (h : P.1 ≤ ClosedIF.point k p ⊔ ClosedIF.point k q) :
+    P.rep ∈ racl k ({p, q} : Set K) := by
+  have h1 : ClosedIF.point k P.rep ≤
+      ClosedIF.point k p ⊔ ClosedIF.point k q := by
+    rw [Point.point_rep]
+    exact h
+  have h2 := ClosedIF.point_le_iff.1 h1
+  rwa [ClosedIF.mem_sup_point_iff] at h2
+
+omit hind in
+/-- Point representatives are never algebraic over the base. -/
+theorem point_rep_notMem_empty (P : Point k K) :
+    P.rep ∉ racl k (∅ : Set K) := fun h ↦
+  P.rep_notMem_bot (ClosedIF.mem_bot_iff.2 (isAlgebraic_of_mem_racl_empty h))
+
+omit hind in
+/-- Convert a lattice incidence into a membership over the representative
+and a second generator. -/
+theorem mem_of_le_point_sup {z q : K} {P : Point k K}
+    (h : ClosedIF.point k z ≤ P.1 ⊔ ClosedIF.point k q) :
+    z ∈ racl k ({P.rep, q} : Set K) := by
+  have h1 : ClosedIF.point k z ≤
+      ClosedIF.point k P.rep ⊔ ClosedIF.point k q := by
+    rwa [Point.point_rep]
+  have h2 := ClosedIF.point_le_iff.1 h1
+  rwa [ClosedIF.mem_sup_point_iff] at h2
+
+/-- Clause (iv), first universal statement: no atom of `A` captures the
+correspondence from `Y` to `X`. -/
+theorem qWitness_X_free [Infinite k] :
+    ∀ A' : Point k K, A'.1 ≤ (qWitness hind).A →
+      ¬ (qWitness hind).X.1 ≤ A'.1 ⊔ (qWitness hind).Y.1 := by
+  intro A' hA' hle
+  have ht : A'.rep ∈ racl k ({a, b} : Set K) := point_rep_mem_of_le hA'
+  have hx : x ∈ racl k ({A'.rep, a * x + b} : Set K) :=
+    mem_of_le_point_sup hle
+  exact notMem_racl_line (qtable_a_notMem_empty hind)
+    (qtable_b_notMem_a hind) (qtable_x_notMem_ab hind) ht
+    (point_rep_notMem_empty A') hx
+
+/-- Clause (iv), second universal statement: no atom of `B` captures the
+correspondence from `Y` to `Z`. -/
+theorem qWitness_Z_freeB [Infinite k] :
+    ∀ B' : Point k K, B'.1 ≤ (qWitness hind).B →
+      ¬ (qWitness hind).Z.1 ≤ B'.1 ⊔ (qWitness hind).Y.1 := by
+  intro B' hB' hle
+  have ht : B'.rep ∈ racl k ({c, d} : Set K) := point_rep_mem_of_le hB'
+  have hz : c * (a * x + b) + d ∈
+      racl k ({B'.rep, a * x + b} : Set K) := mem_of_le_point_sup hle
+  exact line_value_notMem (qtable_c_notMem_empty hind)
+    (qtable_d_notMem_c hind) (qtable_Y_notMem_cd hind) ht
+    (point_rep_notMem_empty B') hz
+
+/-- Clause (iv), third universal statement: no atom of `C` captures the
+correspondence from `X` to `Z`. -/
+theorem qWitness_Z_freeC [Infinite k] :
+    ∀ C' : Point k K, C'.1 ≤ (qWitness hind).C →
+      ¬ (qWitness hind).Z.1 ≤ C'.1 ⊔ (qWitness hind).X.1 := by
+  intro C' hC' hle
+  have ht : C'.rep ∈ racl k ({a * c, b * c + d} : Set K) :=
+    point_rep_mem_of_le hC'
+  have hz : c * (a * x + b) + d ∈
+      racl k ({C'.rep, x} : Set K) := mem_of_le_point_sup hle
+  have harith : c * (a * x + b) + d = a * c * x + (b * c + d) := by
+    ring
+  rw [harith] at hz
+  exact line_value_notMem (qtable_ac_notMem_empty hind)
+    (qtable_bcd_notMem_ac hind) (qtable_x_notMem_ac_bcd hind) ht
+    (point_rep_notMem_empty C') hz
+
+end QTable
+
 
 end LineClause
 

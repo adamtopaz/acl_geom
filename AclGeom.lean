@@ -29,6 +29,7 @@ import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations
 import AclGeom.Config.AtomClause
+import AclGeom.Config.Soundness
 import AclGeom.Config.Multiplication
 import AclGeom.Transfer.FiniteUnion
 import AclGeom.Transfer.Intersections
