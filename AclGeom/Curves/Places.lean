@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import Mathlib.RingTheory.Valuation.ValuationSubring
+import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
 
 /-!
@@ -271,13 +272,59 @@ theorem exists_pow_valuation_eq_zpow
   rw [Fintype.card_fin] at hcard
   omega
 
+/-- Integer powers of a fixed base strictly between `0` and `1` are
+injective in the exponent. -/
+theorem zpow_left_injective_of_lt_one {Γ : Type*}
+    [LinearOrderedCommGroupWithZero Γ] {a : Γ} (h0 : 0 < a) (h1 : a < 1)
+    {m n : ℤ} (h : a ^ m = a ^ n) : m = n := by
+  by_contra hc
+  rcases Int.lt_or_gt_of_ne hc with hlt | hgt
+  · exact (zpow_lt_zpow_right_of_lt_one₀ h0 h1 hlt).ne h.symm
+  · exact (zpow_lt_zpow_right_of_lt_one₀ h0 h1 hgt).ne h
+
+open IntermediateField in
+/-- **Uniform exponent**: raising to the `[F : k(z)]!`-th power lands
+every small nonzero value in `⟨v z⟩`, with a positive exponent. -/
+theorem exists_pow_factorial_valuation_eq
+    (hk : ∀ c : k, algebraMap k F c ∈ O) {z : F} (hz0 : z ≠ 0)
+    (hz : O.valuation z < 1)
+    [FiniteDimensional (↥(adjoin k ({z} : Set F))) F]
+    {w : F} (hw0v : O.valuation w ≠ 0) (hwlt : O.valuation w < 1) :
+    ∃ M : ℕ, 0 < M ∧
+      O.valuation w ^
+          (Module.finrank (↥(adjoin k ({z} : Set F))) F).factorial =
+        O.valuation z ^ (M : ℤ) := by
+  set n := Module.finrank (↥(adjoin k ({z} : Set F))) F with hn
+  have hvz : O.valuation z ≠ 0 := (Valuation.ne_zero_iff _).2 hz0
+  have hvzpos : 0 < O.valuation z := zero_lt_iff.2 hvz
+  have hw0 : w ≠ 0 := fun h ↦ hw0v (by rw [h, Valuation.map_zero])
+  obtain ⟨d, hd0, hdn, m, hm⟩ :=
+    exists_pow_valuation_eq_zpow hk hz0 hz hw0
+  obtain ⟨e, he⟩ : d ∣ n.factorial := Nat.dvd_factorial hd0 hdn
+  have h1 : O.valuation w ^ n.factorial =
+      O.valuation z ^ (m * (e : ℤ)) := by
+    rw [he, pow_mul, hm, zpow_mul, zpow_natCast]
+  have h2 : O.valuation z ^ (m * (e : ℤ)) < 1 := by
+    rw [← h1]
+    have hlt1 : O.valuation w ^ n.factorial < 1 ^ n.factorial :=
+      pow_lt_pow_left₀ hwlt zero_le n.factorial_ne_zero
+    rwa [one_pow] at hlt1
+  have h3 : 0 < m * (e : ℤ) := by
+    by_contra hc
+    push Not at hc
+    have h4 : (1 : _) ≤ O.valuation z ^ (m * (e : ℤ)) := by
+      calc (1 : _) = O.valuation z ^ (0 : ℤ) := by simp
+        _ ≤ O.valuation z ^ (m * (e : ℤ)) :=
+          zpow_le_zpow_right_of_le_one₀ hvzpos hz.le hc
+    exact h4.not_gt h2
+  exact ⟨(m * (e : ℤ)).toNat, by omega, by
+    rw [h1, Int.toNat_of_nonneg h3.le]⟩
+
 open IntermediateField in
 /-- **Uniformizer existence** (the discreteness core of Stichtenoth
 Theorem 1.1.6): when `F` is finite over `k(z)` for a nonzero
 maximal-ideal element `z`, the values below `1` attain a maximum — the
-value of a uniformizer. Proof: raising to the `n!`-th power lands every
-such value in `⟨v z⟩` with a positive exponent, and the least exponent is
-attained. -/
+value of a uniformizer. -/
 theorem exists_valuation_uniformizer
     (hk : ∀ c : k, algebraMap k F c ∈ O) {z : F} (hz0 : z ≠ 0)
     (hz : O.valuation z < 1)
@@ -289,35 +336,9 @@ theorem exists_valuation_uniformizer
   set n := Module.finrank (↥(adjoin k ({z} : Set F))) F with hn
   have hvz : O.valuation z ≠ 0 := (Valuation.ne_zero_iff _).2 hz0
   have hvzpos : 0 < O.valuation z := zero_lt_iff.2 hvz
-  -- Uniform exponent: the `n!`-th power of every small value is a
-  -- positive power of `v z`.
-  have huni : ∀ w : F, O.valuation w ≠ 0 → O.valuation w < 1 →
-      ∃ M : ℕ, 0 < M ∧
-        O.valuation w ^ n.factorial = O.valuation z ^ (M : ℤ) := by
-    intro w hw0v hwlt
-    have hw0 : w ≠ 0 := fun h ↦ hw0v (by rw [h, Valuation.map_zero])
-    obtain ⟨d, hd0, hdn, m, hm⟩ :=
-      exists_pow_valuation_eq_zpow hk hz0 hz hw0
-    obtain ⟨e, he⟩ : d ∣ n.factorial := Nat.dvd_factorial hd0 hdn
-    have h1 : O.valuation w ^ n.factorial =
-        O.valuation z ^ (m * (e : ℤ)) := by
-      rw [he, pow_mul, hm, zpow_mul, zpow_natCast]
-    -- Positivity of the exponent: the power is below one.
-    have h2 : O.valuation z ^ (m * (e : ℤ)) < 1 := by
-      rw [← h1]
-      have hlt1 : O.valuation w ^ n.factorial < 1 ^ n.factorial :=
-        pow_lt_pow_left₀ hwlt zero_le n.factorial_ne_zero
-      rwa [one_pow] at hlt1
-    have h3 : 0 < m * (e : ℤ) := by
-      by_contra hc
-      push Not at hc
-      have h4 : (1 : _) ≤ O.valuation z ^ (m * (e : ℤ)) := by
-        calc (1 : _) = O.valuation z ^ (0 : ℤ) := by simp
-          _ ≤ O.valuation z ^ (m * (e : ℤ)) :=
-            zpow_le_zpow_right_of_le_one₀ hvzpos hz.le hc
-      exact h4.not_gt h2
-    exact ⟨(m * (e : ℤ)).toNat, by omega, by
-      rw [h1, Int.toNat_of_nonneg h3.le]⟩
+  have huni := fun (w : F) (hw0v : O.valuation w ≠ 0)
+    (hwlt : O.valuation w < 1) ↦
+    exists_pow_factorial_valuation_eq hk hz0 hz hw0v hwlt
   -- The attained exponents form a nonempty set of naturals; take the min.
   set A : Set ℕ := {M | 0 < M ∧ ∃ w : F, O.valuation w ≠ 0 ∧
     O.valuation w < 1 ∧
@@ -336,6 +357,131 @@ theorem exists_valuation_uniformizer
   by_contra hc
   push Not at hc
   exact ((pow_lt_pow_left₀ hc zero_le n.factorial_ne_zero).not_ge h2).elim
+
+open IntermediateField in
+/-- **Value classification**: below `1`, every nonzero value is a positive
+power of the uniformizer's value. Strong induction on the uniform
+exponent: dividing by the uniformizer strictly decreases it. -/
+theorem valuation_eq_pow_uniformizer
+    (hk : ∀ c : k, algebraMap k F c ∈ O) {z : F} (hz0 : z ≠ 0)
+    (hz : O.valuation z < 1)
+    [FiniteDimensional (↥(adjoin k ({z} : Set F))) F]
+    {t : F} (ht0 : O.valuation t ≠ 0) (htlt : O.valuation t < 1)
+    (htmax : ∀ w : F, O.valuation w ≠ 0 → O.valuation w < 1 →
+      O.valuation w ≤ O.valuation t)
+    {w : F} (hw0 : O.valuation w ≠ 0) (hwlt : O.valuation w < 1) :
+    ∃ j : ℕ, 0 < j ∧ O.valuation w = O.valuation t ^ j := by
+  classical
+  have hvz : O.valuation z ≠ 0 := (Valuation.ne_zero_iff _).2 hz0
+  have hvzpos : 0 < O.valuation z := zero_lt_iff.2 hvz
+  have htpos : 0 < O.valuation t := zero_lt_iff.2 ht0
+  have htF : t ≠ 0 := fun h ↦ ht0 (by rw [h, Valuation.map_zero])
+  obtain ⟨Mt, hMt0, hMt⟩ :=
+    exists_pow_factorial_valuation_eq hk hz0 hz ht0 htlt
+  obtain ⟨Mw, hMw0, hMw⟩ :=
+    exists_pow_factorial_valuation_eq hk hz0 hz hw0 hwlt
+  clear hMw0
+  -- Strong induction over the uniform exponent.
+  induction Mw using Nat.strong_induction_on generalizing w with
+  | _ Mw ih =>
+    have hle := htmax w hw0 hwlt
+    rcases eq_or_lt_of_le hle with heq | hlt
+    · exact ⟨1, one_pos, by rw [pow_one, heq]⟩
+    · -- Divide by the uniformizer and recurse.
+      have hw'0 : O.valuation (w / t) ≠ 0 := by
+        rw [map_div₀]
+        exact (div_ne_zero_iff.2 ⟨hw0, ht0⟩)
+      have hw'lt : O.valuation (w / t) < 1 := by
+        rw [map_div₀, div_lt_one₀ htpos]
+        exact hlt
+      obtain ⟨M', hM'0, hM'⟩ :=
+        exists_pow_factorial_valuation_eq hk hz0 hz hw'0 hw'lt
+      -- Identify the exponent: `M' = Mw - Mt`.
+      have hrel : O.valuation z ^ (M' : ℤ) =
+          O.valuation z ^ ((Mw : ℤ) - Mt) := by
+        rw [← hM', map_div₀, div_pow, hMw, hMt, ← zpow_sub₀ hvz]
+      have hM'eq : (M' : ℤ) = (Mw : ℤ) - Mt :=
+        zpow_left_injective_of_lt_one hvzpos hz hrel
+      have hM'lt : M' < Mw := by omega
+      obtain ⟨j', hj'0, hj'⟩ := ih M' hM'lt hw'0 hw'lt hM'
+      refine ⟨j' + 1, by omega, ?_⟩
+      have hwt : w = w / t * t := (div_mul_cancel₀ w htF).symm
+      rw [hwt, Valuation.map_mul, hj', pow_succ]
+
+open IntermediateField in
+/-- **Valuation subrings of one-variable function fields are discrete
+valuation rings** (Stichtenoth Theorem 1.1.6): a valuation subring of
+`F/k` whose maximal ideal contains a nonzero `z` with `F` finite over
+`k(z)` is a DVR. Every ideal is generated by any element of maximal
+value, values being powers of the uniformizer's. -/
+theorem isDiscreteValuationRing_of_valuationSubring
+    (hk : ∀ c : k, algebraMap k F c ∈ O) {z : F} (hz0 : z ≠ 0)
+    (hz : O.valuation z < 1)
+    [FiniteDimensional (↥(adjoin k ({z} : Set F))) F] :
+    IsDiscreteValuationRing (↥O) := by
+  classical
+  obtain ⟨t, ht0, htlt, htmax⟩ := exists_valuation_uniformizer hk hz0 hz
+  -- Every proper nonzero ideal is principal.
+  have hpid : IsPrincipalIdealRing (↥O) := by
+    constructor
+    intro I
+    by_cases hI0 : I = ⊥
+    · exact ⟨⟨0, by simp [hI0]⟩⟩
+    by_cases hItop : I = ⊤
+    · exact ⟨⟨1, by simp [hItop, Ideal.span_singleton_one]⟩⟩
+    -- Classified values of nonzero ideal elements.
+    have hmemval : ∀ x : ↥O, x ∈ I → x ≠ 0 → ∃ j : ℕ, 0 < j ∧
+        O.valuation ↑x = O.valuation t ^ j := by
+      intro x hxI hx0
+      have hxv0 : O.valuation ↑x ≠ 0 := by
+        rw [Valuation.ne_zero_iff]
+        exact fun h ↦ hx0 (Subtype.ext h)
+      have hxlt : O.valuation ↑x < 1 := by
+        rcases O.valuation_lt_one_or_eq_one x with h | h
+        · exact h
+        · exact absurd (Ideal.eq_top_of_isUnit_mem I hxI
+            ((O.valuation_eq_one_iff x).2 h)) hItop
+      exact valuation_eq_pow_uniformizer hk hz0 hz ht0 htlt htmax hxv0 hxlt
+    -- The least attained exponent yields a generator.
+    set S : Set ℕ := {j | 0 < j ∧ ∃ x : ↥O, x ∈ I ∧ x ≠ 0 ∧
+        O.valuation ↑x = O.valuation t ^ j} with hS
+    have hSne : S.Nonempty := by
+      obtain ⟨x, hxI, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hI0
+      obtain ⟨j, hj0, hj⟩ := hmemval x hxI hx0
+      exact ⟨j, hj0, x, hxI, hx0, hj⟩
+    obtain ⟨hj₀0, w₀, hw₀I, hw₀0, hw₀⟩ := Nat.sInf_mem hSne
+    have hw₀F : (↑w₀ : F) ≠ 0 := fun h ↦ hw₀0 (Subtype.ext h)
+    refine ⟨⟨w₀, ?_⟩⟩
+    ext x
+    rw [Ideal.mem_span_singleton']
+    constructor
+    · intro hxI
+      by_cases hx0 : x = 0
+      · exact ⟨0, by rw [hx0, zero_mul]⟩
+      obtain ⟨j, hj0, hj⟩ := hmemval x hxI hx0
+      have hjge : sInf S ≤ j := Nat.sInf_le ⟨hj0, x, hxI, hx0, hj⟩
+      have hle : O.valuation ↑x ≤ O.valuation ↑w₀ := by
+        rw [hj, hw₀]
+        exact pow_le_pow_right_of_le_one' htlt.le hjge
+      have hdiv : ((↑x : F) / ↑w₀) ∈ O := by
+        refine O.mem_of_valuation_le_one _ ?_
+        rw [map_div₀, div_le_one₀ (zero_lt_iff.2 ?_)]
+        · exact hle
+        · rw [Valuation.ne_zero_iff]
+          exact hw₀F
+      refine ⟨⟨_, hdiv⟩, Subtype.ext ?_⟩
+      show ((↑x : F) / ↑w₀) * ↑w₀ = ↑x
+      exact div_mul_cancel₀ _ hw₀F
+    · rintro ⟨a, rfl⟩
+      exact I.mul_mem_left a hw₀I
+  haveI := hpid
+  refine { not_a_field' := ?_ }
+  intro hbot
+  have hzO : z ∈ O := O.mem_of_valuation_le_one z hz.le
+  have hzmem : (⟨z, hzO⟩ : ↥O) ∈ IsLocalRing.maximalIdeal (↥O) :=
+    (O.valuation_lt_one_iff _).2 hz
+  rw [hbot, Submodule.mem_bot] at hzmem
+  exact hz0 (by simpa using congrArg Subtype.val hzmem)
 
 end
 
