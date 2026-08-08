@@ -23,6 +23,7 @@ import AclGeom.Correspondence.Binomial
 import AclGeom.Correspondence.TranslationDescent
 import AclGeom.Correspondence.GroupChunk
 import AclGeom.Correspondence.Additive
+import AclGeom.Curves.Places
 import AclGeom.Correspondence.Multiplicative
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Config.Language
