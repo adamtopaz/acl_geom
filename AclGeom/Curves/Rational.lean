@@ -172,6 +172,170 @@ theorem exists_ord_sub_algebraMap_pos (htr : Transcendental k t)
     (transcendental_sub_algebraMap htr a) (h ▸ isAlgebraic_zero)
   exact (Q.ord_pos_iff hta0).2 ha
 
+/-- **Partial fractions in divisor form**: on a rational function
+field, every degree-zero divisor is principal — a product of shifts of
+the generator. -/
+theorem exists_divisorOf_eq_of_deg_eq_zero (htr : Transcendental k t)
+    (htop : adjoin k ({t} : Set F) = ⊤) {P : Place k F}
+    (hpd : poleDivisor k t = Finsupp.single P 1)
+    {D : Divisor k F} (hdeg : D.deg = 0) :
+    ∃ f : F, f ≠ 0 ∧ divisorOf k f = D := by
+  classical
+  have hzero : ∀ Q : Place k F, Q ≠ P → ∃ a : k,
+      divisorOf k (t - algebraMap k F a) =
+        Finsupp.single Q 1 - Finsupp.single P 1 := by
+    intro Q hQ
+    obtain ⟨a, ha⟩ := exists_ord_sub_algebraMap_pos htr hpd hQ
+    obtain ⟨Pa, hPa⟩ := exists_divisorOf_sub_algebraMap htr htop hpd a
+    have hta0 : t - algebraMap k F a ≠ 0 := fun h ↦
+      (transcendental_sub_algebraMap htr a) (h ▸ isAlgebraic_zero)
+    have h1 : 0 < divisorOf k (t - algebraMap k F a) Q := by
+      rw [divisorOf_apply hta0]
+      exact ha
+    rw [hPa, Finsupp.sub_apply, Finsupp.single_eq_of_ne hQ,
+      sub_zero] at h1
+    have h2 : Pa = Q := by
+      by_contra hne
+      rw [Finsupp.single_eq_of_ne (Ne.symm hne)] at h1
+      omega
+    rw [h2] at hPa
+    exact ⟨a, hPa⟩
+  choose b hb using hzero
+  set S := D.support.erase P with hS
+  set f : F := ∏ Q ∈ S.attach,
+    (t - algebraMap k F (b ↑Q (Finset.mem_erase.1 Q.2).1)) ^ (D ↑Q)
+    with hf
+  have hfac0 : ∀ Q : {x // x ∈ S},
+      t - algebraMap k F (b ↑Q (Finset.mem_erase.1 Q.2).1) ≠ 0 :=
+    fun Q h ↦
+      (transcendental_sub_algebraMap htr _) (h ▸ isAlgebraic_zero)
+  have hf0 : f ≠ 0 := by
+    rw [hf]
+    exact Finset.prod_ne_zero_iff.2 fun Q _ ↦ zpow_ne_zero _ (hfac0 Q)
+  refine ⟨f, hf0, ?_⟩
+  rw [hf, divisorOf_prod_zpow _ _ _ fun Q _ ↦ hfac0 Q]
+  have hsum : ∑ Q ∈ S.attach, (D ↑Q) •
+      divisorOf k
+        (t - algebraMap k F (b ↑Q (Finset.mem_erase.1 Q.2).1)) =
+      ∑ Q ∈ S.attach, (D ↑Q) •
+        (Finsupp.single (↑Q : Place k F) 1 - Finsupp.single P 1) := by
+    refine Finset.sum_congr rfl fun Q _ ↦ ?_
+    rw [hb ↑Q (Finset.mem_erase.1 Q.2).1]
+  rw [hsum, Finset.sum_attach S fun Q ↦ (D Q) •
+    ((Finsupp.single Q 1 - Finsupp.single P 1) : Divisor k F)]
+  have hdegS : ∑ Q ∈ S, D Q = -(D P) := by
+    have h2 : D.deg = ∑ Q ∈ D.support, D Q := rfl
+    by_cases hP : P ∈ D.support
+    · have h1 := Finset.sum_erase_add D.support (fun Q ↦ D Q) hP
+      rw [← hS] at h1
+      omega
+    · have h1 : S = D.support := by
+        rw [hS]
+        exact Finset.erase_eq_of_notMem hP
+      have h3 : D P = 0 := Finsupp.notMem_support_iff.1 hP
+      rw [h1]
+      omega
+  ext R
+  rw [Finsupp.finsetSum_apply]
+  rcases eq_or_ne R P with rfl | hR
+  · have h1 : ∀ Q ∈ S, ((D Q) •
+        ((Finsupp.single Q 1 - Finsupp.single R 1) : Divisor k F)) R =
+        -(D Q) := by
+      intro Q hQ
+      have hQP : Q ≠ R := (Finset.mem_erase.1 hQ).1
+      rw [Finsupp.smul_apply, Finsupp.sub_apply,
+        Finsupp.single_eq_of_ne (Ne.symm hQP), Finsupp.single_eq_same,
+        smul_eq_mul]
+      ring
+    rw [Finset.sum_congr rfl h1]
+    rw [Finset.sum_neg_distrib, hdegS, neg_neg]
+  · rw [Finset.sum_eq_single R]
+    · rw [Finsupp.smul_apply, Finsupp.sub_apply,
+        Finsupp.single_eq_same, Finsupp.single_eq_of_ne hR,
+        smul_eq_mul]
+      ring
+    · intro Q hQ hne
+      rw [Finsupp.smul_apply, Finsupp.sub_apply,
+        Finsupp.single_eq_of_ne (Ne.symm hne),
+        Finsupp.single_eq_of_ne hR, smul_eq_mul]
+      ring
+    · intro hRS
+      have h3 : D R = 0 := by
+        by_contra h4
+        exact hRS (Finset.mem_erase.2 ⟨hR, Finsupp.mem_support_iff.2 h4⟩)
+      rw [h3, zero_smul, Finsupp.coe_zero, Pi.zero_apply]
+
+/-- The defect of any multiple of the pole place is nonpositive: the
+powers of the generator fill the Riemann–Roch space. -/
+theorem defect_smul_single_nonpos (htr : Transcendental k t)
+    {P : Place k F} (hpd : poleDivisor k t = Finsupp.single P 1)
+    (n : ℤ) :
+    ((n • Finsupp.single P 1 : Divisor k F)).defect ≤ 0 := by
+  have ht0 : t ≠ 0 := fun h ↦ htr (h ▸ isAlgebraic_zero)
+  have hdeg : Divisor.deg (n • Finsupp.single P 1 : Divisor k F) = n := by
+    rw [Divisor.deg_smul,
+      show Divisor.deg (Finsupp.single P 1 : Divisor k F) = 1 from by
+        rw [Divisor.deg, Finsupp.sum_single_index rfl],
+      mul_one]
+  rcases lt_or_ge n 0 with hn | hn
+  · rw [Divisor.defect, hdeg,
+      riemannSpace_eq_bot_of_deg_neg (by rw [hdeg]; omega), finrank_bot]
+    omega
+  · lift n to ℕ using hn with N
+    have hmem : ∀ j : Fin (N + 1), t ^ (j : ℕ) ∈
+        RiemannSpace ((N : ℤ) • Finsupp.single P 1) := by
+      intro j
+      have h1 := pow_mem_riemannSpace_smul_poleDivisor (k := k)
+        (f := t) ht0 j.is_le
+      rwa [hpd] at h1
+    have hw : LinearIndependent k fun j : Fin (N + 1) ↦
+        (⟨t ^ (j : ℕ), hmem j⟩ :
+          ↥(RiemannSpace ((N : ℤ) • Finsupp.single P 1))) := by
+      apply LinearIndependent.of_comp
+        (RiemannSpace ((N : ℤ) • Finsupp.single P 1)).subtype
+      exact linearIndependent_pow_of_transcendental htr (N + 1)
+    have hcard := hw.fintype_card_le_finrank
+    rw [Fintype.card_fin] at hcard
+    rw [Divisor.defect, hdeg]
+    omega
+
+/-- **Rational function fields have genus zero** — the converse of the
+genus-zero checkpoint. -/
+theorem genus_eq_zero_of_adjoin_eq_top (htr : Transcendental k t)
+    (htop : adjoin k ({t} : Set F) = ⊤) : genus k F = 0 := by
+  obtain ⟨P, hpd⟩ := exists_poleDivisor_eq_single htr htop
+  refine le_antisymm ?_ genus_nonneg
+  rw [genus]
+  refine csSup_le ⟨_, ⟨0, rfl⟩⟩ ?_
+  rintro r ⟨D, rfl⟩
+  change Divisor.defect D ≤ 0
+  have hdegE : (D - D.deg • Finsupp.single P 1).deg = 0 := by
+    rw [Divisor.deg_sub, Divisor.deg_smul,
+      show Divisor.deg (Finsupp.single P 1 : Divisor k F) = 1 from by
+        rw [Divisor.deg, Finsupp.sum_single_index rfl]]
+    ring
+  obtain ⟨f, hf0, hfD⟩ :=
+    exists_divisorOf_eq_of_deg_eq_zero htr htop hpd hdegE
+  have hD : D = D.deg • Finsupp.single P 1 + divisorOf k f := by
+    rw [hfD]
+    abel
+  rw [hD, Divisor.defect_add_divisorOf _ hf0]
+  exact defect_smul_single_nonpos htr hpd D.deg
+
+/-- **The genus-zero classification**: a one-variable function field
+over an algebraically closed base has genus zero exactly when it is
+rational. -/
+theorem genus_eq_zero_iff_exists_generator :
+    genus k F = 0 ↔ ∃ t : F, Transcendental k t ∧
+      adjoin k ({t} : Set F) = ⊤ := by
+  constructor
+  · intro hg
+    obtain ⟨P⟩ := (inferInstance : Nonempty (Place k F))
+    obtain ⟨t, htr, -, htop⟩ := exists_generator_of_genus_eq_zero hg P
+    exact ⟨t, htr, htop⟩
+  · rintro ⟨t, htr, htop⟩
+    exact genus_eq_zero_of_adjoin_eq_top htr htop
+
 end
 
 end AclGeom
