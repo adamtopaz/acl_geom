@@ -24,6 +24,7 @@ import AclGeom.Correspondence.TranslationDescent
 import AclGeom.Correspondence.GroupChunk
 import AclGeom.Correspondence.Additive
 import AclGeom.Curves.Approximation
+import AclGeom.Curves.DegreeBound
 import AclGeom.Curves.Divisors
 import AclGeom.Curves.Places
 import AclGeom.Curves.Residues
