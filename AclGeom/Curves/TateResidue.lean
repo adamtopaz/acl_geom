@@ -369,6 +369,7 @@ omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Place.conjProj_apply (P : Place k F) (g x : F) :
     P.conjProj g x = g * P.proj (g⁻¹ * x) := rfl
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- The conjugated projection is idempotent. -/
 theorem Place.isIdempotentElem_conjProj (P : Place k F) {g : F}
     (hg : g ≠ 0) : IsIdempotentElem (P.conjProj g) := by
@@ -379,6 +380,7 @@ theorem Place.isIdempotentElem_conjProj (P : Place k F) {g : F}
   rw [← mul_assoc, inv_mul_cancel₀ hg, one_mul]
   exact P.proj_eq_self (P.proj_mem _)
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- The residue commutator at `(g⁻¹, g)` is the difference of the two
 projections. -/
 theorem Place.residue_commutator_inv_self (P : Place k F) {g : F}
