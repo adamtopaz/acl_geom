@@ -26,6 +26,7 @@ import AclGeom.Correspondence.Additive
 import AclGeom.Curves.Adeles
 import AclGeom.Curves.Approximation
 import AclGeom.Curves.DegreeBound
+import AclGeom.Curves.Differentials
 import AclGeom.Curves.Divisors
 import AclGeom.Curves.Genus
 import AclGeom.Curves.Places
