@@ -775,6 +775,116 @@ theorem tateTrace_comp_sub_comp_comm_of_sq (α β : Module.End k V)
   rw [hsub, hadd, hflip, hneg]
   ring
 
+/-- **Compatible projections for a spanning pair**: two subspaces that
+together span the module admit projections onto each whose sum is the
+identity plus an operator into the intersection — project onto each
+along a complement of the intersection inside the other. -/
+theorem exists_projection_pair {A B : Submodule k V}
+    (hsup : A ⊔ B = ⊤) :
+    ∃ εA εB : Module.End k V,
+      (∀ x : V, εA x ∈ A) ∧ (∀ x ∈ A, εA x = x) ∧
+      (∀ x : V, εB x ∈ B) ∧ (∀ x ∈ B, εB x = x) ∧
+      (∀ x : V, εA x + εB x - x ∈ A ⊓ B) := by
+  classical
+  obtain ⟨C₁', hC₁'⟩ :=
+    Submodule.exists_isCompl ((A ⊓ B).comap B.subtype)
+  obtain ⟨C₂', hC₂'⟩ :=
+    Submodule.exists_isCompl ((A ⊓ B).comap A.subtype)
+  set C₁ : Submodule k V := C₁'.map B.subtype with hC₁def
+  set C₂ : Submodule k V := C₂'.map A.subtype with hC₂def
+  have hC₁B : C₁ ≤ B := Submodule.map_subtype_le _ _
+  have hC₂A : C₂ ≤ A := Submodule.map_subtype_le _ _
+  have hsup₁ : (A ⊓ B) ⊔ C₁ = B := by
+    have h1 := congrArg (Submodule.map B.subtype) hC₁'.sup_eq_top
+    rw [Submodule.map_sup, Submodule.map_comap_subtype,
+      Submodule.map_subtype_top,
+      inf_eq_right.2 (inf_le_right : A ⊓ B ≤ B)] at h1
+    exact h1
+  have hsup₂ : (A ⊓ B) ⊔ C₂ = A := by
+    have h1 := congrArg (Submodule.map A.subtype) hC₂'.sup_eq_top
+    rw [Submodule.map_sup, Submodule.map_comap_subtype,
+      Submodule.map_subtype_top,
+      inf_eq_right.2 (inf_le_left : A ⊓ B ≤ A)] at h1
+    exact h1
+  have hinf₁ : (A ⊓ B) ⊓ C₁ = ⊥ := by
+    refine le_antisymm ?_ bot_le
+    rintro x ⟨hxAB, hxC₁⟩
+    obtain ⟨c, hc, rfl⟩ := hxC₁
+    have h2 : c ∈ (A ⊓ B).comap B.subtype ⊓ C₁' := ⟨hxAB, hc⟩
+    rw [hC₁'.inf_eq_bot] at h2
+    rw [Submodule.mem_bot] at h2 ⊢
+    rw [h2]
+    exact map_zero _
+  have hinf₂ : (A ⊓ B) ⊓ C₂ = ⊥ := by
+    refine le_antisymm ?_ bot_le
+    rintro x ⟨hxAB, hxC₂⟩
+    obtain ⟨c, hc, rfl⟩ := hxC₂
+    have h2 : c ∈ (A ⊓ B).comap A.subtype ⊓ C₂' := ⟨hxAB, hc⟩
+    rw [hC₂'.inf_eq_bot] at h2
+    rw [Submodule.mem_bot] at h2 ⊢
+    rw [h2]
+    exact map_zero _
+  have hcomplA : IsCompl A C₁ := by
+    refine IsCompl.of_eq ?_ ?_
+    · refine le_antisymm ?_ bot_le
+      have h1 : A ⊓ C₁ ≤ (A ⊓ B) ⊓ C₁ :=
+        le_inf (le_inf inf_le_left (inf_le_right.trans hC₁B))
+          inf_le_right
+      rw [hinf₁] at h1
+      exact h1
+    · rw [← hsup]
+      conv_rhs => rw [← hsup₁, ← sup_assoc, sup_inf_self]
+  have hcomplB : IsCompl B C₂ := by
+    refine IsCompl.of_eq ?_ ?_
+    · refine le_antisymm ?_ bot_le
+      have h1 : B ⊓ C₂ ≤ (A ⊓ B) ⊓ C₂ :=
+        le_inf (le_inf (inf_le_right.trans hC₂A) inf_le_left)
+          inf_le_right
+      rw [hinf₂] at h1
+      exact h1
+    · rw [← hsup, sup_comm A B]
+      conv_rhs => rw [← hsup₂, ← sup_assoc, inf_comm A B,
+        sup_inf_self]
+  refine ⟨A.projection C₁ hcomplA, B.projection C₂ hcomplB,
+    fun x ↦ Submodule.projection_apply_mem hcomplA x,
+    fun x hx ↦ ?_, fun x ↦ Submodule.projection_apply_mem hcomplB x,
+    fun x hx ↦ ?_, fun x ↦ ?_⟩
+  · exact Submodule.projection_apply_left hcomplA ⟨x, hx⟩
+  · exact Submodule.projection_apply_left hcomplB ⟨x, hx⟩
+  · have h1 : x - A.projection C₁ hcomplA x ∈ C₁ := by
+      have h2 := LinearMap.congr_fun
+        (Submodule.projection_add_projection_eq_id hcomplA) x
+      rw [LinearMap.add_apply, LinearMap.id_apply] at h2
+      have h3 : x - A.projection C₁ hcomplA x =
+          C₁.projection A hcomplA.symm x :=
+        sub_eq_of_eq_add' h2.symm
+      rw [h3]
+      exact Submodule.projection_apply_mem hcomplA.symm x
+    have h4 : x - B.projection C₂ hcomplB x ∈ C₂ := by
+      have h2 := LinearMap.congr_fun
+        (Submodule.projection_add_projection_eq_id hcomplB) x
+      rw [LinearMap.add_apply, LinearMap.id_apply] at h2
+      have h3 : x - B.projection C₂ hcomplB x =
+          C₂.projection B hcomplB.symm x :=
+        sub_eq_of_eq_add' h2.symm
+      rw [h3]
+      exact Submodule.projection_apply_mem hcomplB.symm x
+    refine ⟨?_, ?_⟩
+    · have h5 : A.projection C₁ hcomplA x + B.projection C₂ hcomplB x -
+          x = A.projection C₁ hcomplA x -
+            (x - B.projection C₂ hcomplB x) := by
+        abel
+      rw [h5]
+      exact Submodule.sub_mem _
+        (Submodule.projection_apply_mem hcomplA x) (hC₂A h4)
+    · have h5 : A.projection C₁ hcomplA x + B.projection C₂ hcomplB x -
+          x = B.projection C₂ hcomplB x -
+            (x - A.projection C₁ hcomplA x) := by
+        abel
+      rw [h5]
+      exact Submodule.sub_mem _
+        (Submodule.projection_apply_mem hcomplB x) (hC₁B h1)
+
 /-- Almost-stability propagates from generators to the whole monoid
 of words. -/
 theorem almostLE_map_closure_of {A : Submodule k V}

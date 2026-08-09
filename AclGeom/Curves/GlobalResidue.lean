@@ -178,6 +178,85 @@ theorem almostLE_map_closure_adeleSMul (f g : F) (D : Divisor k F) :
     rw [hw]
     exact almostLE_map_adeleSMul g D
 
+/-- The diagonal copy of the function field inside the adele
+module. -/
+noncomputable def adeleDiagonalIn : Submodule k ↥(adeleSubmodule k F) :=
+  (LinearMap.range (adeleDiagonal k F)).comap
+    (adeleSubmodule k F).subtype
+
+theorem mem_adeleDiagonalIn_iff {α : ↥(adeleSubmodule k F)} :
+    α ∈ adeleDiagonalIn (k := k) (F := F) ↔
+      ∃ f : F, adeleDiagonal k F f = (α : (P : Place k F) → F) :=
+  Iff.rfl
+
+/-- The diagonal is invariant under adelic multiplication. -/
+theorem adeleSMul_mem_adeleDiagonalIn (f : F)
+    {α : ↥(adeleSubmodule k F)}
+    (hα : α ∈ adeleDiagonalIn (k := k) (F := F)) :
+    adeleSMul f α ∈ adeleDiagonalIn (k := k) (F := F) := by
+  obtain ⟨g, hg⟩ := hα
+  refine ⟨f * g, ?_⟩
+  change adeleDiagonal k F (f * g) = adeleMulMap k f ↑α
+  rw [← adeleMulMap_diagonal, hg]
+  rfl
+
+/-- **1.5.8 inside the adele module**: when the bounded space and the
+diagonal fill the adeles at the ambient level, they fill the adele
+module. -/
+theorem adeleSpaceIn_sup_adeleDiagonalIn {D : Divisor k F}
+    (hD : adeleSubmodule k F =
+      adeleSpace D ⊔ LinearMap.range (adeleDiagonal k F)) :
+    adeleSpaceIn (k := k) (F := F) D ⊔ adeleDiagonalIn = ⊤ := by
+  rw [eq_top_iff]
+  intro α _
+  have h1 : (α : (P : Place k F) → F) ∈
+      adeleSpace D ⊔ LinearMap.range (adeleDiagonal k F) := by
+    rw [← hD]
+    exact α.2
+  obtain ⟨u, hu, w, hw, huw⟩ := Submodule.mem_sup.1 h1
+  have hu' : u ∈ adeleSubmodule k F := adeleSpace_le_adeleSubmodule D hu
+  have hw' : w ∈ adeleSubmodule k F := by
+    obtain ⟨f, rfl⟩ := hw
+    exact adeleDiagonal_mem_adeleSubmodule f
+  exact Submodule.mem_sup.2
+    ⟨⟨u, hu'⟩, hu, ⟨w, hw'⟩, hw, Subtype.ext huw⟩
+
+/-- The Riemann–Roch space maps to the adele module diagonally. -/
+noncomputable def riemannToAdele (D : Divisor k F) :
+    ↥(RiemannSpace D) →ₗ[k] ↥(adeleSubmodule k F) :=
+  LinearMap.codRestrict _
+    ((adeleDiagonal k F).comp (RiemannSpace D).subtype)
+    fun _ ↦ adeleDiagonal_mem_adeleSubmodule _
+
+/-- The intersection of the bounded space with the diagonal is the
+diagonal copy of the Riemann–Roch space. -/
+theorem range_riemannToAdele (D : Divisor k F) :
+    LinearMap.range (riemannToAdele (k := k) (F := F) D) =
+      adeleSpaceIn D ⊓ adeleDiagonalIn := by
+  refine le_antisymm ?_ ?_
+  · rintro α ⟨f, rfl⟩
+    refine Submodule.mem_inf.2 ⟨?_, ?_⟩
+    · rw [mem_adeleSpaceIn_iff]
+      change adeleDiagonal k F (f : F) ∈ adeleSpace D
+      exact adeleDiagonal_mem_adeleSpace_iff.2 f.2
+    · exact ⟨(f : F), rfl⟩
+  · intro α hα
+    obtain ⟨hα1, hα2⟩ := Submodule.mem_inf.1 hα
+    obtain ⟨f, hf⟩ := hα2
+    have hfL : f ∈ RiemannSpace D := by
+      rw [← adeleDiagonal_mem_adeleSpace_iff (D := D), hf]
+      exact hα1
+    exact ⟨⟨f, hfL⟩, Subtype.ext hf⟩
+
+/-- The intersection is finite-dimensional for effective divisors. -/
+theorem finiteDimensional_adeleSpaceIn_inf_adeleDiagonalIn
+    {D : Divisor k F} (hD : 0 ≤ D) :
+    FiniteDimensional k
+      ↥(adeleSpaceIn (k := k) (F := F) D ⊓ adeleDiagonalIn) := by
+  haveI := (finiteDimensional_riemannSpace_of_nonneg hD).1
+  rw [← range_riemannToAdele]
+  exact LinearMap.finiteDimensional_range _
+
 /-- **The global residue commutator is trace-class** relative to any
 bounded adele space, for any projection onto it. -/
 theorem isTraceClass_adeleSMul_commutator (f g : F) (D : Divisor k F)
