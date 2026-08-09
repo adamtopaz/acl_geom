@@ -221,5 +221,67 @@ whose pole sits at any prescribed place:
 
 {docstring AclGeom.exists_generator_of_genus_eq_zero}
 
-Next in this library: the canonical class and automorphism rigidity,
-tracked on the curve-theory issue.
+# Adeles and the index of specialty
+%%%
+tag := "adeles"
+%%%
+
+The correction term in Riemann's inequality is computed adelically. The
+adele space collects place-indexed families that are integral almost
+everywhere, filtered by divisor bounds whose diagonal slice is exactly
+the Riemann–Roch space; unlike `L(D)`, the bounded adele spaces grow by
+exactly a line per point — the spanning monomial always exists — and
+the dichotomy trades that line against the growth of `L`:
+
+{docstring AclGeom.adeleSubmodule}
+
+{docstring AclGeom.adeleSpace_add_single}
+
+{docstring AclGeom.adeleMonomial_mem_sup_iff}
+
+The genus is attained and stays attained upward — the stabilized form
+of Riemann's theorem — which yields adelic surjectivity with no
+dimension bookkeeping, and then the index of specialty turns Riemann's
+inequality into an identity:
+
+{docstring AclGeom.defect_eq_genus_of_le}
+
+{docstring AclGeom.adeleSubmodule_eq_sup_of_defect_eq_genus}
+
+{docstring AclGeom.finiteDimensional_finrank_specialtyQuotient}
+
+{docstring AclGeom.finrank_riemannSpace_eq_add_specialtyIndex}
+
+# Weil differentials and the canonical class
+%%%
+tag := "canonical"
+%%%
+
+A Weil differential of level `D` is a functional on the adeles killing
+`A(D) + F`; the space of them is the dual of the specialty quotient, of
+dimension `i(D)`. Multiplication by a field element shifts levels by
+principal divisors, injectively — so the levels of a fixed nonzero
+differential are degree-bounded, and being join-closed they admit a
+maximum: the divisor of the differential.
+
+{docstring AclGeom.weilDifferentialsAt}
+
+{docstring AclGeom.deg_le_of_mem_weilDifferentialsAt}
+
+{docstring AclGeom.exists_isGreatest_level}
+
+Any two nonzero differentials are proportional over the function field
+— the two-parameter double-count against `Ω(−B)` collapses for large
+`deg B` — and proportionality plus the maximal-level shift make the
+multiplication pairing `L(W − D) → Ω(D)` bijective. This is the
+duality theorem, and evaluating it at `D = 0` and `D = W` pins the
+canonical class:
+
+{docstring AclGeom.exists_eq_comp_adeleSMul}
+
+{docstring AclGeom.specialtyIndex_eq_finrank_riemannSpace}
+
+{docstring AclGeom.exists_canonicalDivisor}
+
+Next in this library: automorphism rigidity via vector fields against
+the canonical degree `2g − 2`, tracked on the curve-theory issue.
