@@ -175,7 +175,7 @@ theorem IsTateCore.trace_restrict_eq_of_le {θ : Module.End k V}
     have h2 : ((ψ ^ n) y : V) = (θ ^ n) (y : V) := by
       rw [hψ, Module.End.pow_restrict]
       rfl
-    show ((ψ ^ n) y : V) ∈ U
+    change ((ψ ^ n) y : V) ∈ U
     rw [h2]
     exact hn _
   have hdecomp := trace_eq_trace_restrict_add_trace_mapQ ψ hstab
@@ -199,7 +199,7 @@ theorem IsTateCore.trace_restrict_eq_of_le {θ : Module.End k V}
         ((Submodule.comapSubtypeEquivOfLe hUW).symm x) : ↥W) : V) =
         θ ((((Submodule.comapSubtypeEquivOfLe hUW).symm x :
           ↥(U.comap W.subtype)) : ↥W) : V) := by
-      rw [LinearMap.restrict_coe_apply, hψ, LinearMap.restrict_coe_apply]
+      rw [LinearMap.coe_restrict_apply, hψ, LinearMap.coe_restrict_apply]
     have h9 : ((((Submodule.comapSubtypeEquivOfLe hUW).symm x :
         ↥(U.comap W.subtype)) : ↥W) : V) = (x : V) := by
       have h10 : (((Submodule.comapSubtypeEquivOfLe hUW)
