@@ -35,6 +35,7 @@ import AclGeom.Curves.Rational
 import AclGeom.Curves.Residues
 import AclGeom.Curves.RiemannRoch
 import AclGeom.Curves.Specialty
+import AclGeom.Tate.FinitePotent
 import AclGeom.Correspondence.Multiplicative
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Config.Language
