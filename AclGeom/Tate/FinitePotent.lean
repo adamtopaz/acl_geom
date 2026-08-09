@@ -520,6 +520,134 @@ theorem AlmostLE.sup {A B C : Submodule k V} (h₁ : AlmostLE A C)
   · exact hle₂.trans (sup_le le_sup_left
       ((le_sup_right : W₂ ≤ W₁ ⊔ W₂).trans le_sup_right))
 
+theorem AlmostLE.of_finiteDimensional {A B : Submodule k V}
+    [FiniteDimensional k A] : AlmostLE A B :=
+  ⟨A, inferInstance, le_sup_right⟩
+
+section TraceClass
+
+/-- **Tate's trace class `E₀`** relative to a subspace `A`: the range
+is almost inside `A`, and the image of `A` is finite-dimensional. -/
+structure IsTraceClass (A : Submodule k V) (T : Module.End k V) :
+    Prop where
+  range_almostLE : AlmostLE (LinearMap.range T) A
+  finite_map : FiniteDimensional k (A.map T)
+
+theorem IsTraceClass.zero (A : Submodule k V) :
+    IsTraceClass A (0 : Module.End k V) := by
+  constructor
+  · rw [LinearMap.range_zero]
+    exact AlmostLE.of_le bot_le
+  · have h1 : A.map (0 : Module.End k V) ≤ ⊥ := by
+      rintro x ⟨y, -, rfl⟩
+      simp
+    haveI : FiniteDimensional k (⊥ : Submodule k V) := inferInstance
+    exact Submodule.finiteDimensional_of_le h1
+
+/-- Products of two trace-class operators have finite-dimensional
+range. -/
+theorem IsTraceClass.finiteDimensional_range_comp
+    {A : Submodule k V} {T S : Module.End k V}
+    (hT : IsTraceClass A T) (hS : IsTraceClass A S) :
+    FiniteDimensional k (LinearMap.range (T ∘ₗ S)) := by
+  obtain ⟨W, hW, hle⟩ := hS.range_almostLE
+  haveI := hW
+  haveI := hT.finite_map
+  have h1 : LinearMap.range (T ∘ₗ S) ≤ A.map T ⊔ W.map T := by
+    rw [LinearMap.range_comp]
+    refine (Submodule.map_mono hle).trans ?_
+    rw [Submodule.map_sup]
+  exact Submodule.finiteDimensional_of_le h1
+
+/-- The trace class is closed under addition. -/
+theorem IsTraceClass.add {A : Submodule k V} {T S : Module.End k V}
+    (hT : IsTraceClass A T) (hS : IsTraceClass A S) :
+    IsTraceClass A (T + S) := by
+  constructor
+  · refine AlmostLE.mono_left ?_
+      (AlmostLE.sup hT.range_almostLE hS.range_almostLE)
+    rintro x ⟨y, rfl⟩
+    exact Submodule.add_mem _ (Submodule.mem_sup_left ⟨y, rfl⟩)
+      (Submodule.mem_sup_right ⟨y, rfl⟩)
+  · haveI := hT.finite_map
+    haveI := hS.finite_map
+    have h1 : A.map (T + S) ≤ A.map T ⊔ A.map S := by
+      rintro x ⟨y, hy, rfl⟩
+      exact Submodule.add_mem _
+        (Submodule.mem_sup_left ⟨y, hy, rfl⟩)
+        (Submodule.mem_sup_right ⟨y, hy, rfl⟩)
+    exact Submodule.finiteDimensional_of_le h1
+
+/-- The trace class is closed under negation. -/
+theorem IsTraceClass.neg {A : Submodule k V} {T : Module.End k V}
+    (hT : IsTraceClass A T) : IsTraceClass A (-T) := by
+  constructor
+  · refine AlmostLE.mono_left ?_ hT.range_almostLE
+    rintro x ⟨y, rfl⟩
+    exact ⟨-y, by simp⟩
+  · haveI := hT.finite_map
+    have h1 : A.map (-T) ≤ A.map T := by
+      rintro x ⟨y, hy, rfl⟩
+      exact ⟨-y, Submodule.neg_mem _ hy, by simp⟩
+    exact Submodule.finiteDimensional_of_le h1
+
+theorem IsTraceClass.sub {A : Submodule k V} {T S : Module.End k V}
+    (hT : IsTraceClass A T) (hS : IsTraceClass A S) :
+    IsTraceClass A (T - S) := by
+  rw [sub_eq_add_neg]
+  exact hT.add hS.neg
+
+/-- The trace class absorbs left composition with operators respecting
+the commensurability class. -/
+theorem IsTraceClass.comp_left {A : Submodule k V}
+    {T g : Module.End k V} (hT : IsTraceClass A T)
+    (hg : AlmostLE (A.map g) A) : IsTraceClass A (g ∘ₗ T) := by
+  obtain ⟨W, hW, hle⟩ := hT.range_almostLE
+  haveI := hW
+  constructor
+  · have h1 : LinearMap.range (g ∘ₗ T) ≤ A.map g ⊔ W.map g := by
+      rw [LinearMap.range_comp]
+      refine (Submodule.map_mono hle).trans ?_
+      rw [Submodule.map_sup]
+    refine AlmostLE.mono_left h1 (AlmostLE.sup hg ?_)
+    exact AlmostLE.of_finiteDimensional
+  · haveI := hT.finite_map
+    have h2 : A.map (g ∘ₗ T) = (A.map T).map g := by
+      rw [Submodule.map_comp]
+    rw [h2]
+    infer_instance
+
+/-- The trace class absorbs right composition with any operator whose
+image of `A` is almost inside `A`. -/
+theorem IsTraceClass.comp_right {A : Submodule k V}
+    {T g : Module.End k V} (hT : IsTraceClass A T)
+    (hg : AlmostLE (A.map g) A) : IsTraceClass A (T ∘ₗ g) := by
+  constructor
+  · exact AlmostLE.mono_left (LinearMap.range_comp_le_range _ _)
+      hT.range_almostLE
+  · obtain ⟨W, hW, hle⟩ := hg
+    haveI := hW
+    haveI := hT.finite_map
+    have h1 : A.map (T ∘ₗ g) ≤ A.map T ⊔ W.map T := by
+      rw [Submodule.map_comp]
+      refine (Submodule.map_mono hle).trans ?_
+      rw [Submodule.map_sup]
+    exact Submodule.finiteDimensional_of_le h1
+
+/-- Trace-class operators are finite-potent: their square has
+finite-dimensional range. -/
+theorem IsTraceClass.isFinitePotent {A : Submodule k V}
+    {T : Module.End k V} (hT : IsTraceClass A T) :
+    IsFinitePotent T := by
+  refine ⟨2, ?_⟩
+  have h1 : (T ^ 2 : Module.End k V) = T ∘ₗ T := by
+    rw [pow_two]
+    rfl
+  rw [h1]
+  exact hT.finiteDimensional_range_comp hT
+
+end TraceClass
+
 /-- **Commutators of finite-rank composites are traceless.** -/
 theorem tateTrace_comp_sub_comp_comm (f g : Module.End k V)
     [FiniteDimensional k (LinearMap.range (f ∘ₗ g))]

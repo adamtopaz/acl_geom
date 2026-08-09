@@ -289,6 +289,64 @@ theorem Place.finiteDimensional_commutatorProj_map (P : Place k F)
     exact ⟨w, hw, rfl⟩
   exact Submodule.finiteDimensional_of_le hmap
 
+/-- Multiplication respects the commensurability class, including by
+zero. -/
+theorem Place.mulLeft_map_almostLE (P : Place k F) (h : F) :
+    AlmostLE (P.toSubmodule.map (LinearMap.mulLeft k h))
+      P.toSubmodule := by
+  rcases eq_or_ne h 0 with rfl | hh
+  · refine AlmostLE.of_le ?_
+    rintro x ⟨y, -, rfl⟩
+    rw [LinearMap.mulLeft_apply, zero_mul]
+    exact Submodule.zero_mem _
+  · exact P.mulLeft_almostLE hh
+
+/-- The commutator operator is trace-class. -/
+theorem Place.isTraceClass_commutatorProj (P : Place k F) (h : F) :
+    IsTraceClass P.toSubmodule (P.commutatorProj h) := by
+  rcases eq_or_ne h 0 with rfl | hh
+  · have h1 : P.commutatorProj (0 : F) = 0 := by
+      refine LinearMap.ext fun x ↦ ?_
+      rw [Place.commutatorProj_apply, zero_mul, zero_mul, map_zero,
+        sub_zero, LinearMap.zero_apply]
+    rw [h1]
+    exact IsTraceClass.zero _
+  · exact ⟨P.commutatorProj_range_almostLE hh,
+      P.finiteDimensional_commutatorProj_map hh⟩
+
+/-- **Tate's commutator identity**: the residue commutator decomposes
+through the local operators, using commutativity of multiplication. -/
+theorem Place.commutator_eq (P : Place k F) (f g : F) :
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f) =
+    P.commutatorProj (f * g) -
+      LinearMap.mulLeft k g ∘ₗ P.commutatorProj f := by
+  refine LinearMap.ext fun x ↦ ?_
+  simp only [LinearMap.sub_apply, LinearMap.comp_apply,
+    LinearMap.mulLeft_apply, Place.commutatorProj_apply, map_sub]
+  have h1 : f * (g * x) = f * g * x := by ring
+  rw [h1]
+  ring
+
+/-- **The Tate residue** of the pair `(f, g)` at a place — morally
+`res_P (f dg)`: the trace of the commutator of `ε ∘ (mult f)` with
+`mult g`. -/
+noncomputable def Place.residue (P : Place k F) (f g : F) : k :=
+  tateTrace ((P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+    LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f))
+
+/-- The residue commutator is trace-class, hence finite-potent with a
+well-defined trace. -/
+theorem Place.isTraceClass_residue_commutator (P : Place k F)
+    (f g : F) :
+    IsTraceClass P.toSubmodule
+      ((P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)) := by
+  rw [P.commutator_eq f g]
+  exact (P.isTraceClass_commutatorProj (f * g)).sub
+    ((P.isTraceClass_commutatorProj f).comp_left
+      (P.mulLeft_map_almostLE g))
+
 end Projection
 
 end
