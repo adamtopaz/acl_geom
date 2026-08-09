@@ -771,6 +771,72 @@ theorem tateTrace_of_isNilpotent {θ : Module.End k V}
     rw [hx0, map_zero]
   rw [h1, map_zero]
 
+/-- The range of a finite sum of operators with finite-dimensional
+ranges is finite-dimensional. -/
+theorem finiteDimensional_range_finset_sum {ι : Type*} (t : Finset ι)
+    (Y : ι → Module.End k V)
+    (ht : ∀ j ∈ t, FiniteDimensional k (LinearMap.range (Y j))) :
+    FiniteDimensional k (LinearMap.range (∑ j ∈ t, Y j)) := by
+  classical
+  haveI : ∀ j : ↥t, FiniteDimensional k (LinearMap.range (Y j)) :=
+    fun j ↦ ht j j.2
+  refine Submodule.finiteDimensional_of_le
+    (S₂ := t.attach.sup fun j ↦ LinearMap.range (Y j.val)) ?_
+  rintro x ⟨y, rfl⟩
+  have h1 : (∑ j ∈ t, Y j) y = ∑ j ∈ t.attach, Y j.val y := by
+    rw [LinearMap.sum_apply]
+    exact (Finset.sum_attach t fun j ↦ Y j y).symm
+  rw [h1]
+  refine Submodule.sum_mem _ fun j _ ↦ ?_
+  exact Finset.le_sup (f := fun j : ↥t ↦ LinearMap.range (Y j.val))
+    (Finset.mem_attach t j) ⟨y, rfl⟩
+
+/-- **Additivity of the Tate trace over finite families** whose
+pairwise composites all have finite-dimensional range. -/
+theorem tateTrace_finset_sum {ι : Type*} (s : Finset ι)
+    (X : ι → Module.End k V)
+    (h : ∀ i ∈ s, ∀ j ∈ s, FiniteDimensional k
+      (LinearMap.range (X i ∘ₗ X j))) :
+    tateTrace (∑ i ∈ s, X i) = ∑ i ∈ s, tateTrace (X i) := by
+  classical
+  induction s using Finset.induction_on with
+  | empty => simp [tateTrace_zero]
+  | insert a s ha ih =>
+    have hrow : ∀ i ∈ insert a s, FiniteDimensional k
+        (LinearMap.range (X i ∘ₗ ∑ j ∈ s, X j)) := by
+      intro i hi
+      have h1 : X i ∘ₗ (∑ j ∈ s, X j) = ∑ j ∈ s, (X i ∘ₗ X j) :=
+        Finset.mul_sum s X (X i)
+      rw [h1]
+      exact finiteDimensional_range_finset_sum s _
+        fun j hj ↦ h i hi j (Finset.mem_insert_of_mem hj)
+    haveI I1 : FiniteDimensional k
+        (LinearMap.range (X a ∘ₗ X a)) :=
+      h a (Finset.mem_insert_self a s) a (Finset.mem_insert_self a s)
+    haveI I2 : FiniteDimensional k
+        (LinearMap.range (X a ∘ₗ ∑ j ∈ s, X j)) :=
+      hrow a (Finset.mem_insert_self a s)
+    haveI I3 : FiniteDimensional k
+        (LinearMap.range ((∑ j ∈ s, X j) ∘ₗ X a)) := by
+      have h1 : (∑ j ∈ s, X j) ∘ₗ X a = ∑ j ∈ s, (X j ∘ₗ X a) :=
+        Finset.sum_mul s X (X a)
+      rw [h1]
+      exact finiteDimensional_range_finset_sum s _
+        fun j hj ↦ h j (Finset.mem_insert_of_mem hj) a
+          (Finset.mem_insert_self a s)
+    haveI I4 : FiniteDimensional k
+        (LinearMap.range ((∑ i ∈ s, X i) ∘ₗ ∑ j ∈ s, X j)) := by
+      have h1 : (∑ i ∈ s, X i) ∘ₗ (∑ j ∈ s, X j) =
+          ∑ i ∈ s, (X i ∘ₗ ∑ j ∈ s, X j) :=
+        Finset.sum_mul s X _
+      rw [h1]
+      exact finiteDimensional_range_finset_sum s _
+        fun i hi ↦ hrow i (Finset.mem_insert_of_mem hi)
+    rw [Finset.sum_insert ha, Finset.sum_insert ha,
+      tateTrace_add_of_sq,
+      ih fun i hi j hj ↦ h i (Finset.mem_insert_of_mem hi) j
+        (Finset.mem_insert_of_mem hj)]
+
 /-- **Traceless commutators, squared-range version**: when the squares
 and the mixed products of `α ∘ β` and `β ∘ α` have finite-dimensional
 range — as happens when both composites are trace-class — the

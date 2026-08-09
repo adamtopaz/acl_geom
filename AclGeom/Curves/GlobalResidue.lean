@@ -498,6 +498,77 @@ theorem adeleProj_commutator_pow_apply (D : Divisor k F) (f g : F)
       Module.End.mul_apply, ih]
     congr 1
 
+/-- Evaluation of an adele at a place. -/
+noncomputable def adeleEval (P : Place k F) :
+    ↥(adeleSubmodule k F) →ₗ[k] F :=
+  (LinearMap.proj P).comp (adeleSubmodule k F).subtype
+
+theorem adeleEval_apply (P : Place k F) (α : ↥(adeleSubmodule k F)) :
+    adeleEval P α = (α : (Q : Place k F) → F) P := rfl
+
+/-- The single-place block of the global residue commutator: evaluate
+at `P`, apply the local commutator, include back at `P`. -/
+noncomputable def blockOp (D : Divisor k F) (f g : F)
+    (P : Place k F) : Module.End k ↥(adeleSubmodule k F) :=
+  adeleSingle P ∘ₗ
+    ((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+        LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f)) ∘ₗ
+    adeleEval P
+
+theorem blockOp_apply (D : Divisor k F) (f g : F) (P : Place k F)
+    (α : ↥(adeleSubmodule k F)) :
+    blockOp D f g P α = adeleSingle P
+      (((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f))
+        ((α : (Q : Place k F) → F) P)) := rfl
+
+/-- Blocks at distinct places compose to zero. -/
+theorem blockOp_comp_blockOp_of_ne (D : Divisor k F) (f g : F)
+    {P Q : Place k F} (hPQ : P ≠ Q) :
+    blockOp D f g P ∘ₗ blockOp D f g Q = 0 := by
+  refine LinearMap.ext fun α ↦ ?_
+  rw [LinearMap.comp_apply, LinearMap.zero_apply, blockOp_apply,
+    blockOp_apply]
+  have h1 : ((adeleSingle Q
+      (((Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f))
+        ((α : (R : Place k F) → F) Q)) : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) P = 0 :=
+    adeleSinglePi_apply_ne Q hPQ _
+  rw [h1, map_zero, map_zero]
+
+/-- Squares of blocks have finite-dimensional range. -/
+theorem finiteDimensional_range_blockOp_comp_self (D : Divisor k F)
+    (f g : F) (P : Place k F) :
+    FiniteDimensional k (LinearMap.range
+      (blockOp D f g P ∘ₗ blockOp D f g P)) := by
+  have hTC := P.isTraceClass_filtrationProj_commutator f g (D P).toNat
+  haveI := hTC.finiteDimensional_range_comp hTC
+  refine Submodule.finiteDimensional_of_le
+    (S₂ := (LinearMap.range
+      (((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f)) ∘ₗ
+        ((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f)))).map
+      (adeleSingle P)) ?_
+  rintro x ⟨α, rfl⟩
+  rw [LinearMap.comp_apply, blockOp_apply, blockOp_apply]
+  refine ⟨_, ⟨(α : (Q : Place k F) → F) P, rfl⟩, ?_⟩
+  congr 1
+  rw [LinearMap.comp_apply]
+  congr 1
+  exact (adeleSinglePi_apply_self P _).symm
+
 /-- **The global commutator trace vanishes** (the heart of the residue
 theorem): for any projection `π` onto a bounded adele space that,
 together with the diagonal, fills the adele module, the trace of
