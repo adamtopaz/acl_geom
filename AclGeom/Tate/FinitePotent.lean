@@ -510,6 +510,16 @@ theorem AlmostLE.mono_left {A B C : Submodule k V} (hAB : A ≤ B)
     (h : AlmostLE B C) : AlmostLE A C :=
   (AlmostLE.of_le hAB).trans h
 
+theorem AlmostLE.sup {A B C : Submodule k V} (h₁ : AlmostLE A C)
+    (h₂ : AlmostLE B C) : AlmostLE (A ⊔ B) C := by
+  obtain ⟨W₁, hW₁, hle₁⟩ := h₁
+  obtain ⟨W₂, hW₂, hle₂⟩ := h₂
+  refine ⟨W₁ ⊔ W₂, inferInstance, sup_le ?_ ?_⟩
+  · exact hle₁.trans (sup_le le_sup_left
+      ((le_sup_left : W₁ ≤ W₁ ⊔ W₂).trans le_sup_right))
+  · exact hle₂.trans (sup_le le_sup_left
+      ((le_sup_right : W₂ ≤ W₁ ⊔ W₂).trans le_sup_right))
+
 /-- **Commutators of finite-rank composites are traceless.** -/
 theorem tateTrace_comp_sub_comp_comm (f g : Module.End k V)
     [FiniteDimensional k (LinearMap.range (f ∘ₗ g))]

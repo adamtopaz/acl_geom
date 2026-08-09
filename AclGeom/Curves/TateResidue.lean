@@ -209,6 +209,85 @@ theorem Place.mulLeft_almostLE (P : Place k F) {h : F} (hh : h ≠ 0) :
   AlmostLE.mono_left (P.mulLeft_toSubmodule_le_filtration hh)
     (P.filtration_almostLE _)
 
+section Projection
+
+/-- A chosen `k`-linear projection of the function field onto the
+valuation ring of a place. -/
+noncomputable def Place.proj (P : Place k F) : F →ₗ[k] F :=
+  P.toSubmodule.projection
+    (Classical.choose (Submodule.exists_isCompl P.toSubmodule))
+    (Classical.choose_spec (Submodule.exists_isCompl P.toSubmodule))
+
+theorem Place.proj_mem (P : Place k F) (x : F) :
+    P.proj x ∈ P.toSubmodule :=
+  Submodule.projection_apply_mem _ x
+
+theorem Place.proj_eq_self (P : Place k F) {x : F}
+    (hx : x ∈ P.toSubmodule) : P.proj x = x := by
+  rw [Place.proj]
+  have h1 := Submodule.projection_apply_left
+    (Classical.choose_spec (Submodule.exists_isCompl P.toSubmodule))
+    (⟨x, hx⟩ : ↥P.toSubmodule)
+  exact h1
+
+/-- **Tate's local operator**: the commutator of the projection with
+multiplication, `c(h) = [ε, mult h]`. It lies in Tate's trace class
+`E₀`: its range is almost inside `O_P` and its image of `O_P` is
+finite-dimensional. -/
+noncomputable def Place.commutatorProj (P : Place k F) (h : F) :
+    Module.End k F :=
+  P.proj ∘ₗ LinearMap.mulLeft k h - LinearMap.mulLeft k h ∘ₗ P.proj
+
+theorem Place.commutatorProj_apply (P : Place k F) (h x : F) :
+    P.commutatorProj h x = P.proj (h * x) - h * P.proj x := rfl
+
+/-- `E₁`-membership: the range of `c(h)` is almost inside `O_P`. -/
+theorem Place.commutatorProj_range_almostLE (P : Place k F) {h : F}
+    (hh : h ≠ 0) :
+    AlmostLE (LinearMap.range (P.commutatorProj h)) P.toSubmodule := by
+  have hle : LinearMap.range (P.commutatorProj h) ≤
+      P.toSubmodule ⊔ P.toSubmodule.map (LinearMap.mulLeft k h) := by
+    rintro x ⟨y, rfl⟩
+    rw [Place.commutatorProj_apply, sub_eq_add_neg]
+    refine Submodule.add_mem _
+      (Submodule.mem_sup_left (P.proj_mem _)) (Submodule.neg_mem _ ?_)
+    exact Submodule.mem_sup_right ⟨P.proj y, P.proj_mem y, rfl⟩
+  exact AlmostLE.mono_left hle
+    (AlmostLE.sup AlmostLE.rfl (P.mulLeft_almostLE hh))
+
+/-- `E₂`-membership: `c(h)` sends the valuation ring into a
+finite-dimensional subspace, since it factors through the defect of
+`h · O_P` over `O_P`. -/
+theorem Place.finiteDimensional_commutatorProj_map (P : Place k F)
+    {h : F} (hh : h ≠ 0) :
+    FiniteDimensional k
+      (P.toSubmodule.map (P.commutatorProj h)) := by
+  obtain ⟨W, hW, hle⟩ := P.mulLeft_almostLE hh
+  haveI := hW
+  set δ : F →ₗ[k] F := P.proj - LinearMap.id with hδ
+  have hmap : P.toSubmodule.map (P.commutatorProj h) ≤ W.map δ := by
+    rintro x ⟨a, ha, rfl⟩
+    -- `c(h) a = (ε − 1)(h a)` since `ε a = a`.
+    have h1 : P.commutatorProj h a = δ (h * a) := by
+      rw [hδ, Place.commutatorProj_apply, P.proj_eq_self ha]
+      rfl
+    rw [h1]
+    -- `h a` decomposes over `O_P ⊔ W`, and `ε − 1` kills `O_P`.
+    have h2 : h * a ∈ P.toSubmodule ⊔ W :=
+      hle ⟨a, ha, rfl⟩
+    obtain ⟨u, hu, w, hw, huw⟩ := Submodule.mem_sup.1 h2
+    have h3 : δ (h * a) = δ w := by
+      rw [← huw, map_add]
+      have h4 : δ u = 0 := by
+        rw [hδ, LinearMap.sub_apply, LinearMap.id_apply,
+          P.proj_eq_self hu, sub_self]
+      rw [h4, zero_add]
+    rw [h3]
+    exact ⟨w, hw, rfl⟩
+  exact Submodule.finiteDimensional_of_le hmap
+
+end Projection
+
 end
 
 end AclGeom
