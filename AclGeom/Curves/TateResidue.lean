@@ -421,6 +421,7 @@ theorem Place.proj_sub_conjProj_eq (P : Place k F) {g : F} (hg : g ≠ 0)
   rw [LinearMap.comp_sub, LinearMap.comp_id,
     P.proj_comp_conjProj hg hord]
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- The projection is idempotent. -/
 theorem Place.proj_comp_proj (P : Place k F) :
     P.proj ∘ₗ P.proj = P.proj := by
