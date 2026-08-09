@@ -276,6 +276,188 @@ theorem isTraceClass_adeleSMul_commutator (f g : F) (D : Divisor k F)
   exact isTraceClass_commutator_of_comm hcomm hμν
     (almostLE_map_adeleSMul f D) (almostLE_map_adeleSMul g D) hεr hεf
 
+/-- **The global commutator trace vanishes** (the heart of the residue
+theorem): for any projection `π` onto a bounded adele space that,
+together with the diagonal, fills the adele module, the trace of
+`[π ∘ M_f, M_g]` is zero. The compatible projection triple decomposes
+the commutator into the zero commutator of multiplications, a
+finite-rank commutator, and a nilpotent commutator on the invariant
+diagonal. -/
+theorem tateTrace_adeleSMul_commutator_eq_zero (f g : F)
+    {D₀ : Divisor k F} (hD₀ : 0 ≤ D₀)
+    (hD : adeleSubmodule k F =
+      adeleSpace D₀ ⊔ LinearMap.range (adeleDiagonal k F))
+    {π : Module.End k ↥(adeleSubmodule k F)}
+    (hπr : ∀ α, π α ∈ adeleSpaceIn (k := k) (F := F) D₀)
+    (hπf : ∀ α ∈ adeleSpaceIn (k := k) (F := F) D₀, π α = α) :
+    tateTrace ((π ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (π ∘ₗ adeleSMul f)) = 0 := by
+  haveI hUfin := finiteDimensional_adeleSpaceIn_inf_adeleDiagonalIn
+    (k := k) (F := F) hD₀
+  obtain ⟨εA, εB, hAr, hAf, hBr, hBf, hU⟩ :=
+    exists_projection_pair (adeleSpaceIn_sup_adeleDiagonalIn hD)
+  have hMcomm : adeleSMul (k := k) (F := F) g ∘ₗ adeleSMul f =
+      adeleSMul f ∘ₗ adeleSMul g := by
+    rw [adeleSMul_comp, adeleSMul_comp, mul_comm]
+  have hMcommPt : ∀ x, adeleSMul (k := k) (F := F) g
+      (adeleSMul f x) = adeleSMul f (adeleSMul g x) := by
+    intro x
+    have h1 := LinearMap.congr_fun hMcomm x
+    rw [LinearMap.comp_apply, LinearMap.comp_apply] at h1
+    exact h1
+  set εU : Module.End k ↥(adeleSubmodule k F) :=
+    εA + εB - LinearMap.id with hεU
+  have hUr : ∀ x, εU x ∈
+      adeleSpaceIn (k := k) (F := F) D₀ ⊓ adeleDiagonalIn := by
+    intro x
+    have h1 : εU x = εA x + εB x - x := rfl
+    rw [h1]
+    exact hU x
+  set CB : Module.End k ↥(adeleSubmodule k F) :=
+    (εB ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (εB ∘ₗ adeleSMul f) with hCB
+  set CU : Module.End k ↥(adeleSubmodule k F) :=
+    (εU ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (εU ∘ₗ adeleSMul f) with hCU
+  have hCBapp : ∀ x, CB x = εB (adeleSMul f (adeleSMul g x)) -
+      adeleSMul g (εB (adeleSMul f x)) := fun x ↦ rfl
+  have hCUapp : ∀ x, CU x = εU (adeleSMul f (adeleSMul g x)) -
+      adeleSMul g (εU (adeleSMul f x)) := fun x ↦ rfl
+  -- the diagonal commutator kills the diagonal and lands in it
+  have hBker : ∀ x ∈ adeleDiagonalIn (k := k) (F := F), CB x = 0 := by
+    intro x hx
+    rw [hCBapp]
+    have h1 : adeleSMul g x ∈ adeleDiagonalIn (k := k) (F := F) :=
+      adeleSMul_mem_adeleDiagonalIn g hx
+    have h2 : adeleSMul f (adeleSMul g x) ∈
+        adeleDiagonalIn (k := k) (F := F) :=
+      adeleSMul_mem_adeleDiagonalIn f h1
+    have h3 : adeleSMul f x ∈ adeleDiagonalIn (k := k) (F := F) :=
+      adeleSMul_mem_adeleDiagonalIn f hx
+    rw [hBf _ h2, hBf _ h3, hMcommPt, sub_self]
+  have hBrange : ∀ x, CB x ∈ adeleDiagonalIn (k := k) (F := F) := by
+    intro x
+    rw [hCBapp]
+    exact Submodule.sub_mem _ (hBr _)
+      (adeleSMul_mem_adeleDiagonalIn g (hBr _))
+  have hBsq : CB ∘ₗ CB = 0 := by
+    refine LinearMap.ext fun x ↦ ?_
+    rw [LinearMap.comp_apply, LinearMap.zero_apply]
+    exact hBker _ (hBrange x)
+  have hBnil : IsNilpotent CB := by
+    refine ⟨2, ?_⟩
+    have h1 : (CB ^ 2 : Module.End k ↥(adeleSubmodule k F)) =
+        CB ∘ₗ CB := by
+      rw [pow_two]
+      rfl
+    rw [h1, hBsq]
+  -- the correction commutator has finite rank
+  have hUrange : ∀ x, CU x ∈
+      (adeleSpaceIn (k := k) (F := F) D₀ ⊓ adeleDiagonalIn) ⊔
+        (adeleSpaceIn (k := k) (F := F) D₀ ⊓
+          adeleDiagonalIn).map (adeleSMul g) := by
+    intro x
+    rw [hCUapp, sub_eq_add_neg]
+    exact Submodule.add_mem _ (Submodule.mem_sup_left (hUr _))
+      (Submodule.neg_mem _ (Submodule.mem_sup_right ⟨_, hUr _, rfl⟩))
+  haveI hCUfin : FiniteDimensional k (LinearMap.range CU) := by
+    refine Submodule.finiteDimensional_of_le
+      (S₂ := (adeleSpaceIn (k := k) (F := F) D₀ ⊓ adeleDiagonalIn) ⊔
+        (adeleSpaceIn (k := k) (F := F) D₀ ⊓
+          adeleDiagonalIn).map (adeleSMul g)) ?_
+    rintro x ⟨y, rfl⟩
+    exact hUrange y
+  -- trace of the correction commutator vanishes: finite-rank flip
+  have htrCU : tateTrace CU = 0 := by
+    haveI hI1 : FiniteDimensional k (LinearMap.range
+        ((εU ∘ₗ adeleSMul f) ∘ₗ adeleSMul g)) := by
+      refine Submodule.finiteDimensional_of_le
+        (S₂ := adeleSpaceIn (k := k) (F := F) D₀ ⊓
+          adeleDiagonalIn) ?_
+      rintro x ⟨y, rfl⟩
+      exact hUr _
+    haveI hI2 : FiniteDimensional k (LinearMap.range
+        (adeleSMul g ∘ₗ (εU ∘ₗ adeleSMul f))) := by
+      refine Submodule.finiteDimensional_of_le
+        (S₂ := (adeleSpaceIn (k := k) (F := F) D₀ ⊓
+          adeleDiagonalIn).map (adeleSMul g)) ?_
+      rintro x ⟨y, rfl⟩
+      exact ⟨εU (adeleSMul f y), hUr _, rfl⟩
+    rw [hCU]
+    exact tateTrace_comp_sub_comp_comm (εU ∘ₗ adeleSMul f)
+      (adeleSMul g)
+  -- trace of the diagonal commutator vanishes: nilpotent
+  have htrCB : tateTrace CB = 0 := tateTrace_of_isNilpotent hBnil
+  have htrnCB : tateTrace (-CB) = 0 := by
+    have hcore : IsTateCore CB (⊥ : Submodule k
+        ↥(adeleSubmodule k F)) := by
+      refine ⟨inferInstance, fun x hx ↦ ?_, ⟨2, fun x ↦ ?_⟩⟩
+      · rw [Submodule.mem_bot] at hx
+        rw [hx, map_zero]
+        exact Submodule.zero_mem _
+      · have h1 : (CB ^ 2 : Module.End k ↥(adeleSubmodule k F)) =
+            CB ∘ₗ CB := by
+          rw [pow_two]
+          rfl
+        rw [h1, hBsq, LinearMap.zero_apply]
+        exact Submodule.zero_mem _
+    have h2 : (-CB : Module.End k ↥(adeleSubmodule k F)) =
+        (-1 : k) • CB := by
+      rw [neg_one_smul]
+    rw [h2, tateTrace_smul hcore, htrCB, mul_zero]
+  -- the operator identity: the εA-commutator is CU − CB
+  have hεA : εA = LinearMap.id + εU - εB := by
+    rw [hεU]
+    abel
+  have hCid : (εA ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (εA ∘ₗ adeleSMul f) = CU - CB := by
+    refine LinearMap.ext fun x ↦ ?_
+    rw [hεA]
+    simp only [hCU, hCB, LinearMap.sub_apply, LinearMap.add_apply,
+      LinearMap.comp_apply, LinearMap.id_apply, map_add, map_sub]
+    have h1 := hMcommPt x
+    abel_nf
+    rw [h1]
+    abel
+  -- additivity across the two pieces
+  have htrA : tateTrace ((εA ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (εA ∘ₗ adeleSMul f)) = 0 := by
+    rw [hCid]
+    have hsub : CU - CB = CU + (-CB) := sub_eq_add_neg CU CB
+    haveI hJ1 : FiniteDimensional k (LinearMap.range
+        (CU ∘ₗ CU)) := by
+      refine Submodule.finiteDimensional_of_le
+        (S₂ := LinearMap.range CU) ?_
+      rintro x ⟨y, rfl⟩
+      exact ⟨CU y, rfl⟩
+    haveI hJ2 : FiniteDimensional k (LinearMap.range
+        (CU ∘ₗ (-CB))) := by
+      refine Submodule.finiteDimensional_of_le
+        (S₂ := LinearMap.range CU) ?_
+      rintro x ⟨y, rfl⟩
+      exact ⟨(-CB) y, rfl⟩
+    haveI hJ3 : FiniteDimensional k (LinearMap.range
+        ((-CB) ∘ₗ CU)) := by
+      haveI : FiniteDimensional k
+          ((LinearMap.range CU).map (-CB)) := inferInstance
+      refine Submodule.finiteDimensional_of_le
+        (S₂ := (LinearMap.range CU).map (-CB)) ?_
+      rintro x ⟨y, rfl⟩
+      exact ⟨CU y, ⟨y, rfl⟩, rfl⟩
+    haveI hJ4 : FiniteDimensional k (LinearMap.range
+        ((-CB) ∘ₗ (-CB))) := by
+      have h1 : (-CB) ∘ₗ (-CB) = CB ∘ₗ CB := by
+        rw [LinearMap.neg_comp, LinearMap.comp_neg, neg_neg]
+      rw [h1, hBsq, LinearMap.range_zero]
+      infer_instance
+    rw [hsub, tateTrace_add_of_sq, htrCU, htrnCB, add_zero]
+  -- compare the given projection with the constructed one
+  have hcmp := tateTrace_commutator_eq_of_projection
+    (le_refl (adeleSpaceIn (k := k) (F := F) D₀)) AlmostLE.rfl
+    (almostLE_map_closure_adeleSMul f g D₀) hAr hAf hπr hπf
+    (isTraceClass_adeleSMul_commutator f g D₀ hAr hAf)
+  rw [hcmp, htrA]
+
 end
 
 end AclGeom
