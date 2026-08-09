@@ -985,6 +985,169 @@ theorem Place.residue_zero_right (P : Place k F) (f : F) :
     P.residue f 0 = 0 := by
   rw [← zero_smul k (0 : F), P.residue_smul_right, zero_mul]
 
+/-- **Independence of the projection**: the residue may be computed
+with any linear projection onto the valuation ring. The difference of
+two projections kills `O_P` and lands in it, so all its composites
+against multiplication operators have finite-rank products, and the
+difference of the commutators is a traceless commutator. -/
+theorem Place.residue_eq_of_projection (P : Place k F)
+    {π : F →ₗ[k] F} (hmem : ∀ x : F, π x ∈ P.toSubmodule)
+    (heq : ∀ x ∈ P.toSubmodule, π x = x) (f g : F) :
+    tateTrace ((π ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (π ∘ₗ LinearMap.mulLeft k f)) =
+    P.residue f g := by
+  set θ : F →ₗ[k] F := π - P.proj with hθ
+  have hθmem : ∀ x : F, θ x ∈ P.toSubmodule := fun x ↦ by
+    rw [hθ, LinearMap.sub_apply]
+    exact Submodule.sub_mem _ (hmem x) (P.proj_mem x)
+  have hθker : ∀ x ∈ P.toSubmodule, θ x = 0 := fun x hx ↦ by
+    rw [hθ, LinearMap.sub_apply, heq x hx, P.proj_eq_self hx, sub_self]
+  -- the key finiteness: `θ (h O_P)` is finite-dimensional
+  have hfin : ∀ h : F, FiniteDimensional k
+      ((P.toSubmodule.map (LinearMap.mulLeft k h)).map θ) := by
+    intro h
+    obtain ⟨W, hW, hle⟩ := P.mulLeft_map_almostLE h
+    haveI := hW
+    have h1 : (P.toSubmodule.map (LinearMap.mulLeft k h)).map θ ≤
+        W.map θ := by
+      rintro x ⟨y, hy, rfl⟩
+      obtain ⟨u, hu, w, hw, huw⟩ := Submodule.mem_sup.1 (hle hy)
+      have h2 : θ y = θ w := by
+        rw [← huw, map_add, hθker u hu, zero_add]
+      rw [h2]
+      exact ⟨w, hw, rfl⟩
+    exact Submodule.finiteDimensional_of_le h1
+  have hkey : ∀ (h x : F), x ∈ P.toSubmodule →
+      θ (h * x) ∈ (P.toSubmodule.map (LinearMap.mulLeft k h)).map θ :=
+    fun h x hx ↦ ⟨h * x, ⟨x, hx, rfl⟩, rfl⟩
+  set S : F →ₗ[k] F := θ ∘ₗ LinearMap.mulLeft k f with hS
+  have hSapp : ∀ x : F, S x = θ (f * x) := fun x ↦ rfl
+  have hSmem : ∀ x : F, S x ∈ P.toSubmodule := fun x ↦ hθmem _
+  -- the four squared-range instances for the commutator of `S` with
+  -- multiplication by `g`
+  haveI hI1 : FiniteDimensional k (LinearMap.range
+      (((S ∘ₗ LinearMap.mulLeft k g) ^ 2 : Module.End k F))) := by
+    refine Submodule.finiteDimensional_of_le (S₂ := (P.toSubmodule.map
+      (LinearMap.mulLeft k (f * g))).map θ) ?_
+    · rintro x ⟨y, rfl⟩
+      have h1 : (((S ∘ₗ LinearMap.mulLeft k g) ^ 2 :
+          Module.End k F)) y =
+          θ (f * (g * θ (f * (g * y)))) := by
+        rw [pow_two, Module.End.mul_apply]
+        rfl
+      rw [h1]
+      have h2 : f * (g * θ (f * (g * y))) =
+          f * g * θ (f * (g * y)) := by ring
+      rw [h2]
+      exact hkey _ _ (hθmem _)
+  haveI hI2 : FiniteDimensional k (LinearMap.range
+      (((LinearMap.mulLeft k g ∘ₗ S) ^ 2 : Module.End k F))) := by
+    haveI := hfin (f * g)
+    refine Submodule.finiteDimensional_of_le
+      (S₂ := ((P.toSubmodule.map (LinearMap.mulLeft k (f * g))).map
+        θ).map (LinearMap.mulLeft k g)) ?_
+    · rintro x ⟨y, rfl⟩
+      have h1 : (((LinearMap.mulLeft k g ∘ₗ S) ^ 2 :
+          Module.End k F)) y =
+          g * θ (f * (g * θ (f * y))) := by
+        rw [pow_two, Module.End.mul_apply]
+        rfl
+      rw [h1]
+      have h2 : f * (g * θ (f * y)) = f * g * θ (f * y) := by ring
+      rw [h2]
+      exact ⟨θ (f * g * θ (f * y)), hkey _ _ (hθmem _), rfl⟩
+  haveI hI3 : FiniteDimensional k (LinearMap.range
+      ((S ∘ₗ LinearMap.mulLeft k g) ∘ₗ
+        (LinearMap.mulLeft k g ∘ₗ S))) := by
+    refine Submodule.finiteDimensional_of_le (S₂ := (P.toSubmodule.map
+      (LinearMap.mulLeft k (f * (g * g)))).map θ) ?_
+    · rintro x ⟨y, rfl⟩
+      have h1 : ((S ∘ₗ LinearMap.mulLeft k g) ∘ₗ
+          (LinearMap.mulLeft k g ∘ₗ S)) y =
+          θ (f * (g * (g * θ (f * y)))) := by
+        rfl
+      rw [h1]
+      have h2 : f * (g * (g * θ (f * y))) =
+          f * (g * g) * θ (f * y) := by ring
+      rw [h2]
+      exact hkey _ _ (hθmem _)
+  haveI hI4 : FiniteDimensional k (LinearMap.range
+      ((LinearMap.mulLeft k g ∘ₗ S) ∘ₗ
+        (S ∘ₗ LinearMap.mulLeft k g))) := by
+    haveI := hfin f
+    refine Submodule.finiteDimensional_of_le
+      (S₂ := ((P.toSubmodule.map (LinearMap.mulLeft k f)).map
+        θ).map (LinearMap.mulLeft k g)) ?_
+    · rintro x ⟨y, rfl⟩
+      have h1 : ((LinearMap.mulLeft k g ∘ₗ S) ∘ₗ
+          (S ∘ₗ LinearMap.mulLeft k g)) y =
+          g * θ (f * θ (f * (g * y))) := by
+        rfl
+      rw [h1]
+      exact ⟨θ (f * θ (f * (g * y))), hkey _ _ (hθmem _), rfl⟩
+  -- the difference of the commutators is trace-class
+  have hDtc : IsTraceClass P.toSubmodule
+      (S ∘ₗ LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ S) := by
+    constructor
+    · have hle : LinearMap.range (S ∘ₗ LinearMap.mulLeft k g -
+          LinearMap.mulLeft k g ∘ₗ S) ≤
+          P.toSubmodule ⊔
+            P.toSubmodule.map (LinearMap.mulLeft k g) := by
+        rintro x ⟨y, rfl⟩
+        have h1 : (S ∘ₗ LinearMap.mulLeft k g -
+            LinearMap.mulLeft k g ∘ₗ S) y =
+            θ (f * (g * y)) - g * S y := by
+          rfl
+        rw [h1, sub_eq_add_neg]
+        refine Submodule.add_mem _
+          (Submodule.mem_sup_left (hθmem _))
+          (Submodule.neg_mem _ (Submodule.mem_sup_right
+            ⟨S y, hSmem y, rfl⟩))
+      exact AlmostLE.mono_left hle
+        (AlmostLE.sup AlmostLE.rfl (P.mulLeft_map_almostLE g))
+    · haveI := hfin (f * g)
+      haveI := hfin f
+      refine Submodule.finiteDimensional_of_le
+        (S₂ := (P.toSubmodule.map
+            (LinearMap.mulLeft k (f * g))).map θ ⊔
+          ((P.toSubmodule.map (LinearMap.mulLeft k f)).map
+            θ).map (LinearMap.mulLeft k g)) ?_
+      rintro x ⟨a, ha, rfl⟩
+      have h1 : (S ∘ₗ LinearMap.mulLeft k g -
+          LinearMap.mulLeft k g ∘ₗ S) a =
+          θ (f * (g * a)) - g * θ (f * a) := by
+        rfl
+      rw [h1]
+      have h2 : f * (g * a) = f * g * a := by ring
+      rw [h2, sub_eq_add_neg]
+      refine Submodule.add_mem _
+        (Submodule.mem_sup_left (hkey _ _ ha))
+        (Submodule.neg_mem _ (Submodule.mem_sup_right
+          ⟨θ (f * a), hkey _ _ ha, rfl⟩))
+  -- the trace of the difference vanishes
+  have htrD : tateTrace (S ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ S) = 0 :=
+    tateTrace_comp_sub_comp_comm_of_sq S (LinearMap.mulLeft k g)
+  -- decompose the `π`-commutator
+  have hCtc := P.isTraceClass_residue_commutator f g
+  have hCid : (π ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (π ∘ₗ LinearMap.mulLeft k f) =
+      ((P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.proj ∘ₗ LinearMap.mulLeft k f)) +
+      (S ∘ₗ LinearMap.mulLeft k g - LinearMap.mulLeft k g ∘ₗ S) := by
+    refine LinearMap.ext fun x ↦ ?_
+    rw [hS, hθ]
+    simp only [LinearMap.add_apply, LinearMap.sub_apply,
+      LinearMap.comp_apply, LinearMap.mulLeft_apply]
+    ring
+  haveI := hCtc.finiteDimensional_range_comp hCtc
+  haveI := hCtc.finiteDimensional_range_comp hDtc
+  haveI := hDtc.finiteDimensional_range_comp hCtc
+  haveI := hDtc.finiteDimensional_range_comp hDtc
+  rw [hCid, tateTrace_add_of_sq, htrD, add_zero, Place.residue]
+
 end ResidueCalculus
 
 end Projection
