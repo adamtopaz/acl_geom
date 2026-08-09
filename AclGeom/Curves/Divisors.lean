@@ -641,6 +641,44 @@ theorem Place.exists_forall_sub_valuation_le {r : ℕ}
     gcongr
     exact hχsmall i i' (Finset.ne_of_mem_erase hi')
 
+/-- **Prescribed orders**: an element with any prescribed order at each
+of finitely many distinct places — approximate the corresponding
+uniformizer powers; the error is ultrametrically invisible. -/
+theorem Place.exists_forall_ord_eq {r : ℕ} (P : Fin r → Place k F)
+    (hinj : Function.Injective P) (j : Fin r → ℤ) :
+    ∃ w : F, w ≠ 0 ∧ ∀ i, (P i).ord w = j i := by
+  classical
+  rcases r with _ | r'
+  · exact ⟨1, one_ne_zero, fun i ↦ i.elim0⟩
+  set m : ℕ := (Finset.univ.sup fun i ↦ (j i).toNat) + 1 with hm
+  have hjm : ∀ i, j i < (m : ℤ) := by
+    intro i
+    have h1 : (j i).toNat ≤ Finset.univ.sup fun i ↦ (j i).toNat :=
+      Finset.le_sup (f := fun i ↦ (j i).toNat) (Finset.mem_univ i)
+    omega
+  obtain ⟨w, hw⟩ := Place.exists_forall_sub_valuation_le P hinj
+    (fun i ↦ ((P i).pi) ^ (j i)) m
+  have hval : ∀ i, (P i).val.valuation w =
+      (P i).val.valuation ((P i).pi) ^ (j i) := by
+    intro i
+    have ha0 : ((P i).pi) ^ (j i) ≠ 0 := zpow_ne_zero _ (P i).pi_ne_zero
+    have hstrict : (P i).val.valuation (w - ((P i).pi) ^ (j i)) <
+        (P i).val.valuation (((P i).pi) ^ (j i)) := by
+      refine lt_of_le_of_lt (hw i) ?_
+      rw [map_zpow₀, ← zpow_natCast ((P i).val.valuation ((P i).pi)) m]
+      exact zpow_lt_zpow_right_of_lt_one₀ (P i).pi_valuation_pos
+        (P i).pi_valuation_lt_one (hjm i)
+    have hsum : w = ((P i).pi) ^ (j i) + (w - ((P i).pi) ^ (j i)) := by
+      ring
+    rw [hsum, Valuation.map_add_eq_of_lt_left _ hstrict, map_zpow₀]
+  have hw0 : w ≠ 0 := by
+    intro h0
+    have h1 := hval 0
+    rw [h0, Valuation.map_zero] at h1
+    exact zpow_ne_zero (j 0) (P 0).pi_valuation_ne_zero h1.symm
+  refine ⟨w, hw0, fun i ↦ ?_⟩
+  exact (P i).ord_eq_of_valuation_eq_zpow hw0 (hval i)
+
 end RefinedApproximation
 
 
