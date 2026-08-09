@@ -775,6 +775,161 @@ theorem tateTrace_comp_sub_comp_comm_of_sq (α β : Module.End k V)
   rw [hsub, hadd, hflip, hneg]
   ring
 
+/-- **Tate's projection-comparison theorem**: the trace of the
+commutator `[ε ∘ μ, ν]` is unchanged when the projection `ε` onto a
+subspace `A` is replaced by a projection `π` onto a commensurable
+overspace `A'`, provided the words in `μ, ν` almost-stabilize `A`.
+The difference `θ = π − ε` kills `A` and lands in `A'`, so every
+composite of `θ` against words has finite rank, and the difference of
+the commutators is a traceless commutator. -/
+theorem tateTrace_commutator_eq_of_projection {A A' : Submodule k V}
+    {μ ν ε π : Module.End k V} (hAA' : A ≤ A') (hA'A : AlmostLE A' A)
+    (hstab : ∀ w ∈ Submonoid.closure
+      ({μ, ν} : Set (Module.End k V)), AlmostLE (A.map w) A)
+    (hεr : ∀ x : V, ε x ∈ A) (hεf : ∀ x ∈ A, ε x = x)
+    (hπr : ∀ x : V, π x ∈ A') (hπf : ∀ x ∈ A', π x = x)
+    (hεtc : IsTraceClass A ((ε ∘ₗ μ) ∘ₗ ν - ν ∘ₗ (ε ∘ₗ μ))) :
+    tateTrace ((π ∘ₗ μ) ∘ₗ ν - ν ∘ₗ (π ∘ₗ μ)) =
+    tateTrace ((ε ∘ₗ μ) ∘ₗ ν - ν ∘ₗ (ε ∘ₗ μ)) := by
+  have hμ : μ ∈ Submonoid.closure ({μ, ν} : Set (Module.End k V)) :=
+    Submonoid.subset_closure (Set.mem_insert _ _)
+  have hν : ν ∈ Submonoid.closure ({μ, ν} : Set (Module.End k V)) :=
+    Submonoid.subset_closure (Set.mem_insert_of_mem _ rfl)
+  set θ : Module.End k V := π - ε with hθ
+  have hθmem : ∀ x : V, θ x ∈ A' := fun x ↦ by
+    rw [hθ, LinearMap.sub_apply]
+    exact Submodule.sub_mem _ (hπr x) (hAA' (hεr x))
+  have hθker : ∀ x ∈ A, θ x = 0 := fun x hx ↦ by
+    rw [hθ, LinearMap.sub_apply, hπf x (hAA' hx), hεf x hx, sub_self]
+  -- images of almost-`A` subspaces under `θ` are finite-dimensional
+  have hfin : ∀ C : Submodule k V, AlmostLE C A →
+      FiniteDimensional k (C.map θ) := by
+    intro C hC
+    obtain ⟨W, hW, hle⟩ := hC
+    haveI := hW
+    have h1 : C.map θ ≤ W.map θ := by
+      rintro x ⟨y, hy, rfl⟩
+      obtain ⟨u, hu, w, hw, huw⟩ := Submodule.mem_sup.1 (hle hy)
+      have h2 : θ y = θ w := by
+        rw [← huw, map_add, hθker u hu, zero_add]
+      rw [h2]
+      exact ⟨w, hw, rfl⟩
+    exact Submodule.finiteDimensional_of_le h1
+  -- words applied to `A'` are still almost `A`
+  have hstab' : ∀ w ∈ Submonoid.closure
+      ({μ, ν} : Set (Module.End k V)), AlmostLE (A'.map w) A := by
+    intro w hw
+    obtain ⟨W, hW, hle⟩ := hA'A
+    haveI := hW
+    have h1 : A'.map w ≤ A.map w ⊔ W.map w := by
+      refine (Submodule.map_mono hle).trans ?_
+      rw [Submodule.map_sup]
+    exact AlmostLE.mono_left h1
+      (AlmostLE.sup (hstab w hw) AlmostLE.of_finiteDimensional)
+  have hkey : ∀ (w : Module.End k V) (x : V), x ∈ A' →
+      θ (w x) ∈ (A'.map w).map θ :=
+    fun w x hx ↦ ⟨w x, ⟨x, hx, rfl⟩, rfl⟩
+  set S : Module.End k V := θ ∘ₗ μ with hS
+  -- the four squared-range instances for the commutator of `S` and `ν`
+  haveI hI1 : FiniteDimensional k (LinearMap.range
+      (((S ∘ₗ ν) ^ 2 : Module.End k V))) := by
+    haveI := hfin _ (hstab' (μ * ν) (mul_mem hμ hν))
+    refine Submodule.finiteDimensional_of_le
+      (S₂ := (A'.map (μ * ν)).map θ) ?_
+    rintro x ⟨y, rfl⟩
+    have h1 : (((S ∘ₗ ν) ^ 2 : Module.End k V)) y =
+        θ ((μ * ν) (θ ((μ * ν) y))) := by
+      rw [pow_two, Module.End.mul_apply]
+      rfl
+    rw [h1]
+    exact hkey _ _ (hθmem _)
+  haveI hI2 : FiniteDimensional k (LinearMap.range
+      (((ν ∘ₗ S) ^ 2 : Module.End k V))) := by
+    haveI := hfin _ (hstab' (μ * ν) (mul_mem hμ hν))
+    refine Submodule.finiteDimensional_of_le
+      (S₂ := ((A'.map (μ * ν)).map θ).map ν) ?_
+    rintro x ⟨y, rfl⟩
+    have h1 : (((ν ∘ₗ S) ^ 2 : Module.End k V)) y =
+        ν (θ ((μ * ν) (θ (μ y)))) := by
+      rw [pow_two, Module.End.mul_apply]
+      rfl
+    rw [h1]
+    exact ⟨θ ((μ * ν) (θ (μ y))), hkey _ _ (hθmem _), rfl⟩
+  haveI hI3 : FiniteDimensional k (LinearMap.range
+      ((S ∘ₗ ν) ∘ₗ (ν ∘ₗ S))) := by
+    haveI := hfin _ (hstab' (μ * ν * ν) (mul_mem (mul_mem hμ hν) hν))
+    refine Submodule.finiteDimensional_of_le
+      (S₂ := (A'.map (μ * ν * ν)).map θ) ?_
+    rintro x ⟨y, rfl⟩
+    have h1 : ((S ∘ₗ ν) ∘ₗ (ν ∘ₗ S)) y =
+        θ ((μ * ν * ν) (θ (μ y))) := by
+      rfl
+    rw [h1]
+    exact hkey _ _ (hθmem _)
+  haveI hI4 : FiniteDimensional k (LinearMap.range
+      ((ν ∘ₗ S) ∘ₗ (S ∘ₗ ν))) := by
+    haveI := hfin _ (hstab' μ hμ)
+    refine Submodule.finiteDimensional_of_le
+      (S₂ := ((A'.map μ).map θ).map ν) ?_
+    rintro x ⟨y, rfl⟩
+    have h1 : ((ν ∘ₗ S) ∘ₗ (S ∘ₗ ν)) y =
+        ν (θ (μ (θ ((μ * ν) y)))) := by
+      rfl
+    rw [h1]
+    exact ⟨θ (μ (θ ((μ * ν) y))), hkey _ _ (hθmem _), rfl⟩
+  -- the difference of the commutators is trace-class
+  have hDtc : IsTraceClass A (S ∘ₗ ν - ν ∘ₗ S) := by
+    constructor
+    · have hle : LinearMap.range (S ∘ₗ ν - ν ∘ₗ S) ≤
+          A' ⊔ A'.map ν := by
+        rintro x ⟨y, rfl⟩
+        have h1 : (S ∘ₗ ν - ν ∘ₗ S) y =
+            θ ((μ * ν) y) - ν (θ (μ y)) := by
+          rfl
+        rw [h1, sub_eq_add_neg]
+        refine Submodule.add_mem _
+          (Submodule.mem_sup_left (hθmem _))
+          (Submodule.neg_mem _ (Submodule.mem_sup_right
+            ⟨θ (μ y), hθmem _, rfl⟩))
+      refine AlmostLE.mono_left hle ?_
+      refine AlmostLE.sup (hA'A.trans AlmostLE.rfl) ?_
+      obtain ⟨W, hW, hle'⟩ := hA'A
+      haveI := hW
+      have h2 : A'.map ν ≤ A.map ν ⊔ W.map ν := by
+        refine (Submodule.map_mono hle').trans ?_
+        rw [Submodule.map_sup]
+      exact AlmostLE.mono_left h2
+        (AlmostLE.sup (hstab ν hν) AlmostLE.of_finiteDimensional)
+    · haveI := hfin _ (hstab' (μ * ν) (mul_mem hμ hν))
+      haveI := hfin _ (hstab' μ hμ)
+      refine Submodule.finiteDimensional_of_le
+        (S₂ := (A'.map (μ * ν)).map θ ⊔
+          ((A'.map μ).map θ).map ν) ?_
+      rintro x ⟨a, ha, rfl⟩
+      have h1 : (S ∘ₗ ν - ν ∘ₗ S) a =
+          θ ((μ * ν) a) - ν (θ (μ a)) := by
+        rfl
+      rw [h1, sub_eq_add_neg]
+      refine Submodule.add_mem _
+        (Submodule.mem_sup_left (hkey _ _ (hAA' ha)))
+        (Submodule.neg_mem _ (Submodule.mem_sup_right
+          ⟨θ (μ a), hkey _ _ (hAA' ha), rfl⟩))
+  have htrD : tateTrace (S ∘ₗ ν - ν ∘ₗ S) = 0 :=
+    tateTrace_comp_sub_comp_comm_of_sq S ν
+  have hCid : (π ∘ₗ μ) ∘ₗ ν - ν ∘ₗ (π ∘ₗ μ) =
+      ((ε ∘ₗ μ) ∘ₗ ν - ν ∘ₗ (ε ∘ₗ μ)) +
+        (S ∘ₗ ν - ν ∘ₗ S) := by
+    refine LinearMap.ext fun x ↦ ?_
+    rw [hS, hθ]
+    simp only [LinearMap.add_apply, LinearMap.sub_apply,
+      LinearMap.comp_apply, map_sub]
+    abel
+  haveI := hεtc.finiteDimensional_range_comp hεtc
+  haveI := hεtc.finiteDimensional_range_comp hDtc
+  haveI := hDtc.finiteDimensional_range_comp hεtc
+  haveI := hDtc.finiteDimensional_range_comp hDtc
+  rw [hCid, tateTrace_add_of_sq, htrD, add_zero]
+
 end
 
 end AclGeom

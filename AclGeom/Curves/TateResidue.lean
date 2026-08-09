@@ -1148,6 +1148,59 @@ theorem Place.residue_eq_of_projection (P : Place k F)
   haveI := hDtc.finiteDimensional_range_comp hDtc
   rw [hCid, tateTrace_add_of_sq, htrD, add_zero, Place.residue]
 
+/-- Words in two multiplication operators almost-stabilize the
+valuation ring. -/
+theorem Place.almostLE_map_closure (P : Place k F) (f g : F) :
+    ∀ w ∈ Submonoid.closure ({LinearMap.mulLeft k f,
+      LinearMap.mulLeft k g} : Set (Module.End k F)),
+      AlmostLE (P.toSubmodule.map w) P.toSubmodule := by
+  intro w hw
+  induction hw using Submonoid.closure_induction with
+  | mem x hx =>
+    rcases hx with rfl | hx
+    · exact P.mulLeft_map_almostLE f
+    · rw [Set.mem_singleton_iff] at hx
+      rw [hx]
+      exact P.mulLeft_map_almostLE g
+  | one =>
+    have h1 : (1 : Module.End k F) = LinearMap.id := rfl
+    rw [h1, Submodule.map_id]
+    exact AlmostLE.rfl
+  | mul x y hx hy ihx ihy =>
+    have h1 : P.toSubmodule.map (x * y) =
+        (P.toSubmodule.map y).map x := by
+      rw [← Submodule.map_comp]
+      rfl
+    rw [h1]
+    obtain ⟨W, hW, hle⟩ := ihy
+    haveI := hW
+    have h2 : (P.toSubmodule.map y).map x ≤
+        P.toSubmodule.map x ⊔ W.map x := by
+      refine (Submodule.map_mono hle).trans ?_
+      rw [Submodule.map_sup]
+    exact AlmostLE.mono_left h2
+      (AlmostLE.sup ihx AlmostLE.of_finiteDimensional)
+
+/-- **The residue reads off any commensurable level**: computing the
+commutator trace with a projection onto a filtration stage
+`π^{−m} O_P` still gives the residue at `P`. This is what identifies
+the local blocks of a global adelic projection with the residues. -/
+theorem Place.residue_eq_of_projection_filtration (P : Place k F)
+    (m : ℕ) {π : F →ₗ[k] F}
+    (hmem : ∀ x : F, π x ∈ P.filtration m)
+    (heq : ∀ x ∈ P.filtration m, π x = x) (f g : F) :
+    tateTrace ((π ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (π ∘ₗ LinearMap.mulLeft k f)) =
+    P.residue f g := by
+  have h1 : P.toSubmodule ≤ P.filtration m := by
+    rw [← P.filtration_zero]
+    exact P.filtration_mono (Nat.zero_le m)
+  rw [Place.residue]
+  exact tateTrace_commutator_eq_of_projection h1
+    (P.filtration_almostLE m) (P.almostLE_map_closure f g)
+    (fun x ↦ P.proj_mem x) (fun x hx ↦ P.proj_eq_self hx)
+    hmem heq (P.isTraceClass_residue_commutator f g)
+
 end ResidueCalculus
 
 end Projection
