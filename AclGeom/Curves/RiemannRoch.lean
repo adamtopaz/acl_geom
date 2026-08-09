@@ -438,6 +438,113 @@ theorem pow_mem_riemannSpace_smul_poleDivisor {f : F} (hf : f ≠ 0)
 
 end PoleDivisor
 
+section RiemannBound
+
+/-- **The subtraction bound**: enlarging a divisor grows the dimension
+by at most the added degree — the one-point decomposition iterated. -/
+theorem finrank_riemannSpace_le_of_le {D E : Divisor k F} (hDE : D ≤ E) :
+    (Module.finrank k (RiemannSpace E) : ℤ) ≤
+      (Module.finrank k (RiemannSpace D) : ℤ) + E.deg - D.deg := by
+  classical
+  induction hmeas : ((E - D).deg).toNat using Nat.strong_induction_on
+    generalizing E with
+  | _ n ih =>
+  rcases eq_or_ne D E with rfl | hne
+  · omega
+  · have hED : 0 ≤ E - D := by
+      intro P
+      have h1 := hDE P
+      simp only [Finsupp.coe_zero, Pi.zero_apply, Finsupp.sub_apply]
+      omega
+    obtain ⟨P, hP⟩ := Finsupp.support_nonempty_iff.2
+      (sub_ne_zero.2 (Ne.symm hne))
+    have hPpos : 0 < (E - D) P := by
+      have h1 : (E - D) P ≠ 0 := Finsupp.mem_support_iff.1 hP
+      have h2 : (0 : ℤ) ≤ (E - D) P := by simpa using hED P
+      omega
+    have hsub : (E - D) P = E P - D P := Finsupp.sub_apply E D P
+    have hDE' : D ≤ E - Finsupp.single P 1 := by
+      intro Q
+      rcases eq_or_ne Q P with rfl | hQ
+      · rw [Finsupp.sub_apply, Finsupp.single_eq_same]
+        omega
+      · rw [Finsupp.sub_apply, Finsupp.single_eq_of_ne hQ, sub_zero]
+        exact hDE Q
+    have hdeg1 : E - Finsupp.single P 1 - D =
+        E - D - Finsupp.single P 1 := by abel
+    have hdegP : (E - D) P ≤ (E - D).deg := by
+      rw [Divisor.deg, Finsupp.sum]
+      exact Finset.single_le_sum (fun Q _ ↦ by simpa using hED Q) hP
+    have hmeas' : ((E - Finsupp.single P 1 - D).deg).toNat < n := by
+      rw [hdeg1, deg_sub_single]
+      omega
+    have hih := ih _ hmeas' hDE' rfl
+    have hone : Module.finrank k (RiemannSpace E) ≤
+        Module.finrank k (RiemannSpace (E - Finsupp.single P 1)) + 1 := by
+      rcases riemannSpace_eq_or_eq_sup E P with heq | ⟨f₀, hf₀, heq⟩
+      · rw [heq]
+        omega
+      · rcases eq_or_ne f₀ 0 with rfl | hf₀0
+        · have hspan : Submodule.span k ({0} : Set F) = ⊥ :=
+            Submodule.span_zero_singleton k
+          rw [heq, hspan, sup_bot_eq]
+          omega
+        · rw [heq]
+          have h1 := Submodule.finrank_sup_add_finrank_inf_eq
+            (RiemannSpace (E - Finsupp.single P 1))
+            (Submodule.span k {f₀})
+          rw [finrank_span_singleton hf₀0] at h1
+          omega
+    have hdegE' : (E - Finsupp.single P 1).deg = E.deg - 1 :=
+      deg_sub_single E P
+    have hcast : (Module.finrank k (RiemannSpace E) : ℤ) ≤
+        (Module.finrank k (RiemannSpace (E - Finsupp.single P 1)) : ℤ) +
+          1 := by
+      exact_mod_cast hone
+    omega
+
+/-- Multiplication by `z` embeds `L(E + div z)` into `L(E)`. -/
+theorem finrank_riemannSpace_add_divisorOf_le (E : Divisor k F) {z : F}
+    (hz : z ≠ 0) :
+    Module.finrank k (RiemannSpace (E + divisorOf k z)) ≤
+      Module.finrank k (RiemannSpace E) := by
+  have hmem : ∀ w ∈ RiemannSpace (E + divisorOf k z),
+      w * z ∈ RiemannSpace E := by
+    intro w hw
+    rw [mem_riemannSpace_iff] at hw ⊢
+    rcases eq_or_ne w 0 with rfl | hw0
+    · exact Or.inl (zero_mul z)
+    rcases hw with rfl | hw
+    · exact absurd rfl hw0
+    refine Or.inr fun P ↦ ?_
+    have h1 := hw P
+    rw [Finsupp.add_apply, divisorOf_apply hz] at h1
+    rw [P.ord_mul hw0 hz]
+    omega
+  have hinj : Function.Injective
+      (LinearMap.codRestrict (RiemannSpace E)
+        ((LinearMap.mulRight k z).comp
+          (RiemannSpace (E + divisorOf k z)).subtype)
+        fun w ↦ hmem w w.2) := by
+    intro w w' h
+    have h1 : (w : F) * z = (w' : F) * z := congrArg Subtype.val h
+    exact Subtype.ext (mul_right_cancel₀ hz h1)
+  exact LinearMap.finrank_le_finrank_of_injective hinj
+
+/-- **Linear-equivalence invariance** of the Riemann–Roch dimension:
+`ℓ(D + div z) = ℓ(D)`, by multiplication with `z` in both directions. -/
+theorem finrank_riemannSpace_add_divisorOf (D : Divisor k F) {z : F}
+    (hz : z ≠ 0) :
+    Module.finrank k (RiemannSpace (D + divisorOf k z)) =
+      Module.finrank k (RiemannSpace D) := by
+  refine le_antisymm (finrank_riemannSpace_add_divisorOf_le D hz) ?_
+  have h := finrank_riemannSpace_add_divisorOf_le (D + divisorOf k z)
+    (inv_ne_zero hz)
+  rwa [divisorOf_inv hz,
+    show D + divisorOf k z + -divisorOf k z = D by abel] at h
+
+end RiemannBound
+
 end
 
 end AclGeom

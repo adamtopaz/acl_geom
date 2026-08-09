@@ -491,6 +491,29 @@ theorem divisorOf_mul {f g : F} (hf : f ≠ 0) (hg : g ≠ 0) :
     divisorOf_apply hf, divisorOf_apply hg]
   exact P.ord_mul hf hg
 
+/-- Principal divisors invert with the element. -/
+theorem divisorOf_inv {f : F} (hf : f ≠ 0) :
+    divisorOf k f⁻¹ = -(divisorOf k f) := by
+  ext P
+  rw [Finsupp.neg_apply, divisorOf_apply (inv_ne_zero hf),
+    divisorOf_apply hf]
+  exact P.ord_inv hf
+
+/-- Constants have trivial principal divisor. -/
+theorem divisorOf_algebraMap (c : k) :
+    divisorOf k (algebraMap k F c) = 0 := by
+  rcases eq_or_ne c 0 with rfl | hc
+  · rw [map_zero, divisorOf, dif_pos rfl]
+  · ext P
+    rw [divisorOf_apply ((map_ne_zero (algebraMap k F)).2 hc),
+      P.ord_algebraMap hc]
+    rfl
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The zero divisor has degree zero. -/
+theorem Divisor.deg_zero : (0 : Divisor k F).deg = 0 := by
+  rw [Divisor.deg, Finsupp.sum_zero_index]
+
 omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- The degree is additive. -/
 theorem Divisor.deg_add (D E : Divisor k F) :

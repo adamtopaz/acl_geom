@@ -26,6 +26,7 @@ import AclGeom.Correspondence.Additive
 import AclGeom.Curves.Approximation
 import AclGeom.Curves.DegreeBound
 import AclGeom.Curves.Divisors
+import AclGeom.Curves.Genus
 import AclGeom.Curves.Places
 import AclGeom.Curves.Residues
 import AclGeom.Curves.RiemannRoch

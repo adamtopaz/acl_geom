@@ -177,5 +177,37 @@ zero and pole degrees agree, and principal divisors have degree zero:
 
 {docstring AclGeom.deg_divisorOf_eq_zero}
 
-Next in this library: Riemann's inequality and the genus, then the
-genus-zero checkpoint `F ≃ k(t)` — tracked on the curve-theory issue.
+# Riemann's inequality and the genus
+%%%
+tag := "genus"
+%%%
+
+The defect `deg D + 1 − ℓ(D)` of a divisor is monotone — enlarging a
+divisor grows the dimension by at most the added degree, iterating the
+one-point decomposition — and invariant under adding principal
+divisors, since `div z` has degree zero and multiplication by `z`
+identifies the Riemann–Roch spaces:
+
+{docstring AclGeom.Divisor.defect}
+
+{docstring AclGeom.finrank_riemannSpace_le_of_le}
+
+{docstring AclGeom.finrank_riemannSpace_add_divisorOf}
+
+The defect is bounded uniformly: any divisor is dominated, up to a
+principal divisor, by a high multiple of the pole divisor of a fixed
+transcendental element, and on those multiples the counting family from
+the degree theorem pins the defect down. The genus is the supremum of
+the defect, and Riemann's inequality holds by construction:
+
+{docstring AclGeom.exists_forall_defect_le}
+
+{docstring AclGeom.genus}
+
+{docstring AclGeom.riemann_inequality}
+
+{docstring AclGeom.genus_nonneg}
+
+Next in this library: the genus-zero checkpoint — genus zero forces
+`F ≃ k(t)` — then the canonical class and automorphism rigidity,
+tracked on the curve-theory issue.

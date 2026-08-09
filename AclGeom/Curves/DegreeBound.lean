@@ -275,14 +275,18 @@ theorem sum_pole_orders_finset_le_finrank (S : Finset (Place k F))
   · intro i
     exact hpole _ (S.equivFin.symm i).2
 
-/-- **The counting bound** (the dimension side of Stichtenoth Theorem
-1.4.11): `[F : k(f)] ≤ deg (f)_∞`. Products `f ^ j * uᵢ` of a `k(f)`-basis
-of `F` with powers of `f` up to `N` are `k`-linearly independent and lie
-in `L(N · (f)_∞ + C)` for a fixed effective `C`, so
-`(N + 1) · [F : k(f)] ≤ N · deg (f)_∞ + deg C + 1` for every `N`. -/
-theorem finrank_le_deg_poleDivisor {f : F} (htr : Transcendental k f) :
-    (Module.finrank (↥(adjoin k ({f} : Set F))) F : ℤ) ≤
-      (poleDivisor k f).deg := by
+/-- **The counting family** for the pole divisor of a transcendental
+element: an effective divisor `C` with
+`(N + 1) · [F : k(f)] ≤ ℓ(N · (f)_∞ + C)` for every `N` — products
+`f ^ j * uᵢ` of a `k(f)`-basis of `F` with powers of `f` up to `N` are
+`k`-linearly independent and lie in `L(N · (f)_∞ + C)`. This is the
+common source of the counting bound below and of Riemann's inequality. -/
+theorem exists_effective_riemannSpace_lower_bound {f : F}
+    (htr : Transcendental k f) :
+    ∃ C : Divisor k F, 0 ≤ C ∧ ∀ N : ℕ,
+      (N + 1) * Module.finrank (↥(adjoin k ({f} : Set F))) F ≤
+        Module.finrank k
+          (RiemannSpace ((N : ℤ) • poleDivisor k f + C)) := by
   classical
   haveI := finiteDimensional_adjoin_of_transcendental (k := k) htr
   have hf0 : f ≠ 0 := fun h ↦ htr (h ▸ isAlgebraic_zero)
@@ -306,71 +310,83 @@ theorem finrank_le_deg_poleDivisor {f : F} (htr : Transcendental k f) :
       (f := fun j ↦ poleDivisor k (u j) P)
       (fun j _ ↦ by simpa using poleDivisor_nonneg (k := k) (u j) P)
       (Finset.mem_univ i)
-  -- The counting inequality at every level `N`.
+  refine ⟨C, hCnonneg, fun N ↦ ?_⟩
+  set D : Divisor k F := (N : ℤ) • poleDivisor k f + C with hD
+  have hfK : f ∈ adjoin k ({f} : Set F) := subset_adjoin k _ rfl
+  -- The product family lands in `L(D)`.
+  have hsm : ∀ (j : ℕ) (i : Fin n),
+      ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ j) • u i =
+        f ^ j * u i := by
+    intro j i
+    rw [Algebra.smul_def, map_pow]
+    rfl
+  have hmem : ∀ p : Fin (N + 1) × Fin n,
+      ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (p.1 : ℕ)) • u p.2 ∈
+        RiemannSpace D := by
+    intro p
+    rw [hsm, hD]
+    exact mul_mem_riemannSpace
+      (pow_mem_riemannSpace_smul_poleDivisor hf0 p.1.is_le)
+      (hui p.2)
+  -- The product family is `k`-linearly independent.
+  have hpowK : LinearIndependent k
+      fun j : Fin (N + 1) ↦
+        (⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (j : ℕ) := by
+    apply LinearIndependent.of_comp
+      ((adjoin k ({f} : Set F)).val.toLinearMap)
+    have heq : ((adjoin k ({f} : Set F)).val.toLinearMap ∘
+        fun j : Fin (N + 1) ↦
+          (⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (j : ℕ)) =
+        fun j : Fin (N + 1) ↦ f ^ (j : ℕ) := by
+      funext j
+      simp
+    rw [heq]
+    exact linearIndependent_pow_of_transcendental htr (N + 1)
+  have hLI : LinearIndependent k
+      fun p : Fin (N + 1) × Fin n ↦
+        ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (p.1 : ℕ)) • u p.2 :=
+    linearIndependent_smul hpowK u.linearIndependent
+  -- Count inside `L(D)`.
+  have hw : LinearIndependent k
+      fun p : Fin (N + 1) × Fin n ↦
+        (⟨_, hmem p⟩ : ↥(RiemannSpace D)) := by
+    apply LinearIndependent.of_comp (RiemannSpace D).subtype
+    exact hLI
+  have hcard := hw.fintype_card_le_finrank
+  rwa [Fintype.card_prod, Fintype.card_fin, Fintype.card_fin] at hcard
+
+/-- **The counting bound** (the dimension side of Stichtenoth Theorem
+1.4.11): `[F : k(f)] ≤ deg (f)_∞`. From the counting family,
+`(N + 1) · [F : k(f)] ≤ N · deg (f)_∞ + deg C + 1` for every `N`;
+let `N → ∞`. -/
+theorem finrank_le_deg_poleDivisor {f : F} (htr : Transcendental k f) :
+    (Module.finrank (↥(adjoin k ({f} : Set F))) F : ℤ) ≤
+      (poleDivisor k f).deg := by
+  classical
+  obtain ⟨C, hCnonneg, hbound⟩ :=
+    exists_effective_riemannSpace_lower_bound htr
+  set n := Module.finrank (↥(adjoin k ({f} : Set F))) F with hn
   have key : ∀ N : ℕ, ((N : ℤ) + 1) * (n : ℤ) ≤
       (N : ℤ) * (poleDivisor k f).deg + C.deg + 1 := by
     intro N
-    set D : Divisor k F := (N : ℤ) • poleDivisor k f + C with hD
-    have hDnonneg : 0 ≤ D := by
+    have hDnonneg : 0 ≤ (N : ℤ) • poleDivisor k f + C := by
       intro P
       have h0 : (0 : Divisor k F) P = 0 := rfl
-      rw [h0, hD, Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul]
+      rw [h0, Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul]
       have h1 : 0 ≤ poleDivisor k f P := by
         simpa using poleDivisor_nonneg (k := k) f P
       have h2 : 0 ≤ C P := by simpa using hCnonneg P
       exact add_nonneg (mul_nonneg (Int.natCast_nonneg N) h1) h2
-    have hfK : f ∈ adjoin k ({f} : Set F) := subset_adjoin k _ rfl
-    -- The product family lands in `L(D)`.
-    have hsm : ∀ (j : ℕ) (i : Fin n),
-        ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ j) • u i =
-          f ^ j * u i := by
-      intro j i
-      rw [Algebra.smul_def, map_pow]
-      rfl
-    have hmem : ∀ p : Fin (N + 1) × Fin n,
-        ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (p.1 : ℕ)) • u p.2 ∈
-          RiemannSpace D := by
-      intro p
-      rw [hsm, hD]
-      exact mul_mem_riemannSpace
-        (pow_mem_riemannSpace_smul_poleDivisor hf0 p.1.is_le)
-        (hui p.2)
-    -- The product family is `k`-linearly independent.
-    have hpowK : LinearIndependent k
-        fun j : Fin (N + 1) ↦
-          (⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (j : ℕ) := by
-      apply LinearIndependent.of_comp
-        ((adjoin k ({f} : Set F)).val.toLinearMap)
-      have heq : ((adjoin k ({f} : Set F)).val.toLinearMap ∘
-          fun j : Fin (N + 1) ↦
-            (⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (j : ℕ)) =
-          fun j : Fin (N + 1) ↦ f ^ (j : ℕ) := by
-        funext j
-        simp
-      rw [heq]
-      exact linearIndependent_pow_of_transcendental htr (N + 1)
-    have hLI : LinearIndependent k
-        fun p : Fin (N + 1) × Fin n ↦
-          ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (p.1 : ℕ)) • u p.2 :=
-      linearIndependent_smul hpowK u.linearIndependent
-    -- Count inside `L(D)`.
-    have hw : LinearIndependent k
-        fun p : Fin (N + 1) × Fin n ↦
-          (⟨_, hmem p⟩ : ↥(RiemannSpace D)) := by
-      apply LinearIndependent.of_comp (RiemannSpace D).subtype
-      exact hLI
-    have hcard := hw.fintype_card_le_finrank
-    rw [Fintype.card_prod, Fintype.card_fin, Fintype.card_fin] at hcard
     have hdim := (finiteDimensional_riemannSpace_of_nonneg hDnonneg).2
-    have hdeg : D.deg = (N : ℤ) * (poleDivisor k f).deg + C.deg := by
-      rw [hD, Divisor.deg_add, Divisor.deg_smul]
+    have hdeg : ((N : ℤ) • poleDivisor k f + C).deg =
+        (N : ℤ) * (poleDivisor k f).deg + C.deg := by
+      rw [Divisor.deg_add, Divisor.deg_smul]
     rw [hdeg] at hdim
     have hcast : ((N : ℤ) + 1) * (n : ℤ) ≤
-        (Module.finrank k (RiemannSpace D) : ℤ) := by
-      exact_mod_cast hcard
-    calc ((N : ℤ) + 1) * (n : ℤ) ≤
-        (Module.finrank k (RiemannSpace D) : ℤ) := hcast
-      _ ≤ (N : ℤ) * (poleDivisor k f).deg + C.deg + 1 := hdim
+        (Module.finrank k
+          (RiemannSpace ((N : ℤ) • poleDivisor k f + C)) : ℤ) := by
+      exact_mod_cast hbound N
+    exact hcast.trans hdim
   -- Let `N → ∞`.
   by_contra hlt
   rw [not_le] at hlt
@@ -452,6 +468,16 @@ theorem deg_divisorOf_eq_zero {f : F} (htr : Transcendental k f) :
   rw [adjoin_inv_eq] at h2
   rw [divisorOf_eq_poleDivisor_inv_sub hf0, Divisor.deg_sub, h2,
     deg_poleDivisor_eq_finrank htr, sub_self]
+
+/-- **Principal divisors have degree zero**, for every element:
+constants (and the junk value at zero) have trivial divisor, and every
+non-constant is transcendental over the algebraically closed base. -/
+theorem deg_divisorOf_eq_zero' (z : F) :
+    (divisorOf k z).deg = 0 := by
+  by_cases halg : IsAlgebraic k z
+  · obtain ⟨c, hc⟩ := exists_algebraMap_eq_of_isAlgebraic halg
+    rw [← hc, divisorOf_algebraMap, Divisor.deg_zero]
+  · exact deg_divisorOf_eq_zero halg
 
 end
 
