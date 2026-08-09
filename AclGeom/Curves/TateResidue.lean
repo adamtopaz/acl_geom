@@ -502,11 +502,12 @@ theorem Place.pi_pow_mul_mem_map (P : Place k F) {g : F} (hg : g ≠ 0)
     field_simp
 
 /-- The image of the valuation ring under `1 − ε'` is spanned by the
-images of the uniformizer powers below `ord g`: finite rank. -/
-theorem Place.finiteDimensional_map_id_sub_conjProj (P : Place k F)
+images of the uniformizer powers below `ord g`. -/
+theorem Place.map_id_sub_conjProj_le_span (P : Place k F)
     {g : F} (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
-    FiniteDimensional k
-      (P.toSubmodule.map (LinearMap.id - P.conjProj g)) := by
+    P.toSubmodule.map (LinearMap.id - P.conjProj g) ≤
+      Submodule.span k (Set.range fun i : Fin (P.ord g).toNat ↦
+        (LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (i : ℕ))) := by
   classical
   set n : ℕ := (P.ord g).toNat with hn
   set δ : F →ₗ[k] F := LinearMap.id - P.conjProj g with hδ
@@ -516,25 +517,30 @@ theorem Place.finiteDimensional_map_id_sub_conjProj (P : Place k F)
     rw [hδ, LinearMap.sub_apply, LinearMap.id_apply,
       LinearMap.mulLeft_apply, Place.conjProj_apply, ← mul_assoc,
       inv_mul_cancel₀ hg, one_mul, P.proj_eq_self hb, sub_self]
-  have hspan : P.toSubmodule.map δ ≤
-      Submodule.span k
-        ((fun i : Fin n ↦ δ ((P.pi : F) ^ (i : ℕ))) '' Set.univ) := by
-    rintro x ⟨a, ha, rfl⟩
-    obtain ⟨c, b, hb, hexp⟩ := P.exists_taylor ha n
-    have h1 : δ a = ∑ i : Fin n, c i • δ ((P.pi : F) ^ (i : ℕ)) := by
-      rw [hexp, map_add, map_sum]
-      have h2 : δ (P.pi ^ n * b) = 0 :=
-        hker _ (P.pi_pow_mul_mem_map hg hord hb)
-      rw [h2, add_zero]
-      refine Finset.sum_congr rfl fun i _ ↦ ?_
-      rw [map_smul]
-    rw [h1]
-    exact Submodule.sum_mem _ fun i _ ↦ Submodule.smul_mem _ _
-      (Submodule.subset_span ⟨i, Set.mem_univ i, rfl⟩)
+  rintro x ⟨a, ha, rfl⟩
+  obtain ⟨c, b, hb, hexp⟩ := P.exists_taylor ha n
+  have h1 : δ a = ∑ i : Fin n, c i • δ ((P.pi : F) ^ (i : ℕ)) := by
+    rw [hexp, map_add, map_sum]
+    have h2 : δ (P.pi ^ n * b) = 0 :=
+      hker _ (P.pi_pow_mul_mem_map hg hord hb)
+    rw [h2, add_zero]
+    refine Finset.sum_congr rfl fun i _ ↦ ?_
+    rw [map_smul]
+  rw [h1]
+  exact Submodule.sum_mem _ fun i _ ↦ Submodule.smul_mem _ _
+    (Submodule.subset_span ⟨i, rfl⟩)
+
+/-- The image of the valuation ring under `1 − ε'` has finite rank. -/
+theorem Place.finiteDimensional_map_id_sub_conjProj (P : Place k F)
+    {g : F} (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
+    FiniteDimensional k
+      (P.toSubmodule.map (LinearMap.id - P.conjProj g)) := by
   haveI : FiniteDimensional k (Submodule.span k
-      ((fun i : Fin n ↦ δ ((P.pi : F) ^ (i : ℕ))) '' Set.univ)) :=
-    FiniteDimensional.span_of_finite k (Set.finite_univ.image _)
-  exact Submodule.finiteDimensional_of_le hspan
+      (Set.range fun i : Fin (P.ord g).toNat ↦
+        (LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (i : ℕ)))) :=
+    FiniteDimensional.span_of_finite k (Set.finite_range _)
+  exact Submodule.finiteDimensional_of_le
+    (P.map_id_sub_conjProj_le_span hg hord)
 
 /-- The transversal projection `ρ = (1 − ε') ∘ ε`: an idempotent
 projecting onto a transversal of `g · O_P` in `O_P`. -/
@@ -570,6 +576,7 @@ theorem Place.isIdempotentElem_transversalProj (P : Place k F) {g : F}
     rw [h4, sub_self]
   rw [h3, sub_zero]
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- The range of the transversal projection is the image of the
 valuation ring under `1 − ε'`. -/
 theorem Place.range_transversalProj (P : Place k F) (g : F) :
@@ -627,6 +634,159 @@ theorem Place.residue_inv_self_eq_finrank (P : Place k F) {g : F}
   rw [tateTrace_of_isIdempotentElem
     (P.isIdempotentElem_transversalProj hg hord),
     P.range_transversalProj g]
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- Elements killed by `1 − ε'` lie in `g · O_P`. -/
+theorem Place.mem_map_mulLeft_of_id_sub_conjProj_eq_zero
+    (P : Place k F) {g x : F}
+    (hx : (LinearMap.id - P.conjProj g : F →ₗ[k] F) x = 0) :
+    x ∈ P.toSubmodule.map (LinearMap.mulLeft k g) := by
+  rw [LinearMap.sub_apply, LinearMap.id_apply, sub_eq_zero] at hx
+  refine ⟨P.proj (g⁻¹ * x), P.proj_mem _, ?_⟩
+  rw [LinearMap.mulLeft_apply]
+  exact (hx.trans (P.conjProj_apply g x)).symm
+
+/-- Nonzero elements of `g · O_P` have order at least `ord g`. -/
+theorem Place.ord_le_ord_of_mem_map_mulLeft (P : Place k F) {g x : F}
+    (hg : g ≠ 0) (hx0 : x ≠ 0)
+    (hx : x ∈ P.toSubmodule.map (LinearMap.mulLeft k g)) :
+    P.ord g ≤ P.ord x := by
+  obtain ⟨b, hb, rfl⟩ := hx
+  rw [LinearMap.mulLeft_apply] at hx0 ⊢
+  have hb0 : b ≠ 0 := by
+    rintro rfl
+    rw [mul_zero] at hx0
+    exact hx0 rfl
+  rw [P.ord_mul hg hb0]
+  have h1 : 0 ≤ P.ord b :=
+    (P.ord_nonneg_iff hb0).2 (Place.mem_toSubmodule_iff.1 hb)
+  omega
+
+/-- **Dominant-term order**: a combination of uniformizer powers of
+exponents below `n` with some nonzero coefficient is nonzero, of order
+below `n`. -/
+theorem Place.ord_sum_smul_pow_pi_lt (P : Place k F) {n : ℕ}
+    {c : Fin n → k} {i : Fin n} (hi : c i ≠ 0) :
+    (∑ j, c j • (P.pi : F) ^ (j : ℕ)) ≠ 0 ∧
+      P.ord (∑ j, c j • (P.pi : F) ^ (j : ℕ)) < (n : ℤ) := by
+  classical
+  set s : Finset (Fin n) :=
+    Finset.filter (fun j : Fin n ↦ c j ≠ 0) Finset.univ with hs
+  have his : i ∈ s := Finset.mem_filter.2 ⟨Finset.mem_univ i, hi⟩
+  have hne : s.Nonempty := ⟨i, his⟩
+  set i₀ : Fin n := s.min' hne with hi₀
+  have hi₀s : i₀ ∈ s := s.min'_mem hne
+  have hc₀ : c i₀ ≠ 0 := (Finset.mem_filter.1 hi₀s).2
+  have hterm : ∀ j : Fin n, c j ≠ 0 →
+      P.val.valuation (c j • (P.pi : F) ^ (j : ℕ)) =
+        P.val.valuation P.pi ^ ((j : ℕ) : ℤ) := by
+    intro j hj
+    rw [Algebra.smul_def, Valuation.map_mul,
+      valuation_algebraMap_eq_one P.algebraMap_mem hj, one_mul,
+      Valuation.map_pow, ← zpow_natCast]
+  have hsum : ∑ j, c j • (P.pi : F) ^ (j : ℕ) =
+      ∑ j ∈ s, c j • (P.pi : F) ^ (j : ℕ) := by
+    rw [hs]
+    refine (Finset.sum_filter_of_ne
+      (p := fun j : Fin n ↦ c j ≠ 0) fun j _ hj h0 ↦ hj ?_).symm
+    rw [h0, zero_smul]
+  have hdom : P.val.valuation (∑ j ∈ s, c j • (P.pi : F) ^ (j : ℕ)) =
+      P.val.valuation P.pi ^ ((i₀ : ℕ) : ℤ) := by
+    rw [← hterm i₀ hc₀]
+    refine valuation_sum_eq_of_forall_lt hi₀s fun j hj hji ↦ ?_
+    have hcj : c j ≠ 0 := (Finset.mem_filter.1 hj).2
+    rw [hterm j hcj, hterm i₀ hc₀,
+      zpow_lt_zpow_iff_right_of_lt_one₀ P.pi_valuation_pos
+        P.pi_valuation_lt_one]
+    have h1 : i₀ < j := lt_of_le_of_ne (s.min'_le j hj)
+      fun h ↦ hji h.symm
+    have h2 : (i₀ : ℕ) < (j : ℕ) := h1
+    exact_mod_cast h2
+  have hval : P.val.valuation (∑ j, c j • (P.pi : F) ^ (j : ℕ)) =
+      P.val.valuation P.pi ^ ((i₀ : ℕ) : ℤ) := by
+    rw [hsum, hdom]
+  have hz0 : (∑ j, c j • (P.pi : F) ^ (j : ℕ)) ≠ 0 := by
+    intro h0
+    rw [h0, Valuation.map_zero] at hval
+    exact zpow_ne_zero _ P.pi_valuation_pos.ne' hval.symm
+  refine ⟨hz0, ?_⟩
+  rw [P.ord_eq_of_valuation_eq_zpow hz0 hval]
+  exact_mod_cast i₀.isLt
+
+/-- The images of `1, π, …, π^{ord g − 1}` under `1 − ε'` are linearly
+independent: a vanishing combination would put an element of order
+below `ord g` into `g · O_P`. -/
+theorem Place.linearIndependent_id_sub_conjProj_pow (P : Place k F)
+    {g : F} (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
+    LinearIndependent k fun i : Fin (P.ord g).toNat ↦
+      (LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (i : ℕ)) := by
+  rw [Fintype.linearIndependent_iff]
+  intro c hc
+  by_contra hne
+  push Not at hne
+  obtain ⟨i, hi⟩ := hne
+  have hδz : (LinearMap.id - P.conjProj g : F →ₗ[k] F)
+      (∑ j, c j • (P.pi : F) ^ (j : ℕ)) = 0 := by
+    rw [map_sum]
+    have h1 : ∑ j : Fin (P.ord g).toNat,
+        (LinearMap.id - P.conjProj g : F →ₗ[k] F) (c j • (P.pi : F) ^ (j : ℕ)) =
+        ∑ j : Fin (P.ord g).toNat,
+          c j • (LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (j : ℕ)) :=
+      Finset.sum_congr rfl fun j _ ↦ map_smul _ _ _
+    exact h1.trans hc
+  obtain ⟨hz0, hzlt⟩ := P.ord_sum_smul_pow_pi_lt hi
+  have hle := P.ord_le_ord_of_mem_map_mulLeft hg hz0
+    (P.mem_map_mulLeft_of_id_sub_conjProj_eq_zero hδz)
+  omega
+
+/-- **The transversal dimension is the order**: for `g` integral at
+`P`, the image of `O_P` under `1 − ε'` has dimension `ord_P g`. -/
+theorem Place.finrank_map_id_sub_conjProj (P : Place k F) {g : F}
+    (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
+    Module.finrank k
+      (P.toSubmodule.map (LinearMap.id - P.conjProj g)) =
+      (P.ord g).toNat := by
+  haveI := P.finiteDimensional_map_id_sub_conjProj hg hord
+  refine le_antisymm ?_ ?_
+  · haveI : FiniteDimensional k (Submodule.span k
+        (Set.range fun i : Fin (P.ord g).toNat ↦
+          (LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (i : ℕ)))) :=
+      FiniteDimensional.span_of_finite k (Set.finite_range _)
+    refine le_trans (Submodule.finrank_mono
+      (P.map_id_sub_conjProj_le_span hg hord)) ?_
+    have h1 := finrank_range_le_card (R := k)
+      (b := fun i : Fin (P.ord g).toNat ↦
+        (LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (i : ℕ)))
+    rw [Fintype.card_fin] at h1
+    exact h1
+  · have hmem : ∀ i : Fin (P.ord g).toNat,
+        (LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (i : ℕ)) ∈
+          P.toSubmodule.map (LinearMap.id - P.conjProj g) := by
+      intro i
+      refine ⟨(P.pi : F) ^ (i : ℕ), ?_, rfl⟩
+      change P.val.valuation ((P.pi : F) ^ (i : ℕ)) ≤ 1
+      rw [Valuation.map_pow]
+      exact pow_le_one' P.pi_valuation_lt_one.le _
+    have hw : LinearIndependent k fun i : Fin (P.ord g).toNat ↦
+        (⟨(LinearMap.id - P.conjProj g : F →ₗ[k] F) ((P.pi : F) ^ (i : ℕ)),
+          hmem i⟩ :
+          ↥(P.toSubmodule.map (LinearMap.id - P.conjProj g))) := by
+      apply LinearIndependent.of_comp
+        (P.toSubmodule.map (LinearMap.id - P.conjProj g)).subtype
+      exact P.linearIndependent_id_sub_conjProj_pow hg hord
+    have hcard := hw.fintype_card_le_finrank
+    rw [Fintype.card_fin] at hcard
+    exact hcard
+
+/-- **Tate's ord-link** — the residue of `dg/g` is the order of `g`:
+for `g` integral at `P`, `res_P(g⁻¹ dg) = ord_P g`, cast into `k`.
+This is the anchor identity connecting the trace-theoretic residue to
+the divisor theory. -/
+theorem Place.residue_inv_self (P : Place k F) {g : F} (hg : g ≠ 0)
+    (hord : 0 ≤ P.ord g) :
+    P.residue g⁻¹ g = ((P.ord g).toNat : k) := by
+  rw [P.residue_inv_self_eq_finrank hg hord,
+    P.finrank_map_id_sub_conjProj hg hord]
 
 end OrdLink
 
