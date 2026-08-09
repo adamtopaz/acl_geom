@@ -369,6 +369,83 @@ theorem adeleProj_commutator_apply (D : Divisor k F) (f g : F)
         (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f))
       ((α : (Q : Place k F) → F) P) := rfl
 
+open Classical in
+/-- The single-place inclusion at the ambient level: the value `x`
+concentrated at the place `P`. -/
+noncomputable def adeleSinglePi (P : Place k F) :
+    F →ₗ[k] ((Q : Place k F) → F) where
+  toFun x := fun Q ↦ if Q = P then x else 0
+  map_add' x y := by
+    funext Q
+    by_cases h : Q = P <;> simp [h]
+  map_smul' c x := by
+    funext Q
+    by_cases h : Q = P <;> simp [h]
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+theorem adeleSinglePi_apply_self (P : Place k F) (x : F) :
+    adeleSinglePi (k := k) P x P = x := if_pos rfl
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+theorem adeleSinglePi_apply_ne (P : Place k F) {Q : Place k F}
+    (hQ : Q ≠ P) (x : F) : adeleSinglePi (k := k) P x Q = 0 :=
+  if_neg hQ
+
+theorem adeleSinglePi_mem_adeleSubmodule (P : Place k F) (x : F) :
+    adeleSinglePi (k := k) P x ∈ adeleSubmodule k F := by
+  refine Set.Finite.subset (Set.finite_singleton P) fun Q hQ ↦ ?_
+  simp only [Set.mem_setOf_eq] at hQ
+  rw [Set.mem_singleton_iff]
+  by_contra hne
+  rw [adeleSinglePi_apply_ne P hne] at hQ
+  exact hQ.1 rfl
+
+/-- The single-place inclusion into the adele module. -/
+noncomputable def adeleSingle (P : Place k F) :
+    F →ₗ[k] ↥(adeleSubmodule k F) :=
+  LinearMap.codRestrict _ (adeleSinglePi P)
+    fun x ↦ adeleSinglePi_mem_adeleSubmodule P x
+
+theorem adeleSingle_coe (P : Place k F) (x : F) :
+    ((adeleSingle P x : ↥(adeleSubmodule k F)) :
+      (Q : Place k F) → F) = adeleSinglePi (k := k) P x := rfl
+
+theorem adeleSingle_injective (P : Place k F) :
+    Function.Injective (adeleSingle (k := k) (F := F) P) := by
+  intro x y hxy
+  have h1 := congrArg
+    (fun α : ↥(adeleSubmodule k F) ↦ (α : (Q : Place k F) → F) P) hxy
+  simpa [adeleSingle_coe, adeleSinglePi_apply_self] using h1
+
+/-- **The blockwise commutator restricted to a single place**: the
+global commutator built from the componentwise projection carries the
+single-place copy of `F` into itself, by the local commutator. -/
+theorem adeleProj_commutator_comp_single (D : Divisor k F) (f g : F)
+    (P : Place k F) (x : F) :
+    ((adeleProj D ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (adeleProj D ∘ₗ adeleSMul f)) (adeleSingle P x) =
+    adeleSingle P
+      (((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f))
+        x) := by
+  refine Subtype.ext (funext fun Q ↦ ?_)
+  rw [adeleProj_commutator_apply]
+  rcases eq_or_ne Q P with rfl | hQ
+  · rw [adeleSingle_coe, adeleSingle_coe, adeleSinglePi_apply_self,
+      adeleSinglePi_apply_self]
+  · have h1 : ((adeleSingle P x : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) Q = 0 := adeleSinglePi_apply_ne P hQ x
+    have h2 : ((adeleSingle P
+        (((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+            LinearMap.mulLeft k g -
+          LinearMap.mulLeft k g ∘ₗ
+            (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f))
+          x) : ↥(adeleSubmodule k F)) : (R : Place k F) → F) Q = 0 :=
+      adeleSinglePi_apply_ne P hQ _
+    rw [h1, h2, map_zero]
+
 /-- **The global commutator trace vanishes** (the heart of the residue
 theorem): for any projection `π` onto a bounded adele space that,
 together with the diagonal, fills the adele module, the trace of

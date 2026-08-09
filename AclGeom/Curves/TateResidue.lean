@@ -1012,6 +1012,62 @@ theorem Place.residue_eq_zero_of_mem (P : Place k F) {f g : F}
   rw [Place.residue, ← hC]
   exact tateTrace_of_isNilpotent hnil
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- **The square-zero pattern for integral pairs**, for any projection
+onto the valuation ring: the commutator kills `O_P` and lands in it. -/
+theorem Place.commutator_comp_self_eq_zero (P : Place k F)
+    {ε : F →ₗ[k] F} (hεr : ∀ x : F, ε x ∈ P.toSubmodule)
+    (hεf : ∀ x ∈ P.toSubmodule, ε x = x)
+    {f g : F} (hf : f ∈ P.toSubmodule) (hg : g ∈ P.toSubmodule) :
+    ((ε ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (ε ∘ₗ LinearMap.mulLeft k f)) ∘ₗ
+    ((ε ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (ε ∘ₗ LinearMap.mulLeft k f)) = 0 := by
+  set C : Module.End k F :=
+    (ε ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (ε ∘ₗ LinearMap.mulLeft k f)
+    with hC
+  have happ : ∀ x : F,
+      C x = ε (f * (g * x)) - g * ε (f * x) := fun x ↦ rfl
+  have hker : ∀ x ∈ P.toSubmodule, C x = 0 := by
+    intro x hx
+    rw [happ]
+    have h1 : f * (g * x) ∈ P.toSubmodule :=
+      P.mul_mem_toSubmodule hf (P.mul_mem_toSubmodule hg hx)
+    have h2 : f * x ∈ P.toSubmodule := P.mul_mem_toSubmodule hf hx
+    rw [hεf _ h1, hεf _ h2]
+    ring
+  have hrange : ∀ x : F, C x ∈ P.toSubmodule := by
+    intro x
+    rw [happ]
+    exact Submodule.sub_mem _ (hεr _)
+      (P.mul_mem_toSubmodule hg (hεr _))
+  refine LinearMap.ext fun x ↦ ?_
+  rw [LinearMap.comp_apply, LinearMap.zero_apply]
+  exact hker _ (hrange x)
+
+/-- The chosen bottom-stage filtration projection satisfies the
+square-zero pattern for integral pairs. -/
+theorem Place.filtrationProj_commutator_comp_self_eq_zero
+    (P : Place k F) {f g : F} (hf : f ∈ P.toSubmodule)
+    (hg : g ∈ P.toSubmodule) :
+    ((P.filtrationProj 0 ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+        LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.filtrationProj 0 ∘ₗ LinearMap.mulLeft k f)) ∘ₗ
+    ((P.filtrationProj 0 ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+        LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.filtrationProj 0 ∘ₗ LinearMap.mulLeft k f)) = 0 := by
+  refine P.commutator_comp_self_eq_zero ?_ ?_ hf hg
+  · intro x
+    rw [← P.filtration_zero]
+    exact P.filtrationProj_mem 0 x
+  · intro x hx
+    refine P.filtrationProj_eq_self ?_
+    rw [P.filtration_zero]
+    exact hx
+
 /-- The residue vanishes when the first argument is zero. -/
 theorem Place.residue_zero_left (P : Place k F) (g : F) :
     P.residue 0 g = 0 := by
