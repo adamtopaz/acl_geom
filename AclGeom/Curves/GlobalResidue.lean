@@ -569,6 +569,93 @@ theorem finiteDimensional_range_blockOp_comp_self (D : Divisor k F)
   congr 1
   exact (adeleSinglePi_apply_self P _).symm
 
+/-- **The block trace is the local trace**: the single-place block has
+the same Tate trace as the local commutator it conjugates, computed on
+the pushed-forward core. -/
+theorem tateTrace_blockOp (D : Divisor k F) (f g : F)
+    (P : Place k F) :
+    tateTrace (blockOp D f g P) =
+      tateTrace
+        ((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+            LinearMap.mulLeft k g -
+          LinearMap.mulLeft k g ∘ₗ
+            (P.filtrationProj (D P).toNat ∘ₗ
+              LinearMap.mulLeft k f)) := by
+  set C : Module.End k F :=
+    (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+        LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f)
+    with hC
+  obtain ⟨W, hW⟩ := (P.isTraceClass_filtrationProj_commutator f g
+    (D P).toNat).isFinitePotent.exists_isTateCore
+  haveI := hW.finite
+  have hstable : ∀ x ∈ W.map (adeleSingle P),
+      blockOp D f g P x ∈ W.map (adeleSingle P) := by
+    rintro x ⟨w, hw, rfl⟩
+    rw [blockOp_apply]
+    have h1 : ((adeleSingle P w : ↥(adeleSubmodule k F)) :
+        (Q : Place k F) → F) P = w := adeleSinglePi_apply_self P w
+    rw [h1]
+    exact ⟨C w, hW.stable w hw, rfl⟩
+  obtain ⟨n, hn⟩ := hW.absorbs
+  have hpow : ∀ (m : ℕ), 1 ≤ m → ∀ α : ↥(adeleSubmodule k F),
+      (blockOp D f g P ^ m) α =
+        adeleSingle P ((C ^ m) ((α : (Q : Place k F) → F) P)) := by
+    intro m hm
+    induction m with
+    | zero => omega
+    | succ m ih =>
+      intro α
+      rcases Nat.lt_or_ge 0 m with h1 | h1
+      · have hm1 : 1 ≤ m := h1
+        rw [pow_succ, pow_succ, Module.End.mul_apply,
+          Module.End.mul_apply, ih hm1]
+        congr 1
+        rw [blockOp_apply]
+        congr 1
+        exact adeleSinglePi_apply_self P _
+      · have hm0 : m = 0 := by omega
+        subst hm0
+        rw [pow_one, pow_one]
+        exact blockOp_apply D f g P α
+  have hcore : IsTateCore (blockOp D f g P)
+      (W.map (adeleSingle P)) := by
+    refine ⟨inferInstance, hstable, ⟨max n 1, fun α ↦ ?_⟩⟩
+    rw [hpow (max n 1) (le_max_right n 1) α]
+    exact ⟨(C ^ max n 1) ((α : (Q : Place k F) → F) P),
+      hW.pow_mem_of_le hn (le_max_left n 1) _, rfl⟩
+  rw [hcore.tateTrace_eq, hW.tateTrace_eq]
+  set e := Submodule.equivMapOfInjective (adeleSingle P)
+    (adeleSingle_injective P) W with he
+  have hconj : (blockOp D f g P).restrict hcore.stable =
+      e.conj (C.restrict hW.stable) := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    have h2 : (x : ↥(adeleSubmodule k F)) =
+        adeleSingle P ((e.symm x : ↥W) : F) := by
+      conv_lhs => rw [← e.apply_symm_apply x]
+      rw [he]
+      exact Submodule.coe_equivMapOfInjective_apply (adeleSingle P)
+        (adeleSingle_injective P) W _
+    have h3 : (((blockOp D f g P).restrict hcore.stable x :
+        ↥(W.map (adeleSingle P))) : ↥(adeleSubmodule k F)) =
+        blockOp D f g P (x : ↥(adeleSubmodule k F)) := rfl
+    have h4 : ((e.conj (C.restrict hW.stable) x :
+        ↥(W.map (adeleSingle P))) : ↥(adeleSubmodule k F)) =
+        adeleSingle P (C ((e.symm x : ↥W) : F)) := by
+      rw [LinearEquiv.conj_apply, he]
+      exact Submodule.coe_equivMapOfInjective_apply (adeleSingle P)
+        (adeleSingle_injective P) W _
+    rw [h3, h4, blockOp_apply]
+    congr 1
+    have h5 : ((x : ↥(adeleSubmodule k F)) :
+        (Q : Place k F) → F) P =
+        ((e.symm x : ↥W) : F) := by
+      rw [h2]
+      exact adeleSinglePi_apply_self P _
+    rw [h5]
+  rw [hconj, LinearMap.trace_conj']
+
 /-- **The global commutator trace vanishes** (the heart of the residue
 theorem): for any projection `π` onto a bounded adele space that,
 together with the diagonal, fills the adele module, the trace of
