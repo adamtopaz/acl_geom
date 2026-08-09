@@ -3,7 +3,8 @@ Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
-import AclGeom.Curves.Divisors
+import AclGeom.Curves.RiemannRoch
+import Mathlib.RingTheory.AlgebraTower
 
 /-!
 # The pole-order bound
@@ -46,6 +47,22 @@ theorem adjoin_inv_eq (f : F) :
     have h2 := inv_mem h1
     rwa [inv_inv] at h2
 
+/-- Powers of a transcendental element are linearly independent. -/
+theorem linearIndependent_pow_of_transcendental {f : F}
+    (htr : Transcendental k f) (N : ℕ) :
+    LinearIndependent k fun j : Fin N ↦ f ^ (j : ℕ) := by
+  rw [Fintype.linearIndependent_iff]
+  intro g hg j
+  have hp : (∑ j' : Fin N,
+      Polynomial.C (g j') * Polynomial.X ^ (j' : ℕ)) = 0 := by
+    rw [transcendental_iff] at htr
+    refine htr _ ?_
+    rw [map_sum]
+    simpa [Algebra.smul_def] using hg
+  have hcoeff := congrArg (fun p ↦ Polynomial.coeff p (j : ℕ)) hp
+  simpa [Polynomial.finsetSum_coeff, Polynomial.coeff_X_pow,
+    Fin.val_inj] using hcoeff
+
 variable [IsAlgClosed k] [IsFunctionFieldOneVar k F]
 
 /-- **The pole-order bound** (the pole side of Stichtenoth Theorem
@@ -77,7 +94,7 @@ theorem sum_pole_orders_le_finrank {s : ℕ} (P : Fin s → Place k F)
   set e : Fin s → ℕ := fun i ↦ (-(P i).ord f).toNat with he
   have he_pos : ∀ i, 0 < e i := by
     intro i
-    show 0 < (-(P i).ord f).toNat
+    change 0 < (-(P i).ord f).toNat
     have := hpole i
     omega
   set ι := (Σ i : Fin s, Fin (e i)) with hι
@@ -121,7 +138,7 @@ theorem sum_pole_orders_le_finrank {s : ℕ} (P : Fin s → Place k F)
           mul_comm]
       rw [h2, hordinv i]
       have h3 : ((e i : ℕ) : ℤ) = -(P i).ord f := by
-        show (((-(P i).ord f).toNat : ℕ) : ℤ) = -(P i).ord f
+        change (((-(P i).ord f).toNat : ℕ) : ℤ) = -(P i).ord f
         have := hpole i
         omega
       rw [h3]
@@ -235,6 +252,206 @@ theorem sum_pole_orders_le_finrank {s : ℕ} (P : Fin s → Place k F)
   have hcard := hind.fintype_card_le_finrank
   rwa [Fintype.card_sigma, Finset.sum_congr rfl
     (fun i _ ↦ Fintype.card_fin (e i))] at hcard
+
+/-- Finset form of the pole-order bound. -/
+theorem sum_pole_orders_finset_le_finrank (S : Finset (Place k F))
+    {f : F} (htr : Transcendental k f)
+    (hpole : ∀ P ∈ S, P.ord f < 0) :
+    (∑ P ∈ S, (-(P.ord f)).toNat) ≤
+      Module.finrank (↥(adjoin k ({f} : Set F))) F := by
+  classical
+  have hbij : ∑ P ∈ S, (-(P.ord f)).toNat =
+      ∑ i : Fin S.card,
+        (-((S.equivFin.symm i : Place k F)).ord f).toNat := by
+    rw [← Finset.sum_attach S fun P ↦ (-(P.ord f)).toNat,
+      ← Finset.sum_coe_sort_eq_attach,
+      ← Equiv.sum_comp S.equivFin.symm
+        fun q : ↥S ↦ (-((q : Place k F)).ord f).toNat]
+  rw [hbij]
+  refine sum_pole_orders_le_finrank
+    (fun i ↦ (S.equivFin.symm i : Place k F)) ?_ htr ?_
+  · intro i j hij
+    exact S.equivFin.symm.injective (Subtype.coe_injective hij)
+  · intro i
+    exact hpole _ (S.equivFin.symm i).2
+
+/-- **The counting bound** (the dimension side of Stichtenoth Theorem
+1.4.11): `[F : k(f)] ≤ deg (f)_∞`. Products `f ^ j * uᵢ` of a `k(f)`-basis
+of `F` with powers of `f` up to `N` are `k`-linearly independent and lie
+in `L(N · (f)_∞ + C)` for a fixed effective `C`, so
+`(N + 1) · [F : k(f)] ≤ N · deg (f)_∞ + deg C + 1` for every `N`. -/
+theorem finrank_le_deg_poleDivisor {f : F} (htr : Transcendental k f) :
+    (Module.finrank (↥(adjoin k ({f} : Set F))) F : ℤ) ≤
+      (poleDivisor k f).deg := by
+  classical
+  haveI := finiteDimensional_adjoin_of_transcendental (k := k) htr
+  have hf0 : f ≠ 0 := fun h ↦ htr (h ▸ isAlgebraic_zero)
+  set n := Module.finrank (↥(adjoin k ({f} : Set F))) F with hn
+  set u := Module.finBasis (↥(adjoin k ({f} : Set F))) F with hudef
+  set C : Divisor k F := ∑ i, poleDivisor k (u i) with hC
+  have hCnonneg : 0 ≤ C := by
+    intro P
+    have h0 : (0 : Divisor k F) P = 0 := rfl
+    rw [h0, hC, Finsupp.finsetSum_apply]
+    exact Finset.sum_nonneg fun i _ ↦ by
+      simpa using poleDivisor_nonneg (k := k) (u i) P
+  -- Each basis vector lies in `L(C)`.
+  have hui : ∀ i, u i ∈ RiemannSpace C := by
+    intro i
+    refine riemannSpace_mono ?_
+      (mem_riemannSpace_poleDivisor (u.ne_zero i))
+    intro P
+    rw [hC, Finsupp.finsetSum_apply]
+    exact Finset.single_le_sum
+      (f := fun j ↦ poleDivisor k (u j) P)
+      (fun j _ ↦ by simpa using poleDivisor_nonneg (k := k) (u j) P)
+      (Finset.mem_univ i)
+  -- The counting inequality at every level `N`.
+  have key : ∀ N : ℕ, ((N : ℤ) + 1) * (n : ℤ) ≤
+      (N : ℤ) * (poleDivisor k f).deg + C.deg + 1 := by
+    intro N
+    set D : Divisor k F := (N : ℤ) • poleDivisor k f + C with hD
+    have hDnonneg : 0 ≤ D := by
+      intro P
+      have h0 : (0 : Divisor k F) P = 0 := rfl
+      rw [h0, hD, Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul]
+      have h1 : 0 ≤ poleDivisor k f P := by
+        simpa using poleDivisor_nonneg (k := k) f P
+      have h2 : 0 ≤ C P := by simpa using hCnonneg P
+      exact add_nonneg (mul_nonneg (Int.natCast_nonneg N) h1) h2
+    have hfK : f ∈ adjoin k ({f} : Set F) := subset_adjoin k _ rfl
+    -- The product family lands in `L(D)`.
+    have hsm : ∀ (j : ℕ) (i : Fin n),
+        ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ j) • u i =
+          f ^ j * u i := by
+      intro j i
+      rw [Algebra.smul_def, map_pow]
+      rfl
+    have hmem : ∀ p : Fin (N + 1) × Fin n,
+        ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (p.1 : ℕ)) • u p.2 ∈
+          RiemannSpace D := by
+      intro p
+      rw [hsm, hD]
+      exact mul_mem_riemannSpace
+        (pow_mem_riemannSpace_smul_poleDivisor hf0 p.1.is_le)
+        (hui p.2)
+    -- The product family is `k`-linearly independent.
+    have hpowK : LinearIndependent k
+        fun j : Fin (N + 1) ↦
+          (⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (j : ℕ) := by
+      apply LinearIndependent.of_comp
+        ((adjoin k ({f} : Set F)).val.toLinearMap)
+      have heq : ((adjoin k ({f} : Set F)).val.toLinearMap ∘
+          fun j : Fin (N + 1) ↦
+            (⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (j : ℕ)) =
+          fun j : Fin (N + 1) ↦ f ^ (j : ℕ) := by
+        funext j
+        simp
+      rw [heq]
+      exact linearIndependent_pow_of_transcendental htr (N + 1)
+    have hLI : LinearIndependent k
+        fun p : Fin (N + 1) × Fin n ↦
+          ((⟨f, hfK⟩ : ↥(adjoin k ({f} : Set F))) ^ (p.1 : ℕ)) • u p.2 :=
+      linearIndependent_smul hpowK u.linearIndependent
+    -- Count inside `L(D)`.
+    have hw : LinearIndependent k
+        fun p : Fin (N + 1) × Fin n ↦
+          (⟨_, hmem p⟩ : ↥(RiemannSpace D)) := by
+      apply LinearIndependent.of_comp (RiemannSpace D).subtype
+      exact hLI
+    have hcard := hw.fintype_card_le_finrank
+    rw [Fintype.card_prod, Fintype.card_fin, Fintype.card_fin] at hcard
+    have hdim := (finiteDimensional_riemannSpace_of_nonneg hDnonneg).2
+    have hdeg : D.deg = (N : ℤ) * (poleDivisor k f).deg + C.deg := by
+      rw [hD, Divisor.deg_add, Divisor.deg_smul]
+    rw [hdeg] at hdim
+    have hcast : ((N : ℤ) + 1) * (n : ℤ) ≤
+        (Module.finrank k (RiemannSpace D) : ℤ) := by
+      exact_mod_cast hcard
+    calc ((N : ℤ) + 1) * (n : ℤ) ≤
+        (Module.finrank k (RiemannSpace D) : ℤ) := hcast
+      _ ≤ (N : ℤ) * (poleDivisor k f).deg + C.deg + 1 := hdim
+  -- Let `N → ∞`.
+  by_contra hlt
+  rw [not_le] at hlt
+  have hdnonneg : 0 ≤ (poleDivisor k f).deg :=
+    Divisor.deg_nonneg (poleDivisor_nonneg f)
+  have hcnonneg : 0 ≤ C.deg := Divisor.deg_nonneg hCnonneg
+  set N : ℕ := C.deg.toNat + 1 with hN
+  have hcN : C.deg < (N : ℤ) := by
+    rw [hN]
+    push_cast
+    omega
+  have hkey := key N
+  have h1 : ((N : ℤ) + 1) * ((poleDivisor k f).deg + 1) ≤
+      ((N : ℤ) + 1) * (n : ℤ) := by
+    refine mul_le_mul_of_nonneg_left ?_ ?_
+    · omega
+    · positivity
+  have hexp : ((N : ℤ) + 1) * ((poleDivisor k f).deg + 1) =
+      (N : ℤ) * (poleDivisor k f).deg + (N : ℤ) +
+        (poleDivisor k f).deg + 1 := by ring
+  linarith [hkey, h1, hexp, hdnonneg, hcN]
+
+/-- The pole degree is at most `[F : k(f)]`: the support of the pole
+divisor is a finite set of poles, so the pole-order bound applies. -/
+theorem deg_poleDivisor_le_finrank {f : F} (htr : Transcendental k f) :
+    (poleDivisor k f).deg ≤
+      (Module.finrank (↥(adjoin k ({f} : Set F))) F : ℤ) := by
+  classical
+  have hf0 : f ≠ 0 := fun h ↦ htr (h ▸ isAlgebraic_zero)
+  have hpole : ∀ P ∈ (poleDivisor k f).support, P.ord f < 0 := by
+    intro P hP
+    rw [Finsupp.mem_support_iff, poleDivisor_apply hf0] at hP
+    rcases le_total (-(P.ord f)) 0 with h | h
+    · exact absurd (max_eq_right h) hP
+    · rw [max_eq_left h] at hP
+      omega
+  have hsum := sum_pole_orders_finset_le_finrank
+    (poleDivisor k f).support htr hpole
+  have hdeg : (poleDivisor k f).deg =
+      ((∑ P ∈ (poleDivisor k f).support, (-(P.ord f)).toNat : ℕ) : ℤ) := by
+    rw [Divisor.deg, Finsupp.sum, Nat.cast_sum]
+    refine Finset.sum_congr rfl fun P hP ↦ ?_
+    have h := hpole P hP
+    rw [poleDivisor_apply hf0, max_eq_left (by omega),
+      Int.toNat_of_nonneg (by omega)]
+  rw [hdeg]
+  exact_mod_cast hsum
+
+/-- **The degree of the pole divisor** (Stichtenoth Theorem 1.4.11):
+`deg (f)_∞ = [F : k(f)]` for transcendental `f`. -/
+theorem deg_poleDivisor_eq_finrank {f : F} (htr : Transcendental k f) :
+    (poleDivisor k f).deg =
+      (Module.finrank (↥(adjoin k ({f} : Set F))) F : ℤ) :=
+  le_antisymm (deg_poleDivisor_le_finrank htr)
+    (finrank_le_deg_poleDivisor htr)
+
+/-- The principal divisor splits as zeros minus poles: the zeros of `f`
+are the poles of `f⁻¹`. -/
+theorem divisorOf_eq_poleDivisor_inv_sub {f : F} (hf : f ≠ 0) :
+    divisorOf k f = poleDivisor k f⁻¹ - poleDivisor k f := by
+  ext P
+  rw [Finsupp.sub_apply, divisorOf_apply hf,
+    poleDivisor_apply (inv_ne_zero hf), poleDivisor_apply hf,
+    P.ord_inv hf, neg_neg]
+  rcases le_total (P.ord f) 0 with h | h
+  · rw [max_eq_right h, max_eq_left (by omega)]
+    omega
+  · rw [max_eq_left h, max_eq_right (by omega)]
+    omega
+
+/-- **Principal divisors have degree zero** (Stichtenoth Corollary
+1.4.12): the zero and pole degrees of `f` both equal `[F : k(f)]`. -/
+theorem deg_divisorOf_eq_zero {f : F} (htr : Transcendental k f) :
+    (divisorOf k f).deg = 0 := by
+  have hf0 : f ≠ 0 := fun h ↦ htr (h ▸ isAlgebraic_zero)
+  have htr' : Transcendental k f⁻¹ := fun h ↦
+    htr (IsAlgebraic.inv_iff.1 h)
+  have h2 := deg_poleDivisor_eq_finrank htr'
+  rw [adjoin_inv_eq] at h2
+  rw [divisorOf_eq_poleDivisor_inv_sub hf0, Divisor.deg_sub, h2,
+    deg_poleDivisor_eq_finrank htr, sub_self]
 
 end
 

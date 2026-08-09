@@ -106,6 +106,7 @@ theorem ord_pos_of_mem_riemannSpace {D : Divisor k F} {f : F}
 
 section OneStep
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- Removing one point from the divisor: the pointwise comparison. -/
 theorem sub_single_le (D : Divisor k F) (P : Place k F) :
     D - Finsupp.single P 1 ≤ D := by
@@ -252,6 +253,7 @@ theorem riemannSpace_zero :
   · rintro ⟨c, rfl⟩
     exact algebraMap_mem_riemannSpace le_rfl c
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- The degree is additive across the one-point decrement. -/
 theorem deg_sub_single (D : Divisor k F) (P : Place k F) :
     Divisor.deg (D - Finsupp.single P 1) = Divisor.deg D - 1 := by
@@ -349,13 +351,15 @@ theorem finiteDimensional_riemannSpace_of_nonneg
 noncomputable def Divisor.pos (D : Divisor k F) : Divisor k F :=
   D.mapRange (fun m ↦ max m 0) (by simp)
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Divisor.le_pos (D : Divisor k F) : D ≤ D.pos := fun P ↦ by
   rw [Divisor.pos, Finsupp.mapRange_apply]
   exact le_max_left _ _
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Divisor.pos_nonneg (D : Divisor k F) : 0 ≤ D.pos := fun P ↦ by
   rw [Divisor.pos, Finsupp.mapRange_apply]
-  simpa using le_max_right (D P) 0
+  exact le_max_right (D P) 0
 
 /-- **Riemann–Roch spaces are finite-dimensional.** -/
 instance finiteDimensional_riemannSpace (D : Divisor k F) :
@@ -366,6 +370,73 @@ instance finiteDimensional_riemannSpace (D : Divisor k F) :
     (riemannSpace_mono (Divisor.le_pos D))
 
 end Dimension
+
+section PoleDivisor
+
+variable (k) in
+/-- The **pole divisor** `(f)_∞` of an element: the positive part of the
+negated principal divisor. -/
+noncomputable def poleDivisor (f : F) : Divisor k F :=
+  (-(divisorOf k f)).pos
+
+theorem poleDivisor_apply {f : F} (hf : f ≠ 0) (P : Place k F) :
+    poleDivisor k f P = max (-(P.ord f)) 0 := by
+  rw [poleDivisor, Divisor.pos, Finsupp.mapRange_apply, Finsupp.neg_apply,
+    divisorOf_apply hf]
+
+theorem poleDivisor_nonneg (f : F) : 0 ≤ poleDivisor k f :=
+  Divisor.pos_nonneg _
+
+/-- Every nonzero element lies in the Riemann–Roch space of its own pole
+divisor. -/
+theorem mem_riemannSpace_poleDivisor {g : F} (hg : g ≠ 0) :
+    g ∈ RiemannSpace (poleDivisor k g) := by
+  rw [mem_riemannSpace_iff]
+  refine Or.inr fun P ↦ ?_
+  rw [poleDivisor_apply hg]
+  rcases le_total (-(P.ord g)) 0 with h | h
+  · rw [max_eq_right h]
+    omega
+  · rw [max_eq_left h]
+    omega
+
+/-- Products lie in the Riemann–Roch space of the sum of divisors. -/
+theorem mul_mem_riemannSpace {D E : Divisor k F} {g h : F}
+    (hg : g ∈ RiemannSpace D) (hh : h ∈ RiemannSpace E) :
+    g * h ∈ RiemannSpace (D + E) := by
+  rcases eq_or_ne g 0 with rfl | hg0
+  · rw [zero_mul]
+    exact zero_mem_riemannSpace _
+  rcases eq_or_ne h 0 with rfl | hh0
+  · rw [mul_zero]
+    exact zero_mem_riemannSpace _
+  rw [mem_riemannSpace_iff] at hg hh ⊢
+  refine Or.inr fun P ↦ ?_
+  rcases hg with rfl | hg
+  · exact absurd rfl hg0
+  rcases hh with rfl | hh
+  · exact absurd rfl hh0
+  rw [Finsupp.add_apply, P.ord_mul hg0 hh0]
+  have h1 := hg P
+  have h2 := hh P
+  omega
+
+/-- Powers up to `N` lie in `L(N · (f)_∞)`. -/
+theorem pow_mem_riemannSpace_smul_poleDivisor {f : F} (hf : f ≠ 0)
+    {N j : ℕ} (hj : j ≤ N) :
+    f ^ j ∈ RiemannSpace ((N : ℤ) • poleDivisor k f) := by
+  rw [mem_riemannSpace_iff]
+  refine Or.inr fun P ↦ ?_
+  rw [Finsupp.smul_apply, poleDivisor_apply hf, P.ord_pow hf,
+    smul_eq_mul]
+  have hjN : (j : ℤ) ≤ (N : ℤ) := by exact_mod_cast hj
+  rcases le_total 0 (P.ord f) with hord | hord
+  · rw [max_eq_right (neg_nonpos.mpr hord), mul_zero, neg_zero]
+    exact mul_nonneg (Int.natCast_nonneg j) hord
+  · rw [max_eq_left (neg_nonneg.mpr hord), mul_neg, neg_neg]
+    exact mul_le_mul_of_nonpos_right hjN hord
+
+end PoleDivisor
 
 end
 

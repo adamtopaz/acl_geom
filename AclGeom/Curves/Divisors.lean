@@ -383,6 +383,12 @@ theorem ord_zpow (P : Place k F) {f : F} (hf : f ≠ 0) (n : ℤ) :
   refine P.ord_eq_of_valuation_eq_zpow (zpow_ne_zero n hf) ?_
   rw [map_zpow₀, P.valuation_eq_zpow_ord hf, ← zpow_mul, mul_comm]
 
+/-- Order of a natural power. -/
+theorem ord_pow (P : Place k F) {f : F} (hf : f ≠ 0) (n : ℕ) :
+    P.ord (f ^ n) = n * P.ord f := by
+  have h := P.ord_zpow hf (n : ℤ)
+  rwa [zpow_natCast] at h
+
 /-- Nonzero constants have order zero everywhere. -/
 theorem ord_algebraMap (P : Place k F) {c : k} (hc : c ≠ 0) :
     P.ord (algebraMap k F c) = 0 :=
@@ -484,6 +490,38 @@ theorem divisorOf_mul {f g : F} (hf : f ≠ 0) (hg : g ≠ 0) :
   rw [Finsupp.add_apply, divisorOf_apply (mul_ne_zero hf hg),
     divisorOf_apply hf, divisorOf_apply hg]
   exact P.ord_mul hf hg
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The degree is additive. -/
+theorem Divisor.deg_add (D E : Divisor k F) :
+    (D + E).deg = D.deg + E.deg := by
+  rw [Divisor.deg, Divisor.deg, Divisor.deg]
+  exact Finsupp.sum_add_index' (fun _ ↦ rfl) (fun _ _ _ ↦ rfl)
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The degree scales with integer multiples. -/
+theorem Divisor.deg_smul (n : ℤ) (D : Divisor k F) :
+    (n • D).deg = n * D.deg := by
+  rw [Divisor.deg, Divisor.deg, Finsupp.sum_smul_index' (fun _ ↦ rfl),
+    Finsupp.mul_sum]
+  rfl
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The degree changes sign under negation. -/
+theorem Divisor.deg_neg (D : Divisor k F) : (-D).deg = -D.deg := by
+  have h := Divisor.deg_smul (-1) D
+  rwa [neg_one_smul, neg_one_mul] at h
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The degree is additive across differences. -/
+theorem Divisor.deg_sub (D E : Divisor k F) :
+    (D - E).deg = D.deg - E.deg := by
+  rw [sub_eq_add_neg, Divisor.deg_add, Divisor.deg_neg, sub_eq_add_neg]
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- Effective divisors have nonnegative degree. -/
+theorem Divisor.deg_nonneg {D : Divisor k F} (hD : 0 ≤ D) : 0 ≤ D.deg :=
+  Finsupp.sum_nonneg fun P _ ↦ hD P
 
 end Ord
 
