@@ -542,6 +542,7 @@ noncomputable def Place.transversalProj (P : Place k F) (g : F) :
     Module.End k F :=
   (LinearMap.id - P.conjProj g) ∘ₗ P.proj
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Place.transversalProj_apply (P : Place k F) (g x : F) :
     P.transversalProj g x = P.proj x - P.conjProj g (P.proj x) := rfl
 
