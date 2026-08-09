@@ -577,6 +577,41 @@ omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Divisor.deg_nonneg {D : Divisor k F} (hD : 0 ≤ D) : 0 ≤ D.deg :=
   Finsupp.sum_nonneg fun P _ ↦ hD P
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The degree is monotone. -/
+theorem Divisor.deg_mono {D E : Divisor k F} (h : D ≤ E) :
+    D.deg ≤ E.deg := by
+  have h1 : 0 ≤ E - D := by
+    intro P
+    have h2 := h P
+    simp only [Finsupp.coe_zero, Pi.zero_apply, Finsupp.sub_apply]
+    omega
+  have h2 := Divisor.deg_nonneg h1
+  have h3 := Divisor.deg_sub E D
+  omega
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- A divisor dominating another of no smaller degree equals it. -/
+theorem Divisor.eq_of_le_of_deg_le {D E : Divisor k F} (h : D ≤ E)
+    (hdeg : E.deg ≤ D.deg) : D = E := by
+  have h1 : 0 ≤ E - D := by
+    intro P
+    have h2 := h P
+    simp only [Finsupp.coe_zero, Pi.zero_apply, Finsupp.sub_apply]
+    omega
+  have h2 := Divisor.deg_sub E D
+  ext P
+  by_contra hne
+  have h3 : 0 < (E - D) P := by
+    have h4 := h P
+    rw [Finsupp.sub_apply]
+    omega
+  have h5 : (E - D) P ≤ (E - D).deg := by
+    rw [Divisor.deg, Finsupp.sum]
+    exact Finset.single_le_sum (fun Q _ ↦ by simpa using h1 Q)
+      (Finsupp.mem_support_iff.2 (by omega))
+  omega
+
 end Ord
 
 section RefinedApproximation

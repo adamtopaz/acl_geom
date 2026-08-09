@@ -361,6 +361,18 @@ theorem Divisor.pos_nonneg (D : Divisor k F) : 0 ≤ D.pos := fun P ↦ by
   rw [Divisor.pos, Finsupp.mapRange_apply]
   exact le_max_right (D P) 0
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The join of two divisors, computed pointwise. -/
+theorem Divisor.add_sub_pos_apply (D E : Divisor k F) (P : Place k F) :
+    (D + (E - D).pos) P = max (D P) (E P) := by
+  rw [Finsupp.add_apply, Divisor.pos, Finsupp.mapRange_apply,
+    Finsupp.sub_apply]
+  rcases le_total (E P) (D P) with h | h
+  · rw [max_eq_right (by omega : E P - D P ≤ 0), max_eq_left h]
+    omega
+  · rw [max_eq_left (by omega : (0 : ℤ) ≤ E P - D P), max_eq_right h]
+    omega
+
 /-- **Riemann–Roch spaces are finite-dimensional.** -/
 instance finiteDimensional_riemannSpace (D : Divisor k F) :
     FiniteDimensional k (RiemannSpace D) := by

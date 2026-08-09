@@ -283,6 +283,134 @@ theorem deg_le_of_mem_weilDifferentialsAt
 
 end Differentials
 
+section CanonicalDivisor
+
+/-- Composition of multiplications multiplies. -/
+theorem adeleSMul_comp (f g : F) :
+    adeleSMul (k := k) (F := F) f ∘ₗ adeleSMul g = adeleSMul (f * g) := by
+  refine LinearMap.ext fun α ↦ Subtype.ext (funext fun P ↦ ?_)
+  change f * (g * ((α : (Q : Place k F) → F) P)) =
+    (f * g) * ((α : (Q : Place k F) → F) P)
+  ring
+
+theorem adeleSMul_one :
+    adeleSMul (k := k) (F := F) (1 : F) = LinearMap.id := by
+  refine LinearMap.ext fun α ↦ Subtype.ext (funext fun P ↦ ?_)
+  change (1 : F) * ((α : (Q : Place k F) → F) P) = _
+  rw [one_mul]
+  rfl
+
+/-- The level shift is an equivalence of conditions. -/
+theorem comp_adeleSMul_mem_weilDifferentialsAt_iff {f : F} (hf : f ≠ 0)
+    {D : Divisor k F} {ω : Module.Dual k ↥(adeleSubmodule k F)} :
+    ω ∘ₗ adeleSMul f ∈ weilDifferentialsAt (D + divisorOf k f) ↔
+      ω ∈ weilDifferentialsAt D := by
+  constructor
+  · intro h
+    have h1 := comp_adeleSMul_mem_weilDifferentialsAt
+      (inv_ne_zero hf) h
+    rw [LinearMap.comp_assoc, adeleSMul_comp, mul_inv_cancel₀ hf,
+      adeleSMul_one, LinearMap.comp_id, divisorOf_inv hf,
+      show D + divisorOf k f + -divisorOf k f = D by abel] at h1
+    exact h1
+  · exact comp_adeleSMul_mem_weilDifferentialsAt hf
+
+/-- The join-splitting of adele spaces: the pointwise-max space is the
+sum of the two — split each adele by comparing the divisors placewise. -/
+theorem adeleSpace_add_pos_le_sup (D E : Divisor k F) :
+    adeleSpace (D + (E - D).pos) ≤ adeleSpace D ⊔ adeleSpace E := by
+  classical
+  intro α hα
+  rw [Submodule.mem_sup]
+  refine ⟨fun P ↦ if E P ≤ D P then α P else 0, ?_,
+    fun P ↦ if E P ≤ D P then 0 else α P, ?_, ?_⟩
+  · intro P
+    by_cases h : E P ≤ D P
+    · simp only [if_pos h]
+      rcases hα P with h0 | h0
+      · exact Or.inl h0
+      · rw [Divisor.add_sub_pos_apply, max_eq_left h] at h0
+        exact Or.inr h0
+    · exact Or.inl (if_neg h)
+  · intro P
+    by_cases h : E P ≤ D P
+    · exact Or.inl (if_pos h)
+    · simp only [if_neg h]
+      rcases hα P with h0 | h0
+      · exact Or.inl h0
+      · rw [Divisor.add_sub_pos_apply,
+          max_eq_right (by omega : D P ≤ E P)] at h0
+        exact Or.inr h0
+  · funext P
+    by_cases h : E P ≤ D P <;> simp [h]
+
+/-- The levels of a differential are join-closed. -/
+theorem mem_weilDifferentialsAt_add_pos {D E : Divisor k F}
+    {ω : Module.Dual k ↥(adeleSubmodule k F)}
+    (hD : ω ∈ weilDifferentialsAt D) (hE : ω ∈ weilDifferentialsAt E) :
+    ω ∈ weilDifferentialsAt (D + (E - D).pos) := by
+  rw [mem_weilDifferentialsAt_iff] at hD hE ⊢
+  intro β hβ
+  rw [mem_boundedSubmodule_iff] at hβ
+  obtain ⟨x, hx, y, hy, hxy⟩ := Submodule.mem_sup.1 hβ
+  obtain ⟨x₁, hx₁, x₂, hx₂, hxx⟩ :=
+    Submodule.mem_sup.1 (adeleSpace_add_pos_le_sup D E hx)
+  have hm₁ : x₁ ∈ adeleSubmodule k F :=
+    adeleSpace_le_adeleSubmodule D hx₁
+  have hm₂ : x₂ + y ∈ adeleSubmodule k F := by
+    refine Submodule.add_mem _ (adeleSpace_le_adeleSubmodule E hx₂) ?_
+    obtain ⟨g, rfl⟩ := hy
+    exact adeleDiagonal_mem_adeleSubmodule g
+  have hβ' : β = (⟨x₁, hm₁⟩ : ↥(adeleSubmodule k F)) + ⟨x₂ + y, hm₂⟩ := by
+    apply Subtype.ext
+    show (β : (P : Place k F) → F) = x₁ + (x₂ + y)
+    rw [← hxy, ← hxx]
+    abel
+  have hmem₁ : (⟨x₁, hm₁⟩ : ↥(adeleSubmodule k F)) ∈ boundedSubmodule D :=
+    mem_boundedSubmodule_iff.2 (Submodule.mem_sup_left hx₁)
+  have hmem₂ : (⟨x₂ + y, hm₂⟩ : ↥(adeleSubmodule k F)) ∈
+      boundedSubmodule E :=
+    mem_boundedSubmodule_iff.2 (Submodule.add_mem _
+      (Submodule.mem_sup_left hx₂) (Submodule.mem_sup_right hy))
+  rw [hβ', map_add, hD _ hmem₁, hE _ hmem₂, add_zero]
+
+/-- **The canonical divisor exists** (Stichtenoth 1.5.11): a nonzero
+Weil differential has a maximal level — its divisor. Levels are
+join-closed and degree-bounded, so a level of maximal degree absorbs
+every other level. -/
+theorem exists_isGreatest_level
+    {ω : Module.Dual k ↥(adeleSubmodule k F)} (hω0 : ω ≠ 0)
+    {D₁ : Divisor k F} (h₁ : ω ∈ weilDifferentialsAt D₁) :
+    ∃ W : Divisor k F, ω ∈ weilDifferentialsAt W ∧
+      ∀ D, ω ∈ weilDifferentialsAt D → D ≤ W := by
+  classical
+  set S : Set ℤ :=
+    {n | ∃ D : Divisor k F, ω ∈ weilDifferentialsAt D ∧ D.deg = n}
+    with hS
+  have hne : S.Nonempty := ⟨D₁.deg, D₁, h₁, rfl⟩
+  have hbdd : BddAbove S := by
+    refine ⟨D₁.deg + genus k F - 1 + specialtyIndex D₁, ?_⟩
+    rintro n ⟨D, hD, rfl⟩
+    exact deg_le_of_mem_weilDifferentialsAt hω0 hD
+  obtain ⟨W, hW, hWdeg⟩ := Int.csSup_mem hne hbdd
+  refine ⟨W, hW, fun D hD ↦ ?_⟩
+  have hjoin := mem_weilDifferentialsAt_add_pos hW hD
+  have hWle : W ≤ W + (D - W).pos := fun P ↦ by
+    rw [Divisor.add_sub_pos_apply]
+    exact le_max_left _ _
+  have hDle : D ≤ W + (D - W).pos := fun P ↦ by
+    rw [Divisor.add_sub_pos_apply]
+    exact le_max_right _ _
+  have hdegle : (W + (D - W).pos).deg ≤ W.deg := by
+    have h2 : (W + (D - W).pos).deg ∈ S := ⟨_, hjoin, rfl⟩
+    have h3 := le_csSup hbdd h2
+    omega
+  have heq := Divisor.eq_of_le_of_deg_le hWle hdegle
+  rw [heq]
+  exact hDle
+
+end CanonicalDivisor
+
 end
 
 end AclGeom
