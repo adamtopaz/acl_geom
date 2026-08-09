@@ -171,6 +171,74 @@ theorem genus_nonneg : 0 ≤ genus k F := by
   rw [h1] at h
   omega
 
+/-- Riemann–Roch spaces of negative-degree divisors vanish: a nonzero
+member would make `div f + D` effective of negative degree. -/
+theorem riemannSpace_eq_bot_of_deg_neg {D : Divisor k F}
+    (hD : D.deg < 0) : RiemannSpace D = ⊥ := by
+  rw [Submodule.eq_bot_iff]
+  intro f hf
+  by_contra hf0
+  rw [mem_riemannSpace_iff] at hf
+  rcases hf with rfl | hf
+  · exact hf0 rfl
+  have h1 : 0 ≤ divisorOf k f + D := by
+    intro P
+    have h2 := hf P
+    have h3 : (0 : Divisor k F) P = 0 := rfl
+    rw [h3, Finsupp.add_apply, divisorOf_apply hf0]
+    omega
+  have h2 := Divisor.deg_nonneg h1
+  rw [Divisor.deg_add, deg_divisorOf_eq_zero'] at h2
+  omega
+
+/-- The genus is attained: some divisor has defect exactly `g`. -/
+theorem exists_defect_eq_genus :
+    ∃ D : Divisor k F, D.defect = genus k F := by
+  have hne : (Set.range fun D : Divisor k F ↦ D.defect).Nonempty :=
+    ⟨_, ⟨0, rfl⟩⟩
+  have hbdd : BddAbove (Set.range fun D : Divisor k F ↦ D.defect) := by
+    obtain ⟨γ, hγ⟩ := exists_forall_defect_le (k := k) (F := F)
+    exact ⟨γ, by rintro r ⟨D', rfl⟩; exact hγ D'⟩
+  obtain ⟨D, hD⟩ := Int.csSup_mem hne hbdd
+  exact ⟨D, hD⟩
+
+/-- **The stabilized form of Riemann's theorem**: once the genus is
+attained, it is attained at every larger divisor, so
+`ℓ(E) = deg E + 1 − g` for all `E` above the attaining divisor. -/
+theorem defect_eq_genus_of_le {D E : Divisor k F}
+    (hD : D.defect = genus k F) (hDE : D ≤ E) :
+    E.defect = genus k F :=
+  le_antisymm (defect_le_genus E) (hD ▸ Divisor.defect_mono hDE)
+
+/-- Every divisor is dominated by one at which the genus is attained. -/
+theorem exists_le_defect_eq_genus (D : Divisor k F) :
+    ∃ E : Divisor k F, D ≤ E ∧ E.defect = genus k F := by
+  obtain ⟨D₀, hD₀⟩ := exists_defect_eq_genus (k := k) (F := F)
+  refine ⟨D₀ + (D - D₀).pos, fun P ↦ ?_,
+    defect_eq_genus_of_le hD₀ fun P ↦ ?_⟩
+  · rw [Finsupp.add_apply, Divisor.pos, Finsupp.mapRange_apply,
+      Finsupp.sub_apply]
+    rcases le_total (D P - D₀ P) 0 with h | h
+    · rw [max_eq_right h]
+      omega
+    · rw [max_eq_left h]
+      omega
+  · rw [Finsupp.add_apply, Divisor.pos, Finsupp.mapRange_apply,
+      Finsupp.sub_apply]
+    rcases le_total (D P - D₀ P) 0 with h | h
+    · rw [max_eq_right h]
+      omega
+    · rw [max_eq_left h]
+      omega
+
+/-- Riemann's theorem in dimension form: at a genus-attaining divisor
+the Riemann–Roch dimension is exactly `deg E + 1 − g`. -/
+theorem finrank_riemannSpace_eq_of_defect_eq_genus {E : Divisor k F}
+    (hE : E.defect = genus k F) :
+    (Module.finrank k (RiemannSpace E) : ℤ) = E.deg + 1 - genus k F := by
+  rw [Divisor.defect] at hE
+  omega
+
 omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- A one-dimensional extension is trivial: an intermediate field over
 which the ambient field has dimension one is everything. -/
