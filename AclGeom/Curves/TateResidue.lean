@@ -536,6 +536,97 @@ theorem Place.finiteDimensional_map_id_sub_conjProj (P : Place k F)
     FiniteDimensional.span_of_finite k (Set.finite_univ.image _)
   exact Submodule.finiteDimensional_of_le hspan
 
+/-- The transversal projection `ρ = (1 − ε') ∘ ε`: an idempotent
+projecting onto a transversal of `g · O_P` in `O_P`. -/
+noncomputable def Place.transversalProj (P : Place k F) (g : F) :
+    Module.End k F :=
+  (LinearMap.id - P.conjProj g) ∘ₗ P.proj
+
+theorem Place.transversalProj_apply (P : Place k F) (g x : F) :
+    P.transversalProj g x = P.proj x - P.conjProj g (P.proj x) := rfl
+
+/-- The transversal projection is idempotent. -/
+theorem Place.isIdempotentElem_transversalProj (P : Place k F) {g : F}
+    (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
+    IsIdempotentElem (P.transversalProj g) := by
+  have hcc := P.proj_comp_conjProj hg hord
+  have hii := P.isIdempotentElem_conjProj hg
+  refine LinearMap.ext fun x ↦ ?_
+  change P.transversalProj g (P.transversalProj g x) =
+    P.transversalProj g x
+  rw [Place.transversalProj_apply, Place.transversalProj_apply]
+  set a := P.proj x with ha
+  have h1 : P.proj (a - P.conjProj g a) = a - P.conjProj g a := by
+    rw [map_sub]
+    have h2 := LinearMap.congr_fun hcc a
+    rw [LinearMap.comp_apply] at h2
+    rw [h2, ha, P.proj_eq_self (P.proj_mem x)]
+  rw [h1]
+  have h3 : P.conjProj g (a - P.conjProj g a) = 0 := by
+    rw [map_sub]
+    have h4 := LinearMap.congr_fun hii a
+    rw [Module.End.mul_apply] at h4
+    rw [h4, sub_self]
+  rw [h3, sub_zero]
+
+/-- The range of the transversal projection is the image of the
+valuation ring under `1 − ε'`. -/
+theorem Place.range_transversalProj (P : Place k F) (g : F) :
+    LinearMap.range (P.transversalProj g) =
+      P.toSubmodule.map (LinearMap.id - P.conjProj g) := by
+  refine le_antisymm ?_ ?_
+  · rintro x ⟨y, rfl⟩
+    exact ⟨P.proj y, P.proj_mem y, rfl⟩
+  · rintro x ⟨a, ha, rfl⟩
+    refine ⟨a, ?_⟩
+    rw [Place.transversalProj_apply, P.proj_eq_self ha]
+    rfl
+
+theorem Place.finiteDimensional_range_transversalProj (P : Place k F)
+    {g : F} (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
+    FiniteDimensional k (LinearMap.range (P.transversalProj g)) := by
+  rw [P.range_transversalProj g]
+  exact P.finiteDimensional_map_id_sub_conjProj hg hord
+
+/-- **The residue of `dg/g` is the transversal dimension**: for `g`
+integral at `P`,
+`res_P(g⁻¹ dg) = dim_k O_P / g O_P` (cast into `k`). -/
+theorem Place.residue_inv_self_eq_finrank (P : Place k F) {g : F}
+    (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
+    P.residue g⁻¹ g = (Module.finrank k
+      (P.toSubmodule.map (LinearMap.id - P.conjProj g)) : k) := by
+  rw [Place.residue, P.residue_commutator_inv_self hg,
+    P.proj_sub_conjProj_eq hg hord]
+  haveI h1 : FiniteDimensional k (LinearMap.range
+      ((P.proj ∘ₗ (LinearMap.id - P.conjProj g)) ^ 2)) := by
+    have h2 : P.proj ∘ₗ (LinearMap.id - P.conjProj g) =
+        P.proj - P.conjProj g := (P.proj_sub_conjProj_eq hg hord).symm
+    rw [h2]
+    have h3 := P.isTraceClass_residue_commutator g⁻¹ g
+    rw [P.residue_commutator_inv_self hg] at h3
+    have h4 : ((P.proj - P.conjProj g) ^ 2 : Module.End k F) =
+        (P.proj - P.conjProj g) ∘ₗ (P.proj - P.conjProj g) := by
+      rw [pow_two]
+      rfl
+    rw [h4]
+    exact h3.finiteDimensional_range_comp h3
+  haveI h5 : FiniteDimensional k (LinearMap.range
+      (((LinearMap.id - P.conjProj g) ∘ₗ P.proj) ^ 2)) := by
+    have h6 : (((LinearMap.id - P.conjProj g) ∘ₗ P.proj) ^ 2 :
+        Module.End k F) = P.transversalProj g := by
+      rw [pow_two]
+      exact P.isIdempotentElem_transversalProj hg hord
+    rw [h6]
+    exact P.finiteDimensional_range_transversalProj hg hord
+  rw [tateTrace_comp_comm_of_sq P.proj (LinearMap.id - P.conjProj g)]
+  have h7 : (LinearMap.id - P.conjProj g) ∘ₗ P.proj =
+      P.transversalProj g := rfl
+  rw [h7]
+  haveI := P.finiteDimensional_range_transversalProj hg hord
+  rw [tateTrace_of_isIdempotentElem
+    (P.isIdempotentElem_transversalProj hg hord),
+    P.range_transversalProj g]
+
 end OrdLink
 
 end Projection
