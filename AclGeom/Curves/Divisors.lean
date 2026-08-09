@@ -452,6 +452,27 @@ theorem min_ord_le_ord_add (P : Place k F) {f g : F} (hf : f ≠ 0)
     have h1 := (P.valuation_le_valuation_iff hfg hg).1 hmax
     exact le_trans (min_le_right _ _) h1
 
+/-- Strict domination: the summand of smaller order sets the order of
+the sum. -/
+theorem ord_add_eq_left (P : Place k F) {f g : F} (hf : f ≠ 0)
+    (hg : g ≠ 0) (h : P.ord f < P.ord g) :
+    P.ord (f + g) = P.ord f := by
+  have hfg : f + g ≠ 0 := by
+    intro h0
+    have h1 : g = -f := by
+      rw [add_comm] at h0
+      exact eq_neg_of_add_eq_zero_left h0
+    rw [h1, P.ord_neg hf] at h
+    omega
+  have h1 := P.min_ord_le_ord_add hf hg hfg
+  rw [min_eq_left h.le] at h1
+  have h3 : f = (f + g) + -g := by ring
+  have h4 := P.min_ord_le_ord_add (f := f + g) (g := -g) hfg
+    (neg_ne_zero.2 hg) (by rw [← h3]; exact hf)
+  rw [P.ord_neg hg, ← h3] at h4
+  rcases min_cases (P.ord (f + g)) (P.ord g) with ⟨hm, -⟩ | ⟨hm, -⟩ <;>
+    rw [hm] at h4 <;> omega
+
 end Place
 
 /-- A **divisor** on the places of `F/k`: a finitely supported integer
