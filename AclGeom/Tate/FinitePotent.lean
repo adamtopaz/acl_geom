@@ -262,6 +262,20 @@ theorem IsTateCore.tateTrace_eq {θ : Module.End k V}
   rw [tateTrace, dif_pos hex]
   exact hex.choose_spec.trace_restrict_eq hW
 
+/-- The Tate trace of the zero operator vanishes. -/
+theorem tateTrace_zero : tateTrace (0 : Module.End k V) = 0 := by
+  have hcore : IsTateCore (0 : Module.End k V) (⊥ : Submodule k V) :=
+    ⟨inferInstance, fun x _ ↦ by
+      rw [LinearMap.zero_apply]
+      exact Submodule.zero_mem _,
+      ⟨1, fun x ↦ by
+        rw [pow_one, LinearMap.zero_apply]
+        exact Submodule.zero_mem _⟩⟩
+  rw [hcore.tateTrace_eq]
+  have h1 : (0 : Module.End k V).restrict hcore.stable = 0 :=
+    LinearMap.ext fun x ↦ Subtype.ext rfl
+  rw [h1, map_zero]
+
 section FiniteRank
 
 /-- The range of a finite-rank endomorphism is a core. -/

@@ -790,6 +790,151 @@ theorem Place.residue_inv_self (P : Place k F) {g : F} (hg : g ≠ 0)
 
 end OrdLink
 
+section ResidueCalculus
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The residue commutator is additive in the first slot. -/
+theorem Place.residue_commutator_add_left (P : Place k F)
+    (f₁ f₂ g : F) :
+    (P.proj ∘ₗ LinearMap.mulLeft k (f₁ + f₂)) ∘ₗ
+        LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.proj ∘ₗ LinearMap.mulLeft k (f₁ + f₂)) =
+    ((P.proj ∘ₗ LinearMap.mulLeft k f₁) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f₁)) +
+    ((P.proj ∘ₗ LinearMap.mulLeft k f₂) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f₂)) := by
+  refine LinearMap.ext fun x ↦ ?_
+  simp only [LinearMap.add_apply, LinearMap.sub_apply,
+    LinearMap.comp_apply, LinearMap.mulLeft_apply, add_mul, map_add]
+  ring
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The residue commutator is additive in the second slot. -/
+theorem Place.residue_commutator_add_right (P : Place k F)
+    (f g₁ g₂ : F) :
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+        LinearMap.mulLeft k (g₁ + g₂) -
+      LinearMap.mulLeft k (g₁ + g₂) ∘ₗ
+        (P.proj ∘ₗ LinearMap.mulLeft k f) =
+    ((P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g₁ -
+      LinearMap.mulLeft k g₁ ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)) +
+    ((P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g₂ -
+      LinearMap.mulLeft k g₂ ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)) := by
+  refine LinearMap.ext fun x ↦ ?_
+  simp only [LinearMap.add_apply, LinearMap.sub_apply,
+    LinearMap.comp_apply, LinearMap.mulLeft_apply, add_mul,
+    map_add]
+  ring
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The residue commutator scales in the first slot. -/
+theorem Place.residue_commutator_smul_left (P : Place k F) (c : k)
+    (f g : F) :
+    (P.proj ∘ₗ LinearMap.mulLeft k (c • f)) ∘ₗ
+        LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.proj ∘ₗ LinearMap.mulLeft k (c • f)) =
+    c • ((P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)) := by
+  refine LinearMap.ext fun x ↦ ?_
+  simp only [LinearMap.smul_apply, LinearMap.sub_apply,
+    LinearMap.comp_apply, LinearMap.mulLeft_apply, smul_mul_assoc,
+    map_smul, smul_sub]
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The residue commutator scales in the second slot. -/
+theorem Place.residue_commutator_smul_right (P : Place k F) (c : k)
+    (f g : F) :
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+        LinearMap.mulLeft k (c • g) -
+      LinearMap.mulLeft k (c • g) ∘ₗ
+        (P.proj ∘ₗ LinearMap.mulLeft k f) =
+    c • ((P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)) := by
+  refine LinearMap.ext fun x ↦ ?_
+  simp only [LinearMap.smul_apply, LinearMap.sub_apply,
+    LinearMap.comp_apply, LinearMap.mulLeft_apply, smul_mul_assoc,
+    map_smul, smul_sub]
+
+/-- **Additivity of the residue in the first argument.** -/
+theorem Place.residue_add_left (P : Place k F) (f₁ f₂ g : F) :
+    P.residue (f₁ + f₂) g = P.residue f₁ g + P.residue f₂ g := by
+  have hφ := P.isTraceClass_residue_commutator f₁ g
+  have hψ := P.isTraceClass_residue_commutator f₂ g
+  haveI := hφ.finiteDimensional_range_comp hφ
+  haveI := hφ.finiteDimensional_range_comp hψ
+  haveI := hψ.finiteDimensional_range_comp hφ
+  haveI := hψ.finiteDimensional_range_comp hψ
+  rw [Place.residue, Place.residue, Place.residue,
+    P.residue_commutator_add_left f₁ f₂ g]
+  exact tateTrace_add_of_sq _ _
+
+/-- **Additivity of the residue in the second argument.** -/
+theorem Place.residue_add_right (P : Place k F) (f g₁ g₂ : F) :
+    P.residue f (g₁ + g₂) = P.residue f g₁ + P.residue f g₂ := by
+  have hφ := P.isTraceClass_residue_commutator f g₁
+  have hψ := P.isTraceClass_residue_commutator f g₂
+  haveI := hφ.finiteDimensional_range_comp hφ
+  haveI := hφ.finiteDimensional_range_comp hψ
+  haveI := hψ.finiteDimensional_range_comp hφ
+  haveI := hψ.finiteDimensional_range_comp hψ
+  rw [Place.residue, Place.residue, Place.residue,
+    P.residue_commutator_add_right f g₁ g₂]
+  exact tateTrace_add_of_sq _ _
+
+/-- **The residue scales in the first argument.** -/
+theorem Place.residue_smul_left (P : Place k F) (c : k) (f g : F) :
+    P.residue (c • f) g = c * P.residue f g := by
+  set C : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)
+    with hC
+  have hφ := P.isTraceClass_residue_commutator f g
+  rw [← hC] at hφ
+  haveI : FiniteDimensional k (LinearMap.range ((C ^ 2 :
+      Module.End k F))) := by
+    have h2 : (C ^ 2 : Module.End k F) = C ∘ₗ C := by
+      rw [pow_two]
+      rfl
+    rw [h2]
+    exact hφ.finiteDimensional_range_comp hφ
+  rw [Place.residue, Place.residue,
+    P.residue_commutator_smul_left c f g, ← hC,
+    tateTrace_smul (isTateCore_range_pow C 2)]
+
+/-- **The residue scales in the second argument.** -/
+theorem Place.residue_smul_right (P : Place k F) (c : k) (f g : F) :
+    P.residue f (c • g) = c * P.residue f g := by
+  set C : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)
+    with hC
+  have hφ := P.isTraceClass_residue_commutator f g
+  rw [← hC] at hφ
+  haveI : FiniteDimensional k (LinearMap.range ((C ^ 2 :
+      Module.End k F))) := by
+    have h2 : (C ^ 2 : Module.End k F) = C ∘ₗ C := by
+      rw [pow_two]
+      rfl
+    rw [h2]
+    exact hφ.finiteDimensional_range_comp hφ
+  rw [Place.residue, Place.residue,
+    P.residue_commutator_smul_right c f g, ← hC,
+    tateTrace_smul (isTateCore_range_pow C 2)]
+
+/-- The residue vanishes when the first argument is zero. -/
+theorem Place.residue_zero_left (P : Place k F) (g : F) :
+    P.residue 0 g = 0 := by
+  rw [← zero_smul k (0 : F), P.residue_smul_left, zero_mul]
+
+/-- The residue vanishes when the second argument is zero. -/
+theorem Place.residue_zero_right (P : Place k F) (f : F) :
+    P.residue f 0 = 0 := by
+  rw [← zero_smul k (0 : F), P.residue_smul_right, zero_mul]
+
+end ResidueCalculus
+
 end Projection
 
 end
