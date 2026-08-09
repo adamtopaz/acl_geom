@@ -657,7 +657,7 @@ theorem tateTrace_of_isIdempotentElem {ρ : Module.End k V}
   have hid : ρ.restrict hcore.stable = LinearMap.id := by
     refine LinearMap.ext fun x ↦ Subtype.ext ?_
     obtain ⟨y, hy⟩ := x.2
-    show ρ (x : V) = (x : V)
+    change ρ (x : V) = (x : V)
     rw [← hy, ← Module.End.mul_apply, hρ]
   rw [hid]
   exact LinearMap.trace_id k _

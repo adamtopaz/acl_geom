@@ -350,6 +350,7 @@ theorem Place.isTraceClass_residue_commutator (P : Place k F)
 
 section OrdLink
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- Inverse multiplications compose to the identity. -/
 theorem mulLeft_inv_comp {g : F} (hg : g ≠ 0) :
     LinearMap.mulLeft k g⁻¹ ∘ₗ LinearMap.mulLeft k g = LinearMap.id := by
@@ -364,6 +365,7 @@ noncomputable def Place.conjProj (P : Place k F) (g : F) :
     Module.End k F :=
   LinearMap.mulLeft k g ∘ₗ P.proj ∘ₗ LinearMap.mulLeft k g⁻¹
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Place.conjProj_apply (P : Place k F) (g x : F) :
     P.conjProj g x = g * P.proj (g⁻¹ * x) := rfl
 
@@ -371,7 +373,7 @@ theorem Place.conjProj_apply (P : Place k F) (g x : F) :
 theorem Place.isIdempotentElem_conjProj (P : Place k F) {g : F}
     (hg : g ≠ 0) : IsIdempotentElem (P.conjProj g) := by
   refine LinearMap.ext fun x ↦ ?_
-  show P.conjProj g (P.conjProj g x) = P.conjProj g x
+  change P.conjProj g (P.conjProj g x) = P.conjProj g x
   rw [Place.conjProj_apply, Place.conjProj_apply]
   congr 1
   rw [← mul_assoc, inv_mul_cancel₀ hg, one_mul]
