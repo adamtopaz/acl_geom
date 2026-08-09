@@ -520,6 +520,14 @@ theorem divisorOf_inv {f : F} (hf : f ≠ 0) :
     divisorOf_apply hf]
   exact P.ord_inv hf
 
+/-- Principal divisors of integer powers. -/
+theorem divisorOf_zpow {f : F} (hf : f ≠ 0) (n : ℤ) :
+    divisorOf k (f ^ n) = n • divisorOf k f := by
+  ext P
+  rw [Finsupp.smul_apply, divisorOf_apply (zpow_ne_zero n hf),
+    divisorOf_apply hf, smul_eq_mul]
+  exact P.ord_zpow hf n
+
 /-- Constants have trivial principal divisor. -/
 theorem divisorOf_algebraMap (c : k) :
     divisorOf k (algebraMap k F c) = 0 := by
@@ -529,6 +537,25 @@ theorem divisorOf_algebraMap (c : k) :
     rw [divisorOf_apply ((map_ne_zero (algebraMap k F)).2 hc),
       P.ord_algebraMap hc]
     rfl
+
+/-- Principal divisor of a finite product of integer powers. -/
+theorem divisorOf_prod_zpow {ι : Type*} (s : Finset ι) (g : ι → F)
+    (n : ι → ℤ) (hg : ∀ i ∈ s, g i ≠ 0) :
+    divisorOf k (∏ i ∈ s, g i ^ n i) =
+      ∑ i ∈ s, n i • divisorOf k (g i) := by
+  classical
+  induction s using Finset.induction_on with
+  | empty =>
+    rw [Finset.prod_empty, Finset.sum_empty, ← map_one (algebraMap k F),
+      divisorOf_algebraMap]
+  | insert i s hi ih =>
+    rw [Finset.prod_insert hi, Finset.sum_insert hi,
+      divisorOf_mul
+        (zpow_ne_zero _ (hg i (Finset.mem_insert_self i s)))
+        (Finset.prod_ne_zero_iff.2 fun j hj ↦
+          zpow_ne_zero _ (hg j (Finset.mem_insert_of_mem hj))),
+      divisorOf_zpow (hg i (Finset.mem_insert_self i s)),
+      ih fun j hj ↦ hg j (Finset.mem_insert_of_mem hj)]
 
 omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- The zero divisor has degree zero. -/
@@ -611,6 +638,33 @@ theorem Divisor.eq_of_le_of_deg_le {D E : Divisor k F} (h : D ≤ E)
     exact Finset.single_le_sum (fun Q _ ↦ by simpa using h1 Q)
       (Finsupp.mem_support_iff.2 (by omega))
   omega
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- An effective divisor of degree one is a single point. -/
+theorem Divisor.eq_single_of_deg_eq_one {D : Divisor k F} (hD : 0 ≤ D)
+    (hdeg : D.deg = 1) : ∃ P : Place k F, D = Finsupp.single P 1 := by
+  classical
+  have hne : D ≠ 0 := by
+    intro h0
+    rw [h0, Divisor.deg_zero] at hdeg
+    omega
+  obtain ⟨P, hP⟩ := Finsupp.support_nonempty_iff.2 hne
+  have hDP : 0 < D P := by
+    have h1 : D P ≠ 0 := Finsupp.mem_support_iff.1 hP
+    have h2 : (0 : ℤ) ≤ D P := by simpa using hD P
+    omega
+  refine ⟨P, ?_⟩
+  have hle : Finsupp.single P 1 ≤ D := by
+    intro Q
+    rcases eq_or_ne Q P with rfl | hQ
+    · rw [Finsupp.single_eq_same]
+      omega
+    · rw [Finsupp.single_eq_of_ne hQ]
+      simpa using hD Q
+  have hdeg1 : Divisor.deg (Finsupp.single P 1 : Divisor k F) = 1 := by
+    rw [Divisor.deg, Finsupp.sum_single_index rfl]
+  exact (Divisor.eq_of_le_of_deg_le hle (by omega)).symm
+
 
 end Ord
 
