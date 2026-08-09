@@ -923,6 +923,58 @@ theorem Place.residue_smul_right (P : Place k F) (c : k) (f g : F) :
     P.residue_commutator_smul_right c f g, ← hC,
     tateTrace_smul (isTateCore_range_pow C 2)]
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The valuation ring is closed under multiplication. -/
+theorem Place.mul_mem_toSubmodule (P : Place k F) {a b : F}
+    (ha : a ∈ P.toSubmodule) (hb : b ∈ P.toSubmodule) :
+    a * b ∈ P.toSubmodule := by
+  rw [Place.mem_toSubmodule_iff] at ha hb ⊢
+  rw [Valuation.map_mul]
+  calc P.val.valuation a * P.val.valuation b ≤ 1 * 1 :=
+      mul_le_mul' ha hb
+    _ = 1 := one_mul 1
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- **Vanishing for integral pairs** (Tate's property (R2)): when `f`
+and `g` are both integral at `P`, the residue commutator kills the
+valuation ring and lands in it, so it squares to zero. -/
+theorem Place.residue_eq_zero_of_mem (P : Place k F) {f g : F}
+    (hf : f ∈ P.toSubmodule) (hg : g ∈ P.toSubmodule) :
+    P.residue f g = 0 := by
+  set C : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)
+    with hC
+  have happ : ∀ x : F,
+      C x = P.proj (f * (g * x)) - g * P.proj (f * x) := by
+    intro x
+    rw [hC]
+    rfl
+  have hker : ∀ x ∈ P.toSubmodule, C x = 0 := by
+    intro x hx
+    rw [happ]
+    have h1 : f * (g * x) ∈ P.toSubmodule :=
+      P.mul_mem_toSubmodule hf (P.mul_mem_toSubmodule hg hx)
+    have h2 : f * x ∈ P.toSubmodule := P.mul_mem_toSubmodule hf hx
+    rw [P.proj_eq_self h1, P.proj_eq_self h2]
+    ring
+  have hrange : ∀ x : F, C x ∈ P.toSubmodule := by
+    intro x
+    rw [happ]
+    exact Submodule.sub_mem _ (P.proj_mem _)
+      (P.mul_mem_toSubmodule hg (P.proj_mem _))
+  have hnil : IsNilpotent C := by
+    refine ⟨2, ?_⟩
+    have h2 : (C ^ 2 : Module.End k F) = C ∘ₗ C := by
+      rw [pow_two]
+      rfl
+    rw [h2]
+    refine LinearMap.ext fun x ↦ ?_
+    rw [LinearMap.comp_apply, LinearMap.zero_apply]
+    exact hker _ (hrange x)
+  rw [Place.residue, ← hC]
+  exact tateTrace_of_isNilpotent hnil
+
 /-- The residue vanishes when the first argument is zero. -/
 theorem Place.residue_zero_left (P : Place k F) (g : F) :
     P.residue 0 g = 0 := by

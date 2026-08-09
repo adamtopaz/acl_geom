@@ -699,6 +699,77 @@ theorem tateTrace_comp_sub_comp_comm (f g : Module.End k V)
 
 end FiniteRank
 
+/-- The Tate trace of a nilpotent operator vanishes: the bottom
+submodule is a core. -/
+theorem tateTrace_of_isNilpotent {θ : Module.End k V}
+    (h : IsNilpotent θ) : tateTrace θ = 0 := by
+  obtain ⟨n, hn⟩ := h
+  have hcore : IsTateCore θ (⊥ : Submodule k V) :=
+    ⟨inferInstance, fun x hx ↦ by
+      rw [Submodule.mem_bot] at hx
+      rw [hx, map_zero]
+      exact Submodule.zero_mem _,
+      ⟨n, fun x ↦ by
+        rw [hn, LinearMap.zero_apply]
+        exact Submodule.zero_mem _⟩⟩
+  rw [hcore.tateTrace_eq]
+  have h1 : θ.restrict hcore.stable = 0 := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    have hx0 : (x : V) = 0 := (Submodule.mem_bot k).1 x.2
+    change θ (x : V) = 0
+    rw [hx0, map_zero]
+  rw [h1, map_zero]
+
+/-- **Traceless commutators, squared-range version**: when the squares
+and the mixed products of `α ∘ β` and `β ∘ α` have finite-dimensional
+range — as happens when both composites are trace-class — the
+commutator is traceless. -/
+theorem tateTrace_comp_sub_comp_comm_of_sq (α β : Module.End k V)
+    [FiniteDimensional k (LinearMap.range ((α ∘ₗ β) ^ 2))]
+    [FiniteDimensional k (LinearMap.range ((β ∘ₗ α) ^ 2))]
+    [FiniteDimensional k (LinearMap.range ((α ∘ₗ β) ∘ₗ (β ∘ₗ α)))]
+    [FiniteDimensional k (LinearMap.range ((β ∘ₗ α) ∘ₗ (α ∘ₗ β)))] :
+    tateTrace (α ∘ₗ β - β ∘ₗ α) = 0 := by
+  haveI hXX : FiniteDimensional k
+      (LinearMap.range ((α ∘ₗ β) ∘ₗ (α ∘ₗ β))) := by
+    have h5 : (α ∘ₗ β) ∘ₗ (α ∘ₗ β) =
+        ((α ∘ₗ β) ^ 2 : Module.End k V) := by
+      rw [pow_two]
+      rfl
+    rw [h5]
+    infer_instance
+  haveI hYY : FiniteDimensional k
+      (LinearMap.range ((β ∘ₗ α) ∘ₗ (β ∘ₗ α))) := by
+    have h5 : (β ∘ₗ α) ∘ₗ (β ∘ₗ α) =
+        ((β ∘ₗ α) ^ 2 : Module.End k V) := by
+      rw [pow_two]
+      rfl
+    rw [h5]
+    infer_instance
+  haveI hXnY : FiniteDimensional k
+      (LinearMap.range ((α ∘ₗ β) ∘ₗ (-(β ∘ₗ α)))) := by
+    rw [LinearMap.comp_neg, LinearMap.range_neg]
+    infer_instance
+  haveI hnYX : FiniteDimensional k
+      (LinearMap.range ((-(β ∘ₗ α)) ∘ₗ (α ∘ₗ β))) := by
+    rw [LinearMap.neg_comp, LinearMap.range_neg]
+    infer_instance
+  haveI hnYnY : FiniteDimensional k
+      (LinearMap.range ((-(β ∘ₗ α)) ∘ₗ (-(β ∘ₗ α)))) := by
+    rw [LinearMap.neg_comp, LinearMap.comp_neg, neg_neg]
+    exact hYY
+  have hadd := tateTrace_add_of_sq (α ∘ₗ β) (-(β ∘ₗ α))
+  have hflip := tateTrace_comp_comm_of_sq α β
+  have hneg : tateTrace (-(β ∘ₗ α)) = -tateTrace (β ∘ₗ α) := by
+    have h5 : (-(β ∘ₗ α) : Module.End k V) = (-1 : k) • (β ∘ₗ α) := by
+      rw [neg_one_smul]
+    rw [h5, tateTrace_smul (isTateCore_range_pow (β ∘ₗ α) 2),
+      neg_one_mul]
+  have hsub : α ∘ₗ β - β ∘ₗ α = α ∘ₗ β + (-(β ∘ₗ α)) :=
+    sub_eq_add_neg _ _
+  rw [hsub, hadd, hflip, hneg]
+  ring
+
 end
 
 end AclGeom
