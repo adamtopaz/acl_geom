@@ -1068,10 +1068,175 @@ theorem Place.filtrationProj_commutator_comp_self_eq_zero
     rw [P.filtration_zero]
     exact hx
 
-/-- The residue vanishes when the first argument is zero. -/
-theorem Place.residue_zero_left (P : Place k F) (g : F) :
-    P.residue 0 g = 0 := by
-  rw [← zero_smul k (0 : F), P.residue_smul_left, zero_mul]
+/-- **The local vanishing threshold** (Tate's property (4)-type
+bound, characteristic-free): the residue of `f dg` vanishes as soon as
+the zero of `f` is deeper than the pole of `g`. The commutator kills
+the valuation ring, maps the pole window into the gauge through the
+idempotency of the projection, and each further application gains a
+full order from `fg`, so it is nilpotent. -/
+theorem Place.residue_eq_zero_of_ord_ge (P : Place k F) {f g : F}
+    {m : ℕ} (hf : f ≠ 0) (hg : g ≠ 0)
+    (hordf : (m : ℤ) + 1 ≤ P.ord f) (hordg : -(m : ℤ) ≤ P.ord g) :
+    P.residue f g = 0 := by
+  set C : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)
+    with hC
+  have happ : ∀ x : F,
+      C x = P.proj (f * (g * x)) - g * P.proj (f * x) := fun x ↦ rfl
+  set δ : F →ₗ[k] F := P.proj - LinearMap.id with hδ
+  have hδapp : ∀ z : F, δ z = P.proj z - z := fun z ↦ rfl
+  have hproj_ord : ∀ z : F, P.proj z = 0 ∨ 0 ≤ P.ord (P.proj z) := by
+    intro z
+    rcases eq_or_ne (P.proj z) 0 with h | h
+    · exact Or.inl h
+    · exact Or.inr ((P.ord_nonneg_iff h).2
+        (Place.mem_toSubmodule_iff.1 (P.proj_mem _)))
+  have hδO : ∀ z : F, z = 0 ∨ 1 ≤ P.ord z → δ z = 0 := by
+    intro z hz
+    rcases hz with rfl | hz
+    · rw [map_zero]
+    rcases eq_or_ne z 0 with rfl | hz0
+    · rw [map_zero]
+    rw [hδapp, P.proj_eq_self, sub_self]
+    rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff hz0]
+    omega
+  have hsub_ord : ∀ (a b : F) (n : ℤ), (a = 0 ∨ n ≤ P.ord a) →
+      (b = 0 ∨ n ≤ P.ord b) → (a - b = 0 ∨ n ≤ P.ord (a - b)) := by
+    intro a b n ha hb
+    rcases eq_or_ne a 0 with rfl | ha0
+    · rcases eq_or_ne b 0 with rfl | hb0
+      · exact Or.inl (by rw [sub_zero])
+      · refine Or.inr ?_
+        rw [zero_sub, P.ord_neg hb0]
+        exact hb.resolve_left hb0
+    rcases eq_or_ne b 0 with rfl | hb0
+    · refine Or.inr ?_
+      rw [sub_zero]
+      exact ha.resolve_left ha0
+    rcases eq_or_ne (a - b) 0 with h0 | h0
+    · exact Or.inl h0
+    refine Or.inr ?_
+    have h2 := P.min_ord_le_ord_add ha0 (neg_ne_zero.2 hb0)
+      (by rw [← sub_eq_add_neg]; exact h0)
+    rw [← sub_eq_add_neg, P.ord_neg hb0] at h2
+    have h3 := ha.resolve_left ha0
+    have h4 := hb.resolve_left hb0
+    omega
+  -- multiplying by `f` clears the window into the valuation ring
+  have hfy : ∀ y : F, y = 0 ∨ -(m : ℤ) ≤ P.ord y →
+      P.proj (f * y) = f * y := by
+    intro y hy
+    rcases eq_or_ne y 0 with rfl | hy0
+    · rw [mul_zero, map_zero]
+    refine P.proj_eq_self ?_
+    rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff
+      (mul_ne_zero hf hy0), P.ord_mul hf hy0]
+    have h1 := hy.resolve_left hy0
+    omega
+  -- the one-step reduction on the window
+  have hstep : ∀ y : F, y = 0 ∨ -(m : ℤ) ≤ P.ord y →
+      C y = δ (f * (g * y)) := by
+    intro y hy
+    rw [happ, hδapp, hfy y hy]
+    have h2 : g * (f * y) = f * (g * y) := by ring
+    rw [h2]
+  -- the commutator lands in the window
+  have hrange : ∀ x : F, C x = 0 ∨ -(m : ℤ) ≤ P.ord (C x) := by
+    intro x
+    rw [happ]
+    refine hsub_ord _ _ _ ?_ ?_
+    · rcases hproj_ord (f * (g * x)) with h | h
+      · exact Or.inl h
+      · exact Or.inr (by omega)
+    · rcases eq_or_ne (P.proj (f * x)) 0 with h | h
+      · exact Or.inl (by rw [h, mul_zero])
+      · refine Or.inr ?_
+        rw [P.ord_mul hg h]
+        have h3 : 0 ≤ P.ord (P.proj (f * x)) :=
+          (P.ord_nonneg_iff h).2
+            (Place.mem_toSubmodule_iff.1 (P.proj_mem _))
+        omega
+  have hmul3 : ∀ a : F, a ≠ 0 → P.ord (f * (g * a)) =
+      P.ord f + P.ord g + P.ord a := by
+    intro a ha
+    rw [P.ord_mul hf (mul_ne_zero hg ha), P.ord_mul hg ha]
+    ring
+  -- the depth-gaining iteration
+  have hpow : ∀ n : ℕ, ∀ x : F, ∃ z : F,
+      (z = 0 ∨ (n : ℤ) + 1 - m ≤ P.ord z) ∧ (C ^ (n + 2)) x = δ z := by
+    intro n
+    induction n with
+    | zero =>
+      intro x
+      refine ⟨f * (g * (C x)), ?_, ?_⟩
+      · rcases eq_or_ne (C x) 0 with h1 | h1
+        · exact Or.inl (by rw [h1, mul_zero, mul_zero])
+        refine Or.inr ?_
+        rw [hmul3 _ h1]
+        have h2 := (hrange x).resolve_left h1
+        omega
+      · have h2 : (C ^ 2) x = C (C x) := by
+          rw [pow_two, Module.End.mul_apply]
+        rw [h2]
+        exact hstep (C x) (hrange x)
+    | succ n ih =>
+      intro x
+      obtain ⟨z, hz, hCz⟩ := ih x
+      have h2 : (C ^ (n + 1 + 2)) x = C ((C ^ (n + 2)) x) := by
+        rw [pow_succ', Module.End.mul_apply]
+      rcases eq_or_ne z 0 with rfl | hz0
+      · exact ⟨0, Or.inl rfl, by
+          rw [h2, hCz, map_zero, map_zero]⟩
+      have hzord := hz.resolve_left hz0
+      rcases le_or_gt 1 (P.ord z) with hz1 | hz1
+      · exact ⟨0, Or.inl rfl, by
+          rw [h2, hCz, hδO z (Or.inr hz1), map_zero, map_zero]⟩
+      -- the depth has not yet cleared: `δ z` keeps the order of `z`
+      have h4 : P.ord z ≤ P.ord (δ z) ∨ δ z = 0 := by
+        rw [hδapp]
+        rcases eq_or_ne (P.proj z) 0 with h5 | h5
+        · rw [h5, zero_sub, P.ord_neg hz0]
+          exact Or.inl le_rfl
+        rcases eq_or_ne (P.proj z - z) 0 with h7 | h7
+        · exact Or.inr h7
+        refine Or.inl ?_
+        have h6 := P.min_ord_le_ord_add h5 (neg_ne_zero.2 hz0)
+          (by rw [← sub_eq_add_neg]; exact h7)
+        rw [← sub_eq_add_neg, P.ord_neg hz0] at h6
+        have h8 : 0 ≤ P.ord (P.proj z) :=
+          (P.ord_nonneg_iff h5).2
+            (Place.mem_toSubmodule_iff.1 (P.proj_mem _))
+        omega
+      rcases h4 with h4 | h4
+      case inr =>
+        exact ⟨0, Or.inl rfl, by
+          rw [h2, hCz, h4, map_zero, map_zero]⟩
+      have hδwin : δ z = 0 ∨ -(m : ℤ) ≤ P.ord (δ z) := by
+        rcases eq_or_ne (δ z) 0 with h | h
+        · exact Or.inl h
+        · exact Or.inr (by omega)
+      refine ⟨f * (g * (δ z)), ?_, ?_⟩
+      · rcases eq_or_ne (δ z) 0 with h1 | h1
+        · exact Or.inl (by rw [h1, mul_zero, mul_zero])
+        refine Or.inr ?_
+        rw [hmul3 _ h1]
+        push_cast
+        omega
+      · rw [h2, hCz]
+        exact hstep (δ z) hδwin
+  -- conclude: the commutator is nilpotent
+  have hnil : IsNilpotent C := by
+    refine ⟨m + 2, ?_⟩
+    refine LinearMap.ext fun x ↦ ?_
+    obtain ⟨z, hz, hCz⟩ := hpow m x
+    rw [hCz, LinearMap.zero_apply]
+    refine hδO z ?_
+    rcases hz with rfl | hz
+    · exact Or.inl rfl
+    · exact Or.inr (by omega)
+  rw [Place.residue, ← hC]
+  exact tateTrace_of_isNilpotent hnil
 
 /-- The residue vanishes when the second argument is zero. -/
 theorem Place.residue_zero_right (P : Place k F) (f : F) :
