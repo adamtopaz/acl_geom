@@ -276,6 +276,99 @@ theorem isTraceClass_adeleSMul_commutator (f g : F) (D : Divisor k F)
   exact isTraceClass_commutator_of_comm hcomm hμν
     (almostLE_map_adeleSMul f D) (almostLE_map_adeleSMul g D) hεr hεf
 
+/-- The componentwise projection onto local filtration stages, at the
+ambient level: each coordinate is projected onto
+`π_P^{−D(P)} O_P`. -/
+noncomputable def adeleProjPi (D : Divisor k F) :
+    ((P : Place k F) → F) →ₗ[k] ((P : Place k F) → F) :=
+  LinearMap.pi fun P ↦
+    (P.filtrationProj (D P).toNat).comp (LinearMap.proj P)
+
+theorem adeleProjPi_apply (D : Divisor k F)
+    (α : (P : Place k F) → F) (P : Place k F) :
+    adeleProjPi D α P = P.filtrationProj (D P).toNat (α P) := rfl
+
+/-- The componentwise projection preserves the adeles: the image
+coordinate at `P` has order at least `−D(P)`, so the exceptional set
+is inside the support of `D`. -/
+theorem adeleProjPi_mem_adeleSubmodule (D : Divisor k F)
+    (α : (P : Place k F) → F) :
+    adeleProjPi D α ∈ adeleSubmodule k F := by
+  refine Set.Finite.subset D.support.finite_toSet fun P hP ↦ ?_
+  simp only [Set.mem_setOf_eq, adeleProjPi_apply] at hP
+  obtain ⟨hne, hlt⟩ := hP
+  have h1 := P.filtrationProj_mem (D P).toNat (α P)
+  rw [Place.mem_filtration_iff_ord] at h1
+  rcases h1 with h1 | h1
+  · exact absurd h1 hne
+  rw [Finset.mem_coe, Finsupp.mem_support_iff]
+  intro h0
+  omega
+
+/-- The componentwise projection as an endomorphism of the adele
+module. -/
+noncomputable def adeleProj (D : Divisor k F) :
+    Module.End k ↥(adeleSubmodule k F) :=
+  LinearMap.codRestrict _
+    ((adeleProjPi D).comp (adeleSubmodule k F).subtype)
+    fun α ↦ adeleProjPi_mem_adeleSubmodule D ↑α
+
+theorem adeleProj_coe (D : Divisor k F) (α : ↥(adeleSubmodule k F)) :
+    ((adeleProj D α : ↥(adeleSubmodule k F)) :
+      (P : Place k F) → F) = adeleProjPi D ↑α := rfl
+
+/-- The componentwise projection lands in the bounded adele space. -/
+theorem adeleProj_mem_adeleSpaceIn {D : Divisor k F} (hD : 0 ≤ D)
+    (α : ↥(adeleSubmodule k F)) :
+    adeleProj D α ∈ adeleSpaceIn (k := k) (F := F) D := by
+  rw [mem_adeleSpaceIn_iff]
+  intro P
+  have h1 := P.filtrationProj_mem (D P).toNat
+    ((α : (Q : Place k F) → F) P)
+  rw [Place.mem_filtration_iff_ord] at h1
+  have h2 : ((adeleProj D α : ↥(adeleSubmodule k F)) :
+      (Q : Place k F) → F) P =
+      P.filtrationProj (D P).toNat
+        ((α : (Q : Place k F) → F) P) := rfl
+  rcases h1 with h1 | h1
+  · exact Or.inl (by rw [h2, h1])
+  · refine Or.inr ?_
+    rw [h2]
+    have h3 : ((D P).toNat : ℤ) = D P := Int.toNat_of_nonneg (hD P)
+    omega
+
+/-- The componentwise projection fixes the bounded adele space. -/
+theorem adeleProj_eq_self {D : Divisor k F} (hD : 0 ≤ D)
+    {α : ↥(adeleSubmodule k F)}
+    (hα : α ∈ adeleSpaceIn (k := k) (F := F) D) :
+    adeleProj D α = α := by
+  refine Subtype.ext (funext fun P ↦ ?_)
+  have h2 : ((adeleProj D α : ↥(adeleSubmodule k F)) :
+      (Q : Place k F) → F) P =
+      P.filtrationProj (D P).toNat
+        ((α : (Q : Place k F) → F) P) := rfl
+  rw [h2]
+  refine P.filtrationProj_eq_self ?_
+  rw [Place.mem_filtration_iff_ord]
+  rcases (mem_adeleSpaceIn_iff.1 hα) P with h1 | h1
+  · exact Or.inl h1
+  · refine Or.inr ?_
+    have h3 : ((D P).toNat : ℤ) = D P := Int.toNat_of_nonneg (hD P)
+    omega
+
+/-- **The componentwise commutator acts blockwise**: each coordinate
+sees the local residue commutator at its own filtration stage. -/
+theorem adeleProj_commutator_apply (D : Divisor k F) (f g : F)
+    (α : ↥(adeleSubmodule k F)) (P : Place k F) :
+    ((((adeleProj D ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (adeleProj D ∘ₗ adeleSMul f)) α :
+        ↥(adeleSubmodule k F)) : (Q : Place k F) → F) P =
+    ((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+      LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f))
+      ((α : (Q : Place k F) → F) P) := rfl
+
 /-- **The global commutator trace vanishes** (the heart of the residue
 theorem): for any projection `π` onto a bounded adele space that,
 together with the diagonal, fills the adele module, the trace of

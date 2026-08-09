@@ -159,6 +159,24 @@ theorem Place.filtration_succ_le (P : Place k F) (m : ℕ) :
       (Submodule.mem_sup_right
         (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)))
 
+/-- Filtration membership in terms of the order. -/
+theorem Place.mem_filtration_iff_ord {P : Place k F} {m : ℕ} {x : F} :
+    x ∈ P.filtration m ↔ x = 0 ∨ -(m : ℤ) ≤ P.ord x := by
+  rw [Place.mem_filtration_iff]
+  rcases eq_or_ne x 0 with rfl | hx
+  · simp
+  · have hne : P.pi ^ m * x ≠ 0 :=
+      mul_ne_zero (pow_ne_zero _ P.pi_ne_zero) hx
+    rw [← P.ord_nonneg_iff hne,
+      P.ord_mul (pow_ne_zero _ P.pi_ne_zero) hx,
+      P.ord_pow P.pi_ne_zero, P.ord_pi, mul_one]
+    constructor
+    · intro h
+      exact Or.inr (by omega)
+    · rintro (h | h)
+      · exact absurd h hx
+      · omega
+
 /-- **Commensurability of the filtration** (the analytic input to
 Tate's residue): every filtration stage is almost contained in the
 valuation ring. -/
@@ -231,6 +249,25 @@ theorem Place.proj_eq_self (P : Place k F) {x : F}
     (Classical.choose_spec (Submodule.exists_isCompl P.toSubmodule))
     (⟨x, hx⟩ : ↥P.toSubmodule)
   exact h1
+
+/-- A chosen `k`-linear projection of the function field onto a
+filtration stage of a place. -/
+noncomputable def Place.filtrationProj (P : Place k F) (m : ℕ) :
+    F →ₗ[k] F :=
+  (P.filtration m).projection
+    (Classical.choose (Submodule.exists_isCompl (P.filtration m)))
+    (Classical.choose_spec (Submodule.exists_isCompl (P.filtration m)))
+
+theorem Place.filtrationProj_mem (P : Place k F) (m : ℕ) (x : F) :
+    P.filtrationProj m x ∈ P.filtration m :=
+  Submodule.projection_apply_mem _ x
+
+theorem Place.filtrationProj_eq_self (P : Place k F) {m : ℕ} {x : F}
+    (hx : x ∈ P.filtration m) : P.filtrationProj m x = x := by
+  rw [Place.filtrationProj]
+  exact Submodule.projection_apply_left
+    (Classical.choose_spec (Submodule.exists_isCompl (P.filtration m)))
+    (⟨x, hx⟩ : ↥(P.filtration m))
 
 /-- **Tate's local operator**: the commutator of the projection with
 multiplication, `c(h) = [ε, mult h]`. It lies in Tate's trace class
