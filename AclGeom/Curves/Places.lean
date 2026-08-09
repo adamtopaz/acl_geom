@@ -721,6 +721,14 @@ theorem exists_place_one_lt_valuation {f : F} (hf : Transcendental k f) :
   rwa [map_inv₀, inv_lt_one₀
     (zero_lt_iff.2 ((Valuation.ne_zero_iff _).2 hf0))] at hP
 
+/-- One-variable function fields have places: any transcendental element
+has a zero place. -/
+instance [IsFunctionFieldOneVar k F] : Nonempty (Place k F) := by
+  obtain ⟨x, hxtr, -⟩ :=
+    IsFunctionFieldOneVar.exists_transcendental_finite (k := k) (F := F)
+  obtain ⟨P, -⟩ := exists_place_valuation_lt_one hxtr
+  exact ⟨P⟩
+
 /-- **Elements without poles are constants** (Stichtenoth Corollary
 1.1.20 over an algebraically closed base). -/
 theorem exists_algebraMap_eq_of_forall_valuation_le_one [IsAlgClosed k]

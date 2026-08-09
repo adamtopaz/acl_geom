@@ -208,6 +208,18 @@ the defect, and Riemann's inequality holds by construction:
 
 {docstring AclGeom.genus_nonneg}
 
-Next in this library: the genus-zero checkpoint — genus zero forces
-`F ≃ k(t)` — then the canonical class and automorphism rigidity,
+# The genus-zero checkpoint
+%%%
+tag := "genus-zero"
+%%%
+
+At genus zero the theory pays off: Riemann's inequality at a single
+place gives `ℓ(P) ≥ 2`, so some element of `L(P)` is not constant; its
+one and only pole is `P`, of order one, so the degree theorem forces
+`[F : k(t)] = 1` — the function field is rational, with a generator
+whose pole sits at any prescribed place:
+
+{docstring AclGeom.exists_generator_of_genus_eq_zero}
+
+Next in this library: the canonical class and automorphism rigidity,
 tracked on the curve-theory issue.

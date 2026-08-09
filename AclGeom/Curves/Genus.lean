@@ -171,6 +171,113 @@ theorem genus_nonneg : 0 ≤ genus k F := by
   rw [h1] at h
   omega
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- A one-dimensional extension is trivial: an intermediate field over
+which the ambient field has dimension one is everything. -/
+theorem intermediateField_eq_top_of_finrank_eq_one
+    {K : IntermediateField k F} [FiniteDimensional (↥K) F]
+    (h1 : Module.finrank (↥K) F = 1) : K = ⊤ := by
+  have hspan : Submodule.span (↥K) ({(1 : F)} : Set F) = ⊤ := by
+    apply Submodule.eq_top_of_finrank_eq
+    rw [finrank_span_singleton (one_ne_zero (α := F)), h1]
+  rw [eq_top_iff]
+  intro y _
+  have hy : y ∈ Submodule.span (↥K) ({(1 : F)} : Set F) := by
+    rw [hspan]
+    trivial
+  obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.1 hy
+  have hc1 : c • (1 : F) = (c : F) := by
+    rw [Algebra.smul_def, mul_one]
+    rfl
+  rw [← hc, hc1]
+  exact c.2
+
+/-- **The genus-zero checkpoint** (blueprint Section 8, curve input; cf.
+Stichtenoth 1.6.3): a genus-zero one-variable function field over an
+algebraically closed base is rational, with a generator whose pole
+divisor is any prescribed place. From `ℓ(P) ≥ deg P + 1 − g = 2` there
+is a non-constant `t ∈ L(P)`; its only pole is `P` with order one, so
+`[F : k(t)] = deg (t)_∞ = 1` and `t` generates. -/
+theorem exists_generator_of_genus_eq_zero (hg : genus k F = 0)
+    (P : Place k F) :
+    ∃ t : F, Transcendental k t ∧
+      poleDivisor k t = Finsupp.single P 1 ∧
+      adjoin k ({t} : Set F) = ⊤ := by
+  classical
+  have hdeg1 : Divisor.deg (Finsupp.single P 1 : Divisor k F) = 1 := by
+    rw [Divisor.deg, Finsupp.sum_single_index rfl]
+  -- `ℓ(P) ≥ 2`.
+  have hl2 := riemann_inequality (Finsupp.single P 1 : Divisor k F)
+  rw [hg, hdeg1] at hl2
+  have hmono : RiemannSpace (0 : Divisor k F) ≤
+      RiemannSpace (Finsupp.single P 1) := by
+    apply riemannSpace_mono
+    intro Q
+    rcases eq_or_ne Q P with rfl | hQ
+    · simp [Finsupp.single_eq_same]
+    · simp [Finsupp.single_eq_of_ne hQ]
+  have hfr0 : Module.finrank k (RiemannSpace (0 : Divisor k F)) = 1 := by
+    rw [riemannSpace_zero, LinearMap.finrank_range_of_inj
+      (show Function.Injective (Algebra.linearMap k F) from
+        (algebraMap k F).injective), Module.finrank_self]
+  -- A non-constant element of `L(P)`.
+  obtain ⟨t, htmem, htnc⟩ : ∃ t, t ∈ RiemannSpace (Finsupp.single P 1) ∧
+      t ∉ RiemannSpace (0 : Divisor k F) := by
+    by_contra hcon
+    push Not at hcon
+    have heq : RiemannSpace (Finsupp.single P 1 : Divisor k F) =
+        RiemannSpace (0 : Divisor k F) :=
+      le_antisymm (fun t ht ↦ hcon t ht) hmono
+    rw [heq, hfr0] at hl2
+    omega
+  have htc : ∀ c : k, algebraMap k F c ≠ t := by
+    intro c hc
+    apply htnc
+    rw [riemannSpace_zero]
+    exact LinearMap.mem_range.2 ⟨c, hc⟩
+  have htr : Transcendental k t := by
+    intro halg
+    obtain ⟨c, hc⟩ := exists_algebraMap_eq_of_isAlgebraic halg
+    exact htc c hc
+  have ht0 : t ≠ 0 := fun h ↦ htc 0 (by rw [map_zero, h])
+  rw [mem_riemannSpace_iff] at htmem
+  rcases htmem with rfl | hord
+  · exact absurd rfl ht0
+  -- `t` has a pole, necessarily at `P` of order one.
+  have hpole : ∃ Q : Place k F, Q.ord t < 0 := by
+    by_contra hnp
+    push Not at hnp
+    obtain ⟨c, hc⟩ := exists_algebraMap_eq_of_forall_valuation_le_one
+      fun Q ↦ (Q.ord_nonneg_iff ht0).1 (hnp Q)
+    exact htc c hc
+  obtain ⟨Q, hQ⟩ := hpole
+  have hQP : Q = P := by
+    by_contra hne
+    have h1 := hord Q
+    rw [Finsupp.single_eq_of_ne hne] at h1
+    omega
+  subst hQP
+  have hordP : Q.ord t = -1 := by
+    have h1 := hord Q
+    rw [Finsupp.single_eq_same] at h1
+    omega
+  have hpd : poleDivisor k t = Finsupp.single Q 1 := by
+    ext R
+    rw [poleDivisor_apply ht0]
+    rcases eq_or_ne R Q with rfl | hR
+    · rw [Finsupp.single_eq_same, hordP]
+      rw [show -(-1 : ℤ) = 1 by norm_num, max_eq_left (by norm_num)]
+    · have h1 := hord R
+      rw [Finsupp.single_eq_of_ne hR] at h1
+      rw [Finsupp.single_eq_of_ne hR, max_eq_right (by omega)]
+  -- `[F : k(t)] = deg (t)_∞ = 1`, so `t` generates.
+  have hfr1 : Module.finrank (↥(adjoin k ({t} : Set F))) F = 1 := by
+    have h1 := deg_poleDivisor_eq_finrank htr
+    rw [hpd, hdeg1] at h1
+    exact_mod_cast h1.symm
+  haveI := finiteDimensional_adjoin_of_transcendental (k := k) htr
+  exact ⟨t, htr, hpd, intermediateField_eq_top_of_finrank_eq_one hfr1⟩
+
 end
 
 end AclGeom
