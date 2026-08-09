@@ -656,6 +656,205 @@ theorem tateTrace_blockOp (D : Divisor k F) (f g : F)
     rw [h5]
   rw [hconj, LinearMap.trace_conj']
 
+/-- **Localization of the global trace**: away from the poles of `f`,
+`g` and the support of `D`, the blocks square to zero, so the global
+blockwise commutator is the sum of the bad blocks plus a square-zero
+remainder, and its trace is the sum of the local traces. -/
+theorem tateTrace_adeleProj_commutator (D : Divisor k F) (f g : F)
+    (S : Finset (Place k F))
+    (hS : ∀ Q : Place k F, Q ∉ S → f ∈ Q.toSubmodule ∧
+      g ∈ Q.toSubmodule ∧ D Q = 0) :
+    tateTrace ((adeleProj D ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (adeleProj D ∘ₗ adeleSMul f)) =
+    ∑ P ∈ S, tateTrace
+      ((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.filtrationProj (D P).toNat ∘ₗ
+            LinearMap.mulLeft k f)) := by
+  classical
+  -- coordinates of the block sum
+  have hsum_coord : ∀ (α : ↥(adeleSubmodule k F)) (Q : Place k F),
+      (((∑ P ∈ S, blockOp D f g P) α : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) Q =
+      ∑ P ∈ S, ((blockOp D f g P α : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) Q := by
+    intro α Q
+    have h1 : (∑ P ∈ S, blockOp D f g P) α =
+        ∑ P ∈ S, blockOp D f g P α := LinearMap.sum_apply _ _ _
+    rw [h1]
+    have h3 : ((∑ P ∈ S, blockOp D f g P α :
+        ↥(adeleSubmodule k F)) : (R : Place k F) → F) =
+        ∑ P ∈ S, ((blockOp D f g P α : ↥(adeleSubmodule k F)) :
+          (R : Place k F) → F) :=
+      map_sum (adeleSubmodule k F).subtype
+        (fun P ↦ blockOp D f g P α) S
+    rw [h3, Finset.sum_apply]
+  have hcoordS : ∀ (α : ↥(adeleSubmodule k F)) (Q : Place k F),
+      Q ∈ S →
+      (((∑ P ∈ S, blockOp D f g P) α : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) Q =
+      ((Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f))
+        ((α : (R : Place k F) → F) Q) := by
+    intro α Q hQ
+    have h4 : ∑ P ∈ S, ((blockOp D f g P α :
+        ↥(adeleSubmodule k F)) : (R : Place k F) → F) Q =
+        ((blockOp D f g Q α : ↥(adeleSubmodule k F)) :
+          (R : Place k F) → F) Q :=
+      Finset.sum_eq_single Q
+        (fun P _ hne ↦ adeleSinglePi_apply_ne P (Ne.symm hne) _)
+        (fun h ↦ absurd hQ h)
+    rw [hsum_coord, h4, blockOp_apply]
+    exact adeleSinglePi_apply_self Q _
+  have hcoordN : ∀ (α : ↥(adeleSubmodule k F)) (Q : Place k F),
+      Q ∉ S →
+      (((∑ P ∈ S, blockOp D f g P) α : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) Q = 0 := by
+    intro α Q hQ
+    rw [hsum_coord]
+    exact Finset.sum_eq_zero fun P hP ↦
+      adeleSinglePi_apply_ne P (fun h ↦ hQ (by rw [h]; exact hP)) _
+  -- the remainder and its coordinates
+  set Dop : Module.End k ↥(adeleSubmodule k F) :=
+    ((adeleProj D ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (adeleProj D ∘ₗ adeleSMul f)) -
+      ∑ P ∈ S, blockOp D f g P with hDop
+  have hDcoe : ∀ (α : ↥(adeleSubmodule k F)) (Q : Place k F),
+      ((Dop α : ↥(adeleSubmodule k F)) : (R : Place k F) → F) Q =
+      (((((adeleProj D ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+        adeleSMul g ∘ₗ (adeleProj D ∘ₗ adeleSMul f)) α) :
+          ↥(adeleSubmodule k F)) : (R : Place k F) → F) Q -
+      (((∑ P ∈ S, blockOp D f g P) α : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) Q := fun α Q ↦ rfl
+  have hDmem : ∀ (α : ↥(adeleSubmodule k F)) (Q : Place k F),
+      Q ∈ S →
+      ((Dop α : ↥(adeleSubmodule k F)) : (R : Place k F) → F) Q =
+        0 := by
+    intro α Q hQ
+    rw [hDcoe, adeleProj_commutator_apply, hcoordS α Q hQ, sub_self]
+  have hDnot : ∀ (α : ↥(adeleSubmodule k F)) (Q : Place k F),
+      Q ∉ S →
+      ((Dop α : ↥(adeleSubmodule k F)) : (R : Place k F) → F) Q =
+      ((Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f))
+        ((α : (R : Place k F) → F) Q) := by
+    intro α Q hQ
+    rw [hDcoe, adeleProj_commutator_apply, hcoordN α Q hQ, sub_zero]
+  -- good blocks square to zero
+  have hCQsq : ∀ Q : Place k F, Q ∉ S →
+      ((Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (Q.filtrationProj (D Q).toNat ∘ₗ
+            LinearMap.mulLeft k f)) ∘ₗ
+      ((Q.filtrationProj (D Q).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (Q.filtrationProj (D Q).toNat ∘ₗ
+            LinearMap.mulLeft k f)) = 0 := by
+    intro Q hQ
+    obtain ⟨hf, hg, hDQ⟩ := hS Q hQ
+    have h1 : (D Q).toNat = 0 := by
+      rw [hDQ]
+      rfl
+    rw [h1]
+    exact Q.filtrationProj_commutator_comp_self_eq_zero hf hg
+  -- the remainder squares to zero
+  have hDsq : Dop ∘ₗ Dop = 0 := by
+    refine LinearMap.ext fun α ↦ Subtype.ext (funext fun Q ↦ ?_)
+    rw [LinearMap.comp_apply, LinearMap.zero_apply]
+    rcases em (Q ∈ S) with hQ | hQ
+    · exact hDmem (Dop α) Q hQ
+    · rw [hDnot (Dop α) Q hQ, hDnot α Q hQ]
+      have h1 := LinearMap.congr_fun (hCQsq Q hQ)
+        ((α : (R : Place k F) → F) Q)
+      rw [LinearMap.comp_apply, LinearMap.zero_apply] at h1
+      exact h1
+  -- vanishing compositions with the blocks
+  have hDB : ∀ P ∈ S, Dop ∘ₗ blockOp D f g P = 0 := by
+    intro P hP
+    refine LinearMap.ext fun α ↦ Subtype.ext (funext fun Q ↦ ?_)
+    rw [LinearMap.comp_apply, LinearMap.zero_apply]
+    rcases em (Q ∈ S) with hQ | hQ
+    · exact hDmem _ Q hQ
+    · rw [hDnot _ Q hQ]
+      have h1 : ((blockOp D f g P α : ↥(adeleSubmodule k F)) :
+          (R : Place k F) → F) Q =
+          0 :=
+        adeleSinglePi_apply_ne P (fun h ↦ hQ (by rw [h]; exact hP)) _
+      rw [h1, map_zero]
+      rfl
+  have hBD : ∀ P ∈ S, blockOp D f g P ∘ₗ Dop = 0 := by
+    intro P hP
+    refine LinearMap.ext fun α ↦ ?_
+    rw [LinearMap.comp_apply, LinearMap.zero_apply, blockOp_apply,
+      hDmem α P hP, map_zero, map_zero]
+  -- pairwise finiteness for the blocks
+  have hpair : ∀ P ∈ S, ∀ Q ∈ S, FiniteDimensional k
+      (LinearMap.range (blockOp D f g P ∘ₗ blockOp D f g Q)) := by
+    intro P _ Q _
+    rcases eq_or_ne P Q with rfl | hne
+    · exact finiteDimensional_range_blockOp_comp_self D f g P
+    · rw [blockOp_comp_blockOp_of_ne D f g hne, LinearMap.range_zero]
+      infer_instance
+  -- instances for additivity of the two pieces
+  haveI J1 : FiniteDimensional k (LinearMap.range (Dop ∘ₗ Dop)) := by
+    rw [hDsq, LinearMap.range_zero]
+    infer_instance
+  haveI J2 : FiniteDimensional k (LinearMap.range
+      (Dop ∘ₗ ∑ P ∈ S, blockOp D f g P)) := by
+    have h1 : Dop ∘ₗ (∑ P ∈ S, blockOp D f g P) =
+        ∑ P ∈ S, (Dop ∘ₗ blockOp D f g P) :=
+      Finset.mul_sum S _ Dop
+    rw [h1]
+    refine finiteDimensional_range_finset_sum S _ fun P hP ↦ ?_
+    rw [hDB P hP, LinearMap.range_zero]
+    infer_instance
+  haveI J3 : FiniteDimensional k (LinearMap.range
+      ((∑ P ∈ S, blockOp D f g P) ∘ₗ Dop)) := by
+    have h1 : (∑ P ∈ S, blockOp D f g P) ∘ₗ Dop =
+        ∑ P ∈ S, (blockOp D f g P ∘ₗ Dop) :=
+      Finset.sum_mul S _ Dop
+    rw [h1]
+    refine finiteDimensional_range_finset_sum S _ fun P hP ↦ ?_
+    rw [hBD P hP, LinearMap.range_zero]
+    infer_instance
+  haveI J4 : FiniteDimensional k (LinearMap.range
+      ((∑ P ∈ S, blockOp D f g P) ∘ₗ ∑ P ∈ S, blockOp D f g P)) := by
+    have h1 : (∑ P ∈ S, blockOp D f g P) ∘ₗ
+        (∑ P ∈ S, blockOp D f g P) =
+        ∑ P ∈ S, (blockOp D f g P ∘ₗ ∑ Q ∈ S, blockOp D f g Q) :=
+      Finset.sum_mul S _ _
+    rw [h1]
+    refine finiteDimensional_range_finset_sum S _ fun P hP ↦ ?_
+    have h2 : blockOp D f g P ∘ₗ (∑ Q ∈ S, blockOp D f g Q) =
+        ∑ Q ∈ S, (blockOp D f g P ∘ₗ blockOp D f g Q) :=
+      Finset.mul_sum S _ _
+    rw [h2]
+    exact finiteDimensional_range_finset_sum S _
+      fun Q hQ ↦ hpair P hP Q hQ
+  -- assemble
+  have hCid : (adeleProj D ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (adeleProj D ∘ₗ adeleSMul f) =
+      Dop + ∑ P ∈ S, blockOp D f g P := by
+    rw [hDop]
+    abel
+  have hDnil : IsNilpotent Dop := by
+    refine ⟨2, ?_⟩
+    have h1 : (Dop ^ 2 : Module.End k ↥(adeleSubmodule k F)) =
+        Dop ∘ₗ Dop := by
+      rw [pow_two]
+      rfl
+    rw [h1, hDsq]
+  rw [hCid, tateTrace_add_of_sq, tateTrace_of_isNilpotent hDnil,
+    zero_add, tateTrace_finset_sum S _ hpair]
+  exact Finset.sum_congr rfl fun P _ ↦ tateTrace_blockOp D f g P
+
 /-- **The global commutator trace vanishes** (the heart of the residue
 theorem): for any projection `π` onto a bounded adele space that,
 together with the diagonal, fills the adele module, the trace of
@@ -837,6 +1036,50 @@ theorem tateTrace_adeleSMul_commutator_eq_zero (f g : F)
     (almostLE_map_closure_adeleSMul f g D₀) hAr hAf hπr hπf
     (isTraceClass_adeleSMul_commutator f g D₀ hAr hAf)
   rw [hcmp, htrA]
+
+/-- **The residue theorem** (Tate): the residues of `f dg` sum to
+zero over any finite set of places outside which both `f` and `g` are
+integral. The global commutator trace vanishes by the triple
+decomposition against the diagonal, and localizes to the sum of the
+local residues by the block decomposition. -/
+theorem sum_residue_eq_zero (f g : F) (S : Finset (Place k F))
+    (hS : ∀ Q : Place k F, Q ∉ S →
+      f ∈ Q.toSubmodule ∧ g ∈ Q.toSubmodule) :
+    ∑ P ∈ S, P.residue f g = 0 := by
+  classical
+  obtain ⟨D₀, hD₀nonneg, hdefect⟩ :=
+    exists_le_defect_eq_genus (k := k) (F := F) 0
+  have hsup := adeleSubmodule_eq_sup_of_defect_eq_genus hdefect
+  have h0 := tateTrace_adeleSMul_commutator_eq_zero f g hD₀nonneg hsup
+    (π := adeleProj D₀) (adeleProj_mem_adeleSpaceIn hD₀nonneg)
+    (fun α hα ↦ adeleProj_eq_self hD₀nonneg hα)
+  set S' : Finset (Place k F) := S ∪ D₀.support with hS'
+  have hS'good : ∀ Q : Place k F, Q ∉ S' →
+      f ∈ Q.toSubmodule ∧ g ∈ Q.toSubmodule ∧ D₀ Q = 0 := by
+    intro Q hQ
+    rw [hS', Finset.mem_union] at hQ
+    push Not at hQ
+    obtain ⟨h1, h2⟩ := hQ
+    obtain ⟨hf, hg⟩ := hS Q h1
+    refine ⟨hf, hg, ?_⟩
+    by_contra h3
+    exact h2 (Finsupp.mem_support_iff.2 h3)
+  have hloc := tateTrace_adeleProj_commutator D₀ f g S' hS'good
+  rw [h0] at hloc
+  have hres : ∀ P ∈ S',
+      tateTrace ((P.filtrationProj (D₀ P).toNat ∘ₗ
+          LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.filtrationProj (D₀ P).toNat ∘ₗ LinearMap.mulLeft k f)) =
+      P.residue f g := fun P _ ↦
+    P.residue_eq_of_projection_filtration (D₀ P).toNat
+      (fun x ↦ P.filtrationProj_mem _ x)
+      (fun x hx ↦ P.filtrationProj_eq_self hx) f g
+  rw [Finset.sum_congr rfl hres] at hloc
+  have hsub : ∑ P ∈ S, P.residue f g = ∑ P ∈ S', P.residue f g :=
+    Finset.sum_subset Finset.subset_union_left fun P _ hP ↦
+      P.residue_eq_zero_of_mem (hS P hP).1 (hS P hP).2
+  rw [hsub, ← hloc]
 
 end
 
