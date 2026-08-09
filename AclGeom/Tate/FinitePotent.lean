@@ -262,6 +262,118 @@ theorem IsTateCore.tateTrace_eq {θ : Module.End k V}
   rw [tateTrace, dif_pos hex]
   exact hex.choose_spec.trace_restrict_eq hW
 
+section FiniteRank
+
+/-- The range of a finite-rank endomorphism is a core. -/
+theorem isTateCore_range (θ : Module.End k V)
+    [FiniteDimensional k (LinearMap.range θ)] :
+    IsTateCore θ (LinearMap.range θ) :=
+  ⟨inferInstance, fun x _ ↦ ⟨x, rfl⟩,
+    ⟨1, fun x ↦ by rw [pow_one]; exact ⟨x, rfl⟩⟩⟩
+
+/-- A finite-dimensional subspace containing the ranges of two
+endomorphisms is a common core. -/
+theorem isTateCore_of_range_le {θ : Module.End k V}
+    {W : Submodule k V} [FiniteDimensional k W]
+    (h : LinearMap.range θ ≤ W) : IsTateCore θ W :=
+  ⟨inferInstance, fun x _ ↦ h ⟨x, rfl⟩,
+    ⟨1, fun x ↦ by rw [pow_one]; exact h ⟨x, rfl⟩⟩⟩
+
+/-- **Additivity of the Tate trace on finite-rank endomorphisms**: the
+join of the ranges is a common core. -/
+theorem tateTrace_add_of_finiteDimensional_range
+    (θ₁ θ₂ : Module.End k V)
+    [FiniteDimensional k (LinearMap.range θ₁)]
+    [FiniteDimensional k (LinearMap.range θ₂)] :
+    tateTrace (θ₁ + θ₂) = tateTrace θ₁ + tateTrace θ₂ := by
+  set W : Submodule k V := LinearMap.range θ₁ ⊔ LinearMap.range θ₂
+    with hW
+  haveI : FiniteDimensional k W := by
+    rw [hW]
+    infer_instance
+  have h₁ : IsTateCore θ₁ W := isTateCore_of_range_le le_sup_left
+  have h₂ : IsTateCore θ₂ W := isTateCore_of_range_le le_sup_right
+  have h₁₂ : IsTateCore (θ₁ + θ₂) W := by
+    refine isTateCore_of_range_le ?_
+    rintro x ⟨y, rfl⟩
+    exact Submodule.add_mem _ (Submodule.mem_sup_left ⟨y, rfl⟩)
+      (Submodule.mem_sup_right ⟨y, rfl⟩)
+  rw [h₁₂.tateTrace_eq, h₁.tateTrace_eq, h₂.tateTrace_eq]
+  have hres : (θ₁ + θ₂).restrict h₁₂.stable =
+      θ₁.restrict h₁.stable + θ₂.restrict h₂.stable := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    rfl
+  rw [hres, map_add]
+
+/-- The Tate trace commutes with scalars. -/
+theorem tateTrace_smul {θ : Module.End k V} {W : Submodule k V}
+    (hW : IsTateCore θ W) (c : k) :
+    tateTrace (c • θ) = c * tateTrace θ := by
+  haveI := hW.finite
+  have hW' : IsTateCore (c • θ) W :=
+    ⟨hW.finite, fun x hx ↦ by
+      rw [LinearMap.smul_apply]
+      exact Submodule.smul_mem _ c (hW.stable x hx), by
+      obtain ⟨n, hn⟩ := hW.absorbs
+      refine ⟨n, fun x ↦ ?_⟩
+      rw [smul_pow, LinearMap.smul_apply]
+      exact Submodule.smul_mem _ _ (hn x)⟩
+  rw [hW'.tateTrace_eq, hW.tateTrace_eq]
+  have hres : (c • θ).restrict hW'.stable = c • θ.restrict hW.stable := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    rfl
+  rw [hres, map_smul, smul_eq_mul]
+
+/-- **The trace of a product is symmetric** for finite-rank composites:
+the restrictions to the two range-cores are intertwined compositions,
+and `tr(ab) = tr(ba)` in finite dimensions. -/
+theorem tateTrace_comp_comm (f g : Module.End k V)
+    [FiniteDimensional k (LinearMap.range (f ∘ₗ g))]
+    [FiniteDimensional k (LinearMap.range (g ∘ₗ f))] :
+    tateTrace (f ∘ₗ g) = tateTrace (g ∘ₗ f) := by
+  set U : Submodule k V := LinearMap.range (f ∘ₗ g) with hU
+  set W : Submodule k V := LinearMap.range (g ∘ₗ f) with hW
+  have hUcore : IsTateCore (f ∘ₗ g) U := isTateCore_range _
+  have hWcore : IsTateCore (g ∘ₗ f) W := isTateCore_range _
+  -- The intertwiners between the cores.
+  have hga : ∀ x ∈ U, g x ∈ W := by
+    rintro x ⟨y, rfl⟩
+    exact ⟨g y, by rfl⟩
+  have hfb : ∀ x ∈ W, f x ∈ U := by
+    rintro x ⟨y, rfl⟩
+    exact ⟨f y, by rfl⟩
+  set a : ↥U →ₗ[k] ↥W := g.restrict hga with ha
+  set b : ↥W →ₗ[k] ↥U := f.restrict hfb with hb
+  have hab : (f ∘ₗ g).restrict hUcore.stable = b ∘ₗ a := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    rfl
+  have hba : (g ∘ₗ f).restrict hWcore.stable = a ∘ₗ b := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    rfl
+  rw [hUcore.tateTrace_eq, hWcore.tateTrace_eq, hab, hba,
+    LinearMap.trace_comp_comm']
+
+/-- **Commutators of finite-rank composites are traceless.** -/
+theorem tateTrace_comp_sub_comp_comm (f g : Module.End k V)
+    [FiniteDimensional k (LinearMap.range (f ∘ₗ g))]
+    [FiniteDimensional k (LinearMap.range (g ∘ₗ f))] :
+    tateTrace (f ∘ₗ g - g ∘ₗ f) = 0 := by
+  have h1 : f ∘ₗ g - g ∘ₗ f = f ∘ₗ g + (-1 : k) • (g ∘ₗ f) := by
+    rw [neg_one_smul]
+    abel
+  haveI : FiniteDimensional k
+      (LinearMap.range ((-1 : k) • (g ∘ₗ f))) := by
+    have h2 : LinearMap.range ((-1 : k) • (g ∘ₗ f)) ≤
+        LinearMap.range (g ∘ₗ f) := by
+      rintro x ⟨y, rfl⟩
+      exact ⟨(-1 : k) • y, by rw [LinearMap.smul_apply, map_smul]⟩
+    exact Submodule.finiteDimensional_of_le h2
+  rw [h1, tateTrace_add_of_finiteDimensional_range,
+    tateTrace_smul (isTateCore_range _), tateTrace_comp_comm f g]
+  ring
+
+end FiniteRank
+
 end
 
 end AclGeom
