@@ -446,6 +446,58 @@ theorem adeleProj_commutator_comp_single (D : Divisor k F) (f g : F)
       adeleSinglePi_apply_ne P hQ _
     rw [h1, h2, map_zero]
 
+/-- **Finite-support decomposition**: an adele supported on a finite
+set of places is the sum of its single-place pieces. -/
+theorem eq_sum_adeleSingle {S : Finset (Place k F)}
+    {β : ↥(adeleSubmodule k F)}
+    (hβ : ∀ Q ∉ S, (β : (P : Place k F) → F) Q = 0) :
+    β = ∑ Q ∈ S, adeleSingle Q ((β : (P : Place k F) → F) Q) := by
+  refine Subtype.ext (funext fun R ↦ ?_)
+  have h1 := map_sum (adeleSubmodule k F).subtype
+    (fun Q ↦ adeleSingle Q ((β : (P : Place k F) → F) Q)) S
+  have h2 : ((∑ Q ∈ S, adeleSingle Q
+      ((β : (P : Place k F) → F) Q) : ↥(adeleSubmodule k F)) :
+        (P : Place k F) → F) R =
+      ∑ Q ∈ S, adeleSinglePi (k := k) Q
+        ((β : (P : Place k F) → F) Q) R := by
+    have h3 : ((∑ Q ∈ S, adeleSingle Q
+        ((β : (P : Place k F) → F) Q) : ↥(adeleSubmodule k F)) :
+          (P : Place k F) → F) =
+        ∑ Q ∈ S, ((adeleSingle Q ((β : (P : Place k F) → F) Q) :
+          ↥(adeleSubmodule k F)) : (P : Place k F) → F) := h1
+    rw [h3, Finset.sum_apply]
+    rfl
+  rw [h2]
+  rcases em (R ∈ S) with hR | hR
+  · rw [Finset.sum_eq_single R
+      (fun Q _ hQ ↦ adeleSinglePi_apply_ne Q (Ne.symm hQ) _)
+      (fun h ↦ absurd hR h)]
+    exact (adeleSinglePi_apply_self R _).symm
+  · rw [Finset.sum_eq_zero
+      (fun Q hQ ↦ adeleSinglePi_apply_ne Q
+        (fun h ↦ hR (by rw [h]; exact hQ)) _),
+      hβ R hR]
+
+/-- Powers of the blockwise commutator act blockwise. -/
+theorem adeleProj_commutator_pow_apply (D : Divisor k F) (f g : F)
+    (n : ℕ) (α : ↥(adeleSubmodule k F)) (P : Place k F) :
+    (((((adeleProj D ∘ₗ adeleSMul f) ∘ₗ adeleSMul g -
+      adeleSMul g ∘ₗ (adeleProj D ∘ₗ adeleSMul f)) ^ n) α :
+        ↥(adeleSubmodule k F)) : (Q : Place k F) → F) P =
+    (((P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+      LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ
+        (P.filtrationProj (D P).toNat ∘ₗ LinearMap.mulLeft k f)) ^ n)
+      ((α : (Q : Place k F) → F) P) := by
+  induction n generalizing α with
+  | zero =>
+    rw [pow_zero, pow_zero]
+    rfl
+  | succ n ih =>
+    rw [pow_succ, pow_succ, Module.End.mul_apply,
+      Module.End.mul_apply, ih]
+    congr 1
+
 /-- **The global commutator trace vanishes** (the heart of the residue
 theorem): for any projection `π` onto a bounded adele space that,
 together with the diagonal, fills the adele module, the trace of

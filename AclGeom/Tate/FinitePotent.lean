@@ -704,6 +704,52 @@ theorem tateTrace_comp_sub_comp_comm (f g : Module.End k V)
 
 end FiniteRank
 
+/-- Cores are stable under all powers. -/
+theorem IsTateCore.pow_stable {θ : Module.End k V} {W : Submodule k V}
+    (hW : IsTateCore θ W) (j : ℕ) :
+    ∀ w ∈ W, (θ ^ j) w ∈ W := by
+  induction j with
+  | zero =>
+    intro w hw
+    rw [pow_zero]
+    exact hw
+  | succ j ih =>
+    intro w hw
+    have h1 : (θ ^ (j + 1)) w = θ ((θ ^ j) w) := by
+      rw [pow_succ']
+      rfl
+    rw [h1]
+    exact hW.stable _ (ih w hw)
+
+/-- A core absorbing at exponent `n` absorbs at every larger
+exponent. -/
+theorem IsTateCore.pow_mem_of_le {θ : Module.End k V}
+    {W : Submodule k V} (hW : IsTateCore θ W) {n : ℕ}
+    (hn : ∀ x : V, (θ ^ n) x ∈ W) {m : ℕ} (hm : n ≤ m) :
+    ∀ x : V, (θ ^ m) x ∈ W := by
+  intro x
+  have h1 : (θ ^ m) x = (θ ^ (m - n)) ((θ ^ n) x) := by
+    rw [← Module.End.mul_apply, ← pow_add]
+    congr 2
+    omega
+  rw [h1]
+  exact hW.pow_stable (m - n) _ (hn x)
+
+/-- Square-zero operators have vanishing higher powers. -/
+theorem pow_eq_zero_of_comp_self_eq_zero {θ : Module.End k V}
+    (hθ : θ ∘ₗ θ = 0) {n : ℕ} (hn : 2 ≤ n) :
+    (θ ^ n : Module.End k V) = 0 := by
+  have h2 : (θ ^ 2 : Module.End k V) = 0 := by
+    have h1 : (θ ^ 2 : Module.End k V) = θ ∘ₗ θ := by
+      rw [pow_two]
+      rfl
+    rw [h1, hθ]
+  calc (θ ^ n : Module.End k V) = θ ^ (n - 2) * θ ^ 2 := by
+        rw [← pow_add]
+        congr 1
+        omega
+    _ = 0 := by rw [h2, mul_zero]
+
 /-- The Tate trace of a nilpotent operator vanishes: the bottom
 submodule is a core. -/
 theorem tateTrace_of_isNilpotent {θ : Module.End k V}

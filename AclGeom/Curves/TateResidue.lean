@@ -1274,6 +1274,58 @@ theorem Place.almostLE_map_closure (P : Place k F) (f g : F) :
     exact AlmostLE.mono_left h2
       (AlmostLE.sup ihx AlmostLE.of_finiteDimensional)
 
+/-- Words in two multiplication operators almost-stabilize every
+filtration stage: decompose the stage over the valuation ring and a
+finite gauge. -/
+theorem Place.almostLE_map_closure_filtration (P : Place k F)
+    (f g : F) (m : ℕ) :
+    ∀ w ∈ Submonoid.closure ({LinearMap.mulLeft k f,
+      LinearMap.mulLeft k g} : Set (Module.End k F)),
+      AlmostLE ((P.filtration m).map w) (P.filtration m) := by
+  intro w hw
+  have h1 := P.almostLE_map_closure f g w hw
+  obtain ⟨W, hW, hle⟩ := P.filtration_almostLE m
+  haveI := hW
+  have h2 : (P.filtration m).map w ≤
+      P.toSubmodule.map w ⊔ W.map w := by
+    refine (Submodule.map_mono hle).trans ?_
+    rw [Submodule.map_sup]
+  have h3 : AlmostLE ((P.filtration m).map w) P.toSubmodule :=
+    AlmostLE.mono_left h2
+      (AlmostLE.sup h1 AlmostLE.of_finiteDimensional)
+  refine h3.mono_right ?_
+  rw [← P.filtration_zero]
+  exact P.filtration_mono (Nat.zero_le m)
+
+/-- **The filtration-stage residue commutator is trace-class**
+relative to its own stage. -/
+theorem Place.isTraceClass_filtrationProj_commutator (P : Place k F)
+    (f g : F) (m : ℕ) :
+    IsTraceClass (P.filtration m)
+      ((P.filtrationProj m ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.filtrationProj m ∘ₗ LinearMap.mulLeft k f)) := by
+  have hcomm : LinearMap.mulLeft k g ∘ₗ LinearMap.mulLeft k f =
+      LinearMap.mulLeft k f ∘ₗ LinearMap.mulLeft k g := by
+    refine LinearMap.ext fun x ↦ ?_
+    simp only [LinearMap.comp_apply, LinearMap.mulLeft_apply]
+    ring
+  have hf : LinearMap.mulLeft k f ∈ Submonoid.closure
+      ({LinearMap.mulLeft k f, LinearMap.mulLeft k g} :
+        Set (Module.End k F)) :=
+    Submonoid.subset_closure (Set.mem_insert _ _)
+  have hg : LinearMap.mulLeft k g ∈ Submonoid.closure
+      ({LinearMap.mulLeft k f, LinearMap.mulLeft k g} :
+        Set (Module.End k F)) :=
+    Submonoid.subset_closure (Set.mem_insert_of_mem _ rfl)
+  exact isTraceClass_commutator_of_comm hcomm
+    (P.almostLE_map_closure_filtration f g m _ (mul_mem hf hg))
+    (P.almostLE_map_closure_filtration f g m _ hf)
+    (P.almostLE_map_closure_filtration f g m _ hg)
+    (fun x ↦ P.filtrationProj_mem m x)
+    (fun x hx ↦ P.filtrationProj_eq_self hx)
+
 /-- **The residue reads off any commensurable level**: computing the
 commutator trace with a projection onto a filtration stage
 `π^{−m} O_P` still gives the residue at `P`. This is what identifies
