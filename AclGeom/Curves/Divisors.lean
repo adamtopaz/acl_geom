@@ -563,6 +563,16 @@ theorem Divisor.deg_sub (D E : Divisor k F) :
   rw [sub_eq_add_neg, Divisor.deg_add, Divisor.deg_neg, sub_eq_add_neg]
 
 omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- Adding a point enlarges a divisor. -/
+theorem Divisor.le_add_single (D : Divisor k F) (P : Place k F) :
+    D ≤ D + Finsupp.single P 1 := by
+  intro Q
+  rcases eq_or_ne Q P with rfl | hQ
+  · rw [Finsupp.add_apply, Finsupp.single_eq_same]
+    omega
+  · rw [Finsupp.add_apply, Finsupp.single_eq_of_ne hQ, add_zero]
+
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- Effective divisors have nonnegative degree. -/
 theorem Divisor.deg_nonneg {D : Divisor k F} (hD : 0 ≤ D) : 0 ≤ D.deg :=
   Finsupp.sum_nonneg fun P _ ↦ hD P

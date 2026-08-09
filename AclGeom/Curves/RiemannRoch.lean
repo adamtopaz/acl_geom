@@ -503,6 +503,28 @@ theorem finrank_riemannSpace_le_of_le {D E : Divisor k F} (hDE : D ≤ E) :
       exact_mod_cast hone
     omega
 
+/-- Adding one point grows the Riemann–Roch dimension by at most one. -/
+theorem finrank_riemannSpace_add_single_le (D : Divisor k F)
+    (P : Place k F) :
+    Module.finrank k (RiemannSpace (D + Finsupp.single P 1)) ≤
+      Module.finrank k (RiemannSpace D) + 1 := by
+  have hDD : D + Finsupp.single P 1 - Finsupp.single P 1 = D := by abel
+  have h := riemannSpace_eq_or_eq_sup (D + Finsupp.single P 1) P
+  rw [hDD] at h
+  rcases h with heq | ⟨f₀, hf₀, heq⟩
+  · rw [heq]
+    omega
+  · rcases eq_or_ne f₀ 0 with rfl | hf₀0
+    · have hspan : Submodule.span k ({0} : Set F) = ⊥ :=
+        Submodule.span_zero_singleton k
+      rw [heq, hspan, sup_bot_eq]
+      omega
+    · rw [heq]
+      have h1 := Submodule.finrank_sup_add_finrank_inf_eq
+        (RiemannSpace D) (Submodule.span k {f₀})
+      rw [finrank_span_singleton hf₀0] at h1
+      omega
+
 /-- Multiplication by `z` embeds `L(E + div z)` into `L(E)`. -/
 theorem finrank_riemannSpace_add_divisorOf_le (E : Divisor k F) {z : F}
     (hz : z ≠ 0) :
