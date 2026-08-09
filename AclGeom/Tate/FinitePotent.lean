@@ -646,6 +646,22 @@ theorem IsTraceClass.isFinitePotent {A : Submodule k V}
   rw [h1]
   exact hT.finiteDimensional_range_comp hT
 
+/-- **The Tate trace of a finite-rank idempotent is its rank** (cast
+into the field). -/
+theorem tateTrace_of_isIdempotentElem {ρ : Module.End k V}
+    (hρ : IsIdempotentElem ρ)
+    [FiniteDimensional k (LinearMap.range ρ)] :
+    tateTrace ρ = (Module.finrank k (LinearMap.range ρ) : k) := by
+  have hcore : IsTateCore ρ (LinearMap.range ρ) := isTateCore_range ρ
+  rw [hcore.tateTrace_eq]
+  have hid : ρ.restrict hcore.stable = LinearMap.id := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    obtain ⟨y, hy⟩ := x.2
+    show ρ (x : V) = (x : V)
+    rw [← hy, ← Module.End.mul_apply, hρ]
+  rw [hid]
+  exact LinearMap.trace_id k _
+
 end TraceClass
 
 /-- **Commutators of finite-rank composites are traceless.** -/

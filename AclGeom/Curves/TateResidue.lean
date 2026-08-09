@@ -348,6 +348,77 @@ theorem Place.isTraceClass_residue_commutator (P : Place k F)
     ((P.isTraceClass_commutatorProj f).comp_left
       (P.mulLeft_map_almostLE g))
 
+section OrdLink
+
+/-- Inverse multiplications compose to the identity. -/
+theorem mulLeft_inv_comp {g : F} (hg : g ≠ 0) :
+    LinearMap.mulLeft k g⁻¹ ∘ₗ LinearMap.mulLeft k g = LinearMap.id := by
+  refine LinearMap.ext fun x ↦ ?_
+  rw [LinearMap.comp_apply, LinearMap.mulLeft_apply,
+    LinearMap.mulLeft_apply, LinearMap.id_apply, ← mul_assoc,
+    inv_mul_cancel₀ hg, one_mul]
+
+/-- The projection conjugated by multiplication: a projection onto
+`g · O_P`. -/
+noncomputable def Place.conjProj (P : Place k F) (g : F) :
+    Module.End k F :=
+  LinearMap.mulLeft k g ∘ₗ P.proj ∘ₗ LinearMap.mulLeft k g⁻¹
+
+theorem Place.conjProj_apply (P : Place k F) (g x : F) :
+    P.conjProj g x = g * P.proj (g⁻¹ * x) := rfl
+
+/-- The conjugated projection is idempotent. -/
+theorem Place.isIdempotentElem_conjProj (P : Place k F) {g : F}
+    (hg : g ≠ 0) : IsIdempotentElem (P.conjProj g) := by
+  refine LinearMap.ext fun x ↦ ?_
+  show P.conjProj g (P.conjProj g x) = P.conjProj g x
+  rw [Place.conjProj_apply, Place.conjProj_apply]
+  congr 1
+  rw [← mul_assoc, inv_mul_cancel₀ hg, one_mul]
+  exact P.proj_eq_self (P.proj_mem _)
+
+/-- The residue commutator at `(g⁻¹, g)` is the difference of the two
+projections. -/
+theorem Place.residue_commutator_inv_self (P : Place k F) {g : F}
+    (hg : g ≠ 0) :
+    (P.proj ∘ₗ LinearMap.mulLeft k g⁻¹) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k g⁻¹) =
+    P.proj - P.conjProj g := by
+  rw [LinearMap.comp_assoc, mulLeft_inv_comp hg, LinearMap.comp_id,
+    Place.conjProj]
+
+/-- If `g` is integral at `P`, the projection absorbs its conjugate:
+`ε ∘ ε' = ε'`, since the range `g · O_P` sits inside `O_P`. -/
+theorem Place.proj_comp_conjProj (P : Place k F) {g : F} (hg : g ≠ 0)
+    (hord : 0 ≤ P.ord g) :
+    P.proj ∘ₗ P.conjProj g = P.conjProj g := by
+  refine LinearMap.ext fun x ↦ ?_
+  rw [LinearMap.comp_apply, Place.conjProj_apply]
+  refine P.proj_eq_self ?_
+  rw [Place.mem_toSubmodule_iff]
+  rcases eq_or_ne (P.proj (g⁻¹ * x)) 0 with h0 | h0
+  · rw [h0, mul_zero, Valuation.map_zero]
+    exact zero_le
+  have h1 : P.val.valuation (P.proj (g⁻¹ * x)) ≤ 1 :=
+    Place.mem_toSubmodule_iff.1 (P.proj_mem _)
+  have h2 : P.val.valuation g ≤ 1 := (P.ord_nonneg_iff hg).1 hord
+  calc P.val.valuation (g * P.proj (g⁻¹ * x)) =
+      P.val.valuation g * P.val.valuation (P.proj (g⁻¹ * x)) :=
+        Valuation.map_mul _ _ _
+    _ ≤ 1 * 1 := mul_le_mul' h2 h1
+    _ = 1 := one_mul 1
+
+/-- The difference of the projections factors as
+`ε ∘ (1 − ε')` when `g` is integral. -/
+theorem Place.proj_sub_conjProj_eq (P : Place k F) {g : F} (hg : g ≠ 0)
+    (hord : 0 ≤ P.ord g) :
+    P.proj - P.conjProj g =
+      P.proj ∘ₗ (LinearMap.id - P.conjProj g) := by
+  rw [LinearMap.comp_sub, LinearMap.comp_id,
+    P.proj_comp_conjProj hg hord]
+
+end OrdLink
+
 end Projection
 
 end
