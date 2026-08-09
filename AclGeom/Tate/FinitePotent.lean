@@ -465,7 +465,7 @@ theorem tateTrace_add_of_sq (φ ψ : Module.End k V)
     · have hexp : ((φ + ψ) ^ 2) x =
           (φ ∘ₗ φ) x + (φ ∘ₗ ψ) x + ((ψ ∘ₗ φ) x + (ψ ∘ₗ ψ) x) := by
         rw [pow_two]
-        show (φ + ψ) ((φ + ψ) x) = _
+        change (φ + ψ) ((φ + ψ) x) = _
         rw [LinearMap.add_apply, LinearMap.add_apply, map_add,
           map_add]
         rfl
