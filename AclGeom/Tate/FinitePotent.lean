@@ -353,6 +353,133 @@ theorem tateTrace_comp_comm (f g : Module.End k V)
   rw [hUcore.tateTrace_eq, hWcore.tateTrace_eq, hab, hba,
     LinearMap.trace_comp_comm']
 
+/-- The range of any power is a core once it is finite-dimensional. -/
+theorem isTateCore_range_pow (θ : Module.End k V) (n : ℕ)
+    [FiniteDimensional k (LinearMap.range (θ ^ n))] :
+    IsTateCore θ (LinearMap.range (θ ^ n)) := by
+  refine ⟨inferInstance, ?_, ⟨n, fun x ↦ ⟨x, rfl⟩⟩⟩
+  rintro x ⟨y, rfl⟩
+  refine ⟨θ y, ?_⟩
+  have h1 : (θ ^ n) (θ y) = (θ ^ (n + 1)) y := by
+    rw [pow_succ]
+    rfl
+  have h2 : θ ((θ ^ n) y) = (θ ^ (n + 1)) y := by
+    rw [pow_succ']
+    rfl
+  rw [h1, h2]
+
+/-- **Symmetry of the trace of a product**, squared-range version: if
+`(αβ)²` and `(βα)²` have finite-dimensional range — as happens for
+Tate's trace-class operators — then `tr(αβ) = tr(βα)`: the squared
+ranges are cores intertwined by the restricted factors. -/
+theorem tateTrace_comp_comm_of_sq (α β : Module.End k V)
+    [FiniteDimensional k (LinearMap.range ((α ∘ₗ β) ^ 2))]
+    [FiniteDimensional k (LinearMap.range ((β ∘ₗ α) ^ 2))] :
+    tateTrace (α ∘ₗ β) = tateTrace (β ∘ₗ α) := by
+  have hUcore : IsTateCore (α ∘ₗ β) (LinearMap.range ((α ∘ₗ β) ^ 2)) :=
+    isTateCore_range_pow (α ∘ₗ β) 2
+  have hWcore : IsTateCore (β ∘ₗ α) (LinearMap.range ((β ∘ₗ α) ^ 2)) :=
+    isTateCore_range_pow (β ∘ₗ α) 2
+  have hβu : β ∘ₗ ((α ∘ₗ β) ^ 2 : Module.End k V) =
+      ((β ∘ₗ α) ^ 2 : Module.End k V) ∘ₗ β := by
+    rw [pow_two, pow_two]
+    ext x
+    rfl
+  have hαv : α ∘ₗ ((β ∘ₗ α) ^ 2 : Module.End k V) =
+      ((α ∘ₗ β) ^ 2 : Module.End k V) ∘ₗ α := by
+    rw [pow_two, pow_two]
+    ext x
+    rfl
+  have hga : ∀ x ∈ LinearMap.range ((α ∘ₗ β) ^ 2),
+      β x ∈ LinearMap.range ((β ∘ₗ α) ^ 2) := by
+    rintro x ⟨y, rfl⟩
+    exact ⟨β y, (LinearMap.congr_fun hβu y).symm⟩
+  have hfb : ∀ x ∈ LinearMap.range ((β ∘ₗ α) ^ 2),
+      α x ∈ LinearMap.range ((α ∘ₗ β) ^ 2) := by
+    rintro x ⟨y, rfl⟩
+    exact ⟨α y, (LinearMap.congr_fun hαv y).symm⟩
+  have hab : (α ∘ₗ β).restrict hUcore.stable =
+      α.restrict hfb ∘ₗ β.restrict hga := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    rfl
+  have hba : (β ∘ₗ α).restrict hWcore.stable =
+      β.restrict hga ∘ₗ α.restrict hfb := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    rfl
+  rw [hUcore.tateTrace_eq, hWcore.tateTrace_eq, hab, hba,
+    LinearMap.trace_comp_comm']
+
+/-- **Additivity of the Tate trace over a potent pair**: if all four
+length-two words in `φ, ψ` have finite-dimensional range, the join of
+those ranges is a common core — length-three word images fold back
+into length-two ranges. -/
+theorem tateTrace_add_of_sq (φ ψ : Module.End k V)
+    [FiniteDimensional k (LinearMap.range (φ ∘ₗ φ))]
+    [FiniteDimensional k (LinearMap.range (φ ∘ₗ ψ))]
+    [FiniteDimensional k (LinearMap.range (ψ ∘ₗ φ))]
+    [FiniteDimensional k (LinearMap.range (ψ ∘ₗ ψ))] :
+    tateTrace (φ + ψ) = tateTrace φ + tateTrace ψ := by
+  set W : Submodule k V :=
+    LinearMap.range (φ ∘ₗ φ) ⊔ (LinearMap.range (φ ∘ₗ ψ) ⊔
+      (LinearMap.range (ψ ∘ₗ φ) ⊔ LinearMap.range (ψ ∘ₗ ψ))) with hW
+  haveI : FiniteDimensional k W := by
+    rw [hW]
+    infer_instance
+  have h1 : LinearMap.range (φ ∘ₗ φ) ≤ W := le_sup_left
+  have h2 : LinearMap.range (φ ∘ₗ ψ) ≤ W :=
+    le_sup_left.trans le_sup_right
+  have h3 : LinearMap.range (ψ ∘ₗ φ) ≤ W :=
+    (le_sup_left.trans le_sup_right).trans le_sup_right
+  have h4 : LinearMap.range (ψ ∘ₗ ψ) ≤ W :=
+    (le_sup_right.trans le_sup_right).trans le_sup_right
+  -- Left-composition folds length-three words into length-two ranges.
+  have hfold : ∀ χ : Module.End k V,
+      LinearMap.range (χ ∘ₗ φ) ≤ W → LinearMap.range (χ ∘ₗ ψ) ≤ W →
+      ∀ x ∈ W, χ x ∈ W := by
+    intro χ hχφ hχψ x hx
+    have hmap : Submodule.map χ W ≤ W := by
+      rw [hW, Submodule.map_sup, Submodule.map_sup, Submodule.map_sup,
+        ← LinearMap.range_comp, ← LinearMap.range_comp,
+        ← LinearMap.range_comp, ← LinearMap.range_comp]
+      have hb : ∀ ξ ζ : Module.End k V, LinearMap.range (χ ∘ₗ ξ) ≤ W →
+          LinearMap.range (χ ∘ₗ (ξ ∘ₗ ζ)) ≤ W := by
+        intro ξ ζ hξ
+        have hassoc : χ ∘ₗ (ξ ∘ₗ ζ) = (χ ∘ₗ ξ) ∘ₗ ζ := rfl
+        rw [hassoc]
+        exact (LinearMap.range_comp_le_range _ _).trans hξ
+      exact sup_le (hb φ φ hχφ) (sup_le (hb φ ψ hχφ)
+        (sup_le (hb ψ φ hχψ) (hb ψ ψ hχψ)))
+    exact hmap ⟨x, hx, rfl⟩
+  have hstepφ : ∀ x ∈ W, φ x ∈ W := hfold φ h1 h2
+  have hstepψ : ∀ x ∈ W, ψ x ∈ W := hfold ψ h3 h4
+  have hφ : IsTateCore φ W := by
+    refine ⟨inferInstance, hstepφ, ⟨2, fun x ↦ h1 ?_⟩⟩
+    exact ⟨x, by rw [pow_two]; rfl⟩
+  have hψ : IsTateCore ψ W := by
+    refine ⟨inferInstance, hstepψ, ⟨2, fun x ↦ h4 ?_⟩⟩
+    exact ⟨x, by rw [pow_two]; rfl⟩
+  have hsum : IsTateCore (φ + ψ) W := by
+    refine ⟨inferInstance, fun x hx ↦ ?_, ⟨2, fun x ↦ ?_⟩⟩
+    · rw [LinearMap.add_apply]
+      exact Submodule.add_mem _ (hstepφ x hx) (hstepψ x hx)
+    · have hexp : ((φ + ψ) ^ 2) x =
+          (φ ∘ₗ φ) x + (φ ∘ₗ ψ) x + ((ψ ∘ₗ φ) x + (ψ ∘ₗ ψ) x) := by
+        rw [pow_two]
+        show (φ + ψ) ((φ + ψ) x) = _
+        rw [LinearMap.add_apply, LinearMap.add_apply, map_add,
+          map_add]
+        rfl
+      rw [hexp]
+      exact Submodule.add_mem _
+        (Submodule.add_mem _ (h1 ⟨x, rfl⟩) (h2 ⟨x, rfl⟩))
+        (Submodule.add_mem _ (h3 ⟨x, rfl⟩) (h4 ⟨x, rfl⟩))
+  rw [hsum.tateTrace_eq, hφ.tateTrace_eq, hψ.tateTrace_eq]
+  have hres : (φ + ψ).restrict hsum.stable =
+      φ.restrict hφ.stable + ψ.restrict hψ.stable := by
+    refine LinearMap.ext fun x ↦ Subtype.ext ?_
+    rfl
+  rw [hres, map_add]
+
 /-- **Commutators of finite-rank composites are traceless.** -/
 theorem tateTrace_comp_sub_comp_comm (f g : Module.End k V)
     [FiniteDimensional k (LinearMap.range (f ∘ₗ g))]
