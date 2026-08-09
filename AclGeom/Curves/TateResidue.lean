@@ -218,10 +218,12 @@ noncomputable def Place.proj (P : Place k F) : F →ₗ[k] F :=
     (Classical.choose (Submodule.exists_isCompl P.toSubmodule))
     (Classical.choose_spec (Submodule.exists_isCompl P.toSubmodule))
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Place.proj_mem (P : Place k F) (x : F) :
     P.proj x ∈ P.toSubmodule :=
   Submodule.projection_apply_mem _ x
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Place.proj_eq_self (P : Place k F) {x : F}
     (hx : x ∈ P.toSubmodule) : P.proj x = x := by
   rw [Place.proj]
@@ -238,6 +240,7 @@ noncomputable def Place.commutatorProj (P : Place k F) (h : F) :
     Module.End k F :=
   P.proj ∘ₗ LinearMap.mulLeft k h - LinearMap.mulLeft k h ∘ₗ P.proj
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 theorem Place.commutatorProj_apply (P : Place k F) (h x : F) :
     P.commutatorProj h x = P.proj (h * x) - h * P.proj x := rfl
 
