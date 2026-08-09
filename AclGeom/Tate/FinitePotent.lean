@@ -480,6 +480,36 @@ theorem tateTrace_add_of_sq (φ ψ : Module.End k V)
     rfl
   rw [hres, map_add]
 
+/-- Tate's relation `A ≺ B`: contained in `B` up to finite
+dimensions. -/
+def AlmostLE (A B : Submodule k V) : Prop :=
+  ∃ W : Submodule k V, FiniteDimensional k W ∧ A ≤ B ⊔ W
+
+theorem AlmostLE.of_le {A B : Submodule k V} (h : A ≤ B) :
+    AlmostLE A B :=
+  ⟨⊥, inferInstance, by rwa [sup_bot_eq]⟩
+
+theorem AlmostLE.rfl {A : Submodule k V} : AlmostLE A A :=
+  AlmostLE.of_le le_rfl
+
+theorem AlmostLE.trans {A B C : Submodule k V} (h₁ : AlmostLE A B)
+    (h₂ : AlmostLE B C) : AlmostLE A C := by
+  obtain ⟨W₁, hW₁, hle₁⟩ := h₁
+  obtain ⟨W₂, hW₂, hle₂⟩ := h₂
+  refine ⟨W₂ ⊔ W₁, inferInstance, ?_⟩
+  refine hle₁.trans (sup_le ?_ ?_)
+  · exact hle₂.trans (sup_le le_sup_left
+      ((le_sup_left : W₂ ≤ W₂ ⊔ W₁).trans le_sup_right))
+  · exact (le_sup_right : W₁ ≤ W₂ ⊔ W₁).trans le_sup_right
+
+theorem AlmostLE.mono_right {A B C : Submodule k V}
+    (h : AlmostLE A B) (hBC : B ≤ C) : AlmostLE A C :=
+  h.trans (AlmostLE.of_le hBC)
+
+theorem AlmostLE.mono_left {A B C : Submodule k V} (hAB : A ≤ B)
+    (h : AlmostLE B C) : AlmostLE A C :=
+  (AlmostLE.of_le hAB).trans h
+
 /-- **Commutators of finite-rank composites are traceless.** -/
 theorem tateTrace_comp_sub_comp_comm (f g : Module.End k V)
     [FiniteDimensional k (LinearMap.range (f ∘ₗ g))]
