@@ -221,6 +221,16 @@ whose pole sits at any prescribed place:
 
 {docstring AclGeom.exists_generator_of_genus_eq_zero}
 
+The converse holds as well: on a rational function field every
+degree-zero divisor is principal — partial fractions in divisor form,
+products of shifts of the generator — so every defect reduces to a
+multiple of the pole place, where the powers of the generator fill the
+Riemann–Roch space. Genus zero characterizes rationality:
+
+{docstring AclGeom.exists_divisorOf_eq_of_deg_eq_zero}
+
+{docstring AclGeom.genus_eq_zero_iff_exists_generator}
+
 # Adeles and the index of specialty
 %%%
 tag := "adeles"
