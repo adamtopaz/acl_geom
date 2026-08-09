@@ -293,5 +293,85 @@ canonical class:
 
 {docstring AclGeom.exists_canonicalDivisor}
 
-Next in this library: automorphism rigidity via vector fields against
-the canonical degree `2g − 2`, tracked on the curve-theory issue.
+# Tate's abstract trace
+%%%
+tag := "tate-trace"
+%%%
+
+The residue theory that connects differentials to orders of functions
+is built on Tate's linear algebra of *finite-potent* endomorphisms: on
+an arbitrary vector space, an operator some power of which has
+finite-dimensional range carries a well-defined trace, computed on any
+*core* — a finite-dimensional invariant subspace absorbing a power —
+because the induced action beyond a core is nilpotent:
+
+{docstring AclGeom.IsFinitePotent}
+
+{docstring AclGeom.IsTateCore}
+
+{docstring AclGeom.tateTrace}
+
+The calculus of this trace runs through squared ranges: symmetry
+`tr(αβ) = tr(βα)` and additivity hold as soon as the relevant
+length-two words have finite-dimensional range, and commutators of
+such pairs are traceless — no finiteness is needed on the factors
+themselves:
+
+{docstring AclGeom.tateTrace_comp_comm_of_sq}
+
+{docstring AclGeom.tateTrace_add_of_sq}
+
+{docstring AclGeom.tateTrace_comp_sub_comp_comm_of_sq}
+
+{docstring AclGeom.tateTrace_of_isIdempotentElem}
+
+Tate's commensurability order compares subspaces up to
+finite-dimensional error, and the operators whose ranges are almost
+inside a fixed subspace and which almost kill it form the trace class
+of that subspace:
+
+{docstring AclGeom.AlmostLE}
+
+{docstring AclGeom.IsTraceClass}
+
+# The residue
+%%%
+tag := "residue"
+%%%
+
+At a place, the valuation ring is commensurable with all its
+uniformizer shifts — each filtration step is gauged by one residue —
+and multiplication operators respect the commensurability class:
+
+{docstring AclGeom.Place.filtration_almostLE}
+
+Choosing a linear projection `ε` onto the valuation ring, the
+commutator `c(h) = [ε, mult h]` is trace-class, and the residue of
+`f dg` is the Tate trace of the commutator `[ε ∘ mult f, mult g]`:
+
+{docstring AclGeom.Place.commutatorProj}
+
+{docstring AclGeom.Place.isTraceClass_commutatorProj}
+
+{docstring AclGeom.Place.residue}
+
+The residue is bilinear, vanishes on integral pairs, and — the anchor
+identity — counts the order of a function on the logarithmic
+differential `dg/g`: the residue commutator at `(g⁻¹, g)` is the
+difference of the projections onto `O_P` and `g O_P`, the trace flips
+to an idempotent projecting onto a transversal of `g O_P` in `O_P`,
+and the transversal has dimension exactly `ord g` by the finite Taylor
+expansion and dominant-term independence:
+
+{docstring AclGeom.Place.residue_add_left}
+
+{docstring AclGeom.Place.residue_eq_zero_of_mem}
+
+{docstring AclGeom.Place.finrank_map_id_sub_conjProj}
+
+{docstring AclGeom.Place.residue_inv_self}
+
+Next in this library: the remaining residue calculus (independence of
+the projection, vanishing thresholds, the global residue theorem over
+the adeles), then automorphism rigidity via vector fields against the
+canonical degree `2g − 2`, tracked on the curve-theory issue.

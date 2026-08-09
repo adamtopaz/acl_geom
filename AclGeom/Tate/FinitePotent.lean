@@ -44,8 +44,11 @@ subspace absorbing some power. The Tate trace is computed on any
 core. -/
 structure IsTateCore (θ : Module.End k V) (W : Submodule k V) :
     Prop where
+  /-- A core is finite-dimensional. -/
   finite : FiniteDimensional k W
+  /-- A core is invariant under the endomorphism. -/
   stable : ∀ x ∈ W, θ x ∈ W
+  /-- A core absorbs some power of the endomorphism. -/
   absorbs : ∃ n : ℕ, ∀ x : V, (θ ^ n) x ∈ W
 
 /-- Endomorphisms with finite-dimensional range are finite-potent. -/
@@ -544,7 +547,9 @@ section TraceClass
 is almost inside `A`, and the image of `A` is finite-dimensional. -/
 structure IsTraceClass (A : Submodule k V) (T : Module.End k V) :
     Prop where
+  /-- The range is almost inside the reference subspace. -/
   range_almostLE : AlmostLE (LinearMap.range T) A
+  /-- The image of the reference subspace is finite-dimensional. -/
   finite_map : FiniteDimensional k (A.map T)
 
 theorem IsTraceClass.zero (A : Submodule k V) :
