@@ -363,7 +363,7 @@ theorem mem_weilDifferentialsAt_add_pos {D E : Divisor k F}
     exact adeleDiagonal_mem_adeleSubmodule g
   have hβ' : β = (⟨x₁, hm₁⟩ : ↥(adeleSubmodule k F)) + ⟨x₂ + y, hm₂⟩ := by
     apply Subtype.ext
-    show (β : (P : Place k F) → F) = x₁ + (x₂ + y)
+    change (β : (P : Place k F) → F) = x₁ + (x₂ + y)
     rw [← hxy, ← hxx]
     abel
   have hmem₁ : (⟨x₁, hm₁⟩ : ↥(adeleSubmodule k F)) ∈ boundedSubmodule D :=
