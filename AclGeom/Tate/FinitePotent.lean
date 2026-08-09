@@ -775,6 +775,99 @@ theorem tateTrace_comp_sub_comp_comm_of_sq (α β : Module.End k V)
   rw [hsub, hadd, hflip, hneg]
   ring
 
+/-- Almost-stability propagates from generators to the whole monoid
+of words. -/
+theorem almostLE_map_closure_of {A : Submodule k V}
+    {s : Set (Module.End k V)}
+    (hs : ∀ w ∈ s, AlmostLE (A.map w) A) :
+    ∀ w ∈ Submonoid.closure s, AlmostLE (A.map w) A := by
+  intro w hw
+  induction hw using Submonoid.closure_induction with
+  | mem x hx => exact hs x hx
+  | one =>
+    have h1 : (1 : Module.End k V) = LinearMap.id := rfl
+    rw [h1, Submodule.map_id]
+    exact AlmostLE.rfl
+  | mul x y hx hy ihx ihy =>
+    have h1 : A.map (x * y) = (A.map y).map x := by
+      rw [← Submodule.map_comp]
+      rfl
+    rw [h1]
+    obtain ⟨W, hW, hle⟩ := ihy
+    haveI := hW
+    have h2 : (A.map y).map x ≤ A.map x ⊔ W.map x := by
+      refine (Submodule.map_mono hle).trans ?_
+      rw [Submodule.map_sup]
+    exact AlmostLE.mono_left h2
+      (AlmostLE.sup ihx AlmostLE.of_finiteDimensional)
+
+/-- A projection commutator against an almost-stabilizing operator is
+trace-class: the range decomposes over the projection target and the
+image, and on the target the commutator factors through `ε − 1`, which
+kills the target. -/
+theorem isTraceClass_proj_commutator {A : Submodule k V}
+    {ε χ : Module.End k V} (hχ : AlmostLE (A.map χ) A)
+    (hεr : ∀ x : V, ε x ∈ A) (hεf : ∀ x ∈ A, ε x = x) :
+    IsTraceClass A (ε ∘ₗ χ - χ ∘ₗ ε) := by
+  constructor
+  · have hle : LinearMap.range (ε ∘ₗ χ - χ ∘ₗ ε) ≤ A ⊔ A.map χ := by
+      rintro x ⟨y, rfl⟩
+      have h1 : (ε ∘ₗ χ - χ ∘ₗ ε) y = ε (χ y) - χ (ε y) := rfl
+      rw [h1, sub_eq_add_neg]
+      exact Submodule.add_mem _ (Submodule.mem_sup_left (hεr _))
+        (Submodule.neg_mem _ (Submodule.mem_sup_right
+          ⟨ε y, hεr y, rfl⟩))
+    exact AlmostLE.mono_left hle (AlmostLE.sup AlmostLE.rfl hχ)
+  · obtain ⟨W, hW, hle⟩ := hχ
+    haveI := hW
+    have h1 : A.map (ε ∘ₗ χ - χ ∘ₗ ε) ≤
+        W.map (ε - LinearMap.id : Module.End k V) := by
+      rintro x ⟨a, ha, rfl⟩
+      have h2 : (ε ∘ₗ χ - χ ∘ₗ ε) a =
+          (ε - LinearMap.id : Module.End k V) (χ a) := by
+        have h3 : (ε ∘ₗ χ - χ ∘ₗ ε) a = ε (χ a) - χ a := by
+          have h4 : χ (ε a) = χ a := by rw [hεf a ha]
+          calc (ε ∘ₗ χ - χ ∘ₗ ε) a = ε (χ a) - χ (ε a) := rfl
+            _ = ε (χ a) - χ a := by rw [h4]
+        rw [h3]
+        rfl
+      rw [h2]
+      obtain ⟨u, hu, w, hw, huw⟩ :=
+        Submodule.mem_sup.1 (hle ⟨a, ha, rfl⟩)
+      have h5 : (ε - LinearMap.id : Module.End k V) (χ a) =
+          (ε - LinearMap.id : Module.End k V) w := by
+        rw [← huw, map_add]
+        have h6 : (ε - LinearMap.id : Module.End k V) u = 0 := by
+          rw [LinearMap.sub_apply, LinearMap.id_apply, hεf u hu,
+            sub_self]
+        rw [h6, zero_add]
+      rw [h5]
+      exact ⟨w, hw, rfl⟩
+    exact Submodule.finiteDimensional_of_le h1
+
+/-- The residue-type commutator of a projection against a commuting
+pair of almost-stabilizing operators is trace-class: it decomposes as
+a projection commutator at the product minus a composed projection
+commutator. -/
+theorem isTraceClass_commutator_of_comm {A : Submodule k V}
+    {ε μ ν : Module.End k V} (hcomm : ν ∘ₗ μ = μ ∘ₗ ν)
+    (hμν : AlmostLE (A.map (μ ∘ₗ ν)) A)
+    (hμ : AlmostLE (A.map μ) A) (hν : AlmostLE (A.map ν) A)
+    (hεr : ∀ x : V, ε x ∈ A) (hεf : ∀ x ∈ A, ε x = x) :
+    IsTraceClass A ((ε ∘ₗ μ) ∘ₗ ν - ν ∘ₗ (ε ∘ₗ μ)) := by
+  have hid : (ε ∘ₗ μ) ∘ₗ ν - ν ∘ₗ (ε ∘ₗ μ) =
+      (ε ∘ₗ (μ ∘ₗ ν) - (μ ∘ₗ ν) ∘ₗ ε) -
+        ν ∘ₗ (ε ∘ₗ μ - μ ∘ₗ ε) := by
+    refine LinearMap.ext fun x ↦ ?_
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply, map_sub]
+    have h1 := LinearMap.congr_fun hcomm (ε x)
+    rw [LinearMap.comp_apply, LinearMap.comp_apply] at h1
+    rw [← h1]
+    abel
+  rw [hid]
+  exact (isTraceClass_proj_commutator hμν hεr hεf).sub
+    ((isTraceClass_proj_commutator hμ hεr hεf).comp_left hν)
+
 /-- **Tate's projection-comparison theorem**: the trace of the
 commutator `[ε ∘ μ, ν]` is unchanged when the projection `ε` onto a
 subspace `A` is replaced by a projection `π` onto a commensurable
