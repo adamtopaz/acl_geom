@@ -314,6 +314,7 @@ theorem Place.isTraceClass_commutatorProj (P : Place k F) (h : F) :
   · exact ⟨P.commutatorProj_range_almostLE hh,
       P.finiteDimensional_commutatorProj_map hh⟩
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
 /-- **Tate's commutator identity**: the residue commutator decomposes
 through the local operators, using commutativity of multiplication. -/
 theorem Place.commutator_eq (P : Place k F) (f g : F) :
