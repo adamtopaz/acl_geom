@@ -371,7 +371,59 @@ expansion and dominant-term independence:
 
 {docstring AclGeom.Place.residue_inv_self}
 
-Next in this library: the remaining residue calculus (independence of
-the projection, vanishing thresholds, the global residue theorem over
-the adeles), then automorphism rigidity via vector fields against the
-canonical degree `2g − 2`, tracked on the curve-theory issue.
+The residue does not depend on the chosen projection — the difference
+of two projections onto commensurable targets has finite-rank
+composites against all words in the multiplication operators, so the
+commutators differ by a traceless commutator. In particular the
+residue reads off any filtration stage:
+
+{docstring AclGeom.tateTrace_commutator_eq_of_projection}
+
+{docstring AclGeom.Place.residue_eq_of_projection_filtration}
+
+# The residue theorem
+%%%
+tag := "residue-theorem"
+%%%
+
+Globally, the bounded adele spaces inside the adele module are
+pairwise commensurable, multiplication almost-stabilizes each of
+them, and the residue commutator of a projection onto a bounded space
+is trace-class:
+
+{docstring AclGeom.almostLE_adeleSpaceIn}
+
+{docstring AclGeom.isTraceClass_adeleSMul_commutator}
+
+Two traces are computed for the same commutator. Against the diagonal
+decomposition `𝔸 = A(D₀) + F` at an effective genus-attaining divisor
+— the stabilized Riemann theorem — the compatible projection pair
+splits the commutator into the vanishing commutator of
+multiplications, a finite-rank piece on the diagonal Riemann–Roch
+space, and a square-zero piece on the invariant diagonal, so the
+trace is zero:
+
+{docstring AclGeom.exists_projection_pair}
+
+{docstring AclGeom.tateTrace_adeleSMul_commutator_eq_zero}
+
+Against the componentwise projection onto local filtration stages,
+the commutator acts blockwise; it is the sum of its single-place
+blocks over the bad set plus a square-zero remainder, blocks at
+distinct places compose to zero, and the Tate trace is additive over
+such families — so the same trace is the sum of the local residues:
+
+{docstring AclGeom.tateTrace_finset_sum}
+
+{docstring AclGeom.tateTrace_blockOp}
+
+{docstring AclGeom.tateTrace_adeleProj_commutator}
+
+The two computations combine into the residue theorem:
+
+{docstring AclGeom.sum_residue_eq_zero}
+
+Next in this library: local vanishing thresholds for the residue,
+the differentials attached to field elements, and automorphism
+rigidity via vector fields against the canonical degree `2g − 2`,
+tracked on the curve-theory issue.
