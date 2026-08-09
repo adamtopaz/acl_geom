@@ -421,6 +421,120 @@ theorem Place.proj_sub_conjProj_eq (P : Place k F) {g : F} (hg : g ≠ 0)
   rw [LinearMap.comp_sub, LinearMap.comp_id,
     P.proj_comp_conjProj hg hord]
 
+/-- The projection is idempotent. -/
+theorem Place.proj_comp_proj (P : Place k F) :
+    P.proj ∘ₗ P.proj = P.proj := by
+  refine LinearMap.ext fun x ↦ ?_
+  exact P.proj_eq_self (P.proj_mem x)
+
+/-- **Finite Taylor expansion in the valuation ring**: every integral
+element agrees with a polynomial in the uniformizer up to `π^n O_P`,
+by iterating the residue. -/
+theorem Place.exists_taylor (P : Place k F) {a : F}
+    (ha : a ∈ P.toSubmodule) (n : ℕ) :
+    ∃ (c : Fin n → k) (b : F), b ∈ P.toSubmodule ∧
+      a = (∑ i, c i • P.pi ^ (i : ℕ)) + P.pi ^ n * b := by
+  induction n generalizing a with
+  | zero =>
+    refine ⟨![], a, ha, ?_⟩
+    simp
+  | succ n ih =>
+    obtain ⟨c₀, hc₀⟩ := P.exists_residue ha
+    have hmem : a - algebraMap k F c₀ ∈ P.toSubmodule := by
+      rw [Place.mem_toSubmodule_iff]
+      exact le_of_lt hc₀
+    -- the once-shifted remainder is integral
+    have hdiv : (a - algebraMap k F c₀) * P.pi⁻¹ ∈ P.toSubmodule := by
+      rw [Place.mem_toSubmodule_iff]
+      rcases eq_or_ne (a - algebraMap k F c₀) 0 with h0 | h0
+      · rw [h0, zero_mul, Valuation.map_zero]
+        exact zero_le
+      have h1 : 1 ≤ P.ord (a - algebraMap k F c₀) := by
+        have h2 := (P.ord_pos_iff h0).2 hc₀
+        omega
+      have h3 : (a - algebraMap k F c₀) * P.pi⁻¹ ≠ 0 :=
+        mul_ne_zero h0 (inv_ne_zero P.pi_ne_zero)
+      rw [← P.ord_nonneg_iff h3, P.ord_mul h0 (inv_ne_zero P.pi_ne_zero),
+        P.ord_inv P.pi_ne_zero, P.ord_pi]
+      omega
+    obtain ⟨c, b, hb, hexp⟩ := ih hdiv
+    refine ⟨Fin.cons c₀ c, b, hb, ?_⟩
+    have hpi0 : (P.pi : F) ≠ 0 := P.pi_ne_zero
+    have h4 : a = algebraMap k F c₀ +
+        ((a - algebraMap k F c₀) * P.pi⁻¹) * P.pi := by
+      field_simp
+      ring
+    rw [h4, hexp, Fin.sum_univ_succ]
+    simp only [Fin.cons_zero, Fin.cons_succ, Fin.val_succ, Fin.val_zero,
+      pow_zero, Algebra.smul_def, mul_one]
+    rw [add_mul, Finset.sum_mul]
+    have hsum : ∑ i : Fin n,
+        algebraMap k F (c i) * (P.pi : F) ^ (i : ℕ) * P.pi =
+        ∑ i : Fin n, algebraMap k F (c i) * P.pi ^ ((i : ℕ) + 1) :=
+      Finset.sum_congr rfl fun i _ ↦ by rw [mul_assoc, ← pow_succ]
+    rw [hsum, pow_succ]
+    ring
+
+/-- Uniformizer powers land in `g · O_P` from the order of `g` on:
+`π^n O_P ⊆ g O_P` for `n = ord g ≥ 0`. -/
+theorem Place.pi_pow_mul_mem_map (P : Place k F) {g : F} (hg : g ≠ 0)
+    (hord : 0 ≤ P.ord g) {b : F} (hb : b ∈ P.toSubmodule) :
+    P.pi ^ (P.ord g).toNat * b ∈
+      P.toSubmodule.map (LinearMap.mulLeft k g) := by
+  refine ⟨g⁻¹ * P.pi ^ (P.ord g).toNat * b, ?_, ?_⟩
+  · change P.val.valuation (g⁻¹ * P.pi ^ (P.ord g).toNat * b) ≤ 1
+    rcases eq_or_ne b 0 with rfl | hb0
+    · rw [mul_zero, Valuation.map_zero]
+      exact zero_le
+    have h1 : g⁻¹ * P.pi ^ (P.ord g).toNat * b ≠ 0 :=
+      mul_ne_zero (mul_ne_zero (inv_ne_zero hg)
+        (pow_ne_zero _ P.pi_ne_zero)) hb0
+    rw [← P.ord_nonneg_iff h1,
+      P.ord_mul (mul_ne_zero (inv_ne_zero hg)
+        (pow_ne_zero _ P.pi_ne_zero)) hb0,
+      P.ord_mul (inv_ne_zero hg) (pow_ne_zero _ P.pi_ne_zero),
+      P.ord_inv hg, P.ord_pow P.pi_ne_zero, P.ord_pi, mul_one]
+    have h2 : 0 ≤ P.ord b := (P.ord_nonneg_iff hb0).2
+      (Place.mem_toSubmodule_iff.1 hb)
+    omega
+  · rw [LinearMap.mulLeft_apply]
+    field_simp
+
+/-- The image of the valuation ring under `1 − ε'` is spanned by the
+images of the uniformizer powers below `ord g`: finite rank. -/
+theorem Place.finiteDimensional_map_id_sub_conjProj (P : Place k F)
+    {g : F} (hg : g ≠ 0) (hord : 0 ≤ P.ord g) :
+    FiniteDimensional k
+      (P.toSubmodule.map (LinearMap.id - P.conjProj g)) := by
+  classical
+  set n : ℕ := (P.ord g).toNat with hn
+  set δ : F →ₗ[k] F := LinearMap.id - P.conjProj g with hδ
+  have hker : ∀ x ∈ P.toSubmodule.map (LinearMap.mulLeft k g),
+      δ x = 0 := by
+    rintro x ⟨b, hb, rfl⟩
+    rw [hδ, LinearMap.sub_apply, LinearMap.id_apply,
+      LinearMap.mulLeft_apply, Place.conjProj_apply, ← mul_assoc,
+      inv_mul_cancel₀ hg, one_mul, P.proj_eq_self hb, sub_self]
+  have hspan : P.toSubmodule.map δ ≤
+      Submodule.span k
+        ((fun i : Fin n ↦ δ ((P.pi : F) ^ (i : ℕ))) '' Set.univ) := by
+    rintro x ⟨a, ha, rfl⟩
+    obtain ⟨c, b, hb, hexp⟩ := P.exists_taylor ha n
+    have h1 : δ a = ∑ i : Fin n, c i • δ ((P.pi : F) ^ (i : ℕ)) := by
+      rw [hexp, map_add, map_sum]
+      have h2 : δ (P.pi ^ n * b) = 0 :=
+        hker _ (P.pi_pow_mul_mem_map hg hord hb)
+      rw [h2, add_zero]
+      refine Finset.sum_congr rfl fun i _ ↦ ?_
+      rw [map_smul]
+    rw [h1]
+    exact Submodule.sum_mem _ fun i _ ↦ Submodule.smul_mem _ _
+      (Submodule.subset_span ⟨i, Set.mem_univ i, rfl⟩)
+  haveI : FiniteDimensional k (Submodule.span k
+      ((fun i : Fin n ↦ δ ((P.pi : F) ^ (i : ℕ))) '' Set.univ)) :=
+    FiniteDimensional.span_of_finite k (Set.finite_univ.image _)
+  exact Submodule.finiteDimensional_of_le hspan
+
 end OrdLink
 
 end Projection
