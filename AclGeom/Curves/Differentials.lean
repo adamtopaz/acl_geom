@@ -409,6 +409,163 @@ theorem exists_isGreatest_level
   rw [heq]
   exact hDle
 
+/-- **The multiplication pairing**: `f ↦ ω ∘ (mult by f)`, as a linear
+map from `L(E)` into the level-`D` differentials, for `D + E ≤ W`. -/
+noncomputable def differentialPairing {W D E : Divisor k F}
+    {ω : Module.Dual k ↥(adeleSubmodule k F)}
+    (hω : ω ∈ weilDifferentialsAt W) (hDE : D + E ≤ W) :
+    ↥(RiemannSpace E) →ₗ[k] ↥(weilDifferentialsAt D) where
+  toFun f := ⟨ω ∘ₗ adeleSMul (f : F), by
+    rcases eq_or_ne (f : F) 0 with h0 | h0
+    · rw [h0]
+      have hz : adeleSMul (k := k) (F := F) (0 : F) = 0 := by
+        refine LinearMap.ext fun α ↦ Subtype.ext (funext fun P ↦ ?_)
+        change (0 : F) * ((α : (Q : Place k F) → F) P) = 0
+        rw [zero_mul]
+      rw [hz, LinearMap.comp_zero]
+      exact zero_mem _
+    · have h1 := comp_adeleSMul_mem_weilDifferentialsAt h0 hω
+      refine weilDifferentialsAt_antitone ?_ h1
+      intro P
+      have h2 := (mem_riemannSpace_iff.1 f.2).resolve_left h0 P
+      have h3 := hDE P
+      rw [Finsupp.add_apply] at h3
+      rw [Finsupp.add_apply, divisorOf_apply h0]
+      omega⟩
+  map_add' f g := by
+    apply Subtype.ext
+    change ω ∘ₗ adeleSMul ((f : F) + (g : F)) =
+      ω ∘ₗ adeleSMul (f : F) + ω ∘ₗ adeleSMul (g : F)
+    rw [adeleSMul_add, LinearMap.comp_add]
+  map_smul' c f := by
+    apply Subtype.ext
+    change ω ∘ₗ adeleSMul (c • (f : F)) = c • (ω ∘ₗ adeleSMul (f : F))
+    rw [adeleSMul_smul, LinearMap.comp_smul]
+
+@[simp]
+theorem differentialPairing_coe {W D E : Divisor k F}
+    {ω : Module.Dual k ↥(adeleSubmodule k F)}
+    (hω : ω ∈ weilDifferentialsAt W) (hDE : D + E ≤ W)
+    (f : ↥(RiemannSpace E)) :
+    (differentialPairing hω hDE f :
+      Module.Dual k ↥(adeleSubmodule k F)) = ω ∘ₗ adeleSMul (f : F) :=
+  rfl
+
+/-- **Proportionality of Weil differentials** (Stichtenoth 1.5.9,
+`dim_F Ω = 1`): two nonzero differentials with levels are proportional
+by a field element — else `L(W₁+B) ⊕ L(W₂+B)` would inject into
+`Ω(−B)` for every `B`, and the dimensions clash for `deg B` large. -/
+theorem exists_eq_comp_adeleSMul
+    {ω₁ ω₂ : Module.Dual k ↥(adeleSubmodule k F)}
+    (h₁0 : ω₁ ≠ 0) (h₂0 : ω₂ ≠ 0)
+    {W₁ W₂ : Divisor k F} (h₁ : ω₁ ∈ weilDifferentialsAt W₁)
+    (h₂ : ω₂ ∈ weilDifferentialsAt W₂) :
+    ∃ f : F, f ≠ 0 ∧ ω₂ = ω₁ ∘ₗ adeleSMul f := by
+  classical
+  by_contra hcon
+  push Not at hcon
+  obtain ⟨P⟩ := (inferInstance : Nonempty (Place k F))
+  set N : ℕ := (3 * genus k F - 3 - W₁.deg - W₂.deg).toNat + 1 with hN
+  set B : Divisor k F := Finsupp.single P (N : ℤ) with hB
+  have hdegB : B.deg = (N : ℤ) := by
+    rw [hB, Divisor.deg, Finsupp.sum_single_index rfl]
+  have hle₁ : (-B) + (W₁ + B) ≤ W₁ := le_of_eq (by abel)
+  have hle₂ : (-B) + (W₂ + B) ≤ W₂ := le_of_eq (by abel)
+  set Φ := LinearMap.coprod (differentialPairing h₁ hle₁)
+    (differentialPairing h₂ hle₂) with hΦ
+  have hker : ∀ x, Φ x = 0 → x = 0 := by
+    rintro ⟨f, g⟩ h0
+    have h1 : ω₁ ∘ₗ adeleSMul (f : F) + ω₂ ∘ₗ adeleSMul (g : F) = 0 :=
+      congrArg Subtype.val h0
+    rcases eq_or_ne (g : F) 0 with hg0 | hg0
+    · -- then the first summand vanishes, forcing `f = 0` too
+      have hz : adeleSMul (k := k) (F := F) (0 : F) = 0 := by
+        refine LinearMap.ext fun α ↦ Subtype.ext (funext fun Q ↦ ?_)
+        change (0 : F) * ((α : (Q' : Place k F) → F) Q) = 0
+        rw [zero_mul]
+      rw [hg0, hz, LinearMap.comp_zero, add_zero] at h1
+      have hf0 : (f : F) = 0 := by
+        by_contra hf0
+        exact comp_adeleSMul_ne_zero hf0 h₁0 h1
+      refine Prod.ext (Subtype.ext hf0) (Subtype.ext hg0)
+    · -- otherwise solve for `ω₂` and contradict non-proportionality
+      have h2 : ω₂ ∘ₗ adeleSMul (g : F) = ω₁ ∘ₗ adeleSMul (-(f : F)) := by
+        have h3 : adeleSMul (k := k) (F := F) (-(f : F)) =
+            -adeleSMul (f : F) := by
+          refine LinearMap.ext fun α ↦ Subtype.ext (funext fun Q ↦ ?_)
+          change (-(f : F)) * ((α : (Q' : Place k F) → F) Q) =
+            -((f : F) * ((α : (Q' : Place k F) → F) Q))
+          ring
+        rw [h3, LinearMap.comp_neg]
+        rw [add_comm] at h1
+        exact eq_neg_of_add_eq_zero_left h1
+      have h4 : ω₂ = ω₁ ∘ₗ adeleSMul (-(f : F) * (g : F)⁻¹) := by
+        have h5 := congrArg (· ∘ₗ adeleSMul ((g : F)⁻¹)) h2
+        simp only [LinearMap.comp_assoc, adeleSMul_comp] at h5
+        rw [mul_inv_cancel₀ hg0, adeleSMul_one, LinearMap.comp_id] at h5
+        exact h5
+      exact absurd h4 (hcon _ (mul_ne_zero (neg_ne_zero.2 (by
+        intro hf0
+        rw [hf0] at h2
+        have hz : adeleSMul (k := k) (F := F) (-(0 : F)) = 0 := by
+          refine LinearMap.ext fun α ↦ Subtype.ext (funext fun Q ↦ ?_)
+          change (-(0 : F)) * ((α : (Q' : Place k F) → F) Q) = 0
+          rw [neg_zero, zero_mul]
+        rw [hz, LinearMap.comp_zero] at h2
+        exact comp_adeleSMul_ne_zero hg0 h₂0 h2)) (inv_ne_zero hg0)))
+  have hinj : Function.Injective Φ := by
+    intro x y hxy
+    have h6 := hker (x - y) (by rw [map_sub, hxy, sub_self])
+    exact sub_eq_zero.1 h6
+  have hcard := LinearMap.finrank_le_finrank_of_injective hinj
+  rw [Module.finrank_prod] at hcard
+  have hR₁ := riemann_inequality (k := k) (F := F) (W₁ + B)
+  have hR₂ := riemann_inequality (k := k) (F := F) (W₂ + B)
+  have hΩrk := finrank_weilDifferentialsAt (k := k) (F := F) (-B)
+  have hi : specialtyIndex (-B : Divisor k F) =
+      (N : ℤ) + genus k F - 1 := by
+    have h := finrank_riemannSpace_eq_add_specialtyIndex
+      (-B : Divisor k F)
+    have hzero : Module.finrank k (RiemannSpace (-B : Divisor k F)) = 0 := by
+      rw [riemannSpace_eq_bot_of_deg_neg ?_, finrank_bot]
+      rw [Divisor.deg_neg, hdegB]
+      omega
+    rw [hzero, Divisor.deg_neg, hdegB] at h
+    omega
+  have hdeg₁ : (W₁ + B).deg = W₁.deg + N := by
+    rw [Divisor.deg_add, hdegB]
+  have hdeg₂ : (W₂ + B).deg = W₂.deg + N := by
+    rw [Divisor.deg_add, hdegB]
+  have hg := genus_nonneg (k := k) (F := F)
+  have hNbig : 3 * genus k F - 3 - W₁.deg - W₂.deg < (N : ℤ) := by
+    rw [hN]
+    push_cast
+    omega
+  omega
+
+/-- The maximal level shifts by the principal divisor under
+multiplication. -/
+theorem isGreatest_level_comp
+    {ω : Module.Dual k ↥(adeleSubmodule k F)}
+    {W : Divisor k F} (hW : ω ∈ weilDifferentialsAt W)
+    (hmax : ∀ D, ω ∈ weilDifferentialsAt D → D ≤ W)
+    {f : F} (hf : f ≠ 0) :
+    ω ∘ₗ adeleSMul f ∈ weilDifferentialsAt (W + divisorOf k f) ∧
+      ∀ D, ω ∘ₗ adeleSMul f ∈ weilDifferentialsAt D →
+        D ≤ W + divisorOf k f := by
+  refine ⟨comp_adeleSMul_mem_weilDifferentialsAt hf hW, fun D hD ↦ ?_⟩
+  have h1 : ω ∈ weilDifferentialsAt (D - divisorOf k f) := by
+    refine (comp_adeleSMul_mem_weilDifferentialsAt_iff hf
+      (D := D - divisorOf k f)).1 ?_
+    rw [show D - divisorOf k f + divisorOf k f = D by abel]
+    exact hD
+  have h2 := hmax _ h1
+  intro P
+  have h3 := h2 P
+  rw [Finsupp.sub_apply] at h3
+  rw [Finsupp.add_apply]
+  omega
+
 end CanonicalDivisor
 
 end
