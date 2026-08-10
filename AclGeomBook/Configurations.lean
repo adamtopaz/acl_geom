@@ -1203,11 +1203,29 @@ subgroup scheme and its inclusion is normal in the internal-group sense:
 
 {docstring AclGeom.AlgebraicGroup.Hom.kernelInclusion_normal}
 
-The finite normal-cover action must next be algebraized into this genuine
-scheme-level target, and its categorical rank-one kernel identified with
-the connected component of this scheme-theoretic kernel.  That conclusion
-is not inferred merely from the presented quotient or from finiteness of
-the earlier deck action.
+The first Weil-gluing layer now works with actual scheme charts and open
+transition overlaps.  Compatible chart morphisms descend to the quotient
+scheme:
+
+{docstring AclGeom.WeilGluing.desc}
+
+Local finite type descends chartwise, a finite quasi-compact atlas gives a
+quasi-compact structure morphism, and integral charts with nonempty
+pairwise overlaps glue to an integral scheme:
+
+{docstring AclGeom.WeilGluing.toBase_locallyOfFiniteType}
+
+{docstring AclGeom.WeilGluing.toBase_quasiCompact}
+
+{docstring AclGeom.WeilGluing.isIntegral}
+
+The normalized finite-cover action must next supply the concrete transition
+opens and transition morphisms for this gluing engine.  Multiplication and
+inverse can then be glued into the genuine scheme-level target, after which
+the categorical rank-one kernel must be identified with the connected
+component of the scheme-theoretic kernel.  None of these conclusions is
+inferred merely from the presented quotient or from finiteness of the
+earlier deck action.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a

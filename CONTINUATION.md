@@ -153,12 +153,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
    kernel is a closed finite-type separated subgroup scheme, and proves its
    inclusion normal by identifying the kernel square with pullback along the
    unit section.
+8. `Correspondence/WeilGluing.lean` begins the actual scheme-gluing layer.
+   Compatible maps on open charts descend to Mathlib's explicit glued
+   scheme; local finite type descends from all charts; a finite atlas of
+   quasi-compact chart maps is quasi-compact; and integral charts with
+   nonempty pairwise overlaps glue to an integral scheme.  These discharge
+   the abstract descent and irreducibility consequences needed once the
+   normalized chunk supplies its concrete transition charts.
 
-**Next exact step:** carry out Weil's chart gluing from the normalized
-finite-correspondence chunk into the new scheme-level algebraic-group
-target, then identify the already constructed categorical rank-one normal
-kernel with the connected component of its scheme-theoretic kernel.  Then
-apply the completed affine-action classification and finish affine-grid
+**Next exact step:** construct the concrete dense transition opens and
+transition morphisms of the normalized finite-correspondence chunk as
+`Scheme.GlueData`, then glue multiplication and inverse on the resulting
+integral locally finite-type scheme.  Prove separatedness and extract the
+finite atlas to package the result in the new scheme-level algebraic-group
+target.  Then identify the already constructed categorical rank-one normal
+kernel with the connected component of its scheme-theoretic kernel, apply
+the completed affine-action classification, and finish affine-grid
 extraction (8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
