@@ -32,6 +32,7 @@ noncomputable section
 open IntermediateField
 open AlgebraicGeometry
 open CategoryTheory
+open scoped nonZeroDivisors
 
 universe u v w
 
@@ -115,6 +116,78 @@ noncomputable def functionFieldAlgEquiv
   (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).trans <|
     e.trans (FiniteExtensionChart.functionFieldAlgEquiv a₂ ha₂).symm
 
+set_option maxHeartbeats 1600000 in
+/-- The explicit principal-open partial map has the generic-point morphism
+prescribed by the conjugated chart function-field equivalence. -/
+theorem partialMap_fromFunctionField [Fintype ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (partialMap (k := k) a₁ a₂ ha₁ e).fromFunctionField =
+      Scheme.functionFieldMorphism
+        (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).toRingEquiv := by
+  let A₁ := FiniteExtensionChart.coordinateRing
+    (k := k) (K := K₁) (L := L₁) a₁
+  let A₂ := FiniteExtensionChart.coordinateRing
+    (k := k) (K := K₂) (L := L₂) a₂
+  let X₁ := FiniteExtensionChart.scheme
+    (k := k) (K := K₁) (L := L₁) a₁
+  let X₂ := FiniteExtensionChart.scheme
+    (k := k) (K := K₂) (L := L₂) a₂
+  let b₂ := FiniteExtensionChart.coordinateGenerators
+    (k := k) (K := K₂) (L := L₂) a₂
+  let φ := transitionAlgHom (k := k) a₂ e
+  let x : (ι₂ ⊕ Fin (Module.finrank K₂ L₂)) → L₁ := fun i ↦ φ (b₂ i)
+  let d : A₁ := PrincipalLocalization.CommonDenominator.common (R := A₁) x
+  have hd : d ≠ 0 :=
+    PrincipalLocalization.CommonDenominator.common_ne_zero (R := A₁) x
+  let ψ : A₂ →ₐ[k] Localization.Away d :=
+    PrincipalLocalization.awayAlgHomOfGenerators (A := A₁) b₂
+      (FiniteExtensionChart.adjoin_coordinateGenerators_eq_top
+        (k := k) (K := K₂) (L := L₂) a₂) φ
+  let q : Localization.Away d →+* X₁.functionField :=
+    PrincipalLocalization.genericAwayMap d hd
+  have hleft :
+      (partialMap (k := k) a₁ a₂ ha₁ e).fromFunctionField =
+        Spec.map (CommRingCat.ofHom (q.comp ψ.toRingHom)) := by
+    change (PrincipalLocalization.partialMapOfGenerators b₂
+      (FiniteExtensionChart.adjoin_coordinateGenerators_eq_top
+        (k := k) (K := K₂) (L := L₂) a₂)
+      φ (transitionAlgHom_injective (k := k) a₂ e)).fromFunctionField = _
+    exact PrincipalLocalization.partialMap_fromFunctionField_eq _ _ _ _
+  rw [hleft]
+  unfold Scheme.functionFieldMorphism
+  rw [Spec.fromSpecStalk_eq']
+  rw [← Spec.map_comp]
+  apply Spec.map_injective
+  apply CommRingCat.hom_ext
+  intro z
+  change q (ψ z) = _
+  apply (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).injective
+  have hq :
+      (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).toRingHom.comp q =
+        (Localization.mapToFractionRing L₁ (Submonoid.powers d)
+          (Localization.Away d)
+          (powers_le_nonZeroDivisors_of_noZeroDivisors hd)).toRingHom := by
+    letI : Algebra A₁ X₁.functionField :=
+      AlgebraicGeometry.instAlgebraCarrierFunctionFieldSpec (.of A₁)
+    letI : IsFractionRing A₁ X₁.functionField :=
+      AlgebraicGeometry.functionField_isFractionRing_of_affine (.of A₁)
+    apply IsLocalization.ringHom_ext (Submonoid.powers d)
+    apply RingHom.ext
+    intro t
+    simp only [RingHom.comp_apply]
+    rw [PrincipalLocalization.genericAwayMap_comp_algebraMap]
+    rw [FiniteExtensionChart.functionFieldAlgEquiv_toStalk]
+    exact ((Localization.mapToFractionRing L₁ (Submonoid.powers d)
+      (Localization.Away d)
+      (powers_le_nonZeroDivisors_of_noZeroDivisors hd))).commutes t |>.symm
+  rw [RingHom.congr_fun hq]
+  rw [PrincipalLocalization.awayAlgHomOfGenerators_mapToFractionRing]
+  change e.symm (z : L₂) = _
+  simp [functionFieldAlgEquiv, FiniteExtensionChart.functionFieldAlgEquiv_toStalk]
+
 set_option backward.isDefEq.respectTransparency false in
 /-- The generic-point morphism induced by the chart function-field
 equivalence is compatible with both chart structure maps to `Spec k`. -/
@@ -178,6 +251,19 @@ theorem rationalMap_fromFunctionField [Finite ι₂]
         (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).toRingEquiv := by
   unfold rationalMap
   exact Scheme.RationalMap.fromFunctionField_ofFunctionField _ _ _ _
+
+/-- The canonical function-field rational map is represented by the explicit
+dominant principal-open partial map obtained by clearing denominators. -/
+theorem partialMap_toRationalMap [Fintype ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (partialMap (k := k) a₁ a₂ ha₁ e).toRationalMap =
+      rationalMap a₁ a₂ ha₁ ha₂ e := by
+  apply Scheme.RationalMap.eq_of_fromFunctionField_eq
+  rw [Scheme.RationalMap.fromFunctionField_toRationalMap]
+  rw [partialMap_fromFunctionField, rationalMap_fromFunctionField]
 
 /-- The chart rational map induced by a function-field equivalence is
 dominant. -/

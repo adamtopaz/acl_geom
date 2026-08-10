@@ -277,6 +277,24 @@ noncomputable def functionFieldAlgEquiv (a : ι → K)
   exact (IsLocalization.algEquiv (nonZeroDivisors A)
     (Spec (.of A)).functionField L).restrictScalars k
 
+set_option maxHeartbeats 800000 in
+/-- The chart function-field equivalence sends the generic germ of a
+coordinate-ring element to that element in the selected ambient field. -/
+theorem functionFieldAlgEquiv_toStalk (a : ι → K)
+    (ha : adjoin k (Set.range a) = ⊤)
+    (z : coordinateRing (k := k) (K := K) (L := L) a) :
+    functionFieldAlgEquiv a ha
+        ((StructureSheaf.toStalk
+          (coordinateRing (k := k) (K := K) (L := L) a)
+          (genericPoint (scheme (k := k) (K := K) (L := L) a))) z) =
+      (z : L) := by
+  unfold functionFieldAlgEquiv
+  dsimp only
+  change (IsLocalization.algEquiv _ _ _)
+    (algebraMap (coordinateRing (k := k) (K := K) (L := L) a) _ z) = _
+  rw [AlgEquiv.commutes]
+  rfl
+
 /-- A displayed parameter as an element of the affine coordinate ring. -/
 def parameter (a : ι → K) (i : ι) :
     coordinateRing (k := k) (K := K) (L := L) a :=

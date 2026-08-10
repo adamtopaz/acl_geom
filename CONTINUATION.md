@@ -199,17 +199,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     `BirationalGluing`.  `Config/ChunkAlgebraicTransition.lean` instantiates
     this dense-open isomorphism on all four normalized `s`, `u`, `sA`, and
     `uB` branch comparisons, alongside their principal-open representatives.
+13. The generic-point lift through a principal open is now identified with
+    the canonical localization map into the source function field.
+    Consequently, the denominator-cleared finite-extension partial map is
+    proved to induce exactly the conjugated ambient field equivalence, and
+    its rational-map class is the canonical rational transition used by the
+    dense-open isomorphism extractor.  Thus the explicit principal-open and
+    function-field descriptions of every normalized transition agree.
 
-**Next exact step:** identify each new dense-open transition's rational map
-with the already constructed principal-open representative and prove the
-reference-normalized cocycle.  Package the transitions as
-`Scheme.GlueData`; then glue multiplication and inverse on the resulting
-integral locally finite-type scheme.  Prove separatedness and extract the
-finite atlas to package the result in the new scheme-level algebraic-group
-target.  Then identify the already constructed categorical rank-one normal
-kernel with the connected component of its scheme-theoretic kernel, apply the
-completed affine-action classification, and finish affine-grid extraction
-(8.5) and Q correctness.
+**Next exact step:** prove the reference-normalized cocycle for the canonical
+dense-open transitions and package them as `Scheme.GlueData`; then glue
+multiplication and inverse on the resulting integral locally finite-type
+scheme.  Prove separatedness and extract the finite atlas to package the
+result in the new scheme-level algebraic-group target.  Then identify the
+already constructed categorical rank-one normal kernel with the connected
+component of its scheme-theoretic kernel, apply the completed affine-action
+classification, and finish affine-grid extraction (8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
 group only records the vertical ambiguity of chosen lifts; the parameter

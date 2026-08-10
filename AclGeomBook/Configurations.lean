@@ -1255,6 +1255,11 @@ principal open:
 
 {docstring AclGeom.PrincipalLocalization.partialMapOfGenerators}
 
+At the generic point, the resulting map out of the localization is exactly
+the canonical localization map into the source function field:
+
+{docstring AclGeom.PrincipalLocalization.genericAwayMap_eq_mapToFractionRing}
+
 For finite-extension charts this construction applies directly to a field
 equivalence, contravariantly embedding the target coordinate ring in the
 source fraction field:
@@ -1262,6 +1267,17 @@ source fraction field:
 {docstring AclGeom.FiniteExtensionTransition.transitionAlgHom}
 
 {docstring AclGeom.FiniteExtensionTransition.partialMap}
+
+Conjugating the ambient field equivalence through the two scheme function
+fields gives a canonical dominant rational map.  The denominator-cleared
+principal-open map represents precisely that rational map, and the map for
+the inverse field equivalence supplies an actual dense-open isomorphism:
+
+{docstring AclGeom.FiniteExtensionTransition.rationalMap}
+
+{docstring AclGeom.FiniteExtensionTransition.partialMap_toRationalMap}
+
+{docstring AclGeom.FiniteExtensionTransition.partialIso}
 
 For Ψ, the abstract normal-cover equivalence is promoted to a ground-field
 equivalence and then localized in this way.  In particular, every repeated
@@ -1271,6 +1287,8 @@ principal-open transition between its two scalar-branch charts:
 {docstring AclGeom.QWitness.rankTwoScalarNormalCoverAlgEquiv}
 
 {docstring AclGeom.QWitness.rankTwoScalarTransitionPartialMap}
+
+{docstring AclGeom.QWitness.rankTwoScalarTransitionPartialIso}
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAlgebraicTransitionPartialMap}
 
@@ -1289,13 +1307,14 @@ coordinates remain algebraically independent on each selected Ψ chart:
 
 {docstring AclGeom.QWitness.psiAParameterCoordinates_independent}
 
-The normalized finite-cover action must next supply the concrete transition
-opens and transition morphisms for this gluing engine.  Multiplication and
-inverse can then be glued into the genuine scheme-level target, after which
-the categorical rank-one kernel must be identified with the connected
-component of the scheme-theoretic kernel.  None of these conclusions is
-inferred merely from the presented quotient or from finiteness of the
-earlier deck action.
+The normalized finite-cover action has therefore supplied both explicit
+principal-open representatives and genuine dense-open transition
+isomorphisms.  The next boundary is their reference-normalized cocycle and
+the resulting `Scheme.GlueData`.  Multiplication and inverse can then be
+glued into the genuine scheme-level target, after which the categorical
+rank-one kernel must be identified with the connected component of the
+scheme-theoretic kernel.  None of these conclusions is inferred merely from
+the presented quotient or from finiteness of the earlier deck action.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a

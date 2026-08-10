@@ -69,6 +69,123 @@ instance partialMap_isDominant (d : A) (hd : d ≠ 0)
   dsimp only
   infer_instance
 
+/-- The principal open `D(d)` regarded as an open subscheme of `Spec A`. -/
+def awayOpen (d : A) : (Spec (.of A)).Opens :=
+  PrimeSpectrum.basicOpen d
+
+/-- The standard identification of the principal open `D(d)` with
+`Spec A[1/d]`. -/
+def awayOpenIso (d : A) :
+    (awayOpen d).toScheme ≅ Spec (.of (Localization.Away d)) :=
+  basicOpenIsoSpecAway (R := CommRingCat.of A) d
+
+/-- A nonzero principal function does not vanish at the generic point. -/
+theorem genericPoint_mem_awayOpen (d : A) (hd : d ≠ 0) :
+    genericPoint (Spec (.of A)) ∈ awayOpen d := by
+  apply ((genericPoint_spec (Spec (.of A))).mem_open_set_iff
+    (awayOpen d).2).mpr
+  rw [Set.univ_inter]
+  refine ⟨(⊥ : PrimeSpectrum A), ?_⟩
+  change d ∉ (⊥ : Ideal A)
+  simpa using hd
+
+/-- The ring map from `A[1/d]` to the function field of `Spec A` obtained by
+lifting the generic point through `D(d)`. -/
+noncomputable def genericAwayMap (d : A) (hd : d ≠ 0) :
+    Localization.Away d →+* (Spec (.of A)).functionField :=
+  let g : Spec ((Spec (.of A)).functionField) ⟶
+      Spec (.of (Localization.Away d)) := by
+    exact (awayOpen d).fromSpecStalkOfMem _
+        (genericPoint_mem_awayOpen d hd) ≫
+      (awayOpenIso d).hom
+  (Spec.preimage g).hom
+
+/-- The generic-point map from `A[1/d]` extends the canonical map from `A`
+to the function field of `Spec A`. -/
+theorem genericAwayMap_comp_algebraMap (d : A) (hd : d ≠ 0) :
+    (genericAwayMap d hd).comp
+        (algebraMap A (Localization.Away d)) =
+      (StructureSheaf.toStalk A
+        (genericPoint (Spec (.of A)))).hom := by
+  have hscheme :
+      ((awayOpen d).fromSpecStalkOfMem _
+          (genericPoint_mem_awayOpen d hd) ≫
+          (awayOpenIso d).hom) ≫
+          Spec.map (CommRingCat.ofHom
+            (algebraMap A (Localization.Away d))) =
+        (Spec (.of A)).fromSpecStalk
+          (genericPoint (Spec (.of A))) := by
+    rw [Category.assoc]
+    rw [show (awayOpenIso d).hom ≫
+        Spec.map (CommRingCat.ofHom
+          (algebraMap A (Localization.Away d))) =
+        (awayOpen d).ι by
+      exact basicOpenIsoSpecAway_hom_SpecMap (R := CommRingCat.of A) d]
+    exact (awayOpen d).fromSpecStalkOfMem_ι _ _
+  have hp := congrArg Spec.preimage hscheme
+  rw [Spec.fromSpecStalk_eq'] at hp
+  simp only [Spec.preimage_comp] at hp
+  have hpre : Spec.preimage (Spec.map
+      (StructureSheaf.toStalk A
+        (genericPoint (Spec (.of A))))) =
+      StructureSheaf.toStalk A
+        (genericPoint (Spec (.of A))) :=
+    Spec.preimage_map _
+  have hp2 := hp.trans hpre
+  have hpreAlg : Spec.preimage (Spec.map (CommRingCat.ofHom
+      (algebraMap A (Localization.Away d)))) =
+      CommRingCat.ofHom (algebraMap A (Localization.Away d)) :=
+    Spec.preimage_map _
+  have hp3 := (congrArg (fun q ↦ q ≫ Spec.preimage
+      ((awayOpen d).fromSpecStalkOfMem _
+        (genericPoint_mem_awayOpen d hd) ≫ (awayOpenIso d).hom))
+      hpreAlg.symm).trans hp2
+  have hp' := congrArg CommRingCat.Hom.hom hp3
+  simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom] at hp'
+  unfold genericAwayMap
+  exact hp'
+
+/-- The generic-point map out of `A[1/d]` is the canonical localization map
+to the function field. -/
+theorem genericAwayMap_eq_mapToFractionRing (d : A) (hd : d ≠ 0) :
+    letI : Algebra A (Spec (.of A)).functionField :=
+      AlgebraicGeometry.instAlgebraCarrierFunctionFieldSpec (.of A)
+    letI : IsFractionRing A (Spec (.of A)).functionField :=
+      AlgebraicGeometry.functionField_isFractionRing_of_affine (.of A)
+    genericAwayMap d hd =
+      (Localization.mapToFractionRing ((Spec (.of A)).functionField)
+        (Submonoid.powers d) (Localization.Away d)
+        (powers_le_nonZeroDivisors_of_noZeroDivisors hd)).toRingHom := by
+  letI : Algebra A (Spec (.of A)).functionField :=
+    AlgebraicGeometry.instAlgebraCarrierFunctionFieldSpec (.of A)
+  letI : IsFractionRing A (Spec (.of A)).functionField :=
+    AlgebraicGeometry.functionField_isFractionRing_of_affine (.of A)
+  apply IsLocalization.ringHom_ext (Submonoid.powers d)
+  rw [genericAwayMap_comp_algebraMap]
+  apply RingHom.ext
+  intro z
+  change algebraMap A (Spec (.of A)).functionField z = _
+  exact ((Localization.mapToFractionRing ((Spec (.of A)).functionField)
+    (Submonoid.powers d) (Localization.Away d)
+    (powers_le_nonZeroDivisors_of_noZeroDivisors hd))).commutes z |>.symm
+
+/-- The generic-point morphism of the principal-open partial map is induced
+by its cleared localization homomorphism followed by the canonical map to the
+source function field. -/
+theorem partialMap_fromFunctionField_eq (d : A) (hd : d ≠ 0)
+    (φ : B →+* Localization.Away d) (hφ : Function.Injective φ) :
+    (partialMap d hd φ hφ).fromFunctionField =
+      Spec.map (CommRingCat.ofHom ((genericAwayMap d hd).comp φ)) := by
+  unfold Scheme.PartialMap.fromFunctionField
+    Scheme.PartialMap.fromSpecStalkOfMem partialMap
+  change (awayOpen d).fromSpecStalkOfMem _ _ ≫
+      ((awayOpenIso d).hom ≫ Spec.map (CommRingCat.ofHom φ)) = _
+  rw [← Category.assoc]
+  rw [← Spec.map_preimage ((awayOpen d).fromSpecStalkOfMem _ _ ≫
+    (awayOpenIso d).hom)]
+  rw [← Spec.map_comp]
+  congr 1
+
 namespace CommonDenominator
 
 variable {R K : Type u} [CommRing R] [Field K]
