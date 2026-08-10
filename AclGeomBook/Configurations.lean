@@ -362,8 +362,20 @@ of the normalized function field:
 {docstring AclGeom.TranslationGroupChunk.translationHom}
 
 The difference chart in the three-object correspondence groupoid is now
-formalized independently of the geometric extraction step.  Direct group
-cancellation gives the chart product and inverse, and the normalized
+fed by the actual partial-quadrangle clause.  Each partial quadrangle gives
+the three selected arrows `T : S' → U'`, `S : U' → T'`, and
+`U : S' → T'` over `k(S,T,U)`, with the literal composition identity
+`S ∘ T = U`; every `Psi` witness therefore contains this concrete
+three-object groupoid:
+
+{docstring AclGeom.IsPartialQuadrangle.tPair}
+
+{docstring AclGeom.IsPartialQuadrangle.selected_correspondence_composes}
+
+{docstring AclGeom.QWitness.psi_exists_partialQuadrangle_correspondence_groupoid}
+
+The abstract difference-chart calculation then uses direct group
+cancellation to obtain the chart product and inverse.  Its normalized
 six-point output has exactly the four product relations prescribed by the
 partial quadrangle:
 

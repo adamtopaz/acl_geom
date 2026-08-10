@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.Psi
-import AclGeom.Correspondence.FiniteCover
+import AclGeom.Correspondence.PartialQuadrangle
 
 /-!
 # The selected-component core of the Ψ composition identity
@@ -929,6 +929,24 @@ theorem psi_composition_selected_component (hψ : w.Psi) :
 
 @[simp] theorem xzCorrespondencePair_target (hψ : w.Psi) :
     (w.xzCorrespondencePair hψ).target = w.Z.rep := rfl
+
+/-- Clause `Psi.quad` supplies a second concrete three-object
+correspondence groupoid.  Its arrows are the `T`, `S`, and `U` members of
+the partial quadrangle and satisfy `S ∘ T = U` at the literal shared
+representative `U'`. -/
+theorem psi_exists_partialQuadrangle_correspondence_groupoid (hψ : w.Psi) :
+    ∃ (S' T' U' : Point k K)
+      (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']),
+      FiniteCorrespondenceGerm.Composes
+        (FiniteCorrespondenceGerm.ofPair
+          (IsPartialQuadrangle.tPair hquad))
+        (FiniteCorrespondenceGerm.ofPair
+          (IsPartialQuadrangle.sPair hquad))
+        (FiniteCorrespondenceGerm.ofPair
+          (IsPartialQuadrangle.uPair hquad)) := by
+  obtain ⟨S', T', U', hquad⟩ := hψ.quad
+  exact ⟨S', T', U', hquad,
+    IsPartialQuadrangle.selected_correspondence_composes hquad⟩
 
 /-- **Selected-component interface for blueprint (8.6).**  The two
 finite-correspondence germs obtained from the actual `Psi` incidences
