@@ -1725,6 +1725,143 @@ theorem Place.isCompl_principalSpan :
       rw [h2]
       exact Submodule.subset_span ⟨n - 1 - (i : ℕ), rfl⟩
 
+/-- **The monomial base case**: `res(π^c dπ) = 0` for `c ≤ −2`. With
+the projection adapted to the principal-part decomposition, the
+commutator has range in the constants and kills them, so it squares
+to zero; projection independence transfers the trace. -/
+theorem Place.residue_zpow_pi_base (P : Place k F) {c : ℤ}
+    (hc : c ≤ -2) : P.residue ((P.pi : F) ^ c) P.pi = 0 := by
+  set εa : F →ₗ[k] F :=
+    P.toSubmodule.projection P.principalSpan P.isCompl_principalSpan
+    with hεa
+  have hεmem : ∀ x : F, εa x ∈ P.toSubmodule := fun x ↦
+    Submodule.projection_apply_mem P.isCompl_principalSpan x
+  have hεfix : ∀ x ∈ P.toSubmodule, εa x = x := fun x hx ↦
+    Submodule.projection_apply_of_mem_left P.isCompl_principalSpan hx
+  have hεN : ∀ x ∈ P.principalSpan, εa x = 0 := fun x hx ↦
+    Submodule.projection_apply_of_mem_right P.isCompl_principalSpan hx
+  have hNpow : ∀ d : ℤ, d ≤ -1 →
+      (P.pi : F) ^ d ∈ P.principalSpan := by
+    intro d hd
+    have h1 : d = -((-d - 1).toNat : ℤ) - 1 := by omega
+    rw [h1]
+    exact Submodule.subset_span ⟨(-d - 1).toNat, rfl⟩
+  have hNmul : ∀ x ∈ P.principalSpan,
+      (P.pi : F)⁻¹ * x ∈ P.principalSpan := by
+    intro x hx
+    have h1 : P.principalSpan.map
+        (LinearMap.mulLeft k (P.pi : F)⁻¹) ≤ P.principalSpan := by
+      rw [Place.principalSpan, Submodule.map_span]
+      refine Submodule.span_le.2 ?_
+      rintro y ⟨z, ⟨i, rfl⟩, rfl⟩
+      have h2 : LinearMap.mulLeft k (P.pi : F)⁻¹
+          ((P.pi : F) ^ (-(i : ℤ) - 1)) =
+          (P.pi : F) ^ (-((i + 1 : ℕ) : ℤ) - 1) := by
+        rw [LinearMap.mulLeft_apply, ← zpow_neg_one,
+          ← zpow_add₀ P.pi_ne_zero]
+        congr 1
+        push_cast
+        ring
+      rw [h2]
+      exact Submodule.subset_span ⟨i + 1, rfl⟩
+    exact h1 ⟨x, hx, rfl⟩
+  set Ct : Module.End k F :=
+    (εa ∘ₗ LinearMap.mulLeft k ((P.pi : F) ^ c)) ∘ₗ
+        LinearMap.mulLeft k (P.pi : F) -
+      LinearMap.mulLeft k (P.pi : F) ∘ₗ
+        (εa ∘ₗ LinearMap.mulLeft k ((P.pi : F) ^ c))
+    with hCt
+  have happ : ∀ x : F, Ct x =
+      εa ((P.pi : F) ^ c * ((P.pi : F) * x)) -
+        (P.pi : F) * εa ((P.pi : F) ^ c * x) := fun x ↦ rfl
+  have hrange : ∀ x : F, ∃ c₀ : k, Ct x = algebraMap k F c₀ := by
+    intro x
+    set u : F := (P.pi : F) ^ (c + 1) * x with hu
+    have hu1 : (P.pi : F) ^ c * ((P.pi : F) * x) = u := by
+      rw [hu, ← mul_assoc, ← zpow_add_one₀ P.pi_ne_zero]
+    have hu2 : (P.pi : F) ^ c * x = (P.pi : F)⁻¹ * u := by
+      rw [hu, ← mul_assoc, ← zpow_neg_one,
+        ← zpow_add₀ P.pi_ne_zero]
+      have h0 : (-1 : ℤ) + (c + 1) = c := by omega
+      rw [h0]
+    have hb : εa u ∈ P.toSubmodule := hεmem u
+    have haN : u - εa u ∈ P.principalSpan := by
+      have h3 := LinearMap.congr_fun
+        (Submodule.projection_add_projection_eq_id
+          P.isCompl_principalSpan) u
+      rw [LinearMap.add_apply, LinearMap.id_apply] at h3
+      have h4 : u - εa u = P.principalSpan.projection P.toSubmodule
+          P.isCompl_principalSpan.symm u :=
+        sub_eq_of_eq_add' h3.symm
+      rw [h4]
+      exact Submodule.projection_apply_mem _ u
+    obtain ⟨b₀, hb₀⟩ :=
+      P.exists_residue (Place.mem_toSubmodule_iff.1 hb)
+    set b' : F := εa u - algebraMap k F b₀ with hb'
+    refine ⟨b₀, ?_⟩
+    rw [happ, hu1, hu2]
+    have hdec : (P.pi : F)⁻¹ * u =
+        (P.pi : F)⁻¹ * (u - εa u) +
+          algebraMap k F b₀ * (P.pi : F)⁻¹ +
+          (P.pi : F)⁻¹ * b' := by
+      rw [hb']
+      ring
+    rw [hdec, map_add, map_add]
+    have h5 : εa ((P.pi : F)⁻¹ * (u - εa u)) = 0 :=
+      hεN _ (hNmul _ haN)
+    have h6 : εa (algebraMap k F b₀ * (P.pi : F)⁻¹) = 0 := by
+      refine hεN _ ?_
+      have h7 : algebraMap k F b₀ * (P.pi : F)⁻¹ =
+          b₀ • (P.pi : F)⁻¹ := by
+        rw [Algebra.smul_def]
+      rw [h7, ← zpow_neg_one]
+      exact Submodule.smul_mem _ _ (hNpow (-1) le_rfl)
+    have h9 : εa ((P.pi : F)⁻¹ * b') = (P.pi : F)⁻¹ * b' := by
+      refine hεfix _ ?_
+      rw [Place.mem_toSubmodule_iff]
+      rcases eq_or_ne b' 0 with h10 | h10
+      · rw [h10, mul_zero, Valuation.map_zero]
+        exact zero_le
+      · have h11 : 1 ≤ P.ord b' := by
+          have h12 := (P.ord_pos_iff h10).2 hb₀
+          omega
+        rw [← P.ord_nonneg_iff
+          (mul_ne_zero (inv_ne_zero P.pi_ne_zero) h10),
+          P.ord_mul (inv_ne_zero P.pi_ne_zero) h10,
+          P.ord_inv P.pi_ne_zero, P.ord_pi]
+        omega
+    rw [h5, h6, h9, zero_add, zero_add]
+    have h13 : (P.pi : F) * ((P.pi : F)⁻¹ * b') = b' := by
+      rw [← mul_assoc, mul_inv_cancel₀ P.pi_ne_zero, one_mul]
+    rw [h13, hb']
+    ring
+  have hone : Ct 1 = 0 := by
+    rw [happ]
+    have h1 : (P.pi : F) ^ c * ((P.pi : F) * 1) =
+        (P.pi : F) ^ (c + 1) := by
+      rw [mul_one, ← zpow_add_one₀ P.pi_ne_zero]
+    have h2 : (P.pi : F) ^ c * 1 = (P.pi : F) ^ c := mul_one _
+    rw [h1, h2, hεN _ (hNpow (c + 1) (by omega)),
+      hεN _ (hNpow c (by omega)), mul_zero, sub_zero]
+  have hsq : Ct ∘ₗ Ct = 0 := by
+    refine LinearMap.ext fun x ↦ ?_
+    rw [LinearMap.comp_apply, LinearMap.zero_apply]
+    obtain ⟨c₀, hc₀⟩ := hrange x
+    rw [hc₀]
+    have h1 : algebraMap k F c₀ = c₀ • (1 : F) := by
+      rw [Algebra.smul_def, mul_one]
+    rw [h1, map_smul, hone, smul_zero]
+  have hnil : IsNilpotent Ct := by
+    refine ⟨2, ?_⟩
+    have h1 : (Ct ^ 2 : Module.End k F) = Ct ∘ₗ Ct := by
+      rw [pow_two]
+      rfl
+    rw [h1, hsq]
+  have htr := P.residue_eq_of_projection (π := εa) hεmem hεfix
+    ((P.pi : F) ^ c) P.pi
+  rw [← htr, ← hCt]
+  exact tateTrace_of_isNilpotent hnil
+
 end AdaptedProjection
 
 end ResidueCalculus
