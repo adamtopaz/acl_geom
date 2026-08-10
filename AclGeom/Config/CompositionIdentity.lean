@@ -916,6 +916,49 @@ theorem psi_selected_correspondence_composes (hψ : w.Psi) :
   FiniteCorrespondenceGerm.composes_of_shared_middle
     (w.xyCorrespondencePair hψ) (w.yzCorrespondencePair hψ) rfl
 
+/-- The actual `Psi` branches satisfy the selected groupoid inverse laws
+alongside (8.6).  Thus the `X → Y → Z` path, its endpoint, and their
+reverse branches form the concrete input expected by the difference-chart
+bookkeeping. -/
+theorem psi_selected_correspondence_groupoid_laws (hψ : w.Psi) :
+    FiniteCorrespondenceGerm.Composes
+        (FiniteCorrespondenceGerm.ofPair (w.xyCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.ofPair (w.yzCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.ofPair (w.xzCorrespondencePair hψ)) ∧
+      FiniteCorrespondenceGerm.Composes
+        (FiniteCorrespondenceGerm.ofPair (w.xyCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.inverseOfPair
+          (w.xyCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.identity w.X.rep
+          (w.xyCorrespondencePair hψ).source_generic) ∧
+      FiniteCorrespondenceGerm.Composes
+        (FiniteCorrespondenceGerm.inverseOfPair
+          (w.xyCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.ofPair (w.xyCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.identity w.Y.rep
+          (w.xyCorrespondencePair hψ).target_generic) ∧
+      FiniteCorrespondenceGerm.Composes
+        (FiniteCorrespondenceGerm.ofPair (w.yzCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.inverseOfPair
+          (w.yzCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.identity w.Y.rep
+          (w.yzCorrespondencePair hψ).source_generic) ∧
+      FiniteCorrespondenceGerm.Composes
+        (FiniteCorrespondenceGerm.inverseOfPair
+          (w.yzCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.ofPair (w.yzCorrespondencePair hψ))
+        (FiniteCorrespondenceGerm.identity w.Z.rep
+          (w.yzCorrespondencePair hψ).target_generic) :=
+  ⟨w.psi_selected_correspondence_composes hψ,
+    FiniteCorrespondenceGerm.composes_inverse_right
+      (w.xyCorrespondencePair hψ),
+    FiniteCorrespondenceGerm.composes_inverse_left
+      (w.xyCorrespondencePair hψ),
+    FiniteCorrespondenceGerm.composes_inverse_right
+      (w.yzCorrespondencePair hψ),
+    FiniteCorrespondenceGerm.composes_inverse_left
+      (w.yzCorrespondencePair hψ)⟩
+
 /-- **The rank-five fiber-product calculation for a `Psi` witness.**
 The five-tuple `(A₁,A₂,B₁,B₂,Y)` is algebraically independent, and
 adjoining the selected outputs `X,Z` does not enlarge its relative

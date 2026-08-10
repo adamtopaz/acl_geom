@@ -234,6 +234,31 @@ theorem target_generic : P.target ∉ racl k (∅ : Set Ω) := by
   exact P.source_generic
     (racl_le_of_subset_racl (Set.singleton_subset_iff.2 ht) P.source_mem_target)
 
+/-- Reverse a selected correspondence branch. -/
+def swap : FiniteCorrespondencePair k Ω where
+  source := P.target
+  target := P.source
+  source_generic := P.target_generic
+  target_mem_source := P.source_mem_target
+  source_mem_target := P.target_mem_source
+
+@[simp] theorem swap_source : P.swap.source = P.target := rfl
+
+@[simp] theorem swap_target : P.swap.target = P.source := rfl
+
+@[simp] theorem swap_swap : P.swap.swap = P := by
+  cases P
+  rfl
+
+/-- The diagonal branch at a generic coordinate. -/
+def identity (x : Ω) (hx : x ∉ racl k (∅ : Set Ω)) :
+    FiniteCorrespondencePair k Ω where
+  source := x
+  target := x
+  source_generic := hx
+  target_mem_source := subset_racl k {x} rfl
+  source_mem_target := subset_racl k {x} rfl
+
 /-- The prime ideal of the selected generic branch. -/
 def ideal : Ideal (MvPolynomial (Fin 2) k) :=
   idealOf k ![P.source, P.target]
@@ -266,13 +291,24 @@ theorem comp_ideal_assoc (Q R : FiniteCorrespondencePair k Ω)
     ((P.comp Q hPQ).comp R (by simpa using hQR)).ideal =
       (P.comp (Q.comp R hQR) (by simpa using hPQ)).ideal := rfl
 
+/-- A branch followed by its reverse has the diagonal endpoint ideal. -/
+theorem comp_swap_ideal :
+    (P.comp P.swap rfl).ideal =
+      (identity P.source P.source_generic).ideal := rfl
+
+/-- A reversed branch followed by the original branch has the diagonal
+endpoint ideal at the target. -/
+theorem swap_comp_ideal :
+    (P.swap.comp P rfl).ideal =
+      (identity P.target P.target_generic).ideal := rfl
+
 end FiniteCorrespondencePair
 
 /-- A finite-correspondence germ is its prime branch ideal together with a
 generic interalgebraic pair presenting that ideal.  Keeping the witness is
 intentional: composition of correspondences selects a component rather than
 the whole scheme-theoretic fiber product. -/
-structure FiniteCorrespondenceGerm (k Ω : Type*) [Field k] [Field Ω]
+@[ext] structure FiniteCorrespondenceGerm (k Ω : Type*) [Field k] [Field Ω]
     [Algebra k Ω] where
   /-- Prime ideal of the selected correspondence component. -/
   carrier : Ideal (MvPolynomial (Fin 2) k)
@@ -287,6 +323,16 @@ def ofPair (P : FiniteCorrespondencePair k Ω) :
   carrier := P.ideal
   presentation := ⟨P, rfl⟩
 
+/-- The inverse germ of a selected presentation. -/
+def inverseOfPair (P : FiniteCorrespondencePair k Ω) :
+    FiniteCorrespondenceGerm k Ω :=
+  ofPair P.swap
+
+/-- The identity germ at a generic coordinate. -/
+def identity (x : Ω) (hx : x ∉ racl k (∅ : Set Ω)) :
+    FiniteCorrespondenceGerm k Ω :=
+  ofPair (FiniteCorrespondencePair.identity x hx)
+
 /-- Relational composition of selected correspondence components.  The
 literal common middle records the chosen component of the fiber product. -/
 def Composes (C D E : FiniteCorrespondenceGerm k Ω) : Prop :=
@@ -298,6 +344,33 @@ theorem composes_of_shared_middle (P Q : FiniteCorrespondencePair k Ω)
     (h : P.target = Q.source) :
     Composes (ofPair P) (ofPair Q) (ofPair (P.comp Q h)) :=
   ⟨P, Q, h, rfl, rfl, rfl⟩
+
+/-- A selected branch composes with its reverse to the identity germ at
+its source. -/
+theorem composes_inverse_right (P : FiniteCorrespondencePair k Ω) :
+    Composes (ofPair P) (inverseOfPair P)
+      (identity P.source P.source_generic) := by
+  refine ⟨P, P.swap, rfl, rfl, rfl, ?_⟩
+  exact P.comp_swap_ideal
+
+/-- The reverse branch composes with the original branch to the identity
+germ at its target. -/
+theorem composes_inverse_left (P : FiniteCorrespondencePair k Ω) :
+    Composes (inverseOfPair P) (ofPair P)
+      (identity P.target P.target_generic) := by
+  refine ⟨P.swap, P, rfl, rfl, rfl, ?_⟩
+  exact P.swap_comp_ideal
+
+/-- Strict associativity of selected composition at two literal shared
+middle representatives.  Both parenthesizations select the same endpoint
+prime ideal. -/
+theorem comp_assoc_of_shared_middles
+    (P Q R : FiniteCorrespondencePair k Ω)
+    (hPQ : P.target = Q.source) (hQR : Q.target = R.source) :
+    ofPair ((P.comp Q hPQ).comp R (by simpa using hQR)) =
+      ofPair (P.comp (Q.comp R hQR) (by simpa using hPQ)) := by
+  apply FiniteCorrespondenceGerm.ext
+  exact P.comp_ideal_assoc Q R hPQ hQR
 
 /-- Every two finite-correspondence germs admit a selected composite.  The
 second presentation is relocated onto the first target, and the resulting

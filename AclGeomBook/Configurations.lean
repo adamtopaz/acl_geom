@@ -275,6 +275,15 @@ relocation:
 
 {docstring AclGeom.QWitness.psi_selected_correspondence_composes}
 
+Selected presentations now carry their reverse and diagonal branches, with
+strict associativity at literal shared middles.  The actual `Psi` branches
+satisfy these groupoid inverse laws rather than only the forward
+composition:
+
+{docstring AclGeom.FiniteCorrespondenceGerm.comp_assoc_of_shared_middles}
+
+{docstring AclGeom.QWitness.psi_selected_correspondence_groupoid_laws}
+
 The second `Z` incidence simultaneously presents `(X,Z)` as the member
 parametrized by `C`.  After adjoining all six displayed parameters, both
 the composed endpoint ideal and the `C`-family ideal lie under the same
