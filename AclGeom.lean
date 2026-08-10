@@ -24,6 +24,7 @@ import AclGeom.Correspondence.FieldEquivDiagram
 import AclGeom.Correspondence.FiniteCompositionTriangle
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
+import AclGeom.Correspondence.FamilyCover
 import AclGeom.Correspondence.RankTwoMultiplication
 import AclGeom.Correspondence.FourArrowNormalization
 import AclGeom.Correspondence.FamilyNormalization

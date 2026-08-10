@@ -5,6 +5,7 @@ Authors: Adam Topaz, Codex
 -/
 import AclGeom.Closure.Ambient
 import AclGeom.Config.ChunkCurveFourArrow
+import AclGeom.Correspondence.FamilyCover
 import Mathlib.FieldTheory.RatFunc.AsPolynomial
 
 /-!
@@ -774,6 +775,124 @@ def sAcCommonBaseData : R.sAc.CommonBaseData R.commonInputTuple where
   a_mem := R.sA_mem_commonInput_racl
   b_mem := R.c_mem_commonInput_racl
   c_mem := R.uB_mem_commonInput_racl
+
+/-- The two independently relocated occurrences of the `s`-family branch
+have the same complete parameter/source/target locus. -/
+theorem seAFamily_ideal_eq_sbAFamily :
+    (R.se.aCorrespondenceFamilyMember hψ).ideal =
+      (R.sb.aCorrespondenceFamilyMember hψ).ideal := by
+  change idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ s)
+        R.se.source) R.se.middle) =
+    idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ s)
+        R.sb.source) R.sb.middle)
+  exact (R.se.aFamilyLocus hψ).trans (R.sb.aFamilyLocus hψ).symm
+
+/-- The two independently relocated occurrences of the `sA`-family branch
+have the same complete parameter/source/target locus. -/
+theorem sAaAFamily_ideal_eq_sAcAFamily :
+    (R.sAa.aCorrespondenceFamilyMember hψ).ideal =
+      (R.sAc.aCorrespondenceFamilyMember hψ).ideal := by
+  change idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ D.sA)
+        R.sAa.source) R.sAa.middle) =
+    idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ D.sA)
+        R.sAc.source) R.sAc.middle)
+  exact (R.sAa.aFamilyLocus hψ).trans (R.sAc.aFamilyLocus hψ).symm
+
+/-- The two independently relocated direct branches labelled by `u` have
+the same complete family locus. -/
+theorem seCFamily_ideal_eq_sAaCFamily :
+    (R.se.cCorrespondenceFamilyMember hψ).ideal =
+      (R.sAa.cCorrespondenceFamilyMember hψ).ideal := by
+  change idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ D.u)
+        R.se.source) R.se.target) =
+    idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ D.u)
+        R.sAa.source) R.sAa.target)
+  exact (R.se.cFamilyLocus hψ).trans (R.sAa.cFamilyLocus hψ).symm
+
+/-- The two independently relocated direct branches labelled by `uB` have
+the same complete family locus. -/
+theorem sbCFamily_ideal_eq_sAcCFamily :
+    (R.sb.cCorrespondenceFamilyMember hψ).ideal =
+      (R.sAc.cCorrespondenceFamilyMember hψ).ideal := by
+  change idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ D.uB)
+        R.sb.source) R.sb.target) =
+    idealOf k
+      (Fin.snoc (Fin.snoc
+        (commonCurveEmbedding (k := k) (K := K) ∘ D.uB)
+        R.sAc.source) R.sAc.target)
+  exact (R.sb.cFamilyLocus hψ).trans (R.sAc.cFamilyLocus hψ).symm
+
+/-- The coefficient-aware normal-cover comparison for the repeated
+`s` branch.  It retains the displayed `s` parameter and source coordinates;
+the based comparison below additionally corrects it to the selected
+branch. -/
+noncomputable def repeatedSNormalExtensionEquiv :=
+  (R.se.aCorrespondenceFamilyMember hψ).normalExtensionEquivOfIdealEq
+    (R.sb.aCorrespondenceFamilyMember hψ)
+    R.seAFamily_ideal_eq_sbAFamily
+
+/-- The coefficient-aware normal-cover comparison for the repeated
+`sA` branch. -/
+noncomputable def repeatedSANormalExtensionEquiv :=
+  (R.sAa.aCorrespondenceFamilyMember hψ).normalExtensionEquivOfIdealEq
+    (R.sAc.aCorrespondenceFamilyMember hψ)
+    R.sAaAFamily_ideal_eq_sAcAFamily
+
+/-- The coefficient-aware normal-cover comparison for the repeated direct
+branch labelled by `u`. -/
+noncomputable def repeatedUNormalExtensionEquiv :=
+  (R.se.cCorrespondenceFamilyMember hψ).normalExtensionEquivOfIdealEq
+    (R.sAa.cCorrespondenceFamilyMember hψ)
+    R.seCFamily_ideal_eq_sAaCFamily
+
+/-- The coefficient-aware normal-cover comparison for the repeated direct
+branch labelled by `uB`. -/
+noncomputable def repeatedUBNormalExtensionEquiv :=
+  (R.sb.cCorrespondenceFamilyMember hψ).normalExtensionEquivOfIdealEq
+    (R.sAc.cCorrespondenceFamilyMember hψ)
+    R.sbCFamily_ideal_eq_sAcCFamily
+
+/-- The repeated `s` comparison corrected equivariantly so that the
+literal selected middle branch is preserved. -/
+noncomputable def repeatedSBasedBranchEquiv :=
+  (R.se.aCorrespondenceFamilyMember hψ).basedBranchEquivOfIdealEq
+    (R.sb.aCorrespondenceFamilyMember hψ)
+    R.seAFamily_ideal_eq_sbAFamily
+
+/-- The repeated `sA` comparison corrected equivariantly so that the
+literal selected middle branch is preserved. -/
+noncomputable def repeatedSABasedBranchEquiv :=
+  (R.sAa.aCorrespondenceFamilyMember hψ).basedBranchEquivOfIdealEq
+    (R.sAc.aCorrespondenceFamilyMember hψ)
+    R.sAaAFamily_ideal_eq_sAcAFamily
+
+/-- The repeated `u` comparison corrected equivariantly so that the
+literal selected target branch is preserved. -/
+noncomputable def repeatedUBasedBranchEquiv :=
+  (R.se.cCorrespondenceFamilyMember hψ).basedBranchEquivOfIdealEq
+    (R.sAa.cCorrespondenceFamilyMember hψ)
+    R.seCFamily_ideal_eq_sAaCFamily
+
+/-- The repeated `uB` comparison corrected equivariantly so that the
+literal selected target branch is preserved. -/
+noncomputable def repeatedUBBasedBranchEquiv :=
+  (R.sb.cCorrespondenceFamilyMember hψ).basedBranchEquivOfIdealEq
+    (R.sAc.cCorrespondenceFamilyMember hψ)
+    R.sbCFamily_ideal_eq_sAcCFamily
 
 /-- The strict finite-cover composition triangle for `s·e=u`, now over the
 common eight-input coefficient field. -/

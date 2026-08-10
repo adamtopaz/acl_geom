@@ -462,6 +462,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     literal strict composition triangles with exactly the same source
     field.  The remaining alignment problem is now confined to the four
     transported middle and target fields.
+36. `Correspondence/FamilyCover.lean` packages the complete field of a
+    generic family member as a finite extension of its independent
+    parameter/source field.  Equality of complete family loci gives an
+    `ExtensionEquiv` that sends every displayed coordinate to its matching
+    coordinate, a semilinear equivalence of the concrete normal closures,
+    and a deck-corrected `FiniteCoverBasedBranchEquiv` which preserves the
+    literal selected branch.  The four repeated labels `s`, `sA`, `u`, and
+    `uB` in the fresh-source diagram have equal complete family loci, so
+    they now carry four such coefficient-aware based comparisons.  These
+    comparisons currently live over their rank-two-parameter/source fields;
+    they still have to be extended across the other six independent inputs
+    to the common coefficient field of item 35.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -469,11 +481,13 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--35 give four strict finite-normal-cover curve triangles, the exact
+Items 29--36 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
-places all four actions on one literal finite normal source compositum.  Use
-equality of the repeated branch loci and
+places all four actions on one literal finite normal source compositum, and
+item 36 supplies selected-branch-preserving comparisons over the smaller
+parameter/source fields.  Extend those comparisons over the remaining
+independent input coordinates, then use
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with

@@ -1353,6 +1353,46 @@ All four actions are now transported from that exact same source field:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCommonCoverCompositionTriangle}
 
+The repeated-locus comparison retains more than an abstract endpoint-field
+isomorphism.  For a generic family member, the complete `(parameter,
+source,target)` field is finite over `(parameter,source)`.  Equality of
+complete family loci canonically identifies this extension coordinate by
+coordinate, lifts it to the concrete normal closures, and applies one deck
+correction so that the literal selected branch is preserved:
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.parameterSourceField}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.familyOverParameterSource_finiteDimensional}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.extensionEquivOfIdealEq}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.extensionEquivOfIdealEq_base_apply}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.normalCoverEquivOfIdealEq_algebraMap}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.basedBranchEquivOfIdealEq_selected}
+
+The independently relocated occurrences of `s`, `sA`, `u`, and `uB` have
+equal complete family loci.  They consequently carry four such based,
+coefficient-aware comparisons before scalar extension to the entire
+eight-input field:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seAFamily_ideal_eq_sbAFamily}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaAFamily_ideal_eq_sAcAFamily}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCFamily_ideal_eq_sAaCFamily}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCFamily_ideal_eq_sAcCFamily}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSBasedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSABasedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBasedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBBasedBranchEquiv}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
