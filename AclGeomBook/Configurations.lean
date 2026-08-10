@@ -486,6 +486,25 @@ with their intermediate and endpoint coordinates shared literally:
 
 {docstring AclGeom.FiniteCorrespondenceFamilyMember.ofOneTupleIdealEq}
 
+Equal complete loci do more than transfer algebraicity: their coordinate
+rings and generated function fields are canonically equivalent, coordinate
+by coordinate.  These equivalences respect identity, reversal, and
+composition, providing the coherence needed for gluing relocated fibers:
+
+{docstring AclGeom.locusCoordinateRingEquiv}
+
+{docstring AclGeom.locusCoordinateRingEquivOfIdealEq}
+
+{docstring AclGeom.locusFunctionFieldEquivOfIdealEq}
+
+{docstring AclGeom.locusFunctionFieldEquivOfIdealEq_apply}
+
+{docstring AclGeom.locusFunctionFieldEquivOfIdealEq_refl}
+
+{docstring AclGeom.locusFunctionFieldEquivOfIdealEq_symm}
+
+{docstring AclGeom.locusFunctionFieldEquivOfIdealEq_trans}
+
 {docstring AclGeom.IsPartialQuadrangle.exists_configuration_relocation}
 
 {docstring AclGeom.IsPartialQuadrangle.exists_compatible_family_relocation}
@@ -505,6 +524,25 @@ holds above every independent replacement of `(S,T,S')`:
 {docstring AclGeom.IsPartialQuadrangle.pairsOfIdealEq_composes}
 
 {docstring AclGeom.IsPartialQuadrangle.exists_relocated_correspondence_groupoid}
+
+For the quadrangle locus this transport is packaged directly between any
+two relocated six-coordinate fields.  It is coherent on triples of
+realizations, and the six-coordinate field is exactly the scalar
+restriction of the literal three-arrow chain field:
+
+{docstring AclGeom.IsPartialQuadrangle.tupleConfigurationField}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationEquiv_apply}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationEquiv_refl}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationEquiv_symm}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationEquiv_trans}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainField_restrictScalars_eq}
 
 For each such relocated tuple, the selected chain has its own finite
 normal-cover branch groupoid.  Every conjugate branch is reachable from
