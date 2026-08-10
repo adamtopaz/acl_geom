@@ -117,6 +117,8 @@ noncomputable def functionFieldAlgEquiv
     e.trans (FiniteExtensionChart.functionFieldAlgEquiv a₂ ha₂).symm
 
 set_option maxHeartbeats 1600000 in
+-- The fraction-field extensionality proof normalizes several nested affine
+-- localization maps and needs a larger reduction budget than the default.
 /-- The explicit principal-open partial map has the generic-point morphism
 prescribed by the conjugated chart function-field equivalence. -/
 theorem partialMap_fromFunctionField [Fintype ι₂]
@@ -131,10 +133,8 @@ theorem partialMap_fromFunctionField [Fintype ι₂]
     (k := k) (K := K₁) (L := L₁) a₁
   let A₂ := FiniteExtensionChart.coordinateRing
     (k := k) (K := K₂) (L := L₂) a₂
-  let X₁ := FiniteExtensionChart.scheme
-    (k := k) (K := K₁) (L := L₁) a₁
-  let X₂ := FiniteExtensionChart.scheme
-    (k := k) (K := K₂) (L := L₂) a₂
+  letI : IsFractionRing A₁ L₁ :=
+    FiniteExtensionChart.isFractionRing_extension a₁ ha₁
   let b₂ := FiniteExtensionChart.coordinateGenerators
     (k := k) (K := K₂) (L := L₂) a₂
   let φ := transitionAlgHom (k := k) a₂ e
@@ -146,7 +146,9 @@ theorem partialMap_fromFunctionField [Fintype ι₂]
     PrincipalLocalization.awayAlgHomOfGenerators (A := A₁) b₂
       (FiniteExtensionChart.adjoin_coordinateGenerators_eq_top
         (k := k) (K := K₂) (L := L₂) a₂) φ
-  let q : Localization.Away d →+* X₁.functionField :=
+  let q : Localization.Away d →+*
+      (FiniteExtensionChart.scheme
+        (k := k) (K := K₁) (L := L₁) a₁).functionField :=
     PrincipalLocalization.genericAwayMap d hd
   have hleft :
       (partialMap (k := k) a₁ a₂ ha₁ e).fromFunctionField =
@@ -156,37 +158,61 @@ theorem partialMap_fromFunctionField [Fintype ι₂]
         (k := k) (K := K₂) (L := L₂) a₂)
       φ (transitionAlgHom_injective (k := k) a₂ e)).fromFunctionField = _
     exact PrincipalLocalization.partialMap_fromFunctionField_eq _ _ _ _
+  let E := functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e
+  have hring : CommRingCat.ofHom (q.comp ψ.toRingHom) =
+      CommRingCat.ofHom (StructureSheaf.toStalk A₂
+          (genericPoint (FiniteExtensionChart.scheme
+            (k := k) (K := K₂) (L := L₂) a₂))).hom ≫
+        CommRingCat.ofHom E.toRingEquiv.symm.toRingHom := by
+    ext z
+    simp only [ConcreteCategory.comp_apply]
+    change q (ψ z) = _
+    apply (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).injective
+    have hq :
+        (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).toRingHom.comp q =
+          (Localization.mapToFractionRing L₁ (Submonoid.powers d)
+            (Localization.Away d)
+            (powers_le_nonZeroDivisors_of_noZeroDivisors hd)).toRingHom := by
+      apply IsLocalization.ringHom_ext (Submonoid.powers d)
+      apply RingHom.ext
+      intro t
+      simp only [RingHom.comp_apply]
+      change (FiniteExtensionChart.functionFieldAlgEquiv
+          (k := k) (K := K₁) (L := L₁) a₁ ha₁).toRingEquiv.toRingHom
+          ((q.comp (algebraMap A₁ (Localization.Away d))) t) = _
+      rw [PrincipalLocalization.genericAwayMap_comp_algebraMap]
+      exact (FiniteExtensionChart.functionFieldAlgEquiv_toStalk
+        (k := k) (K := K₁) (L := L₁) a₁ ha₁ t).trans <|
+          ((Localization.mapToFractionRing L₁ (Submonoid.powers d)
+            (Localization.Away d)
+            (powers_le_nonZeroDivisors_of_noZeroDivisors hd))).commutes t |>.symm
+    have hz : (FiniteExtensionChart.functionFieldAlgEquiv
+        (k := k) (K := K₁) (L := L₁) a₁ ha₁)
+        (q (ψ z)) =
+        (Localization.mapToFractionRing L₁ (Submonoid.powers d)
+          (Localization.Away d)
+          (powers_le_nonZeroDivisors_of_noZeroDivisors hd)) (ψ z) := by
+      exact RingHom.congr_fun hq (ψ z)
+    rw [hz]
+    rw [PrincipalLocalization.awayAlgHomOfGenerators_mapToFractionRing]
+    change e.symm (z : L₂) = _
+    have hz₂ := FiniteExtensionChart.functionFieldAlgEquiv_toStalk
+      (k := k) (K := K₂) (L := L₂) a₂ ha₂ z
+    change e.symm (z : L₂) =
+      (FiniteExtensionChart.functionFieldAlgEquiv
+        (k := k) (K := K₁) (L := L₁) a₁ ha₁)
+        ((FiniteExtensionChart.functionFieldAlgEquiv
+          (k := k) (K := K₁) (L := L₁) a₁ ha₁).symm
+          (e.symm ((FiniteExtensionChart.functionFieldAlgEquiv
+            (k := k) (K := K₂) (L := L₂) a₂ ha₂)
+            ((StructureSheaf.toStalk A₂
+              (genericPoint (FiniteExtensionChart.scheme a₂))) z))))
+    rw [(FiniteExtensionChart.functionFieldAlgEquiv
+      (k := k) (K := K₁) (L := L₁) a₁ ha₁).apply_symm_apply, hz₂]
   rw [hleft]
   unfold Scheme.functionFieldMorphism
   rw [Spec.fromSpecStalk_eq']
-  rw [← Spec.map_comp]
-  apply Spec.map_injective
-  apply CommRingCat.hom_ext
-  intro z
-  change q (ψ z) = _
-  apply (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).injective
-  have hq :
-      (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).toRingHom.comp q =
-        (Localization.mapToFractionRing L₁ (Submonoid.powers d)
-          (Localization.Away d)
-          (powers_le_nonZeroDivisors_of_noZeroDivisors hd)).toRingHom := by
-    letI : Algebra A₁ X₁.functionField :=
-      AlgebraicGeometry.instAlgebraCarrierFunctionFieldSpec (.of A₁)
-    letI : IsFractionRing A₁ X₁.functionField :=
-      AlgebraicGeometry.functionField_isFractionRing_of_affine (.of A₁)
-    apply IsLocalization.ringHom_ext (Submonoid.powers d)
-    apply RingHom.ext
-    intro t
-    simp only [RingHom.comp_apply]
-    rw [PrincipalLocalization.genericAwayMap_comp_algebraMap]
-    rw [FiniteExtensionChart.functionFieldAlgEquiv_toStalk]
-    exact ((Localization.mapToFractionRing L₁ (Submonoid.powers d)
-      (Localization.Away d)
-      (powers_le_nonZeroDivisors_of_noZeroDivisors hd))).commutes t |>.symm
-  rw [RingHom.congr_fun hq]
-  rw [PrincipalLocalization.awayAlgHomOfGenerators_mapToFractionRing]
-  change e.symm (z : L₂) = _
-  simp [functionFieldAlgEquiv, FiniteExtensionChart.functionFieldAlgEquiv_toStalk]
+  exact (congrArg Spec.map hring).trans (Spec.map_comp _ _)
 
 set_option backward.isDefEq.respectTransparency false in
 /-- The generic-point morphism induced by the chart function-field

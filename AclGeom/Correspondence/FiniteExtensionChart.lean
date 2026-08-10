@@ -150,7 +150,7 @@ theorem adjoin_coordinateGenerators_eq_top (a : ι → K) :
   rfl
 
 /-- The affine scheme attached to a finite extension chart. -/
-def scheme (a : ι → K) : Scheme :=
+abbrev scheme (a : ι → K) : Scheme :=
   Spec (.of (coordinateRing (k := k) (K := K) (L := L) a))
 
 /-- The structure morphism from a finite extension chart to `Spec k`. -/
@@ -277,23 +277,29 @@ noncomputable def functionFieldAlgEquiv (a : ι → K)
   exact (IsLocalization.algEquiv (nonZeroDivisors A)
     (Spec (.of A)).functionField L).restrictScalars k
 
-set_option maxHeartbeats 800000 in
 /-- The chart function-field equivalence sends the generic germ of a
 coordinate-ring element to that element in the selected ambient field. -/
 theorem functionFieldAlgEquiv_toStalk (a : ι → K)
     (ha : adjoin k (Set.range a) = ⊤)
     (z : coordinateRing (k := k) (K := K) (L := L) a) :
-    functionFieldAlgEquiv a ha
+    functionFieldAlgEquiv (k := k) (K := K) (L := L) a ha
         ((StructureSheaf.toStalk
           (coordinateRing (k := k) (K := K) (L := L) a)
           (genericPoint (scheme (k := k) (K := K) (L := L) a))) z) =
       (z : L) := by
+  unfold scheme
+  let A := coordinateRing (k := k) (K := K) (L := L) a
+  letI : Algebra A (Spec (.of A)).functionField :=
+    RingHom.toAlgebra <| (StructureSheaf.toStalk A
+      (genericPoint (Spec (.of A)))).hom
+  letI : IsFractionRing A (Spec (.of A)).functionField := by
+    change IsFractionRing (↑(CommRingCat.of A)) _
+    exact functionField_isFractionRing_of_affine _
+  letI : IsFractionRing A L := isFractionRing_extension a ha
   unfold functionFieldAlgEquiv
   dsimp only
-  change (IsLocalization.algEquiv _ _ _)
-    (algebraMap (coordinateRing (k := k) (K := K) (L := L) a) _ z) = _
-  rw [AlgEquiv.commutes]
-  rfl
+  exact (IsLocalization.algEquiv (nonZeroDivisors A)
+    (Spec (.of A)).functionField L).commutes z
 
 /-- A displayed parameter as an element of the affine coordinate ring. -/
 def parameter (a : ι → K) (i : ι) :

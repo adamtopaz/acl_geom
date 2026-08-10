@@ -248,6 +248,43 @@ lemma functionFieldMap_functionFieldMorphism
     (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q = q
   simp
 
+/-- Two morphisms from the spectrum of an integral scheme's function field
+which carry the closed point to the target generic point are equal as soon as
+they induce the same map on function fields. -/
+lemma functionFieldMorphism_eq_of_functionFieldMapOfMorphism_eq
+    [IsIntegral X] [IsIntegral Y]
+    {F G : Spec X.functionField ⟶ Y}
+    (hF : F (closedPoint X.functionField) = genericPoint Y)
+    (hG : G (closedPoint X.functionField) = genericPoint Y)
+    (hmap : functionFieldMapOfMorphism F hF =
+      functionFieldMapOfMorphism G hG) : F = G := by
+  apply (SpecToEquivOfLocalRing Y X.functionField).injective
+  apply SpecToEquivOfLocalRing_eq_iff.mpr
+  refine ⟨hF.trans hG.symm, ?_⟩
+  unfold functionFieldMapOfMorphism at hmap
+  let eF := Y.presheaf.stalkCongr (.of_eq hF.symm)
+  let eG := Y.presheaf.stalkCongr (.of_eq hG.symm)
+  have hm := congrArg (fun q ↦ eF.inv ≫ q) hmap
+  change stalkClosedPointTo F =
+    (Y.presheaf.stalkCongr (.of_eq (hF.trans hG.symm))).hom ≫
+      stalkClosedPointTo G
+  simpa [Category.assoc, Iso.inv_hom_id_assoc, eF, eG,
+    TopCat.Presheaf.stalkCongr] using hm
+
+/-- A dominant partial map has the generic-point morphism prescribed by a
+function-field equivalence as soon as the induced field map is its inverse. -/
+lemma PartialMap.fromFunctionField_eq_of_functionFieldMap_eq
+    [IsIntegral X] [IsIntegral Y]
+    (f : X.PartialMap Y) [IsDominant f.hom]
+    (E : X.functionField ≃+* Y.functionField)
+    (h : f.functionFieldMap = CommRingCat.ofHom E.symm.toRingHom) :
+    f.fromFunctionField = functionFieldMorphism E := by
+  apply functionFieldMorphism_eq_of_functionFieldMapOfMorphism_eq
+    f.fromFunctionField_closedPoint (functionFieldMorphism_closedPoint E)
+  change f.functionFieldMap = _
+  rw [h]
+  exact (functionFieldMap_functionFieldMorphism E).symm
+
 /-- A partial map is dominant when its generic-point morphism hits the target generic point. -/
 lemma PartialMap.isDominant_of_fromFunctionField_closedPoint
     [IrreducibleSpace X] [IrreducibleSpace Y]
