@@ -286,6 +286,17 @@ change stays irreducible:
 
 {docstring AclGeom.QWitness.psi_composition_selected_component}
 
+The actual family members are also retained over their separate rank-two
+coefficient fields.  Clause (iv) becomes an exact minimality theorem: no
+atom below `A`, `B`, or `C` already carries the relevant incidence.  Their
+selected base changes are the branches used above:
+
+{docstring AclGeom.QWitness.psi_family_parameters_rank_two_minimal}
+
+{docstring AclGeom.QWitness.aFamily_map_le_abBranch}
+
+{docstring AclGeom.QWitness.bFamily_map_le_abBranch}
+
 On the common normal cover, a chosen branch makes the generic
 multiplication and inverse single-valued.  Associativity and the two inverse
 identities already force an honest group: the apparently
