@@ -184,6 +184,27 @@ def generatedFieldEquiv (a : ι → K)
     (adjoin_generators_eq_top (K := K) (L := L) a ha)).trans
       IntermediateField.topEquiv
 
+/-- When the displayed coordinates generate `K`, the ambient extension field
+`L` itself is a fraction field of the chart coordinate ring.  This formulation
+is convenient for clearing denominators directly inside `L`. -/
+theorem isFractionRing_extension (a : ι → K)
+    (ha : adjoin k (Set.range a) = ⊤) :
+    IsFractionRing
+      (coordinateRing (k := k) (K := K) (L := L) a) L := by
+  apply IsFractionRing.of_field
+  intro z
+  let z' : generatedField (k := k) (K := K) (L := L) a :=
+    ⟨z, by
+      change z ∈ adjoin k
+        (Set.range (generators (K := K) (L := L) a))
+      rw [adjoin_generators_eq_top (K := K) (L := L) a ha]
+      trivial⟩
+  obtain ⟨x, y, hy, hxy⟩ :=
+    IsFractionRing.div_surjective
+      (coordinateRing (k := k) (K := K) (L := L) a) z'
+  refine ⟨x, y, ?_⟩
+  exact (congr_arg Subtype.val hxy).symm
+
 /-- A displayed parameter as an element of the affine coordinate ring. -/
 def parameter (a : ι → K) (i : ι) :
     coordinateRing (k := k) (K := K) (L := L) a :=

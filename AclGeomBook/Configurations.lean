@@ -1234,6 +1234,17 @@ chosen extension:
 
 {docstring AclGeom.FiniteExtensionChart.generatedFieldEquiv}
 
+{docstring AclGeom.FiniteExtensionChart.isFractionRing_extension}
+
+Mutually inverse dominant partial maps can now be shrunk to concrete dense
+open isomorphisms.  In particular, mutually inverse rational maps between
+integral separated charts produce exactly the transition datum required by
+scheme gluing:
+
+{docstring AclGeom.BirationalGluing.partialIsoOfMutualInversePartialMaps}
+
+{docstring AclGeom.BirationalGluing.partialIsoOfMutualInverseRationalMaps}
+
 Applying this construction to every normalized rank-two/scalar branch gives
 the concrete `A/S`, `B/T`, and `C/U` affine charts.  Their function fields
 are exactly the corresponding finite normal covers, while the two base

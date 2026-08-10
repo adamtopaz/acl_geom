@@ -168,16 +168,24 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
    two displayed parameter coordinates still generate their base fields and
    are algebraically independent, so these are genuine rank-two scheme charts
    rather than finite deck groups.
+10. `Correspondence/BirationalGluing.lean` converts mutually inverse dominant
+    partial maps into an isomorphism between explicit dense open subschemes.
+    Its rational-map form applies this to inverse dominant rational maps
+    between integral separated schemes.  Together with the direct
+    `IsFractionRing` realization of every finite-extension chart inside its
+    selected ambient cover field, this supplies the generic birational-to-open
+    bridge needed by the normalized transition maps.
 
-**Next exact step:** localize the normalized field equivalences to concrete
-dense principal opens of these affine models, package their transition
-morphisms as `Scheme.GlueData`, then glue multiplication and inverse on the
-resulting integral locally finite-type scheme.  Prove separatedness and extract the
-finite atlas to package the result in the new scheme-level algebraic-group
-target.  Then identify the already constructed categorical rank-one normal
-kernel with the connected component of its scheme-theoretic kernel, apply
-the completed affine-action classification, and finish affine-grid
-extraction (8.5) and Q correctness.
+**Next exact step:** clear the finitely many coordinate-ring denominators of
+the normalized field equivalences, producing dominant rational maps between
+the concrete affine models.  Apply the dense-open bridge above, package the
+resulting transition isomorphisms as `Scheme.GlueData`, then glue
+multiplication and inverse on the resulting integral locally finite-type
+scheme.  Prove separatedness and extract the finite atlas to package the
+result in the new scheme-level algebraic-group target.  Then identify the
+already constructed categorical rank-one normal kernel with the connected
+component of its scheme-theoretic kernel, apply the completed affine-action
+classification, and finish affine-grid extraction (8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
 group only records the vertical ambiguity of chosen lifts; the parameter
