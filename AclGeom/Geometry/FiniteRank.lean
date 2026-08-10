@@ -293,6 +293,82 @@ theorem RankEq.congr {n : ℕ} {E F : ClosedIF k K} (h : E = F)
     (hE : RankEq n E) : RankEq n F :=
   h ▸ hE
 
+/-- Two comparable closed elements of the same finite rank are equal.
+This is the finite-rank flat property of the algebraic-independence
+matroid. -/
+theorem RankEq.eq_of_le {n : ℕ} {E F : ClosedIF k K}
+    (hEF : E ≤ F) (hE : RankEq n E) (hF : RankEq n F) : E = F := by
+  classical
+  obtain ⟨e, he, rfl⟩ := hE
+  obtain ⟨f, hf, hFspan⟩ := hF
+  let M := AlgebraicIndependent.matroid k K
+  let s : Set K := Set.range fun i ↦ (e i).rep
+  let t : Set K := Set.range fun i ↦ (f i).rep
+  have heind : AlgebraicIndependent k fun i ↦ (e i).rep :=
+    algebraicIndependent_rep_of_pointIndep he
+  have hfind : AlgebraicIndependent k fun i ↦ (f i).rep :=
+    algebraicIndependent_rep_of_pointIndep hf
+  have hsind : M.Indep s :=
+    AlgebraicIndependent.matroid_indep_iff.2 heind.to_subtype_range
+  have htind : M.Indep t :=
+    AlgebraicIndependent.matroid_indep_iff.2 hfind.to_subtype_range
+  have hsencard : s.encard = n := by
+    apply le_antisymm
+    · simpa [s, ← Set.image_univ] using
+        (Set.encard_image_le (fun i ↦ (e i).rep)
+          (Set.univ : Set (Fin n)))
+    · simpa [s] using heind.injective.encard_range
+  have htencard : t.encard = n := by
+    apply le_antisymm
+    · simpa [t, ← Set.image_univ] using
+        (Set.encard_image_le (fun i ↦ (f i).rep)
+          (Set.univ : Set (Fin n)))
+    · simpa [t] using hfind.injective.encard_range
+  have hsclosure : M.closure s =
+      ((⨆ i, (e i).1 : ClosedIF k K) : Set K) := by
+    rw [algebraicMatroid_closure_eq_racl]
+    exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
+      (iSup_point_val e).symm
+  have htclosure : M.closure t = (F.1 : Set K) := by
+    rw [algebraicMatroid_closure_eq_racl]
+    have h := iSup_point_val f
+    rw [← hFspan] at h
+    exact congrArg (fun L : IntermediateField k K ↦ (L : Set K)) h.symm
+  have hErank : M.eRk
+      ((⨆ i, (e i).1 : ClosedIF k K) : Set K) = n := by
+    rw [← hsclosure, M.eRk_closure_eq,
+      hsind.eRk_eq_encard, hsencard]
+  have hFrank : M.eRk (F.1 : Set K) = n := by
+    rw [← htclosure, M.eRk_closure_eq,
+      htind.eRk_eq_encard, htencard]
+  have hErkfinite : M.IsRkFinite
+      ((⨆ i, (e i).1 : ClosedIF k K) : Set K) := by
+    rw [← M.eRk_lt_top_iff, hErank]
+    exact ENat.coe_lt_top n
+  have hEFset :
+      (((⨆ i, (e i).1 : ClosedIF k K).1 :
+          IntermediateField k K) : Set K) ⊆ (F.1 : Set K) := hEF
+  have hclosure :=
+    hErkfinite.closure_eq_closure_of_subset_of_eRk_ge_eRk
+      hEFset (by rw [hErank, hFrank])
+  have hEclosed : M.closure
+      ((⨆ i, (e i).1 : ClosedIF k K) : Set K) =
+      ((⨆ i, (e i).1 : ClosedIF k K) : Set K) := by
+    rw [algebraicMatroid_closure_eq_racl]
+    exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
+      (isRAC_iff_racl_eq.1
+        (⨆ i, (e i).1 : ClosedIF k K).2)
+  have hFclosed : M.closure (F.1 : Set K) = (F.1 : Set K) := by
+    rw [algebraicMatroid_closure_eq_racl]
+    exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
+      (isRAC_iff_racl_eq.1 F.2)
+  have hset :
+      (((⨆ i, (e i).1 : ClosedIF k K).1 :
+          IntermediateField k K) : Set K) = (F.1 : Set K) :=
+    hEclosed ▸ hFclosed ▸ hclosure
+  apply Subtype.ext
+  exact SetLike.ext' hset
+
 /-- The working form of the rank bridge: a closed element whose underlying
 field is the closure of an independent `n`-tuple of generators has rank
 exactly `n`. Rank clauses of configuration witnesses are verified by

@@ -61,6 +61,45 @@ theorem comp_pair_of_shared_middle {z w u : Ω}
 
 end SharedMiddle
 
+section SelectedBaseChange
+
+/-- A polynomial relation remains a relation after extending between
+nested intermediate coefficient fields. -/
+theorem map_mem_idealOf_of_intermediateField_le
+    {E F : IntermediateField k Ω} (hEF : E ≤ F)
+    {q : Fin 2 → Ω} {f : MvPolynomial (Fin 2) E}
+    (hf : f ∈ idealOf E q) :
+    MvPolynomial.map (IntermediateField.inclusion hEF) f ∈
+      idealOf F q := by
+  rw [mem_idealOf_iff] at hf ⊢
+  change MvPolynomial.eval₂ (algebraMap E Ω) q f = 0 at hf
+  change MvPolynomial.eval₂ (algebraMap F Ω) q
+    (MvPolynomial.map (IntermediateField.inclusion hEF) f) = 0
+  rw [MvPolynomial.eval₂_map]
+  have hcomp : (algebraMap F Ω).comp
+      (IntermediateField.inclusion hEF).toRingHom =
+      algebraMap E Ω := by
+    ext x
+    rfl
+  change MvPolynomial.eval₂ ((algebraMap F Ω).comp
+    (IntermediateField.inclusion hEF).toRingHom) q f = 0
+  rw [hcomp]
+  exact hf
+
+/-- The extension of a vanishing ideal is contained in the selected prime
+component determined by the same tuple over the larger coefficient
+field.  Equality is intentionally not asserted: a finite base change may
+split into several branches. -/
+theorem idealOf_map_le_of_intermediateField_le
+    {E F : IntermediateField k Ω} (hEF : E ≤ F) (q : Fin 2 → Ω) :
+    Ideal.map (MvPolynomial.map (IntermediateField.inclusion hEF))
+        (idealOf E q) ≤ idealOf F q := by
+  rw [Ideal.map_le_iff_le_comap]
+  intro f hf
+  exact map_mem_idealOf_of_intermediateField_le hEF hf
+
+end SelectedBaseChange
+
 section Matching
 
 /-- **The matching step of germ composition** (blueprint Lemma 8.1(b),

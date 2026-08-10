@@ -275,6 +275,17 @@ relocation:
 
 {docstring AclGeom.QWitness.psi_selected_correspondence_composes}
 
+The second `Z` incidence simultaneously presents `(X,Z)` as the member
+parametrized by `C`.  After adjoining all six displayed parameters, both
+the composed endpoint ideal and the `C`-family ideal lie under the same
+prime selected by the literal generic pair.  This is the prime-component
+form of equation (8.6); it does not incorrectly assert that finite base
+change stays irreducible:
+
+{docstring AclGeom.QWitness.xzCorrespondencePairOverC}
+
+{docstring AclGeom.QWitness.psi_composition_selected_component}
+
 On the common normal cover, a chosen branch makes the generic
 multiplication and inverse single-valued.  Associativity and the two inverse
 identities already force an honest group: the apparently
