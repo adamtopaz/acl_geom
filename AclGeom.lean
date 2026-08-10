@@ -35,6 +35,7 @@ import AclGeom.Curves.GlobalResidue
 import AclGeom.Curves.InfinitesimalAutomorphisms
 import AclGeom.Curves.Places
 import AclGeom.Curves.Rational
+import AclGeom.Curves.RationalAutomorphisms
 import AclGeom.Curves.Residues
 import AclGeom.Curves.RiemannRoch
 import AclGeom.Curves.Specialty

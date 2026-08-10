@@ -513,3 +513,19 @@ genera:
 {docstring AclGeom.InfinitesimalAutomorphism.eq_refl_of_two_le_genus}
 
 {docstring AclGeom.InfinitesimalAutomorphism.eq_refl_of_genus_eq_one}
+
+# Genus-zero automorphisms
+%%%
+tag := "genus-zero-automorphisms"
+%%%
+
+The genus-zero theorem supplies a transcendental generator `t` with
+`F = k(t)`. Every base-field automorphism carries `t` to another
+generator. The two generators have minimal-polynomial degree one over
+one another, so the bidegree-`(1,1)` classification expresses the
+image as a fractional-linear function of `t`; transcendence makes its
+determinant nonzero:
+
+{docstring AclGeom.exists_moebius_of_generator_algEquiv}
+
+{docstring AclGeom.exists_generator_moebius_of_genus_eq_zero}
