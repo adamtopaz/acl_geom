@@ -1238,6 +1238,11 @@ theorem Place.residue_eq_zero_of_ord_ge (P : Place k F) {f g : F}
   rw [Place.residue, ← hC]
   exact tateTrace_of_isNilpotent hnil
 
+/-- The residue vanishes when the first argument is zero. -/
+theorem Place.residue_zero_left (P : Place k F) (g : F) :
+    P.residue 0 g = 0 := by
+  rw [← zero_smul k (0 : F), P.residue_smul_left, zero_mul]
+
 /-- The residue vanishes when the second argument is zero. -/
 theorem Place.residue_zero_right (P : Place k F) (f : F) :
     P.residue f 0 = 0 := by

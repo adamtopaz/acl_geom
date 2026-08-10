@@ -1081,6 +1081,137 @@ theorem sum_residue_eq_zero (f g : F) (S : Finset (Place k F))
       P.residue_eq_zero_of_mem (hS P hP).1 (hS P hP).2
   rw [hsub, ← hloc]
 
+/-- The residue of `α_P dg` vanishes at almost every place: outside
+the exceptional set of `α` and the poles of `g`, both entries are
+integral. -/
+theorem residue_support_finite (g : F) (α : ↥(adeleSubmodule k F)) :
+    {P : Place k F |
+      P.residue ((α : (Q : Place k F) → F) P) g ≠ 0}.Finite := by
+  rcases eq_or_ne g 0 with rfl | hg
+  · refine Set.Finite.subset Set.finite_empty fun P hP ↦ ?_
+    exact absurd (P.residue_zero_right _) hP
+  refine Set.Finite.subset
+    ((show Set.Finite _ from α.2).union
+      (finite_setOf_one_lt_valuation hg)) fun P hP ↦ ?_
+  rw [Set.mem_setOf_eq] at hP
+  rw [Set.mem_union]
+  by_contra hcon
+  push Not at hcon
+  obtain ⟨h1, h2⟩ := hcon
+  rw [Set.mem_setOf_eq] at h1 h2
+  push Not at h1 h2
+  refine hP (P.residue_eq_zero_of_mem ?_ ?_)
+  · rw [Place.mem_toSubmodule_iff]
+    rcases eq_or_ne ((α : (Q : Place k F) → F) P) 0 with h3 | h3
+    · rw [h3, Valuation.map_zero]
+      exact zero_le
+    · have h4 := h1 h3
+      rw [← P.ord_nonneg_iff h3]
+      omega
+  · rw [Place.mem_toSubmodule_iff]
+    exact h2
+
+/-- **The residue functional of `dg`**: the finite sum of the local
+residues `res_P(α_P dg)`, as a linear functional on the adele
+module. -/
+noncomputable def residueFunctional (g : F) :
+    Module.Dual k ↥(adeleSubmodule k F) where
+  toFun α := ∑ᶠ P : Place k F,
+    P.residue ((α : (Q : Place k F) → F) P) g
+  map_add' α β := by
+    have h1 : ∀ P : Place k F,
+        P.residue (((α + β : ↥(adeleSubmodule k F)) :
+          (Q : Place k F) → F) P) g =
+        P.residue ((α : (Q : Place k F) → F) P) g +
+          P.residue ((β : (Q : Place k F) → F) P) g := by
+      intro P
+      have h2 : ((α + β : ↥(adeleSubmodule k F)) :
+          (Q : Place k F) → F) P =
+          (α : (Q : Place k F) → F) P +
+            (β : (Q : Place k F) → F) P := rfl
+      rw [h2, Place.residue_add_left]
+    rw [finsum_congr h1]
+    exact finsum_add_distrib (residue_support_finite g α)
+      (residue_support_finite g β)
+  map_smul' c α := by
+    have h1 : ∀ P : Place k F,
+        P.residue (((c • α : ↥(adeleSubmodule k F)) :
+          (Q : Place k F) → F) P) g =
+        c • P.residue ((α : (Q : Place k F) → F) P) g := by
+      intro P
+      have h2 : ((c • α : ↥(adeleSubmodule k F)) :
+          (Q : Place k F) → F) P =
+          c • (α : (Q : Place k F) → F) P := rfl
+      rw [h2, Place.residue_smul_left]
+      rfl
+    rw [finsum_congr h1, ← smul_finsum]
+    rfl
+
+theorem residueFunctional_apply (g : F) (α : ↥(adeleSubmodule k F)) :
+    residueFunctional g α = ∑ᶠ P : Place k F,
+      P.residue ((α : (Q : Place k F) → F) P) g := rfl
+
+/-- The residue functional evaluates as a finite sum over any
+covering set of places. -/
+theorem residueFunctional_eq_sum {g : F} {α : ↥(adeleSubmodule k F)}
+    {S : Finset (Place k F)}
+    (hS : ∀ P ∉ S,
+      P.residue ((α : (Q : Place k F) → F) P) g = 0) :
+    residueFunctional g α =
+      ∑ P ∈ S, P.residue ((α : (Q : Place k F) → F) P) g := by
+  refine finsum_eq_finsetSum_of_support_subset _ fun P hP ↦ ?_
+  rw [Function.mem_support] at hP
+  by_contra h
+  exact hP (hS P h)
+
+/-- **The residue functional kills the diagonal**: the residue
+theorem in functional form. -/
+theorem residueFunctional_diagonal (g h : F) :
+    residueFunctional g
+      (⟨adeleDiagonal k F h, adeleDiagonal_mem_adeleSubmodule h⟩ :
+        ↥(adeleSubmodule k F)) = 0 := by
+  classical
+  rcases eq_or_ne h 0 with rfl | hh
+  · rw [residueFunctional_eq_sum (S := (∅ : Finset (Place k F)))
+      (fun P _ ↦ ?_), Finset.sum_empty]
+    have h2 : ((⟨adeleDiagonal k F 0,
+        adeleDiagonal_mem_adeleSubmodule 0⟩ :
+        ↥(adeleSubmodule k F)) : (Q : Place k F) → F) P = 0 := by
+      change adeleDiagonal k F 0 P = 0
+      rw [map_zero]
+      rfl
+    rw [h2]
+    exact P.residue_zero_left g
+  rcases eq_or_ne g 0 with rfl | hg
+  · rw [residueFunctional_eq_sum (S := (∅ : Finset (Place k F)))
+      (fun P _ ↦ P.residue_zero_right _), Finset.sum_empty]
+  set S : Finset (Place k F) :=
+    (finite_setOf_one_lt_valuation hh).toFinset ∪
+      (finite_setOf_one_lt_valuation hg).toFinset with hSdef
+  have hcoord : ∀ P : Place k F,
+      ((⟨adeleDiagonal k F h, adeleDiagonal_mem_adeleSubmodule h⟩ :
+        ↥(adeleSubmodule k F)) : (Q : Place k F) → F) P = h :=
+    fun P ↦ rfl
+  have hmem : ∀ Q : Place k F, Q ∉ S →
+      h ∈ Q.toSubmodule ∧ g ∈ Q.toSubmodule := by
+    intro Q hQ
+    rw [hSdef, Finset.mem_union] at hQ
+    push Not at hQ
+    obtain ⟨h1, h2⟩ := hQ
+    rw [Set.Finite.mem_toFinset, Set.mem_setOf_eq] at h1 h2
+    push Not at h1 h2
+    exact ⟨h1, h2⟩
+  have h1 : residueFunctional g
+      (⟨adeleDiagonal k F h, adeleDiagonal_mem_adeleSubmodule h⟩ :
+        ↥(adeleSubmodule k F)) = ∑ P ∈ S, P.residue h g := by
+    rw [residueFunctional_eq_sum (S := S) (fun P hP ↦ ?_)]
+    · exact Finset.sum_congr rfl fun P _ ↦ by rw [hcoord]
+    · rw [hcoord]
+      obtain ⟨hh', hg'⟩ := hmem P hP
+      exact P.residue_eq_zero_of_mem hh' hg'
+  rw [h1]
+  exact sum_residue_eq_zero h g S hmem
+
 end
 
 end AclGeom
