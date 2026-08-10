@@ -2289,6 +2289,45 @@ theorem repeatedUBCoefficientBranchNormalField_contains
       (R.repeatedUBAlternativePair_source_eq hind)
       R.commonCoefficientNormalOverRepeatedUB⟩
 
+/-- A deck transformation of the joint `sA` normal field that carries the
+first literal selected branch to the second. -/
+noncomputable def repeatedSABranchAutomorphism
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq
+    R.repeatedSAAlternativeInputField
+    (R.repeatedSAFirstAlternativePair hind)
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedSA
+    (R.repeatedSAAlternativePair_ideal_eq hind)
+
+/-- A deck transformation of the joint direct-`u` normal field that carries
+the first literal selected branch to the second. -/
+noncomputable def repeatedUBranchAutomorphism
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq
+    R.repeatedUAlternativeInputField
+    (R.repeatedUFirstAlternativePair hind)
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedU
+    (R.repeatedUAlternativePair_ideal_eq hind)
+
+/-- A deck transformation of the joint direct-`uB` normal field that carries
+the first literal selected branch to the second. -/
+noncomputable def repeatedUBBranchAutomorphism
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+    (R.repeatedUBAlternativePair_ideal_eq hind)
+
 /-- The coefficient-aware normal-cover comparison for the repeated
 `s` branch.  It retains the displayed `s` parameter and source coordinates;
 the based comparison below additionally corrects it to the selected

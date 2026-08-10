@@ -481,6 +481,24 @@ def extensionEquivOfIdealEq
   simpa only [coe_equivOfEq] using
     htotal.trans hbase.symm
 
+/-- On the source-coordinate field, the extension comparison sends the
+displayed source to its counterpart. -/
+@[simp] theorem extensionEquivOfIdealEq_base_source
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    (P.extensionEquivOfIdealEq Q h).baseEquiv
+        ⟨P.source, subset_adjoin k _ (by simp)⟩ =
+      ⟨Q.source, subset_adjoin k _ (by simp)⟩ := by
+  simp [extensionEquivOfIdealEq]
+
+/-- On the branch field, the extension comparison sends the displayed
+target to its counterpart. -/
+@[simp] theorem extensionEquivOfIdealEq_total_target
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    (P.extensionEquivOfIdealEq Q h).totalEquiv
+        ⟨P.target, subset_adjoin k _ (by simp)⟩ =
+      ⟨Q.target, subset_adjoin k _ (by simp)⟩ := by
+  simp [extensionEquivOfIdealEq]
+
 /-- Equal selected curve ideals identify the canonical normal extensions
 semilinearly over the induced source-coordinate equivalence. -/
 noncomputable def normalExtensionEquivOfIdealEq

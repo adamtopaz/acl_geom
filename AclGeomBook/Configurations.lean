@@ -1519,8 +1519,12 @@ extension and two correspondence branches with the same source, then takes
 their normal closure over that source-coordinate field.  It proves the
 result finite and normal and records all three literal containments.  The
 three alternative `sA`, `u`, and `uB` comparisons instantiate this
-construction, producing the pairwise normal ambient fields on which their
-selected comparisons can next be extended:
+construction, producing pairwise normal ambient fields.  Equality of the
+selected pair ideals also gives a source-linear equivalence between the two
+literal branch fields.  Normality extends that embedding to a deck
+transformation of the joint field, and the extension is proved to carry the
+first displayed target to the second.  All three alternative comparisons
+now instantiate these coefficient-bearing branch automorphisms:
 
 {docstring AclGeom.FiniteCoefficientBranchCompositum.normalField_finiteDimensional}
 
@@ -1531,6 +1535,12 @@ selected comparisons can next be extended:
 {docstring AclGeom.FiniteCoefficientBranchCompositum.firstBranch_le_normalField}
 
 {docstring AclGeom.FiniteCoefficientBranchCompositum.secondBranch_le_normalField}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.branchEquivOfIdealEq}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq_target}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACoefficientBranchNormalField_normal}
 
@@ -1543,6 +1553,12 @@ selected comparisons can next be extended:
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCoefficientBranchNormalField_normal}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCoefficientBranchNormalField_contains}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSABranchAutomorphism}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBranchAutomorphism}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBBranchAutomorphism}
 
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
