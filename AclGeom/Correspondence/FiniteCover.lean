@@ -31,6 +31,101 @@ namespace FiniteCover
 
 variable {E L : IntermediateField k Ω}
 
+/-- An equivalence between two nested intermediate-field extensions.
+
+Both the base and total fields are transported as `k`-algebras, and the
+displayed square with the two inclusions commutes.  This is the appropriate
+notion of equivalence when the coefficient field varies: an equivalence of
+the total fields alone does not remember which finite extension is being
+normalized. -/
+structure ExtensionEquiv {E L E' L' : IntermediateField k Ω}
+    (h : E ≤ L) (h' : E' ≤ L') where
+  /-- Equivalence of the base fields. -/
+  baseEquiv : (↥E) ≃ₐ[k] (↥E')
+  /-- Equivalence of the total fields. -/
+  totalEquiv : (↥L) ≃ₐ[k] (↥L')
+  /-- The total-field equivalence restricts to the base-field equivalence. -/
+  commutes :
+    totalEquiv.toAlgHom.comp (IntermediateField.inclusion h) =
+      (IntermediateField.inclusion h').comp baseEquiv.toAlgHom
+
+namespace ExtensionEquiv
+
+variable {E L E' L' E'' L'' : IntermediateField k Ω}
+  {h : E ≤ L} {h' : E' ≤ L'} {h'' : E'' ≤ L''}
+
+/-- Two extension equivalences are equal when their base and total
+equivalences are equal. -/
+@[ext] theorem ext {e e' : ExtensionEquiv h h'}
+    (hbase : e.baseEquiv = e'.baseEquiv)
+    (htotal : e.totalEquiv = e'.totalEquiv) : e = e' := by
+  cases e
+  cases e'
+  cases hbase
+  cases htotal
+  rfl
+
+/-- Pointwise form of the commutative-square condition. -/
+@[simp] theorem commutes_apply (e : ExtensionEquiv h h') (x : E) :
+    e.totalEquiv (IntermediateField.inclusion h x) =
+      IntermediateField.inclusion h' (e.baseEquiv x) :=
+  DFunLike.congr_fun e.commutes x
+
+/-- The identity equivalence of a nested extension. -/
+def refl (h : E ≤ L) : ExtensionEquiv h h where
+  baseEquiv := AlgEquiv.refl
+  totalEquiv := AlgEquiv.refl
+  commutes := rfl
+
+/-- Equal nested intermediate fields determine an extension equivalence.
+The inclusion proofs themselves are immaterial. -/
+def ofEq (hE : E = E') (hL : L = L') : ExtensionEquiv h h' := by
+  subst E'
+  subst L'
+  exact refl h
+
+/-- Reverse an equivalence of nested extensions. -/
+def symm (e : ExtensionEquiv h h') : ExtensionEquiv h' h where
+  baseEquiv := e.baseEquiv.symm
+  totalEquiv := e.totalEquiv.symm
+  commutes := by
+    apply AlgHom.ext
+    intro x
+    apply e.totalEquiv.injective
+    simp
+
+/-- Compose equivalences of nested extensions. -/
+def trans (e : ExtensionEquiv h h') (e' : ExtensionEquiv h' h'') :
+    ExtensionEquiv h h'' where
+  baseEquiv := e.baseEquiv.trans e'.baseEquiv
+  totalEquiv := e.totalEquiv.trans e'.totalEquiv
+  commutes := by
+    apply AlgHom.ext
+    intro x
+    simp
+
+@[simp] theorem refl_baseEquiv (h : E ≤ L) :
+    (refl h).baseEquiv = AlgEquiv.refl := rfl
+
+@[simp] theorem refl_totalEquiv (h : E ≤ L) :
+    (refl h).totalEquiv = AlgEquiv.refl := rfl
+
+@[simp] theorem symm_baseEquiv (e : ExtensionEquiv h h') :
+    e.symm.baseEquiv = e.baseEquiv.symm := rfl
+
+@[simp] theorem symm_totalEquiv (e : ExtensionEquiv h h') :
+    e.symm.totalEquiv = e.totalEquiv.symm := rfl
+
+@[simp] theorem trans_baseEquiv (e : ExtensionEquiv h h')
+    (e' : ExtensionEquiv h' h'') :
+    (e.trans e').baseEquiv = e.baseEquiv.trans e'.baseEquiv := rfl
+
+@[simp] theorem trans_totalEquiv (e : ExtensionEquiv h h')
+    (e' : ExtensionEquiv h' h'') :
+    (e.trans e').totalEquiv = e.totalEquiv.trans e'.totalEquiv := rfl
+
+end ExtensionEquiv
+
 /-- The normal closure in the ambient field of a nested intermediate-field
 extension. -/
 def normalClosureOver (h : E ≤ L) : IntermediateField (↥E) Ω :=

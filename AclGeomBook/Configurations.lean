@@ -295,6 +295,17 @@ selected composite branch:
 
 {docstring AclGeom.QWitness.psi_selected_chain_field_finite_covers}
 
+When the coefficient field varies, the relevant transport datum is a
+commuting square: one equivalence on the base branch field and one on the
+total chain field, compatible with the two inclusions.  These extension
+equivalences have identity, inverse, and composition operations:
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv}
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.symm}
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.trans}
+
 Inside an algebraically closed ambient field, taking all conjugates turns
 the selected finite chain into a finite normal extension of its endpoint
 branch field:
@@ -526,9 +537,17 @@ holds above every independent replacement of `(S,T,S')`:
 {docstring AclGeom.IsPartialQuadrangle.exists_relocated_correspondence_groupoid}
 
 For the quadrangle locus this transport is packaged directly between any
-two relocated six-coordinate fields.  It is coherent on triples of
-realizations, and the six-coordinate field is exactly the scalar
-restriction of the literal three-arrow chain field:
+two relocated six-coordinate fields.  The first five coordinates generate
+the selected composite branch, the sixth supplies the middle point of the
+chain, and the two canonical transports form a commuting extension square.
+It is coherent on triples of realizations.  Equality transports then identify
+this coordinate square with the actual selected composite/chain extension:
+
+{docstring AclGeom.IsPartialQuadrangle.tupleCompositeField}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedCompositeEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedCompositeEquiv_apply}
 
 {docstring AclGeom.IsPartialQuadrangle.tupleConfigurationField}
 
@@ -542,7 +561,15 @@ restriction of the literal three-arrow chain field:
 
 {docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationEquiv_trans}
 
+{docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationExtensionEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedConfigurationExtensionEquiv_trans}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedCompositeBranchField_restrictScalars_eq}
+
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainField_restrictScalars_eq}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainExtensionEquiv}
 
 For each such relocated tuple, the selected chain has its own finite
 normal-cover branch groupoid.  Every conjugate branch is reachable from
