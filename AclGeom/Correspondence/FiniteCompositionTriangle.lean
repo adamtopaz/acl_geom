@@ -155,6 +155,118 @@ theorem strictComposition :
     (defectEquiv P Q h).toRingEquiv
     (compositeEquiv_trans_defectEquiv P Q h)
 
+namespace OnSourceCover
+
+variable
+  (N : AlgebraicClosureTransport.FiniteNormalCover (↥P.sourceField))
+
+/-- The middle cover obtained by transporting an arbitrary finite normal
+source cover through the left branch.  Unlike `sourceCover`, the input
+cover is supplied by the caller; this is useful when several composition
+triangles must act on one common compositum. -/
+noncomputable def middleCover :=
+  N.map (sourceToMiddleTransport P Q h)
+
+/-- The target cover obtained by transporting the supplied source cover
+through the strict two-step chain. -/
+noncomputable def targetCover :=
+  N.map (P.chainCoordinateClosureTransport Q h)
+
+/-- Transporting the middle cover through the right branch gives the same
+target field as strict two-step transport. -/
+theorem rightMap_field :
+    ((middleCover P Q h N).map Q.coordinateClosureTransport).field =
+      (targetCover P Q h N).field := by
+  ext z
+  simp [targetCover, middleCover, sourceToMiddleTransport,
+    FiniteCorrespondencePair.chainCoordinateClosureTransport]
+
+/-- The left branch restricted to the supplied common source cover. -/
+noncomputable def leftEquiv :
+    (↥N.field) ≃+* (↥(middleCover P Q h N).field) :=
+  N.mapEquiv (sourceToMiddleTransport P Q h)
+
+/-- The right branch restricted to the transported middle cover. -/
+noncomputable def rightEquiv :
+    (↥(middleCover P Q h N).field) ≃+*
+      (↥(targetCover P Q h N).field) :=
+  ((middleCover P Q h N).mapEquiv Q.coordinateClosureTransport).trans
+    (IntermediateField.equivOfEq (rightMap_field P Q h N)).toRingEquiv
+
+/-- Strict two-step transport restricted to the supplied source cover. -/
+noncomputable def compositeEquiv :
+    (↥N.field) ≃+* (↥(targetCover P Q h N).field) :=
+  N.mapEquiv (P.chainCoordinateClosureTransport Q h)
+
+/-- Restriction to an arbitrary source cover commutes literally with the
+two-step composition. -/
+theorem leftEquiv_trans_rightEquiv :
+    (leftEquiv P Q h N).trans (rightEquiv P Q h N) =
+      compositeEquiv P Q h N := by
+  apply RingEquiv.ext
+  intro x
+  apply Subtype.ext
+  rfl
+
+/-- The independently selected direct lift restricted to the supplied
+source cover and the strict target cover. -/
+noncomputable def directEquiv :
+    (↥N.field) ≃+* (↥(targetCover P Q h N).field) :=
+  N.correctedMapEquiv
+    (P.chainCoordinateClosureTransport Q h)
+    (P.directCompositeClosureTransport Q h)
+    (P.compositionDefect Q h)
+    (P.chainCoordinateClosureTransport_trans_compositionDefect Q h)
+
+/-- The vertical composition defect restricted to the transported target
+cover. -/
+noncomputable def defectEquiv :
+    (↥(targetCover P Q h N).field) ≃ₐ[↥Q.targetField]
+      (↥(targetCover P Q h N).field) :=
+  (targetCover P Q h N).restrictAlgEquiv (P.compositionDefect Q h)
+
+/-- Correct the direct lift by the inverse restricted deck defect. -/
+noncomputable def strictDirectEquiv :
+    (↥N.field) ≃+* (↥(targetCover P Q h N).field) :=
+  (directEquiv P Q h N).trans (defectEquiv P Q h N).symm.toRingEquiv
+
+/-- Strict composition followed by the deck defect is the direct lift on
+the supplied source cover. -/
+theorem compositeEquiv_trans_defectEquiv :
+    (compositeEquiv P Q h N).trans
+        (defectEquiv P Q h N).toRingEquiv =
+      directEquiv P Q h N :=
+  N.mapEquiv_trans_restrictAlgEquiv
+    (P.chainCoordinateClosureTransport Q h)
+    (P.directCompositeClosureTransport Q h)
+    (P.compositionDefect Q h)
+    (P.chainCoordinateClosureTransport_trans_compositionDefect Q h)
+
+/-- The corrected direct arrow is literally the composite of the left and
+right arrows on any supplied finite normal source cover. -/
+theorem strictComposition :
+    (leftEquiv P Q h N).trans (rightEquiv P Q h N) =
+      strictDirectEquiv P Q h N := by
+  rw [leftEquiv_trans_rightEquiv]
+  exact FieldEquiv.eq_trans_symm_of_trans_eq
+    (compositeEquiv P Q h N) (directEquiv P Q h N)
+    (defectEquiv P Q h N).toRingEquiv
+    (compositeEquiv_trans_defectEquiv P Q h N)
+
+/-- Package the three restricted arrows as one literal composition
+triangle on the supplied source cover. -/
+noncomputable def compositionTriangle :
+    FieldEquiv.CompositionTriangle
+      (↥N.field)
+      (↥(middleCover P Q h N).field)
+      (↥(targetCover P Q h N).field) where
+  left := leftEquiv P Q h N
+  right := rightEquiv P Q h N
+  direct := strictDirectEquiv P Q h N
+  composition := strictComposition P Q h N
+
+end OnSourceCover
+
 end FiniteCoverTriangle
 end FiniteCorrespondencePair
 

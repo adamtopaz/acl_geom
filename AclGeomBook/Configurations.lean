@@ -1326,6 +1326,33 @@ same literal source coordinate:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcFiniteCoverCompositionTriangle}
 
+Strict composition is stable under enlarging the source normalization: any
+finite normal source cover can be transported through the left branch and
+the two-step chain, and the same deck correction gives a literal triangle.
+Taking the compositum of the four facewise source covers therefore produces
+one finite normal field that contains every selected branch normalization.
+All four actions are now transported from that exact same source field:
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonFiniteSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seFiniteSourceCover_le_common}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaFiniteSourceCover_le_common}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbFiniteSourceCover_le_common}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcFiniteSourceCover_le_common}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCommonCoverCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaCommonCoverCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCommonCoverCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCommonCoverCompositionTriangle}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

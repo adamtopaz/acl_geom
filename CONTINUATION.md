@@ -451,6 +451,17 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     the one formal source.  Consequently all four faces now have strict
     deck-corrected finite-normal-cover composition triangles over the same
     coefficient field and with the same literal source coordinate.
+35. `FiniteCoverTriangle.OnSourceCover` proves that the strict
+    deck-corrected composition construction works on any caller-supplied
+    finite normal source cover, not only the branch-generated cover chosen
+    internally by one face.  The four facewise source covers are therefore
+    joined by `FiniteNormalCover.sup` into
+    `PsiCurveFourArrowCommonSourceRealizations.commonFiniteSourceCover`.
+    Each original source normalization is proved to lie in this finite
+    normal compositum, and all four faces are transported through it to
+    literal strict composition triangles with exactly the same source
+    field.  The remaining alignment problem is now confined to the four
+    transported middle and target fields.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -458,11 +469,11 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--34 give four strict finite-normal-cover curve triangles, the exact
+Items 29--35 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
-four embedded loci over one eight-input coefficient field.  Enlarge their
-four source covers to one common finite normal compositum and transport it
-through the four actions.  Use equality of the repeated branch loci and
+four embedded loci over one eight-input coefficient field; item 35 also
+places all four actions on one literal finite normal source compositum.  Use
+equality of the repeated branch loci and
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with

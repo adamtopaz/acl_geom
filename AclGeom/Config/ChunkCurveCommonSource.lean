@@ -799,6 +799,122 @@ noncomputable def sAcFiniteCoverCompositionTriangle :=
   PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteCoverCompositionTriangle
     (R := R.sAc) R.sAcCommonBaseData hψ
 
+/-- The source cover selected by the `s·e=u` face before simultaneous
+enlargement. -/
+noncomputable def seFiniteSourceCover :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteSourceCover
+    (R := R.se) R.seCommonBaseData hψ
+
+/-- The source cover selected by the `sA·a=u` face before simultaneous
+enlargement. -/
+noncomputable def sAaFiniteSourceCover :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteSourceCover
+    (R := R.sAa) R.sAaCommonBaseData hψ
+
+/-- The source cover selected by the `s·b=uB` face before simultaneous
+enlargement. -/
+noncomputable def sbFiniteSourceCover :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteSourceCover
+    (R := R.sb) R.sbCommonBaseData hψ
+
+/-- The source cover selected by the `sA·c=uB` face before simultaneous
+enlargement. -/
+noncomputable def sAcFiniteSourceCover :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteSourceCover
+    (R := R.sAc) R.sAcCommonBaseData hψ
+
+/-- One finite normal source compositum containing the branch
+normalizations required by all four common-base faces.  The four source
+coordinate fields are definitionally the same because their coefficient
+field and formal source coordinate are literally shared. -/
+noncomputable def commonFiniteSourceCover :=
+  (((R.seFiniteSourceCover.sup R.sAaFiniteSourceCover).sup
+      R.sbFiniteSourceCover).sup R.sAcFiniteSourceCover)
+
+/-- The `s·e=u` source normalization lies in the simultaneous source
+compositum. -/
+theorem seFiniteSourceCover_le_common :
+    R.seFiniteSourceCover.field ≤ R.commonFiniteSourceCover.field := by
+  change R.seFiniteSourceCover.field ≤
+    ((R.seFiniteSourceCover.field ⊔ R.sAaFiniteSourceCover.field) ⊔
+      R.sbFiniteSourceCover.field) ⊔ R.sAcFiniteSourceCover.field
+  exact (le_sup_left.trans le_sup_left).trans le_sup_left
+
+/-- The `sA·a=u` source normalization lies in the simultaneous source
+compositum. -/
+theorem sAaFiniteSourceCover_le_common :
+    R.sAaFiniteSourceCover.field ≤ R.commonFiniteSourceCover.field := by
+  change R.sAaFiniteSourceCover.field ≤
+    ((R.seFiniteSourceCover.field ⊔ R.sAaFiniteSourceCover.field) ⊔
+      R.sbFiniteSourceCover.field) ⊔ R.sAcFiniteSourceCover.field
+  exact (le_sup_right.trans le_sup_left).trans le_sup_left
+
+/-- The `s·b=uB` source normalization lies in the simultaneous source
+compositum. -/
+theorem sbFiniteSourceCover_le_common :
+    R.sbFiniteSourceCover.field ≤ R.commonFiniteSourceCover.field := by
+  change R.sbFiniteSourceCover.field ≤
+    ((R.seFiniteSourceCover.field ⊔ R.sAaFiniteSourceCover.field) ⊔
+      R.sbFiniteSourceCover.field) ⊔ R.sAcFiniteSourceCover.field
+  exact le_sup_right.trans le_sup_left
+
+/-- The `sA·c=uB` source normalization lies in the simultaneous source
+compositum. -/
+theorem sAcFiniteSourceCover_le_common :
+    R.sAcFiniteSourceCover.field ≤ R.commonFiniteSourceCover.field := by
+  change R.sAcFiniteSourceCover.field ≤
+    ((R.seFiniteSourceCover.field ⊔ R.sAaFiniteSourceCover.field) ⊔
+      R.sbFiniteSourceCover.field) ⊔ R.sAcFiniteSourceCover.field
+  exact le_sup_right
+
+/-- The strict `s·e=u` action after enlarging its source to the
+simultaneous four-face compositum. -/
+noncomputable def seCommonCoverCompositionTriangle :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.se) R.seCommonBaseData hψ)
+    R.commonFiniteSourceCover
+
+/-- The strict `sA·a=u` action on the same simultaneous source
+compositum. -/
+noncomputable def sAaCommonCoverCompositionTriangle :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    R.commonFiniteSourceCover
+
+/-- The strict `s·b=uB` action on the same simultaneous source
+compositum. -/
+noncomputable def sbCommonCoverCompositionTriangle :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+    R.commonFiniteSourceCover
+
+/-- The strict `sA·c=uB` action on the same simultaneous source
+compositum. -/
+noncomputable def sAcCommonCoverCompositionTriangle :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    R.commonFiniteSourceCover
+
 end PsiCurveFourArrowCommonSourceRealizations
 
 end QWitness
