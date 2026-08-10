@@ -268,6 +268,13 @@ and the two incidence clauses make `X,Z` algebraic over it:
 
 {docstring AclGeom.QWitness.psi_fiber_product_rank_count}
 
+Exchange then upgrades the two incidences to literal finite-correspondence
+pairs over the combined parameter field.  Their chosen representatives
+share `Y`, so the germ calculus selects the `(X,Z)` component without a
+relocation:
+
+{docstring AclGeom.QWitness.psi_selected_correspondence_composes}
+
 On the common normal cover, a chosen branch makes the generic
 multiplication and inverse single-valued.  Associativity and the two inverse
 identities already force an honest group: the apparently

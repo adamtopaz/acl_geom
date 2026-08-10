@@ -94,6 +94,32 @@ theorem Y_rep_notMem_racl_abReps (hψ : w.Psi) :
   rw [← w.ab_join_eq_iSup_point] at hpoint
   exact hpoint.trans le_sup_left
 
+/-- `X_notLe` also makes `X` generic over the combined `A,B` parameter
+field. -/
+theorem X_rep_notMem_racl_abReps (hψ : w.Psi) :
+    w.X.rep ∉ racl k (Set.range w.abReps) := by
+  intro hX
+  apply hψ.X_notLe
+  have hpoint : w.X.1 ≤ ⨆ i, ClosedIF.point k (w.abReps i) := by
+    rw [← w.X.point_rep]
+    exact ClosedIF.point_le_iff.2
+      (mem_iSup_point_iff.2 hX)
+  rw [← w.ab_join_eq_iSup_point] at hpoint
+  exact hpoint.trans le_sup_left
+
+/-- `Z_notLe` makes `Z` generic over the combined `A,B` parameter
+field. -/
+theorem Z_rep_notMem_racl_abReps (hψ : w.Psi) :
+    w.Z.rep ∉ racl k (Set.range w.abReps) := by
+  intro hZ
+  apply hψ.Z_notLe
+  have hpoint : w.Z.1 ≤ ⨆ i, ClosedIF.point k (w.abReps i) := by
+    rw [← w.Z.point_rep]
+    exact ClosedIF.point_le_iff.2
+      (mem_iSup_point_iff.2 hZ)
+  rw [← w.ab_join_eq_iSup_point] at hpoint
+  exact hpoint.trans le_sup_left
+
 /-- The incidence `X ≤ A ∨ Y` makes `X` algebraic over
 `(A₁,A₂,B₁,B₂,Y)` (the unused `B` parameters are harmless). -/
 theorem X_rep_mem_racl_abReps_snoc_Y (hψ : w.Psi) :
@@ -132,6 +158,93 @@ theorem Z_rep_mem_racl_abReps_snoc_Y (hψ : w.Psi) :
     hψ.Z_le.trans inf_le_left |>.trans
       (sup_le (sup_le hB₁ hB₂) hY)
   exact mem_iSup_point_iff.1 (hZ w.Z.mem_rep)
+
+/-- Exchange reverses the `A`-incidence: over the combined parameter
+field, `Y` is algebraic over `X`. -/
+theorem Y_rep_mem_racl_abReps_snoc_X (hψ : w.Psi) :
+    w.Y.rep ∈ racl k
+      (Set.range (Fin.snoc w.abReps w.X.rep)) := by
+  rw [Fin.range_snoc]
+  apply racl_exchange
+  · simpa only [Fin.range_snoc] using
+      w.X_rep_mem_racl_abReps_snoc_Y hψ
+  · exact w.X_rep_notMem_racl_abReps hψ
+
+/-- Exchange reverses the `B`-incidence: over the combined parameter
+field, `Y` is algebraic over `Z`. -/
+theorem Y_rep_mem_racl_abReps_snoc_Z (hψ : w.Psi) :
+    w.Y.rep ∈ racl k
+      (Set.range (Fin.snoc w.abReps w.Z.rep)) := by
+  rw [Fin.range_snoc]
+  apply racl_exchange
+  · simpa only [Fin.range_snoc] using
+      w.Z_rep_mem_racl_abReps_snoc_Y hψ
+  · exact w.Z_rep_notMem_racl_abReps hψ
+
+/-- The combined field of the independent `A,B` parameters. -/
+def abField : IntermediateField k K :=
+  adjoin k (Set.range w.abReps)
+
+/-- The selected `X → Y` correspondence branch over the combined
+parameter field.  Both directions of interalgebraicity are consequences of
+`X_le`, genericity, and exchange. -/
+def xyCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥w.abField) K where
+  source := w.X.rep
+  target := w.Y.rep
+  source_generic := by
+    rw [abField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact w.X_rep_notMem_racl_abReps hψ
+  target_mem_source := by
+    rw [abField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    simpa only [Fin.range_snoc] using
+      w.Y_rep_mem_racl_abReps_snoc_X hψ
+  source_mem_target := by
+    rw [abField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    simpa only [Fin.range_snoc] using
+      w.X_rep_mem_racl_abReps_snoc_Y hψ
+
+/-- The selected `Y → Z` correspondence branch over the combined
+parameter field. -/
+def yzCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥w.abField) K where
+  source := w.Y.rep
+  target := w.Z.rep
+  source_generic := by
+    rw [abField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact w.Y_rep_notMem_racl_abReps hψ
+  target_mem_source := by
+    rw [abField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    simpa only [Fin.range_snoc] using
+      w.Z_rep_mem_racl_abReps_snoc_Y hψ
+  source_mem_target := by
+    rw [abField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    simpa only [Fin.range_snoc] using
+      w.Y_rep_mem_racl_abReps_snoc_Z hψ
+
+/-- The endpoint branch selected by composing the actual `X → Y` and
+`Y → Z` generic pairs from a `Psi` witness. -/
+def xzCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥w.abField) K :=
+  (w.xyCorrespondencePair hψ).comp (w.yzCorrespondencePair hψ) rfl
+
+@[simp] theorem xzCorrespondencePair_source (hψ : w.Psi) :
+    (w.xzCorrespondencePair hψ).source = w.X.rep := rfl
+
+@[simp] theorem xzCorrespondencePair_target (hψ : w.Psi) :
+    (w.xzCorrespondencePair hψ).target = w.Z.rep := rfl
+
+/-- **Selected-component interface for blueprint (8.6).**  The two
+finite-correspondence germs obtained from the actual `Psi` incidences
+compose at their literal shared representative `Y`; the selected component
+is the endpoint germ presented by `(X,Z)`. -/
+theorem psi_selected_correspondence_composes (hψ : w.Psi) :
+    FiniteCorrespondenceGerm.Composes
+      (FiniteCorrespondenceGerm.ofPair (w.xyCorrespondencePair hψ))
+      (FiniteCorrespondenceGerm.ofPair (w.yzCorrespondencePair hψ))
+      (FiniteCorrespondenceGerm.ofPair (w.xzCorrespondencePair hψ)) :=
+  FiniteCorrespondenceGerm.composes_of_shared_middle
+    (w.xyCorrespondencePair hψ) (w.yzCorrespondencePair hψ) rfl
 
 /-- **The rank-five fiber-product calculation for a `Psi` witness.**
 The five-tuple `(A₁,A₂,B₁,B₂,Y)` is algebraically independent, and
