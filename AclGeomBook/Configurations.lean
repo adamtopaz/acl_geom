@@ -1239,11 +1239,14 @@ chosen extension:
 Mutually inverse dominant partial maps can now be shrunk to concrete dense
 open isomorphisms.  In particular, mutually inverse rational maps between
 integral separated charts produce exactly the transition datum required by
-scheme gluing:
+scheme gluing.  Any such partial isomorphism is also packaged directly as
+an actual two-chart `Scheme.GlueData`:
 
 {docstring AclGeom.BirationalGluing.partialIsoOfMutualInversePartialMaps}
 
 {docstring AclGeom.BirationalGluing.partialIsoOfMutualInverseRationalMaps}
+
+{docstring AclGeom.BirationalGluing.partialIsoGlueData}
 
 The denominator-clearing layer chooses one nonzero product denominator for a
 finite family of fraction-field elements.  Hence an injective map from a
@@ -1279,6 +1282,14 @@ the inverse field equivalence supplies an actual dense-open isomorphism:
 
 {docstring AclGeom.FiniteExtensionTransition.partialIso}
 
+Successive ambient field equivalences compose strictly after conjugation
+through the chart function fields, so their canonical rational transitions
+satisfy the same composition law:
+
+{docstring AclGeom.FiniteExtensionTransition.functionFieldAlgEquiv_trans}
+
+{docstring AclGeom.FiniteExtensionTransition.rationalMap_comp}
+
 For Ψ, the abstract normal-cover equivalence is promoted to a ground-field
 equivalence and then localized in this way.  In particular, every repeated
 rank-two block of a lifted four-arrow diagram has a concrete dominant
@@ -1290,9 +1301,32 @@ principal-open transition between its two scalar-branch charts:
 
 {docstring AclGeom.QWitness.rankTwoScalarTransitionPartialIso}
 
+Normal-closure lifts chosen independently need not compose literally.
+Choosing one reference branch removes this ambiguity: every transition is
+defined by going back to the reference and out again.  The resulting field
+equivalences and rational chart maps obey strict cocycle laws, and each
+pairwise dense overlap is an honest scheme gluing datum:
+
+{docstring AclGeom.QWitness.rankTwoScalarReferenceTransitionAlgEquiv_trans}
+
+{docstring AclGeom.QWitness.rankTwoScalarReferenceTransitionRationalMap_comp}
+
+{docstring AclGeom.QWitness.rankTwoScalarReferenceTransitionGlueData}
+
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAlgebraicTransitionPartialMap}
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.uBAlgebraicTransitionPartialMap}
+
+All four repeated blocks of the lifted Ψ diagram now expose these normalized
+two-chart gluing data explicitly:
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAlgebraicTransitionGlueData}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.uAlgebraicTransitionGlueData}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAAlgebraicTransitionGlueData}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.uBAlgebraicTransitionGlueData}
 
 Applying this construction to every normalized rank-two/scalar branch gives
 the concrete `A/S`, `B/T`, and `C/U` affine charts.  Their function fields
@@ -1307,11 +1341,12 @@ coordinates remain algebraically independent on each selected Ψ chart:
 
 {docstring AclGeom.QWitness.psiAParameterCoordinates_independent}
 
-The normalized finite-cover action has therefore supplied both explicit
-principal-open representatives and genuine dense-open transition
-isomorphisms.  The next boundary is their reference-normalized cocycle and
-the resulting `Scheme.GlueData`.  Multiplication and inverse can then be
-glued into the genuine scheme-level target, after which the categorical
+The normalized finite-cover action has therefore supplied explicit
+principal-open representatives, genuine dense-open transition isomorphisms,
+a strict reference-normalized rational cocycle, and pairwise
+`Scheme.GlueData`.  The next boundary is assembling the full finite chart
+atlas with its triple-overlap restrictions, then gluing multiplication and
+inverse into the genuine scheme-level target.  After that the categorical
 rank-one kernel must be identified with the connected component of the
 scheme-theoretic kernel.  None of these conclusions is inferred merely from
 the presented quotient or from finiteness of the earlier deck action.

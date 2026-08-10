@@ -34,7 +34,7 @@ open AlgebraicGeometry
 open CategoryTheory
 open scoped nonZeroDivisors
 
-universe u v w
+universe u v w x
 
 namespace FiniteExtensionTransition
 
@@ -314,6 +314,52 @@ theorem functionFieldAlgEquiv_symm
       (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).symm := by
   ext z
   simp [functionFieldAlgEquiv]
+
+section Composition
+
+variable {K₃ L₃ : Type u} {ι₃ : Type x}
+  [Field K₃] [Field L₃]
+  [Algebra k K₃] [Algebra K₃ L₃] [Algebra k L₃]
+  [IsScalarTower k K₃ L₃] [FiniteDimensional K₃ L₃]
+
+/-- Conjugating ambient field equivalences through three chart function
+fields preserves transitive composition. -/
+theorem functionFieldAlgEquiv_trans
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂) (a₃ : ι₃ → K₃)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (ha₃ : adjoin k (Set.range a₃) = ⊤)
+    (e₁₂ : L₁ ≃ₐ[k] L₂) (e₂₃ : L₂ ≃ₐ[k] L₃) :
+    (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e₁₂).trans
+        (functionFieldAlgEquiv a₂ a₃ ha₂ ha₃ e₂₃) =
+      functionFieldAlgEquiv a₁ a₃ ha₁ ha₃ (e₁₂.trans e₂₃) := by
+  ext z
+  simp [functionFieldAlgEquiv]
+
+/-- Finite-extension chart rational maps compose exactly as their ambient
+field equivalences do. -/
+theorem rationalMap_comp [Finite ι₁] [Finite ι₂] [Finite ι₃]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂) (a₃ : ι₃ → K₃)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (ha₃ : adjoin k (Set.range a₃) = ⊤)
+    (e₁₂ : L₁ ≃ₐ[k] L₂) (e₂₃ : L₂ ≃ₐ[k] L₃) :
+    (rationalMap a₁ a₂ ha₁ ha₂ e₁₂).comp
+        (rationalMap a₂ a₃ ha₂ ha₃ e₂₃) =
+      rationalMap a₁ a₃ ha₁ ha₃ (e₁₂.trans e₂₃) := by
+  apply Scheme.RationalMap.eq_of_fromFunctionField_eq
+  rw [Scheme.RationalMap.comp_fromFunctionField_eq_trans
+    _ _
+    (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e₁₂).toRingEquiv
+    (functionFieldAlgEquiv a₂ a₃ ha₂ ha₃ e₂₃).toRingEquiv
+    (rationalMap_fromFunctionField a₁ a₂ ha₁ ha₂ e₁₂)
+    (rationalMap_fromFunctionField a₂ a₃ ha₂ ha₃ e₂₃)]
+  rw [rationalMap_fromFunctionField]
+  congr 1
+  exact congrArg AlgEquiv.toRingEquiv
+    (functionFieldAlgEquiv_trans a₁ a₂ a₃ ha₁ ha₂ ha₃ e₁₂ e₂₃)
+
+end Composition
 
 /-- The rational maps induced by an ambient field equivalence and its inverse
 compose to the identity. -/

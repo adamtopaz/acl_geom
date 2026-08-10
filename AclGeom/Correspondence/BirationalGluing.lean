@@ -5,6 +5,7 @@ Authors: Adam Topaz, Codex
 -/
 import Mathlib.AlgebraicGeometry.Birational.Birational
 import Mathlib.AlgebraicGeometry.Birational.Composition
+import Mathlib.AlgebraicGeometry.Gluing
 
 /-!
 # Dense-open isomorphisms from inverse rational maps
@@ -161,6 +162,97 @@ def partialIsoOfMutualInverseRationalMaps
       (S := ⊤_ Scheme)).mp he
     simpa using hh
   exact partialIsoOfMutualInversePartialMaps F G hFG hGF
+
+/-- The two indices of the gluing datum attached to one partial
+isomorphism. -/
+inductive TwoChartIndex : Type u
+  | source
+  | target
+  deriving DecidableEq
+
+private theorem TwoChartIndex.no_three_distinct
+    (i j k : TwoChartIndex)
+    (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) : False := by
+  cases i <;> cases j <;> cases k <;> simp_all
+
+/-- The categorical two-chart gluing datum determined by a partial
+isomorphism.  Its only off-diagonal overlaps are the source and target
+opens, and its transition maps are the two directions of the displayed
+isomorphism. -/
+def partialIsoGlueData' (e : X.PartialIso Y) :
+    CategoryTheory.GlueData'.{u, u + 1} Scheme.{u} where
+  J := TwoChartIndex
+  U
+    | .source => X
+    | .target => Y
+  V i j h := by
+    cases i <;> cases j
+    · exact (h rfl).elim
+    · exact e.source.toScheme
+    · exact e.target.toScheme
+    · exact (h rfl).elim
+  f i j h := by
+    cases i <;> cases j
+    · exact (h rfl).elim
+    · exact e.source.ι
+    · exact e.target.ι
+    · exact (h rfl).elim
+  f_mono i j h := by
+    cases i <;> cases j
+    · exact (h rfl).elim
+    · infer_instance
+    · infer_instance
+    · exact (h rfl).elim
+  f_hasPullback i j k hij hik := by infer_instance
+  t i j h := by
+    cases i <;> cases j
+    · exact (h rfl).elim
+    · exact e.iso.hom
+    · exact e.iso.inv
+    · exact (h rfl).elim
+  t' i j k hij hik hjk := by
+    exact (TwoChartIndex.no_three_distinct i j k hij hik hjk).elim
+  t_fac i j k hij hik hjk := by
+    exact (TwoChartIndex.no_three_distinct i j k hij hik hjk).elim
+  t_inv i j hij := by
+    cases i <;> cases j
+    · exact (hij rfl).elim
+    · exact e.iso.hom_inv_id
+    · exact e.iso.inv_hom_id
+    · exact (hij rfl).elim
+  cocycle i j k hij hik hjk := by
+    exact (TwoChartIndex.no_three_distinct i j k hij hik hjk).elim
+
+/-- A partial isomorphism between dense open subschemes determines an
+actual two-chart `Scheme.GlueData`. -/
+def partialIsoGlueData (e : X.PartialIso Y) : Scheme.GlueData where
+  toGlueData := CategoryTheory.GlueData.ofGlueData' (partialIsoGlueData' e)
+  f_open i j := by
+    classical
+    change IsOpenImmersion ((partialIsoGlueData' e).f' i j)
+    cases i <;> cases j
+    · delta CategoryTheory.GlueData'.f'
+      split
+      · infer_instance
+      · rename_i h
+        exact (h rfl).elim
+    · delta CategoryTheory.GlueData'.f'
+      split
+      · rename_i h
+        exact TwoChartIndex.noConfusion h
+      · delta partialIsoGlueData'
+        infer_instance
+    · delta CategoryTheory.GlueData'.f'
+      split
+      · rename_i h
+        exact TwoChartIndex.noConfusion h
+      · delta partialIsoGlueData'
+        infer_instance
+    · delta CategoryTheory.GlueData'.f'
+      split
+      · infer_instance
+      · rename_i h
+        exact (h rfl).elim
 
 end BirationalGluing
 

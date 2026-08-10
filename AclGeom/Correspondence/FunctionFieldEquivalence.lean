@@ -401,6 +401,26 @@ theorem RationalMap.comp_eq_id_of_fromFunctionField_eq
     X.fromSpecStalk (genericPoint X) = _
   rw [hspec, Category.id_comp]
 
+/-- Rational maps whose generic-point morphisms are prescribed by two
+successive function-field equivalences compose according to the transitive
+equivalence. -/
+theorem RationalMap.comp_fromFunctionField_eq_trans
+    [IsIntegral X] [IsIntegral Y] [IsIntegral Z]
+    (f : Scheme.RationalMap X Y) [f.IsDominant]
+    (g : Scheme.RationalMap Y Z) [g.IsDominant]
+    (E : X.functionField ≃+* Y.functionField)
+    (F : Y.functionField ≃+* Z.functionField)
+    (hf : f.fromFunctionField = functionFieldMorphism E)
+    (hg : g.fromFunctionField = functionFieldMorphism F) :
+    (f.comp g).fromFunctionField = functionFieldMorphism (E.trans F) := by
+  rw [RationalMap.fromFunctionField_comp]
+  rw [f.functionFieldMap_representative_eq E hf]
+  rw [hg]
+  unfold functionFieldMorphism
+  rw [← Category.assoc]
+  rw [← Spec.map_comp]
+  rfl
+
 end
 
 end AlgebraicGeometry.Scheme

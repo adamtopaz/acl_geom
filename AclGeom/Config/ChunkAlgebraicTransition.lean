@@ -130,6 +130,227 @@ noncomputable def rankTwoScalarTransitionPartialIso
     (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
     (rankTwoScalarNormalCoverAlgEquiv hx hy hxy)
 
+/-- A transition between two scalar normal covers, normalized through one
+fixed reference branch.  Using the reference branch makes composition
+strict rather than depending on independent normal-closure lift choices. -/
+noncomputable def rankTwoScalarReferenceTransitionAlgEquiv
+    {p : Fin 2 → K} {r x y : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y)) :
+    rankTwoScalarNormalField (k := k) p x ≃ₐ[k]
+      rankTwoScalarNormalField (k := k) p y :=
+  (rankTwoScalarNormalCoverAlgEquiv hr hx hrx).symm.trans
+    (rankTwoScalarNormalCoverAlgEquiv hr hy hry)
+
+/-- A reference-normalized scalar-cover transition from a branch to itself
+is the identity. -/
+@[simp] theorem rankTwoScalarReferenceTransitionAlgEquiv_self
+    {p : Fin 2 → K} {r x : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x)) :
+    rankTwoScalarReferenceTransitionAlgEquiv hr hx hx hrx hrx =
+      AlgEquiv.refl := by
+  unfold rankTwoScalarReferenceTransitionAlgEquiv
+  ext z
+  simp
+
+/-- Reversing a reference-normalized scalar-cover transition gives the
+transition in the opposite direction. -/
+@[simp] theorem rankTwoScalarReferenceTransitionAlgEquiv_symm
+    {p : Fin 2 → K} {r x y : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y)) :
+    (rankTwoScalarReferenceTransitionAlgEquiv hr hx hy hrx hry).symm =
+      rankTwoScalarReferenceTransitionAlgEquiv hr hy hx hry hrx := by
+  unfold rankTwoScalarReferenceTransitionAlgEquiv
+  ext z
+  simp
+
+/-- Reference-normalized scalar-cover transitions satisfy the strict
+cocycle law. -/
+@[simp] theorem rankTwoScalarReferenceTransitionAlgEquiv_trans
+    {p : Fin 2 → K} {r x y z : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hz : z ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y))
+    (hrz : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p z)) :
+    (rankTwoScalarReferenceTransitionAlgEquiv hr hx hy hrx hry).trans
+        (rankTwoScalarReferenceTransitionAlgEquiv hr hy hz hry hrz) =
+      rankTwoScalarReferenceTransitionAlgEquiv hr hx hz hrx hrz := by
+  unfold rankTwoScalarReferenceTransitionAlgEquiv
+  ext t
+  simp
+
+/-- The rational transition between two scalar charts obtained from the
+strict reference-normalized field transition. -/
+noncomputable def rankTwoScalarReferenceTransitionRationalMap
+    {p : Fin 2 → K} {r x y : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y)) :
+    Scheme.RationalMap
+      (rankTwoScalarAlgebraicChart (k := k) p x hx)
+      (rankTwoScalarAlgebraicChart (k := k) p y hy) := by
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarAlgebraicChart
+  exact FiniteExtensionTransition.rationalMap
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoScalarReferenceTransitionAlgEquiv hr hx hy hrx hry)
+
+/-- Reference-normalized scalar-chart rational transitions are dominant. -/
+instance rankTwoScalarReferenceTransitionRationalMap_isDominant
+    {p : Fin 2 → K} {r x y : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y)) :
+    (rankTwoScalarReferenceTransitionRationalMap hr hx hy hrx hry).IsDominant := by
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  change (FiniteExtensionTransition.rationalMap
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoScalarReferenceTransitionAlgEquiv hr hx hy hrx hry)).IsDominant
+  infer_instance
+
+/-- The strict reference-normalized field cocycle induces a strict cocycle
+of rational transitions between the affine scalar charts. -/
+theorem rankTwoScalarReferenceTransitionRationalMap_comp
+    {p : Fin 2 → K} {r x y z : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hz : z ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y))
+    (hrz : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p z)) :
+    (rankTwoScalarReferenceTransitionRationalMap hr hx hy hrx hry).comp
+        (rankTwoScalarReferenceTransitionRationalMap hr hy hz hry hrz) =
+      rankTwoScalarReferenceTransitionRationalMap hr hx hz hrx hrz := by
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p z) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hz
+  change (FiniteExtensionTransition.rationalMap
+      (rankTwoParameterCoordinates (k := k) p)
+      (rankTwoParameterCoordinates (k := k) p)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+      (rankTwoScalarReferenceTransitionAlgEquiv hr hx hy hrx hry)).comp
+      (FiniteExtensionTransition.rationalMap
+        (rankTwoParameterCoordinates (k := k) p)
+        (rankTwoParameterCoordinates (k := k) p)
+        (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+        (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+        (rankTwoScalarReferenceTransitionAlgEquiv hr hy hz hry hrz)) =
+    FiniteExtensionTransition.rationalMap
+      (rankTwoParameterCoordinates (k := k) p)
+      (rankTwoParameterCoordinates (k := k) p)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+      (rankTwoScalarReferenceTransitionAlgEquiv hr hx hz hrx hrz)
+  rw [FiniteExtensionTransition.rationalMap_comp]
+  rw [rankTwoScalarReferenceTransitionAlgEquiv_trans]
+
+/-- The reference-normalized field transition produces a concrete dense-open
+partial isomorphism of scalar charts. -/
+noncomputable def rankTwoScalarReferenceTransitionPartialIso
+    {p : Fin 2 → K} {r x y : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y)) :
+    (rankTwoScalarAlgebraicChart (k := k) p x hx).PartialIso
+      (rankTwoScalarAlgebraicChart (k := k) p y hy) := by
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarAlgebraicChart
+  exact FiniteExtensionTransition.partialIso
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoScalarReferenceTransitionAlgEquiv hr hx hy hrx hry)
+
+/-- The overlap associated to a reference-normalized scalar transition is
+packaged as an actual two-chart scheme gluing datum. -/
+noncomputable def rankTwoScalarReferenceTransitionGlueData
+    {p : Fin 2 → K} {r x y : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y)) : Scheme.GlueData :=
+  BirationalGluing.partialIsoGlueData
+    (rankTwoScalarReferenceTransitionPartialIso hr hx hy hrx hry)
+
+/-- Normalize a pairwise scalar transition by taking its source branch as
+the reference, then package its dense overlap as two-chart scheme gluing
+data. -/
+noncomputable def rankTwoScalarNormalizedTransitionGlueData
+    {p : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple p y)) : Scheme.GlueData :=
+  rankTwoScalarReferenceTransitionGlueData hx hx hy rfl hxy
+
 namespace PsiChunkFourArrowEdgeLifts
 
 variable {w : QWitness k K} {hψ : w.Psi}
@@ -174,6 +395,16 @@ noncomputable def sAlgebraicTransitionPartialIso :
       (PsiChunkProjectionRelation.aProjection w L.s_b_lift))
     L.s_graph_eq
 
+/-- The normalized dense overlap at the repeated `s` block, packaged as
+scheme gluing data. -/
+noncomputable def sAlgebraicTransitionGlueData : Scheme.GlueData :=
+  rankTwoScalarNormalizedTransitionGlueData
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.se_lift))
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.s_b_lift))
+    L.s_graph_eq
+
 /-- The dominant principal-open transition reconciling the two scalar
 branches above the repeated output `u` block. -/
 noncomputable def uAlgebraicTransitionPartialMap :
@@ -205,6 +436,16 @@ noncomputable def uAlgebraicTransitionPartialIso :
       (PsiCProjectionRelation.scalar_mem_racl w hψ
         (PsiChunkProjectionRelation.cProjection w L.sA_a_lift))) :=
   rankTwoScalarTransitionPartialIso
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.se_lift))
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.sA_a_lift))
+    L.u_graph_eq
+
+/-- The normalized dense overlap at the repeated `u` block, packaged as
+scheme gluing data. -/
+noncomputable def uAlgebraicTransitionGlueData : Scheme.GlueData :=
+  rankTwoScalarNormalizedTransitionGlueData
     (PsiCProjectionRelation.scalar_mem_racl w hψ
       (PsiChunkProjectionRelation.cProjection w L.se_lift))
     (PsiCProjectionRelation.scalar_mem_racl w hψ
@@ -248,6 +489,16 @@ noncomputable def sAAlgebraicTransitionPartialIso :
       (PsiChunkProjectionRelation.aProjection w L.sA_c_lift))
     L.sA_graph_eq
 
+/-- The normalized dense overlap at the repeated `sA` block, packaged as
+scheme gluing data. -/
+noncomputable def sAAlgebraicTransitionGlueData : Scheme.GlueData :=
+  rankTwoScalarNormalizedTransitionGlueData
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.sA_a_lift))
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.sA_c_lift))
+    L.sA_graph_eq
+
 /-- The dominant principal-open transition reconciling the two scalar
 branches above the repeated output `uB` block. -/
 noncomputable def uBAlgebraicTransitionPartialMap :
@@ -279,6 +530,16 @@ noncomputable def uBAlgebraicTransitionPartialIso :
       (PsiCProjectionRelation.scalar_mem_racl w hψ
         (PsiChunkProjectionRelation.cProjection w L.sA_c_lift))) :=
   rankTwoScalarTransitionPartialIso
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.s_b_lift))
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.sA_c_lift))
+    L.uB_graph_eq
+
+/-- The normalized dense overlap at the repeated `uB` block, packaged as
+scheme gluing data. -/
+noncomputable def uBAlgebraicTransitionGlueData : Scheme.GlueData :=
+  rankTwoScalarNormalizedTransitionGlueData
     (PsiCProjectionRelation.scalar_mem_racl w hψ
       (PsiChunkProjectionRelation.cProjection w L.s_b_lift))
     (PsiCProjectionRelation.scalar_mem_racl w hψ
