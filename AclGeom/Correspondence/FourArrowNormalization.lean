@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Correspondence.FiniteExtensionProjection
+import AclGeom.Correspondence.FiniteExtensionTransition
 import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.RankTwoMultiplication
 
@@ -119,6 +120,180 @@ theorem totalTuple_mem_input_racl (i : Fin 16) :
   · exact D.c_mem_input_racl 0
   · exact D.c_mem_input_racl 1
 
+/-- The eight input positions inside the sixteen-coordinate total tuple. -/
+def inputIndex : Fin 8 → Fin 16 := ![0, 1, 2, 3, 4, 5, 6, 7]
+
+/-- The positions of the `s·e=u` edge inside the total tuple. -/
+def seIndex : Fin 6 → Fin 16 := ![0, 1, 2, 3, 8, 9]
+
+/-- The positions of the `sA·a=u` edge inside the total tuple. -/
+def sAaIndex : Fin 6 → Fin 16 := ![10, 11, 4, 5, 8, 9]
+
+/-- The positions of the `s·b=uB` edge inside the total tuple. -/
+def sbIndex : Fin 6 → Fin 16 := ![0, 1, 6, 7, 12, 13]
+
+/-- The positions of the `sA·c=uB` edge inside the total tuple. -/
+def sAcIndex : Fin 6 → Fin 16 := ![10, 11, 14, 15, 12, 13]
+
+/-- The total tuple restricts to its original eight input coordinates. -/
+@[simp] theorem totalTuple_comp_inputIndex :
+    D.totalTuple ∘ inputIndex = rankTwoFourTuple s e a b := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The first six-coordinate edge is a coordinate restriction of the total
+tuple. -/
+@[simp] theorem totalTuple_comp_seIndex :
+    D.totalTuple ∘ seIndex = rankTwoTripleTuple s e D.u := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The second six-coordinate edge is a coordinate restriction of the total
+tuple. -/
+@[simp] theorem totalTuple_comp_sAaIndex :
+    D.totalTuple ∘ sAaIndex = rankTwoTripleTuple D.sA a D.u := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The third six-coordinate edge is a coordinate restriction of the total
+tuple. -/
+@[simp] theorem totalTuple_comp_sbIndex :
+    D.totalTuple ∘ sbIndex = rankTwoTripleTuple s b D.uB := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The fourth six-coordinate edge is a coordinate restriction of the total
+tuple. -/
+@[simp] theorem totalTuple_comp_sAcIndex :
+    D.totalTuple ∘ sAcIndex = rankTwoTripleTuple D.sA D.c D.uB := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The selected sixteen-coordinate component relocates over every other
+independent eight-coordinate input tuple.  All four edge relations and the
+complete prime locus are preserved simultaneously. -/
+theorem exists_relocation [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    {s' e' a' b' : Fin 2 → K}
+    (hind' : AlgebraicIndependent k (rankTwoFourTuple s' e' a' b')) :
+    ∃ D' : M.FourArrowDifferenceDiagram s' a' b' e',
+      idealOf k D'.totalTuple = idealOf k D.totalTuple := by
+  classical
+  obtain ⟨v, hv, hfix⟩ := exists_tuple_relocation_fixing
+    (t := rankTwoFourTuple s e a b)
+    (s := rankTwoFourTuple s' e' a' b')
+    (u := D.totalTuple) (e := inputIndex)
+    hind hind' (fun i ↦ congrFun D.totalTuple_comp_inputIndex i)
+    D.totalTuple_mem_input_racl
+  let u' : Fin 2 → K := ![v 8, v 9]
+  let sA' : Fin 2 → K := ![v 10, v 11]
+  let uB' : Fin 2 → K := ![v 12, v 13]
+  let c' : Fin 2 → K := ![v 14, v 15]
+  have hinput (i : Fin 8) : v (inputIndex i) =
+      rankTwoFourTuple s' e' a' b' i := hfix i
+  have hse : M.IsRealization s' e' u' := by
+    have h := idealOf_comp_eq_of_idealOf_eq hv seIndex
+    change idealOf k (rankTwoTripleTuple s' e' u') = M.ideal
+    calc
+      idealOf k (rankTwoTripleTuple s' e' u') =
+          idealOf k (v ∘ seIndex) := by
+        congr 1
+        funext i
+        fin_cases i
+        · exact (hinput 0).symm
+        · exact (hinput 1).symm
+        · exact (hinput 2).symm
+        · exact (hinput 3).symm
+        · rfl
+        · rfl
+      _ = idealOf k (D.totalTuple ∘ seIndex) := h
+      _ = M.ideal := by
+        simpa [RankTwoFiniteCorrespondenceMultiplication.IsRealization]
+          using D.se_u
+  have hsAa : M.IsRealization sA' a' u' := by
+    have h := idealOf_comp_eq_of_idealOf_eq hv sAaIndex
+    change idealOf k (rankTwoTripleTuple sA' a' u') = M.ideal
+    calc
+      idealOf k (rankTwoTripleTuple sA' a' u') =
+          idealOf k (v ∘ sAaIndex) := by
+        congr 1
+        funext i
+        fin_cases i
+        · rfl
+        · rfl
+        · exact (hinput 4).symm
+        · exact (hinput 5).symm
+        · rfl
+        · rfl
+      _ = idealOf k (D.totalTuple ∘ sAaIndex) := h
+      _ = M.ideal := by
+        simpa [RankTwoFiniteCorrespondenceMultiplication.IsRealization]
+          using D.sA_a_u
+  have hsb : M.IsRealization s' b' uB' := by
+    have h := idealOf_comp_eq_of_idealOf_eq hv sbIndex
+    change idealOf k (rankTwoTripleTuple s' b' uB') = M.ideal
+    calc
+      idealOf k (rankTwoTripleTuple s' b' uB') =
+          idealOf k (v ∘ sbIndex) := by
+        congr 1
+        funext i
+        fin_cases i
+        · exact (hinput 0).symm
+        · exact (hinput 1).symm
+        · exact (hinput 6).symm
+        · exact (hinput 7).symm
+        · rfl
+        · rfl
+      _ = idealOf k (D.totalTuple ∘ sbIndex) := h
+      _ = M.ideal := by
+        simpa [RankTwoFiniteCorrespondenceMultiplication.IsRealization]
+          using D.s_b_uB
+  have hsAc : M.IsRealization sA' c' uB' := by
+    have h := idealOf_comp_eq_of_idealOf_eq hv sAcIndex
+    change idealOf k (rankTwoTripleTuple sA' c' uB') = M.ideal
+    calc
+      idealOf k (rankTwoTripleTuple sA' c' uB') =
+          idealOf k (v ∘ sAcIndex) := by
+        congr 1
+        funext i
+        fin_cases i <;> rfl
+      _ = idealOf k (D.totalTuple ∘ sAcIndex) := h
+      _ = M.ideal := by
+        simpa [RankTwoFiniteCorrespondenceMultiplication.IsRealization]
+          using D.sA_c_uB
+  let D' : M.FourArrowDifferenceDiagram s' a' b' e' :=
+    { u := u'
+      sA := sA'
+      uB := uB'
+      c := c'
+      se_u := hse
+      sA_a_u := hsAa
+      s_b_uB := hsb
+      sA_c_uB := hsAc }
+  refine ⟨D', ?_⟩
+  calc
+    idealOf k D'.totalTuple = idealOf k v := by
+      congr 1
+      funext i
+      fin_cases i
+      · exact (hinput 0).symm
+      · exact (hinput 1).symm
+      · exact (hinput 2).symm
+      · exact (hinput 3).symm
+      · exact (hinput 4).symm
+      · exact (hinput 5).symm
+      · exact (hinput 6).symm
+      · exact (hinput 7).symm
+      · rfl
+      · rfl
+      · rfl
+      · rfl
+      · rfl
+      · rfl
+      · rfl
+      · rfl
+    _ = idealOf k D.totalTuple := hv
+
 /-- The function field of the eight free input coordinates. -/
 def inputField
     (_D : M.FourArrowDifferenceDiagram s a b e) : IntermediateField k K :=
@@ -188,6 +363,207 @@ theorem normalCover_normal [IsAlgClosed K] :
   exact FiniteCover.normalClosureOver_normal D.inputField_le_totalField
     (Algebra.IsAlgebraic.of_finite (↥D.inputField) (↥D.totalOverInput))
 
+/-- Equality of complete four-arrow loci restricts to equality of their
+eight-coordinate input loci. -/
+theorem inputIdeal_eq_of_totalIdeal_eq
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    idealOf k (rankTwoFourTuple s e a b) =
+      idealOf k (rankTwoFourTuple s' e' a' b') := by
+  have ht := idealOf_comp_eq_of_idealOf_eq h inputIndex
+  simpa using ht
+
+/-- Equal complete loci canonically identify the eight-coordinate input
+function fields. -/
+def inputEquiv
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    (↥D.inputField) ≃ₐ[k] (↥V.inputField) :=
+  locusFunctionFieldEquivOfIdealEq (D.inputIdeal_eq_of_totalIdeal_eq V h)
+
+/-- Equal complete loci canonically identify the sixteen-coordinate total
+function fields. -/
+def totalEquiv
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    (↥D.totalField) ≃ₐ[k] (↥V.totalField) :=
+  locusFunctionFieldEquivOfIdealEq h
+
+/-- The input and total field equivalences form a commuting equivalence of
+finite extensions. -/
+def extensionEquiv
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    FiniteCover.ExtensionEquiv D.inputField_le_totalField
+      V.inputField_le_totalField where
+  baseEquiv := D.inputEquiv V h
+  totalEquiv := D.totalEquiv V h
+  commutes := by
+    apply adjoin_algHom_ext k
+    rintro _ ⟨i, rfl⟩
+    let xi : D.inputField :=
+      ⟨rankTwoFourTuple s e a b i,
+        subset_adjoin k _ (Set.mem_range_self i)⟩
+    change D.totalEquiv V h
+        (IntermediateField.inclusion D.inputField_le_totalField xi) =
+      IntermediateField.inclusion V.inputField_le_totalField
+        (D.inputEquiv V h xi)
+    apply Subtype.ext
+    have hsource :
+        IntermediateField.inclusion D.inputField_le_totalField xi =
+          ⟨D.totalTuple (inputIndex i),
+            subset_adjoin k _ (Set.mem_range_self (inputIndex i))⟩ := by
+      apply Subtype.ext
+      exact (congrFun D.totalTuple_comp_inputIndex i).symm
+    rw [hsource]
+    have htotal := congrArg Subtype.val
+      (locusFunctionFieldEquivOfIdealEq_apply h (inputIndex i))
+    have hbase := congrArg Subtype.val
+      (locusFunctionFieldEquivOfIdealEq_apply
+        (D.inputIdeal_eq_of_totalIdeal_eq V h) i)
+    exact htotal.trans <| (congrFun V.totalTuple_comp_inputIndex i).trans hbase.symm
+
+/-- Equal complete loci have semilinearly equivalent concrete normal
+covers. -/
+noncomputable def normalCoverEquiv [IsAlgClosed K]
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    (↥D.normalCover) ≃+* (↥V.normalCover) := by
+  have hfinD := D.totalOverInput_finiteDimensional
+  have hfinV := V.totalOverInput_finiteDimensional
+  letI : FiniteDimensional (↥D.inputField)
+      (↥(extendScalars D.inputField_le_totalField)) := by
+    change FiniteDimensional (↥D.inputField) (↥D.totalOverInput)
+    exact hfinD
+  letI : FiniteDimensional (↥V.inputField)
+      (↥(extendScalars V.inputField_le_totalField)) := by
+    change FiniteDimensional (↥V.inputField) (↥V.totalOverInput)
+    exact hfinV
+  let cD := FiniteCover.normalClosureOverEquivCanonical
+    D.inputField_le_totalField (Algebra.IsAlgebraic.of_finite _ _)
+  let cV := FiniteCover.normalClosureOverEquivCanonical
+    V.inputField_le_totalField (Algebra.IsAlgebraic.of_finite _ _)
+  exact cD.toRingEquiv |>.trans
+    (D.extensionEquiv V h).normalLift.normalEquiv |>.trans
+      cV.symm.toRingEquiv
+
+/-- Normal-cover transport is semilinear over the canonical input-field
+transport. -/
+@[simp] theorem normalCoverEquiv_algebraMap [IsAlgClosed K]
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple)
+    (x : D.inputField) :
+    D.normalCoverEquiv V h (algebraMap (↥D.inputField) (↥D.normalCover) x) =
+      algebraMap (↥V.inputField) (↥V.normalCover) (D.inputEquiv V h x) := by
+  letI : FiniteDimensional (↥D.inputField)
+      (↥(extendScalars D.inputField_le_totalField)) := by
+    change FiniteDimensional (↥D.inputField) (↥D.totalOverInput)
+    exact D.totalOverInput_finiteDimensional
+  letI : FiniteDimensional (↥V.inputField)
+      (↥(extendScalars V.inputField_le_totalField)) := by
+    change FiniteDimensional (↥V.inputField) (↥V.totalOverInput)
+    exact V.totalOverInput_finiteDimensional
+  let cD := FiniteCover.normalClosureOverEquivCanonical
+    D.inputField_le_totalField (Algebra.IsAlgebraic.of_finite _ _)
+  let cV := FiniteCover.normalClosureOverEquivCanonical
+    V.inputField_le_totalField (Algebra.IsAlgebraic.of_finite _ _)
+  let n := (D.extensionEquiv V h).normalLift
+  change cV.symm.toRingEquiv
+      (n.normalEquiv
+        (cD.toRingEquiv
+          (algebraMap (↥D.inputField) (↥D.normalCover) x))) =
+    algebraMap (↥V.inputField) (↥V.normalCover) (D.inputEquiv V h x)
+  rw [show cD.toRingEquiv
+      (algebraMap (↥D.inputField) (↥D.normalCover) x) =
+        algebraMap (↥D.inputField)
+          (↥(FiniteCover.canonicalNormalClosure D.inputField_le_totalField)) x
+    from cD.commutes x]
+  rw [n.normal_commutes_apply]
+  exact cV.symm.commutes (D.inputEquiv V h x)
+
+/-- The semilinear normal-cover comparison is a ground-field algebra
+equivalence. -/
+noncomputable def normalCoverAlgEquiv [IsAlgClosed K]
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    (↥D.normalCover) ≃ₐ[k] (↥V.normalCover) :=
+  { D.normalCoverEquiv V h with
+    commutes' := fun r ↦ by
+      rw [IsScalarTower.algebraMap_apply k (↥D.inputField) (↥D.normalCover),
+        IsScalarTower.algebraMap_apply k (↥V.inputField) (↥V.normalCover)]
+      calc
+        _ = algebraMap (↥V.inputField) (↥V.normalCover)
+              (D.inputEquiv V h (algebraMap k (↥D.inputField) r)) :=
+          D.normalCoverEquiv_algebraMap V h
+            (algebraMap k (↥D.inputField) r)
+        _ = _ := by
+          congr 1
+          exact (D.inputEquiv V h).commutes r }
+
+/-- Normalize the comparison between two complete four-arrow loci through
+one fixed reference realization. -/
+noncomputable def referenceNormalCoverAlgEquiv [IsAlgClosed K]
+    {sr ar br er : Fin 2 → K}
+    (R : M.FourArrowDifferenceDiagram sr ar br er)
+    (hRD : idealOf k R.totalTuple = idealOf k D.totalTuple)
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (hRV : idealOf k R.totalTuple = idealOf k V.totalTuple) :
+    (↥D.normalCover) ≃ₐ[k] (↥V.normalCover) :=
+  (R.normalCoverAlgEquiv D hRD).symm.trans
+    (R.normalCoverAlgEquiv V hRV)
+
+/-- Reference normalization makes the self-comparison literal. -/
+@[simp] theorem referenceNormalCoverAlgEquiv_self [IsAlgClosed K]
+    {sr ar br er : Fin 2 → K}
+    (R : M.FourArrowDifferenceDiagram sr ar br er)
+    (hRD : idealOf k R.totalTuple = idealOf k D.totalTuple) :
+    D.referenceNormalCoverAlgEquiv R hRD D hRD = AlgEquiv.refl := by
+  unfold referenceNormalCoverAlgEquiv
+  ext x
+  simp
+
+/-- Reversing a reference-normalized comparison gives the comparison in
+the opposite direction. -/
+@[simp] theorem referenceNormalCoverAlgEquiv_symm [IsAlgClosed K]
+    {sr ar br er : Fin 2 → K}
+    (R : M.FourArrowDifferenceDiagram sr ar br er)
+    (hRD : idealOf k R.totalTuple = idealOf k D.totalTuple)
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (hRV : idealOf k R.totalTuple = idealOf k V.totalTuple) :
+    (D.referenceNormalCoverAlgEquiv R hRD V hRV).symm =
+      V.referenceNormalCoverAlgEquiv R hRV D hRD := by
+  unfold referenceNormalCoverAlgEquiv
+  ext x
+  simp
+
+/-- Reference-normalized normal-cover comparisons satisfy a strict
+transitive cocycle. -/
+@[simp] theorem referenceNormalCoverAlgEquiv_trans [IsAlgClosed K]
+    {sr ar br er : Fin 2 → K}
+    (R : M.FourArrowDifferenceDiagram sr ar br er)
+    (hRD : idealOf k R.totalTuple = idealOf k D.totalTuple)
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (hRV : idealOf k R.totalTuple = idealOf k V.totalTuple)
+    {s'' a'' b'' e'' : Fin 2 → K}
+    (W : M.FourArrowDifferenceDiagram s'' a'' b'' e'')
+    (hRW : idealOf k R.totalTuple = idealOf k W.totalTuple) :
+    (D.referenceNormalCoverAlgEquiv R hRD V hRV).trans
+        (V.referenceNormalCoverAlgEquiv R hRV W hRW) =
+      D.referenceNormalCoverAlgEquiv R hRD W hRW := by
+  unfold referenceNormalCoverAlgEquiv
+  ext x
+  simp
+
 /-- The eight free input coordinates, lifted into their generated field. -/
 abbrev inputCoordinates : Fin 8 → D.inputField :=
   FiniteExtensionChart.liftedCoordinates (k := k)
@@ -206,6 +582,96 @@ abbrev algebraicChart : Scheme := by
   letI := D.normalCover_finiteDimensional
   exact FiniteExtensionChart.scheme (k := k)
     (K := ↥D.inputField) (L := ↥D.normalCover) D.inputCoordinates
+
+/-- Equal complete four-arrow loci determine a dominant rational comparison
+between their normalized affine charts. -/
+noncomputable def transitionRationalMap [IsAlgClosed K]
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    Scheme.RationalMap D.algebraicChart V.algebraicChart := by
+  letI := D.normalCover_finiteDimensional
+  letI := V.normalCover_finiteDimensional
+  exact FiniteExtensionTransition.rationalMap
+    D.inputCoordinates V.inputCoordinates
+    D.adjoin_inputCoordinates_eq_top V.adjoin_inputCoordinates_eq_top
+    (D.normalCoverAlgEquiv V h)
+
+instance transitionRationalMap_isDominant [IsAlgClosed K]
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    (D.transitionRationalMap V h).IsDominant := by
+  letI := D.normalCover_finiteDimensional
+  letI := V.normalCover_finiteDimensional
+  unfold transitionRationalMap
+  infer_instance
+
+/-- Equal complete loci have isomorphic dense opens in their normalized
+affine charts. -/
+noncomputable def transitionPartialIso [IsAlgClosed K]
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (h : idealOf k D.totalTuple = idealOf k V.totalTuple) :
+    D.algebraicChart.PartialIso V.algebraicChart := by
+  letI := D.normalCover_finiteDimensional
+  letI := V.normalCover_finiteDimensional
+  exact FiniteExtensionTransition.partialIso
+    D.inputCoordinates V.inputCoordinates
+    D.adjoin_inputCoordinates_eq_top V.adjoin_inputCoordinates_eq_top
+    (D.normalCoverAlgEquiv V h)
+
+/-- The rational comparison of two complete-locus charts, normalized
+through one fixed reference realization. -/
+noncomputable def referenceTransitionRationalMap [IsAlgClosed K]
+    {sr ar br er : Fin 2 → K}
+    (R : M.FourArrowDifferenceDiagram sr ar br er)
+    (hRD : idealOf k R.totalTuple = idealOf k D.totalTuple)
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (hRV : idealOf k R.totalTuple = idealOf k V.totalTuple) :
+    Scheme.RationalMap D.algebraicChart V.algebraicChart := by
+  letI := D.normalCover_finiteDimensional
+  letI := V.normalCover_finiteDimensional
+  exact FiniteExtensionTransition.rationalMap
+    D.inputCoordinates V.inputCoordinates
+    D.adjoin_inputCoordinates_eq_top V.adjoin_inputCoordinates_eq_top
+    (D.referenceNormalCoverAlgEquiv R hRD V hRV)
+
+instance referenceTransitionRationalMap_isDominant [IsAlgClosed K]
+    {sr ar br er : Fin 2 → K}
+    (R : M.FourArrowDifferenceDiagram sr ar br er)
+    (hRD : idealOf k R.totalTuple = idealOf k D.totalTuple)
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (hRV : idealOf k R.totalTuple = idealOf k V.totalTuple) :
+    (D.referenceTransitionRationalMap R hRD V hRV).IsDominant := by
+  letI := D.normalCover_finiteDimensional
+  letI := V.normalCover_finiteDimensional
+  unfold referenceTransitionRationalMap
+  infer_instance
+
+/-- Reference-normalized chart comparisons inherit the strict transitive
+cocycle from their ambient normal-cover equivalences. -/
+theorem referenceTransitionRationalMap_comp [IsAlgClosed K]
+    {sr ar br er : Fin 2 → K}
+    (R : M.FourArrowDifferenceDiagram sr ar br er)
+    (hRD : idealOf k R.totalTuple = idealOf k D.totalTuple)
+    {s' a' b' e' : Fin 2 → K}
+    (V : M.FourArrowDifferenceDiagram s' a' b' e')
+    (hRV : idealOf k R.totalTuple = idealOf k V.totalTuple)
+    {s'' a'' b'' e'' : Fin 2 → K}
+    (W : M.FourArrowDifferenceDiagram s'' a'' b'' e'')
+    (hRW : idealOf k R.totalTuple = idealOf k W.totalTuple) :
+    (D.referenceTransitionRationalMap R hRD V hRV).comp
+        (V.referenceTransitionRationalMap R hRV W hRW) =
+      D.referenceTransitionRationalMap R hRD W hRW := by
+  letI := D.normalCover_finiteDimensional
+  letI := V.normalCover_finiteDimensional
+  letI := W.normalCover_finiteDimensional
+  unfold referenceTransitionRationalMap
+  rw [FiniteExtensionTransition.rationalMap_comp]
+  rw [referenceNormalCoverAlgEquiv_trans]
 
 /-- The function field generated by one rank-two block. -/
 def blockField (p : Fin 2 → K) : IntermediateField k K :=

@@ -304,11 +304,27 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     displayed `e`, inverse-`a`, `b`, and output-`c` rank-two block charts.
     This is the normalized relational difference-product component; it does
     not assert single-valuedness after forgetting the auxiliary `s` block.
+23. The chosen sixteen-coordinate prime component now spreads over every
+    independent eight-coordinate input tuple.  `exists_relocation` relocates
+    all sixteen coordinates at once while fixing `(s,e,a,b)` literally; the
+    four six-coordinate restrictions remain realizations of the original
+    multiplication locus, and the full prime ideal is preserved.  Equal
+    complete loci canonically identify their input fields and total fields,
+    these equivalences commute as a finite-extension square, and they lift
+    semilinearly to the concrete normal covers.  After upgrading to
+    ground-field algebra equivalences, the affine charts have dominant
+    rational comparisons and dense-open isomorphisms.  Normalizing all such
+    comparisons through one reference component gives literal identity,
+    inverse, and transitive laws on the cover equivalences and a strict
+    transitive cocycle on the rational chart comparisons.  Thus the selected
+    branch is now a genuine generically spread component, not one isolated
+    tuple.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
 parameter cover.  Item 22 now supplies the normalized eight-input
-four-arrow component and its four relevant block projections.  Compare the
+four-arrow component and item 23 spreads it with a strict normalized chart
+cocycle over every generic realization.  Compare the
 `e`, inverse-`a`, `b`, and output-`c` blocks with one reference `B/T` chart
 using the already normalized projection-locus transitions.  Prove that the
 canonical germ-coordinate map factors through the strict presented-arrow

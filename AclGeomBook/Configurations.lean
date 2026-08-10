@@ -1553,6 +1553,27 @@ the subsequent reference-chart factorization argument.
 
 {docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.toC}
 
+The selected complete component also spreads over the whole generic input
+locus.  Relocation fixes all eight independent input coordinates literally
+while preserving the sixteen-coordinate prime ideal; restricting that ideal
+back to each of the four edges recovers the original multiplication locus.
+The resulting input-field and total-field equivalences commute, lift to the
+normal covers, and give dense-open chart comparisons.  Passing through one
+reference realization makes the normal-cover and rational-map comparisons a
+strict transitive cocycle.
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.exists_relocation}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.extensionEquiv}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.normalCoverAlgEquiv}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.transitionPartialIso}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.referenceNormalCoverAlgEquiv_trans}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.referenceTransitionRationalMap_comp}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse
