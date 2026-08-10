@@ -283,14 +283,26 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     independent-input field.  `germMultiplicationNormalCover` is its one
     common normal closure in the ambient algebraically closed field, proved
     finite and normal over the intrinsic two-input base.
+21. The canonical coefficient set is now proved finite, and its tautological
+    lifts generate the whole intrinsic coefficient field.  The inverse-`A`
+    and forward-`B` families combine to a finite coordinate family for their
+    intrinsic compositum.  `FiniteExtensionProjection` spreads any embedding
+    of finite-extension function fields to an explicit dominant
+    principal-open rational map.  Applying it in
+    `Config/ChunkGermChart.lean` produces honest integral affine charts for
+    the selected intrinsic `A`, `B`, and `C` germs and for the common normal
+    multiplication graph, together with dominant rational projections from
+    that graph to all three parameter charts.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
 parameter cover.  The finite common normal field from item 20 now contains
 the selected displayed `A,B,C` component over the intrinsic `A/B` input
-field.  Extract its three parameter-field embeddings, identify the output
-embedding as multiplication in the normalized germ chart, and construct the
-corresponding inverse component and strict rational identities.
+field, and item 21 realizes its three projections rationally.  Apply the
+four-arrow cancellation diagram to compare the inverse-`A` and output-`C`
+germ charts with one reference `B` chart, normalize the resulting
+eight-input multiplication component, and extract multiplication and inverse
+on that single chart with strict rational identities.
 Use the resulting maps to construct the translation-indexed Weil atlas and
 glue its multiplication, unit, and inverse with the strict field/rational
 cocycle.  The resulting group scheme is automatically separated by item 16;

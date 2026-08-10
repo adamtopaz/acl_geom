@@ -1501,6 +1501,31 @@ can be made single-valued:
 
 {docstring AclGeom.QWitness.germMultiplicationNormalCover_normal}
 
+These fields now have finite algebraic models rather than remaining abstract
+intermediate fields.  The support of a canonical equation is finite, so its
+coefficient set is finite and its tautological lifts generate the intrinsic
+field.  A general function-field embedding between finite-extension charts
+spreads to a dominant rational projection after clearing finitely many
+denominators.  The common normal multiplication field therefore gives an
+integral affine graph chart with dominant rational projections to the
+selected inverse-`A`, input-`B`, and output-`C` germ charts:
+
+{docstring AclGeom.FiniteCorrespondencePair.curveCoefficientSet_finite}
+
+{docstring AclGeom.FiniteCorrespondencePair.adjoin_curveCoefficientCoordinates_eq_top}
+
+{docstring AclGeom.FiniteExtensionProjection.rationalMap}
+
+{docstring AclGeom.QWitness.adjoin_abGermCoordinates_eq_top}
+
+{docstring AclGeom.QWitness.germMultiplicationAlgebraicChart}
+
+{docstring AclGeom.QWitness.germMultiplicationToA}
+
+{docstring AclGeom.QWitness.germMultiplicationToB}
+
+{docstring AclGeom.QWitness.germMultiplicationToC}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

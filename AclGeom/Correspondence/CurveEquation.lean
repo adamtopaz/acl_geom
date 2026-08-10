@@ -137,10 +137,55 @@ finitely many entries are zero. -/
 def curveCoefficientSet : Set Ω :=
   Set.range fun d : (Fin 2 →₀ ℕ) => ((P.curveEquation.coeff d : E) : Ω)
 
+/-- The intrinsic coefficient set is finite: away from the finite support of
+the canonical equation every coefficient is zero. -/
+theorem curveCoefficientSet_finite : (P.curveCoefficientSet k E).Finite := by
+  classical
+  let c : (Fin 2 →₀ ℕ) → Ω :=
+    fun d ↦ ((P.curveEquation.coeff d : E) : Ω)
+  have hs : ((P.curveEquation.support : Set (Fin 2 →₀ ℕ)).image c).Finite :=
+    P.curveEquation.support.finite_toSet.image c
+  refine (hs.insert 0).subset ?_
+  rintro z ⟨d, rfl⟩
+  by_cases hd : d ∈ P.curveEquation.support
+  · exact Set.mem_insert_iff.mpr (Or.inr ⟨d, hd, rfl⟩)
+  · have hcoeff : P.curveEquation.coeff d = 0 := by
+      simpa only [MvPolynomial.mem_support_iff, not_ne_iff] using hd
+    exact Set.mem_insert_iff.mpr (Or.inl (by simp [hcoeff]))
+
 /-- The field generated over `k` by the intrinsic coefficients of a finite
 correspondence germ defined over an intermediate field `E`. -/
 def curveCoefficientField : IntermediateField k Ω :=
   IntermediateField.adjoin k (P.curveCoefficientSet k E)
+
+/-- The canonical coefficients, lifted into the intrinsic field that they
+generate. -/
+def curveCoefficientCoordinates :
+    P.curveCoefficientSet k E → P.curveCoefficientField k E :=
+  fun z ↦ ⟨z.1, IntermediateField.subset_adjoin k _ z.2⟩
+
+/-- The lifted canonical coefficients generate the whole intrinsic
+coefficient field. -/
+theorem adjoin_curveCoefficientCoordinates_eq_top :
+    IntermediateField.adjoin k
+      (Set.range (P.curveCoefficientCoordinates k E)) = ⊤ := by
+  let F := P.curveCoefficientField k E
+  apply F.lift_injective
+  rw [F.lift_adjoin, F.lift_top]
+  change IntermediateField.adjoin k
+      (Subtype.val '' Set.range (P.curveCoefficientCoordinates k E)) = F
+  have hrange : Subtype.val ''
+      Set.range (P.curveCoefficientCoordinates k E) =
+      P.curveCoefficientSet k E := by
+    ext z
+    constructor
+    · rintro ⟨_, ⟨c, rfl⟩, rfl⟩
+      exact c.2
+    · intro hz
+      let c : P.curveCoefficientSet k E := ⟨z, hz⟩
+      exact ⟨P.curveCoefficientCoordinates k E c, ⟨c, rfl⟩, rfl⟩
+  rw [hrange]
+  rfl
 
 /-- Every canonical coefficient belongs to the coefficient field. -/
 theorem coeff_mem_curveCoefficientField (d : Fin 2 →₀ ℕ) :
