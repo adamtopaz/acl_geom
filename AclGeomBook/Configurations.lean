@@ -1185,6 +1185,32 @@ an exact equality after the restricted vertical deck correction:
 
 {docstring AclGeom.QWitness.psiFiniteCoverComposition}
 
+The semantic target of four-arrow cancellation is now separated from the
+formal presentation.  Actual field equivalences can be conjugated to fixed
+reference fields without losing composition or equality, and four literal
+composition squares cancel faithfully there.  For the selected Ψ edge, the
+`A` and `B` restrictions compose to the strict `AB` transport; correcting
+the independently chosen `C` restriction by the inverse deck defect turns
+equation `(8.6)` into a literal composition triangle:
+
+{docstring AclGeom.FieldEquiv.conjugate}
+
+{docstring AclGeom.FieldEquiv.conjugate_trans}
+
+{docstring AclGeom.FieldEquiv.conjugate_injective}
+
+{docstring AclGeom.FieldEquiv.FourArrowDiagram.right_cancellation}
+
+{docstring AclGeom.QWitness.psiAFiniteCoverEquiv}
+
+{docstring AclGeom.QWitness.psiBFiniteCoverEquiv}
+
+{docstring AclGeom.QWitness.psiAFiniteCoverEquiv_trans_psiBFiniteCoverEquiv}
+
+{docstring AclGeom.QWitness.psiStrictCFiniteCoverEquiv}
+
+{docstring AclGeom.QWitness.psiFiniteCoverStrictComposition}
+
 The scheme-theoretic target of the next step is now fixed precisely.  An
 algebraic group is a separated finite-type group object over the base-field
 spectrum; a connected algebraic group is geometrically integral, rather

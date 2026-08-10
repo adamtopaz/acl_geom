@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.ChunkFieldAction
+import AclGeom.Correspondence.FieldEquivDiagram
 import AclGeom.Correspondence.FiniteNormalTransport
 
 /-!
@@ -119,6 +120,24 @@ theorem psiBFiniteNormalCover_field (hψ : w.Psi) :
     psiBClosureTransport,
     FiniteCorrespondencePair.chainCoordinateClosureTransport]
 
+/-- The selected `A` branch, including the shared-middle identification,
+restricted to the common finite normal source and middle covers. -/
+noncomputable def psiAFiniteCoverEquiv (hψ : w.Psi) :
+    (↥(w.psiXFiniteNormalCover hψ).field) ≃+*
+      (↥(w.psiYFiniteNormalCover hψ).field) :=
+  (w.psiXFiniteNormalCover hψ).mapEquiv
+    (w.psiAToBSourceClosureTransport hψ)
+
+/-- The selected `B` branch restricted from the common middle cover to the
+strict common target cover. -/
+noncomputable def psiBFiniteCoverEquiv (hψ : w.Psi) :
+    (↥(w.psiYFiniteNormalCover hψ).field) ≃+*
+      (↥(w.psiZFiniteNormalCover hψ).field) :=
+  ((w.psiYFiniteNormalCover hψ).mapEquiv
+      (w.psiBClosureTransport hψ)).trans
+    (IntermediateField.equivOfEq
+      (w.psiBFiniteNormalCover_field hψ)).toRingEquiv
+
 /-- The independently chosen composite `C` lift stabilizes exactly the
 same finite normal source and target covers as strict `A`-then-`B`
 composition. -/
@@ -140,6 +159,18 @@ noncomputable def psiABFiniteCoverEquiv (hψ : w.Psi) :
   (w.psiXFiniteNormalCover hψ).mapEquiv
     (w.psiABClosureTransport hψ)
 
+/-- Restriction commutes with the strict `A`-then-`B` composition: the two
+successive finite-cover equivalences are literally the restricted composite
+transport. -/
+theorem psiAFiniteCoverEquiv_trans_psiBFiniteCoverEquiv (hψ : w.Psi) :
+    (w.psiAFiniteCoverEquiv hψ).trans
+        (w.psiBFiniteCoverEquiv hψ) =
+      w.psiABFiniteCoverEquiv hψ := by
+  apply RingEquiv.ext
+  intro x
+  apply Subtype.ext
+  rfl
+
 /-- The independently selected `C` transport restricted to the same finite
 normal source and target covers. -/
 noncomputable def psiCFiniteCoverEquiv (hψ : w.Psi) :
@@ -160,6 +191,15 @@ noncomputable def psiFiniteCoverCompositionDefect (hψ : w.Psi) :
   (w.psiZFiniteNormalCover hψ).restrictAlgEquiv
     (w.psiClosureCompositionDefect hψ)
 
+/-- Correct the independently selected `C` lift by the inverse target deck
+defect.  This is the semantic `C` arrow whose composition relation is
+strict on the chosen finite normal cover. -/
+noncomputable def psiStrictCFiniteCoverEquiv (hψ : w.Psi) :
+    (↥(w.psiXFiniteNormalCover hψ).field) ≃+*
+      (↥(w.psiZFiniteNormalCover hψ).field) :=
+  (w.psiCFiniteCoverEquiv hψ).trans
+    (w.psiFiniteCoverCompositionDefect hψ).symm.toRingEquiv
+
 /-- **Finite-cover form of blueprint equation (8.6).**  Strict
 `A`-then-`B` composition followed by the restricted vertical deck defect
 is exactly the independently selected `C` equivalence on the common finite
@@ -173,6 +213,21 @@ theorem psiFiniteCoverComposition (hψ : w.Psi) :
     (w.psiCClosureTransport hψ)
     (w.psiClosureCompositionDefect hψ)
     (w.psiClosureComposition hψ)
+
+/-- After the explicit deck correction, the selected `A`, `B`, and `C`
+branches form a literal composition triangle of finite normal-cover field
+equivalences.  This is the semantic relation used by
+`FieldEquiv.FourArrowDiagram`, not equality in a formal quotient. -/
+theorem psiFiniteCoverStrictComposition (hψ : w.Psi) :
+    (w.psiAFiniteCoverEquiv hψ).trans
+        (w.psiBFiniteCoverEquiv hψ) =
+      w.psiStrictCFiniteCoverEquiv hψ := by
+  rw [w.psiAFiniteCoverEquiv_trans_psiBFiniteCoverEquiv hψ]
+  exact FieldEquiv.eq_trans_symm_of_trans_eq
+    (w.psiABFiniteCoverEquiv hψ)
+    (w.psiCFiniteCoverEquiv hψ)
+    (w.psiFiniteCoverCompositionDefect hψ).toRingEquiv
+    (w.psiFiniteCoverComposition hψ)
 
 end QWitness
 

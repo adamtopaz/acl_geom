@@ -20,6 +20,7 @@ import AclGeom.Correspondence.CurveEquation
 import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.AlgebraicClosureTransport
 import AclGeom.Correspondence.FiniteNormalTransport
+import AclGeom.Correspondence.FieldEquivDiagram
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.RankTwoMultiplication

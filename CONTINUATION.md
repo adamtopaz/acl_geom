@@ -374,16 +374,33 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     is proved to induce exactly that embedding.  Thus a future descent from
     the eight-input four-arrow source to this intrinsic two-input graph can
     be stated and checked entirely as equality of concrete field maps.
+28. `Correspondence/FieldEquivDiagram.lean` supplies the faithful semantic
+    target that the formal presented family lacked.  Field equivalences can
+    be conjugated to fixed reference charts while preserving composition,
+    inverse, and equality, and a four-arrow diagram of four literal
+    composition triangles satisfies the exact map identity
+    `c = a ≫ e⁻¹ ≫ b`.  `Config/ChunkFiniteFieldAction.lean` now exposes the
+    selected `A` and `B` restrictions separately, proves that they compose
+    to the strict `AB` restriction, and corrects the independently selected
+    `C` restriction by the inverse vertical deck defect.  The result is a
+    literal finite-normal-cover composition triangle suitable for assembly
+    into that semantic four-arrow diagram; no equality in the formal
+    presented quotient is used as equality of field maps.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
-parameter cover.  Items 25--26 put the four normalized based projections on
+parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
-explicit field embedding.  Construct the faithful bridge from these
-function-field embeddings to the corresponding presented-family arrows;
-do not infer coordinate equality from abstract groupoid-arrow equality.
-Use that bridge to prove that `toReferenceC` factors through the strict
-categorical four-arrow cancellation of `toReferenceE`, `toReferenceA`, and
+explicit field embedding.  Item 28 provides the faithful semantic
+field-equivalence target and one strict selected composition triangle.
+Relocate the curve-coordinate branches over the four normalized parameter
+edges, restrict them to one common finite normal curve cover, and conjugate
+their repeated endpoint fields to three reference fields.  Prove that the
+four corrected triangles assemble into one
+`FieldEquiv.FourArrowDiagram`; then apply its literal cancellation theorem
+and canonical-curve-coefficient faithfulness to identify the four displayed
+parameter field embeddings.  Use that equality to prove that
+`toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not
 merely hold on the eight-input relational source.  Then extract
