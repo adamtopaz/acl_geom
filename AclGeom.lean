@@ -59,6 +59,7 @@ import AclGeom.Config.Multiplication
 import AclGeom.Transfer.FiniteUnion
 import AclGeom.Transfer.Intersections
 import AclGeom.Transfer.OneQuantifier
+import AclGeom.Transfer.Transcendence
 import AclGeom.Transfer.Descent
 import AclGeom.Config.Correctness
 import AclGeom.Interpretation.FrobClass
