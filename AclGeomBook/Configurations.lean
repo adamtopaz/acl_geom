@@ -868,6 +868,15 @@ ambiguity in each individual normalized fiber:
 
 {docstring AclGeom.IsPartialQuadrangle.exists_parameter_groupoidDifferenceProduct}
 
+Fixing a generic base `T`-arrow transports the vertex-group structure to
+the whole based arrow family.  The four-arrow construction says that its
+everywhere associative multiplication returns to the actual
+positive-dimensional `T` chart at independent generic inputs:
+
+{docstring AclGeom.IsPartialQuadrangle.parameterTArrowChunk}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameterTArrowChunk_mul}
+
 {docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowFamilyLifts.groupoid_cancellation}
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
