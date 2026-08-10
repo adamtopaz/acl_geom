@@ -742,6 +742,59 @@ theorem exists_compatible_family_relocation [IsAlgClosed K]
   rw [configurationReps_comp_uFamilyIndex h] at hu
   exact ⟨v, hv, hfix, ht, hs, hu⟩
 
+/-- The parameter multiplication locus controls composition of the three
+varying correspondence families.  If `(s,t,u)` lies on the generic
+parameter relation and `x` is a fresh source, there are shared intermediate
+and target coordinates `y,z` such that `(t,x,y)`, `(s,y,z)`, and `(u,x,z)`
+lie on the `T`, `S`, and `U` family loci respectively.  Thus the family
+composition identity holds above the exact chosen product branch. -/
+theorem exists_family_composition_of_parameter_product [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {s t u x : K}
+    (hstu : idealOf k ![s, t, u] = (parameterMultiplication h).ideal)
+    (hx : x ∉ racl k ({s, t, u} : Set K)) :
+    ∃ y z : K,
+      idealOf k ![t, x, y] = (tFamilyMember h).ideal ∧
+        idealOf k ![s, y, z] = (sFamilyMember h).ideal ∧
+        idealOf k ![u, x, z] = (uFamilyMember h).ideal := by
+  obtain ⟨v, hv, hfix⟩ :=
+    exists_configuration_relocation_fixing_parameter_realization h hstu hx
+  have h0 : v 0 = s := by
+    simpa [parameterSourceCoordinateIndex] using congrFun hfix 0
+  have h1 : v 1 = t := by
+    simpa [parameterSourceCoordinateIndex] using congrFun hfix 1
+  have h2 : v 2 = u := by
+    simpa [parameterSourceCoordinateIndex] using congrFun hfix 2
+  have h3 : v 3 = x := by
+    simpa [parameterSourceCoordinateIndex] using congrFun hfix 3
+  have ht := idealOf_comp_eq_of_idealOf_eq hv tFamilyIndex
+  have hs := idealOf_comp_eq_of_idealOf_eq hv sFamilyIndex
+  have hu := idealOf_comp_eq_of_idealOf_eq hv uFamilyIndex
+  rw [configurationReps_comp_tFamilyIndex h] at ht
+  rw [configurationReps_comp_sFamilyIndex h] at hs
+  rw [configurationReps_comp_uFamilyIndex h] at hu
+  have htTuple : v ∘ tFamilyIndex = ![t, x, v 5] := by
+    funext i
+    fin_cases i
+    · exact h1
+    · exact h3
+    · rfl
+  have hsTuple : v ∘ sFamilyIndex = ![s, v 5, v 4] := by
+    funext i
+    fin_cases i
+    · exact h0
+    · rfl
+    · rfl
+  have huTuple : v ∘ uFamilyIndex = ![u, x, v 4] := by
+    funext i
+    fin_cases i
+    · exact h2
+    · exact h3
+    · rfl
+  rw [htTuple] at ht
+  rw [hsTuple] at hs
+  rw [huTuple] at hu
+  exact ⟨v 5, v 4, ht, hs, hu⟩
+
 /-- Every independent parameter/source pair carries a member of the same
 `T`-family locus as the selected `(T,S',U')` tuple. -/
 theorem tFamily_exists_relocation [IsAlgClosed K]
@@ -2112,6 +2165,27 @@ theorem exists_relocated_connected_branch_groupoid [IsAlgClosed K]
   obtain ⟨v, hv, hfix, hcomp⟩ :=
     exists_relocated_correspondence_groupoid h hg
   exact ⟨v, hv, hfix, hcomp,
+    relocatedChainBranchGroupoid_isConnected h v hv⟩
+
+/-- A chosen generic parameter product and fresh source carry the entire
+categorical fiber used by the group-configuration construction: an exact
+six-coordinate lift, its literal composing germ triple, and the connected
+normal-cover branch groupoid containing that selected chain. -/
+theorem exists_parameter_product_connected_branch_groupoid [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {s t u x : K}
+    (hstu : idealOf k ![s, t, u] = (parameterMultiplication h).ideal)
+    (hx : x ∉ racl k ({s, t, u} : Set K)) :
+    ∃ (v : Fin 6 → K)
+      (hv : idealOf k v = idealOf k (configurationReps f)),
+      v ∘ parameterSourceCoordinateIndex = ![s, t, u, x] ∧
+        FiniteCorrespondenceGerm.Composes
+          (FiniteCorrespondenceGerm.ofPair (tPairOfIdealEq h v hv))
+          (FiniteCorrespondenceGerm.ofPair (sPairOfIdealEq h v hv))
+          (FiniteCorrespondenceGerm.ofPair (uPairOfIdealEq h v hv)) ∧
+        CategoryTheory.IsConnected (relocatedChainBranchGroupoid h v hv) := by
+  obtain ⟨v, hv, hfix⟩ :=
+    exists_configuration_relocation_fixing_parameter_realization h hstu hx
+  exact ⟨v, hv, hfix, pairsOfIdealEq_composes h v hv,
     relocatedChainBranchGroupoid_isConnected h v hv⟩
 
 end IsPartialQuadrangle

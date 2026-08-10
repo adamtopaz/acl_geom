@@ -587,6 +587,13 @@ six-coordinate realization fixing `(s,t,u,x)` exactly:
 
 {docstring AclGeom.IsPartialQuadrangle.exists_compatible_family_relocation}
 
+Projecting the exact lift to the three family-coordinate triples proves the
+parameter-level composition law directly: every chosen generic product
+`M(s,t,u)` and fresh source `x` admits shared `y,z` with `T(t,x,y)`,
+`S(s,y,z)`, and `U(u,x,z)` on their original complete family loci:
+
+{docstring AclGeom.IsPartialQuadrangle.exists_family_composition_of_parameter_product}
+
 Complete-ideal equality also transports the genericity and two-way
 algebraicity needed for actual finite correspondences.  Hence each
 relocated tuple supplies three pairs over its common parameter field, and
@@ -738,6 +745,12 @@ together with the varying generic realization:
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainArrowChunk}
 
 {docstring AclGeom.IsPartialQuadrangle.exists_relocated_connected_branch_groupoid}
+
+The exact product lift has the same package while retaining all prescribed
+coordinates: its germ triple composes literally, and its selected chain lies
+in a connected normal-cover branch groupoid:
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameter_product_connected_branch_groupoid}
 
 The free triple `(S,T,S')` already gives independent representatives for
 the three group-configuration coordinates.  Every other displayed
