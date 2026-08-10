@@ -53,6 +53,7 @@ import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations
 import AclGeom.Config.AtomClause
 import AclGeom.Config.Soundness
+import AclGeom.Config.AffineGrid
 import AclGeom.Config.MulDiagramCheck
 import AclGeom.Config.Multiplication
 import AclGeom.Transfer.FiniteUnion

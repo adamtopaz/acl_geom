@@ -219,6 +219,31 @@ With this, the soundness half of the configuration layer is complete:
 `QSem → QGeom`, `Q'Sem → Q'Geom`, and `JSem → JGeom` all hold over any
 infinite base field, given a supply of fresh elements over small sets.
 
+# The affine-grid extraction boundary
+%%%
+tag := "affine-grid-boundary"
+%%%
+
+The completeness half has a precise formal boundary.  At the level of
+closed points, the interalgebraic replacements in blueprint Lemma 8.5 amount
+to equality with the verified table witness.  Once those coordinates have
+been extracted, the free outputs are immediately the semantic quadruple
+`([b], [ax], [b+ax], [b/(ax)])`; the reciprocal ratio defines the same
+closed point:
+
+{docstring AclGeom.QWitness.HasAffineGridCoordinates}
+
+{docstring AclGeom.QWitness.affineGrid_output_independent}
+
+{docstring AclGeom.QWitness.qSem_of_hasAffineGridCoordinates}
+
+The sole remaining geometric implication is named without being assumed or
+axiomatized.  Supplying a proof of it closes the `QGeom ↔ QSem` theorem:
+
+{docstring AclGeom.AffineGridExtraction}
+
+{docstring AclGeom.qGeom_iff_qSem}
+
 # Selected correspondence composition and the group-chunk core
 %%%
 tag := "group-chunk-core"
