@@ -560,7 +560,30 @@ composition, providing the coherence needed for gluing relocated fibers:
 
 {docstring AclGeom.locusFunctionFieldEquivOfIdealEq_trans}
 
+The same transport extends after adjoining one fresh transcendental
+coordinate.  Consequently a relocated algebraic parameter tuple can be
+fixed first, then enlarged by a generic family source without changing the
+complete augmented locus.  The resulting base equivalence extends once
+more across any finite algebraic tuple, yielding relocation with an
+arbitrary equal-locus coordinate subsystem fixed literally:
+
+{docstring AclGeom.adjoinTranscendentalEquivOfEquiv}
+
+{docstring AclGeom.adjoinTranscendentalEquivOfEquiv_algebraMap}
+
+{docstring AclGeom.adjoinTranscendentalEquivOfEquiv_generator}
+
+{docstring AclGeom.idealOf_snoc_eq_of_idealOf_eq_of_generic}
+
+{docstring AclGeom.exists_tuple_relocation_fixing_locus}
+
 {docstring AclGeom.IsPartialQuadrangle.exists_configuration_relocation}
+
+In particular, a chosen product branch `(s,t,u)` on the parameter
+multiplication locus and a source generic over it lift to one compatible
+six-coordinate realization fixing `(s,t,u,x)` exactly:
+
+{docstring AclGeom.IsPartialQuadrangle.exists_configuration_relocation_fixing_parameter_realization}
 
 {docstring AclGeom.IsPartialQuadrangle.exists_compatible_family_relocation}
 

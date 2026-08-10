@@ -284,6 +284,263 @@ equalities of complete tuple loci. -/
         ⟨a i, subset_adjoin k _ (Set.mem_range_self i)⟩ :=
       (locusFunctionFieldEquivOfIdealEq_apply (hab.trans hbc) i).symm
 
+/-- A base-field equivalence extends canonically after adjoining one
+transcendental generator on each side, sending the displayed source
+generator to the displayed target generator. -/
+def adjoinTranscendentalEquivOfEquiv
+    {E E' : IntermediateField k Ω} (e : E ≃ₐ[k] E')
+    {x y : Ω} (hx : Transcendental E x) (hy : Transcendental E' y) :
+    (↥(adjoin E (Set.range (![x] : Fin 1 → Ω)))) ≃ₐ[k]
+      (↥(adjoin E' (Set.range (![y] : Fin 1 → Ω)))) := by
+  have hx' : AlgebraicIndependent E (![x] : Fin 1 → Ω) := by
+    rw [algebraicIndependent_unique_type_iff]
+    exact hx
+  have hy' : AlgebraicIndependent E' (![y] : Fin 1 → Ω) := by
+    rw [algebraicIndependent_unique_type_iff]
+    exact hy
+  exact (hx'.aevalEquivField.symm.restrictScalars k).trans
+    ((IsFractionRing.algEquivOfAlgEquiv
+      (MvPolynomial.mapAlgEquiv (Fin 1) e)).trans
+        (hy'.aevalEquivField.restrictScalars k))
+
+/-- The transcendental extension of a base equivalence agrees with that
+equivalence on the base field. -/
+theorem adjoinTranscendentalEquivOfEquiv_algebraMap
+    {E E' : IntermediateField k Ω} (e : E ≃ₐ[k] E')
+    {x y : Ω} (hx : Transcendental E x) (hy : Transcendental E' y)
+    (z : E) :
+    adjoinTranscendentalEquivOfEquiv e hx hy
+        (algebraMap E
+          (↥(adjoin E (Set.range (![x] : Fin 1 → Ω)))) z) =
+      algebraMap E' (↥(adjoin E' (Set.range (![y] : Fin 1 → Ω)))) (e z) := by
+  have hx' : AlgebraicIndependent E (![x] : Fin 1 → Ω) := by
+    rw [algebraicIndependent_unique_type_iff]
+    exact hx
+  have hy' : AlgebraicIndependent E' (![y] : Fin 1 → Ω) := by
+    rw [algebraicIndependent_unique_type_iff]
+    exact hy
+  change hy'.aevalEquivField
+      ((IsFractionRing.algEquivOfAlgEquiv
+        (MvPolynomial.mapAlgEquiv (Fin 1) e))
+          (hx'.aevalEquivField.symm
+            (algebraMap E
+              (↥(adjoin E (Set.range (![x] : Fin 1 → Ω)))) z))) = _
+  rw [hx'.aevalEquivField.symm.commutes]
+  have hbase :
+      algebraMap E (FractionRing (MvPolynomial (Fin 1) E)) z =
+        algebraMap (MvPolynomial (Fin 1) E)
+          (FractionRing (MvPolynomial (Fin 1) E)) (MvPolynomial.C z) := rfl
+  rw [hbase, IsFractionRing.algEquivOfAlgEquiv_algebraMap]
+  apply Subtype.ext
+  rw [AlgebraicIndependent.aevalEquivField_algebraMap_apply_coe]
+  simp
+
+/-- The transcendental extension of a base equivalence sends its displayed
+source generator to its displayed target generator. -/
+theorem adjoinTranscendentalEquivOfEquiv_generator
+    {E E' : IntermediateField k Ω} (e : E ≃ₐ[k] E')
+    {x y : Ω} (hx : Transcendental E x) (hy : Transcendental E' y) :
+    adjoinTranscendentalEquivOfEquiv e hx hy
+        ⟨x, subset_adjoin E _ ⟨0, rfl⟩⟩ =
+      ⟨y, subset_adjoin E' _ ⟨0, rfl⟩⟩ := by
+  have hx' : AlgebraicIndependent E (![x] : Fin 1 → Ω) := by
+    rw [algebraicIndependent_unique_type_iff]
+    exact hx
+  have hy' : AlgebraicIndependent E' (![y] : Fin 1 → Ω) := by
+    rw [algebraicIndependent_unique_type_iff]
+    exact hy
+  have hxgen : hx'.aevalEquivField
+      (algebraMap (MvPolynomial (Fin 1) E)
+        (FractionRing (MvPolynomial (Fin 1) E)) (MvPolynomial.X 0)) =
+        ⟨x, subset_adjoin E _ ⟨0, rfl⟩⟩ := by
+    apply Subtype.ext
+    rw [AlgebraicIndependent.aevalEquivField_algebraMap_apply_coe]
+    simp
+  change hy'.aevalEquivField
+      ((IsFractionRing.algEquivOfAlgEquiv
+        (MvPolynomial.mapAlgEquiv (Fin 1) e))
+          (hx'.aevalEquivField.symm ⟨x, _⟩)) = _
+  rw [← hxgen, hx'.aevalEquivField.symm_apply_apply,
+    IsFractionRing.algEquivOfAlgEquiv_algebraMap]
+  apply Subtype.ext
+  rw [AlgebraicIndependent.aevalEquivField_algebraMap_apply_coe]
+  simp
+
+/-- Equal tuple loci remain equal after adjoining arbitrary generators
+that are generic over the respective tuple fields.  This is the exact
+base-change principle needed to fix an algebraic parameter realization
+first and then choose a fresh family source. -/
+theorem idealOf_snoc_eq_of_idealOf_eq_of_generic
+    {n : ℕ} {a b : Fin n → Ω} {x y : Ω}
+    (hab : idealOf k a = idealOf k b)
+    (hx : x ∉ racl k (Set.range a))
+    (hy : y ∉ racl k (Set.range b)) :
+    idealOf k (Fin.snoc a x) = idealOf k (Fin.snoc b y) := by
+  classical
+  let E := adjoin k (Set.range a)
+  let E' := adjoin k (Set.range b)
+  let e : E ≃ₐ[k] E' := locusFunctionFieldEquivOfIdealEq hab
+  have hxT : Transcendental E x := by
+    change ¬IsAlgebraic E x
+    exact fun h ↦ hx ((mem_racl_iff k).2 h)
+  have hyT : Transcendental E' y := by
+    change ¬IsAlgebraic E' y
+    exact fun h ↦ hy ((mem_racl_iff k).2 h)
+  let L := adjoin E (Set.range (![x] : Fin 1 → Ω))
+  let L' := adjoin E' (Set.range (![y] : Fin 1 → Ω))
+  let ex : L ≃ₐ[k] L' := adjoinTranscendentalEquivOfEquiv e hxT hyT
+  let ax : Fin (n + 1) → L := Fin.snoc
+    (fun i ↦ algebraMap E L
+      ⟨a i, subset_adjoin k _ (Set.mem_range_self i)⟩)
+    ⟨x, subset_adjoin E _ ⟨0, rfl⟩⟩
+  let bx : Fin (n + 1) → L' := Fin.snoc
+    (fun i ↦ algebraMap E' L'
+      ⟨b i, subset_adjoin k _ (Set.mem_range_self i)⟩)
+    ⟨y, subset_adjoin E' _ ⟨0, rfl⟩⟩
+  have hax (j : Fin (n + 1)) : (ax j : Ω) =
+      (Fin.snoc a x : Fin (n + 1) → Ω) j := by
+    refine Fin.lastCases ?_ (fun i ↦ ?_) j
+    · simp [ax]
+    · simp [ax]
+  have hbx (j : Fin (n + 1)) : (bx j : Ω) =
+      (Fin.snoc b y : Fin (n + 1) → Ω) j := by
+    refine Fin.lastCases ?_ (fun i ↦ ?_) j
+    · simp [bx]
+    · simp [bx]
+  have hcoord (j : Fin (n + 1)) : ex (ax j) = bx j := by
+    refine Fin.lastCases ?_ (fun i ↦ ?_) j
+    · simpa only [ex, ax, bx, Fin.snoc_last] using
+        adjoinTranscendentalEquivOfEquiv_generator e hxT hyT
+    · have hei : e ⟨a i, subset_adjoin k _ (Set.mem_range_self i)⟩ =
+          ⟨b i, subset_adjoin k _ (Set.mem_range_self i)⟩ :=
+        locusFunctionFieldEquivOfIdealEq_apply hab i
+      have hbase := adjoinTranscendentalEquivOfEquiv_algebraMap e hxT hyT
+        ⟨a i, subset_adjoin k _ (Set.mem_range_self i)⟩
+      rw [hei] at hbase
+      simpa only [ex, ax, bx, Fin.snoc_castSucc] using hbase
+  ext p
+  rw [mem_idealOf_iff, mem_idealOf_iff]
+  have ha : MvPolynomial.aeval (Fin.snoc a x) p =
+      L.val (MvPolynomial.aeval ax p) := by
+    have hhom : (L.val.restrictScalars k).comp (MvPolynomial.aeval ax) =
+        MvPolynomial.aeval (Fin.snoc a x) := by
+      apply MvPolynomial.algHom_ext
+      intro j
+      simpa using hax j
+    exact congrArg (fun q ↦ q p) hhom.symm
+  have hb : MvPolynomial.aeval (Fin.snoc b y) p =
+      L'.val (MvPolynomial.aeval bx p) := by
+    have hhom : (L'.val.restrictScalars k).comp (MvPolynomial.aeval bx) =
+        MvPolynomial.aeval (Fin.snoc b y) := by
+      apply MvPolynomial.algHom_ext
+      intro j
+      simpa using hbx j
+    exact congrArg (fun q ↦ q p) hhom.symm
+  have heval : MvPolynomial.aeval bx p = ex (MvPolynomial.aeval ax p) := by
+    have hhom : ex.toAlgHom.comp (MvPolynomial.aeval ax) =
+        MvPolynomial.aeval bx := by
+      apply MvPolynomial.algHom_ext
+      intro j
+      simpa using hcoord j
+    exact congrArg (fun q ↦ q p) hhom.symm
+  rw [ha, hb, heval]
+  constructor
+  · intro hz
+    have hz' :
+        (MvPolynomial.aeval ax :
+          MvPolynomial (Fin (n + 1)) k →ₐ[k] L) p = 0 := by
+      apply L.val.injective
+      change L.val
+          ((MvPolynomial.aeval ax :
+            MvPolynomial (Fin (n + 1)) k →ₐ[k] L) p) = L.val 0
+      rw [map_zero]
+      exact hz
+    rw [hz', map_zero]
+    rfl
+  · intro hz
+    have hz' : ex
+        ((MvPolynomial.aeval ax :
+          MvPolynomial (Fin (n + 1)) k →ₐ[k] L) p) = 0 := by
+      apply L'.val.injective
+      change L'.val (ex
+          ((MvPolynomial.aeval ax :
+            MvPolynomial (Fin (n + 1)) k →ₐ[k] L) p)) = L'.val 0
+      rw [map_zero]
+      exact hz
+    have :
+        (MvPolynomial.aeval ax :
+          MvPolynomial (Fin (n + 1)) k →ₐ[k] L) p = 0 :=
+      ex.injective (by simpa using hz')
+    rw [this]
+    rfl
+
+/-- Relocate a finite algebraic tuple while fixing an arbitrary coordinate
+subtuple whose complete locus has already been relocated.  Unlike
+`exists_tuple_relocation_fixing`, the fixed subtuple need not be
+independent: equality of its prime ideal supplies the base-field
+equivalence, which is then extended across the algebraic full tuple. -/
+theorem exists_tuple_relocation_fixing_locus [IsAlgClosed Ω] {n m : ℕ}
+    {t s : Fin n → Ω} {u : Fin m → Ω} {e : Fin n → Fin m}
+    (hI : idealOf k s = idealOf k t)
+    (he : ∀ i, u (e i) = t i)
+    (hu : ∀ j, u j ∈ racl k (Set.range t)) :
+    ∃ v : Fin m → Ω,
+      idealOf k v = idealOf k u ∧ ∀ i, v (e i) = s i := by
+  classical
+  let E := adjoin k (Set.range t)
+  let E' := adjoin k (Set.range u)
+  let F := adjoin k (Set.range s)
+  have hle : E ≤ E' := by
+    apply adjoin.mono
+    rintro _ ⟨i, rfl⟩
+    exact ⟨e i, he i⟩
+  have halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars hle)) := by
+    apply isAlgebraic_extendScalars_adjoin hle
+    rintro _ ⟨j, rfl⟩
+    exact (mem_racl_iff k).1 (hu j)
+  let φ : E →ₐ[k] Ω := F.val.comp
+    (locusFunctionFieldEquivOfIdealEq hI.symm).toAlgHom
+  obtain ⟨ψ, hψ⟩ := exists_extension_of_isAlgebraic
+    (halg := halg) hle φ
+  have huMem (j : Fin m) : u j ∈ E' :=
+    subset_adjoin k _ (Set.mem_range_self j)
+  let ua : Fin m → E' := fun j ↦ ⟨u j, huMem j⟩
+  let v : Fin m → Ω := fun j ↦ ψ (ua j)
+  have hfix (i : Fin n) : v (e i) = s i := by
+    have hmem : t i ∈ E := subset_adjoin k _ ⟨i, rfl⟩
+    have hua : ua (e i) = ⟨t i, hle hmem⟩ := by
+      apply Subtype.ext
+      exact he i
+    change ψ (ua (e i)) = s i
+    rw [hua]
+    calc
+      ψ ⟨t i, hle hmem⟩ = φ ⟨t i, hmem⟩ := hψ ⟨t i, hmem⟩
+      _ = s i := by
+        change ↑(locusFunctionFieldEquivOfIdealEq hI.symm
+          ⟨t i, subset_adjoin k _ (Set.mem_range_self i)⟩) = s i
+        rw [locusFunctionFieldEquivOfIdealEq_apply]
+  refine ⟨v, ?_, hfix⟩
+  ext p
+  rw [mem_idealOf_iff, mem_idealOf_iff]
+  have h1 : MvPolynomial.aeval v p = ψ (MvPolynomial.aeval ua p) := by
+    change MvPolynomial.aeval (fun j ↦ ψ (ua j)) p = _
+    rw [MvPolynomial.comp_aeval_apply]
+  have h2 : MvPolynomial.aeval u p = E'.val (MvPolynomial.aeval ua p) := by
+    rw [MvPolynomial.comp_aeval_apply]
+    rfl
+  rw [h1, h2]
+  constructor
+  · intro hz
+    have hp : ψ (MvPolynomial.aeval ua p) = ψ 0 := by
+      rw [map_zero]
+      exact hz
+    rw [ψ.injective hp, map_zero]
+  · intro hz
+    have hp : E'.val (MvPolynomial.aeval ua p) = E'.val 0 := by
+      rw [map_zero]
+      exact hz
+    rw [E'.val.injective hp, map_zero]
+
 /-- Relocate a one-element algebraic extension while fixing its entire
 independent transcendence prefix.  If `u` is algebraic over `k(t)`, then
 for every equally long independent tuple `s` there is `v` such that

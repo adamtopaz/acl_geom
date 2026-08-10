@@ -301,6 +301,15 @@ def groupReps (f : Fin 6 → Point k K) : Fin 3 → K :=
 partial quadrangle. -/
 def groupCoordinateIndex : Fin 3 → Fin 6 := ![0, 1, 3]
 
+/-- The parameter multiplication triple together with the selected generic
+source `S'`. -/
+def parameterSourceReps (f : Fin 6 → Point k K) : Fin 4 → K :=
+  ![(f 0).rep, (f 1).rep, (f 2).rep, (f 3).rep]
+
+/-- The positions of `(S,T,U,S')` inside the displayed six-coordinate
+partial quadrangle. -/
+def parameterSourceCoordinateIndex : Fin 4 → Fin 6 := ![0, 1, 2, 3]
+
 /-- The positions `(T,S',U')` of the `T`-family member. -/
 def tFamilyIndex : Fin 3 → Fin 6 := ![1, 3, 5]
 
@@ -417,6 +426,14 @@ theorem configurationReps_comp_groupCoordinateIndex :
   funext i
   fin_cases i <;> rfl
 
+/-- Restricting the six-coordinate tuple to the first four displayed
+coordinates recovers `(S,T,U,S')`. -/
+theorem configurationReps_comp_parameterSourceCoordinateIndex :
+    configurationReps f ∘ parameterSourceCoordinateIndex =
+      parameterSourceReps f := by
+  funext i
+  fin_cases i <;> rfl
+
 /-- The complete partial-quadrangle locus can be relocated while fixing an
 arbitrary independent replacement for `(S,T,S')`.  All six coordinates
 move simultaneously, so every dependent triple and all three selected
@@ -432,6 +449,64 @@ theorem exists_configuration_relocation [IsAlgClosed K]
     (u := configurationReps f) (e := groupCoordinateIndex)
     (fun i ↦ congrFun configurationReps_comp_groupCoordinateIndex i)
     (configurationReps_mem_racl_groupReps h)
+  exact ⟨v, hv, funext hfix⟩
+
+/-- A chosen realization `(s,t,u)` of the parameter multiplication locus,
+together with any source `x` generic over that realization, lifts to a full
+six-coordinate partial-quadrangle realization.  All four prescribed
+coordinates are fixed literally, so the selected `T`, `S`, and `U` family
+members above that product branch remain compatible. -/
+theorem exists_configuration_relocation_fixing_parameter_realization
+    [IsAlgClosed K] (h : IsPartialQuadrangle f) {s t u x : K}
+    (hstu : idealOf k ![s, t, u] = (parameterMultiplication h).ideal)
+    (hx : x ∉ racl k ({s, t, u} : Set K)) :
+    ∃ v : Fin 6 → K,
+      idealOf k v = idealOf k (configurationReps f) ∧
+        v ∘ parameterSourceCoordinateIndex = ![s, t, u, x] := by
+  have hparameter : idealOf k ![s, t, u] =
+      idealOf k ![(f 0).rep, (f 1).rep, (f 2).rep] := by
+    simpa [FiniteCorrespondenceMultiplication.ideal,
+      FiniteCorrespondenceMultiplication.tuple, parameterMultiplication]
+      using hstu
+  have hx' : x ∉ racl k (Set.range (![s, t, u] : Fin 3 → K)) := by
+    have hrange : Set.range (![s, t, u] : Fin 3 → K) =
+        ({s, t, u} : Set K) := by
+      ext z
+      simp
+      tauto
+    rw [hrange]
+    exact hx
+  have hsource : (f 3).rep ∉ racl k
+      (Set.range (![(f 0).rep, (f 1).rep, (f 2).rep] : Fin 3 → K)) := by
+    have hrange :
+        Set.range (![(f 0).rep, (f 1).rep, (f 2).rep] : Fin 3 → K) =
+          ({(f 0).rep, (f 1).rep, (f 2).rep} : Set K) := by
+      ext z
+      simp
+      tauto
+    rw [hrange]
+    exact S'_rep_generic_over_parameters h
+  have hquad : idealOf k ![s, t, u, x] =
+      idealOf k (parameterSourceReps f) := by
+    simpa [parameterSourceReps] using
+      idealOf_snoc_eq_of_idealOf_eq_of_generic hparameter hx' hsource
+  have hmem (j : Fin 6) : configurationReps f j ∈
+      racl k (Set.range (parameterSourceReps f)) := by
+    apply racl_mono (k := k)
+      (S := Set.range (groupReps f))
+      (T := Set.range (parameterSourceReps f))
+      (fun z hz ↦ ?_)
+      (configurationReps_mem_racl_groupReps h j)
+    rcases hz with ⟨i, rfl⟩
+    fin_cases i
+    · exact ⟨0, rfl⟩
+    · exact ⟨1, rfl⟩
+    · exact ⟨3, rfl⟩
+  obtain ⟨v, hv, hfix⟩ := exists_tuple_relocation_fixing_locus
+    hquad
+    (u := configurationReps f) (e := parameterSourceCoordinateIndex)
+    (fun i ↦ congrFun configurationReps_comp_parameterSourceCoordinateIndex i)
+    hmem
   exact ⟨v, hv, funext hfix⟩
 
 /-- The parameter `T` is recoverable up to finitely many choices from
