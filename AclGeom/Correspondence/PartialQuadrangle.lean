@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import AclGeom.Config.Language
-import AclGeom.Correspondence.FiniteCover
+import AclGeom.Correspondence.BranchGroupoid
 
 /-!
 # The correspondence groupoid carried by a partial quadrangle
@@ -589,6 +589,37 @@ noncomputable def selectedChainEmbeddingEquivAut [IsAlgClosed K]
       (Algebra.IsAlgebraic.of_finite
         (↥(P.comp Q rfl).branchField) (↥(extendScalars hle)))
   exact FiniteCover.normalEmbeddingEquivAut hle
+
+/-- The genuine action groupoid of all conjugate components of the
+selected partial-quadrangle chain on its finite normal cover. -/
+abbrev selectedChainBranchGroupoid (h : IsPartialQuadrangle f) :=
+  finiteCoverBranchGroupoid
+    ((tPair h).compositeBranchField_le_chainField (sPair h) rfl)
+
+/-- The literal `S' → U' → T'` component as the distinguished object of
+its normal-cover branch groupoid. -/
+def selectedChainBranchObject (h : IsPartialQuadrangle f) :
+    selectedChainBranchGroupoid h :=
+  finiteCoverSelectedObject
+    ((tPair h).compositeBranchField_le_chainField (sPair h) rfl)
+
+/-- The partial-quadrangle normal cover has only finitely many conjugate
+selected-chain components. -/
+theorem finite_selectedChainBranches (h : IsPartialQuadrangle f) :
+    Finite
+      (FiniteCoverBranch
+        ((tPair h).compositeBranchField_le_chainField (sPair h) rfl)) :=
+  finite_coverBranches _
+    ((tPair h).chainOverComposite_finiteDimensional (sPair h) rfl)
+
+/-- Over an algebraically closed ambient field, deck transformations act
+transitively on the conjugate partial-quadrangle components, so their
+action category is a connected genuine groupoid. -/
+theorem selectedChainBranchGroupoid_isConnected [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) :
+    CategoryTheory.IsConnected (selectedChainBranchGroupoid h) :=
+  finiteCoverBranchGroupoid_isConnected _
+    ((tPair h).chainOverComposite_finiteDimensional (sPair h) rfl)
 
 end IsPartialQuadrangle
 

@@ -1101,6 +1101,41 @@ noncomputable def psiSelectedChainEmbeddingEquivAut [IsAlgClosed K]
         (↥(P.comp Q rfl).branchField) (↥(extendScalars hle)))
   exact FiniteCover.normalEmbeddingEquivAut hle
 
+/-- The genuine action groupoid of conjugate embeddings of the actual
+`Psi` chain into its normal cover. -/
+abbrev psiSelectedChainBranchGroupoid (hψ : w.Psi) :=
+  finiteCoverBranchGroupoid
+    ((w.xyCorrespondencePair hψ).compositeBranchField_le_chainField
+      (w.yzCorrespondencePair hψ) rfl)
+
+/-- The literal `(X,Y,Z)` component as the selected object of the `Psi`
+normal-cover branch groupoid. -/
+def psiSelectedChainBranchObject (hψ : w.Psi) :
+    w.psiSelectedChainBranchGroupoid hψ :=
+  finiteCoverSelectedObject
+    ((w.xyCorrespondencePair hψ).compositeBranchField_le_chainField
+      (w.yzCorrespondencePair hψ) rfl)
+
+/-- The normal cover of the selected `Psi` chain has only finitely many
+conjugate branch objects. -/
+theorem finite_psiSelectedChainBranches (hψ : w.Psi) :
+    Finite
+      (FiniteCoverBranch
+        ((w.xyCorrespondencePair hψ).compositeBranchField_le_chainField
+          (w.yzCorrespondencePair hψ) rfl)) :=
+  finite_coverBranches _
+    ((w.xyCorrespondencePair hψ).chainOverComposite_finiteDimensional
+      (w.yzCorrespondencePair hψ) rfl)
+
+/-- Over an algebraically closed ambient field, the conjugate components
+of the selected `Psi` chain form a connected genuine groupoid. -/
+theorem psiSelectedChainBranchGroupoid_isConnected [IsAlgClosed K]
+    (hψ : w.Psi) :
+    CategoryTheory.IsConnected (w.psiSelectedChainBranchGroupoid hψ) :=
+  finiteCoverBranchGroupoid_isConnected _
+    ((w.xyCorrespondencePair hψ).chainOverComposite_finiteDimensional
+      (w.yzCorrespondencePair hψ) rfl)
+
 /-- **The rank-five fiber-product calculation for a `Psi` witness.**
 The five-tuple `(A₁,A₂,B₁,B₂,Y)` is algebraically independent, and
 adjoining the selected outputs `X,Z` does not enlarge its relative

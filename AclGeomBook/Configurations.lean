@@ -313,6 +313,28 @@ ambient embeddings of the normal cover are precisely its automorphisms:
 
 {docstring AclGeom.QWitness.psiSelectedChainEmbeddingEquivAut}
 
+The finite ambiguity is itself categorical.  Deck transformations act by
+postcomposition on embeddings of a branch field into its normal cover.
+Normality extends every such embedding to a deck transformation, so the
+resulting action category is a connected genuine groupoid with the literal
+branch as a distinguished object:
+
+{docstring AclGeom.NormalBranchEmbedding}
+
+{docstring AclGeom.NormalBranchEmbedding.extendToAut_smul_canonical}
+
+{docstring AclGeom.normalBranchGroupoid.isConnected}
+
+{docstring AclGeom.finiteCoverBranchGroupoid_isConnected}
+
+For the actual `Psi` chain this gives the selected object and a connected
+groupoid of all conjugate components, rather than merely a finite list of
+embeddings:
+
+{docstring AclGeom.QWitness.psiSelectedChainBranchObject}
+
+{docstring AclGeom.QWitness.psiSelectedChainBranchGroupoid_isConnected}
+
 The second `Z` incidence simultaneously presents `(X,Z)` as the member
 parametrized by `C`.  After adjoining all six displayed parameters, both
 the composed endpoint ideal and the `C`-family ideal lie under the same
@@ -385,6 +407,14 @@ exactly its automorphisms:
 
 {docstring AclGeom.IsPartialQuadrangle.selectedChainEmbeddingEquivAut}
 
+The same construction turns the partial-quadrangle normal-cover components
+into a connected action groupoid with the literal `S' → U' → T'` chain as
+its selected object:
+
+{docstring AclGeom.IsPartialQuadrangle.selectedChainBranchObject}
+
+{docstring AclGeom.IsPartialQuadrangle.selectedChainBranchGroupoid_isConnected}
+
 The free triple `(S,T,S')` already gives independent representatives for
 the three group-configuration coordinates.  Every other displayed
 representative is algebraic over that triple, while each of the parameters
@@ -400,12 +430,14 @@ three-coordinate field:
 
 {docstring AclGeom.IsPartialQuadrangle.configurationNormalOverGroupCoordinates_normal}
 
-Once those selected components form a genuine three-object groupoid, the
-difference chart is no longer an abstract placeholder.  A based arrow
-family is equivalent to the vertex group, its four-arrow cancellation
-defines a `RationalGroupChunk`, and the chart transports multiplication
-and inverse exactly.  The normalized six-point output then has the four
-product relations prescribed by the partial quadrangle:
+On any genuine three-object groupoid, a based arrow family is equivalent to
+the vertex group, its four-arrow cancellation defines a
+`RationalGroupChunk`, and the chart transports multiplication and inverse
+exactly.  The finite branch groupoids above resolve conjugate ambiguity on
+each fixed normal cover; assembling the varying parameter families into
+this interface is the remaining geometric step.  The normalized six-point
+output then has the four product relations prescribed by the partial
+quadrangle:
 
 {docstring AclGeom.groupoidFourArrowComposite}
 
