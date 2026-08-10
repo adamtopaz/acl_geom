@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import AclGeom.Correspondence.Composition
+import Mathlib.FieldTheory.Normal.Closure
 
 /-!
 # Finite covers carried by selected correspondence branches
@@ -25,6 +26,40 @@ open IntermediateField
 noncomputable section
 
 variable {k : Type*} {Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
+
+namespace FiniteCover
+
+variable {E L : IntermediateField k Ω}
+
+/-- The normal closure in the ambient field of a nested intermediate-field
+extension. -/
+def normalClosureOver (h : E ≤ L) : IntermediateField (↥E) Ω :=
+  normalClosure (↥E) (extendScalars h) Ω
+
+/-- The original finite extension embeds in its normal closure. -/
+theorem extendScalars_le_normalClosureOver (h : E ≤ L) :
+    extendScalars h ≤ normalClosureOver h :=
+  le_normalClosure _
+
+/-- A normal closure of a finite extension remains finite. -/
+theorem normalClosureOver_finiteDimensional (h : E ≤ L)
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    FiniteDimensional (↥E) (↥(normalClosureOver h)) := by
+  letI := hfin
+  exact normalClosure.is_finiteDimensional (↥E) (↥(extendScalars h)) Ω
+
+/-- Inside an algebraically closed ambient field, the normal closure of an
+algebraic extension is normal over its base. -/
+theorem normalClosureOver_normal [IsAlgClosed Ω] (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) :
+    Normal (↥E) (↥(normalClosureOver h)) := by
+  letI := halg
+  exact
+    (Algebra.IsAlgebraic.isNormalClosure_normalClosure
+      (F := ↥E) (K := ↥(extendScalars h)) (L := Ω)
+      (fun _ ↦ IsAlgClosed.splits _)).normal
+
+end FiniteCover
 
 namespace FiniteCorrespondencePair
 
@@ -91,6 +126,62 @@ theorem branchOverTarget_finiteDimensional :
     rw [Set.mem_singleton_iff] at hx
     subst x
     exact ((mem_racl_iff k).1 P.source_mem_target).isIntegral
+
+/-- The normal closure of the selected branch over its source function
+field, taken inside the ambient algebraically closed field. -/
+def sourceNormalField : IntermediateField (↥P.sourceField) Ω :=
+  FiniteCover.normalClosureOver P.sourceField_le_branchField
+
+/-- The branch field embeds in its normal closure over the source. -/
+theorem branchOverSource_le_sourceNormalField :
+    P.branchOverSource ≤ P.sourceNormalField :=
+  FiniteCover.extendScalars_le_normalClosureOver
+    P.sourceField_le_branchField
+
+/-- The normal closure over the source is still a finite extension. -/
+theorem sourceNormalField_finiteDimensional :
+    FiniteDimensional (↥P.sourceField) (↥P.sourceNormalField) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    P.sourceField_le_branchField
+    P.branchOverSource_finiteDimensional
+
+/-- The source normalization field is normal in an algebraically closed
+ambient field. -/
+theorem sourceNormalField_normal [IsAlgClosed Ω] :
+    Normal (↥P.sourceField) (↥P.sourceNormalField) := by
+  letI := P.branchOverSource_finiteDimensional
+  exact FiniteCover.normalClosureOver_normal
+    P.sourceField_le_branchField
+    (Algebra.IsAlgebraic.of_finite (↥P.sourceField)
+      (↥P.branchOverSource))
+
+/-- The normal closure of the selected branch over its target function
+field. -/
+def targetNormalField : IntermediateField (↥P.targetField) Ω :=
+  FiniteCover.normalClosureOver P.targetField_le_branchField
+
+/-- The branch field embeds in its normal closure over the target. -/
+theorem branchOverTarget_le_targetNormalField :
+    P.branchOverTarget ≤ P.targetNormalField :=
+  FiniteCover.extendScalars_le_normalClosureOver
+    P.targetField_le_branchField
+
+/-- The normal closure over the target is still a finite extension. -/
+theorem targetNormalField_finiteDimensional :
+    FiniteDimensional (↥P.targetField) (↥P.targetNormalField) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    P.targetField_le_branchField
+    P.branchOverTarget_finiteDimensional
+
+/-- The target normalization field is normal in an algebraically closed
+ambient field. -/
+theorem targetNormalField_normal [IsAlgClosed Ω] :
+    Normal (↥P.targetField) (↥P.targetNormalField) := by
+  letI := P.branchOverTarget_finiteDimensional
+  exact FiniteCover.normalClosureOver_normal
+    P.targetField_le_branchField
+    (Algebra.IsAlgebraic.of_finite (↥P.targetField)
+      (↥P.branchOverTarget))
 
 /-- The joint field of two consecutive selected branches. -/
 def chainField (Q : FiniteCorrespondencePair k Ω) :
@@ -226,6 +317,45 @@ theorem chainOverComposite_finiteDimensional
     exact (isAlgebraic_of_le
       (P.comp Q h).sourceField_le_branchField
       ((mem_racl_iff k).1 P.target_mem_source)).isIntegral
+
+/-- The normal closure of a chain field over its selected composite
+endpoint branch.  It adjoins all ambient conjugates of the shared middle
+coordinate. -/
+def chainNormalOverComposite
+    (Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source) :
+    IntermediateField (↥(P.comp Q h).branchField) Ω :=
+  FiniteCover.normalClosureOver
+    (P.compositeBranchField_le_chainField Q h)
+
+/-- The three-coordinate chain field embeds in its normal closure over the
+composite endpoint branch. -/
+theorem chainOverComposite_le_normal
+    (Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source) :
+    P.chainOverComposite Q h ≤ P.chainNormalOverComposite Q h :=
+  FiniteCover.extendScalars_le_normalClosureOver
+    (P.compositeBranchField_le_chainField Q h)
+
+/-- The chain normal closure is finite over the selected composite
+branch. -/
+theorem chainNormalOverComposite_finiteDimensional
+    (Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source) :
+    FiniteDimensional (↥(P.comp Q h).branchField)
+      (↥(P.chainNormalOverComposite Q h)) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    (P.compositeBranchField_le_chainField Q h)
+    (P.chainOverComposite_finiteDimensional Q h)
+
+/-- The chain normal closure is normal over the selected composite branch
+inside an algebraically closed ambient field. -/
+theorem chainNormalOverComposite_normal [IsAlgClosed Ω]
+    (Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source) :
+    Normal (↥(P.comp Q h).branchField)
+      (↥(P.chainNormalOverComposite Q h)) := by
+  letI := P.chainOverComposite_finiteDimensional Q h
+  exact FiniteCover.normalClosureOver_normal
+    (P.compositeBranchField_le_chainField Q h)
+    (Algebra.IsAlgebraic.of_finite
+      (↥(P.comp Q h).branchField) (↥(P.chainOverComposite Q h)))
 
 end FiniteCorrespondencePair
 

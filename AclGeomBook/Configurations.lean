@@ -295,6 +295,14 @@ selected composite branch:
 
 {docstring AclGeom.QWitness.psi_selected_chain_field_finite_covers}
 
+Inside an algebraically closed ambient field, taking all conjugates turns
+the selected finite chain into a finite normal extension of its endpoint
+branch field:
+
+{docstring AclGeom.FiniteCorrespondencePair.chainNormalOverComposite_normal}
+
+{docstring AclGeom.QWitness.psi_selected_chain_normal_cover}
+
 The second `Z` incidence simultaneously presents `(X,Z)` as the member
 parametrized by `C`.  After adjoining all six displayed parameters, both
 the composed endpoint ideal and the `C`-family ideal lie under the same
@@ -324,6 +332,13 @@ merely terminology: equality of the rank-four `A ∨ B` and
 extension:
 
 {docstring AclGeom.QWitness.abcOverAb_finiteDimensional}
+
+Taking all ambient conjugates preserves finiteness and produces the normal
+coefficient cover used by the selected-component comparison:
+
+{docstring AclGeom.QWitness.abcNormalOverAb_finiteDimensional}
+
+{docstring AclGeom.QWitness.abcNormalOverAb_normal}
 
 On the common normal cover, a chosen branch makes the generic
 multiplication and inverse single-valued.  Associativity and the two inverse

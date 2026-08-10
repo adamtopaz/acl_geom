@@ -676,6 +676,32 @@ theorem abcOverAb_finiteDimensional (hψ : w.Psi) :
     obtain ⟨i, rfl⟩ := hx
     exact (w.abcReps_isAlgebraic_abField hψ i).isIntegral
 
+/-- The normal closure of the common `A,B,C` coefficient field over the
+independent `A,B` coefficient field. -/
+def abcNormalOverAb : IntermediateField (↥w.abField) K :=
+  FiniteCover.normalClosureOver w.abField_le_abcField
+
+/-- The common coefficient field embeds in its normal closure. -/
+theorem abcOverAb_le_abcNormalOverAb :
+    w.abcOverAb ≤ w.abcNormalOverAb :=
+  FiniteCover.extendScalars_le_normalClosureOver
+    w.abField_le_abcField
+
+/-- The common coefficient normal closure is finite over the `A,B`
+field. -/
+theorem abcNormalOverAb_finiteDimensional (hψ : w.Psi) :
+    FiniteDimensional (↥w.abField) (↥w.abcNormalOverAb) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    w.abField_le_abcField (w.abcOverAb_finiteDimensional hψ)
+
+/-- In an algebraically closed ambient field, the common coefficient
+normal closure is normal over `A,B`. -/
+theorem abcNormalOverAb_normal [IsAlgClosed K] (hψ : w.Psi) :
+    Normal (↥w.abField) (↥w.abcNormalOverAb) := by
+  letI := w.abcOverAb_finiteDimensional hψ
+  exact FiniteCover.normalClosureOver_normal w.abField_le_abcField
+    (Algebra.IsAlgebraic.of_finite (↥w.abField) (↥w.abcOverAb))
+
 /-- The `A` coefficient field embeds in the composable `A,B` field. -/
 theorem aField_le_abField : w.aField ≤ w.abField :=
   adjoin.mono k _ _ w.aReps_range_subset_abReps
@@ -977,6 +1003,28 @@ theorem psi_selected_chain_field_finite_covers (hψ : w.Psi) :
       (w.xyCorrespondencePair hψ).chainOverRight_finiteDimensional
         (w.yzCorrespondencePair hψ) rfl,
       (w.xyCorrespondencePair hψ).chainOverComposite_finiteDimensional
+        (w.yzCorrespondencePair hψ) rfl⟩
+
+/-- Over an algebraically closed ambient field, the actual `Psi` chain
+embeds into a finite normal closure over its selected `(X,Z)` endpoint
+branch.  This is the function field of the normalization on which every
+ambient conjugate of the shared middle branch is available. -/
+theorem psi_selected_chain_normal_cover [IsAlgClosed K] (hψ : w.Psi) :
+    let P := w.xyCorrespondencePair hψ
+    let Q := w.yzCorrespondencePair hψ
+    FiniteDimensional (↥(P.comp Q rfl).branchField)
+        (↥(P.chainNormalOverComposite Q rfl)) ∧
+      Normal (↥(P.comp Q rfl).branchField)
+        (↥(P.chainNormalOverComposite Q rfl)) ∧
+      P.chainOverComposite Q rfl ≤
+        P.chainNormalOverComposite Q rfl := by
+  dsimp only
+  exact
+    ⟨(w.xyCorrespondencePair hψ).chainNormalOverComposite_finiteDimensional
+        (w.yzCorrespondencePair hψ) rfl,
+      (w.xyCorrespondencePair hψ).chainNormalOverComposite_normal
+        (w.yzCorrespondencePair hψ) rfl,
+      (w.xyCorrespondencePair hψ).chainOverComposite_le_normal
         (w.yzCorrespondencePair hψ) rfl⟩
 
 /-- **The rank-five fiber-product calculation for a `Psi` witness.**
