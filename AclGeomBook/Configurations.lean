@@ -1526,6 +1526,33 @@ selected inverse-`A`, input-`B`, and output-`C` germ charts:
 
 {docstring AclGeom.QWitness.germMultiplicationToC}
 
+The complete four-arrow difference component is now normalized over its
+actual eight free coordinates.  Successive multiplication and division
+edges make each selected block algebraic over `(s,e,a,b)`, so all sixteen
+displayed coordinates form a finite extension.  One normal closure gives an
+integral affine graph chart, and the four based input/output blocks have
+dominant rational projections from it.  This remains a relational
+difference-product component: forgetting the auxiliary `s` block requires
+the subsequent reference-chart factorization argument.
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.totalTuple_mem_input_racl}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.totalOverInput_finiteDimensional}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.normalCover}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.normalCover_normal}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.algebraicChart}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.toE}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.toA}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.toB}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.toC}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

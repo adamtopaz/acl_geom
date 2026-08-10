@@ -23,6 +23,7 @@ import AclGeom.Correspondence.FiniteNormalTransport
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.RankTwoMultiplication
+import AclGeom.Correspondence.FourArrowNormalization
 import AclGeom.Correspondence.FamilyNormalization
 import AclGeom.Correspondence.FamilyGroupoid
 import AclGeom.Correspondence.PartialQuadrangle
