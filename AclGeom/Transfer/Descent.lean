@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import Mathlib.FieldTheory.Galois.Basic
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Closure.Ambient
+import AclGeom.Transfer.Transcendence
 
 /-!
 # Descent of j-semantics to a perfect subfield
@@ -27,8 +28,8 @@ constructed, and no infinitude argument is needed.
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** WIP (M5 descent): the telescope kernel is complete; the
-assembly with the normal closure and the perfectness endgame follows.
+**Status:** complete for the `(2) ⇒ (1)` descent arrow of M5, including
+the final rank-five interface with no freshness oracle.
 -/
 
 namespace AclGeom
@@ -394,6 +395,31 @@ theorem mem_of_j_represented [IsAlgClosed Ω] (q : ℕ) [ExpChar k q]
       exact (L.val.commutes ca).symm ▸ rfl
     rw [h1]
     exact SetLike.coe_mem ca
+
+/-- **Rank-five descent of a semantic j-tuple** (blueprint Theorem
+`j-descent`, arrow `(2) ⇒ (1)`): the transcendence-degree hypothesis
+supplies the two fresh elements used by j-rigidity, so the public theorem
+contains no auxiliary oracle. -/
+theorem mem_of_j_represented_of_five_le_trdeg [IsAlgClosed Ω]
+    (q : ℕ) [ExpChar k q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k Ω)
+    {K₁ : IntermediateField k Ω} [PerfectField (↥K₁)]
+    {x a : Ω} (hind : AlgebraicIndependent k ![x, a])
+    {y₁ y₂ y₃ y₄ y₅ : Ω}
+    (hK1 : y₁ ∈ K₁) (hK2 : y₂ ∈ K₁) (hK3 : y₃ ∈ K₁) (hK4 : y₄ ∈ K₁)
+    (hK5 : y₅ ∈ K₁)
+    (h₁ : x ∈ racl k ({y₁} : Set Ω)) (h₁' : y₁ ∈ racl k ({x} : Set Ω))
+    (h₂ : x + a ∈ racl k ({y₂} : Set Ω))
+    (h₂' : y₂ ∈ racl k ({x + a} : Set Ω))
+    (h₃ : x * a ∈ racl k ({y₃} : Set Ω))
+    (h₃' : y₃ ∈ racl k ({x * a} : Set Ω))
+    (h₄ : x + x * a ∈ racl k ({y₄} : Set Ω))
+    (h₄' : y₄ ∈ racl k ({x + x * a} : Set Ω))
+    (h₅ : a ∈ racl k ({y₅} : Set Ω)) (h₅' : y₅ ∈ racl k ({a} : Set Ω)) :
+    x ∈ K₁ ∧ a ∈ K₁ :=
+  mem_of_j_represented q hind hK1 hK2 hK3 hK4 hK5
+    h₁ h₁' h₂ h₂' h₃ h₃' h₄ h₄' h₅ h₅'
+    (fresh_three_of_five_le_trdeg htr)
 
 end DescentAssembly
 

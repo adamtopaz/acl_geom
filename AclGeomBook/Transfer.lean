@@ -224,7 +224,12 @@ action to the fixing brick:
 
 {docstring AclGeom.mem_of_j_represented}
 
-This is the `(2) ⇒ (1)` arrow of the blueprint's descent theorem; the
+The rank-five public interface derives the two fresh elements directly
+from transcendence degree:
+
+{docstring AclGeom.mem_of_j_represented_of_five_le_trdeg}
+
+This completes the `(2) ⇒ (1)` arrow of the blueprint's descent theorem; the
 `(1) ⇒ (4)` arrow is the soundness half of the configuration layer
 (proved over any infinite base), and the equivalence `(2) ⇔ (3)` is the
 ACF-correctness of `J`, whose completeness half is the remaining open
