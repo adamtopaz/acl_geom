@@ -1474,6 +1474,33 @@ rank-two parameter flats exactly:
 
 {docstring AclGeom.QWitness.cGermCoefficientClosure_eq_C}
 
+Equality of these closures has a concrete finite-cover consequence.  Each
+displayed two-coordinate parameter field is finite over the corresponding
+intrinsic germ coefficient field.  For multiplication, the inverse-`A` and
+forward-`B` coefficient fields form an intrinsic independent-input
+compositum whose closure is exactly `A ⊔ B`; all six displayed `A,B,C`
+coordinates are finite over it.  Their common normal closure is therefore a
+single finite normal field on which the selected multiplication component
+can be made single-valued:
+
+{docstring AclGeom.finiteDimensional_extendScalars_adjoin_of_close_eq}
+
+{docstring AclGeom.QWitness.aParameterOverInverseGerm_finiteDimensional}
+
+{docstring AclGeom.QWitness.bParameterOverGerm_finiteDimensional}
+
+{docstring AclGeom.QWitness.cParameterOverGerm_finiteDimensional}
+
+{docstring AclGeom.QWitness.abGermCoefficientClosure_eq_A_sup_B}
+
+{docstring AclGeom.QWitness.abcOverAbGerm_finiteDimensional}
+
+{docstring AclGeom.QWitness.germMultiplicationNormalCover}
+
+{docstring AclGeom.QWitness.germMultiplicationNormalCover_finiteDimensional}
+
+{docstring AclGeom.QWitness.germMultiplicationNormalCover_normal}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

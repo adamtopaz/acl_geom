@@ -273,13 +273,24 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     coefficients are faithful rank-two coordinates up to finite algebraic
     extension, rather than merely fields contained in the displayed
     parameter fields.
+20. `finiteDimensional_extendScalars_adjoin_of_close_eq` turns equality of
+    relative closures into the required finiteness statement for any
+    finitely displayed parameter tuple.  Consequently the selected displayed
+    `A`, `B`, and `C` parameter fields are finite over their intrinsic germ
+    coefficient fields.  The compositum of the inverse-`A` and forward-`B`
+    coefficient fields has relative closure exactly `A ⊔ B`; the entire
+    displayed `A,B,C` multiplication component is finite over this intrinsic
+    independent-input field.  `germMultiplicationNormalCover` is its one
+    common normal closure in the ambient algebraically closed field, proved
+    finite and normal over the intrinsic two-input base.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
-parameter cover.  Turn the relative-closure equalities from item 19 into
-finite extensions of the intrinsic coefficient fields, form one common
-normal cover for the selected `A`, `B`, and `C` multiplication component,
-and extract multiplication and inverse over those coordinates.
+parameter cover.  The finite common normal field from item 20 now contains
+the selected displayed `A,B,C` component over the intrinsic `A/B` input
+field.  Extract its three parameter-field embeddings, identify the output
+embedding as multiplication in the normalized germ chart, and construct the
+corresponding inverse component and strict rational identities.
 Use the resulting maps to construct the translation-indexed Weil atlas and
 glue its multiplication, unit, and inverse with the strict field/rational
 cocycle.  The resulting group scheme is automatically separated by item 16;

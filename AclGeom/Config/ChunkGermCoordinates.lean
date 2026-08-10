@@ -68,6 +68,41 @@ theorem curveCoefficientClosure_eq_rankTwo_of_minimal
     exact racl_mono (by simp) hzPoint
   · exact subset_racl k _ (Set.mem_insert_of_mem _ hz)
 
+/-- Every element of a finitely displayed parameter field is algebraic over
+an intrinsic coefficient field once the latter has the same relative
+closure. -/
+theorem isAlgebraic_of_mem_of_close_eq
+    (E F : IntermediateField k K) (V : ClosedIF k K)
+    (hclose : ClosedIF.close k E = V) (hFV : F ≤ V.1)
+    {x : K} (hx : x ∈ F) : IsAlgebraic E x := by
+  have hxclose : x ∈ ClosedIF.close k E := by
+    rw [hclose]
+    exact hFV hx
+  change x ∈ racl k ((E : IntermediateField k K) : Set K) at hxclose
+  rw [mem_racl_iff, adjoin_self] at hxclose
+  exact hxclose
+
+/-- If a finite tuple generates a displayed parameter field whose elements
+lie in the closure of an intrinsic coefficient field, then the displayed
+field is finite over the intrinsic field. -/
+theorem finiteDimensional_extendScalars_adjoin_of_close_eq
+    {n : ℕ} (E : IntermediateField k K) (p : Fin n → K)
+    (hE : E ≤ adjoin k (Set.range p)) (V : ClosedIF k K)
+    (hclose : ClosedIF.close k E = V)
+    (hpV : adjoin k (Set.range p) ≤ V.1) :
+    FiniteDimensional (↥E) (↥(extendScalars hE)) := by
+  have key : extendScalars hE = adjoin (↥E) (Set.range p) := by
+    refine restrictScalars_injective k ?_
+    rw [extendScalars_restrictScalars, restrictScalars_adjoin_eq_sup]
+    exact (sup_eq_right.2 hE).symm
+  rw [key]
+  letI : Fintype (Set.range p) :=
+    Set.Finite.fintype (Set.finite_range p)
+  exact finiteDimensional_adjoin fun x hx ↦ by
+    exact (isAlgebraic_of_mem_of_close_eq E
+      (adjoin k (Set.range p)) V hclose hpV
+      (subset_adjoin k _ hx)).isIntegral
+
 namespace QWitness
 
 variable (w : QWitness k K)
@@ -154,6 +189,26 @@ theorem bGermCoefficientClosure_eq_B (hψ : w.Psi) :
     (w.bGermCoefficientClosure_le_B hψ) hBrank
     (w.bGermCoefficientClosure_not_le_point hψ)
 
+/-- The displayed `B` parameter field, regarded as an extension of the
+intrinsic coefficients of its correspondence germ. -/
+def bParameterOverGerm (hψ : w.Psi) :
+    IntermediateField (↥(w.bGermCoefficientField hψ)) K :=
+  extendScalars (w.bGermCoefficientField_le_bField hψ)
+
+/-- The displayed `B` parameter field is finite over its intrinsic germ
+coefficient field. -/
+theorem bParameterOverGerm_finiteDimensional (hψ : w.Psi) :
+    FiniteDimensional (↥(w.bGermCoefficientField hψ))
+      (↥(w.bParameterOverGerm hψ)) := by
+  unfold bParameterOverGerm
+  exact finiteDimensional_extendScalars_adjoin_of_close_eq
+    (w.bGermCoefficientField hψ) w.bReps
+    (by simpa [bField] using w.bGermCoefficientField_le_bField hψ)
+    w.B
+    (by simpa [bGermCoefficientClosure] using
+      w.bGermCoefficientClosure_eq_B hψ)
+    (by simpa [bField] using w.bField_le_B)
+
 /-- The intrinsic coefficients of the inverse-oriented `A` germ.  The
 orientation `Y → X` matches the minimality clause `X_free`. -/
 def aInverseGermCoefficientField (hψ : w.Psi) : IntermediateField k K :=
@@ -163,6 +218,13 @@ def aInverseGermCoefficientField (hψ : w.Psi) : IntermediateField k K :=
 germ coefficients. -/
 def aInverseGermCoefficientClosure (hψ : w.Psi) : ClosedIF k K :=
   ClosedIF.close k (w.aInverseGermCoefficientField hψ)
+
+/-- The intrinsic inverse-germ coefficient field lies in the displayed
+`A` parameter field. -/
+theorem aInverseGermCoefficientField_le_aField (hψ : w.Psi) :
+    w.aInverseGermCoefficientField hψ ≤ w.aField :=
+  ((w.xyCorrespondencePairOverA hψ).swap).curveCoefficientField_le
+    k w.aField
 
 /-- The displayed field `k(A₁,A₂)` lies in the rank-two flat `A`. -/
 theorem aField_le_A : w.aField ≤ w.A.1 := by
@@ -187,6 +249,27 @@ theorem aInverseGermCoefficientClosure_eq_A (hψ : w.Psi) :
       change w.X.rep ∉ racl k ({A'.rep, w.Y.rep} : Set K)
       exact w.X_rep_notMem_racl_atom_Y hψ A' hA')
 
+/-- The displayed `A` parameter field, regarded as an extension of the
+intrinsic coefficients of the inverse-oriented germ. -/
+def aParameterOverInverseGerm (hψ : w.Psi) :
+    IntermediateField (↥(w.aInverseGermCoefficientField hψ)) K :=
+  extendScalars (w.aInverseGermCoefficientField_le_aField hψ)
+
+/-- The displayed `A` parameter field is finite over the intrinsic
+inverse-germ coefficient field. -/
+theorem aParameterOverInverseGerm_finiteDimensional (hψ : w.Psi) :
+    FiniteDimensional (↥(w.aInverseGermCoefficientField hψ))
+      (↥(w.aParameterOverInverseGerm hψ)) := by
+  unfold aParameterOverInverseGerm
+  exact finiteDimensional_extendScalars_adjoin_of_close_eq
+    (w.aInverseGermCoefficientField hψ) w.aReps
+    (by simpa [aField] using
+      w.aInverseGermCoefficientField_le_aField hψ)
+    w.A
+    (by simpa [aInverseGermCoefficientClosure] using
+      w.aInverseGermCoefficientClosure_eq_A hψ)
+    (by simpa [aField] using w.aField_le_A)
+
 /-- The intrinsic coefficient field of the output `C` germ `X → Z`. -/
 def cGermCoefficientField (hψ : w.Psi) : IntermediateField k K :=
   (w.xzCorrespondencePairOverC hψ).curveCoefficientField k w.cField
@@ -195,6 +278,12 @@ def cGermCoefficientField (hψ : w.Psi) : IntermediateField k K :=
 coefficients. -/
 def cGermCoefficientClosure (hψ : w.Psi) : ClosedIF k K :=
   ClosedIF.close k (w.cGermCoefficientField hψ)
+
+/-- The intrinsic output-germ coefficient field lies in the displayed
+`C` parameter field. -/
+theorem cGermCoefficientField_le_cField (hψ : w.Psi) :
+    w.cGermCoefficientField hψ ≤ w.cField :=
+  (w.xzCorrespondencePairOverC hψ).curveCoefficientField_le k w.cField
 
 /-- The displayed field `k(C₁,C₂)` lies in the rank-two flat `C`. -/
 theorem cField_le_C : w.cField ≤ w.C.1 := by
@@ -218,6 +307,166 @@ theorem cGermCoefficientClosure_eq_C (hψ : w.Psi) :
       intro C' hC'
       change w.Z.rep ∉ racl k ({C'.rep, w.X.rep} : Set K)
       exact w.Z_rep_notMem_racl_atom_X hψ C' hC')
+
+/-- The displayed `C` parameter field, regarded as an extension of the
+intrinsic coefficients of its output germ. -/
+def cParameterOverGerm (hψ : w.Psi) :
+    IntermediateField (↥(w.cGermCoefficientField hψ)) K :=
+  extendScalars (w.cGermCoefficientField_le_cField hψ)
+
+/-- The displayed `C` parameter field is finite over its intrinsic output
+germ coefficient field. -/
+theorem cParameterOverGerm_finiteDimensional (hψ : w.Psi) :
+    FiniteDimensional (↥(w.cGermCoefficientField hψ))
+      (↥(w.cParameterOverGerm hψ)) := by
+  unfold cParameterOverGerm
+  exact finiteDimensional_extendScalars_adjoin_of_close_eq
+    (w.cGermCoefficientField hψ) w.cReps
+    (by simpa [cField] using w.cGermCoefficientField_le_cField hψ)
+    w.C
+    (by simpa [cGermCoefficientClosure] using
+      w.cGermCoefficientClosure_eq_C hψ)
+    (by simpa [cField] using w.cField_le_C)
+
+/-- The intrinsic coefficient field of an independent pair of input germs:
+the inverse-oriented `A` germ and the forward `B` germ. -/
+def abGermCoefficientField (hψ : w.Psi) : IntermediateField k K :=
+  w.aInverseGermCoefficientField hψ ⊔ w.bGermCoefficientField hψ
+
+/-- The relative closure of the intrinsic two-input coefficient field. -/
+def abGermCoefficientClosure (hψ : w.Psi) : ClosedIF k K :=
+  ClosedIF.close k (w.abGermCoefficientField hψ)
+
+/-- The intrinsic two-input coefficient field has exactly the geometric
+closure `A ⊔ B`. -/
+theorem abGermCoefficientClosure_eq_A_sup_B (hψ : w.Psi) :
+    w.abGermCoefficientClosure hψ = w.A ⊔ w.B := by
+  apply le_antisymm
+  · rw [abGermCoefficientClosure, ClosedIF.le_iff]
+    change racl k
+      (((w.abGermCoefficientField hψ : IntermediateField k K)) : Set K) ≤
+        (w.A ⊔ w.B).1
+    calc
+      racl k
+          (((w.abGermCoefficientField hψ : IntermediateField k K)) : Set K) ≤
+          racl k ((((w.A ⊔ w.B).1 : IntermediateField k K)) : Set K) := by
+        have hbase : w.abGermCoefficientField hψ ≤ (w.A ⊔ w.B).1 := by
+          rw [abGermCoefficientField]
+          exact sup_le
+            ((w.aInverseGermCoefficientField_le_aField hψ).trans
+              w.aField_le_A |>.trans
+                (ClosedIF.le_iff.1 (show w.A ≤ w.A ⊔ w.B from le_sup_left)))
+            ((w.bGermCoefficientField_le_bField hψ).trans
+              w.bField_le_B |>.trans
+                (ClosedIF.le_iff.1 (show w.B ≤ w.A ⊔ w.B from le_sup_right)))
+        exact racl_mono hbase
+      _ = (w.A ⊔ w.B).1 := isRAC_iff_racl_eq.1 (w.A ⊔ w.B).2
+  · apply sup_le
+    · rw [← w.aInverseGermCoefficientClosure_eq_A hψ,
+        aInverseGermCoefficientClosure, ClosedIF.le_iff]
+      change racl k
+        (((w.aInverseGermCoefficientField hψ :
+          IntermediateField k K)) : Set K) ≤
+        racl k
+          (((w.abGermCoefficientField hψ :
+            IntermediateField k K)) : Set K)
+      have hleft : w.aInverseGermCoefficientField hψ ≤
+          w.abGermCoefficientField hψ := by
+        rw [abGermCoefficientField]
+        exact le_sup_left
+      exact racl_mono hleft
+    · rw [← w.bGermCoefficientClosure_eq_B hψ,
+        bGermCoefficientClosure, ClosedIF.le_iff]
+      change racl k
+        (((w.bGermCoefficientField hψ :
+          IntermediateField k K)) : Set K) ≤
+        racl k
+          (((w.abGermCoefficientField hψ :
+            IntermediateField k K)) : Set K)
+      have hright : w.bGermCoefficientField hψ ≤
+          w.abGermCoefficientField hψ := by
+        rw [abGermCoefficientField]
+        exact le_sup_right
+      exact racl_mono hright
+
+/-- The intrinsic input-germ field embeds in the displayed `A,B,C`
+parameter field of the selected multiplication component. -/
+theorem abGermCoefficientField_le_abcField (hψ : w.Psi) :
+    w.abGermCoefficientField hψ ≤ w.abcField := by
+  rw [abGermCoefficientField]
+  apply sup_le
+  · exact ((w.aInverseGermCoefficientField_le_aField hψ).trans
+      w.aField_le_abField).trans w.abField_le_abcField
+  · exact ((w.bGermCoefficientField_le_bField hψ).trans
+      w.bField_le_abField).trans w.abField_le_abcField
+
+/-- Every displayed coordinate of the selected multiplication component
+lies in the geometric join `A ⊔ B`. -/
+theorem abcField_le_A_sup_B (hψ : w.Psi) :
+    w.abcField ≤ (w.A ⊔ w.B).1 := by
+  rw [abcField]
+  refine adjoin_le_iff.mpr ?_
+  rintro x ⟨i, rfl⟩
+  have hi : ClosedIF.point k (w.abcReps i) ≤
+      ⨆ j, ClosedIF.point k (w.abcReps j) :=
+    le_iSup (fun j ↦ ClosedIF.point k (w.abcReps j)) i
+  rw [← w.abc_join_eq_iSup_point, ← w.ab_eq_abc hψ] at hi
+  exact ClosedIF.point_le_iff.1 hi
+
+/-- The selected displayed `A,B,C` component, regarded as an extension of
+the intrinsic two-input germ-coordinate field. -/
+def abcOverAbGerm (hψ : w.Psi) :
+    IntermediateField (↥(w.abGermCoefficientField hψ)) K :=
+  extendScalars (w.abGermCoefficientField_le_abcField hψ)
+
+/-- The complete displayed `A,B,C` multiplication component is finite over
+the intrinsic independent input-germ coordinates. -/
+theorem abcOverAbGerm_finiteDimensional (hψ : w.Psi) :
+    FiniteDimensional (↥(w.abGermCoefficientField hψ))
+      (↥(w.abcOverAbGerm hψ)) := by
+  unfold abcOverAbGerm
+  exact finiteDimensional_extendScalars_adjoin_of_close_eq
+    (w.abGermCoefficientField hψ) w.abcReps
+    (by simpa [abcField] using w.abGermCoefficientField_le_abcField hψ)
+    (w.A ⊔ w.B)
+    (by simpa [abGermCoefficientClosure] using
+      w.abGermCoefficientClosure_eq_A_sup_B hψ)
+    (by simpa [abcField] using w.abcField_le_A_sup_B hψ)
+
+/-- One common normal cover containing the selected displayed `A`, `B`,
+and `C` parameter component over the intrinsic two-input germ field. -/
+def germMultiplicationNormalCover (hψ : w.Psi) :
+    IntermediateField (↥(w.abGermCoefficientField hψ)) K :=
+  FiniteCover.normalClosureOver
+    (w.abGermCoefficientField_le_abcField hψ)
+
+/-- The displayed multiplication component embeds in its common normal
+cover. -/
+theorem abcOverAbGerm_le_germMultiplicationNormalCover (hψ : w.Psi) :
+    w.abcOverAbGerm hψ ≤ w.germMultiplicationNormalCover hψ :=
+  FiniteCover.extendScalars_le_normalClosureOver
+    (w.abGermCoefficientField_le_abcField hψ)
+
+/-- The common intrinsic-coordinate multiplication cover is finite over
+its two-input base. -/
+theorem germMultiplicationNormalCover_finiteDimensional (hψ : w.Psi) :
+    FiniteDimensional (↥(w.abGermCoefficientField hψ))
+      (↥(w.germMultiplicationNormalCover hψ)) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    (w.abGermCoefficientField_le_abcField hψ)
+    (w.abcOverAbGerm_finiteDimensional hψ)
+
+/-- In an algebraically closed ambient field, the common multiplication
+cover is normal over the intrinsic independent input-germ field. -/
+theorem germMultiplicationNormalCover_normal [IsAlgClosed K]
+    (hψ : w.Psi) :
+    Normal (↥(w.abGermCoefficientField hψ))
+      (↥(w.germMultiplicationNormalCover hψ)) := by
+  letI := w.abcOverAbGerm_finiteDimensional hψ
+  exact FiniteCover.normalClosureOver_normal
+    (w.abGermCoefficientField_le_abcField hψ)
+    (Algebra.IsAlgebraic.of_finite
+      (↥(w.abGermCoefficientField hψ)) (↥(w.abcOverAbGerm hψ)))
 
 end QWitness
 
