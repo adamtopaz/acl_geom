@@ -1238,6 +1238,158 @@ theorem Place.residue_eq_zero_of_ord_ge (P : Place k F) {f g : F}
   rw [Place.residue, ← hC]
   exact tateTrace_of_isNilpotent hnil
 
+/-- **The mirror local vanishing threshold**: the residue of `f dg`
+vanishes when the zero of `g` is deeper than the pole of `f`.  The
+residue commutator lands in the valuation ring; on that ring, every
+nonzero application raises the order by at least one, and it vanishes
+after reaching depth `m`. -/
+theorem Place.residue_eq_zero_of_ord_ge_mirror (P : Place k F)
+    {f g : F} {m : ℕ} (hf : f ≠ 0) (hg : g ≠ 0)
+    (hordf : -(m : ℤ) ≤ P.ord f) (hordg : (m : ℤ) + 1 ≤ P.ord g) :
+    P.residue f g = 0 := by
+  set C : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k f)
+    with hC
+  have happ : ∀ x : F,
+      C x = P.proj (f * (g * x)) - g * P.proj (f * x) := fun x ↦ rfl
+  set δ : F →ₗ[k] F := P.proj - LinearMap.id with hδ
+  have hδapp : ∀ z : F, δ z = P.proj z - z := fun z ↦ rfl
+  have hproj_ord : ∀ z : F, P.proj z = 0 ∨ 0 ≤ P.ord (P.proj z) := by
+    intro z
+    rcases eq_or_ne (P.proj z) 0 with h | h
+    · exact Or.inl h
+    · exact Or.inr ((P.ord_nonneg_iff h).2
+        (Place.mem_toSubmodule_iff.1 (P.proj_mem _)))
+  have hδO : ∀ z : F, z = 0 ∨ 0 ≤ P.ord z → δ z = 0 := by
+    intro z hz
+    rcases hz with rfl | hz
+    · rw [map_zero]
+    rcases eq_or_ne z 0 with rfl | hz0
+    · rw [map_zero]
+    rw [hδapp, P.proj_eq_self, sub_self]
+    rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff hz0]
+    exact hz
+  have hsub_ord : ∀ (a b : F) (n : ℤ), (a = 0 ∨ n ≤ P.ord a) →
+      (b = 0 ∨ n ≤ P.ord b) → (a - b = 0 ∨ n ≤ P.ord (a - b)) := by
+    intro a b n ha hb
+    rcases eq_or_ne a 0 with rfl | ha0
+    · rcases eq_or_ne b 0 with rfl | hb0
+      · exact Or.inl (by rw [sub_zero])
+      · refine Or.inr ?_
+        rw [zero_sub, P.ord_neg hb0]
+        exact hb.resolve_left hb0
+    rcases eq_or_ne b 0 with rfl | hb0
+    · refine Or.inr ?_
+      rw [sub_zero]
+      exact ha.resolve_left ha0
+    rcases eq_or_ne (a - b) 0 with h0 | h0
+    · exact Or.inl h0
+    refine Or.inr ?_
+    have h2 := P.min_ord_le_ord_add ha0 (neg_ne_zero.2 hb0)
+      (by rw [← sub_eq_add_neg]; exact h0)
+    rw [← sub_eq_add_neg, P.ord_neg hb0] at h2
+    have h3 := ha.resolve_left ha0
+    have h4 := hb.resolve_left hb0
+    omega
+  have hrange : ∀ x : F, C x = 0 ∨ 0 ≤ P.ord (C x) := by
+    intro x
+    rw [happ]
+    refine hsub_ord _ _ 0 (hproj_ord _) ?_
+    rcases eq_or_ne (P.proj (f * x)) 0 with h | h
+    · exact Or.inl (by rw [h, mul_zero])
+    · refine Or.inr ?_
+      rw [P.ord_mul hg h]
+      have h1 : 0 ≤ P.ord (P.proj (f * x)) :=
+        (P.ord_nonneg_iff h).2
+          (Place.mem_toSubmodule_iff.1 (P.proj_mem _))
+      omega
+  have hstep : ∀ y : F, y = 0 ∨ 0 ≤ P.ord y →
+      C y = -(g * δ (f * y)) := by
+    intro y hy
+    rcases eq_or_ne y 0 with rfl | hy0
+    · rw [map_zero, mul_zero, map_zero, mul_zero, neg_zero]
+    rw [happ, P.proj_eq_self, hδapp]
+    · ring
+    · rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff
+        (mul_ne_zero hf (mul_ne_zero hg hy0)),
+        P.ord_mul hf (mul_ne_zero hg hy0), P.ord_mul hg hy0]
+      have hyord := hy.resolve_left hy0
+      omega
+  have hδlower : ∀ z : F, z ≠ 0 → P.ord z < 0 →
+      δ z = 0 ∨ P.ord z ≤ P.ord (δ z) := by
+    intro z hz0 hzneg
+    rw [hδapp]
+    rcases eq_or_ne (P.proj z) 0 with hproj | hproj
+    · rw [hproj, zero_sub, P.ord_neg hz0]
+      exact Or.inr le_rfl
+    rcases eq_or_ne (P.proj z - z) 0 with hzero | hzero
+    · exact Or.inl hzero
+    refine Or.inr ?_
+    have hmin := P.min_ord_le_ord_add hproj (neg_ne_zero.2 hz0)
+      (by rw [← sub_eq_add_neg]; exact hzero)
+    rw [← sub_eq_add_neg, P.ord_neg hz0] at hmin
+    have hproj0 : 0 ≤ P.ord (P.proj z) :=
+      (P.ord_nonneg_iff hproj).2
+        (Place.mem_toSubmodule_iff.1 (P.proj_mem _))
+    omega
+  have hgain : ∀ y : F, y = 0 ∨ 0 ≤ P.ord y →
+      C y = 0 ∨ P.ord y + 1 ≤ P.ord (C y) := by
+    intro y hy
+    rcases eq_or_ne y 0 with rfl | hy0
+    · exact Or.inl (by rw [map_zero])
+    have hyord := hy.resolve_left hy0
+    rcases le_or_gt 0 (P.ord (f * y)) with hfy | hfy
+    · exact Or.inl (by rw [hstep y hy, hδO _ (Or.inr hfy),
+        mul_zero, neg_zero])
+    rcases eq_or_ne (δ (f * y)) 0 with hzero | hδ0
+    · exact Or.inl (by rw [hstep y hy, hzero, mul_zero, neg_zero])
+    have hlower := (hδlower (f * y) (mul_ne_zero hf hy0) hfy).resolve_left hδ0
+    rw [P.ord_mul hf hy0] at hlower
+    refine Or.inr ?_
+    rw [hstep y hy, P.ord_neg (mul_ne_zero hg hδ0),
+      P.ord_mul hg hδ0]
+    omega
+  have hkill : ∀ y : F, y = 0 ∨ (m : ℤ) ≤ P.ord y → C y = 0 := by
+    intro y hy
+    rcases eq_or_ne y 0 with rfl | hy0
+    · rw [map_zero]
+    have hyord := hy.resolve_left hy0
+    have hfy : 0 ≤ P.ord (f * y) := by
+      rw [P.ord_mul hf hy0]
+      omega
+    rw [hstep y (Or.inr (by omega)), hδO _ (Or.inr hfy), mul_zero,
+      neg_zero]
+  have hpow : ∀ n : ℕ, ∀ x : F,
+      (C ^ (n + 1)) x = 0 ∨ (n : ℤ) ≤ P.ord ((C ^ (n + 1)) x) := by
+    intro n
+    induction n with
+    | zero =>
+      intro x
+      simpa using hrange x
+    | succ n ih =>
+      intro x
+      have heq : (C ^ (n + 2)) x = C ((C ^ (n + 1)) x) := by
+        rw [pow_succ', Module.End.mul_apply]
+      rcases ih x with hzero | hord
+      · left
+        rw [heq, hzero, map_zero]
+      rcases hgain ((C ^ (n + 1)) x) (Or.inr (by omega)) with hzero | hdeep
+      · left
+        rwa [heq]
+      · right
+        rw [heq]
+        push_cast
+        omega
+  have hnil : IsNilpotent C := by
+    refine ⟨m + 2, ?_⟩
+    refine LinearMap.ext fun x ↦ ?_
+    have heq : (C ^ (m + 2)) x = C ((C ^ (m + 1)) x) := by
+      rw [pow_succ', Module.End.mul_apply]
+    rw [heq, hkill _ (hpow m x), LinearMap.zero_apply]
+  rw [Place.residue, ← hC]
+  exact tateTrace_of_isNilpotent hnil
+
 /-- The residue vanishes when the first argument is zero. -/
 theorem Place.residue_zero_left (P : Place k F) (g : F) :
     P.residue 0 g = 0 := by
@@ -1876,6 +2028,19 @@ theorem Place.residue_one_right (P : Place k F) (f : F) :
       LinearMap.mulLeft_apply, LinearMap.zero_apply, one_mul]
     exact sub_self _
   rw [Place.residue, h1, tateTrace_zero]
+
+/-- Inverting the differential parameter shifts the first argument by
+its square: `res(x dt) = -res(t²x d(t⁻¹))`. -/
+theorem Place.residue_eq_neg_residue_sq_inv (P : Place k F)
+    {t : F} (ht : t ≠ 0) (x : F) :
+    P.residue x t = -P.residue (t ^ 2 * x) t⁻¹ := by
+  have h := P.residue_mul_right (x * t) t t⁻¹
+  have htt : t * t⁻¹ = (1 : F) := mul_inv_cancel₀ ht
+  have hxt : (x * t) * t⁻¹ = x := by
+    rw [mul_assoc, htt, mul_one]
+  have hsq : (x * t) * t = t ^ 2 * x := by ring
+  rw [htt, P.residue_one_right, hxt, hsq] at h
+  linear_combination -h
 
 /-- **The ord-link for uniformizer powers**:
 `res(π^{−b} d(π^b)) = b` for `b ≥ 0`. -/

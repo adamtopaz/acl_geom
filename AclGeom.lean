@@ -27,6 +27,7 @@ import AclGeom.Curves.Adeles
 import AclGeom.Curves.Approximation
 import AclGeom.Curves.Canonical
 import AclGeom.Curves.DegreeBound
+import AclGeom.Curves.Derivations
 import AclGeom.Curves.Differentials
 import AclGeom.Curves.Divisors
 import AclGeom.Curves.Genus

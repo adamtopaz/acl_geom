@@ -423,7 +423,77 @@ The two computations combine into the residue theorem:
 
 {docstring AclGeom.sum_residue_eq_zero}
 
-Next in this library: local vanishing thresholds for the residue,
-the differentials attached to field elements, and automorphism
-rigidity via vector fields against the canonical degree `2g − 2`,
-tracked on the curve-theory issue.
+# Local residue calculations
+%%%
+tag := "local-residue-calculations"
+%%%
+
+Two characteristic-free nilpotence arguments give the complementary
+local thresholds: `res(f dg)` vanishes when either the zero of `f` is
+deeper than the pole of `g`, or the zero of `g` is deeper than the pole
+of `f`. The second, mirror form is what kills Taylor remainders in the
+vector-field argument:
+
+{docstring AclGeom.Place.residue_eq_zero_of_ord_ge}
+
+{docstring AclGeom.Place.residue_eq_zero_of_ord_ge_mirror}
+
+The residue satisfies Leibniz in the differential parameter. An
+adapted projection along the principal-part decomposition proves the
+negative base case; recursion, inversion, and the logarithmic
+order-link then give the complete monomial table:
+
+{docstring AclGeom.Place.residue_mul_right}
+
+{docstring AclGeom.Place.isCompl_principalSpan}
+
+{docstring AclGeom.Place.residue_zpow_pi_base}
+
+{docstring AclGeom.Place.residue_zpow_pi_zpow_eq_zero}
+
+# Residue differentials and regular derivations
+%%%
+tag := "regular-derivations"
+%%%
+
+For `g ∈ F`, summing `res_P(α_P dg)` gives a linear functional on
+the adeles. The residue theorem kills the diagonal, while the local
+threshold kills a bounded adele space, so this is a Weil differential;
+at a uniformizer it is nonzero. The construction is linear in `g`:
+
+{docstring AclGeom.residueFunctional}
+
+{docstring AclGeom.residueFunctional_mem_weilDifferentialsAt}
+
+{docstring AclGeom.residueFunctional_pi_ne_zero}
+
+{docstring AclGeom.residueFunctionalLinearMap}
+
+At a greatest level `W`, single-place adeles of order at least `-W(P)`
+are killed, while the monomial one step below is not. Taylor expansion
+therefore turns level vanishing into the coefficient equations needed
+to bound a regular derivation locally. Inverting the differential
+parameter transports the bound across poles, and every greatest level
+has canonical degree `2g-2`:
+
+{docstring AclGeom.local_behavior_of_isGreatest_level}
+
+{docstring AclGeom.Place.residue_zpow_neg_eq_taylorCoeff}
+
+{docstring AclGeom.isGreatest_level_residueFunctional_inv_apply}
+
+{docstring AclGeom.deg_eq_two_mul_genus_sub_two_of_isGreatest_level}
+
+An everywhere-regular derivation is the function-field form of a global
+vector field. The local bounds put `Dt` in `L(-W)`; for genus at least
+two this space has negative degree. In genus one, vanishing at a chosen
+place improves the bound to `L(-W-P)`, again of negative degree. Thus the
+two rigidity statements required by the curve-action classification are:
+
+{docstring AclGeom.DerivationIsRegular}
+
+{docstring AclGeom.DerivationVanishesAt}
+
+{docstring AclGeom.derivation_eq_zero_of_two_le_genus}
+
+{docstring AclGeom.derivation_eq_zero_of_genus_eq_one}

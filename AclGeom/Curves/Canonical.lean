@@ -79,6 +79,30 @@ theorem specialtyIndex_eq_finrank_riemannSpace
   have h6 := finrank_weilDifferentialsAt (k := k) (F := F) D
   omega
 
+/-- The divisor of every nonzero Weil differential has degree
+`2g - 2`: any greatest level represents the canonical class. -/
+theorem deg_eq_two_mul_genus_sub_two_of_isGreatest_level
+    {ω : Module.Dual k ↥(adeleSubmodule k F)} (hω0 : ω ≠ 0)
+    {W : Divisor k F} (hW : ω ∈ weilDifferentialsAt W)
+    (hmax : ∀ D, ω ∈ weilDifferentialsAt D → D ≤ W) :
+    W.deg = 2 * genus k F - 2 := by
+  have hdual := specialtyIndex_eq_finrank_riemannSpace hω0 hW hmax
+  have h0 : specialtyIndex (0 : Divisor k F) = genus k F := by
+    have h := finrank_riemannSpace_eq_add_specialtyIndex
+      (0 : Divisor k F)
+    rw [finrank_riemannSpace_zero, Divisor.deg_zero] at h
+    omega
+  have hlW : (Module.finrank k (RiemannSpace W) : ℤ) = genus k F := by
+    have h := hdual 0
+    rw [sub_zero, h0] at h
+    omega
+  have hiW : specialtyIndex W = 1 := by
+    have h := hdual W
+    rw [sub_self, finrank_riemannSpace_zero] at h
+    omega
+  have hRR := finrank_riemannSpace_eq_add_specialtyIndex W
+  omega
+
 /-- **The canonical class** (Stichtenoth 1.5.15–1.5.17): a divisor `W`
 with `i(D) = ℓ(W − D)` for every `D`, of degree `2g − 2` and dimension
 `ℓ(W) = g`. With it, Riemann–Roch reads

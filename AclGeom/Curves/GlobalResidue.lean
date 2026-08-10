@@ -417,6 +417,64 @@ theorem adeleSingle_injective (P : Place k F) :
     (fun α : ↥(adeleSubmodule k F) ↦ (α : (Q : Place k F) → F) P) hxy
   simpa [adeleSingle_coe, adeleSinglePi_apply_self] using h1
 
+/-- **Local behavior at the divisor of a differential**: if `W` is
+a greatest level of `ω`, then at every place `P` the functional kills
+all single-place adeles of order at least `-W(P)`, but does not kill
+the uniformizer monomial of order `-W(P)-1`. -/
+theorem local_behavior_of_isGreatest_level
+    {ω : Module.Dual k ↥(adeleSubmodule k F)} {W : Divisor k F}
+    (hW : ω ∈ weilDifferentialsAt W)
+    (hmax : ∀ D, ω ∈ weilDifferentialsAt D → D ≤ W)
+    (P : Place k F) :
+    (∀ f : F, f = 0 ∨ -(W P) ≤ P.ord f →
+      ω (adeleSingle P f) = 0) ∧
+    ∃ f : F, ω (adeleSingle P f) ≠ 0 ∧
+      P.ord f = -(W P) - 1 := by
+  classical
+  have hkillW : ∀ α ∈ boundedSubmodule W, ω α = 0 :=
+    mem_weilDifferentialsAt_iff.1 hW
+  constructor
+  · intro f hf
+    apply hkillW
+    rw [mem_boundedSubmodule_iff]
+    refine Submodule.mem_sup_left ?_
+    intro Q
+    change adeleSinglePi (k := k) P f Q = 0 ∨
+      -(W Q) ≤ Q.ord (adeleSinglePi (k := k) P f Q)
+    rcases eq_or_ne Q P with rfl | hQ
+    · rw [adeleSinglePi_apply_self]
+      exact hf
+    · exact Or.inl (adeleSinglePi_apply_ne P hQ f)
+  · have hmono :
+        ω (adeleMonomialMem P (-(W P) - 1)) ≠ 0 := by
+      intro hzero
+      have hnext : ω ∈
+          weilDifferentialsAt (W + Finsupp.single P 1) := by
+        rw [mem_weilDifferentialsAt_iff]
+        intro α hα
+        rw [boundedSubmodule_add_single W P] at hα
+        obtain ⟨x, hx, y, hy, hxy⟩ := Submodule.mem_sup.1 hα
+        obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.1 hy
+        rw [← hxy, map_add, hkillW x hx, ← hc, map_smul,
+          hzero, smul_zero, add_zero]
+      have hle := hmax (W + Finsupp.single P 1) hnext P
+      rw [Finsupp.add_apply, Finsupp.single_eq_same] at hle
+      omega
+    have hsingle :
+        adeleSingle P (P.pi ^ (-(W P) - 1)) =
+          adeleMonomialMem P (-(W P) - 1) := by
+      apply Subtype.ext
+      funext Q
+      change adeleSinglePi (k := k) P (P.pi ^ (-(W P) - 1)) Q =
+        adeleMonomial P (-(W P) - 1) Q
+      rcases eq_or_ne Q P with rfl | hQ
+      · rw [adeleSinglePi_apply_self, adeleMonomial_apply_self]
+      · rw [adeleSinglePi_apply_ne P hQ,
+          adeleMonomial_apply_ne P hQ]
+    refine ⟨P.pi ^ (-(W P) - 1), ?_, ?_⟩
+    · rwa [hsingle]
+    · exact ord_pi_zpow P (-(W P) - 1)
+
 /-- **The blockwise commutator restricted to a single place**: the
 global commutator built from the componentwise projection carries the
 single-place copy of `F` into itself, by the local commutator. -/
@@ -1151,6 +1209,51 @@ theorem residueFunctional_apply (g : F) (α : ↥(adeleSubmodule k F)) :
     residueFunctional g α = ∑ᶠ P : Place k F,
       P.residue ((α : (Q : Place k F) → F) P) g := rfl
 
+/-- The residue functional is additive in its differential
+parameter. -/
+theorem residueFunctional_add (g h : F) :
+    residueFunctional (k := k) (F := F) (g + h) =
+      residueFunctional g + residueFunctional h := by
+  ext α
+  rw [LinearMap.add_apply, residueFunctional_apply,
+    residueFunctional_apply, residueFunctional_apply]
+  have hpoint : ∀ P : Place k F,
+      P.residue ((α : (Q : Place k F) → F) P) (g + h) =
+        P.residue ((α : (Q : Place k F) → F) P) g +
+          P.residue ((α : (Q : Place k F) → F) P) h :=
+    fun P ↦ P.residue_add_right _ _ _
+  rw [finsum_congr hpoint]
+  exact finsum_add_distrib (residue_support_finite g α)
+    (residue_support_finite h α)
+
+/-- The residue functional scales in its differential parameter. -/
+theorem residueFunctional_smul (c : k) (g : F) :
+    residueFunctional (k := k) (F := F) (c • g) =
+      c • residueFunctional g := by
+  ext α
+  rw [LinearMap.smul_apply, residueFunctional_apply,
+    residueFunctional_apply]
+  have hpoint : ∀ P : Place k F,
+      P.residue ((α : (Q : Place k F) → F) P) (c • g) =
+        c • P.residue ((α : (Q : Place k F) → F) P) g := by
+    intro P
+    rw [P.residue_smul_right]
+    rfl
+  rw [finsum_congr hpoint, ← smul_finsum]
+
+/-- The linear map sending a function to the residue differential of
+its formal differential. -/
+noncomputable def residueFunctionalLinearMap :
+    F →ₗ[k] Module.Dual k ↥(adeleSubmodule k F) where
+  toFun := residueFunctional
+  map_add' := residueFunctional_add
+  map_smul' := residueFunctional_smul
+
+@[simp]
+theorem residueFunctionalLinearMap_apply (g : F) :
+    residueFunctionalLinearMap (k := k) (F := F) g =
+      residueFunctional g := rfl
+
 /-- The residue functional evaluates as a finite sum over any
 covering set of places. -/
 theorem residueFunctional_eq_sum {g : F} {α : ↥(adeleSubmodule k F)}
@@ -1163,6 +1266,93 @@ theorem residueFunctional_eq_sum {g : F} {α : ↥(adeleSubmodule k F)}
   rw [Function.mem_support] at hP
   by_contra h
   exact hP (hS P h)
+
+/-- The residue functional on an adele supported at one place is the
+corresponding local residue. -/
+theorem residueFunctional_adeleSingle (P : Place k F) (f g : F) :
+    residueFunctional g (adeleSingle P f) = P.residue f g := by
+  classical
+  rw [residueFunctional_eq_sum (S := {P}) (fun Q hQ ↦ ?_),
+    Finset.sum_singleton, adeleSingle_coe,
+    adeleSinglePi_apply_self]
+  have hQP : Q ≠ P := by
+    simpa using hQ
+  rw [adeleSingle_coe, adeleSinglePi_apply_ne P hQP]
+  exact Q.residue_zero_left g
+
+/-- Inverting the differential parameter shifts its residue functional
+by multiplication with the square:
+`ω_t = -(ω_{t⁻¹} ∘ m_{t²})`. -/
+theorem residueFunctional_eq_neg_comp_inv {t : F} (ht : t ≠ 0) :
+    residueFunctional (k := k) (F := F) t =
+      -(residueFunctional t⁻¹ ∘ₗ adeleSMul (t ^ 2)) := by
+  ext α
+  simp only [LinearMap.neg_apply, LinearMap.comp_apply]
+  rw [residueFunctional_apply, residueFunctional_apply]
+  have hpoint : ∀ P : Place k F,
+      P.residue ((α : (Q : Place k F) → F) P) t =
+        -P.residue
+          (((adeleSMul (t ^ 2) α : ↥(adeleSubmodule k F)) :
+            (Q : Place k F) → F) P) t⁻¹ := by
+    intro P
+    simpa only [adeleSMul_coe, adeleMulMap_apply] using
+      P.residue_eq_neg_residue_sq_inv ht
+        ((α : (Q : Place k F) → F) P)
+  rw [finsum_congr hpoint]
+  have hfin : Function.HasFiniteSupport (fun P : Place k F ↦
+      P.residue
+        (((adeleSMul (t ^ 2) α : ↥(adeleSubmodule k F)) :
+          (Q : Place k F) → F) P) t⁻¹) :=
+    residue_support_finite t⁻¹ (adeleSMul (t ^ 2) α)
+  simpa only [LinearMap.neg_apply, LinearMap.id_apply] using
+    (map_finsum (-LinearMap.id : k →ₗ[k] k) hfin).symm
+
+/-- Greatest levels of the residue differentials of `t` and `t⁻¹`
+differ by the principal divisor of `t²`. -/
+theorem isGreatest_level_residueFunctional_inv {t : F} (ht : t ≠ 0)
+    {W Winv : Divisor k F}
+    (hW : residueFunctional (k := k) (F := F) t ∈
+      weilDifferentialsAt W)
+    (hmax : ∀ D, residueFunctional (k := k) (F := F) t ∈
+      weilDifferentialsAt D → D ≤ W)
+    (hWinv : residueFunctional (k := k) (F := F) t⁻¹ ∈
+      weilDifferentialsAt Winv)
+    (hmaxinv : ∀ D, residueFunctional (k := k) (F := F) t⁻¹ ∈
+      weilDifferentialsAt D → D ≤ Winv) :
+    W = Winv + divisorOf k (t ^ 2) := by
+  have hcomp := isGreatest_level_comp hWinv hmaxinv
+    (pow_ne_zero 2 ht)
+  have hnew : residueFunctional (k := k) (F := F) t ∈
+      weilDifferentialsAt (Winv + divisorOf k (t ^ 2)) := by
+    rw [residueFunctional_eq_neg_comp_inv ht]
+    exact Submodule.neg_mem _ hcomp.1
+  have hle : Winv + divisorOf k (t ^ 2) ≤ W := hmax _ hnew
+  have hcompW :
+      residueFunctional (k := k) (F := F) t⁻¹ ∘ₗ adeleSMul (t ^ 2) ∈
+        weilDifferentialsAt W := by
+    have hneg := Submodule.neg_mem (weilDifferentialsAt W) hW
+    rw [residueFunctional_eq_neg_comp_inv ht] at hneg
+    simpa only [neg_neg] using hneg
+  exact le_antisymm (hcomp.2 W hcompW) hle
+
+/-- Pointwise form of the inverse-level shift. -/
+theorem isGreatest_level_residueFunctional_inv_apply {t : F}
+    (ht : t ≠ 0) {W Winv : Divisor k F}
+    (hW : residueFunctional (k := k) (F := F) t ∈
+      weilDifferentialsAt W)
+    (hmax : ∀ D, residueFunctional (k := k) (F := F) t ∈
+      weilDifferentialsAt D → D ≤ W)
+    (hWinv : residueFunctional (k := k) (F := F) t⁻¹ ∈
+      weilDifferentialsAt Winv)
+    (hmaxinv : ∀ D, residueFunctional (k := k) (F := F) t⁻¹ ∈
+      weilDifferentialsAt D → D ≤ Winv)
+    (P : Place k F) :
+    W P = Winv P + 2 * P.ord t := by
+  have h := congrArg (fun D : Divisor k F ↦ D P)
+    (isGreatest_level_residueFunctional_inv ht hW hmax hWinv hmaxinv)
+  rw [Finsupp.add_apply, divisorOf_apply (pow_ne_zero 2 ht),
+    P.ord_pow ht] at h
+  omega
 
 /-- **The residue functional kills the diagonal**: the residue
 theorem in functional form. -/
