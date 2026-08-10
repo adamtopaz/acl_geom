@@ -245,6 +245,18 @@ of the normalized function field:
 
 {docstring AclGeom.TranslationGroupChunk.translationHom}
 
+The difference chart in the three-object correspondence groupoid is now
+formalized independently of the geometric extraction step.  Direct group
+cancellation gives the chart product and inverse, and the normalized
+six-point output has exactly the four product relations prescribed by the
+partial quadrangle:
+
+{docstring AclGeom.groupoidComposite_eq}
+
+{docstring AclGeom.differenceChart_mul}
+
+{docstring AclGeom.sixPointGroupTuple_relations}
+
 The genus-zero endgame is the explicit affine semidirect product.  Its group
 law is the blueprint formula `(c,d)(a,b)=(ca,cb+d)`, conjugation scales the
 normal translation subgroup, and two distinct fixed points force an affine

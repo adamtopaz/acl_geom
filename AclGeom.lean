@@ -22,6 +22,7 @@ import AclGeom.Correspondence.BaseChange
 import AclGeom.Correspondence.Binomial
 import AclGeom.Correspondence.TranslationDescent
 import AclGeom.Correspondence.GroupChunk
+import AclGeom.Correspondence.GroupConfiguration
 import AclGeom.Correspondence.AffineAction
 import AclGeom.Correspondence.Additive
 import AclGeom.Curves.Adeles
