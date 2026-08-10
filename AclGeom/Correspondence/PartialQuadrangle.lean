@@ -5,6 +5,7 @@ Authors: Adam Topaz
 -/
 import AclGeom.Config.Language
 import AclGeom.Correspondence.BranchGroupoid
+import AclGeom.Correspondence.Family
 
 /-!
 # The correspondence groupoid carried by a partial quadrangle
@@ -53,6 +54,26 @@ theorem algebraicIndependent_rep_pair_of_ne
     have heq : Q.1 = P.1 := (P.2.le_iff_eq Q.2.1).1 hle
     exact hPQ (Subtype.ext heq.symm)
   exact algebraicIndependent_pair hP hQ
+
+/-- A point representative is generic over the representative of any
+distinct point. -/
+theorem point_rep_notMem_racl_rep_of_ne
+    {P Q : Point k K} (hPQ : P ≠ Q) :
+    P.rep ∉ racl k ({Q.rep} : Set K) := by
+  intro hmem
+  have hle : P.1 ≤ Q.1 := by
+    rw [← P.point_rep, ← Q.point_rep]
+    exact ClosedIF.point_le_iff.2 hmem
+  have heq : P.1 = Q.1 := (Q.2.le_iff_eq P.2.1).1 hle
+  exact hPQ (Subtype.ext heq)
+
+/-- The one-tuple consisting of a point representative is algebraically
+independent over the ground field. -/
+theorem point_rep_singleton_independent (P : Point k K) :
+    AlgebraicIndependent k ![P.rep] := by
+  rw [algebraicIndependent_unique_type_iff]
+  intro halg
+  exact P.rep_notMem_bot (ClosedIF.mem_bot_iff.2 halg)
 
 /-- Two distinct points span a rank-two flat. -/
 theorem rankEq_two_sup_of_ne {P Q : Point k K} (hPQ : P ≠ Q) :
@@ -382,6 +403,152 @@ theorem configurationNormalOverGroupCoordinates_normal [IsAlgClosed K]
     (Algebra.IsAlgebraic.of_finite (↥(groupCoordinateField f))
       (↥(configurationOverGroupCoordinates f)))
 
+/-- The varying one-parameter `T`-family member `S' → U'`. -/
+def tFamilyMember (h : IsPartialQuadrangle f) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 1 where
+  parameter := ![(f 1).rep]
+  source := (f 3).rep
+  target := (f 5).rep
+  parameter_independent := point_rep_singleton_independent (f 1)
+  source_generic := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      point_rep_notMem_racl_rep_of_ne
+        ((IsPartialQuadrangle.injective h).ne (by decide) : f 3 ≠ f 1)
+  target_mem_parameter_source := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      third_rep_mem_racl_pair_of_rankEq_two
+        (P := f 1) (Q := f 3) (R := f 5)
+        ((IsPartialQuadrangle.injective h).ne (by decide))
+        (IsPartialQuadrangle.rank_S'TU' h)
+  source_mem_parameter_target := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      third_rep_mem_racl_pair_of_rankEq_two
+        (P := f 1) (Q := f 5) (R := f 3)
+        ((IsPartialQuadrangle.injective h).ne (by decide)) (by
+          simpa [sup_comm (f 3).1 (f 5).1, sup_left_comm]
+            using IsPartialQuadrangle.rank_S'TU' h)
+
+/-- The varying one-parameter `S`-family member `U' → T'`. -/
+def sFamilyMember (h : IsPartialQuadrangle f) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 1 where
+  parameter := ![(f 0).rep]
+  source := (f 5).rep
+  target := (f 4).rep
+  parameter_independent := point_rep_singleton_independent (f 0)
+  source_generic := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      point_rep_notMem_racl_rep_of_ne
+        ((IsPartialQuadrangle.injective h).ne (by decide) : f 5 ≠ f 0)
+  target_mem_parameter_source := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      third_rep_mem_racl_pair_of_rankEq_two
+        (P := f 0) (Q := f 5) (R := f 4)
+        ((IsPartialQuadrangle.injective h).ne (by decide)) (by
+          simpa [sup_comm (f 4).1 (f 5).1]
+            using IsPartialQuadrangle.rank_STU' h)
+  source_mem_parameter_target := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      third_rep_mem_racl_pair_of_rankEq_two
+        (P := f 0) (Q := f 4) (R := f 5)
+        ((IsPartialQuadrangle.injective h).ne (by decide)) (by
+          simpa [sup_comm (f 4).1 (f 5).1, sup_left_comm]
+            using IsPartialQuadrangle.rank_STU' h)
+
+/-- The varying one-parameter `U`-family endpoint member `S' → T'`. -/
+def uFamilyMember (h : IsPartialQuadrangle f) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 1 where
+  parameter := ![(f 2).rep]
+  source := (f 3).rep
+  target := (f 4).rep
+  parameter_independent := point_rep_singleton_independent (f 2)
+  source_generic := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      point_rep_notMem_racl_rep_of_ne
+        ((IsPartialQuadrangle.injective h).ne (by decide) : f 3 ≠ f 2)
+  target_mem_parameter_source := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      third_rep_mem_racl_pair_of_rankEq_two
+        (P := f 2) (Q := f 3) (R := f 4)
+        ((IsPartialQuadrangle.injective h).ne (by decide)) (by
+          simpa [sup_comm (f 2).1 (f 3).1, sup_left_comm]
+            using IsPartialQuadrangle.rank_S'T'U h)
+  source_mem_parameter_target := by
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using
+      third_rep_mem_racl_pair_of_rankEq_two
+        (P := f 2) (Q := f 4) (R := f 3)
+        ((IsPartialQuadrangle.injective h).ne (by decide)) (by
+          simpa only [sup_comm (f 3).1 (f 4).1]
+            using IsPartialQuadrangle.rank_S'T'U h)
+
+/-- Every independent parameter/source pair carries a member of the same
+`T`-family locus as the selected `(T,S',U')` tuple. -/
+theorem tFamily_exists_relocation [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {t : Fin 1 → K} {s' : K}
+    (hts : AlgebraicIndependent k (Fin.snoc t s')) :
+    ∃ u' : K,
+      idealOf k (Fin.snoc (Fin.snoc t s') u') =
+        (tFamilyMember h).ideal :=
+  (tFamilyMember h).exists_relocation hts
+
+/-- Every independent parameter/source pair carries a member of the same
+`S`-family locus as the selected `(S,U',T')` tuple. -/
+theorem sFamily_exists_relocation [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {s : Fin 1 → K} {u' : K}
+    (hsu : AlgebraicIndependent k (Fin.snoc s u')) :
+    ∃ t' : K,
+      idealOf k (Fin.snoc (Fin.snoc s u') t') =
+        (sFamilyMember h).ideal :=
+  (sFamilyMember h).exists_relocation hsu
+
+/-- Every independent parameter/source pair carries a member of the same
+endpoint `U`-family locus as the selected `(U,S',T')` tuple. -/
+theorem uFamily_exists_relocation [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {u : Fin 1 → K} {s' : K}
+    (hus : AlgebraicIndependent k (Fin.snoc u s')) :
+    ∃ t' : K,
+      idealOf k (Fin.snoc (Fin.snoc u s') t') =
+        (uFamilyMember h).ideal :=
+  (uFamilyMember h).exists_relocation hus
+
+/-- The individual `T` parameter field embeds in the common
+`k(S,T,U)` coefficient field of the selected groupoid. -/
+theorem tFamilyParameterField_le_parameterField
+    (h : IsPartialQuadrangle f) :
+    (tFamilyMember h).parameterField ≤ parameterField f := by
+  unfold FiniteCorrespondenceFamilyMember.parameterField tFamilyMember
+    parameterField
+  apply adjoin.mono
+  intro x hx
+  have hx' : x = (f 1).rep := by
+    simpa [Matrix.range_cons, Matrix.range_empty] using hx
+  simp [hx']
+
+/-- The individual `S` parameter field embeds in the common
+`k(S,T,U)` coefficient field. -/
+theorem sFamilyParameterField_le_parameterField
+    (h : IsPartialQuadrangle f) :
+    (sFamilyMember h).parameterField ≤ parameterField f := by
+  unfold FiniteCorrespondenceFamilyMember.parameterField sFamilyMember
+    parameterField
+  apply adjoin.mono
+  intro x hx
+  have hx' : x = (f 0).rep := by
+    simpa [Matrix.range_cons, Matrix.range_empty] using hx
+  simp [hx']
+
+/-- The individual `U` parameter field embeds in the common
+`k(S,T,U)` coefficient field. -/
+theorem uFamilyParameterField_le_parameterField
+    (h : IsPartialQuadrangle f) :
+    (uFamilyMember h).parameterField ≤ parameterField f := by
+  unfold FiniteCorrespondenceFamilyMember.parameterField uFamilyMember
+    parameterField
+  apply adjoin.mono
+  intro x hx
+  have hx' : x = (f 2).rep := by
+    simpa [Matrix.range_cons, Matrix.range_empty] using hx
+  simp [hx']
+
 /-- The selected `T`-family arrow `S' → U'`. -/
 def tPair (h : IsPartialQuadrangle f) :
     FiniteCorrespondencePair (↥(parameterField f)) K where
@@ -491,6 +658,57 @@ def uPair (h : IsPartialQuadrangle f) :
 
 @[simp] theorem uPair_target (h : IsPartialQuadrangle f) :
     (uPair h).target = (f 4).rep := rfl
+
+/-- Base-changing the individual `T`-family member to the common
+`k(S,T,U)` coefficient field selects the `T` branch of the groupoid. -/
+theorem tFamily_map_le_selectedPair (h : IsPartialQuadrangle f) :
+    Ideal.map
+        (MvPolynomial.map (IntermediateField.inclusion
+          (tFamilyParameterField_le_parameterField h)))
+        (tFamilyMember h).toPair.ideal ≤ (tPair h).ideal := by
+  change Ideal.map
+      (MvPolynomial.map (IntermediateField.inclusion
+        (tFamilyParameterField_le_parameterField h)))
+      (idealOf (↥(tFamilyMember h).parameterField)
+        ![(f 3).rep, (f 5).rep]) ≤
+    idealOf (↥(parameterField f)) ![(f 3).rep, (f 5).rep]
+  exact idealOf_map_le_of_intermediateField_le
+    (tFamilyParameterField_le_parameterField h)
+    ![(f 3).rep, (f 5).rep]
+
+/-- Base-changing the individual `S`-family member selects the `S`
+branch of the common groupoid. -/
+theorem sFamily_map_le_selectedPair (h : IsPartialQuadrangle f) :
+    Ideal.map
+        (MvPolynomial.map (IntermediateField.inclusion
+          (sFamilyParameterField_le_parameterField h)))
+        (sFamilyMember h).toPair.ideal ≤ (sPair h).ideal := by
+  change Ideal.map
+      (MvPolynomial.map (IntermediateField.inclusion
+        (sFamilyParameterField_le_parameterField h)))
+      (idealOf (↥(sFamilyMember h).parameterField)
+        ![(f 5).rep, (f 4).rep]) ≤
+    idealOf (↥(parameterField f)) ![(f 5).rep, (f 4).rep]
+  exact idealOf_map_le_of_intermediateField_le
+    (sFamilyParameterField_le_parameterField h)
+    ![(f 5).rep, (f 4).rep]
+
+/-- Base-changing the individual endpoint `U`-family member selects the
+composite `U` branch of the common groupoid. -/
+theorem uFamily_map_le_selectedPair (h : IsPartialQuadrangle f) :
+    Ideal.map
+        (MvPolynomial.map (IntermediateField.inclusion
+          (uFamilyParameterField_le_parameterField h)))
+        (uFamilyMember h).toPair.ideal ≤ (uPair h).ideal := by
+  change Ideal.map
+      (MvPolynomial.map (IntermediateField.inclusion
+        (uFamilyParameterField_le_parameterField h)))
+      (idealOf (↥(uFamilyMember h).parameterField)
+        ![(f 3).rep, (f 4).rep]) ≤
+    idealOf (↥(parameterField f)) ![(f 3).rep, (f 4).rep]
+  exact idealOf_map_le_of_intermediateField_le
+    (uFamilyParameterField_le_parameterField h)
+    ![(f 3).rep, (f 4).rep]
 
 /-- The selected three-object groupoid composition identity
 `S ∘ T = U`. -/

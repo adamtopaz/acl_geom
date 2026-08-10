@@ -445,6 +445,31 @@ its selected object:
 
 {docstring AclGeom.IsPartialQuadrangle.selectedChainBranchGroupoid_isConnected}
 
+Before passing to the common `k(S,T,U)` cover, the three arrows are genuine
+members of separate one-parameter families: `T` carries `S' → U'`, `S`
+carries `U' → T'`, and `U` carries `S' → T'`.  Each family locus relocates
+above every independent parameter/source pair.  Base change to the common
+coefficient field selects exactly the three branches used in the groupoid
+composition:
+
+{docstring AclGeom.IsPartialQuadrangle.tFamilyMember}
+
+{docstring AclGeom.IsPartialQuadrangle.sFamilyMember}
+
+{docstring AclGeom.IsPartialQuadrangle.uFamilyMember}
+
+{docstring AclGeom.IsPartialQuadrangle.tFamily_exists_relocation}
+
+{docstring AclGeom.IsPartialQuadrangle.sFamily_exists_relocation}
+
+{docstring AclGeom.IsPartialQuadrangle.uFamily_exists_relocation}
+
+{docstring AclGeom.IsPartialQuadrangle.tFamily_map_le_selectedPair}
+
+{docstring AclGeom.IsPartialQuadrangle.sFamily_map_le_selectedPair}
+
+{docstring AclGeom.IsPartialQuadrangle.uFamily_map_le_selectedPair}
+
 The free triple `(S,T,S')` already gives independent representatives for
 the three group-configuration coordinates.  Every other displayed
 representative is algebraic over that triple, while each of the parameters
