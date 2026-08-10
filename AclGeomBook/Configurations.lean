@@ -245,6 +245,15 @@ of the normalized function field:
 
 {docstring AclGeom.TranslationGroupChunk.translationHom}
 
+The genus-zero endgame is the explicit affine semidirect product.  Its group
+law is the blueprint formula `(c,d)(a,b)=(ca,cb+d)`, conjugation scales the
+normal translation subgroup, and two distinct fixed points force an affine
+transformation to be the identity:
+
+{docstring AclGeom.AffineTransformation.mul_translation_mul_inv}
+
+{docstring AclGeom.AffineTransformation.eq_one_of_smul_eq_of_smul_eq}
+
 The completeness directions — resting on the affine grid extraction of
 blueprint Lemma 8.5, the rational group chunk, and the affine-action
 classification — are the remaining chunk of this layer; the design
