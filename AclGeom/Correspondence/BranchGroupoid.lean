@@ -148,6 +148,75 @@ def equivOfEquiv (eE : E ≃+* E') (eM : M ≃+* M') (eN : N ≃+* N')
         ext x
         simp }
 
+/-- Conjugation by a semilinear equivalence of normal-cover fields
+transports deck transformations between the two base fields. -/
+def deckMapOfEquiv (eE : E ≃+* E') (eN : N ≃+* N')
+    (hN : eN.toRingHom.comp (algebraMap E N) =
+      (algebraMap E' N').comp eE.toRingHom)
+    (σ : N ≃ₐ[E] N) : N' ≃ₐ[E'] N' := by
+  let r : N' ≃+* N' := eN.symm.trans (σ.toRingEquiv.trans eN)
+  apply AlgEquiv.ofRingEquiv (f := r)
+  intro x
+  change eN (σ (eN.symm (algebraMap E' N' x))) =
+    algebraMap E' N' x
+  have hN_symm :
+      eN.symm (algebraMap E' N' x) =
+        algebraMap E N (eE.symm x) := by
+    apply eN.injective
+    rw [eN.apply_symm_apply]
+    have hn := DFunLike.congr_fun hN (eE.symm x)
+    change eN (algebraMap E N (eE.symm x)) =
+      algebraMap E' N' (eE (eE.symm x)) at hn
+    rw [eE.apply_symm_apply] at hn
+    exact hn.symm
+  rw [hN_symm, σ.commutes]
+  have hn := DFunLike.congr_fun hN (eE.symm x)
+  change eN (algebraMap E N (eE.symm x)) =
+    algebraMap E' N' (eE (eE.symm x)) at hn
+  rwa [eE.apply_symm_apply] at hn
+
+/-- Deck transport acts by conjugation on the underlying normal-cover
+field. -/
+@[simp] theorem deckMapOfEquiv_apply
+    (eE : E ≃+* E') (eN : N ≃+* N')
+    (hN : eN.toRingHom.comp (algebraMap E N) =
+      (algebraMap E' N').comp eE.toRingHom)
+    (σ : N ≃ₐ[E] N) (x : N') :
+    deckMapOfEquiv eE eN hN σ x = eN (σ (eN.symm x)) := by
+  rfl
+
+/-- A compatible equivalence of normal-cover fields identifies their
+deck-transformation groups. -/
+def deckEquivOfEquiv (eE : E ≃+* E') (eN : N ≃+* N')
+    (hN : eN.toRingHom.comp (algebraMap E N) =
+      (algebraMap E' N').comp eE.toRingHom) :
+    (N ≃ₐ[E] N) ≃* (N' ≃ₐ[E'] N') := by
+  have hN' : eN.symm.toRingHom.comp (algebraMap E' N') =
+      (algebraMap E N).comp eE.symm.toRingHom := by
+    apply RingHom.ext
+    intro x
+    change eN.symm (algebraMap E' N' x) =
+      algebraMap E N (eE.symm x)
+    apply eN.injective
+    rw [eN.apply_symm_apply]
+    have hn := DFunLike.congr_fun hN (eE.symm x)
+    change eN (algebraMap E N (eE.symm x)) =
+      algebraMap E' N' (eE (eE.symm x)) at hn
+    rw [eE.apply_symm_apply] at hn
+    exact hn.symm
+  exact
+    { toFun := deckMapOfEquiv eE eN hN
+      invFun := deckMapOfEquiv eE.symm eN.symm hN'
+      left_inv := fun σ ↦ by
+        ext x
+        simp
+      right_inv := fun σ ↦ by
+        ext x
+        simp
+      map_mul' := fun σ τ ↦ by
+        ext x
+        simp [AlgEquiv.mul_apply] }
+
 end Transport
 
 /-- A deck transformation acts on a branch embedding by
@@ -168,6 +237,28 @@ instance : MulAction (N ≃ₐ[E] N) (NormalBranchEmbedding E M N) where
   mul_smul σ τ f := by
     ext x
     rfl
+
+section TransportAction
+
+variable {E' M' N' : Type*} [Field E'] [Field M'] [Field N']
+  [Algebra E' M'] [Algebra E' N']
+
+/-- Branch transport is equivariant for conjugation transport of deck
+transformations. -/
+@[simp] theorem mapOfEquiv_smul
+    (eE : E ≃+* E') (eM : M ≃+* M') (eN : N ≃+* N')
+    (hM : eM.toRingHom.comp (algebraMap E M) =
+      (algebraMap E' M').comp eE.toRingHom)
+    (hN : eN.toRingHom.comp (algebraMap E N) =
+      (algebraMap E' N').comp eE.toRingHom)
+    (σ : N ≃ₐ[E] N) (f : NormalBranchEmbedding E M N) :
+    mapOfEquiv eE eM eN hM hN (σ • f) =
+      deckMapOfEquiv eE eN hN σ •
+        mapOfEquiv eE eM eN hM hN f := by
+  ext x
+  simp
+
+end TransportAction
 
 variable [Algebra M N] [IsScalarTower E M N]
 
@@ -213,6 +304,87 @@ theorem exists_smul_eq [Normal E N]
   rw [α.symm_apply_apply, hg]
 
 end NormalBranchEmbedding
+
+section ActionCategoryTransport
+
+variable {G H X Y : Type*} [Group G] [Group H]
+  [MulAction G X] [MulAction H Y]
+
+/-- Left multiplication by a group element as an equivalence of the
+underlying action. -/
+def mulActionEquiv (g : G) : X ≃ X where
+  toFun := (g • ·)
+  invFun := (g⁻¹ • ·)
+  left_inv x := by simp
+  right_inv x := by simp
+
+@[simp] theorem mulActionEquiv_apply (g : G) (x : X) :
+    mulActionEquiv g x = g • x := rfl
+
+/-- An equivalence of acting groups together with an equivariant equivalence
+of their actions induces a functor of action categories. -/
+def actionCategoryFunctorOfEquivariantEquiv
+    (eG : G ≃* H) (eX : X ≃ Y)
+    (heq : ∀ g x, eX (g • x) = eG g • eX x) :
+    ActionCategory G X ⥤ ActionCategory H Y where
+  obj x := eX x.back
+  map {x y} f := ⟨eG f.val, by
+    change eG f.val • eX x.back = eX y.back
+    rw [← heq]
+    exact congrArg eX f.property⟩
+  map_id x := by
+    apply Subtype.ext
+    change eG 1 = 1
+    simp
+  map_comp f g := by
+    apply Subtype.ext
+    change eG (g.val * f.val) = eG g.val * eG f.val
+    simp
+
+/-- The groupoid inverse in an action category inverts its group label. -/
+@[simp] theorem actionCategory_groupoidInv_val
+    {x y : ActionCategory G X} (f : x ⟶ y) :
+    (CategoryTheory.Groupoid.inv f).val = f.val⁻¹ := rfl
+
+/-- Equivariant equivalences of group actions induce equivalences of their
+action categories. -/
+noncomputable def actionCategoryEquivalenceOfEquivariantEquiv
+    (eG : G ≃* H) (eX : X ≃ Y)
+    (heq : ∀ g x, eX (g • x) = eG g • eX x) :
+    ActionCategory G X ≌ ActionCategory H Y := by
+  let F := actionCategoryFunctorOfEquivariantEquiv eG eX heq
+  have hFF : F.FullyFaithful := by
+    refine
+      { preimage := fun {x y} f ↦ ⟨eG.symm f.val, by
+          change eG.symm f.val • x.back = y.back
+          apply eX.injective
+          calc
+            eX (eG.symm f.val • x.back) =
+                eG (eG.symm f.val) • eX x.back := heq _ _
+            _ = f.val • eX x.back := by simp
+            _ = eX y.back := f.property⟩
+        map_preimage := fun f ↦ by
+          apply Subtype.ext
+          change eG (eG.symm f.val) = f.val
+          simp
+        preimage_map := fun f ↦ by
+          apply Subtype.ext
+          change eG.symm (eG f.val) = f.val
+          simp }
+  letI : F.Full := hFF.full
+  letI : F.Faithful := hFF.faithful
+  letI : F.EssSurj := ⟨fun y ↦ by
+    let x : ActionCategory G X := eX.symm y.back
+    have hy : F.obj x = y := by
+      rw [← ActionCategory.back_coe (x := F.obj x),
+        ← ActionCategory.back_coe (x := y)]
+      congr 1
+      simp [F, x, actionCategoryFunctorOfEquivariantEquiv]
+    exact ⟨x, ⟨eqToIso hy⟩⟩⟩
+  letI : F.IsEquivalence := { }
+  exact F.asEquivalence
+
+end ActionCategoryTransport
 
 /-- The action groupoid of conjugate embeddings of a branch field into a
 normal cover. -/
@@ -300,6 +472,43 @@ def finiteCoverBranchEquivOfExtensionEquiv
     exact e.commutes_apply x
   · exact hn
 
+/-- The same compatible normal-cover equivalence transports deck
+transformations by conjugation. -/
+def finiteCoverDeckEquivOfExtensionEquiv
+    {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L')
+    (e : FiniteCover.ExtensionEquiv h h')
+    (n : (↥(FiniteCover.normalClosureOver h)) ≃+*
+      (↥(FiniteCover.normalClosureOver h')))
+    (hn : n.toRingHom.comp
+        (algebraMap (↥E) (↥(FiniteCover.normalClosureOver h))) =
+      (algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))).comp
+        e.baseEquiv.toRingEquiv.toRingHom) :
+    FiniteCoverDeck h ≃* FiniteCoverDeck h' :=
+  NormalBranchEmbedding.deckEquivOfEquiv
+    e.baseEquiv.toRingEquiv n hn
+
+/-- Branch transport is equivariant for the corresponding transport of
+deck transformations. -/
+@[simp] theorem finiteCoverBranchEquivOfExtensionEquiv_smul
+    {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L')
+    (e : FiniteCover.ExtensionEquiv h h')
+    (n : (↥(FiniteCover.normalClosureOver h)) ≃+*
+      (↥(FiniteCover.normalClosureOver h')))
+    (hn : n.toRingHom.comp
+        (algebraMap (↥E) (↥(FiniteCover.normalClosureOver h))) =
+      (algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))).comp
+        e.baseEquiv.toRingEquiv.toRingHom)
+    (σ : FiniteCoverDeck h) (b : FiniteCoverBranch h) :
+    finiteCoverBranchEquivOfExtensionEquiv h h' e n hn (σ • b) =
+      finiteCoverDeckEquivOfExtensionEquiv h h' e n hn σ •
+        finiteCoverBranchEquivOfExtensionEquiv h h' e n hn b := by
+  unfold finiteCoverBranchEquivOfExtensionEquiv
+    finiteCoverDeckEquivOfExtensionEquiv
+    NormalBranchEmbedding.equivOfEquiv
+    NormalBranchEmbedding.deckEquivOfEquiv
+  ext x
+  simp
+
 /-- The genuine action groupoid of all conjugate branches of a concrete
 finite cover. -/
 abbrev finiteCoverBranchGroupoid (h : E ≤ L) :=
@@ -315,6 +524,22 @@ def finiteCoverSelectedBranch (h : E ≤ L) : FiniteCoverBranch h :=
 def finiteCoverSelectedObject (h : E ≤ L) :
     finiteCoverBranchGroupoid h :=
   finiteCoverSelectedBranch h
+
+/-- An equivalence of finite-cover branch actions which additionally
+preserves the literal selected branch. -/
+structure FiniteCoverBasedBranchEquiv
+    {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L') where
+  /-- The induced equivalence of deck-transformation groups. -/
+  deckEquiv : FiniteCoverDeck h ≃* FiniteCoverDeck h'
+  /-- The induced equivalence of conjugate branch types. -/
+  branchEquiv : FiniteCoverBranch h ≃ FiniteCoverBranch h'
+  /-- Deck actions and branch transport commute. -/
+  map_smul : ∀ σ b,
+    branchEquiv (σ • b) = deckEquiv σ • branchEquiv b
+  /-- The literal selected branch is preserved. -/
+  map_selected :
+    branchEquiv (finiteCoverSelectedBranch h) =
+      finiteCoverSelectedBranch h'
 
 /-- A concrete finite cover has only finitely many branches in its normal
 closure. -/
@@ -344,6 +569,173 @@ theorem finiteCoverBranch_exists_smul_eq [IsAlgClosed Ω]
     FiniteCover.normalClosureOver_normal h
       (Algebra.IsAlgebraic.of_finite (↥E) (↥(extendScalars h)))
   exact NormalBranchEmbedding.exists_smul_eq f g
+
+/-- A transported normal cover can be based at the literal target branch:
+transitivity supplies a target deck transformation correcting the raw
+field-theoretic branch equivalence.  Conjugating the deck-group equivalence
+by the same element retains equivariance. -/
+def finiteCoverBasedBranchEquivOfExtensionEquiv [IsAlgClosed Ω]
+    {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L')
+    (hfin' : FiniteDimensional (↥E') (↥(extendScalars h')))
+    (e : FiniteCover.ExtensionEquiv h h')
+    (n : (↥(FiniteCover.normalClosureOver h)) ≃+*
+      (↥(FiniteCover.normalClosureOver h')))
+    (hn : n.toRingHom.comp
+        (algebraMap (↥E) (↥(FiniteCover.normalClosureOver h))) =
+      (algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))).comp
+        e.baseEquiv.toRingEquiv.toRingHom) :
+    FiniteCoverBasedBranchEquiv h h' := by
+  let rawBranch := finiteCoverBranchEquivOfExtensionEquiv h h' e n hn
+  let rawDeck := finiteCoverDeckEquivOfExtensionEquiv h h' e n hn
+  let hex := finiteCoverBranch_exists_smul_eq h' hfin'
+    (rawBranch (finiteCoverSelectedBranch h))
+    (finiteCoverSelectedBranch h')
+  let τ : FiniteCoverDeck h' := Classical.choose hex
+  have hτ : τ • rawBranch (finiteCoverSelectedBranch h) =
+      finiteCoverSelectedBranch h' := Classical.choose_spec hex
+  refine
+    { deckEquiv := rawDeck.trans (MulAut.conj τ)
+      branchEquiv := rawBranch.trans (mulActionEquiv τ)
+      map_smul := fun σ b ↦ ?_
+      map_selected := ?_ }
+  · change τ • rawBranch (σ • b) =
+      (τ * rawDeck σ * τ⁻¹) • (τ • rawBranch b)
+    rw [finiteCoverBranchEquivOfExtensionEquiv_smul]
+    simp [rawBranch, rawDeck, mul_smul, mul_assoc]
+  · exact hτ
+
+namespace FiniteCoverBasedBranchEquiv
+
+variable {E' L' : IntermediateField k Ω} {h : E ≤ L} {h' : E' ≤ L'}
+
+/-- A based equivalence of finite-cover branch actions induces an
+equivalence of the corresponding genuine action groupoids. -/
+noncomputable def groupoidEquivalence (T : FiniteCoverBasedBranchEquiv h h') :
+    finiteCoverBranchGroupoid h ≌ finiteCoverBranchGroupoid h' :=
+  actionCategoryEquivalenceOfEquivariantEquiv
+    T.deckEquiv T.branchEquiv T.map_smul
+
+/-- The forward groupoid equivalence acts on objects by the based branch
+equivalence. -/
+@[simp] theorem groupoidEquivalence_obj_back
+    (T : FiniteCoverBasedBranchEquiv h h')
+    (b : finiteCoverBranchGroupoid h) :
+    (T.groupoidEquivalence.functor.obj b).back = T.branchEquiv b.back := by
+  rfl
+
+/-- The induced groupoid equivalence preserves the distinguished object. -/
+theorem groupoidEquivalence_obj_selected
+    (T : FiniteCoverBasedBranchEquiv h h') :
+    T.groupoidEquivalence.functor.obj (finiteCoverSelectedObject h) =
+      finiteCoverSelectedObject h' := by
+  rw [← ActionCategory.back_coe
+      (x := T.groupoidEquivalence.functor.obj
+        (finiteCoverSelectedObject h)),
+    ← ActionCategory.back_coe (x := finiteCoverSelectedObject h')]
+  congr 1
+  exact T.map_selected
+
+/-- On each based arrow family, a based branch transport is the explicit
+equivalence obtained by transporting the deck label.  The target family is
+based at the literal target branch because `map_selected` removes the
+otherwise necessary object cast. -/
+def arrowEquiv (T : FiniteCoverBasedBranchEquiv h h')
+    (b : finiteCoverBranchGroupoid h) :
+    (finiteCoverSelectedObject h ⟶ b) ≃
+      (finiteCoverSelectedObject h' ⟶
+        (T.branchEquiv b.back : finiteCoverBranchGroupoid h')) where
+  toFun a := ⟨T.deckEquiv a.val, by
+    change T.deckEquiv a.val • finiteCoverSelectedBranch h' =
+      T.branchEquiv b.back
+    rw [← T.map_selected, ← T.map_smul]
+    exact congrArg T.branchEquiv a.property⟩
+  invFun a := by
+    let σ : FiniteCoverDeck h' := a.val
+    have ha := a.property
+    change σ • finiteCoverSelectedBranch h' = T.branchEquiv b.back at ha
+    refine ⟨T.deckEquiv.symm σ, ?_⟩
+    change T.deckEquiv.symm σ • finiteCoverSelectedBranch h = b.back
+    apply T.branchEquiv.injective
+    calc
+      T.branchEquiv
+          (T.deckEquiv.symm σ • finiteCoverSelectedBranch h) =
+          T.deckEquiv (T.deckEquiv.symm σ) •
+            T.branchEquiv (finiteCoverSelectedBranch h) := T.map_smul _ _
+      _ = σ • finiteCoverSelectedBranch h' := by simp [T.map_selected]
+      _ = T.branchEquiv b.back := ha
+  left_inv a := by
+    apply Subtype.ext
+    simp
+  right_inv a := by
+    apply Subtype.ext
+    simp
+
+/-- The based-arrow equivalence sends an arrow's deck label through the
+deck-transformation equivalence. -/
+@[simp] theorem arrowEquiv_val (T : FiniteCoverBasedBranchEquiv h h')
+    (b : finiteCoverBranchGroupoid h)
+    (a : finiteCoverSelectedObject h ⟶ b) :
+    (T.arrowEquiv b a).val = T.deckEquiv a.val := rfl
+
+/-- Based-arrow transport intertwines the difference-product operation. -/
+theorem arrowEquiv_differenceProduct
+    (T : FiniteCoverBasedBranchEquiv h h')
+    (b : finiteCoverBranchGroupoid h)
+    (e a c : finiteCoverSelectedObject h ⟶ b) :
+    T.arrowEquiv b (groupoidDifferenceProduct e a c) =
+      groupoidDifferenceProduct
+        (T.arrowEquiv b e) (T.arrowEquiv b a) (T.arrowEquiv b c) := by
+  let ε : FiniteCoverDeck h := e.val
+  let α : FiniteCoverDeck h := a.val
+  let γ : FiniteCoverDeck h := c.val
+  have hsrc : (a ≫ CategoryTheory.Groupoid.inv e ≫ c).val =
+      γ * ε⁻¹ * α := rfl
+  have htgt : (T.arrowEquiv b a ≫
+      CategoryTheory.Groupoid.inv (T.arrowEquiv b e) ≫
+        T.arrowEquiv b c).val =
+      T.deckEquiv γ * (T.deckEquiv ε)⁻¹ * T.deckEquiv α := rfl
+  apply Subtype.ext
+  rw [arrowEquiv_val]
+  unfold groupoidDifferenceProduct
+  rw [← CategoryTheory.Groupoid.inv_eq_inv e,
+    ← CategoryTheory.Groupoid.inv_eq_inv (T.arrowEquiv b e)]
+  calc
+    T.deckEquiv (a ≫ CategoryTheory.Groupoid.inv e ≫ c).val =
+        T.deckEquiv (γ * ε⁻¹ * α) := congrArg T.deckEquiv hsrc
+    _ = T.deckEquiv γ * (T.deckEquiv ε)⁻¹ * T.deckEquiv α := by simp
+    _ = (T.arrowEquiv b a ≫
+        CategoryTheory.Groupoid.inv (T.arrowEquiv b e) ≫
+          T.arrowEquiv b c).val := htgt.symm
+
+/-- Based-arrow transport intertwines the difference-inverse operation. -/
+theorem arrowEquiv_differenceInverse
+    (T : FiniteCoverBasedBranchEquiv h h')
+    (b : finiteCoverBranchGroupoid h)
+    (e a : finiteCoverSelectedObject h ⟶ b) :
+    T.arrowEquiv b (groupoidDifferenceInverse e a) =
+      groupoidDifferenceInverse (T.arrowEquiv b e) (T.arrowEquiv b a) := by
+  let ε : FiniteCoverDeck h := e.val
+  let α : FiniteCoverDeck h := a.val
+  have hsrc : (e ≫ CategoryTheory.Groupoid.inv a ≫ e).val =
+      ε * α⁻¹ * ε := rfl
+  have htgt : (T.arrowEquiv b e ≫
+      CategoryTheory.Groupoid.inv (T.arrowEquiv b a) ≫
+        T.arrowEquiv b e).val =
+      T.deckEquiv ε * (T.deckEquiv α)⁻¹ * T.deckEquiv ε := rfl
+  apply Subtype.ext
+  rw [arrowEquiv_val]
+  unfold groupoidDifferenceInverse
+  rw [← CategoryTheory.Groupoid.inv_eq_inv a,
+    ← CategoryTheory.Groupoid.inv_eq_inv (T.arrowEquiv b a)]
+  calc
+    T.deckEquiv (e ≫ CategoryTheory.Groupoid.inv a ≫ e).val =
+        T.deckEquiv (ε * α⁻¹ * ε) := congrArg T.deckEquiv hsrc
+    _ = T.deckEquiv ε * (T.deckEquiv α)⁻¹ * T.deckEquiv ε := by simp
+    _ = (T.arrowEquiv b e ≫
+        CategoryTheory.Groupoid.inv (T.arrowEquiv b a) ≫
+          T.arrowEquiv b e).val := htgt.symm
+
+end FiniteCoverBasedBranchEquiv
 
 /-- The conjugate-branch groupoid of a concrete finite cover is connected. -/
 theorem finiteCoverBranchGroupoid_isConnected [IsAlgClosed Ω]

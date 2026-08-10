@@ -1533,6 +1533,43 @@ noncomputable def relocatedChainBranchEquiv [IsAlgClosed K]
   intro x
   exact relocatedChainNormalCoverEquiv_algebraMap h hv hw x
 
+/-- Correcting the raw transported branch by a target deck transformation
+gives an equivariant transport which preserves the literal relocated chain.
+The same correction conjugates the deck-transformation equivalence. -/
+noncomputable def relocatedChainBasedBranchEquiv [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    FiniteCoverBasedBranchEquiv
+      (relocatedChainExtensionInclusion h v hv)
+      (relocatedChainExtensionInclusion h w hw) := by
+  have hfinw : FiniteDimensional
+      (↥(relocatedCompositeBranchField h w hw))
+      (↥(extendScalars (relocatedChainExtensionInclusion h w hw))) :=
+    (tPairOfIdealEq h w hw).chainOverComposite_finiteDimensional
+      (sPairOfIdealEq h w hw) rfl
+  apply finiteCoverBasedBranchEquivOfExtensionEquiv
+    (relocatedChainExtensionInclusion h v hv)
+    (relocatedChainExtensionInclusion h w hw) hfinw
+    (relocatedChainExtensionEquiv h hv hw)
+    (relocatedChainNormalCoverEquiv h hv hw)
+  apply RingHom.ext
+  intro x
+  exact relocatedChainNormalCoverEquiv_algebraMap h hv hw x
+
+/-- The based relocated branch transport sends the distinguished source
+chain exactly to the distinguished target chain. -/
+@[simp] theorem relocatedChainBasedBranchEquiv_selected [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    (relocatedChainBasedBranchEquiv h hv hw).branchEquiv
+        (finiteCoverSelectedBranch
+          (relocatedChainExtensionInclusion h v hv)) =
+      finiteCoverSelectedBranch
+        (relocatedChainExtensionInclusion h w hw) :=
+  (relocatedChainBasedBranchEquiv h hv hw).map_selected
+
 /-- Above every independent replacement of `(S,T,S')` there is a single
 compatible six-tuple whose three actual finite-correspondence pairs over
 the common parameter field compose literally. -/
@@ -1735,9 +1772,7 @@ with the relocated tuple. -/
 abbrev relocatedChainBranchGroupoid (h : IsPartialQuadrangle f)
     (v : Fin 6 → K)
     (hv : idealOf k v = idealOf k (configurationReps f)) :=
-  finiteCoverBranchGroupoid
-    ((tPairOfIdealEq h v hv).compositeBranchField_le_chainField
-      (sPairOfIdealEq h v hv) rfl)
+  finiteCoverBranchGroupoid (relocatedChainExtensionInclusion h v hv)
 
 /-- The literal relocated chain as the distinguished object in its
 finite-cover branch groupoid. -/
@@ -1745,9 +1780,88 @@ def relocatedChainBranchObject (h : IsPartialQuadrangle f)
     (v : Fin 6 → K)
     (hv : idealOf k v = idealOf k (configurationReps f)) :
     relocatedChainBranchGroupoid h v hv :=
-  finiteCoverSelectedObject
-    ((tPairOfIdealEq h v hv).compositeBranchField_le_chainField
-      (sPairOfIdealEq h v hv) rfl)
+  finiteCoverSelectedObject (relocatedChainExtensionInclusion h v hv)
+
+/-- Equal-locus relocation gives an equivalence of the genuine finite
+branch groupoids, with the deck action and literal selected chain both
+preserved. -/
+noncomputable def relocatedChainBranchGroupoidEquivalence [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    relocatedChainBranchGroupoid h v hv ≌
+      relocatedChainBranchGroupoid h w hw :=
+  (relocatedChainBasedBranchEquiv h hv hw).groupoidEquivalence
+
+/-- The relocated groupoid equivalence sends the literal source chain to
+the literal target chain. -/
+theorem relocatedChainBranchGroupoidEquivalence_obj_selected
+    [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    (relocatedChainBranchGroupoidEquivalence h hv hw).functor.obj
+        (relocatedChainBranchObject h v hv) =
+      relocatedChainBranchObject h w hw :=
+  (relocatedChainBasedBranchEquiv h hv hw).groupoidEquivalence_obj_selected
+
+/-- Equal-locus relocation identifies every based arrow family by
+transporting its deck label.  This is the hom-set interface used by the
+difference chart above the varying realization locus. -/
+noncomputable def relocatedChainBasedArrowEquiv [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f))
+    (b : relocatedChainBranchGroupoid h v hv) :
+    (relocatedChainBranchObject h v hv ⟶ b) ≃
+      (relocatedChainBranchObject h w hw ⟶
+        ((relocatedChainBasedBranchEquiv h hv hw).branchEquiv b.back :
+          relocatedChainBranchGroupoid h w hw)) :=
+  (relocatedChainBasedBranchEquiv h hv hw).arrowEquiv b
+
+/-- On based arrows, relocated transport sends the deck label through the
+corrected deck-group equivalence. -/
+@[simp] theorem relocatedChainBasedArrowEquiv_val [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f))
+    (b : relocatedChainBranchGroupoid h v hv)
+    (a : relocatedChainBranchObject h v hv ⟶ b) :
+    (relocatedChainBasedArrowEquiv h hv hw b a).val =
+      (relocatedChainBasedBranchEquiv h hv hw).deckEquiv a.val := rfl
+
+/-- Relocated based-arrow transport preserves difference-chart
+multiplication on the nose. -/
+theorem relocatedChainBasedArrowEquiv_differenceProduct [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f))
+    (b : relocatedChainBranchGroupoid h v hv)
+    (e a c : relocatedChainBranchObject h v hv ⟶ b) :
+    relocatedChainBasedArrowEquiv h hv hw b
+        (groupoidDifferenceProduct e a c) =
+      groupoidDifferenceProduct
+        (relocatedChainBasedArrowEquiv h hv hw b e)
+        (relocatedChainBasedArrowEquiv h hv hw b a)
+        (relocatedChainBasedArrowEquiv h hv hw b c) :=
+  (relocatedChainBasedBranchEquiv h hv hw).arrowEquiv_differenceProduct
+    b e a c
+
+/-- Relocated based-arrow transport preserves difference-chart inverse on
+the nose. -/
+theorem relocatedChainBasedArrowEquiv_differenceInverse [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f))
+    (b : relocatedChainBranchGroupoid h v hv)
+    (e a : relocatedChainBranchObject h v hv ⟶ b) :
+    relocatedChainBasedArrowEquiv h hv hw b
+        (groupoidDifferenceInverse e a) =
+      groupoidDifferenceInverse
+        (relocatedChainBasedArrowEquiv h hv hw b e)
+        (relocatedChainBasedArrowEquiv h hv hw b a) :=
+  (relocatedChainBasedBranchEquiv h hv hw).arrowEquiv_differenceInverse
+    b e a
 
 /-- Every relocated chain has only finitely many conjugate branches on
 its selected finite normal cover. -/

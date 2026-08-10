@@ -599,7 +599,13 @@ any two relocated realizations:
 
 {docstring AclGeom.NormalBranchEmbedding.equivOfEquiv}
 
+{docstring AclGeom.NormalBranchEmbedding.deckEquivOfEquiv}
+
+{docstring AclGeom.NormalBranchEmbedding.mapOfEquiv_smul}
+
 {docstring AclGeom.finiteCoverBranchEquivOfExtensionEquiv}
+
+{docstring AclGeom.finiteCoverDeckEquivOfExtensionEquiv}
 
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainNormalExtensionEquiv}
 
@@ -608,6 +614,37 @@ any two relocated realizations:
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainNormalCoverEquiv_algebraMap}
 
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchEquiv}
+
+The field-theoretic lift need not send the literal selected branch to the
+literal target branch.  Transitivity corrects it by one target deck
+transformation; conjugating the deck-group map by that same correction
+retains equivariance.  Consequently equal-locus relocation preserves the
+distinguished object and gives an equivalence of the whole action
+groupoids:
+
+{docstring AclGeom.FiniteCoverBasedBranchEquiv}
+
+{docstring AclGeom.finiteCoverBasedBranchEquivOfExtensionEquiv}
+
+{docstring AclGeom.FiniteCoverBasedBranchEquiv.groupoidEquivalence}
+
+{docstring AclGeom.FiniteCoverBasedBranchEquiv.arrowEquiv}
+
+{docstring AclGeom.FiniteCoverBasedBranchEquiv.arrowEquiv_differenceProduct}
+
+{docstring AclGeom.FiniteCoverBasedBranchEquiv.arrowEquiv_differenceInverse}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBasedBranchEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchGroupoidEquivalence}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchGroupoidEquivalence_obj_selected}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBasedArrowEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBasedArrowEquiv_differenceProduct}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBasedArrowEquiv_differenceInverse}
 
 For each such relocated tuple, the selected chain has its own finite
 normal-cover branch groupoid.  Every conjugate branch is reachable from
