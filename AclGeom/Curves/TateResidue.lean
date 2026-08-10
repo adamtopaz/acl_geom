@@ -1862,6 +1862,121 @@ theorem Place.residue_zpow_pi_base (P : Place k F) {c : ℤ}
   rw [← htr, ← hCt]
   exact tateTrace_of_isNilpotent hnil
 
+omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
+/-- The residue of `d1` vanishes: the commutator against the identity
+is zero. -/
+theorem Place.residue_one_right (P : Place k F) (f : F) :
+    P.residue f 1 = 0 := by
+  have h1 : (P.proj ∘ₗ LinearMap.mulLeft k f) ∘ₗ
+      LinearMap.mulLeft k (1 : F) -
+      LinearMap.mulLeft k (1 : F) ∘ₗ
+        (P.proj ∘ₗ LinearMap.mulLeft k f) = 0 := by
+    refine LinearMap.ext fun x ↦ ?_
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply,
+      LinearMap.mulLeft_apply, LinearMap.zero_apply, one_mul]
+    exact sub_self _
+  rw [Place.residue, h1, tateTrace_zero]
+
+/-- **The ord-link for uniformizer powers**:
+`res(π^{−b} d(π^b)) = b` for `b ≥ 0`. -/
+theorem Place.residue_zpow_pi_self (P : Place k F) {b : ℤ}
+    (hb : 0 ≤ b) :
+    P.residue ((P.pi : F) ^ (-b)) ((P.pi : F) ^ b) = (b.toNat : k) := by
+  have hg : ((P.pi : F) ^ b) ≠ 0 := zpow_ne_zero _ P.pi_ne_zero
+  have hord : P.ord ((P.pi : F) ^ b) = b := by
+    rw [P.ord_zpow P.pi_ne_zero, P.ord_pi, mul_one]
+  have h1 := P.residue_inv_self hg (by rw [hord]; exact hb)
+  rw [hord] at h1
+  rw [← h1, zpow_neg]
+
+/-- The Leibniz inversion relation for monomial residues. -/
+theorem Place.residue_zpow_flip (P : Place k F) (a b : ℤ) :
+    P.residue ((P.pi : F) ^ (a + b)) ((P.pi : F) ^ (-b)) =
+      -P.residue ((P.pi : F) ^ (a - b)) ((P.pi : F) ^ b) := by
+  have h1 := P.residue_mul_right ((P.pi : F) ^ a)
+    ((P.pi : F) ^ b) ((P.pi : F) ^ (-b))
+  have h2 : (P.pi : F) ^ b * (P.pi : F) ^ (-b) = 1 := by
+    rw [← zpow_add₀ P.pi_ne_zero]
+    simp
+  have h3 : (P.pi : F) ^ a * (P.pi : F) ^ b =
+      (P.pi : F) ^ (a + b) := (zpow_add₀ P.pi_ne_zero a b).symm
+  have h4 : (P.pi : F) ^ a * (P.pi : F) ^ (-b) =
+      (P.pi : F) ^ (a - b) := by
+    rw [← zpow_add₀ P.pi_ne_zero, sub_eq_add_neg]
+  rw [h2, h3, h4, P.residue_one_right] at h1
+  linear_combination -h1
+
+/-- **The monomial residue table, vanishing part**:
+`res(π^a d(π^b)) = 0` whenever `a + b ≠ 0`. -/
+theorem Place.residue_zpow_pi_zpow_eq_zero (P : Place k F)
+    {a b : ℤ} (hab : a + b ≠ 0) :
+    P.residue ((P.pi : F) ^ a) ((P.pi : F) ^ b) = 0 := by
+  have hπO : ∀ d : ℤ, 0 ≤ d → (P.pi : F) ^ d ∈ P.toSubmodule := by
+    intro d hd
+    rw [Place.mem_toSubmodule_iff,
+      ← P.ord_nonneg_iff (zpow_ne_zero _ P.pi_ne_zero),
+      P.ord_zpow P.pi_ne_zero, P.ord_pi, mul_one]
+    exact hd
+  have hπ : (P.pi : F) ∈ P.toSubmodule := by
+    rw [Place.mem_toSubmodule_iff]
+    exact P.pi_valuation_lt_one.le
+  have haux : ∀ n : ℕ, ∀ a : ℤ, a + n ≠ 0 →
+      P.residue ((P.pi : F) ^ a) ((P.pi : F) ^ (n : ℤ)) = 0 := by
+    intro n
+    induction n using Nat.strong_induction_on with
+    | _ n ih =>
+    intro a ha
+    match n, ih, ha with
+    | 0, _, ha =>
+      have h1 : ((P.pi : F) ^ ((0 : ℕ) : ℤ)) = 1 := by
+        norm_num
+      rw [h1, P.residue_one_right]
+    | 1, _, ha =>
+      have h1 : ((P.pi : F) ^ ((1 : ℕ) : ℤ)) = P.pi := by
+        norm_num
+      rw [h1]
+      rcases le_or_gt 0 a with h2 | h2
+      · exact P.residue_eq_zero_of_mem (hπO a h2) hπ
+      · exact P.residue_zpow_pi_base (by omega)
+    | (m + 2), ih, ha =>
+      have h2 : ((P.pi : F) ^ (((m + 2 : ℕ)) : ℤ)) =
+          (P.pi : F) ^ ((m + 1 : ℕ) : ℤ) * P.pi := by
+        rw [show (((m + 2 : ℕ)) : ℤ) = ((m + 1 : ℕ) : ℤ) + 1 by
+          push_cast; ring]
+        rw [zpow_add_one₀ P.pi_ne_zero]
+      have h1 := P.residue_mul_right ((P.pi : F) ^ a)
+        ((P.pi : F) ^ ((m + 1 : ℕ) : ℤ)) P.pi
+      rw [← h2] at h1
+      have h3 : (P.pi : F) ^ a * (P.pi : F) ^ ((m + 1 : ℕ) : ℤ) =
+          (P.pi : F) ^ (a + (m + 1 : ℕ)) :=
+        (zpow_add₀ P.pi_ne_zero _ _).symm
+      have h4 : (P.pi : F) ^ a * P.pi = (P.pi : F) ^ (a + 1) :=
+        (zpow_add_one₀ P.pi_ne_zero a).symm
+      rw [h3, h4] at h1
+      have h5 : P.residue ((P.pi : F) ^ (a + (m + 1 : ℕ))) P.pi =
+          0 := by
+        have h6 := ih 1 (by omega) (a + (m + 1 : ℕ)) (by push_cast; omega)
+        have h7 : ((P.pi : F) ^ ((1 : ℕ) : ℤ)) = P.pi := by
+          norm_num
+        rw [h7] at h6
+        exact h6
+      have h8 := ih (m + 1) (by omega) (a + 1) (by push_cast; omega)
+      rw [h1, h5, h8, add_zero]
+  rcases le_or_gt 0 b with hb | hb
+  · have h1 : b = ((b.toNat : ℕ) : ℤ) := (Int.toNat_of_nonneg hb).symm
+    rw [h1]
+    exact haux b.toNat a (by omega)
+  · have h1 := P.residue_zpow_flip (a + b) (-b)
+    have h2 : a + b + -b = a := by ring
+    have h3 : -(-b) = b := neg_neg b
+    have h4 : a + b - -b = a + 2 * b := by ring
+    rw [h2, h3, h4] at h1
+    rw [h1]
+    have h5 : (-b) = (((-b).toNat : ℕ) : ℤ) :=
+      (Int.toNat_of_nonneg (by omega)).symm
+    rw [h5]
+    rw [haux (-b).toNat (a + 2 * b) (by omega), neg_zero]
+
 end AdaptedProjection
 
 end ResidueCalculus
