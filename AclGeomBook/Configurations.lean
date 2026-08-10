@@ -1015,11 +1015,39 @@ functor predicts:
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowDifferenceDiagram.scalar_cancellation}
 
+An arbitrary ambient four-arrow diagram need not come with literally equal
+choices of the algebraic scalar branch at every repeated rank-two block.
+The finite-cover layer now records exactly what is available.  A scalar
+graph realization generates a finite extension of its rank-two parameter
+field; two choices over the same parameter and graph locus have equivalent
+normal covers and equivariantly equivalent based branch groupoids.  Every
+ambient diagram lifts edge by edge, and the four repeated blocks have
+explicit normal-cover transports.  Thus branch comparison is genuine
+field-theoretic data rather than an implicit equality of conjugates:
+
+{docstring AclGeom.QWitness.rankTwoScalarExtension_finiteDimensional}
+
+{docstring AclGeom.QWitness.rankTwoScalarBasedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts}
+
+{docstring AclGeom.QWitness.exists_psiChunkFourArrowEdgeLifts}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.s_branchEquiv}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.u_branchEquiv}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sA_branchEquiv}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.uB_branchEquiv}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.scalar_edge_relations}
+
 The categorical kernel is now normal and the graph dimension count is in
-place.  Promoting it to the blueprint's connected rank-one algebraic kernel
-still requires existence of sufficiently generic branch-compatible joint
-diagrams and algebraization of the finite-cover chart; neither conclusion
-is inferred merely from the presented quotient.
+place.  The remaining gluing step is to prove that the four normal-cover
+transports have trivial cycle obstruction on a sufficiently generic
+diagram; after that, algebraization of the finite-cover chart is still
+needed.  Neither conclusion is inferred merely from the presented quotient.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
