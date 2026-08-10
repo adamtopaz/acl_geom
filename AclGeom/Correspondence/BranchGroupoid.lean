@@ -608,6 +608,103 @@ namespace FiniteCoverBasedBranchEquiv
 
 variable {E' L' : IntermediateField k Ω} {h : E ≤ L} {h' : E' ≤ L'}
 
+/-- Identity transport of a based finite-cover branch action. -/
+def refl (h : E ≤ L) : FiniteCoverBasedBranchEquiv h h where
+  deckEquiv := MulEquiv.refl _
+  branchEquiv := Equiv.refl _
+  map_smul _ _ := rfl
+  map_selected := rfl
+
+/-- Reverse a based transport of finite-cover branch actions. -/
+def symm (T : FiniteCoverBasedBranchEquiv h h') :
+    FiniteCoverBasedBranchEquiv h' h where
+  deckEquiv := T.deckEquiv.symm
+  branchEquiv := T.branchEquiv.symm
+  map_smul σ b := by
+    apply T.branchEquiv.injective
+    calc
+      T.branchEquiv (T.branchEquiv.symm (σ • b)) = σ • b := by simp
+      _ = T.deckEquiv (T.deckEquiv.symm σ) •
+          T.branchEquiv (T.branchEquiv.symm b) := by simp
+      _ = T.branchEquiv
+          (T.deckEquiv.symm σ • T.branchEquiv.symm b) :=
+        (T.map_smul _ _).symm
+  map_selected := by
+    apply T.branchEquiv.injective
+    simp [T.map_selected]
+
+/-- Compose two based transports of finite-cover branch actions. -/
+def trans {E'' L'' : IntermediateField k Ω} {h'' : E'' ≤ L''}
+    (T : FiniteCoverBasedBranchEquiv h h')
+    (U : FiniteCoverBasedBranchEquiv h' h'') :
+    FiniteCoverBasedBranchEquiv h h'' where
+  deckEquiv := T.deckEquiv.trans U.deckEquiv
+  branchEquiv := T.branchEquiv.trans U.branchEquiv
+  map_smul σ b := by
+    change U.branchEquiv (T.branchEquiv (σ • b)) =
+      U.deckEquiv (T.deckEquiv σ) •
+        U.branchEquiv (T.branchEquiv b)
+    rw [T.map_smul, U.map_smul]
+  map_selected := by
+    change U.branchEquiv (T.branchEquiv (finiteCoverSelectedBranch h)) =
+      finiteCoverSelectedBranch h''
+    rw [T.map_selected, U.map_selected]
+
+/-- Based branch transports are determined by their deck and branch
+equivalences; the compatibility witnesses are propositions. -/
+@[ext] theorem ext {T U : FiniteCoverBasedBranchEquiv h h'}
+    (hdeck : T.deckEquiv = U.deckEquiv)
+    (hbranch : T.branchEquiv = U.branchEquiv) : T = U := by
+  cases T
+  cases U
+  cases hdeck
+  cases hbranch
+  rfl
+
+/-- Passing from a common source to one fiber and back gives identity
+transport. -/
+theorem symm_trans_self (T : FiniteCoverBasedBranchEquiv h h') :
+    T.symm.trans T = refl h' := by
+  apply ext
+  · apply MulEquiv.ext
+    intro σ
+    simp [symm, trans, refl]
+  · apply Equiv.ext
+    intro b
+    simp [symm, trans, refl]
+
+/-- Reversing a transition defined through a common source swaps its two
+target fibers. -/
+theorem symm_trans_symm
+    {E'' L'' : IntermediateField k Ω} {h'' : E'' ≤ L''}
+    (T : FiniteCoverBasedBranchEquiv h h')
+    (U : FiniteCoverBasedBranchEquiv h h'') :
+    (T.symm.trans U).symm = U.symm.trans T := by
+  apply ext
+  · apply MulEquiv.ext
+    intro σ
+    simp [symm, trans]
+  · apply Equiv.ext
+    intro b
+    simp [symm, trans]
+
+/-- Transitions formed through one common source satisfy the cocycle
+identity. -/
+theorem symm_trans_trans_symm_trans
+    {E'' L'' E''' L''' : IntermediateField k Ω}
+    {h'' : E'' ≤ L''} {h''' : E''' ≤ L'''}
+    (T : FiniteCoverBasedBranchEquiv h h')
+    (U : FiniteCoverBasedBranchEquiv h h'')
+    (V : FiniteCoverBasedBranchEquiv h h''') :
+    (T.symm.trans U).trans (U.symm.trans V) = T.symm.trans V := by
+  apply ext
+  · apply MulEquiv.ext
+    intro σ
+    simp [symm, trans]
+  · apply Equiv.ext
+    intro b
+    simp [symm, trans]
+
 /-- A based equivalence of finite-cover branch actions induces an
 equivalence of the corresponding genuine action groupoids. -/
 noncomputable def groupoidEquivalence (T : FiniteCoverBasedBranchEquiv h h') :

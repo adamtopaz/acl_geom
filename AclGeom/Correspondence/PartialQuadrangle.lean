@@ -1570,6 +1570,66 @@ chain exactly to the distinguished target chain. -/
         (relocatedChainExtensionInclusion h w hw) :=
   (relocatedChainBasedBranchEquiv h hv hw).map_selected
 
+/-- The realization locus of a partial quadrangle: complete six-tuples
+with the same prime ideal as its chosen representatives. -/
+abbrev RelocatedChainRealization (_h : IsPartialQuadrangle f) :=
+  {v : Fin 6 → K // idealOf k v = idealOf k (configurationReps f)}
+
+/-- Trivialize the finite branch fiber of a realization against a fixed
+reference realization.  Only these reference-to-fiber choices are used to
+form transitions, avoiding any false coherence claim about independently
+chosen normal-closure lifts. -/
+noncomputable def relocatedChainBranchTrivialization [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) (r v : RelocatedChainRealization h) :
+    FiniteCoverBasedBranchEquiv
+      (relocatedChainExtensionInclusion h r.1 r.2)
+      (relocatedChainExtensionInclusion h v.1 v.2) :=
+  relocatedChainBasedBranchEquiv h r.2 v.2
+
+/-- The coherent branch-fiber transition from `v` to `w`, defined through
+one fixed reference realization. -/
+noncomputable def relocatedChainBranchTransition [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) (r v w : RelocatedChainRealization h) :
+    FiniteCoverBasedBranchEquiv
+      (relocatedChainExtensionInclusion h v.1 v.2)
+      (relocatedChainExtensionInclusion h w.1 w.2) :=
+  (relocatedChainBranchTrivialization h r v).symm.trans
+    (relocatedChainBranchTrivialization h r w)
+
+/-- Reference-based branch transitions are the identity on each fiber. -/
+theorem relocatedChainBranchTransition_self [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) (r v : RelocatedChainRealization h) :
+    relocatedChainBranchTransition h r v v =
+      FiniteCoverBasedBranchEquiv.refl
+        (relocatedChainExtensionInclusion h v.1 v.2) := by
+  unfold relocatedChainBranchTransition
+  exact FiniteCoverBasedBranchEquiv.symm_trans_self
+    (relocatedChainBranchTrivialization h r v)
+
+/-- Reversing a reference-based transition gives the transition in the
+opposite direction. -/
+theorem relocatedChainBranchTransition_symm [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) (r v w : RelocatedChainRealization h) :
+    (relocatedChainBranchTransition h r v w).symm =
+      relocatedChainBranchTransition h r w v := by
+  unfold relocatedChainBranchTransition
+  exact FiniteCoverBasedBranchEquiv.symm_trans_symm
+    (relocatedChainBranchTrivialization h r v)
+    (relocatedChainBranchTrivialization h r w)
+
+/-- Reference-based transitions satisfy the cocycle identity. -/
+theorem relocatedChainBranchTransition_trans [IsAlgClosed K]
+    (h : IsPartialQuadrangle f)
+    (r v w u : RelocatedChainRealization h) :
+    (relocatedChainBranchTransition h r v w).trans
+        (relocatedChainBranchTransition h r w u) =
+      relocatedChainBranchTransition h r v u := by
+  unfold relocatedChainBranchTransition
+  exact FiniteCoverBasedBranchEquiv.symm_trans_trans_symm_trans
+    (relocatedChainBranchTrivialization h r v)
+    (relocatedChainBranchTrivialization h r w)
+    (relocatedChainBranchTrivialization h r u)
+
 /-- Above every independent replacement of `(S,T,S')` there is a single
 compatible six-tuple whose three actual finite-correspondence pairs over
 the common parameter field compose literally. -/

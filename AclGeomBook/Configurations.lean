@@ -626,6 +626,12 @@ groupoids:
 
 {docstring AclGeom.finiteCoverBasedBranchEquivOfExtensionEquiv}
 
+{docstring AclGeom.FiniteCoverBasedBranchEquiv.refl}
+
+{docstring AclGeom.FiniteCoverBasedBranchEquiv.symm}
+
+{docstring AclGeom.FiniteCoverBasedBranchEquiv.trans}
+
 {docstring AclGeom.FiniteCoverBasedBranchEquiv.groupoidEquivalence}
 
 {docstring AclGeom.FiniteCoverBasedBranchEquiv.arrowEquiv}
@@ -645,6 +651,24 @@ groupoids:
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainBasedArrowEquiv_differenceProduct}
 
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainBasedArrowEquiv_differenceInverse}
+
+Independently chosen algebraic-closure lifts are not asserted to satisfy a
+cocycle.  Instead, choose one reference realization and define every
+fiber-to-fiber transition through it.  Identity, reversal, and the cocycle
+law then follow from the explicit composition operations on based branch
+transports:
+
+{docstring AclGeom.IsPartialQuadrangle.RelocatedChainRealization}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchTrivialization}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchTransition}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchTransition_self}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchTransition_symm}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchTransition_trans}
 
 For each such relocated tuple, the selected chain has its own finite
 normal-cover branch groupoid.  Every conjugate branch is reachable from
