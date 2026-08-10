@@ -119,6 +119,16 @@ theorem idealOf_comp_eq_of_idealOf_eq {ι κ : Type*}
       (mem_idealOf_iff k).2 hz
     exact (mem_idealOf_iff k).1 (h.symm ▸ hm)
 
+/-- Algebraic independence of a coordinate subtuple transfers across
+equality of complete tuple ideals. -/
+theorem algebraicIndependent_comp_of_idealOf_eq {ι κ : Type*}
+    {a b : ι → Ω} (h : idealOf k a = idealOf k b) (e : κ → ι)
+    (ha : AlgebraicIndependent k (a ∘ e)) :
+    AlgebraicIndependent k (b ∘ e) := by
+  rw [← idealOf_eq_bot_iff] at ha ⊢
+  rw [← idealOf_comp_eq_of_idealOf_eq h e]
+  exact ha
+
 /-- Relocate a one-element algebraic extension while fixing its entire
 independent transcendence prefix.  If `u` is algebraic over `k(t)`, then
 for every equally long independent tuple `s` there is `v` such that
@@ -229,6 +239,84 @@ def tuple : Fin (d + 2) → Ω :=
 /-- The prime ideal of the total family locus. -/
 def ideal : Ideal (MvPolynomial (Fin (d + 2)) k) :=
   idealOf k F.tuple
+
+/-- Rebuild a one-parameter family member from any triple with the same
+complete family ideal and an independent parameter/source pair. -/
+def ofOneTupleIdealEq
+    (F : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) 1)
+    {p x y : Ω} (hpx : AlgebraicIndependent k ![p, x])
+    (hI : idealOf k ![p, x, y] = F.ideal) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) 1 where
+  parameter := ![p]
+  source := x
+  target := y
+  parameter_independent := by
+    have h := AlgebraicIndependent.comp hpx
+      (![0] : Fin 1 → Fin 2) (by decide)
+    simpa using h
+  source_generic := by
+    simpa [Matrix.range_cons, Matrix.range_empty] using
+      AlgebraicIndependent.notMem_racl_pair hpx
+  target_mem_parameter_source := by
+    have hfull : idealOf k F.tuple = idealOf k ![p, x, y] := by
+      simpa [ideal] using hI.symm
+    have himage : F.tuple '' ({0, 1} : Set (Fin 3)) =
+        insert F.source (Set.range F.parameter) := by
+      ext z
+      constructor
+      · rintro ⟨i, hi, rfl⟩
+        fin_cases i
+        · exact Set.mem_insert_of_mem _ ⟨0, rfl⟩
+        · exact Set.mem_insert _ _
+        · simp at hi
+      · intro hz
+        rw [Set.mem_insert_iff] at hz
+        rcases hz with rfl | ⟨i, rfl⟩
+        · exact ⟨1, by simp, rfl⟩
+        · have hi : i = 0 := Subsingleton.elim _ _
+          subst i
+          exact ⟨0, by simp, rfl⟩
+    have hmem : F.tuple 2 ∈ racl k (F.tuple '' ({0, 1} : Set (Fin 3))) := by
+      rw [himage]
+      exact F.target_mem_parameter_source
+    have htrans := mem_racl_image_of_idealOf_eq k hfull hmem
+    have himage' : (![p, x, y] : Fin 3 → Ω) '' ({0, 1} : Set (Fin 3)) =
+        ({p, x} : Set Ω) := by
+      ext z
+      simp
+      tauto
+    rw [himage'] at htrans
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using htrans
+  source_mem_parameter_target := by
+    have hfull : idealOf k F.tuple = idealOf k ![p, x, y] := by
+      simpa [ideal] using hI.symm
+    have himage : F.tuple '' ({0, 2} : Set (Fin 3)) =
+        insert F.target (Set.range F.parameter) := by
+      ext z
+      constructor
+      · rintro ⟨i, hi, rfl⟩
+        fin_cases i
+        · exact Set.mem_insert_of_mem _ ⟨0, rfl⟩
+        · simp at hi
+        · exact Set.mem_insert _ _
+      · intro hz
+        rw [Set.mem_insert_iff] at hz
+        rcases hz with rfl | ⟨i, rfl⟩
+        · exact ⟨2, by simp, rfl⟩
+        · have hi : i = 0 := Subsingleton.elim _ _
+          subst i
+          exact ⟨0, by simp, rfl⟩
+    have hmem : F.tuple 1 ∈ racl k (F.tuple '' ({0, 2} : Set (Fin 3))) := by
+      rw [himage]
+      exact F.source_mem_parameter_target
+    have htrans := mem_racl_image_of_idealOf_eq k hfull hmem
+    have himage' : (![p, x, y] : Fin 3 → Ω) '' ({0, 2} : Set (Fin 3)) =
+        ({p, y} : Set Ω) := by
+      ext z
+      simp
+      tauto
+    rw [himage'] at htrans
+    simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using htrans
 
 /-- The parameter and source form an algebraically independent tuple. -/
 theorem parameterSource_independent :

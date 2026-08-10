@@ -482,9 +482,29 @@ with their intermediate and endpoint coordinates shared literally:
 
 {docstring AclGeom.idealOf_comp_eq_of_idealOf_eq}
 
+{docstring AclGeom.algebraicIndependent_comp_of_idealOf_eq}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.ofOneTupleIdealEq}
+
 {docstring AclGeom.IsPartialQuadrangle.exists_configuration_relocation}
 
 {docstring AclGeom.IsPartialQuadrangle.exists_compatible_family_relocation}
+
+Complete-ideal equality also transports the genericity and two-way
+algebraicity needed for actual finite correspondences.  Hence each
+relocated tuple supplies three pairs over its common parameter field, and
+their shared coordinates give the composition identity literally.  This
+holds above every independent replacement of `(S,T,S')`:
+
+{docstring AclGeom.IsPartialQuadrangle.tPairOfIdealEq}
+
+{docstring AclGeom.IsPartialQuadrangle.sPairOfIdealEq}
+
+{docstring AclGeom.IsPartialQuadrangle.uPairOfIdealEq}
+
+{docstring AclGeom.IsPartialQuadrangle.pairsOfIdealEq_composes}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_relocated_correspondence_groupoid}
 
 The free triple `(S,T,S')` already gives independent representatives for
 the three group-configuration coordinates.  Every other displayed
