@@ -1155,10 +1155,41 @@ chart:
 
 The remaining normalization step is to prove that these algebraic-closure
 transports and their vertical defects stabilize one common finite curve
-cover.  Restricting there will give the finite-type action needed to
-algebraize the categorical normal kernel as a connected rank-one group.
-Neither conclusion is inferred merely from the presented quotient or from
-finiteness of the earlier deck action.
+cover.  This is now done by taking a finite normal compositum.  Semilinear
+transport preserves finite dimensionality and normality, while every
+vertical automorphism fixing the target curve field preserves a finite
+normal intermediate field as a whole:
+
+{docstring AclGeom.AlgebraicClosureTransport.FiniteNormalCover}
+
+{docstring AclGeom.AlgebraicClosureTransport.FiniteNormalCover.map}
+
+{docstring AclGeom.AlgebraicClosureTransport.FiniteNormalCover.map_ofAlgEquiv_field}
+
+{docstring AclGeom.AlgebraicClosureTransport.FiniteNormalCover.mapEquiv_trans_restrictAlgEquiv}
+
+For Ψ, the source compositum contains the selected `A` and `C` branch
+normalizations and the pullback of the selected `B` branch normalization.
+Its middle and target transports therefore retain all three finite
+correspondences.  The strict composite and independent `C` lift land on
+the same finite normal target cover, and equation `(8.6)` holds there as
+an exact equality after the restricted vertical deck correction:
+
+{docstring AclGeom.QWitness.psiXFiniteNormalCover}
+
+{docstring AclGeom.QWitness.psiB_sourceCover_le_psiYFiniteNormalCover}
+
+{docstring AclGeom.QWitness.psiCFiniteNormalCover_field}
+
+{docstring AclGeom.QWitness.psiFiniteCoverCompositionDefect}
+
+{docstring AclGeom.QWitness.psiFiniteCoverComposition}
+
+This gives the finite-type field action needed for the next geometric
+step: algebraize the presented rank-two chunk and identify its categorical
+rank-one normal kernel with a connected algebraic kernel.  That conclusion
+is not inferred merely from the presented quotient or from finiteness of
+the earlier deck action.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a

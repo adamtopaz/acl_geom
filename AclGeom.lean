@@ -18,6 +18,7 @@ import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.Composition
 import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.AlgebraicClosureTransport
+import AclGeom.Correspondence.FiniteNormalTransport
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.RankTwoMultiplication
@@ -62,6 +63,7 @@ import AclGeom.Config.ChunkBranchCover
 import AclGeom.Config.ChunkRelationCover
 import AclGeom.Config.ChunkNormalizedChart
 import AclGeom.Config.ChunkFieldAction
+import AclGeom.Config.ChunkFiniteFieldAction
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

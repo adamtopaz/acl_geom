@@ -136,14 +136,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
    `A` transport sends `X` to `Y`, the `B` transport sends `Y` to `Z`, and
    strict composition followed by the vertical deck defect is exactly the
    selected `C` transport.  This is the field-action form of (8.6).
+5. `FiniteNormalTransport.lean` proves that semilinear algebraic-closure
+   transport preserves finite normal subcovers and that every vertical
+   base-fixing automorphism stabilizes such a cover.  The corrected ambient
+   composition law therefore restricts exactly.
+6. `Config/ChunkFiniteFieldAction.lean` chooses the Ψ source cover as the
+   finite normal compositum of the selected `A` branch cover, the pullback
+   of the selected `B` branch cover, and the selected composite `C` branch
+   cover.  Its middle and target transports contain all three branches,
+   and the deck-corrected `A · B = C` equality now holds on these
+   finite-dimensional normal fields.
 
-**Next exact step:** prove that the algebraic-closure transports and their
-vertical composition defects stabilize a single finite normal curve cover
-obtained from the already normalized joint branches.  Restricting the
-transports to that finite field gives a genuine single-valued
-positive-dimensional action.  Then algebraize its rank-two chunk, identify
-the connected rank-one normal kernel, apply the completed affine-action
-classification, and finish affine-grid extraction (8.5) and Q correctness.
+**Next exact step:** algebraize the finite-normal-cover action as a
+rank-two algebraic group chunk and identify the already constructed
+categorical rank-one normal kernel with its connected algebraic kernel.
+Then apply the completed affine-action classification and finish
+affine-grid extraction (8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
 group only records the vertical ambiguity of chosen lifts; the parameter
@@ -260,8 +268,7 @@ and post on #13.
 
 ## Remaining project roadmap
 
-- **M4** (#6, #12): restrict the new algebraic-closure action to the
-  common finite normalized curve cover; algebraize the rank-two group and
+- **M4** (#6, #12): algebraize the finite-normal-cover rank-two group and
   its rank-one normal kernel; apply affine-action classification; prove
   affine-grid extraction and both directions of Q/Q'/J correctness.
 - **M5** (#7): T1--T3 and the main descent direction are present.  Finish
