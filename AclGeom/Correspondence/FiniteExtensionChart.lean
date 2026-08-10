@@ -115,6 +115,39 @@ chart. -/
 def coordinateRing (a : ι → K) : Subalgebra k L :=
   Algebra.adjoin k (Set.range (generators (K := K) (L := L) a))
 
+/-- The chosen field generators, regarded as elements of the chart
+coordinate ring. -/
+def coordinateGenerators (a : ι → K) :
+    ι ⊕ Fin (Module.finrank K L) →
+      coordinateRing (k := k) (K := K) (L := L) a :=
+  fun i ↦ ⟨generators (K := K) (L := L) a i,
+    Algebra.subset_adjoin (Set.mem_range_self i)⟩
+
+omit [Algebra k K] [IsScalarTower k K L] in
+/-- The chosen coordinate-ring generators generate the whole chart algebra
+over the ground field. -/
+theorem adjoin_coordinateGenerators_eq_top (a : ι → K) :
+    Algebra.adjoin k (Set.range
+      (coordinateGenerators (k := k) (K := K) (L := L) a)) = ⊤ := by
+  let C := coordinateRing (k := k) (K := K) (L := L) a
+  apply Subalgebra.map_injective (f := C.val) Subtype.val_injective
+  rw [AlgHom.map_adjoin, Algebra.map_top, Subalgebra.range_val]
+  change Algebra.adjoin k
+      (C.val '' Set.range
+        (coordinateGenerators (k := k) (K := K) (L := L) a)) = C
+  have hrange : C.val '' Set.range
+      (coordinateGenerators (k := k) (K := K) (L := L) a) =
+      Set.range (generators (K := K) (L := L) a) := by
+    ext z
+    constructor
+    · rintro ⟨c, ⟨i, rfl⟩, rfl⟩
+      exact ⟨i, rfl⟩
+    · rintro ⟨i, rfl⟩
+      exact ⟨coordinateGenerators (k := k) (K := K) (L := L) a i,
+        ⟨i, rfl⟩, rfl⟩
+  rw [hrange]
+  rfl
+
 /-- The affine scheme attached to a finite extension chart. -/
 def scheme (a : ι → K) : Scheme :=
   Spec (.of (coordinateRing (k := k) (K := K) (L := L) a))

@@ -1245,6 +1245,37 @@ scheme gluing:
 
 {docstring AclGeom.BirationalGluing.partialIsoOfMutualInverseRationalMaps}
 
+The denominator-clearing layer chooses one nonzero product denominator for a
+finite family of fraction-field elements.  Hence an injective map from a
+finitely generated coordinate algebra to a fraction field factors through a
+single localization, producing a dominant partial map on an explicit dense
+principal open:
+
+{docstring AclGeom.PrincipalLocalization.CommonDenominator.common}
+
+{docstring AclGeom.PrincipalLocalization.partialMapOfGenerators}
+
+For finite-extension charts this construction applies directly to a field
+equivalence, contravariantly embedding the target coordinate ring in the
+source fraction field:
+
+{docstring AclGeom.FiniteExtensionTransition.transitionAlgHom}
+
+{docstring AclGeom.FiniteExtensionTransition.partialMap}
+
+For Ψ, the abstract normal-cover equivalence is promoted to a ground-field
+equivalence and then localized in this way.  In particular, every repeated
+rank-two block of a lifted four-arrow diagram has a concrete dominant
+principal-open transition between its two scalar-branch charts:
+
+{docstring AclGeom.QWitness.rankTwoScalarNormalCoverAlgEquiv}
+
+{docstring AclGeom.QWitness.rankTwoScalarTransitionPartialMap}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAlgebraicTransitionPartialMap}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.uBAlgebraicTransitionPartialMap}
+
 Applying this construction to every normalized rank-two/scalar branch gives
 the concrete `A/S`, `B/T`, and `C/U` affine charts.  Their function fields
 are exactly the corresponding finite normal covers, while the two base
