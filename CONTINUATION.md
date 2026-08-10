@@ -408,6 +408,14 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     cover, restricts the vertical deck defect, and produces a strict
     equality `A ≫ B = C`.  Consequently every relocated Ψ parameter edge
     now carries its own literal finite-cover composition triangle.
+31. `Config/ChunkCurveFourArrow.lean` instantiates item 30 on all four
+    edges `s·e=u`, `sA·a=u`, `s·b=uB`, and `sA·c=uB` of an ambient
+    rank-two difference diagram.  From independence of the original eight
+    input coordinates it proves independence of the three successive
+    tuples obtained by finite parameter replacement.  An unused ambient
+    coordinate is therefore generic over each six-parameter edge, giving
+    a package of four curve-coordinate realizations and four literal
+    finite-normal-cover composition identities.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -415,10 +423,10 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--30 give a strict finite-normal-cover curve triangle over every Ψ
-parameter edge.  Instantiate that construction on the four normalized
-edges and conjugate
-their repeated endpoint fields to three reference fields.  Prove that the
+Items 29--31 give four strict finite-normal-cover curve triangles over the
+normalized Ψ difference component.  Construct compatible equivalences from
+their repeated source, middle, and target cover fields to three reference
+fields and conjugate all four triangles.  Prove that the
 four corrected triangles assemble into one
 `FieldEquiv.FourArrowDiagram`; then apply its literal cancellation theorem
 and canonical-curve-coefficient faithfulness to identify the four displayed

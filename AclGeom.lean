@@ -83,6 +83,7 @@ import AclGeom.Config.ChunkNormalizedChart
 import AclGeom.Config.ChunkFieldAction
 import AclGeom.Config.ChunkFiniteFieldAction
 import AclGeom.Config.ChunkCurveRelocation
+import AclGeom.Config.ChunkCurveFourArrow
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

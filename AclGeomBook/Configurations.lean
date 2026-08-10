@@ -1254,6 +1254,18 @@ normality, yielding a literal finite-cover identity:
 
 {docstring AclGeom.QWitness.PsiCurveCompositionRealization.finiteCoverStrictComposition}
 
+For the four-arrow difference component, the original eight-coordinate
+genericity hypothesis supplies an explicit fresh curve source on every
+edge: one unused ambient input coordinate.  The three intermediate
+eight-tuples remain independent after each finite parameter replacement,
+so all four curve triangles can be constructed together:
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.s_sA_a_uB_independent}
+
+{docstring AclGeom.QWitness.exists_psiCurveFourArrowRealizations}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowRealizations.finiteCoverStrictCompositions}
+
 The scheme-theoretic target of the next step is now fixed precisely.  An
 algebraic group is a separated finite-type group object over the base-field
 spectrum; a connected algebraic group is geometrically integral, rather
