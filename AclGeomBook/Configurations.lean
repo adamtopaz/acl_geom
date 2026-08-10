@@ -303,6 +303,16 @@ branch field:
 
 {docstring AclGeom.QWitness.psi_selected_chain_normal_cover}
 
+All conjugate branches factor uniquely through that normal field.  There
+are finitely many of them; the literal branch selects one embedding, and
+ambient embeddings of the normal cover are precisely its automorphisms:
+
+{docstring AclGeom.FiniteCover.normalClosure_val_comp_selectedEmbedding}
+
+{docstring AclGeom.QWitness.psi_selected_chain_component_on_normal_cover}
+
+{docstring AclGeom.QWitness.psiSelectedChainEmbeddingEquivAut}
+
 The second `Z` incidence simultaneously presents `(X,Z)` as the member
 parametrized by `C`.  After adjoining all six displayed parameters, both
 the composed endpoint ideal and the `C`-family ideal lie under the same

@@ -1027,6 +1027,62 @@ theorem psi_selected_chain_normal_cover [IsAlgClosed K] (hψ : w.Psi) :
       (w.xyCorrespondencePair hψ).chainOverComposite_le_normal
         (w.yzCorrespondencePair hψ) rfl⟩
 
+/-- The literal `Psi` component becomes a single selected embedding on
+the normal cover, while all ambient conjugate branches and all normal-cover
+automorphisms form finite types. -/
+theorem psi_selected_chain_component_on_normal_cover (hψ : w.Psi) :
+    let P := w.xyCorrespondencePair hψ
+    let Q := w.yzCorrespondencePair hψ
+    let hle := P.compositeBranchField_le_chainField Q rfl
+    (P.chainNormalOverComposite Q rfl).val.comp
+          (FiniteCover.selectedEmbedding hle) =
+        (P.chainOverComposite Q rfl).val ∧
+      Finite ((↥(P.chainOverComposite Q rfl)) →ₐ[
+        ↥(P.comp Q rfl).branchField] K) ∧
+      Finite ((↥(P.chainNormalOverComposite Q rfl)) ≃ₐ[
+        ↥(P.comp Q rfl).branchField]
+          (↥(P.chainNormalOverComposite Q rfl))) := by
+  dsimp only
+  exact
+    ⟨FiniteCover.normalClosure_val_comp_selectedEmbedding _,
+      FiniteCover.finite_ambientEmbeddings _
+        ((w.xyCorrespondencePair hψ).chainOverComposite_finiteDimensional
+          (w.yzCorrespondencePair hψ) rfl),
+      FiniteCover.finite_normalAutomorphisms _
+        ((w.xyCorrespondencePair hψ).chainOverComposite_finiteDimensional
+          (w.yzCorrespondencePair hψ) rfl)⟩
+
+/-- In the algebraically closed setting, ambient embeddings of the actual
+`Psi` normal cover are exactly its automorphisms over the selected endpoint
+branch. -/
+noncomputable def psiSelectedChainEmbeddingEquivAut [IsAlgClosed K]
+    (hψ : w.Psi) :
+    let P := w.xyCorrespondencePair hψ
+    let Q := w.yzCorrespondencePair hψ
+    ((↥(P.chainNormalOverComposite Q rfl)) →ₐ[
+        ↥(P.comp Q rfl).branchField] K) ≃
+      ((↥(P.chainNormalOverComposite Q rfl)) ≃ₐ[
+        ↥(P.comp Q rfl).branchField]
+          (↥(P.chainNormalOverComposite Q rfl))) := by
+  dsimp only
+  let P := w.xyCorrespondencePair hψ
+  let Q := w.yzCorrespondencePair hψ
+  let hle := P.compositeBranchField_le_chainField Q rfl
+  change ((↥(FiniteCover.normalClosureOver hle)) →ₐ[
+      ↥(P.comp Q rfl).branchField] K) ≃
+    ((↥(FiniteCover.normalClosureOver hle)) ≃ₐ[
+      ↥(P.comp Q rfl).branchField]
+        (↥(FiniteCover.normalClosureOver hle)))
+  letI : FiniteDimensional (↥(P.comp Q rfl).branchField)
+      (↥(extendScalars hle)) :=
+    P.chainOverComposite_finiteDimensional Q rfl
+  letI : Normal (↥(P.comp Q rfl).branchField)
+      (↥(FiniteCover.normalClosureOver hle)) :=
+    FiniteCover.normalClosureOver_normal hle
+      (Algebra.IsAlgebraic.of_finite
+        (↥(P.comp Q rfl).branchField) (↥(extendScalars hle)))
+  exact FiniteCover.normalEmbeddingEquivAut hle
+
 /-- **The rank-five fiber-product calculation for a `Psi` witness.**
 The five-tuple `(A₁,A₂,B₁,B₂,Y)` is algebraically independent, and
 adjoining the selected outputs `X,Z` does not enlarge its relative

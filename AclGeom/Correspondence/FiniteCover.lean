@@ -59,6 +59,65 @@ theorem normalClosureOver_normal [IsAlgClosed Ω] (h : E ≤ L)
       (F := ↥E) (K := ↥(extendScalars h)) (L := Ω)
       (fun _ ↦ IsAlgClosed.splits _)).normal
 
+/-- Embeddings of the original extension into the ambient field are
+equivalent to embeddings into its normal closure.  Thus every conjugate
+branch already lives on the normal cover. -/
+def embeddingEquivNormal (h : E ≤ L) :
+    ((↥(extendScalars h)) →ₐ[↥E] (↥(normalClosureOver h))) ≃
+      ((↥(extendScalars h)) →ₐ[↥E] Ω) :=
+  normalClosure.algHomEquiv (↥E) (↥(extendScalars h)) Ω
+
+/-- The unique lift of an ambient embedding of the finite extension to
+the normal cover. -/
+def liftEmbedding (h : E ≤ L)
+    (f : (↥(extendScalars h)) →ₐ[↥E] Ω) :
+    (↥(extendScalars h)) →ₐ[↥E] (↥(normalClosureOver h)) :=
+  (embeddingEquivNormal h).symm f
+
+/-- Composing a lifted branch with the normal-cover inclusion recovers
+the original ambient embedding. -/
+@[simp] theorem normalClosure_val_comp_liftEmbedding (h : E ≤ L)
+    (f : (↥(extendScalars h)) →ₐ[↥E] Ω) :
+    (normalClosureOver h).val.comp (liftEmbedding h f) = f :=
+  (embeddingEquivNormal h).apply_symm_apply f
+
+/-- The literal selected component is the lift of the inclusion of the
+original extension into the ambient field. -/
+def selectedEmbedding (h : E ≤ L) :
+    (↥(extendScalars h)) →ₐ[↥E] (↥(normalClosureOver h)) :=
+  liftEmbedding h (extendScalars h).val
+
+/-- The selected embedding evaluates to the original literal branch in
+the ambient field. -/
+@[simp] theorem normalClosure_val_comp_selectedEmbedding (h : E ≤ L) :
+    (normalClosureOver h).val.comp (selectedEmbedding h) =
+      (extendScalars h).val :=
+  normalClosure_val_comp_liftEmbedding h _
+
+/-- Embeddings of a finite normal cover into the ambient field are exactly
+its automorphisms. -/
+def normalEmbeddingEquivAut (h : E ≤ L)
+    [Normal (↥E) (↥(normalClosureOver h))] :
+    ((↥(normalClosureOver h)) →ₐ[↥E] Ω) ≃
+      ((↥(normalClosureOver h)) ≃ₐ[↥E] (↥(normalClosureOver h))) :=
+  Normal.algHomEquivAut (↥E) Ω (↥(normalClosureOver h))
+
+/-- A finite extension has only finitely many ambient conjugate
+embeddings. -/
+theorem finite_ambientEmbeddings (h : E ≤ L)
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    Finite ((↥(extendScalars h)) →ₐ[↥E] Ω) := by
+  letI := hfin
+  infer_instance
+
+/-- The automorphism group of the finite normal cover is finite. -/
+theorem finite_normalAutomorphisms (h : E ≤ L)
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    Finite ((↥(normalClosureOver h)) ≃ₐ[↥E]
+      (↥(normalClosureOver h))) := by
+  letI := normalClosureOver_finiteDimensional h hfin
+  infer_instance
+
 end FiniteCover
 
 namespace FiniteCorrespondencePair
