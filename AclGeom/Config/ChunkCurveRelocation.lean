@@ -607,6 +607,18 @@ theorem finiteCoverStrictComposition (hψ : w.Psi) :
     (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
     (R.aPair_target_eq_bPair_source hψ)
 
+/-- The relocated finite-cover action packaged as one literal composition
+triangle. -/
+noncomputable def finiteCoverCompositionTriangle (hψ : w.Psi) :
+    FieldEquiv.CompositionTriangle
+      (↥(R.finiteSourceCover hψ).field)
+      (↥(R.finiteMiddleCover hψ).field)
+      (↥(R.finiteTargetCover hψ).field) where
+  left := R.aFiniteCoverEquiv hψ
+  right := R.bFiniteCoverEquiv hψ
+  direct := R.strictCFiniteCoverEquiv hψ
+  composition := R.finiteCoverStrictComposition hψ
+
 end PsiCurveCompositionRealization
 
 /-- Relocate the complete selected curve-composition triangle over any

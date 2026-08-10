@@ -416,6 +416,17 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     coordinate is therefore generic over each six-parameter edge, giving
     a package of four curve-coordinate realizations and four literal
     finite-normal-cover composition identities.
+32. `Correspondence/FieldEquivDiagram.lean` now packages one strict
+    `CompositionTriangle` and a `FourTriangleReference`: twelve explicit
+    equivalences from four independently typed triangles to three reference
+    fields, together with the four compatibility equations for repeated
+    `s`, `sA`, `u`, and `uB` arrows.  Its constructor produces a literal
+    `FieldEquiv.FourArrowDiagram`.  The Ψ-specific `ReferenceAlignment` in
+    `Config/ChunkCurveFourArrow.lean` specializes this interface to the four
+    finite-cover triangles from item 31 and exposes faithful right-arrow
+    cancellation.  Thus the remaining obligation is exactly to construct
+    the coefficient-compatible reference equivalences; arbitrary abstract
+    field isomorphisms are insufficient.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -423,12 +434,10 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--31 give four strict finite-normal-cover curve triangles over the
-normalized Ψ difference component.  Construct compatible equivalences from
-their repeated source, middle, and target cover fields to three reference
-fields and conjugate all four triangles.  Prove that the
-four corrected triangles assemble into one
-`FieldEquiv.FourArrowDiagram`; then apply its literal cancellation theorem
+Items 29--32 give four strict finite-normal-cover curve triangles and the
+exact semantic target for aligning them.  Construct the Ψ-specific
+`ReferenceAlignment` with coefficient-compatible equivalences to three
+reference fields.  Then apply its literal cancellation theorem
 and canonical-curve-coefficient faithfulness to identify the four displayed
 parameter field embeddings.  Use that equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and

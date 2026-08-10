@@ -272,6 +272,123 @@ theorem finiteCoverStrictCompositions :
     R.sb.finiteCoverStrictComposition hψ,
     R.sAc.finiteCoverStrictComposition hψ⟩
 
+/-- Compatible reference charts for all twelve cover fields in the four
+curve triangles.  The four equations retain exactly the repeated `s`,
+`sA`, `u`, and `uB` arrows after conjugation; they are the coefficient-aware
+coherence obligations which cannot be replaced by arbitrary abstract field
+isomorphisms. -/
+structure ReferenceAlignment (X Y Z : Type u)
+    [Field X] [Field Y] [Field Z] where
+  /-- Reference chart for the first source cover. -/
+  seX : (↥(R.se.finiteSourceCover hψ).field) ≃+* X
+  /-- Reference chart for the first middle cover. -/
+  seY : (↥(R.se.finiteMiddleCover hψ).field) ≃+* Y
+  /-- Reference chart for the first target cover. -/
+  seZ : (↥(R.se.finiteTargetCover hψ).field) ≃+* Z
+  /-- Reference chart for the second source cover. -/
+  sAaX : (↥(R.sAa.finiteSourceCover hψ).field) ≃+* X
+  /-- Reference chart for the second middle cover. -/
+  sAaY : (↥(R.sAa.finiteMiddleCover hψ).field) ≃+* Y
+  /-- Reference chart for the second target cover. -/
+  sAaZ : (↥(R.sAa.finiteTargetCover hψ).field) ≃+* Z
+  /-- Reference chart for the third source cover. -/
+  sbX : (↥(R.sb.finiteSourceCover hψ).field) ≃+* X
+  /-- Reference chart for the third middle cover. -/
+  sbY : (↥(R.sb.finiteMiddleCover hψ).field) ≃+* Y
+  /-- Reference chart for the third target cover. -/
+  sbZ : (↥(R.sb.finiteTargetCover hψ).field) ≃+* Z
+  /-- Reference chart for the fourth source cover. -/
+  sAcX : (↥(R.sAc.finiteSourceCover hψ).field) ≃+* X
+  /-- Reference chart for the fourth middle cover. -/
+  sAcY : (↥(R.sAc.finiteMiddleCover hψ).field) ≃+* Y
+  /-- Reference chart for the fourth target cover. -/
+  sAcZ : (↥(R.sAc.finiteTargetCover hψ).field) ≃+* Z
+  /-- The two occurrences of the `s` action agree on the reference
+  covers. -/
+  leftS :
+    (R.sb.finiteCoverCompositionTriangle hψ
+      |>.conjugate sbX sbY sbZ).left =
+    (R.se.finiteCoverCompositionTriangle hψ
+      |>.conjugate seX seY seZ).left
+  /-- The two occurrences of the `sA` action agree on the reference
+  covers. -/
+  leftSA :
+    (R.sAc.finiteCoverCompositionTriangle hψ
+      |>.conjugate sAcX sAcY sAcZ).left =
+    (R.sAa.finiteCoverCompositionTriangle hψ
+      |>.conjugate sAaX sAaY sAaZ).left
+  /-- The two occurrences of the `u` action agree on the reference
+  covers. -/
+  compositeU :
+    (R.sAa.finiteCoverCompositionTriangle hψ
+      |>.conjugate sAaX sAaY sAaZ).direct =
+    (R.se.finiteCoverCompositionTriangle hψ
+      |>.conjugate seX seY seZ).direct
+  /-- The two occurrences of the `uB` action agree on the reference
+  covers. -/
+  compositeUB :
+    (R.sAc.finiteCoverCompositionTriangle hψ
+      |>.conjugate sAcX sAcY sAcZ).direct =
+    (R.sb.finiteCoverCompositionTriangle hψ
+      |>.conjugate sbX sbY sbZ).direct
+
+namespace ReferenceAlignment
+
+variable {X Y Z : Type u} [Field X] [Field Y] [Field Z]
+  (A : R.ReferenceAlignment X Y Z)
+
+/-- Forget the Ψ-specific origin of a compatible reference alignment. -/
+def toFourTriangleReference :=
+  { se := R.se.finiteCoverCompositionTriangle hψ
+    sAa := R.sAa.finiteCoverCompositionTriangle hψ
+    sb := R.sb.finiteCoverCompositionTriangle hψ
+    sAc := R.sAc.finiteCoverCompositionTriangle hψ
+    seX := A.seX
+    seY := A.seY
+    seZ := A.seZ
+    sAaX := A.sAaX
+    sAaY := A.sAaY
+    sAaZ := A.sAaZ
+    sbX := A.sbX
+    sbY := A.sbY
+    sbZ := A.sbZ
+    sAcX := A.sAcX
+    sAcY := A.sAcY
+    sAcZ := A.sAcZ
+    leftS := A.leftS
+    leftSA := A.leftSA
+    compositeU := A.compositeU
+    compositeUB := A.compositeUB :
+    FieldEquiv.FourTriangleReference X Y Z
+      (↥(R.se.finiteSourceCover hψ).field)
+      (↥(R.se.finiteMiddleCover hψ).field)
+      (↥(R.se.finiteTargetCover hψ).field)
+      (↥(R.sAa.finiteSourceCover hψ).field)
+      (↥(R.sAa.finiteMiddleCover hψ).field)
+      (↥(R.sAa.finiteTargetCover hψ).field)
+      (↥(R.sb.finiteSourceCover hψ).field)
+      (↥(R.sb.finiteMiddleCover hψ).field)
+      (↥(R.sb.finiteTargetCover hψ).field)
+      (↥(R.sAc.finiteSourceCover hψ).field)
+      (↥(R.sAc.finiteMiddleCover hψ).field)
+      (↥(R.sAc.finiteTargetCover hψ).field) }
+
+/-- A coefficient-compatible reference alignment produces the faithful
+semantic four-arrow diagram. -/
+def toFourArrowDiagram : FieldEquiv.FourArrowDiagram X Y Z :=
+  A.toFourTriangleReference.toFourArrowDiagram
+
+/-- Literal semantic cancellation after the four curve triangles have been
+aligned to their reference fields. -/
+theorem right_cancellation :
+    A.toFourArrowDiagram.rightC =
+      (A.toFourArrowDiagram.rightA.trans
+        A.toFourArrowDiagram.rightE.symm).trans
+          A.toFourArrowDiagram.rightB :=
+  A.toFourArrowDiagram.right_cancellation
+
+end ReferenceAlignment
+
 end PsiCurveFourArrowRealizations
 
 end QWitness

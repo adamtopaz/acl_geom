@@ -101,6 +101,93 @@ theorem eq_trans_symm_of_trans_eq (f g : X ≃+* Y) (d : Y ≃+* Y)
   rw [← hx]
   simp
 
+/-- One literal composition triangle of field equivalences. -/
+structure CompositionTriangle (X Y Z : Type u)
+    [Field X] [Field Y] [Field Z] where
+  /-- The left arrow. -/
+  left : X ≃+* Y
+  /-- The right arrow. -/
+  right : Y ≃+* Z
+  /-- The direct composite arrow. -/
+  direct : X ≃+* Z
+  /-- Literal composition of the two successive arrows. -/
+  composition : left.trans right = direct
+
+namespace CompositionTriangle
+
+variable (T : CompositionTriangle X Y Z)
+
+/-- Conjugate an entire composition triangle to three reference fields. -/
+def conjugate (eX : X ≃+* X') (eY : Y ≃+* Y')
+    (eZ : Z ≃+* Z') : CompositionTriangle X' Y' Z' where
+  left := FieldEquiv.conjugate eX eY T.left
+  right := FieldEquiv.conjugate eY eZ T.right
+  direct := FieldEquiv.conjugate eX eZ T.direct
+  composition := by
+    rw [FieldEquiv.conjugate_trans, T.composition]
+
+end CompositionTriangle
+
+/-- Four composition triangles together with compatible identifications of
+all their source, middle, and target fields with three reference fields.
+The four compatibility equations say exactly that repeated edge labels
+remain the same after conjugation. -/
+structure FourTriangleReference
+    (X Y Z Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc : Type u)
+    [Field X] [Field Y] [Field Z]
+    [Field Xse] [Field Yse] [Field Zse]
+    [Field Xsa] [Field Ysa] [Field Zsa]
+    [Field Xsb] [Field Ysb] [Field Zsb]
+    [Field Xsc] [Field Ysc] [Field Zsc] where
+  /-- The `s·e=u` triangle. -/
+  se : CompositionTriangle Xse Yse Zse
+  /-- The `sA·a=u` triangle. -/
+  sAa : CompositionTriangle Xsa Ysa Zsa
+  /-- The `s·b=uB` triangle. -/
+  sb : CompositionTriangle Xsb Ysb Zsb
+  /-- The `sA·c=uB` triangle. -/
+  sAc : CompositionTriangle Xsc Ysc Zsc
+  /-- Reference chart for the first source field. -/
+  seX : Xse ≃+* X
+  /-- Reference chart for the first middle field. -/
+  seY : Yse ≃+* Y
+  /-- Reference chart for the first target field. -/
+  seZ : Zse ≃+* Z
+  /-- Reference chart for the second source field. -/
+  sAaX : Xsa ≃+* X
+  /-- Reference chart for the second middle field. -/
+  sAaY : Ysa ≃+* Y
+  /-- Reference chart for the second target field. -/
+  sAaZ : Zsa ≃+* Z
+  /-- Reference chart for the third source field. -/
+  sbX : Xsb ≃+* X
+  /-- Reference chart for the third middle field. -/
+  sbY : Ysb ≃+* Y
+  /-- Reference chart for the third target field. -/
+  sbZ : Zsb ≃+* Z
+  /-- Reference chart for the fourth source field. -/
+  sAcX : Xsc ≃+* X
+  /-- Reference chart for the fourth middle field. -/
+  sAcY : Ysc ≃+* Y
+  /-- Reference chart for the fourth target field. -/
+  sAcZ : Zsc ≃+* Z
+  /-- The repeated `s` arrow agrees after reference conjugation. -/
+  leftS :
+    (sb.conjugate sbX sbY sbZ).left =
+      (se.conjugate seX seY seZ).left
+  /-- The repeated `sA` arrow agrees after reference conjugation. -/
+  leftSA :
+    (sAc.conjugate sAcX sAcY sAcZ).left =
+      (sAa.conjugate sAaX sAaY sAaZ).left
+  /-- The repeated `u` composite agrees after reference conjugation. -/
+  compositeU :
+    (sAa.conjugate sAaX sAaY sAaZ).direct =
+      (se.conjugate seX seY seZ).direct
+  /-- The repeated `uB` composite agrees after reference conjugation. -/
+  compositeUB :
+    (sAc.conjugate sAcX sAcY sAcZ).direct =
+      (sb.conjugate sbX sbY sbZ).direct
+
 /-- A semantic four-arrow diagram on three fixed field charts.  Its four
 faces are literal equalities of field equivalences rather than relations
 in a formal quotient groupoid. -/
@@ -130,6 +217,41 @@ structure FourArrowDiagram (X Y Z : Type u)
   s_b_uB : leftS.trans rightB = compositeUB
   /-- The semantic face `sA ≫ c = uB`. -/
   sA_c_uB : leftSA.trans rightC = compositeUB
+
+namespace FourTriangleReference
+
+variable {Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc : Type u}
+  [Field Xse] [Field Yse] [Field Zse]
+  [Field Xsa] [Field Ysa] [Field Zsa]
+  [Field Xsb] [Field Ysb] [Field Zsb]
+  [Field Xsc] [Field Ysc] [Field Zsc]
+  (R : FourTriangleReference
+    X Y Z Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc)
+
+/-- Compatible reference charts turn four independently typed composition
+triangles into one semantic four-arrow diagram. -/
+def toFourArrowDiagram : FourArrowDiagram X Y Z where
+  leftS := (R.se.conjugate R.seX R.seY R.seZ).left
+  leftSA := (R.sAa.conjugate R.sAaX R.sAaY R.sAaZ).left
+  rightE := (R.se.conjugate R.seX R.seY R.seZ).right
+  rightA := (R.sAa.conjugate R.sAaX R.sAaY R.sAaZ).right
+  rightB := (R.sb.conjugate R.sbX R.sbY R.sbZ).right
+  rightC := (R.sAc.conjugate R.sAcX R.sAcY R.sAcZ).right
+  compositeU := (R.se.conjugate R.seX R.seY R.seZ).direct
+  compositeUB := (R.sb.conjugate R.sbX R.sbY R.sbZ).direct
+  se_u := (R.se.conjugate R.seX R.seY R.seZ).composition
+  sA_a_u := by
+    rw [(R.sAa.conjugate R.sAaX R.sAaY R.sAaZ).composition,
+      R.compositeU]
+  s_b_uB := by
+    rw [← R.leftS,
+      (R.sb.conjugate R.sbX R.sbY R.sbZ).composition]
+  sA_c_uB := by
+    rw [← R.leftSA,
+      (R.sAc.conjugate R.sAcX R.sAcY R.sAcZ).composition,
+      R.compositeUB]
+
+end FourTriangleReference
 
 namespace FourArrowDiagram
 

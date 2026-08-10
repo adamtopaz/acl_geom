@@ -1266,6 +1266,20 @@ so all four curve triangles can be constructed together:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowRealizations.finiteCoverStrictCompositions}
 
+The exact cross-edge coherence interface is separated from the construction
+of the reference charts.  Four independently typed triangles give a
+semantic four-arrow diagram precisely when their twelve cover fields are
+identified with three reference fields and the repeated `s`, `sA`, `u`,
+and `uB` arrows agree after conjugation:
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.toFourArrowDiagram}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowRealizations.ReferenceAlignment}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowRealizations.ReferenceAlignment.right_cancellation}
+
 The scheme-theoretic target of the next step is now fixed precisely.  An
 algebraic group is a separated finite-type group object over the base-field
 spectrum; a connected algebraic group is geometrically integral, rather
