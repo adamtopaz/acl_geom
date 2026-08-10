@@ -164,6 +164,202 @@ theorem t_comp_s_eq_u {t s u : P} (h : R t s u) :
     (CorrespondenceFamilyRelationOf R)
     (CorrespondenceFamilyRelationOf.multiplication t s u h)
 
+/-- Relabel the three generating families along a parameter map, with
+values already taken in a target presented family groupoid. -/
+def relabelPrefunctor {Q : Type v} (S : Q → Q → Q → Prop)
+    (f : P → Q) :
+    CorrespondenceFamilyObject P ⥤q PresentedFamilyGroupoidOf S where
+  obj
+    | .x0 => x0 S
+    | .x1 => x1 S
+    | .x2 => x2 S
+  map g := by
+    cases g with
+    | t a => exact t S (f a)
+    | s a => exact s S (f a)
+    | u a => exact u S (f a)
+
+/-- The functor on free family groupoids induced by relabelling every
+parameter with `f`. -/
+def freeRelabelFunctor {Q : Type v} (S : Q → Q → Q → Prop)
+    (f : P → Q) :
+    FreeCorrespondenceFamilyGroupoid P ⥤ PresentedFamilyGroupoidOf S :=
+  Quiver.FreeGroupoid.lift (relabelPrefunctor S f)
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem freeRelabelFunctor_t {Q : Type v}
+    (S : Q → Q → Q → Prop) (f : P → Q) (a : P) :
+    (freeRelabelFunctor S f).map (FreeCorrespondenceFamilyGroupoid.t a) =
+      t S (f a) := by
+  have h := Prefunctor.congr_hom
+    (Quiver.FreeGroupoid.lift_spec (relabelPrefunctor S f))
+    (CorrespondenceFamilyGenerator.t a)
+  simpa [freeRelabelFunctor, FreeCorrespondenceFamilyGroupoid.t,
+    relabelPrefunctor] using h
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem freeRelabelFunctor_s {Q : Type v}
+    (S : Q → Q → Q → Prop) (f : P → Q) (a : P) :
+    (freeRelabelFunctor S f).map (FreeCorrespondenceFamilyGroupoid.s a) =
+      s S (f a) := by
+  have h := Prefunctor.congr_hom
+    (Quiver.FreeGroupoid.lift_spec (relabelPrefunctor S f))
+    (CorrespondenceFamilyGenerator.s a)
+  simpa [freeRelabelFunctor, FreeCorrespondenceFamilyGroupoid.s,
+    relabelPrefunctor] using h
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem freeRelabelFunctor_u {Q : Type v}
+    (S : Q → Q → Q → Prop) (f : P → Q) (a : P) :
+    (freeRelabelFunctor S f).map (FreeCorrespondenceFamilyGroupoid.u a) =
+      u S (f a) := by
+  have h := Prefunctor.congr_hom
+    (Quiver.FreeGroupoid.lift_spec (relabelPrefunctor S f))
+    (CorrespondenceFamilyGenerator.u a)
+  simpa [freeRelabelFunctor, FreeCorrespondenceFamilyGroupoid.u,
+    relabelPrefunctor] using h
+
+/-- A map of parameter sets carrying every source multiplication relation
+to a target relation induces a functor of the presented groupoids. -/
+def map {Q : Type v} {S : Q → Q → Q → Prop} (f : P → Q)
+    (hf : ∀ {t s u}, R t s u → S (f t) (f s) (f u)) :
+    PresentedFamilyGroupoidOf R ⥤ PresentedFamilyGroupoidOf S :=
+  CategoryTheory.Quotient.lift (CorrespondenceFamilyRelationOf R)
+    (freeRelabelFunctor S f) (by
+      rintro _ _ _ _ hrel
+      cases hrel with
+      | multiplication t s u h =>
+          simp only [Functor.map_comp, freeRelabelFunctor_t,
+            freeRelabelFunctor_s, freeRelabelFunctor_u]
+          exact t_comp_s_eq_u S (hf h))
+
+@[simp] theorem map_t {Q : Type v} {S : Q → Q → Q → Prop}
+    (f : P → Q) (hf : ∀ {t s u}, R t s u → S (f t) (f s) (f u))
+    (a : P) :
+    (map R f hf).map (t R a) = t S (f a) := by
+  exact CategoryTheory.Quotient.lift_map_functor_map
+    (CorrespondenceFamilyRelationOf R) (freeRelabelFunctor S f) _
+    (FreeCorrespondenceFamilyGroupoid.t a)
+
+@[simp] theorem map_s {Q : Type v} {S : Q → Q → Q → Prop}
+    (f : P → Q) (hf : ∀ {t s u}, R t s u → S (f t) (f s) (f u))
+    (a : P) :
+    (map R f hf).map (s R a) = s S (f a) := by
+  exact CategoryTheory.Quotient.lift_map_functor_map
+    (CorrespondenceFamilyRelationOf R) (freeRelabelFunctor S f) _
+    (FreeCorrespondenceFamilyGroupoid.s a)
+
+@[simp] theorem map_u {Q : Type v} {S : Q → Q → Q → Prop}
+    (f : P → Q) (hf : ∀ {t s u}, R t s u → S (f t) (f s) (f u))
+    (a : P) :
+    (map R f hf).map (u R a) = u S (f a) := by
+  exact CategoryTheory.Quotient.lift_map_functor_map
+    (CorrespondenceFamilyRelationOf R) (freeRelabelFunctor S f) _
+    (FreeCorrespondenceFamilyGroupoid.u a)
+
+/-- Relabel a family presentation contravariantly: the first and second
+families are exchanged and every target arrow is inverted.  This is the
+covariant groupoid form of an anti-homomorphism between the right-arrow
+charts. -/
+def reverseRelabelPrefunctor {Q : Type v} (S : Q → Q → Q → Prop)
+    (f : P → Q) :
+    CorrespondenceFamilyObject P ⥤q PresentedFamilyGroupoidOf S where
+  obj
+    | .x0 => x2 S
+    | .x1 => x1 S
+    | .x2 => x0 S
+  map g := by
+    cases g with
+    | t a => exact inv (s S (f a))
+    | s a => exact inv (t S (f a))
+    | u a => exact inv (u S (f a))
+
+/-- The free-groupoid functor underlying contravariant relabelling. -/
+def freeReverseRelabelFunctor {Q : Type v}
+    (S : Q → Q → Q → Prop) (f : P → Q) :
+    FreeCorrespondenceFamilyGroupoid P ⥤ PresentedFamilyGroupoidOf S :=
+  Quiver.FreeGroupoid.lift (reverseRelabelPrefunctor S f)
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem freeReverseRelabelFunctor_t {Q : Type v}
+    (S : Q → Q → Q → Prop) (f : P → Q) (a : P) :
+    (freeReverseRelabelFunctor S f).map
+        (FreeCorrespondenceFamilyGroupoid.t a) =
+      inv (s S (f a)) := by
+  have h := Prefunctor.congr_hom
+    (Quiver.FreeGroupoid.lift_spec (reverseRelabelPrefunctor S f))
+    (CorrespondenceFamilyGenerator.t a)
+  simpa [freeReverseRelabelFunctor, FreeCorrespondenceFamilyGroupoid.t,
+    reverseRelabelPrefunctor] using h
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem freeReverseRelabelFunctor_s {Q : Type v}
+    (S : Q → Q → Q → Prop) (f : P → Q) (a : P) :
+    (freeReverseRelabelFunctor S f).map
+        (FreeCorrespondenceFamilyGroupoid.s a) =
+      inv (t S (f a)) := by
+  have h := Prefunctor.congr_hom
+    (Quiver.FreeGroupoid.lift_spec (reverseRelabelPrefunctor S f))
+    (CorrespondenceFamilyGenerator.s a)
+  simpa [freeReverseRelabelFunctor, FreeCorrespondenceFamilyGroupoid.s,
+    reverseRelabelPrefunctor] using h
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem freeReverseRelabelFunctor_u {Q : Type v}
+    (S : Q → Q → Q → Prop) (f : P → Q) (a : P) :
+    (freeReverseRelabelFunctor S f).map
+        (FreeCorrespondenceFamilyGroupoid.u a) =
+      inv (u S (f a)) := by
+  have h := Prefunctor.congr_hom
+    (Quiver.FreeGroupoid.lift_spec (reverseRelabelPrefunctor S f))
+    (CorrespondenceFamilyGenerator.u a)
+  simpa [freeReverseRelabelFunctor, FreeCorrespondenceFamilyGroupoid.u,
+    reverseRelabelPrefunctor] using h
+
+set_option backward.isDefEq.respectTransparency false in
+/-- If relabelling exchanges the two inputs of every ternary relation,
+it induces a functor that reverses the three target arrows. -/
+def reverseMap {Q : Type v} {S : Q → Q → Q → Prop} (f : P → Q)
+    (hf : ∀ {t s u}, R t s u → S (f s) (f t) (f u)) :
+    PresentedFamilyGroupoidOf R ⥤ PresentedFamilyGroupoidOf S :=
+  CategoryTheory.Quotient.lift (CorrespondenceFamilyRelationOf R)
+    (freeReverseRelabelFunctor S f) (by
+      rintro _ _ _ _ hrel
+      cases hrel with
+      | multiplication t s u h =>
+          simp only [Functor.map_comp, freeReverseRelabelFunctor_t,
+            freeReverseRelabelFunctor_s, freeReverseRelabelFunctor_u]
+          have ht := congrArg (fun g ↦ CategoryTheory.inv g)
+            (t_comp_s_eq_u S (hf h))
+          simpa only [IsIso.inv_comp] using ht)
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem reverseMap_t {Q : Type v} {S : Q → Q → Q → Prop}
+    (f : P → Q)
+    (hf : ∀ {t s u}, R t s u → S (f s) (f t) (f u)) (a : P) :
+    (reverseMap R f hf).map (t R a) = inv (s S (f a)) := by
+  change (freeReverseRelabelFunctor S f).map
+    (FreeCorrespondenceFamilyGroupoid.t a) = _
+  exact freeReverseRelabelFunctor_t S f a
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem reverseMap_s {Q : Type v} {S : Q → Q → Q → Prop}
+    (f : P → Q)
+    (hf : ∀ {t s u}, R t s u → S (f s) (f t) (f u)) (a : P) :
+    (reverseMap R f hf).map (s R a) = inv (t S (f a)) := by
+  change (freeReverseRelabelFunctor S f).map
+    (FreeCorrespondenceFamilyGroupoid.s a) = _
+  exact freeReverseRelabelFunctor_s S f a
+
+set_option backward.isDefEq.respectTransparency false in
+@[simp] theorem reverseMap_u {Q : Type v} {S : Q → Q → Q → Prop}
+    (f : P → Q)
+    (hf : ∀ {t s u}, R t s u → S (f s) (f t) (f u)) (a : P) :
+    (reverseMap R f hf).map (u R a) = inv (u S (f a)) := by
+  change (freeReverseRelabelFunctor S f).map
+    (FreeCorrespondenceFamilyGroupoid.u a) = _
+  exact freeReverseRelabelFunctor_u S f a
+
 /-- Four points of an arbitrary ternary relation cancel on the
 right-family arrow chart.  If
 

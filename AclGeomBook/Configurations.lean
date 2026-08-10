@@ -962,6 +962,65 @@ resolved:
 
 {docstring AclGeom.QWitness.bTProjection_rank}
 
+The joint locus has its own presented groupoid, with parameter labels
+`(rank-two parameter, scalar parameter)`.  Forgetting the scalar coordinate
+is an ordinary functor to the ambient $`A/B/C` presentation.  The scalar
+coordinate exchanges the first two families, because the ambient relation
+is `A ≫ B = C` while the quadrangle relation is `T ≫ S = U`; it therefore
+gives a functor that swaps the families and inverts their arrows.  This
+functorial formulation resolves the orientation exactly and does not choose
+conjugate scalar branches independently:
+
+{docstring AclGeom.PresentedFamilyGroupoidOf.map}
+
+{docstring AclGeom.PresentedFamilyGroupoidOf.reverseMap}
+
+{docstring AclGeom.QWitness.psiChunkFamilyRelation}
+
+{docstring AclGeom.QWitness.psiChunkAmbientFunctor}
+
+{docstring AclGeom.QWitness.psiChunkScalarReverseFunctor}
+
+{docstring AclGeom.QWitness.psiChunkScalarReverseFunctor_map_differenceProduct}
+
+On vertex groups the scalar functor is a genuine group homomorphism.  Its
+kernel is consequently an actual normal subgroup, and a based joint
+difference chart lies in that kernel precisely when its two scalar `T`
+arrows agree.  This is arrow equality in the presented groupoid, not an
+unproved injectivity statement about labels:
+
+{docstring AclGeom.QWitness.psiChunkVertexHom}
+
+{docstring AclGeom.QWitness.psiChunkKernel}
+
+{docstring AclGeom.QWitness.psiChunkKernel_normal}
+
+{docstring AclGeom.QWitness.groupoidDifferenceChart_mem_psiChunkKernel_iff}
+
+A branch-compatible four-arrow diagram can now be stated without any
+implicit gluing convention: every repeated parameter is literally the same
+rank-two/scalar pair.  Its first coordinates form the ambient rank-two
+diagram, its second coordinates form the partial-quadrangle diagram, and
+the two cancellation formulas follow from the same four joint edges.  The
+scalar variables appear in the opposite order, exactly as the reverse
+functor predicts:
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowDifferenceDiagram}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowDifferenceDiagram.ambientDiagram}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowDifferenceDiagram.scalarDiagram}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowDifferenceDiagram.ambient_cancellation}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowDifferenceDiagram.scalar_cancellation}
+
+The categorical kernel is now normal and the graph dimension count is in
+place.  Promoting it to the blueprint's connected rank-one algebraic kernel
+still requires existence of sufficiently generic branch-compatible joint
+diagrams and algebraization of the finite-cover chart; neither conclusion
+is inferred merely from the presented quotient.
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

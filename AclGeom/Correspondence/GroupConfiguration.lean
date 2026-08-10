@@ -52,10 +52,44 @@ blueprint's functional-composition convention. -/
 def groupoidDifferenceChart (e a : X ⟶ Y) : X ⟶ X :=
   a ≫ inv e
 
+/-- Functors between groupoids preserve based difference charts. -/
+theorem map_groupoidDifferenceChart
+    {D : Type*} [CategoryTheory.Groupoid D] (F : C ⥤ D)
+    (e a : X ⟶ Y) :
+    F.map (groupoidDifferenceChart e a) =
+      groupoidDifferenceChart (F.map e) (F.map a) := by
+  simp [groupoidDifferenceChart, CategoryTheory.Functor.map_inv]
+
+/-- A based difference chart is the identity exactly at its base arrow. -/
+theorem groupoidDifferenceChart_eq_one_iff (e a : X ⟶ Y) :
+    groupoidDifferenceChart e a = 1 ↔ a = e := by
+  constructor
+  · intro h
+    apply (cancel_mono (inv e)).1
+    simpa [groupoidDifferenceChart] using h
+  · rintro rfl
+    simp [groupoidDifferenceChart]
+
 /-- The arrow-family parameter representing the product of two groupoid
 difference-chart elements. -/
 def groupoidDifferenceProduct (e a b : X ⟶ Y) : X ⟶ Y :=
   a ≫ inv e ≫ b
+
+/-- Functors between groupoids preserve the difference-product expression
+on every based arrow family. -/
+theorem map_groupoidDifferenceProduct
+    {D : Type*} [CategoryTheory.Groupoid D] (F : C ⥤ D)
+    (e a b : X ⟶ Y) :
+    F.map (groupoidDifferenceProduct e a b) =
+      groupoidDifferenceProduct (F.map e) (F.map a) (F.map b) := by
+  simp [groupoidDifferenceProduct, CategoryTheory.Functor.map_inv]
+
+/-- Inverting every arrow converts a difference product into the inverse
+of the product with its two variable inputs exchanged. -/
+theorem groupoidDifferenceProduct_inv (e a b : X ⟶ Y) :
+    groupoidDifferenceProduct (inv e) (inv a) (inv b) =
+      inv (groupoidDifferenceProduct e b a) := by
+  simp [groupoidDifferenceProduct, Category.assoc, IsIso.inv_comp]
 
 /-- Multiplication in the vertex group is closed in the difference chart,
 with the parameter formula `a e⁻¹ b`. -/

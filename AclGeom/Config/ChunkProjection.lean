@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.CompositionIdentity
+import Mathlib.Algebra.Group.Subgroup.Ker
 
 /-!
 # The relational projection from the rank-two chunk to the quadrangle chunk
@@ -26,6 +27,7 @@ not by itself give a literal function on the chosen representatives.
 namespace AclGeom
 
 open IntermediateField
+open CategoryTheory
 
 noncomputable section
 
@@ -79,6 +81,39 @@ selected scalar `U` coordinate. -/
 def psiCProjectionRelation (c : Fin 2 → K) (u : K) : Prop :=
   idealOf k (rankTwoScalarTuple c u) =
     idealOf k (rankTwoScalarTuple w.cReps w.U.rep)
+
+/-- A rank-two parameter equipped with one scalar coordinate on the joint
+presentation. -/
+abbrev ChunkParameter := (Fin 2 → K) × K
+
+/-- The ternary relation on joint parameters.  Its first coordinate is the
+ambient `A/B/C` relation and its second coordinate is the dependent
+`S/T/U` relation, retained on one complete prime locus. -/
+def psiChunkFamilyRelation
+    (p q r : ChunkParameter (K := K)) : Prop :=
+  w.psiChunkProjectionRelation p.1 q.1 r.1 p.2 q.2 r.2
+
+/-- The groupoid presented directly by the joint rank-two/scalar locus. -/
+abbrev psiChunkFamilyGroupoid :=
+  PresentedFamilyGroupoidOf w.psiChunkFamilyRelation
+
+/-- The joint `A/S`-family arrow. -/
+def psiChunkAArrow (p : ChunkParameter (K := K)) :
+    PresentedFamilyGroupoidOf.x0 w.psiChunkFamilyRelation ⟶
+      PresentedFamilyGroupoidOf.x1 w.psiChunkFamilyRelation :=
+  PresentedFamilyGroupoidOf.t w.psiChunkFamilyRelation p
+
+/-- The joint `B/T`-family arrow, which is the cancellation chart. -/
+def psiChunkBArrow (p : ChunkParameter (K := K)) :
+    PresentedFamilyGroupoidOf.x1 w.psiChunkFamilyRelation ⟶
+      PresentedFamilyGroupoidOf.x2 w.psiChunkFamilyRelation :=
+  PresentedFamilyGroupoidOf.s w.psiChunkFamilyRelation p
+
+/-- The joint `C/U`-family arrow. -/
+def psiChunkCArrow (p : ChunkParameter (K := K)) :
+    PresentedFamilyGroupoidOf.x0 w.psiChunkFamilyRelation ⟶
+      PresentedFamilyGroupoidOf.x2 w.psiChunkFamilyRelation :=
+  PresentedFamilyGroupoidOf.u w.psiChunkFamilyRelation p
 
 /-- The displayed parameters of a `Psi` witness lie on the joint
 projection locus. -/
@@ -273,6 +308,318 @@ theorem PsiChunkProjectionRelation.cProjection
     fin_cases i <;> rfl
   rw [hleft, hright] at ht
   exact ht
+
+/-- Forgetting the scalar coordinate on every joint parameter defines a
+functor from the joint presentation to the ambient rank-two presentation. -/
+def psiChunkAmbientFunctor :
+    w.psiChunkFamilyGroupoid ⥤ w.psiParameterFamilyGroupoid :=
+  PresentedFamilyGroupoidOf.map w.psiChunkFamilyRelation Prod.fst (by
+    intro p q r h
+    change w.psiChunkProjectionRelation
+      p.1 q.1 r.1 p.2 q.2 r.2 at h
+    exact PsiChunkProjectionRelation.psiFamilyComposition w h)
+
+@[simp] theorem psiChunkAmbientFunctor_map_a
+    (p : ChunkParameter (K := K)) :
+    w.psiChunkAmbientFunctor.map (w.psiChunkAArrow p) =
+      w.psiAArrow p.1 := by
+  change (PresentedFamilyGroupoidOf.freeRelabelFunctor
+    w.psiFamilyCompositionRelation Prod.fst).map
+      (FreeCorrespondenceFamilyGroupoid.t p) = _
+  exact PresentedFamilyGroupoidOf.freeRelabelFunctor_t
+    w.psiFamilyCompositionRelation Prod.fst p
+
+@[simp] theorem psiChunkAmbientFunctor_map_b
+    (p : ChunkParameter (K := K)) :
+    w.psiChunkAmbientFunctor.map (w.psiChunkBArrow p) =
+      w.psiBArrow p.1 := by
+  change (PresentedFamilyGroupoidOf.freeRelabelFunctor
+    w.psiFamilyCompositionRelation Prod.fst).map
+      (FreeCorrespondenceFamilyGroupoid.s p) = _
+  exact PresentedFamilyGroupoidOf.freeRelabelFunctor_s
+    w.psiFamilyCompositionRelation Prod.fst p
+
+@[simp] theorem psiChunkAmbientFunctor_map_c
+    (p : ChunkParameter (K := K)) :
+    w.psiChunkAmbientFunctor.map (w.psiChunkCArrow p) =
+      w.psiCArrow p.1 := by
+  change (PresentedFamilyGroupoidOf.freeRelabelFunctor
+    w.psiFamilyCompositionRelation Prod.fst).map
+      (FreeCorrespondenceFamilyGroupoid.u p) = _
+  exact PresentedFamilyGroupoidOf.freeRelabelFunctor_u
+    w.psiFamilyCompositionRelation Prod.fst p
+
+/-- The generic relation presenting the scalar partial-quadrangle
+groupoid, written in categorical order `T(t) ≫ S(s) = U(u)`. -/
+def partialQuadrangleFamilyRelation
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    (t s u : K) : Prop :=
+  (IsPartialQuadrangle.parameterMultiplication hquad).IsRealization s t u
+
+/-- The scalar groupoid presentation attached to the selected partial
+quadrangle. -/
+abbrev partialQuadrangleFamilyGroupoid
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) :=
+  PresentedFamilyGroupoidOf (w.partialQuadrangleFamilyRelation hquad)
+
+/-- The scalar `T`-arrow in the generic presentation. -/
+def partialQuadrangleTArrow
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) (t : K) :
+    PresentedFamilyGroupoidOf.x0 (w.partialQuadrangleFamilyRelation hquad) ⟶
+      PresentedFamilyGroupoidOf.x1 (w.partialQuadrangleFamilyRelation hquad) :=
+  PresentedFamilyGroupoidOf.t (w.partialQuadrangleFamilyRelation hquad) t
+
+/-- The scalar `S`-arrow in the generic presentation. -/
+def partialQuadrangleSArrow
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) (s : K) :
+    PresentedFamilyGroupoidOf.x1 (w.partialQuadrangleFamilyRelation hquad) ⟶
+      PresentedFamilyGroupoidOf.x2 (w.partialQuadrangleFamilyRelation hquad) :=
+  PresentedFamilyGroupoidOf.s (w.partialQuadrangleFamilyRelation hquad) s
+
+/-- The scalar `U`-arrow in the generic presentation. -/
+def partialQuadrangleUArrow
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) (u : K) :
+    PresentedFamilyGroupoidOf.x0 (w.partialQuadrangleFamilyRelation hquad) ⟶
+      PresentedFamilyGroupoidOf.x2 (w.partialQuadrangleFamilyRelation hquad) :=
+  PresentedFamilyGroupoidOf.u (w.partialQuadrangleFamilyRelation hquad) u
+
+/-- The scalar coordinate defines an anti-oriented functor from the joint
+presentation: `A/S`, `B/T`, and `C/U` exchange the first two families, so
+the target arrows are inverted. -/
+def psiChunkScalarReverseFunctor
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) :
+    w.psiChunkFamilyGroupoid ⥤ w.partialQuadrangleFamilyGroupoid hquad :=
+  PresentedFamilyGroupoidOf.reverseMap w.psiChunkFamilyRelation Prod.snd (by
+    intro p q r h
+    change w.psiChunkProjectionRelation
+      p.1 q.1 r.1 p.2 q.2 r.2 at h
+    exact PsiChunkProjectionRelation.parameterMultiplication w h hquad)
+
+@[simp] theorem psiChunkScalarReverseFunctor_map_a
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    (p : ChunkParameter (K := K)) :
+    (w.psiChunkScalarReverseFunctor hquad).map (w.psiChunkAArrow p) =
+      inv (w.partialQuadrangleSArrow hquad p.2) := by
+  change (PresentedFamilyGroupoidOf.freeReverseRelabelFunctor
+    (w.partialQuadrangleFamilyRelation hquad) Prod.snd).map
+      (FreeCorrespondenceFamilyGroupoid.t p) = _
+  exact PresentedFamilyGroupoidOf.freeReverseRelabelFunctor_t
+    (w.partialQuadrangleFamilyRelation hquad) Prod.snd p
+
+@[simp] theorem psiChunkScalarReverseFunctor_map_b
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    (p : ChunkParameter (K := K)) :
+    (w.psiChunkScalarReverseFunctor hquad).map (w.psiChunkBArrow p) =
+      inv (w.partialQuadrangleTArrow hquad p.2) := by
+  change (PresentedFamilyGroupoidOf.freeReverseRelabelFunctor
+    (w.partialQuadrangleFamilyRelation hquad) Prod.snd).map
+      (FreeCorrespondenceFamilyGroupoid.s p) = _
+  exact PresentedFamilyGroupoidOf.freeReverseRelabelFunctor_s
+    (w.partialQuadrangleFamilyRelation hquad) Prod.snd p
+
+@[simp] theorem psiChunkScalarReverseFunctor_map_c
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    (p : ChunkParameter (K := K)) :
+    (w.psiChunkScalarReverseFunctor hquad).map (w.psiChunkCArrow p) =
+      inv (w.partialQuadrangleUArrow hquad p.2) := by
+  change (PresentedFamilyGroupoidOf.freeReverseRelabelFunctor
+    (w.partialQuadrangleFamilyRelation hquad) Prod.snd).map
+      (FreeCorrespondenceFamilyGroupoid.u p) = _
+  exact PresentedFamilyGroupoidOf.freeReverseRelabelFunctor_u
+    (w.partialQuadrangleFamilyRelation hquad) Prod.snd p
+
+/-- The ambient projection preserves the based difference product on the
+joint `B/T` arrow chart. -/
+theorem psiChunkAmbientFunctor_map_differenceProduct
+    (e a b : ChunkParameter (K := K)) :
+    w.psiChunkAmbientFunctor.map
+        (groupoidDifferenceProduct (w.psiChunkBArrow e)
+          (w.psiChunkBArrow a) (w.psiChunkBArrow b)) =
+      groupoidDifferenceProduct (w.psiBArrow e.1)
+        (w.psiBArrow a.1) (w.psiBArrow b.1) := by
+  rw [map_groupoidDifferenceProduct]
+  simp only [psiChunkAmbientFunctor_map_b]
+  rfl
+
+/-- The scalar projection reverses the order of the two variable inputs.
+Equivalently, it sends a joint difference product to the inverse of the
+oppositely ordered scalar difference product. -/
+theorem psiChunkScalarReverseFunctor_map_differenceProduct
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    (e a b : ChunkParameter (K := K)) :
+    (w.psiChunkScalarReverseFunctor hquad).map
+        (groupoidDifferenceProduct (w.psiChunkBArrow e)
+          (w.psiChunkBArrow a) (w.psiChunkBArrow b)) =
+      inv (groupoidDifferenceProduct
+        (w.partialQuadrangleTArrow hquad e.2)
+        (w.partialQuadrangleTArrow hquad b.2)
+        (w.partialQuadrangleTArrow hquad a.2)) := by
+  rw [map_groupoidDifferenceProduct]
+  simp only [psiChunkScalarReverseFunctor_map_b]
+  exact groupoidDifferenceProduct_inv
+    (w.partialQuadrangleTArrow hquad e.2)
+    (w.partialQuadrangleTArrow hquad a.2)
+    (w.partialQuadrangleTArrow hquad b.2)
+
+/-- The scalar projection induces a genuine homomorphism on the vertex
+group at the source of the joint `B/T` arrow chart. -/
+def psiChunkVertexHom
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) :=
+  (w.psiChunkScalarReverseFunctor hquad).mapVertexGroup
+    (PresentedFamilyGroupoidOf.x1 w.psiChunkFamilyRelation)
+
+/-- The categorical kernel of the joint-to-scalar chunk comparison. -/
+def psiChunkKernel
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) :=
+  (w.psiChunkVertexHom hquad).ker
+
+/-- The comparison kernel is normal for purely group-theoretic reasons:
+it is the kernel of the induced vertex-group homomorphism. -/
+instance psiChunkKernel_normal
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U']) :
+    (w.psiChunkKernel hquad).Normal :=
+  MonoidHom.normal_ker (w.psiChunkVertexHom hquad)
+
+/-- A joint based difference chart lies in the comparison kernel exactly
+when its two scalar `T` arrows agree in the scalar presentation.  This
+criterion deliberately asserts arrow equality, not injectivity of scalar
+labels. -/
+theorem groupoidDifferenceChart_mem_psiChunkKernel_iff
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    (e a : ChunkParameter (K := K)) :
+    groupoidDifferenceChart (w.psiChunkBArrow e) (w.psiChunkBArrow a) ∈
+        w.psiChunkKernel hquad ↔
+      w.partialQuadrangleTArrow hquad a.2 =
+        w.partialQuadrangleTArrow hquad e.2 := by
+  change (w.psiChunkScalarReverseFunctor hquad).map
+      (groupoidDifferenceChart (w.psiChunkBArrow e)
+        (w.psiChunkBArrow a)) = 1 ↔ _
+  rw [map_groupoidDifferenceChart]
+  simp only [psiChunkScalarReverseFunctor_map_b]
+  rw [groupoidDifferenceChart_eq_one_iff]
+  exact IsIso.inv_eq_inv
+
+/-- Four exact edges on the joint rank-two/scalar presentation.  Repeated
+parameters are literal pairs, so the algebraic branch coordinate is shared
+at every repeated vertex rather than chosen independently edge by edge. -/
+structure PsiChunkFourArrowDifferenceDiagram
+    (s a b e : ChunkParameter (K := K)) where
+  /-- A joint output of `s · e`. -/
+  u : ChunkParameter (K := K)
+  /-- A joint left quotient solving `sA · a = u`. -/
+  sA : ChunkParameter (K := K)
+  /-- A joint output of `s · b`. -/
+  uB : ChunkParameter (K := K)
+  /-- The joint difference output solving `sA · c = uB`. -/
+  c : ChunkParameter (K := K)
+  /-- The edge `s · e = u`. -/
+  se_u : w.psiChunkFamilyRelation s e u
+  /-- The edge `sA · a = u`. -/
+  sA_a_u : w.psiChunkFamilyRelation sA a u
+  /-- The edge `s · b = uB`. -/
+  s_b_uB : w.psiChunkFamilyRelation s b uB
+  /-- The edge `sA · c = uB`. -/
+  sA_c_uB : w.psiChunkFamilyRelation sA c uB
+
+/-- The joint four-arrow diagram cancels exactly on its `B/T` chart. -/
+theorem PsiChunkFourArrowDifferenceDiagram.cancellation
+    {s a b e : ChunkParameter (K := K)}
+    (D : w.PsiChunkFourArrowDifferenceDiagram s a b e) :
+    w.psiChunkBArrow D.c =
+      groupoidDifferenceProduct (w.psiChunkBArrow e)
+        (w.psiChunkBArrow a) (w.psiChunkBArrow b) :=
+  PresentedFamilyGroupoidOf.fourArrow_right_cancellation
+    w.psiChunkFamilyRelation D.se_u D.sA_a_u D.s_b_uB D.sA_c_uB
+
+/-- Forgetting scalar coordinates turns a joint four-arrow diagram into
+the ambient rank-two `Psi` diagram. -/
+def PsiChunkFourArrowDifferenceDiagram.ambientDiagram
+    (hψ : w.Psi) {s a b e : ChunkParameter (K := K)}
+    (D : w.PsiChunkFourArrowDifferenceDiagram s a b e) :
+    w.PsiParameterFourArrowDifferenceDiagram hψ s.1 a.1 b.1 e.1 where
+  u := D.u.1
+  sA := D.sA.1
+  uB := D.uB.1
+  c := D.c.1
+  se_u := by
+    apply (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ s.1 e.1 D.u.1).1
+    exact PsiChunkProjectionRelation.psiFamilyComposition w D.se_u
+  sA_a_u := by
+    apply (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ D.sA.1 a.1 D.u.1).1
+    exact PsiChunkProjectionRelation.psiFamilyComposition w D.sA_a_u
+  s_b_uB := by
+    apply (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ s.1 b.1 D.uB.1).1
+    exact PsiChunkProjectionRelation.psiFamilyComposition w D.s_b_uB
+  sA_c_uB := by
+    apply (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ D.sA.1 D.c.1 D.uB.1).1
+    exact PsiChunkProjectionRelation.psiFamilyComposition w D.sA_c_uB
+
+/-- Taking scalar coordinates turns the same joint four-arrow diagram into
+the partial-quadrangle parameter diagram, with every repeated scalar branch
+shared literally. -/
+def PsiChunkFourArrowDifferenceDiagram.scalarDiagram
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    {s a b e : ChunkParameter (K := K)}
+    (D : w.PsiChunkFourArrowDifferenceDiagram s a b e) :
+    IsPartialQuadrangle.ParameterFourArrowDifferenceDiagram
+      hquad s.2 a.2 b.2 e.2 where
+  u := D.u.2
+  sA := D.sA.2
+  uB := D.uB.2
+  c := D.c.2
+  se_u := PsiChunkProjectionRelation.parameterMultiplication
+    w D.se_u hquad
+  sA_a_u := PsiChunkProjectionRelation.parameterMultiplication
+    w D.sA_a_u hquad
+  s_b_uB := PsiChunkProjectionRelation.parameterMultiplication
+    w D.s_b_uB hquad
+  sA_c_uB := PsiChunkProjectionRelation.parameterMultiplication
+    w D.sA_c_uB hquad
+
+/-- Ambient cancellation is the first-coordinate image of joint
+cancellation. -/
+theorem PsiChunkFourArrowDifferenceDiagram.ambient_cancellation
+    (hψ : w.Psi) {s a b e : ChunkParameter (K := K)}
+    (D : w.PsiChunkFourArrowDifferenceDiagram s a b e) :
+    w.psiBArrow D.c.1 =
+      groupoidDifferenceProduct (w.psiBArrow e.1)
+        (w.psiBArrow a.1) (w.psiBArrow b.1) :=
+  PsiParameterFourArrowDifferenceDiagram.cancellation w hψ
+    (PsiChunkFourArrowDifferenceDiagram.ambientDiagram w hψ D)
+
+/-- Scalar cancellation is the second-coordinate image of the same joint
+diagram.  The two variable inputs occur in the opposite order, exactly as
+predicted by `psiChunkScalarReverseFunctor`. -/
+theorem PsiChunkFourArrowDifferenceDiagram.scalar_cancellation
+    {S' T' U' : Point k K}
+    (hquad : IsPartialQuadrangle ![w.S, w.T, w.U, S', T', U'])
+    {s a b e : ChunkParameter (K := K)}
+    (D : w.PsiChunkFourArrowDifferenceDiagram s a b e) :
+    IsPartialQuadrangle.parameterTArrow hquad D.c.2 =
+      groupoidDifferenceProduct
+        (IsPartialQuadrangle.parameterTArrow hquad e.2)
+        (IsPartialQuadrangle.parameterTArrow hquad b.2)
+        (IsPartialQuadrangle.parameterTArrow hquad a.2) :=
+  (PsiChunkFourArrowDifferenceDiagram.scalarDiagram w hquad D).cancellation hquad
 
 /-- Adjoining the selected scalar `T` coordinate does not enlarge the
 closed rank-two `B` parameter: its graph has total rank two. -/
