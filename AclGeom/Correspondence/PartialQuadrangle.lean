@@ -1439,6 +1439,100 @@ def relocatedChainExtensionEquiv (h : IsPartialQuadrangle f)
         (relocatedCompositeBranchField_restrictScalars_eq h w hw)
         (relocatedChainField_restrictScalars_eq h w hw)).symm
 
+/-- Equal-locus transport lifts from the selected finite extensions to
+their canonical normal closures.  The lift is compatible with the base
+equivalence; chosen lifts can be composed, reversed, and identified by the
+`NormalExtensionEquiv` operations. -/
+noncomputable def relocatedChainNormalExtensionEquiv
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    FiniteCover.NormalExtensionEquiv
+      (relocatedChainExtensionInclusion h v hv)
+      (relocatedChainExtensionInclusion h w hw) :=
+  (relocatedChainExtensionEquiv h hv hw).normalLift
+
+/-- The normal-closure lift retains exactly the underlying relocated
+finite-extension equivalence. -/
+@[simp] theorem relocatedChainNormalExtensionEquiv_toExtensionEquiv
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    (relocatedChainNormalExtensionEquiv h hv hw).toExtensionEquiv =
+      relocatedChainExtensionEquiv h hv hw := by
+  simp [relocatedChainNormalExtensionEquiv]
+
+/-- Over an algebraically closed ambient field, the concrete normal covers
+of two relocated chains are isomorphic as fields.  The construction passes
+from each ambient cover to its canonical model, uses the compatible
+normal-extension lift, and returns to the target ambient cover. -/
+noncomputable def relocatedChainNormalCoverEquiv [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    (↥(FiniteCover.normalClosureOver
+      (relocatedChainExtensionInclusion h v hv))) ≃+*
+      (↥(FiniteCover.normalClosureOver
+        (relocatedChainExtensionInclusion h w hw))) := by
+  have hfinv : FiniteDimensional
+      (↥(relocatedCompositeBranchField h v hv))
+      (↥(extendScalars (relocatedChainExtensionInclusion h v hv))) := by
+    exact (tPairOfIdealEq h v hv).chainOverComposite_finiteDimensional
+      (sPairOfIdealEq h v hv) rfl
+  have hfinw : FiniteDimensional
+      (↥(relocatedCompositeBranchField h w hw))
+      (↥(extendScalars (relocatedChainExtensionInclusion h w hw))) := by
+    exact (tPairOfIdealEq h w hw).chainOverComposite_finiteDimensional
+      (sPairOfIdealEq h w hw) rfl
+  let cv := FiniteCover.normalClosureOverEquivCanonical
+    (relocatedChainExtensionInclusion h v hv)
+    (Algebra.IsAlgebraic.of_finite
+      (↥(relocatedCompositeBranchField h v hv))
+      (↥(extendScalars (relocatedChainExtensionInclusion h v hv))))
+  let cw := FiniteCover.normalClosureOverEquivCanonical
+    (relocatedChainExtensionInclusion h w hw)
+    (Algebra.IsAlgebraic.of_finite
+      (↥(relocatedCompositeBranchField h w hw))
+      (↥(extendScalars (relocatedChainExtensionInclusion h w hw))))
+  exact cv.toRingEquiv |>.trans
+    (relocatedChainNormalExtensionEquiv h hv hw).normalEquiv |>.trans
+      cw.symm.toRingEquiv
+
+/-- The concrete normal-cover equivalence is semilinear over the relocated
+composite-branch equivalence. -/
+@[simp] theorem relocatedChainNormalCoverEquiv_algebraMap [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f))
+    (x : relocatedCompositeBranchField h v hv) :
+    relocatedChainNormalCoverEquiv h hv hw
+        (algebraMap (↥(relocatedCompositeBranchField h v hv))
+          (↥(FiniteCover.normalClosureOver
+            (relocatedChainExtensionInclusion h v hv))) x) =
+      algebraMap (↥(relocatedCompositeBranchField h w hw))
+        (↥(FiniteCover.normalClosureOver
+          (relocatedChainExtensionInclusion h w hw)))
+        ((relocatedChainExtensionEquiv h hv hw).baseEquiv x) := by
+  simp [relocatedChainNormalCoverEquiv]
+
+/-- The compatible equivalences of the base, chain, and concrete normal
+cover transport every conjugate branch of one relocated chain to a
+conjugate branch of the other. -/
+noncomputable def relocatedChainBranchEquiv [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {v w : Fin 6 → K}
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (hw : idealOf k w = idealOf k (configurationReps f)) :
+    FiniteCoverBranch (relocatedChainExtensionInclusion h v hv) ≃
+      FiniteCoverBranch (relocatedChainExtensionInclusion h w hw) := by
+  let e := relocatedChainExtensionEquiv h hv hw
+  let n := relocatedChainNormalCoverEquiv h hv hw
+  apply finiteCoverBranchEquivOfExtensionEquiv
+    (relocatedChainExtensionInclusion h v hv)
+    (relocatedChainExtensionInclusion h w hw) e n
+  apply RingHom.ext
+  intro x
+  exact relocatedChainNormalCoverEquiv_algebraMap h hv hw x
+
 /-- Above every independent replacement of `(S,T,S')` there is a single
 compatible six-tuple whose three actual finite-correspondence pairs over
 the common parameter field compose literally. -/

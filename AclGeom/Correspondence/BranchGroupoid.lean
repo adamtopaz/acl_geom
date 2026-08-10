@@ -54,6 +54,102 @@ namespace NormalBranchEmbedding
 
 variable {E M N}
 
+section Transport
+
+variable {E' M' N' : Type*} [Field E'] [Field M'] [Field N']
+  [Algebra E' M'] [Algebra E' N']
+
+/-- Transport a branch embedding along compatible equivalences of its
+base, branch field, and normal-cover field. -/
+def mapOfEquiv (eE : E ≃+* E') (eM : M ≃+* M') (eN : N ≃+* N')
+    (hM : eM.toRingHom.comp (algebraMap E M) =
+      (algebraMap E' M').comp eE.toRingHom)
+    (hN : eN.toRingHom.comp (algebraMap E N) =
+      (algebraMap E' N').comp eE.toRingHom)
+    (f : NormalBranchEmbedding E M N) :
+    NormalBranchEmbedding E' M' N' := by
+  have hM_symm (x : E') :
+      eM.symm (algebraMap E' M' x) =
+        algebraMap E M (eE.symm x) := by
+    apply eM.injective
+    rw [eM.apply_symm_apply]
+    have hm := DFunLike.congr_fun hM (eE.symm x)
+    change eM (algebraMap E M (eE.symm x)) =
+      algebraMap E' M' (eE (eE.symm x)) at hm
+    rw [eE.apply_symm_apply] at hm
+    exact hm.symm
+  refine ⟨{
+    toRingHom := (eN.toRingHom.comp f.toAlgHom.toRingHom).comp
+      eM.symm.toRingHom
+    commutes' := fun x ↦ ?_ }⟩
+  change eN (f.toAlgHom (eM.symm (algebraMap E' M' x))) =
+    algebraMap E' N' x
+  rw [hM_symm, f.toAlgHom.commutes]
+  have hn := DFunLike.congr_fun hN (eE.symm x)
+  change eN (algebraMap E N (eE.symm x)) =
+    algebraMap E' N' (eE (eE.symm x)) at hn
+  rwa [eE.apply_symm_apply] at hn
+
+/-- Transport of branch embeddings is pointwise conjugation by the branch-
+and normal-field equivalences. -/
+@[simp] theorem mapOfEquiv_apply
+    (eE : E ≃+* E') (eM : M ≃+* M') (eN : N ≃+* N')
+    (hM : eM.toRingHom.comp (algebraMap E M) =
+      (algebraMap E' M').comp eE.toRingHom)
+    (hN : eN.toRingHom.comp (algebraMap E N) =
+      (algebraMap E' N').comp eE.toRingHom)
+    (f : NormalBranchEmbedding E M N) (x : M') :
+    (mapOfEquiv eE eM eN hM hN f).toAlgHom x =
+      eN (f.toAlgHom (eM.symm x)) := by
+  change eN (f.toAlgHom (eM.symm x)) = _
+  rfl
+
+/-- Compatible field equivalences induce an equivalence of the corresponding
+types of conjugate branches. -/
+def equivOfEquiv (eE : E ≃+* E') (eM : M ≃+* M') (eN : N ≃+* N')
+    (hM : eM.toRingHom.comp (algebraMap E M) =
+      (algebraMap E' M').comp eE.toRingHom)
+    (hN : eN.toRingHom.comp (algebraMap E N) =
+      (algebraMap E' N').comp eE.toRingHom) :
+    NormalBranchEmbedding E M N ≃ NormalBranchEmbedding E' M' N' := by
+  have hM' : eM.symm.toRingHom.comp (algebraMap E' M') =
+      (algebraMap E M).comp eE.symm.toRingHom := by
+    apply RingHom.ext
+    intro x
+    change eM.symm (algebraMap E' M' x) =
+      algebraMap E M (eE.symm x)
+    apply eM.injective
+    rw [eM.apply_symm_apply]
+    have hm := DFunLike.congr_fun hM (eE.symm x)
+    change eM (algebraMap E M (eE.symm x)) =
+      algebraMap E' M' (eE (eE.symm x)) at hm
+    rw [eE.apply_symm_apply] at hm
+    exact hm.symm
+  have hN' : eN.symm.toRingHom.comp (algebraMap E' N') =
+      (algebraMap E N).comp eE.symm.toRingHom := by
+    apply RingHom.ext
+    intro x
+    change eN.symm (algebraMap E' N' x) =
+      algebraMap E N (eE.symm x)
+    apply eN.injective
+    rw [eN.apply_symm_apply]
+    have hn := DFunLike.congr_fun hN (eE.symm x)
+    change eN (algebraMap E N (eE.symm x)) =
+      algebraMap E' N' (eE (eE.symm x)) at hn
+    rw [eE.apply_symm_apply] at hn
+    exact hn.symm
+  exact
+    { toFun := mapOfEquiv eE eM eN hM hN
+      invFun := mapOfEquiv eE.symm eM.symm eN.symm hM' hN'
+      left_inv := fun f ↦ by
+        ext x
+        simp
+      right_inv := fun f ↦ by
+        ext x
+        simp }
+
+end Transport
+
 /-- A deck transformation acts on a branch embedding by
 postcomposition. -/
 instance : SMul (N ≃ₐ[E] N) (NormalBranchEmbedding E M N) where
@@ -182,6 +278,27 @@ abbrev FiniteCoverBranch (h : E ≤ L) :=
 abbrev FiniteCoverDeck (h : E ≤ L) :=
   (↥(FiniteCover.normalClosureOver h)) ≃ₐ[↥E]
     (↥(FiniteCover.normalClosureOver h))
+
+/-- A compatible equivalence of selected finite extensions and their
+concrete normal-cover fields transports the corresponding branch types. -/
+def finiteCoverBranchEquivOfExtensionEquiv
+    {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L')
+    (e : FiniteCover.ExtensionEquiv h h')
+    (n : (↥(FiniteCover.normalClosureOver h)) ≃+*
+      (↥(FiniteCover.normalClosureOver h')))
+    (hn : n.toRingHom.comp
+        (algebraMap (↥E) (↥(FiniteCover.normalClosureOver h))) =
+      (algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))).comp
+        e.baseEquiv.toRingEquiv.toRingHom) :
+    FiniteCoverBranch h ≃ FiniteCoverBranch h' := by
+  let eM : (↥(extendScalars h)) ≃+* (↥(extendScalars h')) :=
+    e.totalEquiv.toRingEquiv
+  apply NormalBranchEmbedding.equivOfEquiv
+    e.baseEquiv.toRingEquiv eM n
+  · apply RingHom.ext
+    intro x
+    exact e.commutes_apply x
+  · exact hn
 
 /-- The genuine action groupoid of all conjugate branches of a concrete
 finite cover. -/

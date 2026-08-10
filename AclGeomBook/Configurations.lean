@@ -306,6 +306,26 @@ equivalences have identity, inverse, and composition operations:
 
 {docstring AclGeom.FiniteCover.ExtensionEquiv.trans}
 
+Normal closure respects equivalences of the original extension and of its
+ambient field, and restricting across a surjective scalar map does not
+change it.  Consequently every concrete ambient normal cover can be moved
+to a canonical model inside the algebraic closure of its base.  A chosen
+normal-extension equivalence records both the finite-extension square and
+the compatible semilinear equivalence of canonical normal covers; chosen
+lifts are closed under identity, inverse, and composition:
+
+{docstring AclGeom.FiniteCover.map_normalClosure_eq_of_equiv}
+
+{docstring AclGeom.FiniteCover.normalClosure_restrictScalars_of_surjective}
+
+{docstring AclGeom.FiniteCover.canonicalNormalClosure}
+
+{docstring AclGeom.FiniteCover.normalClosureOverEquivCanonical}
+
+{docstring AclGeom.FiniteCover.NormalExtensionEquiv}
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.normalLift}
+
 Inside an algebraically closed ambient field, taking all conjugates turns
 the selected finite chain into a finite normal extension of its endpoint
 branch field:
@@ -570,6 +590,24 @@ this coordinate square with the actual selected composite/chain extension:
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainField_restrictScalars_eq}
 
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainExtensionEquiv}
+
+This extension transport now lifts through normalization.  Passing through
+the canonical models gives a compatible isomorphism between the concrete
+ambient normal-cover fields.  Conjugating an embedding by the base, chain,
+and normal-cover equivalences then identifies the finite branch types of
+any two relocated realizations:
+
+{docstring AclGeom.NormalBranchEmbedding.equivOfEquiv}
+
+{docstring AclGeom.finiteCoverBranchEquivOfExtensionEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainNormalExtensionEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainNormalCoverEquiv}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainNormalCoverEquiv_algebraMap}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchEquiv}
 
 For each such relocated tuple, the selected chain has its own finite
 normal-cover branch groupoid.  Every conjugate branch is reachable from

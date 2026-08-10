@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import AclGeom.Correspondence.Composition
+import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 import Mathlib.FieldTheory.Normal.Closure
 
 /-!
@@ -126,10 +127,263 @@ def trans (e : ExtensionEquiv h h') (e' : ExtensionEquiv h' h'') :
 
 end ExtensionEquiv
 
+/-- Normal closure is invariant under equivalences of both the original
+extension and the ambient algebraically closed field, when the base is
+fixed.  This is the functorial form of the `iSup`-of-field-ranges
+definition. -/
+theorem map_normalClosure_eq_of_equiv
+    {F K K' A A' : Type*}
+    [Field F] [Field K] [Field K'] [Field A] [Field A']
+    [Algebra F K] [Algebra F K'] [Algebra F A] [Algebra F A']
+    (eK : K ≃ₐ[F] K') (eA : A ≃ₐ[F] A') :
+    (normalClosure F K A).map eA.toAlgHom =
+      normalClosure F K' A' := by
+  simp only [normalClosure_def]
+  rw [IntermediateField.map_iSup]
+  simp_rw [AlgHom.map_fieldRange]
+  rw [← (AlgEquiv.arrowCongr eK eA).iSup_comp]
+  apply iSup_congr
+  intro f
+  ext x
+  change (∃ y, eA (f y) = x) ↔
+    ∃ y, eA (f (eK.symm y)) = x
+  constructor
+  · rintro ⟨y, rfl⟩
+    exact ⟨eK y, by simp⟩
+  · rintro ⟨y, rfl⟩
+    exact ⟨eK.symm y, rfl⟩
+
+/-- If the lower scalar map is surjective, taking a normal closure is
+unchanged by restricting scalars along that map.  In particular this
+applies when the two base fields are equivalent. -/
+theorem normalClosure_restrictScalars_of_surjective
+    {F F' K A : Type*}
+    [Field F] [Field F'] [Field K] [Field A]
+    [Algebra F F'] [Algebra F K] [Algebra F A]
+    [Algebra F' K] [Algebra F' A]
+    [IsScalarTower F F' K] [IsScalarTower F F' A]
+    (hsurj : Function.Surjective (algebraMap F F')) :
+    normalClosure F K A =
+      (normalClosure F' K A).restrictScalars F := by
+  let upgrade (g : K →ₐ[F] A) : K →ₐ[F'] A :=
+    { g.toRingHom with
+      commutes' := fun x ↦ by
+        obtain ⟨y, rfl⟩ := hsurj x
+        simp only [← IsScalarTower.algebraMap_apply]
+        exact g.commutes y }
+  apply le_antisymm
+  · rw [normalClosure_le_iff]
+    intro g
+    rintro _ ⟨x, rfl⟩
+    exact (AlgHom.fieldRange_le_normalClosure (upgrade g)) ⟨x, rfl⟩
+  · let N : IntermediateField F A := normalClosure F K A
+    let N' : IntermediateField F' A :=
+      { N.toSubfield with
+        algebraMap_mem' := fun x ↦ by
+          obtain ⟨y, rfl⟩ := hsurj x
+          rw [← IsScalarTower.algebraMap_apply F F' A]
+          exact N.algebraMap_mem y }
+    change normalClosure F' K A ≤ N'
+    rw [normalClosure_le_iff]
+    intro g
+    rintro _ ⟨x, rfl⟩
+    exact (AlgHom.fieldRange_le_normalClosure
+      (g.restrictScalars F)) ⟨x, rfl⟩
+
 /-- The normal closure in the ambient field of a nested intermediate-field
 extension. -/
 def normalClosureOver (h : E ≤ L) : IntermediateField (↥E) Ω :=
   normalClosure (↥E) (extendScalars h) Ω
+
+/-- A canonical model of the normal closure inside the algebraic closure
+of the base field.  Unlike `normalClosureOver`, this model does not depend
+on the original ambient algebraically closed field. -/
+def canonicalNormalClosure (h : E ≤ L) :
+    IntermediateField (↥E) (AlgebraicClosure (↥E)) :=
+  normalClosure (↥E) (extendScalars h) (AlgebraicClosure (↥E))
+
+/-- The canonical normal closure of a finite extension is finite. -/
+theorem canonicalNormalClosure_finiteDimensional (h : E ≤ L)
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    FiniteDimensional (↥E) (↥(canonicalNormalClosure h)) := by
+  letI := hfin
+  exact normalClosure.is_finiteDimensional
+    (↥E) (↥(extendScalars h)) (AlgebraicClosure (↥E))
+
+/-- The canonical normal closure is normal over its base. -/
+theorem canonicalNormalClosure_normal (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) :
+    Normal (↥E) (↥(canonicalNormalClosure h)) := by
+  letI := halg
+  exact
+    (Algebra.IsAlgebraic.isNormalClosure_normalClosure
+      (F := ↥E) (K := ↥(extendScalars h))
+      (L := AlgebraicClosure (↥E))
+      (fun _ ↦ IsAlgClosed.splits _)).normal
+
+/-- The ambient and canonical constructions are equivalent normal closures
+of the same algebraic extension. -/
+def normalClosureOverEquivCanonical [IsAlgClosed Ω] (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) :
+    (↥(normalClosureOver h)) ≃ₐ[↥E] (↥(canonicalNormalClosure h)) := by
+  letI := halg
+  letI : IsNormalClosure (↥E) (↥(extendScalars h))
+      (↥(normalClosureOver h)) :=
+    Algebra.IsAlgebraic.isNormalClosure_normalClosure
+      (F := ↥E) (K := ↥(extendScalars h)) (L := Ω)
+      (fun _ ↦ IsAlgClosed.splits _)
+  letI : IsNormalClosure (↥E) (↥(extendScalars h))
+      (↥(canonicalNormalClosure h)) :=
+    Algebra.IsAlgebraic.isNormalClosure_normalClosure
+      (F := ↥E) (K := ↥(extendScalars h))
+      (L := AlgebraicClosure (↥E))
+      (fun _ ↦ IsAlgClosed.splits _)
+  exact IsNormalClosure.equiv
+    (F := ↥E) (K := ↥(extendScalars h))
+    (L := ↥(normalClosureOver h))
+    (L' := ↥(canonicalNormalClosure h))
+
+/-- A compatible equivalence of finite extensions together with an
+equivalence of their canonical normal closures.  The normal-cover map is
+semilinear over the displayed base equivalence.  Keeping this as explicit
+data records the unavoidable choice in uniqueness of normal closures while
+still supporting coherent identity, inverse, and composition operations. -/
+structure NormalExtensionEquiv
+    {E L E' L' : IntermediateField k Ω}
+    (h : E ≤ L) (h' : E' ≤ L') extends ExtensionEquiv h h' where
+  /-- Equivalence of the canonical normal-cover fields. -/
+  normalEquiv :
+    (↥(canonicalNormalClosure h)) ≃+*
+      (↥(canonicalNormalClosure h'))
+  /-- The normal-cover equivalence extends the base-field equivalence. -/
+  normal_commutes :
+    normalEquiv.toRingHom.comp
+        (algebraMap (↥E) (↥(canonicalNormalClosure h))) =
+      (algebraMap (↥E') (↥(canonicalNormalClosure h'))).comp
+        baseEquiv.toRingEquiv.toRingHom
+
+namespace NormalExtensionEquiv
+
+variable {E L E' L' E'' L'' : IntermediateField k Ω}
+  {h : E ≤ L} {h' : E' ≤ L'} {h'' : E'' ≤ L''}
+
+/-- Pointwise form of compatibility on the normal covers. -/
+@[simp] theorem normal_commutes_apply (e : NormalExtensionEquiv h h')
+    (x : E) :
+    e.normalEquiv
+        (algebraMap (↥E) (↥(canonicalNormalClosure h)) x) =
+      algebraMap (↥E') (↥(canonicalNormalClosure h'))
+        (e.baseEquiv x) :=
+  DFunLike.congr_fun e.normal_commutes x
+
+/-- Normal-extension equivalences are determined by their extension square
+and their normal-cover equivalence. -/
+@[ext] theorem ext {e e' : NormalExtensionEquiv h h'}
+    (hext : e.toExtensionEquiv = e'.toExtensionEquiv)
+    (hnormal : e.normalEquiv = e'.normalEquiv) : e = e' := by
+  cases e
+  cases e'
+  cases hext
+  cases hnormal
+  rfl
+
+/-- Identity equivalence of an extension and its canonical normal cover. -/
+def refl (h : E ≤ L) : NormalExtensionEquiv h h where
+  toExtensionEquiv := ExtensionEquiv.refl h
+  normalEquiv := RingEquiv.refl _
+  normal_commutes := rfl
+
+/-- Reverse a compatible normal-extension equivalence. -/
+def symm (e : NormalExtensionEquiv h h') :
+    NormalExtensionEquiv h' h where
+  toExtensionEquiv := e.toExtensionEquiv.symm
+  normalEquiv := e.normalEquiv.symm
+  normal_commutes := by
+    apply RingHom.ext
+    intro x
+    apply e.normalEquiv.injective
+    simp
+
+/-- Compose compatible normal-extension equivalences. -/
+def trans (e : NormalExtensionEquiv h h')
+    (e' : NormalExtensionEquiv h' h'') :
+    NormalExtensionEquiv h h'' where
+  toExtensionEquiv := e.toExtensionEquiv.trans e'.toExtensionEquiv
+  normalEquiv := e.normalEquiv.trans e'.normalEquiv
+  normal_commutes := by
+    apply RingHom.ext
+    intro x
+    simp
+
+end NormalExtensionEquiv
+
+namespace ExtensionEquiv
+
+variable {E L E' L' : IntermediateField k Ω}
+  {h : E ≤ L} {h' : E' ≤ L'}
+
+/-- Lift an equivalence of finite extensions to a compatible equivalence
+of canonical normal closures.  The construction uses uniqueness of
+algebraic closures, so the returned lift is chosen rather than strictly
+functorial; `NormalExtensionEquiv.refl`, `.symm`, and `.trans` provide the
+coherent operations on chosen lifts. -/
+noncomputable def normalLift (e : ExtensionEquiv h h') :
+    NormalExtensionEquiv h h' := by
+  letI algEL : Algebra (↥E) (↥L) :=
+    (IntermediateField.inclusion h).toRingHom.toAlgebra
+  letI algE'L' : Algebra (↥E') (↥L') :=
+    (IntermediateField.inclusion h').toRingHom.toAlgebra
+  letI algEE' : Algebra (↥E) (↥E') :=
+    e.baseEquiv.toRingEquiv.toRingHom.toAlgebra
+  letI algEL' : Algebra (↥E) (↥L') :=
+    ((IntermediateField.inclusion h').toRingHom.comp
+      e.baseEquiv.toRingEquiv.toRingHom).toAlgebra
+  letI towerEL' : IsScalarTower (↥E) (↥E') (↥L') :=
+    IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  let φr : AlgebraicClosure (↥E) ≃+* AlgebraicClosure (↥E') :=
+    IsAlgClosure.equivOfEquiv
+      (AlgebraicClosure (↥E)) (AlgebraicClosure (↥E'))
+      e.baseEquiv.toRingEquiv
+  let φ : AlgebraicClosure (↥E) ≃ₐ[↥E]
+      AlgebraicClosure (↥E') :=
+    { φr with
+      commutes' := fun x ↦ by
+        exact IsAlgClosure.equivOfEquiv_algebraMap
+          (AlgebraicClosure (↥E)) (AlgebraicClosure (↥E'))
+          e.baseEquiv.toRingEquiv x }
+  let ψ : (↥L) ≃ₐ[↥E] (↥L') :=
+    { e.totalEquiv.toRingEquiv with
+      commutes' := fun x ↦ e.commutes_apply x }
+  have hmap :
+      (canonicalNormalClosure h).map φ.toAlgHom =
+        (canonicalNormalClosure h').restrictScalars (↥E) := by
+    calc
+      (canonicalNormalClosure h).map φ.toAlgHom =
+          normalClosure (↥E) (↥L') (AlgebraicClosure (↥E')) := by
+        exact map_normalClosure_eq_of_equiv ψ φ
+      _ = (canonicalNormalClosure h').restrictScalars (↥E) := by
+        exact @normalClosure_restrictScalars_of_surjective
+          (↥E) (↥E') (↥L') (AlgebraicClosure (↥E'))
+          inferInstance inferInstance inferInstance inferInstance
+          algEE' algEL' inferInstance algE'L' inferInstance
+          towerEL' inferInstance e.baseEquiv.surjective
+  let n : (↥(canonicalNormalClosure h)) ≃ₐ[↥E]
+      (↥((canonicalNormalClosure h').restrictScalars (↥E))) :=
+    (IntermediateField.equivMap (canonicalNormalClosure h) φ.toAlgHom).trans
+      (IntermediateField.equivOfEq hmap)
+  refine
+    { toExtensionEquiv := e
+      normalEquiv := n.toRingEquiv
+      normal_commutes := ?_ }
+  apply RingHom.ext
+  intro x
+  exact n.commutes x
+
+@[simp] theorem normalLift_toExtensionEquiv (e : ExtensionEquiv h h') :
+    e.normalLift.toExtensionEquiv = e := by
+  simp [normalLift]
+
+end ExtensionEquiv
 
 /-- The original finite extension embeds in its normal closure. -/
 theorem extendScalars_le_normalClosureOver (h : E ≤ L) :
