@@ -512,6 +512,128 @@ theorem exists_relocation [IsAlgClosed Ω] {q : Fin d → Ω} {x : Ω}
 
 end FiniteCorrespondenceFamilyMember
 
+/-- A generically finite ternary correspondence serving as the graph of
+a multiplication law.  Every two displayed coordinates are independent,
+and the remaining coordinate is algebraic over them.  Thus the same locus
+can be read in all three directions: multiplication and the two division
+problems.  No single-valuedness is asserted at this stage. -/
+structure FiniteCorrespondenceMultiplication where
+  /-- The left input of the generic multiplication relation. -/
+  left : Ω
+  /-- The right input of the generic multiplication relation. -/
+  right : Ω
+  /-- The output of the generic multiplication relation. -/
+  output : Ω
+  /-- The two inputs are independent generic parameters. -/
+  leftRight_independent : AlgebraicIndependent k ![left, right]
+  /-- The left input and output are independent generic parameters. -/
+  leftOutput_independent : AlgebraicIndependent k ![left, output]
+  /-- The right input and output are independent generic parameters. -/
+  rightOutput_independent : AlgebraicIndependent k ![right, output]
+  /-- The output is finite over the two inputs. -/
+  output_mem_left_right : output ∈ racl k ({left, right} : Set Ω)
+  /-- The right input is finite over the left input and output. -/
+  right_mem_left_output : right ∈ racl k ({left, output} : Set Ω)
+  /-- The left input is finite over the right input and output. -/
+  left_mem_right_output : left ∈ racl k ({right, output} : Set Ω)
+
+namespace FiniteCorrespondenceMultiplication
+
+variable (M : FiniteCorrespondenceMultiplication (k := k) (Ω := Ω))
+
+/-- The generic triple `(left, right, output)`. -/
+def tuple : Fin 3 → Ω := ![M.left, M.right, M.output]
+
+/-- The prime ideal of the ternary multiplication locus. -/
+def ideal : Ideal (MvPolynomial (Fin 3) k) := idealOf k M.tuple
+
+/-- The multiplication locus has a point over every independent generic
+pair of inputs. -/
+theorem exists_output [IsAlgClosed Ω] {a b : Ω}
+    (hab : AlgebraicIndependent k ![a, b]) :
+    ∃ c : Ω, idealOf k ![a, b, c] = M.ideal := by
+  have hrange : Set.range (![M.left, M.right] : Fin 2 → Ω) =
+      ({M.left, M.right} : Set Ω) := by
+    ext z
+    simp
+    tauto
+  have hmem : M.output ∈
+      racl k (Set.range (![M.left, M.right] : Fin 2 → Ω)) := by
+    rw [hrange]
+    exact M.output_mem_left_right
+  simpa [ideal, tuple] using
+    exists_snoc_relocation_fixing M.leftRight_independent hab hmem
+
+/-- The multiplication locus has a point over every independent generic
+left-input/output pair, solving the right-division problem. -/
+theorem exists_right [IsAlgClosed Ω] {a c : Ω}
+    (hac : AlgebraicIndependent k ![a, c]) :
+    ∃ b : Ω, idealOf k ![a, b, c] = M.ideal := by
+  classical
+  let e : Fin 2 → Fin 3 := ![0, 2]
+  have he (i : Fin 2) : M.tuple (e i) = (![M.left, M.output] : Fin 2 → Ω) i := by
+    fin_cases i <;> rfl
+  have hmem (j : Fin 3) :
+      M.tuple j ∈ racl k (Set.range (![M.left, M.output] : Fin 2 → Ω)) := by
+    have hrange : Set.range (![M.left, M.output] : Fin 2 → Ω) =
+        ({M.left, M.output} : Set Ω) := by
+      ext z
+      simp
+      tauto
+    rw [hrange]
+    fin_cases j
+    · exact subset_racl k _ (by simp [tuple])
+    · exact M.right_mem_left_output
+    · exact subset_racl k _ (by simp [tuple])
+  obtain ⟨v, hv, hfix⟩ := exists_tuple_relocation_fixing
+    M.leftOutput_independent hac he hmem
+  refine ⟨v 1, ?_⟩
+  have hvtuple : v = ![a, v 1, c] := by
+    funext i
+    fin_cases i
+    · exact hfix 0
+    · rfl
+    · exact hfix 1
+  change idealOf k ![a, v 1, c] = idealOf k M.tuple
+  rw [← hvtuple]
+  exact hv
+
+/-- The multiplication locus has a point over every independent generic
+right-input/output pair, solving the left-division problem. -/
+theorem exists_left [IsAlgClosed Ω] {b c : Ω}
+    (hbc : AlgebraicIndependent k ![b, c]) :
+    ∃ a : Ω, idealOf k ![a, b, c] = M.ideal := by
+  classical
+  let e : Fin 2 → Fin 3 := ![1, 2]
+  have he (i : Fin 2) : M.tuple (e i) = (![M.right, M.output] : Fin 2 → Ω) i := by
+    fin_cases i <;> rfl
+  have hmem (j : Fin 3) :
+      M.tuple j ∈ racl k (Set.range (![M.right, M.output] : Fin 2 → Ω)) := by
+    have hrange : Set.range (![M.right, M.output] : Fin 2 → Ω) =
+        ({M.right, M.output} : Set Ω) := by
+      ext z
+      simp
+      tauto
+    rw [hrange]
+    fin_cases j
+    · exact M.left_mem_right_output
+    · exact subset_racl k _ (by simp [tuple])
+    · exact subset_racl k _ (by simp [tuple])
+  obtain ⟨v, hv, hfix⟩ := exists_tuple_relocation_fixing
+    M.rightOutput_independent hbc he hmem
+  refine ⟨v 0, ?_⟩
+  have hvtuple : v = ![v 0, b, c] := by
+    funext i
+    fin_cases i
+    · rfl
+    · exact hfix 0
+    · exact hfix 1
+  change idealOf k ![v 0, b, c] = idealOf k M.tuple
+  rw [← hvtuple]
+  exact hv
+
+end FiniteCorrespondenceMultiplication
+
 end
 
 end AclGeom

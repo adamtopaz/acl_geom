@@ -476,6 +476,30 @@ its selected object:
 
 {docstring AclGeom.IsPartialQuadrangle.selectedChainBranchGroupoid_isConnected}
 
+At parameter level the dependent rank-two triple `(S,T,U)` is itself a
+ternary generically finite correspondence, oriented as `S · T = U`.
+Every coordinate pair is independent and the third coordinate is algebraic
+over it.  Algebraically closed tuple relocation therefore solves the
+generic product and both generic division problems on one fixed prime
+locus.  This is the positive-dimensional multiplication graph; it is kept
+distinct from the finite deck group acting on any one normalized fiber:
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication}
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication.exists_output}
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication.exists_right}
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication.exists_left}
+
+{docstring AclGeom.IsPartialQuadrangle.parameterMultiplication}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameter_output}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameter_right}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameter_left}
+
 Before passing to the common `k(S,T,U)` cover, the three arrows are genuine
 members of separate one-parameter families: `T` carries `S' → U'`, `S`
 carries `U' → T'`, and `U` carries `S' → T'`.  Each family locus relocates
