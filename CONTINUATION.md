@@ -214,11 +214,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     `BirationalGluing.partialIsoGlueData` packages any dense-open partial
     isomorphism as an actual two-chart `Scheme.GlueData`; all four repeated
     blocks `s`, `u`, `sA`, and `uB` expose such normalized gluing data.
+15. `WeilGluing.commonOverlapGlueData` packages an arbitrary family of open
+    immersions from one fixed overlap as full scheme gluing data with literal
+    identity triple cocycles.  `BirationalGluing.partialIsoFamilyGlueData`
+    applies this to a finite family of partial isomorphisms from one reference
+    chart: their finitely many dense source opens are intersected once, every
+    partial isomorphism is restricted to that common dense source, and all
+    target charts are glued simultaneously.  The reference-normalized scalar
+    transitions instantiate this as `rankTwoScalarReferenceAtlasGlueData` for
+    an arbitrary finite branch family on one rank-two locus, with
+    `rankTwoScalarReferenceAtlas` the resulting actual scheme.
 
-**Next exact step:** assemble the normalized pairwise gluing data into the
-full finite chart atlas, restricting on triple overlaps according to the
-strict rational cocycle; then glue multiplication and inverse on the
-resulting integral locally finite-type scheme.  Prove separatedness and
+**Next exact step:** glue multiplication and inverse on the full finite
+reference-normalized chart atlas, using the strict field/rational cocycle to
+prove chartwise compatibility.  Prove separatedness and
 extract the finite atlas to package the result in the new scheme-level
 algebraic-group target.  Then identify the already constructed categorical
 rank-one normal kernel with the connected component of its scheme-theoretic

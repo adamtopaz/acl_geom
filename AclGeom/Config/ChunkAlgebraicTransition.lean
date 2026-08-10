@@ -15,6 +15,8 @@ generic finite-extension transition construction then clears its coordinate
 denominators and produces a dominant partial map on one dense principal open.
 The same field equivalence and its inverse induce mutually inverse rational
 maps, hence an actual isomorphism between dense open chart subschemes.
+Finite reference-normalized families are restricted to one common dense
+source and assembled into an actual multi-chart scheme atlas.
 
 This is instantiated for all four repeated rank-two blocks of a lifted
 four-arrow Ψ diagram.  Thus the branch comparisons at `s`, `u`, `sA`, and
@@ -350,6 +352,33 @@ noncomputable def rankTwoScalarNormalizedTransitionGlueData
     (hxy : idealOf k (rankTwoScalarTuple p x) =
       idealOf k (rankTwoScalarTuple p y)) : Scheme.GlueData :=
   rankTwoScalarReferenceTransitionGlueData hx hx hy rfl hxy
+
+/-- A finite family of scalar branches on one rank-two locus, all normalized
+through a fixed reference branch, forms a single scheme atlas.  The family of
+reference-to-branch partial isomorphisms is restricted to one common dense
+source before gluing, so all triple-overlap cocycles are strict. -/
+noncomputable def rankTwoScalarReferenceAtlasGlueData
+    {J : Type u} [Finite J]
+    {p : Fin 2 → K} {r : K} (x : J → K)
+    (hr : r ∈ racl k (Set.range p))
+    (hx : ∀ i, x i ∈ racl k (Set.range p))
+    (hrx : ∀ i, idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p (x i))) : Scheme.GlueData :=
+  BirationalGluing.partialIsoFamilyGlueData
+    (U := fun i ↦ rankTwoScalarAlgebraicChart (k := k) p (x i) (hx i))
+    (fun i ↦ rankTwoScalarReferenceTransitionPartialIso
+      hr hr (hx i) rfl (hrx i))
+
+/-- The scheme obtained by gluing a finite reference-normalized family of
+scalar charts along their common dense overlap. -/
+noncomputable abbrev rankTwoScalarReferenceAtlas
+    {J : Type u} [Finite J]
+    {p : Fin 2 → K} {r : K} (x : J → K)
+    (hr : r ∈ racl k (Set.range p))
+    (hx : ∀ i, x i ∈ racl k (Set.range p))
+    (hrx : ∀ i, idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p (x i))) : Scheme.{u} :=
+  (rankTwoScalarReferenceAtlasGlueData x hr hx hrx).glued
 
 namespace PsiChunkFourArrowEdgeLifts
 

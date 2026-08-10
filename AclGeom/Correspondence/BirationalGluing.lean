@@ -5,7 +5,7 @@ Authors: Adam Topaz, Codex
 -/
 import Mathlib.AlgebraicGeometry.Birational.Birational
 import Mathlib.AlgebraicGeometry.Birational.Composition
-import Mathlib.AlgebraicGeometry.Gluing
+import AclGeom.Correspondence.WeilGluing
 
 /-!
 # Dense-open isomorphisms from inverse rational maps
@@ -19,7 +19,9 @@ produce a concrete `Scheme.PartialIso` between dense open subschemes.
 The second construction is the form used by the normalized correspondence
 charts: field equivalences first produce inverse rational maps, and this file
 turns those maps into the dense-open transition isomorphisms required by
-`Scheme.GlueData`.
+`Scheme.GlueData`.  A finite family based at one reference chart is then
+restricted to one common dense source and assembled into a full multi-chart
+atlas with literal triple cocycles.
 
 This module is part of the formalization of the
 Evans--Hrushovski--Gismatullin reconstruction theorem; the source of truth
@@ -36,6 +38,60 @@ noncomputable section
 universe u
 
 namespace BirationalGluing
+
+variable {J : Type u}
+
+/-- A finite intersection of dense open subschemes is dense. -/
+theorem dense_iInf_opens {X : Scheme.{u}} [Finite J]
+    (V : J → X.Opens) (hV : ∀ i, Dense (V i : Set X)) :
+    Dense (((⨅ i, V i) : X.Opens) : Set X) := by
+  classical
+  letI := Fintype.ofFinite J
+  have aux (s : Finset J) : Dense (((s.inf V : X.Opens)) : Set X) := by
+    induction s using Finset.induction_on with
+    | empty => simp
+    | @insert a s ha ih =>
+        rw [Finset.inf_insert]
+        exact (hV a).inter_of_isOpen_right ih (s.inf V).2
+  simpa only [Finset.inf_univ_eq_iInf] using aux Finset.univ
+
+variable {X : Scheme.{u}} (U : J → Scheme.{u}) [Finite J]
+  (e : ∀ i, X.PartialIso (U i))
+
+/-- The common dense source on the reference chart of a finite family of
+partial isomorphisms. -/
+def partialIsoFamilyCommonSource : X.Opens :=
+  ⨅ i, (e i).source
+
+/-- The common source of a finite family of partial isomorphisms is dense. -/
+theorem partialIsoFamilyCommonSource_dense :
+    Dense ((partialIsoFamilyCommonSource U e : X.Opens) : Set X) :=
+  dense_iInf_opens (fun i ↦ (e i).source) (fun i ↦ (e i).dense_source)
+
+/-- Restrict one member of a finite family of partial isomorphisms to their
+common dense source. -/
+def partialIsoFamilyRestriction (i : J) : X.PartialIso (U i) :=
+  (e i).restrictSource (partialIsoFamilyCommonSource U e)
+    (partialIsoFamilyCommonSource_dense U e) (iInf_le _ i)
+
+/-- The open immersion of the common dense source into one target chart. -/
+def partialIsoFamilyMap (i : J) :
+    (partialIsoFamilyCommonSource U e).toScheme ⟶ U i :=
+  (partialIsoFamilyRestriction U e i).iso.hom ≫
+    (partialIsoFamilyRestriction U e i).target.ι
+
+instance partialIsoFamilyMap_isOpenImmersion (i : J) :
+    IsOpenImmersion (partialIsoFamilyMap U e i) := by
+  delta partialIsoFamilyMap
+  infer_instance
+
+/-- A finite family of partial isomorphisms from one reference chart produces
+a full multi-chart atlas.  Restricting every member to the common dense source
+makes all transition maps identities on one fixed overlap, so triple cocycles
+hold strictly in `Scheme.GlueData`. -/
+def partialIsoFamilyGlueData : Scheme.GlueData :=
+  WeilGluing.commonOverlapGlueData U
+    (partialIsoFamilyCommonSource U e).toScheme (partialIsoFamilyMap U e)
 
 variable {X Y : Scheme.{u}} [IrreducibleSpace X] [IrreducibleSpace Y]
 

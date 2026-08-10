@@ -20,7 +20,9 @@ compatible structure morphisms to a base scheme make the gluing relative
 over that base.  Local finite type then descends from the charts, while a
 finite atlas of quasi-compact chart morphisms is quasi-compact.  Finally,
 integral charts with nonempty pairwise overlaps glue to an integral
-scheme.  These are precisely the local finite-type and irreducibility
+scheme.  A family of charts containing one fixed open subscheme is also
+packaged as gluing data whose transition and triple-cocycle maps are strict
+identities on that common overlap.  These are precisely the local finite-type and irreducibility
 arguments in Weil's construction; separatedness and the finite atlas for
 the eventual group are established only after multiplication and inverse
 have been glued.
@@ -40,6 +42,45 @@ open AlgebraicGeometry
 universe u
 
 namespace WeilGluing
+
+variable {J : Type u} (U : J → Scheme.{u}) (W : Scheme.{u})
+  (f : ∀ i, W ⟶ U i) [∀ i, IsOpenImmersion (f i)]
+
+/-- Categorical gluing data for a family of charts that all contain the same
+open subscheme.  Every off-diagonal overlap is `W` and every transition on
+`W` is the identity, so the triple-overlap cocycle is literal. -/
+def commonOverlapGlueData' : CategoryTheory.GlueData'.{u, u + 1} Scheme.{u} where
+  J := J
+  U := U
+  V i j h := W
+  f i j h := f i
+  t i j h := 𝟙 W
+  t' i j k hij hik hjk :=
+    pullback.lift (pullback.fst _ _) (pullback.fst _ _) rfl
+  t_fac i j k hij hik hjk := by
+    rw [pullback.lift_snd, Category.comp_id]
+  t_inv i j hij := by simp
+  cocycle i j k hij hik hjk := by
+    apply pullback.hom_ext
+    · simp only [Category.assoc, pullback.lift_fst, Category.id_comp]
+    · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd,
+        Category.id_comp]
+      exact fst_eq_snd_of_mono_eq (f i)
+
+/-- A family of open immersions from one fixed scheme into a family of
+charts determines actual scheme gluing data with a strict identity cocycle
+on the common overlap. -/
+def commonOverlapGlueData : Scheme.GlueData where
+  toGlueData := CategoryTheory.GlueData.ofGlueData'
+    (commonOverlapGlueData' U W f)
+  f_open i j := by
+    classical
+    change IsOpenImmersion ((commonOverlapGlueData' U W f).f' i j)
+    delta CategoryTheory.GlueData'.f'
+    split
+    · infer_instance
+    · delta commonOverlapGlueData'
+      infer_instance
 
 variable (D : Scheme.GlueData.{u})
 

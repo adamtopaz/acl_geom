@@ -1213,6 +1213,8 @@ Local finite type descends chartwise, a finite quasi-compact atlas gives a
 quasi-compact structure morphism, and integral charts with nonempty
 pairwise overlaps glue to an integral scheme:
 
+{docstring AclGeom.WeilGluing.commonOverlapGlueData}
+
 {docstring AclGeom.WeilGluing.toBase_locallyOfFiniteType}
 
 {docstring AclGeom.WeilGluing.toBase_quasiCompact}
@@ -1247,6 +1249,15 @@ an actual two-chart `Scheme.GlueData`:
 {docstring AclGeom.BirationalGluing.partialIsoOfMutualInverseRationalMaps}
 
 {docstring AclGeom.BirationalGluing.partialIsoGlueData}
+
+A finite family of partial isomorphisms out of one reference chart can be
+shrunk simultaneously.  The finite intersection of their dense source opens
+is dense, and using that one source as every overlap produces a full atlas
+whose transition maps and triple cocycles are strict identities:
+
+{docstring AclGeom.BirationalGluing.dense_iInf_opens}
+
+{docstring AclGeom.BirationalGluing.partialIsoFamilyGlueData}
 
 The denominator-clearing layer chooses one nonzero product denominator for a
 finite family of fraction-field elements.  Hence an injective map from a
@@ -1313,6 +1324,14 @@ pairwise dense overlap is an honest scheme gluing datum:
 
 {docstring AclGeom.QWitness.rankTwoScalarReferenceTransitionGlueData}
 
+For an arbitrary finite family of branches on the same scalar projection
+locus, the reference-normalized transitions now assemble all charts at once;
+the corresponding glued scheme is an actual `Scheme`:
+
+{docstring AclGeom.QWitness.rankTwoScalarReferenceAtlasGlueData}
+
+{docstring AclGeom.QWitness.rankTwoScalarReferenceAtlas}
+
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAlgebraicTransitionPartialMap}
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.uBAlgebraicTransitionPartialMap}
@@ -1343,10 +1362,11 @@ coordinates remain algebraically independent on each selected Ψ chart:
 
 The normalized finite-cover action has therefore supplied explicit
 principal-open representatives, genuine dense-open transition isomorphisms,
-a strict reference-normalized rational cocycle, and pairwise
-`Scheme.GlueData`.  The next boundary is assembling the full finite chart
-atlas with its triple-overlap restrictions, then gluing multiplication and
-inverse into the genuine scheme-level target.  After that the categorical
+a strict reference-normalized rational cocycle, pairwise `Scheme.GlueData`,
+and a full finite reference-normalized atlas with literal triple cocycles.
+The next boundary is gluing multiplication and inverse on this atlas into the
+genuine scheme-level target, then proving separatedness and the remaining
+finite-type properties.  After that the categorical
 rank-one kernel must be identified with the connected component of the
 scheme-theoretic kernel.  None of these conclusions is inferred merely from
 the presented quotient or from finiteness of the earlier deck action.
