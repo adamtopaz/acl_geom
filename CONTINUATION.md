@@ -231,15 +231,25 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     finite-type and irreducibility parts of the Weil construction are now
     discharged.  Separatedness remains tied to the group law rather than to
     the common-open gluing alone.
+16. `GroupScheme.diagonal_isPullback_unit` identifies the diagonal of any
+    group scheme over `k` as the pullback of its closed unit section along the
+    difference morphism.  Hence every group scheme over the field is
+    separated, and `AlgebraicGroup.ofGroupScheme` packages a locally
+    finite-type, quasi-compact group scheme without a separate separatedness
+    proof.  The existing finite reference-normalized scalar atlas should now
+    be understood precisely as the branch-normalization input to Weil's
+    theorem, not as the translation-indexed group atlas itself.
 
-**Next exact step:** glue multiplication and inverse on the full finite
-reference-normalized chart atlas, using the strict field/rational cocycle to
-prove chartwise compatibility.  Prove separatedness and
-extract the finite atlas to package the result in the new scheme-level
-algebraic-group target.  Then identify the already constructed categorical
-rank-one normal kernel with the connected component of its scheme-theoretic
-kernel, apply the completed affine-action classification, and finish
-affine-grid extraction (8.5) and Q correctness.
+**Next exact step:** turn the selected relational multiplication and inverse
+into dominant rational maps on one common positive-dimensional normalized
+parameter cover.  Use those maps to construct the translation-indexed Weil
+atlas and glue its multiplication, unit, and inverse with the strict
+field/rational cocycle.  The resulting group scheme is automatically
+separated by item 16; then extract a finite subatlas and package it in the
+scheme-level algebraic-group target.  After that, identify the already
+constructed categorical rank-one normal kernel with the connected component
+of its scheme-theoretic kernel, apply the completed affine-action
+classification, and finish affine-grid extraction (8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
 group only records the vertical ambiguity of chosen lifts; the parameter

@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import Mathlib.AlgebraicGeometry.Geometrically.Integral
+import Mathlib.AlgebraicGeometry.Group.Abelian
 import Mathlib.AlgebraicGeometry.Morphisms.FiniteType
 import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
 import Mathlib.AlgebraicGeometry.Morphisms.Separated
@@ -45,6 +46,59 @@ universe u
 abbrev GroupScheme (k : Type u) [Field k] :=
   CategoryTheory.Grp (Over (Spec (.of k)))
 
+namespace GroupScheme
+
+variable {k : Type u} [Field k]
+
+/-- The difference morphism `(x, y) ↦ x * y⁻¹` of a group scheme. -/
+def difference (G : GroupScheme k) : G.X ⊗ G.X ⟶ G.X :=
+  fst G.X G.X / snd G.X G.X
+
+/-- The diagonal of a group object is the fiber over the unit of its
+difference morphism.  This categorical pullback is the mechanism that turns
+closedness of the unit section into separatedness. -/
+theorem diagonal_isPullback_unit (G : GroupScheme k) :
+    IsPullback (lift (𝟙 G.X) (𝟙 G.X)) (toUnit G.X)
+      G.difference η[G.X] := by
+  refine
+    { w := by simp [difference, GrpObj.comp_div, one_eq_one]
+      isLimit' := ⟨PullbackCone.IsLimit.mk _
+        (fun s ↦ s.fst ≫ fst G.X G.X)
+        ?_ ?_ ?_⟩ }
+  · intro s
+    apply CartesianMonoidalCategory.hom_ext
+    · simp
+    · have h :
+          s.fst ≫ fst G.X G.X / s.fst ≫ snd G.X G.X = 1 := by
+        simpa [difference, GrpObj.comp_div, one_eq_one] using s.condition
+      simpa using (div_eq_one.mp h)
+  · intro s
+    apply Subsingleton.elim
+  · intro s m hm _
+    simpa using hm =≫ fst G.X G.X
+
+/-- The unit section of a group scheme over a field is closed. -/
+theorem unit_isClosedImmersion (G : GroupScheme k) :
+    IsClosedImmersion η[G.X].left :=
+  inferInstance
+
+set_option maxHeartbeats 800000 in
+-- Transporting the categorical pullback through `Over.forget` is elaboration-heavy.
+set_option maxRecDepth 10000 in
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
+/-- Every group scheme over a field is separated.  Indeed, its unit section
+is a closed immersion, and the diagonal is its pullback along the difference
+morphism. -/
+instance isSeparated (G : GroupScheme k) : IsSeparated G.X.hom where
+  isClosedImmersion_diagonal := by
+    have hpb := G.diagonal_isPullback_unit.map
+      (Over.forget (Spec (.of k)))
+    change IsClosedImmersion (lift (𝟙 G.X) (𝟙 G.X)).left
+    exact MorphismProperty.of_isPullback hpb.flip G.unit_isClosedImmersion
+
+end GroupScheme
+
 /-- A separated finite-type group scheme over a field.
 
 Finite type is recorded by its two standard constituents in Mathlib:
@@ -65,6 +119,16 @@ attribute [instance] AlgebraicGroup.locallyOfFiniteType
 namespace AlgebraicGroup
 
 variable {k : Type u} [Field k]
+
+/-- Package a locally finite-type, quasi-compact group scheme as an algebraic
+group.  Separatedness is automatic for group schemes over a field. -/
+def ofGroupScheme (G : GroupScheme k)
+    [LocallyOfFiniteType G.X.hom] [QuasiCompact G.X.hom] :
+    AlgebraicGroup k where
+  toGroupScheme := G
+  locallyOfFiniteType := inferInstance
+  quasiCompact := inferInstance
+  isSeparated := inferInstance
 
 /-- The underlying scheme of an algebraic group. -/
 abbrev carrier (G : AlgebraicGroup k) : Scheme := G.toGroupScheme.X.left

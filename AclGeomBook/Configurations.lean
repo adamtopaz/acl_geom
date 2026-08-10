@@ -1194,6 +1194,20 @@ than merely an abstract group whose carrier happens to be a parameter type:
 
 {docstring AclGeom.ConnectedAlgebraicGroup}
 
+For a group scheme over a field, separatedness no longer has to be supplied
+as an independent gluing argument.  The difference morphism has the diagonal
+as its fiber over the unit; the unit section is closed, so the diagonal is
+closed.  Thus a locally finite-type, quasi-compact group scheme packages
+directly as an algebraic group:
+
+{docstring AclGeom.GroupScheme.difference}
+
+{docstring AclGeom.GroupScheme.diagonal_isPullback_unit}
+
+{docstring AclGeom.GroupScheme.isSeparated}
+
+{docstring AclGeom.AlgebraicGroup.ofGroupScheme}
+
 Kernels are formed in the category of group schemes.  Forgetting the
 kernel square to schemes identifies it with the pullback along the unit
 section.  Consequently the kernel is a closed finite-type separated
@@ -1389,12 +1403,16 @@ principal-open representatives, genuine dense-open transition isomorphisms,
 a strict reference-normalized rational cocycle, pairwise `Scheme.GlueData`,
 and a full finite reference-normalized atlas with literal triple cocycles.
 Its chart maps descend to a structure morphism over `Spec k`; the resulting
-scheme is integral, locally of finite type, and quasi-compact.  The next
-boundary is gluing multiplication and inverse on this atlas into the genuine
-scheme-level target, then proving separatedness.  After that the categorical
-rank-one kernel must be identified with the connected component of the
-scheme-theoretic kernel.  None of these conclusions is inferred merely from
-the presented quotient or from finiteness of the earlier deck action.
+scheme is integral, locally of finite type, and quasi-compact.  This is the
+finite branch-normalization layer, not yet the translation-indexed Weil group
+atlas.  The next boundary is to realize the relational multiplication and
+inverse as rational maps on a common positive-dimensional normalized
+parameter cover, then glue the charts indexed by its birational translations.
+Once those operations form a group scheme, separatedness follows from the
+group diagonal theorem above.  After that the categorical rank-one kernel
+must be identified with the connected component of the scheme-theoretic
+kernel.  None of these conclusions is inferred merely from the presented
+quotient or from finiteness of the earlier deck action.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
