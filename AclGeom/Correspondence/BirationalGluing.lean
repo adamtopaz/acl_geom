@@ -70,7 +70,7 @@ theorem partialIsoFamilyCommonSource_dense :
 
 /-- Restrict one member of a finite family of partial isomorphisms to their
 common dense source. -/
-def partialIsoFamilyRestriction (i : J) : X.PartialIso (U i) :=
+abbrev partialIsoFamilyRestriction (i : J) : X.PartialIso (U i) :=
   (e i).restrictSource (partialIsoFamilyCommonSource U e)
     (partialIsoFamilyCommonSource_dense U e) (iInf_le _ i)
 
@@ -92,6 +92,70 @@ hold strictly in `Scheme.GlueData`. -/
 def partialIsoFamilyGlueData : Scheme.GlueData :=
   WeilGluing.commonOverlapGlueData U
     (partialIsoFamilyCommonSource U e).toScheme (partialIsoFamilyMap U e)
+
+/-- Restricting a reference-to-chart partial isomorphism to the common
+source preserves compatibility with maps to a base scheme. -/
+theorem partialIsoFamilyRestriction_isOver {S : Scheme.{u}}
+    (sX : X ⟶ S) (s : ∀ i, U i ⟶ S)
+    (he : ∀ i, (e i).IsOver sX (s i)) (i : J) :
+    (partialIsoFamilyRestriction U e i).IsOver sX (s i) :=
+  (he i).restrictSource (partialIsoFamilyCommonSource U e)
+    (partialIsoFamilyCommonSource_dense U e) (iInf_le _ i)
+
+/-- Every chart immersion in a reference-based atlas restricts to the same
+map from the common source to the base. -/
+theorem partialIsoFamilyMap_comp {S : Scheme.{u}}
+    (sX : X ⟶ S) (s : ∀ i, U i ⟶ S)
+    (he : ∀ i, (e i).IsOver sX (s i)) (i : J) :
+    partialIsoFamilyMap U e i ≫ s i =
+      (partialIsoFamilyCommonSource U e).ι ≫ sX := by
+  have hi := partialIsoFamilyRestriction_isOver U e sX s he i
+  unfold Scheme.PartialIso.IsOver at hi
+  simpa only [partialIsoFamilyMap, Category.assoc,
+    partialIsoFamilyRestriction, Scheme.PartialIso.restrictSource,
+    Scheme.PartialIso.restrictSource_source] using hi
+
+/-- The structure morphism of a finite reference-based atlas, obtained by
+descending the chart structure maps over their common dense source. -/
+def partialIsoFamilyToBase {S : Scheme.{u}}
+    (sX : X ⟶ S) (s : ∀ i, U i ⟶ S)
+    (he : ∀ i, (e i).IsOver sX (s i)) :
+    (partialIsoFamilyGlueData U e).glued ⟶ S :=
+  WeilGluing.commonOverlapToBase U
+    (partialIsoFamilyCommonSource U e).toScheme
+    (partialIsoFamilyMap U e) s
+    ((partialIsoFamilyCommonSource U e).ι ≫ sX)
+    (partialIsoFamilyMap_comp U e sX s he)
+
+/-- The structure morphism of a finite reference-based atlas is locally of
+finite type when all target charts are. -/
+instance partialIsoFamilyToBase_locallyOfFiniteType {S : Scheme.{u}}
+    (sX : X ⟶ S) (s : ∀ i, U i ⟶ S)
+    (he : ∀ i, (e i).IsOver sX (s i))
+    [∀ i, LocallyOfFiniteType (s i)] :
+    LocallyOfFiniteType (partialIsoFamilyToBase U e sX s he) := by
+  unfold partialIsoFamilyToBase
+  apply @WeilGluing.commonOverlapToBase_locallyOfFiniteType
+
+/-- The structure morphism of a finite reference-based atlas is
+quasi-compact when all target charts are. -/
+instance partialIsoFamilyToBase_quasiCompact {S : Scheme.{u}}
+    (sX : X ⟶ S) (s : ∀ i, U i ⟶ S)
+    (he : ∀ i, (e i).IsOver sX (s i))
+    [∀ i, QuasiCompact (s i)] :
+    QuasiCompact (partialIsoFamilyToBase U e sX s he) := by
+  unfold partialIsoFamilyToBase
+  apply @WeilGluing.commonOverlapToBase_quasiCompact
+
+/-- A nonempty finite reference-based atlas of integral target charts glues
+to an integral scheme. -/
+instance partialIsoFamily_isIntegral [Nonempty J] [IsIntegral X]
+    [∀ i, IsIntegral (U i)] :
+    IsIntegral (partialIsoFamilyGlueData U e).glued := by
+  letI : Nonempty (partialIsoFamilyCommonSource U e).toScheme.carrier :=
+    (partialIsoFamilyCommonSource_dense U e).nonempty.to_subtype
+  unfold partialIsoFamilyGlueData
+  infer_instance
 
 variable {X Y : Scheme.{u}} [IrreducibleSpace X] [IrreducibleSpace Y]
 
@@ -184,6 +248,59 @@ def partialIsoOfMutualInversePartialMaps
   · rw [← cancel_mono V.ι]
     rw [Category.assoc, hFι, ← Category.assoc, hGu, hgf', Category.id_comp]
 
+/-- The dense-open isomorphism extracted from mutually inverse partial maps
+is over a base whenever the forward partial map is over that base. -/
+theorem partialIsoOfMutualInversePartialMaps_isOver
+    {S : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S)
+    (f : X.PartialMap Y) [IsDominant f.hom]
+    (g : Y.PartialMap X) [IsDominant g.hom]
+    (hfg : (f.comp g).hom = (f.comp g).domain.ι)
+    (hgf : (g.comp f).hom = (g.comp f).domain.ι)
+    (hf : f.hom ≫ sY = f.domain.ι ≫ sX) :
+    (partialIsoOfMutualInversePartialMaps f g hfg hgf).IsOver sX sY := by
+  let fPre : f.domain.toScheme.Opens := f.hom ⁻¹ᵁ g.domain
+  let gPre : g.domain.toScheme.Opens := g.hom ⁻¹ᵁ f.domain
+  let U : X.Opens := f.domain.ι ''ᵁ fPre
+  let V : Y.Opens := g.domain.ι ''ᵁ gPre
+  let uToF : U.toScheme ⟶ f.domain.toScheme :=
+    (f.domain.ι.isoImage fPre).inv ≫ fPre.ι
+  let fToG : U.toScheme ⟶ g.domain.toScheme :=
+    (f.domain.ι.isoImage fPre).inv ≫ f.hom ∣_ g.domain
+  let vToG : V.toScheme ⟶ g.domain.toScheme :=
+    (g.domain.ι.isoImage gPre).inv ≫ gPre.ι
+  have hu : uToF ≫ f.domain.ι = U.ι := by
+    exact f.domain.ι.isoImage_inv_ι fPre
+  have hv : vToG ≫ g.domain.ι = V.ι := by
+    exact g.domain.ι.isoImage_inv_ι gPre
+  have hfg' : fToG ≫ g.hom = U.ι := by
+    have h := hfg
+    dsimp [Scheme.PartialMap.comp, fToG, U, fPre] at h ⊢
+    simpa only [Category.assoc] using h
+  have hsqU : uToF ≫ f.domain.ι = fToG ≫ g.hom := by
+    rw [hu, hfg']
+  let liftU : U.toScheme ⟶ gPre.toScheme :=
+    (isPullback_morphismRestrict g.hom f.domain).lift uToF fToG hsqU
+  let F : U.toScheme ⟶ V.toScheme :=
+    liftU ≫ (g.domain.ι.isoImage gPre).hom
+  have hFv : F ≫ vToG = fToG := by
+    dsimp [F, vToG, liftU]
+    rw [Category.assoc, Iso.hom_inv_id_assoc]
+    exact (isPullback_morphismRestrict g.hom f.domain).lift_snd
+      uToF fToG hsqU
+  have hFι : F ≫ V.ι = uToF ≫ f.hom := by
+    calc
+      F ≫ V.ι = (F ≫ vToG) ≫ g.domain.ι := by
+        simp only [Category.assoc, hv]
+      _ = fToG ≫ g.domain.ι := by rw [hFv]
+      _ = uToF ≫ f.hom := by
+        dsimp [fToG, uToF]
+        rw [Category.assoc, morphismRestrict_ι]
+        simp only [Category.assoc]
+        rfl
+  unfold Scheme.PartialIso.IsOver
+  change F ≫ V.ι ≫ sY = U.ι ≫ sX
+  rw [← Category.assoc, hFι, Category.assoc, hf, ← Category.assoc, hu]
+
 /-- Mutually inverse dominant rational maps between integral separated schemes
 are represented by an isomorphism between concrete dense open subschemes. -/
 def partialIsoOfMutualInverseRationalMaps
@@ -218,6 +335,32 @@ def partialIsoOfMutualInverseRationalMaps
       (S := ⊤_ Scheme)).mp he
     simpa using hh
   exact partialIsoOfMutualInversePartialMaps F G hFG hGF
+
+/-- The dense-open isomorphism extracted from mutually inverse rational maps
+is over a base whenever the forward rational map is over that base. -/
+theorem partialIsoOfMutualInverseRationalMaps_isOver
+    {S : Scheme.{u}}
+    [IsIntegral X] [IsIntegral Y] [X.IsSeparated] [Y.IsSeparated]
+    [S.IsSeparated]
+    (sX : X ⟶ S) (sY : Y ⟶ S)
+    (f : X ⤏ Y) [f.IsDominant]
+    (g : Y ⤏ X) [g.IsDominant]
+    (hfg : f.comp g = Scheme.RationalMap.id X)
+    (hgf : g.comp f = Scheme.RationalMap.id Y)
+    (hf : f.compHom sY = sX.toRationalMap) :
+    (partialIsoOfMutualInverseRationalMaps f g hfg hgf).IsOver sX sY := by
+  letI : X.Over S := ⟨sX⟩
+  letI : Y.Over S := ⟨sY⟩
+  haveI hfOver : f.IsOver S := Scheme.RationalMap.isOver_iff.mpr hf
+  letI : IsDominant f.toPartialMap.hom := by
+    rw [← f.toPartialMap.isDominant_toRationalMap_iff]
+    simpa using (inferInstance : f.IsDominant)
+  letI : IsDominant g.toPartialMap.hom := by
+    rw [← g.toPartialMap.isDominant_toRationalMap_iff]
+    simpa using (inferInstance : g.IsDominant)
+  unfold partialIsoOfMutualInverseRationalMaps
+  apply partialIsoOfMutualInversePartialMaps_isOver
+  exact (inferInstance : f.toPartialMap.IsOver S).1
 
 /-- The two indices of the gluing datum attached to one partial
 isomorphism. -/

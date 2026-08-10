@@ -1215,6 +1215,12 @@ pairwise overlaps glue to an integral scheme:
 
 {docstring AclGeom.WeilGluing.commonOverlapGlueData}
 
+If the common overlap maps compatibly to a base, the chart structure maps
+descend.  Local finite type and quasi-compactness follow from the finite
+atlas:
+
+{docstring AclGeom.WeilGluing.commonOverlapToBase}
+
 {docstring AclGeom.WeilGluing.toBase_locallyOfFiniteType}
 
 {docstring AclGeom.WeilGluing.toBase_quasiCompact}
@@ -1259,6 +1265,12 @@ whose transition maps and triple cocycles are strict identities:
 
 {docstring AclGeom.BirationalGluing.partialIsoFamilyGlueData}
 
+When the reference-to-chart partial isomorphisms are over a fixed base, the
+same construction descends the chart structure maps and retains the local
+finite-type and quasi-compact properties:
+
+{docstring AclGeom.BirationalGluing.partialIsoFamilyToBase}
+
 The denominator-clearing layer chooses one nonzero product denominator for a
 finite family of fraction-field elements.  Hence an injective map from a
 finitely generated coordinate algebra to a fraction field factors through a
@@ -1293,6 +1305,14 @@ the inverse field equivalence supplies an actual dense-open isomorphism:
 
 {docstring AclGeom.FiniteExtensionTransition.partialIso}
 
+Both the rational transition and the extracted dense-open isomorphism are
+proved to commute with the chart structure maps to the ground-field
+spectrum:
+
+{docstring AclGeom.FiniteExtensionTransition.rationalMap_comp_structureMap}
+
+{docstring AclGeom.FiniteExtensionTransition.partialIso_isOver}
+
 Successive ambient field equivalences compose strictly after conjugation
 through the chart function fields, so their canonical rational transitions
 satisfy the same composition law:
@@ -1324,6 +1344,8 @@ pairwise dense overlap is an honest scheme gluing datum:
 
 {docstring AclGeom.QWitness.rankTwoScalarReferenceTransitionGlueData}
 
+{docstring AclGeom.QWitness.rankTwoScalarReferenceTransitionPartialIso_isOver}
+
 For an arbitrary finite family of branches on the same scalar projection
 locus, the reference-normalized transitions now assemble all charts at once;
 the corresponding glued scheme is an actual `Scheme`:
@@ -1331,6 +1353,8 @@ the corresponding glued scheme is an actual `Scheme`:
 {docstring AclGeom.QWitness.rankTwoScalarReferenceAtlasGlueData}
 
 {docstring AclGeom.QWitness.rankTwoScalarReferenceAtlas}
+
+{docstring AclGeom.QWitness.rankTwoScalarReferenceAtlasToSpec}
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAlgebraicTransitionPartialMap}
 
@@ -1364,9 +1388,10 @@ The normalized finite-cover action has therefore supplied explicit
 principal-open representatives, genuine dense-open transition isomorphisms,
 a strict reference-normalized rational cocycle, pairwise `Scheme.GlueData`,
 and a full finite reference-normalized atlas with literal triple cocycles.
-The next boundary is gluing multiplication and inverse on this atlas into the
-genuine scheme-level target, then proving separatedness and the remaining
-finite-type properties.  After that the categorical
+Its chart maps descend to a structure morphism over `Spec k`; the resulting
+scheme is integral, locally of finite type, and quasi-compact.  The next
+boundary is gluing multiplication and inverse on this atlas into the genuine
+scheme-level target, then proving separatedness.  After that the categorical
 rank-one kernel must be identified with the connected component of the
 scheme-theoretic kernel.  None of these conclusions is inferred merely from
 the presented quotient or from finiteness of the earlier deck action.

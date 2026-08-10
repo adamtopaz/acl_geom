@@ -165,6 +165,64 @@ instance toBase_quasiCompact {S : Scheme.{u}}
     QuasiCompact.isCompact_preimage U hU hUc
   exact hi.image (D.ι i).continuous
 
+/-- Chart maps to a fixed target are compatible on a common-overlap atlas
+when all of their restrictions to the common overlap agree. -/
+theorem commonOverlap_compatible {S : Scheme.{u}}
+    (s : ∀ i, U i ⟶ S) (w : W ⟶ S)
+    (h : ∀ i, f i ≫ s i = w) :
+    CompatibleMaps (commonOverlapGlueData U W f) s := by
+  unfold CompatibleMaps
+  change ∀ i j : J,
+    (commonOverlapGlueData U W f).f i j ≫ s i =
+      (commonOverlapGlueData U W f).t i j ≫
+        (commonOverlapGlueData U W f).f j i ≫ s j
+  intro i j
+  classical
+  by_cases hij : i = j
+  · subst j
+    simp [commonOverlapGlueData, CategoryTheory.GlueData.ofGlueData',
+      CategoryTheory.GlueData'.f', commonOverlapGlueData']
+  · simp [commonOverlapGlueData, CategoryTheory.GlueData.ofGlueData',
+      CategoryTheory.GlueData'.f', hij, Ne.symm hij, commonOverlapGlueData', h]
+
+/-- The morphism from a common-overlap gluing obtained by descending a
+compatible family of chart morphisms. -/
+def commonOverlapToBase {S : Scheme.{u}}
+    (s : ∀ i, U i ⟶ S) (w : W ⟶ S)
+    (h : ∀ i, f i ≫ s i = w) :
+    (commonOverlapGlueData U W f).glued ⟶ S :=
+  toBase (commonOverlapGlueData U W f) s
+    (commonOverlap_compatible U W f s w h)
+
+/-- The descended common-overlap morphism restricts to its prescribed map
+on each chart. -/
+@[simp, reassoc]
+theorem commonOverlap_ι_toBase {S : Scheme.{u}}
+    (s : ∀ i, U i ⟶ S) (w : W ⟶ S)
+    (h : ∀ i, f i ≫ s i = w) (i : J) :
+    (commonOverlapGlueData U W f).ι i ≫
+      commonOverlapToBase U W f s w h = s i := by
+  unfold commonOverlapToBase
+  apply ι_desc
+
+instance commonOverlapToBase_locallyOfFiniteType {S : Scheme.{u}}
+    (s : ∀ i, U i ⟶ S) (w : W ⟶ S)
+    (h : ∀ i, f i ≫ s i = w)
+    [hft : ∀ i, LocallyOfFiniteType (s i)] :
+    LocallyOfFiniteType (commonOverlapToBase U W f s w h) := by
+  unfold commonOverlapToBase
+  exact @toBase_locallyOfFiniteType (commonOverlapGlueData U W f) S s
+    (commonOverlap_compatible U W f s w h) (fun i ↦ hft i)
+
+instance commonOverlapToBase_quasiCompact {S : Scheme.{u}} [hJ : Finite J]
+    (s : ∀ i, U i ⟶ S) (w : W ⟶ S)
+    (h : ∀ i, f i ≫ s i = w)
+    [hqc : ∀ i, QuasiCompact (s i)] :
+    QuasiCompact (commonOverlapToBase U W f s w h) := by
+  unfold commonOverlapToBase
+  exact @toBase_quasiCompact (commonOverlapGlueData U W f) S s
+    (commonOverlap_compatible U W f s w h) hJ (fun i ↦ hqc i)
+
 /-- The glued scheme is reduced when every chart is reduced. -/
 instance isReduced [∀ i, IsReduced (D.U i)] : IsReduced D.glued := by
   letI (i : D.openCover.I₀) : IsReduced (D.openCover.X i) :=
@@ -228,6 +286,23 @@ instance isIntegral [Nonempty D.J] [∀ i, IsIntegral (D.U i)]
     [∀ i j, Nonempty (D.V (i, j)).carrier] : IsIntegral D.glued := by
   rw [isIntegral_iff_irreducibleSpace_and_isReduced]
   exact ⟨inferInstance, inferInstance⟩
+
+instance commonOverlap_isIntegral [Nonempty J]
+    [∀ i, IsIntegral (U i)] [Nonempty W.carrier] :
+    IsIntegral (commonOverlapGlueData U W f).glued := by
+  letI : Nonempty (commonOverlapGlueData U W f).J :=
+    show Nonempty J from inferInstance
+  letI : ∀ i : (commonOverlapGlueData U W f).J,
+      IsIntegral ((commonOverlapGlueData U W f).U i) := fun i ↦ by
+    change IsIntegral (U i)
+    infer_instance
+  letI : ∀ i j,
+      Nonempty ((commonOverlapGlueData U W f).V (i, j)).carrier :=
+    fun i j ↦ by
+      classical
+      change Nonempty ((if h : i = j then U i else W).carrier)
+      split <;> infer_instance
+  apply isIntegral
 
 end WeilGluing
 

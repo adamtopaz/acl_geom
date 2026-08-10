@@ -265,6 +265,36 @@ noncomputable def rationalMap [Finite ι₂]
       (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).toRingEquiv)
     (functionFieldMorphism_comp_structureMap a₁ a₂ ha₁ ha₂ e)
 
+/-- The rational transition induced by a ground-field equivalence is a
+rational map over `Spec k`. -/
+theorem rationalMap_comp_structureMap [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (rationalMap a₁ a₂ ha₁ ha₂ e).compHom
+        (FiniteExtensionChart.structureMap a₂) =
+      (FiniteExtensionChart.structureMap a₁).toRationalMap := by
+  let X := FiniteExtensionChart.scheme
+    (k := k) (K := K₁) (L := L₁) a₁
+  let Y := FiniteExtensionChart.scheme
+    (k := k) (K := K₂) (L := L₂) a₂
+  let S := Spec (.of k)
+  let sX : X ⟶ S := FiniteExtensionChart.structureMap a₁
+  let sY : Y ⟶ S := FiniteExtensionChart.structureMap a₂
+  let φ := Scheme.functionFieldMorphism
+    (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).toRingEquiv
+  let hφ := functionFieldMorphism_comp_structureMap a₁ a₂ ha₁ ha₂ e
+  letI : X.Over S := ⟨sX⟩
+  letI : Y.Over S := ⟨sY⟩
+  have hOver : (rationalMap a₁ a₂ ha₁ ha₂ e).IsOver S := by
+    change (Scheme.RationalMap.ofFunctionField sX sY φ hφ).IsOver S
+    unfold Scheme.RationalMap.ofFunctionField
+    letI : (Scheme.PartialMap.ofFromSpecStalk sX sY φ hφ).IsOver S :=
+      ⟨Scheme.PartialMap.ofFromSpecStalk_comp sX sY φ hφ⟩
+    infer_instance
+  exact Scheme.RationalMap.isOver_iff.mp hOver
+
 /-- The function-field morphism of the chart rational map is the one induced
 by the selected ambient field equivalence. -/
 theorem rationalMap_fromFunctionField [Finite ι₂]
@@ -408,6 +438,19 @@ noncomputable def partialIso [Finite ι₁] [Finite ι₂]
     (rationalMap a₂ a₁ ha₂ ha₁ e.symm)
     (rationalMap_comp_symm a₁ a₂ ha₁ ha₂ e)
     (rationalMap_symm_comp a₁ a₂ ha₁ ha₂ e)
+
+/-- The dense-open chart isomorphism induced by a ground-field equivalence
+commutes with the two structure maps to `Spec k`. -/
+theorem partialIso_isOver [Finite ι₁] [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (partialIso a₁ a₂ ha₁ ha₂ e).IsOver
+      (FiniteExtensionChart.structureMap a₁)
+      (FiniteExtensionChart.structureMap a₂) := by
+  apply BirationalGluing.partialIsoOfMutualInverseRationalMaps_isOver
+  exact rationalMap_comp_structureMap a₁ a₂ ha₁ ha₂ e
 
 end FiniteExtensionTransition
 

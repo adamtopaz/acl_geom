@@ -328,6 +328,30 @@ noncomputable def rankTwoScalarReferenceTransitionPartialIso
     (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
     (rankTwoScalarReferenceTransitionAlgEquiv hr hx hy hrx hry)
 
+/-- A reference-normalized dense-open scalar transition commutes with the
+structure maps of its two affine charts to `Spec k`. -/
+theorem rankTwoScalarReferenceTransitionPartialIso_isOver
+    {p : Fin 2 → K} {r x y : K}
+    (hr : r ∈ racl k (Set.range p))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p y)) :
+    (rankTwoScalarReferenceTransitionPartialIso hr hx hy hrx hry).IsOver
+      (rankTwoScalarAlgebraicChartToSpec (k := k) p x hx)
+      (rankTwoScalarAlgebraicChartToSpec (k := k) p y hy) := by
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarReferenceTransitionPartialIso
+    rankTwoScalarAlgebraicChartToSpec rankTwoScalarAlgebraicChart
+  apply FiniteExtensionTransition.partialIso_isOver
+
 /-- The overlap associated to a reference-normalized scalar transition is
 packaged as an actual two-chart scheme gluing datum. -/
 noncomputable def rankTwoScalarReferenceTransitionGlueData
@@ -379,6 +403,60 @@ noncomputable abbrev rankTwoScalarReferenceAtlas
     (hrx : ∀ i, idealOf k (rankTwoScalarTuple p r) =
       idealOf k (rankTwoScalarTuple p (x i))) : Scheme.{u} :=
   (rankTwoScalarReferenceAtlasGlueData x hr hx hrx).glued
+
+/-- The structure morphism of the finite reference-normalized scalar atlas.
+It is obtained by descending the affine chart structure maps through their
+common dense reference overlap. -/
+noncomputable def rankTwoScalarReferenceAtlasToSpec
+    {J : Type u} [Finite J]
+    {p : Fin 2 → K} {r : K} (x : J → K)
+    (hr : r ∈ racl k (Set.range p))
+    (hx : ∀ i, x i ∈ racl k (Set.range p))
+    (hrx : ∀ i, idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p (x i))) :
+    rankTwoScalarReferenceAtlas x hr hx hrx ⟶ Spec (.of k) :=
+  BirationalGluing.partialIsoFamilyToBase
+    (U := fun i ↦ rankTwoScalarAlgebraicChart (k := k) p (x i) (hx i))
+    (e := fun i ↦ rankTwoScalarReferenceTransitionPartialIso
+      hr hr (hx i) rfl (hrx i))
+    (rankTwoScalarAlgebraicChartToSpec (k := k) p r hr)
+    (fun i ↦ rankTwoScalarAlgebraicChartToSpec (k := k) p (x i) (hx i))
+    (fun i ↦ rankTwoScalarReferenceTransitionPartialIso_isOver
+      hr hr (hx i) rfl (hrx i))
+
+instance rankTwoScalarReferenceAtlasToSpec_locallyOfFiniteType
+    {J : Type u} [Finite J]
+    {p : Fin 2 → K} {r : K} (x : J → K)
+    (hr : r ∈ racl k (Set.range p))
+    (hx : ∀ i, x i ∈ racl k (Set.range p))
+    (hrx : ∀ i, idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p (x i))) :
+    LocallyOfFiniteType
+      (rankTwoScalarReferenceAtlasToSpec x hr hx hrx) := by
+  unfold rankTwoScalarReferenceAtlasToSpec
+  apply @BirationalGluing.partialIsoFamilyToBase_locallyOfFiniteType
+
+instance rankTwoScalarReferenceAtlasToSpec_quasiCompact
+    {J : Type u} [Finite J]
+    {p : Fin 2 → K} {r : K} (x : J → K)
+    (hr : r ∈ racl k (Set.range p))
+    (hx : ∀ i, x i ∈ racl k (Set.range p))
+    (hrx : ∀ i, idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p (x i))) :
+    QuasiCompact (rankTwoScalarReferenceAtlasToSpec x hr hx hrx) := by
+  unfold rankTwoScalarReferenceAtlasToSpec
+  apply @BirationalGluing.partialIsoFamilyToBase_quasiCompact
+
+instance rankTwoScalarReferenceAtlas_integral
+    {J : Type u} [Finite J] [Nonempty J]
+    {p : Fin 2 → K} {r : K} (x : J → K)
+    (hr : r ∈ racl k (Set.range p))
+    (hx : ∀ i, x i ∈ racl k (Set.range p))
+    (hrx : ∀ i, idealOf k (rankTwoScalarTuple p r) =
+      idealOf k (rankTwoScalarTuple p (x i))) :
+    IsIntegral (rankTwoScalarReferenceAtlas x hr hx hrx) := by
+  unfold rankTwoScalarReferenceAtlas rankTwoScalarReferenceAtlasGlueData
+  infer_instance
 
 namespace PsiChunkFourArrowEdgeLifts
 

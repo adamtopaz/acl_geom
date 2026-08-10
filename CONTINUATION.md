@@ -223,7 +223,14 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     target charts are glued simultaneously.  The reference-normalized scalar
     transitions instantiate this as `rankTwoScalarReferenceAtlasGlueData` for
     an arbitrary finite branch family on one rank-two locus, with
-    `rankTwoScalarReferenceAtlas` the resulting actual scheme.
+    `rankTwoScalarReferenceAtlas` the resulting actual scheme.  The extracted
+    dense-open transitions are now proved to commute with their chart
+    structure maps to `Spec k`; those maps descend to
+    `rankTwoScalarReferenceAtlasToSpec`.  The full atlas is integral (for a
+    nonempty branch family), locally of finite type, and quasi-compact, so the
+    finite-type and irreducibility parts of the Weil construction are now
+    discharged.  Separatedness remains tied to the group law rather than to
+    the common-open gluing alone.
 
 **Next exact step:** glue multiplication and inverse on the full finite
 reference-normalized chart atlas, using the strict field/rational cocycle to
