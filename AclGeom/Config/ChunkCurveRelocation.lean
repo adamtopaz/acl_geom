@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.ChunkFiniteFieldAction
+import AclGeom.Correspondence.FiniteCompositionTriangle
 
 /-!
 # Relocating the Ψ curve-coordinate composition triangle
@@ -60,6 +61,38 @@ def psiCurveParameterSourceTuple (a b c : Fin 2 → K) (x : K) :
 curve-composition tuple. -/
 def psiCurveParameterSourceIndex : Fin 7 → Fin 9 :=
   ![0, 1, 2, 3, 4, 5, 6]
+
+/-- Coordinate inclusion of the six displayed parameters into the full
+curve-composition tuple. -/
+def psiCurveParameterIndex : Fin 6 → Fin 9 :=
+  ![0, 1, 2, 3, 4, 5]
+
+omit [Field K] in
+/-- The `A` parameter coordinates occur among the six parameters of a
+composition triangle. -/
+theorem a_range_subset_compositionParameterTuple
+    (a b c : Fin 2 → K) :
+    Set.range a ⊆ Set.range (compositionParameterTuple a b c) := by
+  rintro _ ⟨i, rfl⟩
+  fin_cases i <;> simp [compositionParameterTuple]
+
+omit [Field K] in
+/-- The `B` parameter coordinates occur among the six parameters of a
+composition triangle. -/
+theorem b_range_subset_compositionParameterTuple
+    (a b c : Fin 2 → K) :
+    Set.range b ⊆ Set.range (compositionParameterTuple a b c) := by
+  rintro _ ⟨i, rfl⟩
+  fin_cases i <;> simp [compositionParameterTuple]
+
+omit [Field K] in
+/-- The `C` parameter coordinates occur among the six parameters of a
+composition triangle. -/
+theorem c_range_subset_compositionParameterTuple
+    (a b c : Fin 2 → K) :
+    Set.range c ⊆ Set.range (compositionParameterTuple a b c) := by
+  rintro _ ⟨i, rfl⟩
+  fin_cases i <;> simp [compositionParameterTuple]
 
 /-- Restricting the full curve-composition tuple to the parameter/source
 coordinates recovers the displayed seven-tuple. -/
@@ -143,6 +176,132 @@ theorem parameterRelation : w.psiFamilyCompositionRelation a b c := by
       congr 1
       funext i
       fin_cases i <;> rfl
+
+include R in
+/-- The relocated source remains generic over the complete six-parameter
+coefficient tuple. -/
+theorem source_notMem_racl_parameters (hψ : w.Psi) :
+    R.source ∉ racl k
+      (Set.range (compositionParameterTuple a b c)) := by
+  have himageSelected :
+      w.psiSelectedCurveCompositionTuple ''
+          Set.range psiCurveParameterIndex =
+        Set.range w.abcReps := by
+    rw [← Set.range_comp]
+    congr 1
+    funext i
+    fin_cases i <;> rfl
+  have hselected : w.psiSelectedCurveCompositionTuple 6 ∉
+      racl k (w.psiSelectedCurveCompositionTuple ''
+        Set.range psiCurveParameterIndex) := by
+    rw [himageSelected]
+    exact w.X_rep_notMem_racl_abcReps hψ
+  have ht := notMem_racl_image_of_idealOf_eq k
+    (PsiCurveCompositionRealization.locus R).symm hselected
+  have himage : R.totalTuple '' Set.range psiCurveParameterIndex =
+      Set.range (compositionParameterTuple a b c) := by
+    rw [← Set.range_comp]
+    congr 1
+    funext i
+    fin_cases i <;> rfl
+  rw [himage] at ht
+  simpa [totalTuple, psiCurveCompositionTuple] using ht
+
+include R in
+/-- The relocated middle remains generic over the complete six-parameter
+coefficient tuple. -/
+theorem middle_notMem_racl_parameters (hψ : w.Psi) :
+    R.middle ∉ racl k
+      (Set.range (compositionParameterTuple a b c)) := by
+  have himageSelected :
+      w.psiSelectedCurveCompositionTuple ''
+          Set.range psiCurveParameterIndex =
+        Set.range w.abcReps := by
+    rw [← Set.range_comp]
+    congr 1
+    funext i
+    fin_cases i <;> rfl
+  have hselected : w.psiSelectedCurveCompositionTuple 7 ∉
+      racl k (w.psiSelectedCurveCompositionTuple ''
+        Set.range psiCurveParameterIndex) := by
+    rw [himageSelected]
+    exact w.Y_rep_notMem_racl_abcReps hψ
+  have ht := notMem_racl_image_of_idealOf_eq k
+    (PsiCurveCompositionRealization.locus R).symm hselected
+  have himage : R.totalTuple '' Set.range psiCurveParameterIndex =
+      Set.range (compositionParameterTuple a b c) := by
+    rw [← Set.range_comp]
+    congr 1
+    funext i
+    fin_cases i <;> rfl
+  rw [himage] at ht
+  simpa [totalTuple, psiCurveCompositionTuple] using ht
+
+include R in
+/-- The relocated target remains generic over the complete six-parameter
+coefficient tuple. -/
+theorem target_notMem_racl_parameters (hψ : w.Psi) :
+    R.target ∉ racl k
+      (Set.range (compositionParameterTuple a b c)) := by
+  have himageSelected :
+      w.psiSelectedCurveCompositionTuple ''
+          Set.range psiCurveParameterIndex =
+        Set.range w.abcReps := by
+    rw [← Set.range_comp]
+    congr 1
+    funext i
+    fin_cases i <;> rfl
+  have hselected : w.psiSelectedCurveCompositionTuple 8 ∉
+      racl k (w.psiSelectedCurveCompositionTuple ''
+        Set.range psiCurveParameterIndex) := by
+    rw [himageSelected]
+    exact w.Z_rep_notMem_racl_abcReps hψ
+  have ht := notMem_racl_image_of_idealOf_eq k
+    (PsiCurveCompositionRealization.locus R).symm hselected
+  have himage : R.totalTuple '' Set.range psiCurveParameterIndex =
+      Set.range (compositionParameterTuple a b c) := by
+    rw [← Set.range_comp]
+    congr 1
+    funext i
+    fin_cases i <;> rfl
+  rw [himage] at ht
+  simpa [totalTuple, psiCurveCompositionTuple] using ht
+
+include R in
+/-- The relocated `A` parameter retains rank two. -/
+theorem aParameter_independent (hψ : w.Psi) :
+    AlgebraicIndependent k a := by
+  have hreal := (w.psiFamilyCompositionRelation_iff_isRealization
+    hψ a b c).1 R.parameterRelation
+  have h := AlgebraicIndependent.comp hreal.leftRight_independent
+    (![0, 1] : Fin 2 → Fin 4) (by decide)
+  convert h using 1
+  funext i
+  fin_cases i <;> rfl
+
+include R in
+/-- The relocated `B` parameter retains rank two. -/
+theorem bParameter_independent (hψ : w.Psi) :
+    AlgebraicIndependent k b := by
+  have hreal := (w.psiFamilyCompositionRelation_iff_isRealization
+    hψ a b c).1 R.parameterRelation
+  have h := AlgebraicIndependent.comp hreal.leftRight_independent
+    (![2, 3] : Fin 2 → Fin 4) (by decide)
+  convert h using 1
+  funext i
+  fin_cases i <;> rfl
+
+include R in
+/-- The relocated `C` parameter retains rank two. -/
+theorem cParameter_independent (hψ : w.Psi) :
+    AlgebraicIndependent k c := by
+  have hreal := (w.psiFamilyCompositionRelation_iff_isRealization
+    hψ a b c).1 R.parameterRelation
+  have h := AlgebraicIndependent.comp hreal.leftOutput_independent
+    (![2, 3] : Fin 2 → Fin 4) (by decide)
+  convert h using 1
+  funext i
+  fin_cases i <;> rfl
 
 /-- Coordinate inclusion of the relocated `A` family member. -/
 def aFamilyIndex : Fin 4 → Fin 9 := ![0, 1, 6, 7]
@@ -233,6 +392,220 @@ theorem cFamilyLocus (hψ : w.Psi) :
   rw [← R.totalTuple_comp_cFamilyIndex,
     ← selectedTuple_comp_cFamilyIndex hψ]
   exact h
+
+include R in
+/-- The relocated source is generic over the `A` parameter. -/
+theorem source_notMem_racl_a (hψ : w.Psi) :
+    R.source ∉ racl k (Set.range a) := by
+  intro hmem
+  exact R.source_notMem_racl_parameters hψ
+    (racl_mono (a_range_subset_compositionParameterTuple a b c) hmem)
+
+include R in
+/-- The relocated middle is generic over the `B` parameter. -/
+theorem middle_notMem_racl_b (hψ : w.Psi) :
+    R.middle ∉ racl k (Set.range b) := by
+  intro hmem
+  exact R.middle_notMem_racl_parameters hψ
+    (racl_mono (b_range_subset_compositionParameterTuple a b c) hmem)
+
+include R in
+/-- The relocated source is generic over the `C` parameter. -/
+theorem source_notMem_racl_c (hψ : w.Psi) :
+    R.source ∉ racl k (Set.range c) := by
+  intro hmem
+  exact R.source_notMem_racl_parameters hψ
+    (racl_mono (c_range_subset_compositionParameterTuple a b c) hmem)
+
+/-- The relocated `A` restriction, packaged as a genuine generic member
+of the selected rank-two correspondence family. -/
+def aCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 2 :=
+  (w.xyCorrespondenceFamilyMember hψ).ofTupleIdealEq
+    (algebraicIndependent_snoc (R.aParameter_independent hψ)
+      (R.source_notMem_racl_a hψ))
+    (R.aFamilyLocus hψ)
+
+/-- The relocated `B` restriction, packaged as a genuine generic member
+of the selected rank-two correspondence family. -/
+def bCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 2 :=
+  (w.yzCorrespondenceFamilyMember hψ).ofTupleIdealEq
+    (algebraicIndependent_snoc (R.bParameter_independent hψ)
+      (R.middle_notMem_racl_b hψ))
+    (R.bFamilyLocus hψ)
+
+/-- The relocated `C` restriction, packaged as a genuine generic member
+of the selected rank-two correspondence family. -/
+def cCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 2 :=
+  (w.xzCorrespondenceFamilyMember hψ).ofTupleIdealEq
+    (algebraicIndependent_snoc (R.cParameter_independent hψ)
+      (R.source_notMem_racl_c hψ))
+    (R.cFamilyLocus hψ)
+
+/-- The coefficient field generated by all six displayed parameters of a
+relocated composition triangle. -/
+def coefficientField
+    (_R : w.PsiCurveCompositionRealization a b c) :
+    IntermediateField k K :=
+  adjoin k (Set.range (compositionParameterTuple a b c))
+
+/-- The relocated `A` branch as a finite correspondence over the common
+six-parameter coefficient field. -/
+def aCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥R.coefficientField) K where
+  source := R.source
+  target := R.middle
+  source_generic := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact R.source_notMem_racl_parameters hψ
+  target_mem_source := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.aCorrespondenceFamilyMember hψ)
+      |>.target_mem_parameter_source
+    change R.middle ∈ racl k (insert R.source (Set.range a)) at h
+    exact racl_mono
+      (Set.insert_subset_insert
+        (a_range_subset_compositionParameterTuple a b c)) h
+  source_mem_target := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.aCorrespondenceFamilyMember hψ)
+      |>.source_mem_parameter_target
+    change R.source ∈ racl k (insert R.middle (Set.range a)) at h
+    exact racl_mono
+      (Set.insert_subset_insert
+        (a_range_subset_compositionParameterTuple a b c)) h
+
+/-- The relocated `B` branch as a finite correspondence over the common
+six-parameter coefficient field. -/
+def bCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥R.coefficientField) K where
+  source := R.middle
+  target := R.target
+  source_generic := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact R.middle_notMem_racl_parameters hψ
+  target_mem_source := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.bCorrespondenceFamilyMember hψ)
+      |>.target_mem_parameter_source
+    change R.target ∈ racl k (insert R.middle (Set.range b)) at h
+    exact racl_mono
+      (Set.insert_subset_insert
+        (b_range_subset_compositionParameterTuple a b c)) h
+  source_mem_target := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.bCorrespondenceFamilyMember hψ)
+      |>.source_mem_parameter_target
+    change R.middle ∈ racl k (insert R.target (Set.range b)) at h
+    exact racl_mono
+      (Set.insert_subset_insert
+        (b_range_subset_compositionParameterTuple a b c)) h
+
+/-- The relocated `C` branch as a finite correspondence over the common
+six-parameter coefficient field.  It has the same literal source and
+target as the composite of the preceding two pairs. -/
+def cCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥R.coefficientField) K where
+  source := R.source
+  target := R.target
+  source_generic := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact R.source_notMem_racl_parameters hψ
+  target_mem_source := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.cCorrespondenceFamilyMember hψ)
+      |>.target_mem_parameter_source
+    change R.target ∈ racl k (insert R.source (Set.range c)) at h
+    exact racl_mono
+      (Set.insert_subset_insert
+        (c_range_subset_compositionParameterTuple a b c)) h
+  source_mem_target := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.cCorrespondenceFamilyMember hψ)
+      |>.source_mem_parameter_target
+    change R.source ∈ racl k (insert R.target (Set.range c)) at h
+    exact racl_mono
+      (Set.insert_subset_insert
+        (c_range_subset_compositionParameterTuple a b c)) h
+
+/-- The relocated `A` and `B` pairs share their middle coordinate
+definitionally. -/
+@[simp] theorem aPair_target_eq_bPair_source (hψ : w.Psi) :
+    (R.aCorrespondencePair hψ).target =
+      (R.bCorrespondencePair hψ).source := rfl
+
+/-- The relocated `C` pair has exactly the endpoints of the `A`-then-`B`
+composite. -/
+@[simp] theorem composite_endpoints_eq_cPair (hψ : w.Psi) :
+    ((R.aCorrespondencePair hψ).comp
+      (R.bCorrespondencePair hψ)
+      (R.aPair_target_eq_bPair_source hψ)).source =
+        (R.cCorrespondencePair hψ).source ∧
+    ((R.aCorrespondencePair hψ).comp
+      (R.bCorrespondencePair hψ)
+      (R.aPair_target_eq_bPair_source hψ)).target =
+        (R.cCorrespondencePair hψ).target :=
+  ⟨rfl, rfl⟩
+
+/-- The common finite normal source cover of the relocated composition
+triangle. -/
+noncomputable def finiteSourceCover (hψ : w.Psi) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.sourceCover
+    (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
+    (R.aPair_target_eq_bPair_source hψ)
+
+/-- The common finite normal middle cover of the relocated composition
+triangle. -/
+noncomputable def finiteMiddleCover (hψ : w.Psi) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.middleCover
+    (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
+    (R.aPair_target_eq_bPair_source hψ)
+
+/-- The common finite normal target cover of the relocated composition
+triangle. -/
+noncomputable def finiteTargetCover (hψ : w.Psi) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.targetCover
+    (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
+    (R.aPair_target_eq_bPair_source hψ)
+
+/-- The relocated `A` branch restricted to the common finite normal
+covers. -/
+noncomputable def aFiniteCoverEquiv (hψ : w.Psi) :
+    (↥(R.finiteSourceCover hψ).field) ≃+*
+      (↥(R.finiteMiddleCover hψ).field) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.leftEquiv
+    (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
+    (R.aPair_target_eq_bPair_source hψ)
+
+/-- The relocated `B` branch restricted to the common finite normal
+covers. -/
+noncomputable def bFiniteCoverEquiv (hψ : w.Psi) :
+    (↥(R.finiteMiddleCover hψ).field) ≃+*
+      (↥(R.finiteTargetCover hψ).field) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.rightEquiv
+    (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
+    (R.aPair_target_eq_bPair_source hψ)
+
+/-- The deck-corrected direct branch on the relocated common finite normal
+covers.  Its endpoints are those of the actual relocated `C` family
+member. -/
+noncomputable def strictCFiniteCoverEquiv (hψ : w.Psi) :
+    (↥(R.finiteSourceCover hψ).field) ≃+*
+      (↥(R.finiteTargetCover hψ).field) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.strictDirectEquiv
+    (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
+    (R.aPair_target_eq_bPair_source hψ)
+
+/-- Every relocated Ψ curve triangle therefore gives a literal
+finite-normal-cover composition identity. -/
+theorem finiteCoverStrictComposition (hψ : w.Psi) :
+    (R.aFiniteCoverEquiv hψ).trans (R.bFiniteCoverEquiv hψ) =
+      R.strictCFiniteCoverEquiv hψ :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.strictComposition
+    (R.aCorrespondencePair hψ) (R.bCorrespondencePair hψ)
+    (R.aPair_target_eq_bPair_source hψ)
 
 end PsiCurveCompositionRealization
 

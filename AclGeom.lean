@@ -21,6 +21,7 @@ import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.AlgebraicClosureTransport
 import AclGeom.Correspondence.FiniteNormalTransport
 import AclGeom.Correspondence.FieldEquivDiagram
+import AclGeom.Correspondence.FiniteCompositionTriangle
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.RankTwoMultiplication

@@ -870,6 +870,16 @@ theorem X_rep_notMem_racl_abcReps (hψ : w.Psi) :
     exact ClosedIF.point_le_iff.2 (mem_iSup_point_iff.2 hX)
   rwa [← w.abc_join_eq_iSup_point] at hpoint
 
+/-- `Y` is generic over all six displayed parameters. -/
+theorem Y_rep_notMem_racl_abcReps (hψ : w.Psi) :
+    w.Y.rep ∉ racl k (Set.range w.abcReps) := by
+  intro hY
+  apply hψ.Y_notLe
+  have hpoint : w.Y.1 ≤ ⨆ i, ClosedIF.point k (w.abcReps i) := by
+    rw [← w.Y.point_rep]
+    exact ClosedIF.point_le_iff.2 (mem_iSup_point_iff.2 hY)
+  rwa [← w.abc_join_eq_iSup_point] at hpoint
+
 /-- `Z` is generic over all six displayed parameters. -/
 theorem Z_rep_notMem_racl_abcReps (hψ : w.Psi) :
     w.Z.rep ∉ racl k (Set.range w.abcReps) := by

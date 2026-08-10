@@ -652,6 +652,93 @@ def tuple : Fin (d + 2) → Ω :=
 def ideal : Ideal (MvPolynomial (Fin (d + 2)) k) :=
   idealOf k F.tuple
 
+/-- Rebuild a family member of arbitrary parameter dimension from a tuple
+with the same complete family ideal and an independent parameter/source
+prefix.  The two relative algebraicity conditions transfer through the
+complete locus equality. -/
+def ofTupleIdealEq
+    (F : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    {p : Fin d → Ω} {x y : Ω}
+    (hpx : AlgebraicIndependent k (Fin.snoc p x))
+    (hI : idealOf k (Fin.snoc (Fin.snoc p x) y) = F.ideal) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d where
+  parameter := p
+  source := x
+  target := y
+  parameter_independent := by
+    have h := AlgebraicIndependent.comp hpx
+      (Fin.castSucc : Fin d → Fin (d + 1)) (Fin.castSucc_injective d)
+    convert h using 1
+    funext i
+    simp
+  source_generic := by
+    let e : Fin d → Fin (d + 1) := Fin.castSucc
+    have hnot := AlgebraicIndependent.notMem_racl_image hpx
+      (S := Set.range e) (i := Fin.last d) (by
+        rintro ⟨i, hi⟩
+        exact Fin.castSucc_ne_last i hi)
+    have himage :
+        (Fin.snoc p x : Fin (d + 1) → Ω) '' Set.range e =
+          Set.range p := by
+      rw [← Set.range_comp]
+      congr 1
+      funext i
+      simp [e]
+    simpa [himage] using hnot
+  target_mem_parameter_source := by
+    let q : Fin (d + 2) → Ω := Fin.snoc (Fin.snoc p x) y
+    let e : Fin (d + 1) → Fin (d + 2) := Fin.castSucc
+    have hfull : idealOf k F.tuple = idealOf k q := by
+      simpa [ideal, q] using hI.symm
+    have himageF : F.tuple '' Set.range e =
+        Set.range F.parameterSource := by
+      rw [← Set.range_comp]
+      congr 1
+      funext i
+      simp [e, tuple, parameterSource]
+    have hmem : F.tuple (Fin.last (d + 1)) ∈
+        racl k (F.tuple '' Set.range e) := by
+      rw [himageF, parameterSource, Fin.range_snoc]
+      simpa [tuple] using F.target_mem_parameter_source
+    have ht := mem_racl_image_of_idealOf_eq k hfull hmem
+    have himage : q '' Set.range e =
+        Set.range (Fin.snoc p x) := by
+      rw [← Set.range_comp]
+      congr 1
+      funext i
+      simp [q, e]
+    rw [himage, Fin.range_snoc] at ht
+    simpa [q] using ht
+  source_mem_parameter_target := by
+    let q : Fin (d + 2) → Ω := Fin.snoc (Fin.snoc p x) y
+    let e : Fin (d + 1) → Fin (d + 2) :=
+      Fin.snoc (fun i : Fin d ↦ i.castSucc.castSucc) (Fin.last (d + 1))
+    have hfull : idealOf k F.tuple = idealOf k q := by
+      simpa [ideal, q] using hI.symm
+    have hcompF : F.tuple ∘ e = Fin.snoc F.parameter F.target := by
+      funext i
+      refine Fin.lastCases ?_ (fun j ↦ ?_) i
+      · simp [e, tuple]
+      · simp [e, tuple, parameterSource]
+    have himageF : F.tuple '' Set.range e =
+        Set.range (Fin.snoc F.parameter F.target) := by
+      rw [← Set.range_comp, hcompF]
+    have hmem : F.tuple (Fin.last d).castSucc ∈
+        racl k (F.tuple '' Set.range e) := by
+      rw [himageF, Fin.range_snoc]
+      simpa [tuple, parameterSource] using
+        F.source_mem_parameter_target
+    have ht := mem_racl_image_of_idealOf_eq k hfull hmem
+    have hcomp : q ∘ e = Fin.snoc p y := by
+      funext i
+      refine Fin.lastCases ?_ (fun j ↦ ?_) i
+      · simp [q, e]
+      · simp [q, e]
+    have himage : q '' Set.range e = Set.range (Fin.snoc p y) := by
+      rw [← Set.range_comp, hcomp]
+    rw [himage, Fin.range_snoc] at ht
+    simpa [q] using ht
+
 /-- Rebuild a one-parameter family member from any triple with the same
 complete family ideal and an independent parameter/source pair. -/
 def ofOneTupleIdealEq
