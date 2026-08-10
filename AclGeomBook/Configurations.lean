@@ -933,6 +933,35 @@ rank-two parameter chart at independent generic inputs:
 
 {docstring AclGeom.QWitness.exists_psiBArrowChunk_mul}
 
+The incidence clauses `S ≤ A`, `T ≤ B`, and `U ≤ C` compare this
+rank-two chunk with the partial-quadrangle scalar chunk.  The honest object
+at this stage is the complete joint locus of the nine coordinates
+`(A₁,A₂,B₁,B₂,C₁,C₂,S,T,U)`: incidence makes the last three
+coordinates algebraic over the first six, so every realization of the
+ambient multiplication locus lifts after algebraic closure.  Restricting
+the joint locus recovers both multiplication laws on the same realization:
+
+{docstring AclGeom.QWitness.psiChunkProjectionRelation}
+
+{docstring AclGeom.QWitness.exists_psiChunkProjection_of_relation}
+
+{docstring AclGeom.QWitness.PsiChunkProjectionRelation.psiFamilyComposition}
+
+{docstring AclGeom.QWitness.PsiChunkProjectionRelation.parameterMultiplication}
+
+Coordinate restriction also exposes the three individual graph relations.
+In particular the cancellation chart `B` projects to the quadrangle chart
+`T`.  Its joint graph has exact rank two, while the target is a point, which
+is the dimension count behind the future rank-one kernel.  No literal
+single-valued rational map is asserted before the finite-cover ambiguity is
+resolved:
+
+{docstring AclGeom.QWitness.psiBProjectionRelation}
+
+{docstring AclGeom.QWitness.PsiChunkProjectionRelation.bProjection}
+
+{docstring AclGeom.QWitness.bTProjection_rank}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse
