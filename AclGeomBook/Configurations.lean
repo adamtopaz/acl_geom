@@ -1211,6 +1211,26 @@ equation `(8.6)` into a literal composition triangle:
 
 {docstring AclGeom.QWitness.psiFiniteCoverStrictComposition}
 
+The selected composition triangle can now be moved over an arbitrary point
+of the rank-two parameter multiplication locus without relocating its three
+curve branches independently.  After choosing one source generic over the
+six displayed parameters, the complete nine-coordinate
+`(a,b,c,x,y,z)` tuple is relocated at once.  Its three restrictions retain
+the selected `A`, `B`, and `C` family prime loci, so their source, middle,
+and target coordinates match literally:
+
+{docstring AclGeom.QWitness.psiCurveCompositionTuple}
+
+{docstring AclGeom.QWitness.psiSelectedCurveCompositionTuple_mem_parameterSource_racl}
+
+{docstring AclGeom.QWitness.exists_psiCurveCompositionRealization}
+
+{docstring AclGeom.QWitness.PsiCurveCompositionRealization.aFamilyLocus}
+
+{docstring AclGeom.QWitness.PsiCurveCompositionRealization.bFamilyLocus}
+
+{docstring AclGeom.QWitness.PsiCurveCompositionRealization.cFamilyLocus}
+
 The scheme-theoretic target of the next step is now fixed precisely.  An
 algebraic group is a separated finite-type group object over the base-field
 spectrum; a connected algebraic group is geometrically integral, rather

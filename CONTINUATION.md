@@ -386,6 +386,17 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     literal finite-normal-cover composition triangle suitable for assembly
     into that semantic four-arrow diagram; no equality in the formal
     presented quotient is used as equality of field maps.
+29. `Config/ChunkCurveRelocation.lean` lifts an arbitrary realization
+    `(a,b,c)` of the rank-two Ψ multiplication locus to the actual curve
+    coordinates on which its correspondence branches act.  Given one
+    source generic over the six parameters, it relocates the complete
+    nine-coordinate `(a,b,c,x,y,z)` selected prime locus while fixing
+    `(a,b,c,x)` literally.  Restricting this single relocated component
+    recovers exactly the selected `A` family locus on `(a,x,y)`, the `B`
+    family locus on `(b,y,z)`, and the `C` family locus on `(c,x,z)`.
+    Thus each parameter edge now has a coherent curve-coordinate
+    composition triangle rather than three independently chosen family
+    members.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -393,8 +404,9 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Relocate the curve-coordinate branches over the four normalized parameter
-edges, restrict them to one common finite normal curve cover, and conjugate
+Item 29 gives coherent relocated curve branches over every parameter edge.
+Instantiate it on the four normalized edges, restrict those branches to one
+common finite normal curve cover, and conjugate
 their repeated endpoint fields to three reference fields.  Prove that the
 four corrected triangles assemble into one
 `FieldEquiv.FourArrowDiagram`; then apply its literal cancellation theorem
