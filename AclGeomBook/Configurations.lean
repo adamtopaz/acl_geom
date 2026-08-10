@@ -1084,14 +1084,36 @@ particular every full joint edge:
 
 {docstring AclGeom.QWitness.PsiChunkRelationRealization.translationChunk}
 
+Choosing one complete joint edge as reference now trivializes the entire
+finite branch bundle and the entire deck-group bundle over the joint locus.
+The selected branch becomes a constant section, deck actions remain
+equivariant, and each based arrow family is reindexed into a translation
+chunk on the same fixed reference normal-cover field.  The base coordinate
+of this product remains the full joint realization, so this is an actual
+descent of finite ambiguity rather than a replacement of the parameter
+locus by a finite group:
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.branchBundleTrivialization}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.branchBundleTrivialization_selected}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.deckBundleTrivialization}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.normalizeBranch_smul}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.normalizedTranslationChunk}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.normalizedTranslationChunk_translation}
+
 The categorical kernel is now normal, the graph dimension count is in
-place, and the finite edge covers form a coherent local system equipped
-with faithful normalized branch actions.  These automorphisms form the
-finite deck group; they are not the positive-dimensional parameter group.
-The next step is descent from that system to one single-valued normalized
-joint chart, followed by its algebraization as a connected rank-one normal
-kernel.  Neither conclusion is inferred merely from the presented quotient
-or from finiteness of the deck action.
+place, and the finite edge covers have descended to a product local system
+equipped with faithful actions on one reference field.  These automorphisms
+form the finite deck group; they are not the positive-dimensional parameter
+group.  The next step is to lift the presented rank-two multiplication
+through this normalized product chart and algebraize its existing
+categorical kernel as a connected rank-one normal kernel.  Neither
+conclusion is inferred merely from the presented quotient or from
+finiteness of the deck action.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a

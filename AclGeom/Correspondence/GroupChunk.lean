@@ -55,6 +55,30 @@ namespace RationalGroupChunk
 
 variable {V : Type*} (C : RationalGroupChunk V)
 
+/-- Transport a rational group chunk along an equivalence of its parameter
+type. -/
+def reindex {W : Type*} (D : RationalGroupChunk W) (e : V ≃ W) :
+    RationalGroupChunk V where
+  mul a b := e.symm (D.mul (e a) (e b))
+  inv a := e.symm (D.inv (e a))
+  mul_assoc a b c := by
+    apply e.injective
+    simp [D.mul_assoc]
+  inv_mul_mul a b := by
+    apply e.injective
+    simp [D.inv_mul_mul]
+  mul_mul_inv a b := by
+    apply e.injective
+    simp [D.mul_mul_inv]
+
+@[simp] theorem reindex_mul {W : Type*} (D : RationalGroupChunk W)
+    (e : V ≃ W) (a b : V) :
+    (D.reindex e).mul a b = e.symm (D.mul (e a) (e b)) := rfl
+
+@[simp] theorem reindex_inv {W : Type*} (D : RationalGroupChunk W)
+    (e : V ≃ W) (a : V) :
+    (D.reindex e).inv a = e.symm (D.inv (e a)) := rfl
+
 /-- The left unit produced from a parameter `a`. -/
 def leftUnit (a : V) : V := C.mul (C.inv a) a
 
@@ -123,8 +147,34 @@ structure TranslationGroupChunk extends RationalGroupChunk V where
 
 namespace TranslationGroupChunk
 
-variable {k F V : Type*} [Field k] [Field F] [Algebra k F]
-    (C : TranslationGroupChunk k F V) [Nonempty V]
+variable {k F V W : Type*} [Field k] [Field F] [Algebra k F]
+
+/-- Transport a faithful translation chunk along an equivalence of its
+parameter type, keeping the normalized function field fixed. -/
+def reindex (C : TranslationGroupChunk k F W) (e : V ≃ W) :
+    TranslationGroupChunk k F V where
+  toRationalGroupChunk := C.toRationalGroupChunk.reindex e
+  translation a := C.translation (e a)
+  translation_mul a b := by
+    change C.translation
+      (e (e.symm (C.mul (e a) (e b)))) =
+        C.translation (e a) * C.translation (e b)
+    rw [e.apply_symm_apply]
+    exact C.translation_mul _ _
+  translation_inv a := by
+    change C.translation (e (e.symm (C.inv (e a)))) =
+      (C.translation (e a))⁻¹
+    rw [e.apply_symm_apply]
+    exact C.translation_inv _
+  translation_injective := by
+    intro a b h
+    exact e.injective (C.translation_injective h)
+
+@[simp] theorem reindex_translation
+    (C : TranslationGroupChunk k F W) (e : V ≃ W) (a : V) :
+    (C.reindex e).translation a = C.translation (e a) := rfl
+
+variable (C : TranslationGroupChunk k F V) [Nonempty V]
 
 /-- The multiplication and identity underlying the canonical chunk group,
 exposed as the instance parameter needed by bundled homomorphisms. -/

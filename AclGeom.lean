@@ -59,6 +59,7 @@ import AclGeom.Config.CompositionIdentity
 import AclGeom.Config.ChunkProjection
 import AclGeom.Config.ChunkBranchCover
 import AclGeom.Config.ChunkRelationCover
+import AclGeom.Config.ChunkNormalizedChart
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations
