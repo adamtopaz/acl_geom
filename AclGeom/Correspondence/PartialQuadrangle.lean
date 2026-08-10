@@ -811,6 +811,122 @@ theorem exists_family_composition_of_parameter_product [IsAlgClosed K]
   rw [huTuple] at hu
   exact ⟨v 5, v 4, ht, hs, hu⟩
 
+/-- One exact six-coordinate family lift of a chosen parameter product and
+fresh source. -/
+structure ParameterProductFamilyLift (h : IsPartialQuadrangle f)
+    (s t u x : K) where
+  /-- The relocated partial-quadrangle tuple. -/
+  tuple : Fin 6 → K
+  /-- The tuple stays on the complete partial-quadrangle locus. -/
+  ideal_eq : idealOf k tuple = idealOf k (configurationReps f)
+  /-- Its parameter triple and source are the prescribed values literally. -/
+  parameterSource_eq :
+    tuple ∘ parameterSourceCoordinateIndex = ![s, t, u, x]
+
+/-- A chosen parameter product and fresh source admit an exact full-family
+lift. -/
+theorem exists_parameterProductFamilyLift [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {s t u x : K}
+    (hstu : (parameterMultiplication h).IsRealization s t u)
+    (hx : x ∉ racl k ({s, t, u} : Set K)) :
+    Nonempty (ParameterProductFamilyLift h s t u x) := by
+  obtain ⟨v, hv, hfix⟩ :=
+    exists_configuration_relocation_fixing_parameter_realization h hstu hx
+  exact ⟨⟨v, hv, hfix⟩⟩
+
+/-- Exact family lifts of all four edges of a parameter difference diagram,
+using the same fresh source coordinate.  The four target/intermediate
+coordinates may still lie on different conjugate branches; the normalized
+branch transports compare them in the next layer. -/
+structure ParameterFourArrowFamilyLifts (h : IsPartialQuadrangle f)
+    {s a b e : K} (D : ParameterFourArrowDifferenceDiagram h s a b e)
+    (x : K) where
+  /-- Lift of `u=s·e`. -/
+  se : ParameterProductFamilyLift h s e D.u x
+  /-- Lift of `sA·a=u`. -/
+  sA_a : ParameterProductFamilyLift h D.sA a D.u x
+  /-- Lift of `uB=s·b`. -/
+  s_b : ParameterProductFamilyLift h s b D.uB x
+  /-- Lift of `sA·c=uB`. -/
+  sA_c : ParameterProductFamilyLift h D.sA D.c D.uB x
+
+/-- A source generic over the four original inputs is automatically fresh
+for every parameter triple in the four-arrow diagram, because all four
+selected intermediate values are algebraic over those inputs.  Hence all
+four edges lift to complete compatible family realizations with that source
+fixed literally. -/
+theorem exists_parameterFourArrowFamilyLifts [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {s a b e x : K}
+    (D : ParameterFourArrowDifferenceDiagram h s a b e)
+    (hx : x ∉ racl k ({s, e, a, b} : Set K)) :
+    Nonempty (ParameterFourArrowFamilyLifts h D x) := by
+  have hx_seu : x ∉ racl k ({s, e, D.u} : Set K) := by
+    intro hmem
+    apply hx
+    refine racl_le_of_subset_racl ?_ hmem
+    rintro z (rfl | rfl | rfl)
+    · exact subset_racl k _ (by simp)
+    · exact subset_racl k _ (by simp)
+    · exact D.u_mem_inputs
+  have hx_sAau : x ∉ racl k ({D.sA, a, D.u} : Set K) := by
+    intro hmem
+    apply hx
+    refine racl_le_of_subset_racl ?_ hmem
+    rintro z (rfl | rfl | rfl)
+    · exact D.sA_mem_inputs
+    · exact subset_racl k _ (by simp)
+    · exact D.u_mem_inputs
+  have hx_sbuB : x ∉ racl k ({s, b, D.uB} : Set K) := by
+    intro hmem
+    apply hx
+    refine racl_le_of_subset_racl ?_ hmem
+    rintro z (rfl | rfl | rfl)
+    · exact subset_racl k _ (by simp)
+    · exact subset_racl k _ (by simp)
+    · exact D.uB_mem_inputs
+  have hx_sAcuB : x ∉ racl k ({D.sA, D.c, D.uB} : Set K) := by
+    intro hmem
+    apply hx
+    refine racl_le_of_subset_racl ?_ hmem
+    rintro z (rfl | rfl | rfl)
+    · exact D.sA_mem_inputs
+    · exact D.c_mem_inputs
+    · exact D.uB_mem_inputs
+  obtain ⟨Lse⟩ := exists_parameterProductFamilyLift h D.se_u hx_seu
+  obtain ⟨LsA_a⟩ := exists_parameterProductFamilyLift h D.sA_a_u hx_sAau
+  obtain ⟨Ls_b⟩ := exists_parameterProductFamilyLift h D.s_b_uB hx_sbuB
+  obtain ⟨LsA_c⟩ := exists_parameterProductFamilyLift h D.sA_c_uB hx_sAcuB
+  exact ⟨⟨Lse, LsA_a, Ls_b, LsA_c⟩⟩
+
+/-- Five independent generic inputs give both the four-arrow parameter
+diagram and exact full-family lifts of all four edges, with the fifth input
+used as their common fresh source. -/
+theorem exists_parameterFourArrowDiagramWithFamilyLifts [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {s e a b x : K}
+    (hind : AlgebraicIndependent k ![s, e, a, b, x]) :
+    ∃ D : ParameterFourArrowDifferenceDiagram h s a b e,
+      Nonempty (ParameterFourArrowFamilyLifts h D x) := by
+  let q : Fin 5 → K := ![s, e, a, b, x]
+  let firstFour : Fin 4 → Fin 5 := ![0, 1, 2, 3]
+  have hfour : AlgebraicIndependent k ![s, e, a, b] := by
+    have hcomp := AlgebraicIndependent.comp hind firstFour (by decide)
+    convert hcomp using 1
+    funext i
+    fin_cases i <;> rfl
+  have hq : AlgebraicIndependent k q := hind
+  have hx : x ∉ racl k ({s, e, a, b} : Set K) := by
+    have hnot := AlgebraicIndependent.notMem_racl_image hq
+      (S := ({0, 1, 2, 3} : Set (Fin 5))) (i := 4) (by simp)
+    have himage : q '' ({0, 1, 2, 3} : Set (Fin 5)) =
+        ({s, e, a, b} : Set K) := by
+      ext z
+      simp [q]
+      tauto
+    rw [himage] at hnot
+    simpa [q] using hnot
+  obtain ⟨D⟩ := exists_parameter_fourArrowDifferenceDiagram h hfour
+  exact ⟨D, exists_parameterFourArrowFamilyLifts h D hx⟩
+
 /-- Every independent parameter/source pair carries a member of the same
 `T`-family locus as the selected `(T,S',U')` tuple. -/
 theorem tFamily_exists_relocation [IsAlgClosed K]
@@ -1499,6 +1615,20 @@ theorem pairsOfIdealEq_composes (h : IsPartialQuadrangle f)
     rfl, rfl, rfl, ?_⟩
   rfl
 
+/-- An exact parameter-product family lift carries the literal selected
+`T`-then-`S` composition with endpoint `U`. -/
+theorem ParameterProductFamilyLift.composes
+    {h : IsPartialQuadrangle f} {s t u x : K}
+    (L : ParameterProductFamilyLift h s t u x) :
+    FiniteCorrespondenceGerm.Composes
+      (FiniteCorrespondenceGerm.ofPair
+        (tPairOfIdealEq h L.tuple L.ideal_eq))
+      (FiniteCorrespondenceGerm.ofPair
+        (sPairOfIdealEq h L.tuple L.ideal_eq))
+      (FiniteCorrespondenceGerm.ofPair
+        (uPairOfIdealEq h L.tuple L.ideal_eq)) :=
+  pairsOfIdealEq_composes h L.tuple L.ideal_eq
+
 /-- The selected composite branch field of a relocated quadrangle, viewed
 over the original ground field. -/
 abbrev relocatedCompositeBranchField (h : IsPartialQuadrangle f)
@@ -1781,6 +1911,46 @@ with the same prime ideal as its chosen representatives. -/
 abbrev RelocatedChainRealization (_h : IsPartialQuadrangle f) :=
   {v : Fin 6 → K // idealOf k v = idealOf k (configurationReps f)}
 
+/-- Forget the prescribed coordinates of a product lift and retain its
+point in the complete realization locus. -/
+def ParameterProductFamilyLift.realization
+    {h : IsPartialQuadrangle f} {s t u x : K}
+    (L : ParameterProductFamilyLift h s t u x) :
+    RelocatedChainRealization h :=
+  ⟨L.tuple, L.ideal_eq⟩
+
+/-- The `s·e` fiber of a lifted four-arrow diagram. -/
+def ParameterFourArrowFamilyLifts.seRealization
+    {h : IsPartialQuadrangle f} {s a b e x : K}
+    {D : ParameterFourArrowDifferenceDiagram h s a b e}
+    (L : ParameterFourArrowFamilyLifts h D x) :
+    RelocatedChainRealization h :=
+  L.se.realization
+
+/-- The `sA·a` fiber of a lifted four-arrow diagram. -/
+def ParameterFourArrowFamilyLifts.sA_aRealization
+    {h : IsPartialQuadrangle f} {s a b e x : K}
+    {D : ParameterFourArrowDifferenceDiagram h s a b e}
+    (L : ParameterFourArrowFamilyLifts h D x) :
+    RelocatedChainRealization h :=
+  L.sA_a.realization
+
+/-- The `s·b` fiber of a lifted four-arrow diagram. -/
+def ParameterFourArrowFamilyLifts.s_bRealization
+    {h : IsPartialQuadrangle f} {s a b e x : K}
+    {D : ParameterFourArrowDifferenceDiagram h s a b e}
+    (L : ParameterFourArrowFamilyLifts h D x) :
+    RelocatedChainRealization h :=
+  L.s_b.realization
+
+/-- The `sA·c` fiber of a lifted four-arrow diagram. -/
+def ParameterFourArrowFamilyLifts.sA_cRealization
+    {h : IsPartialQuadrangle f} {s a b e x : K}
+    {D : ParameterFourArrowDifferenceDiagram h s a b e}
+    (L : ParameterFourArrowFamilyLifts h D x) :
+    RelocatedChainRealization h :=
+  L.sA_c.realization
+
 /-- Trivialize the finite branch fiber of a realization against a fixed
 reference realization.  Only these reference-to-fiber choices are used to
 form transitions, avoiding any false coherence claim about independently
@@ -1835,6 +2005,46 @@ theorem relocatedChainBranchTransition_trans [IsAlgClosed K]
     (relocatedChainBranchTrivialization h r v)
     (relocatedChainBranchTrivialization h r w)
     (relocatedChainBranchTrivialization h r u)
+
+/-- Compare the normalized `sA·a` fiber with the `s·e` reference fiber
+through the coherent realization-locus trivialization. -/
+noncomputable def ParameterFourArrowFamilyLifts.sA_aToReference
+    [IsAlgClosed K] {h : IsPartialQuadrangle f} {s a b e x : K}
+    {D : ParameterFourArrowDifferenceDiagram h s a b e}
+    (L : ParameterFourArrowFamilyLifts h D x) :
+    FiniteCoverBasedBranchEquiv
+      (relocatedChainExtensionInclusion h
+        L.sA_aRealization.1 L.sA_aRealization.2)
+      (relocatedChainExtensionInclusion h
+        L.seRealization.1 L.seRealization.2) :=
+  relocatedChainBranchTransition h L.seRealization
+    L.sA_aRealization L.seRealization
+
+/-- Compare the normalized `s·b` fiber with the `s·e` reference fiber. -/
+noncomputable def ParameterFourArrowFamilyLifts.s_bToReference
+    [IsAlgClosed K] {h : IsPartialQuadrangle f} {s a b e x : K}
+    {D : ParameterFourArrowDifferenceDiagram h s a b e}
+    (L : ParameterFourArrowFamilyLifts h D x) :
+    FiniteCoverBasedBranchEquiv
+      (relocatedChainExtensionInclusion h
+        L.s_bRealization.1 L.s_bRealization.2)
+      (relocatedChainExtensionInclusion h
+        L.seRealization.1 L.seRealization.2) :=
+  relocatedChainBranchTransition h L.seRealization
+    L.s_bRealization L.seRealization
+
+/-- Compare the normalized `sA·c` fiber with the `s·e` reference fiber. -/
+noncomputable def ParameterFourArrowFamilyLifts.sA_cToReference
+    [IsAlgClosed K] {h : IsPartialQuadrangle f} {s a b e x : K}
+    {D : ParameterFourArrowDifferenceDiagram h s a b e}
+    (L : ParameterFourArrowFamilyLifts h D x) :
+    FiniteCoverBasedBranchEquiv
+      (relocatedChainExtensionInclusion h
+        L.sA_cRealization.1 L.sA_cRealization.2)
+      (relocatedChainExtensionInclusion h
+        L.seRealization.1 L.seRealization.2) :=
+  relocatedChainBranchTransition h L.seRealization
+    L.sA_cRealization L.seRealization
 
 /-- Above every independent replacement of `(S,T,S')` there is a single
 compatible six-tuple whose three actual finite-correspondence pairs over

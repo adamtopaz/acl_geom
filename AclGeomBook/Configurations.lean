@@ -619,6 +619,23 @@ parameter-level composition law directly: every chosen generic product
 
 {docstring AclGeom.IsPartialQuadrangle.exists_family_composition_of_parameter_product}
 
+The four-arrow parameter diagram can be lifted edge by edge without
+introducing four unrelated generic sources.  All of its intermediate
+parameters are algebraic over `(s,e,a,b)`, so a fifth independent input is
+fresh over every one of the four parameter triples.  Fixing that same
+source in all four complete six-tuples gives exact family realizations of
+`s·e`, `sA·a`, `s·b`, and `sA·c`:
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterProductFamilyLift}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameterProductFamilyLift}
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowFamilyLifts}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameterFourArrowFamilyLifts}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameterFourArrowDiagramWithFamilyLifts}
+
 Complete-ideal equality also transports the genericity and two-way
 algebraicity needed for actual finite correspondences.  Hence each
 relocated tuple supplies three pairs over its common parameter field, and
@@ -748,6 +765,22 @@ transports:
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchTransition_symm}
 
 {docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchTransition_trans}
+
+Applied to the four exact family lifts, the `s·e` realization is a fixed
+reference fiber and each of the other three normalized fibers has a
+canonical reference-based comparison into it.  These comparisons preserve
+the selected branch and the based-arrow difference operations; they do not
+identify a parameter with a deck transformation.
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterProductFamilyLift.realization}
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterProductFamilyLift.composes}
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowFamilyLifts.sA_aToReference}
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowFamilyLifts.s_bToReference}
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowFamilyLifts.sA_cToReference}
 
 For each such relocated tuple, the selected chain has its own finite
 normal-cover branch groupoid.  Every conjugate branch is reachable from

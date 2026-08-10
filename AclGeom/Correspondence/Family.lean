@@ -1086,6 +1086,37 @@ structure FourArrowDifferenceDiagram (s a b e : Ω) where
   /-- The edge `sA · c = uB`. -/
   sA_c_uB : M.IsRealization sA c uB
 
+namespace FourArrowDifferenceDiagram
+
+variable {M} {s a b e : Ω}
+  (D : M.FourArrowDifferenceDiagram s a b e)
+
+/-- The first selected product is algebraic over the four inputs. -/
+theorem u_mem_inputs : D.u ∈ racl k ({s, e, a, b} : Set Ω) :=
+  racl_mono (by intro z hz; simp at hz ⊢; tauto)
+    D.se_u.output_mem_left_right
+
+/-- The selected left quotient is algebraic over the four inputs. -/
+theorem sA_mem_inputs : D.sA ∈ racl k ({s, e, a, b} : Set Ω) := by
+  refine racl_le_of_subset_racl ?_ D.sA_a_u.left_mem_right_output
+  rintro z (rfl | rfl)
+  · exact subset_racl k _ (by simp)
+  · exact D.u_mem_inputs
+
+/-- The second selected product is algebraic over the four inputs. -/
+theorem uB_mem_inputs : D.uB ∈ racl k ({s, e, a, b} : Set Ω) :=
+  racl_mono (by intro z hz; simp at hz ⊢; tauto)
+    D.s_b_uB.output_mem_left_right
+
+/-- The difference output is algebraic over the four inputs. -/
+theorem c_mem_inputs : D.c ∈ racl k ({s, e, a, b} : Set Ω) := by
+  refine racl_le_of_subset_racl ?_ D.sA_c_uB.right_mem_left_output
+  rintro z (rfl | rfl)
+  · exact D.sA_mem_inputs
+  · exact D.uB_mem_inputs
+
+end FourArrowDifferenceDiagram
+
 set_option maxHeartbeats 800000 in
 -- The four nested closure-intersection arguments elaborate above the default budget.
 /-- Four independent generic inputs admit the complete four-arrow
