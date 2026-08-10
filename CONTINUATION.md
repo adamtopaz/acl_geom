@@ -196,12 +196,13 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     equivalence through those identifications, spreads the resulting map over
     `Spec k`, proves both rational composites are identities, and extracts an
     explicit isomorphism between dense open chart subschemes via
-    `BirationalGluing`.
+    `BirationalGluing`.  `Config/ChunkAlgebraicTransition.lean` instantiates
+    this dense-open isomorphism on all four normalized `s`, `u`, `sA`, and
+    `uB` branch comparisons, alongside their principal-open representatives.
 
-**Next exact step:** instantiate the new dense-open transition isomorphism on
-the four normalized `s`, `u`, `sA`, and `uB` comparisons, identify its
-rational map with the already constructed principal-open representative, and
-prove the reference-normalized cocycle.  Package the transitions as
+**Next exact step:** identify each new dense-open transition's rational map
+with the already constructed principal-open representative and prove the
+reference-normalized cocycle.  Package the transitions as
 `Scheme.GlueData`; then glue multiplication and inverse on the resulting
 integral locally finite-type scheme.  Prove separatedness and extract the
 finite atlas to package the result in the new scheme-level algebraic-group

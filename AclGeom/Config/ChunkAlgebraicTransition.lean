@@ -7,12 +7,14 @@ import AclGeom.Config.ChunkAlgebraicChart
 import AclGeom.Correspondence.FiniteExtensionTransition
 
 /-!
-# Principal-open transitions for normalized Ψ charts
+# Dense-open transitions for normalized Ψ charts
 
 The normal-cover equivalence between two realizations of the same scalar
 projection locus is promoted to an equivalence over the ground field.  The
 generic finite-extension transition construction then clears its coordinate
 denominators and produces a dominant partial map on one dense principal open.
+The same field equivalence and its inverse induce mutually inverse rational
+maps, hence an actual isomorphism between dense open chart subschemes.
 
 This is instantiated for all four repeated rank-two blocks of a lifted
 four-arrow Ψ diagram.  Thus the branch comparisons at `s`, `u`, `sA`, and
@@ -104,6 +106,30 @@ instance rankTwoScalarTransitionPartialMap_isDominant
     (rankTwoScalarNormalCoverAlgEquiv hx hy hxy)).hom
   infer_instance
 
+/-- Two scalar branches on the same projection locus are isomorphic on
+explicit dense open subschemes of their affine charts. -/
+noncomputable def rankTwoScalarTransitionPartialIso
+    {p : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range p))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple p y)) :
+    (rankTwoScalarAlgebraicChart (k := k) p x hx).PartialIso
+      (rankTwoScalarAlgebraicChart (k := k) p y hy) := by
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↑(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarAlgebraicChart
+  exact FiniteExtensionTransition.partialIso
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoScalarNormalCoverAlgEquiv hx hy hxy)
+
 namespace PsiChunkFourArrowEdgeLifts
 
 variable {w : QWitness k K} {hψ : w.Psi}
@@ -132,6 +158,22 @@ instance sAlgebraicTransitionPartialMap_isDominant :
   unfold sAlgebraicTransitionPartialMap
   infer_instance
 
+/-- The dense-open isomorphism reconciling the two scalar branches above the
+repeated `s` block. -/
+noncomputable def sAlgebraicTransitionPartialIso :
+    (rankTwoScalarAlgebraicChart (k := k) s L.se_s
+      (PsiAProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.aProjection w L.se_lift))).PartialIso
+    (rankTwoScalarAlgebraicChart (k := k) s L.s_b_s
+      (PsiAProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.aProjection w L.s_b_lift))) :=
+  rankTwoScalarTransitionPartialIso
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.se_lift))
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.s_b_lift))
+    L.s_graph_eq
+
 /-- The dominant principal-open transition reconciling the two scalar
 branches above the repeated output `u` block. -/
 noncomputable def uAlgebraicTransitionPartialMap :
@@ -152,6 +194,22 @@ instance uAlgebraicTransitionPartialMap_isDominant :
     IsDominant L.uAlgebraicTransitionPartialMap.hom := by
   unfold uAlgebraicTransitionPartialMap
   infer_instance
+
+/-- The dense-open isomorphism reconciling the two scalar branches above the
+repeated output `u` block. -/
+noncomputable def uAlgebraicTransitionPartialIso :
+    (rankTwoScalarAlgebraicChart (k := k) D.u L.se_u
+      (PsiCProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.cProjection w L.se_lift))).PartialIso
+    (rankTwoScalarAlgebraicChart (k := k) D.u L.sA_a_u
+      (PsiCProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.cProjection w L.sA_a_lift))) :=
+  rankTwoScalarTransitionPartialIso
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.se_lift))
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.sA_a_lift))
+    L.u_graph_eq
 
 /-- The dominant principal-open transition reconciling the two scalar
 branches above the repeated quotient `sA` block. -/
@@ -174,6 +232,22 @@ instance sAAlgebraicTransitionPartialMap_isDominant :
   unfold sAAlgebraicTransitionPartialMap
   infer_instance
 
+/-- The dense-open isomorphism reconciling the two scalar branches above the
+repeated quotient `sA` block. -/
+noncomputable def sAAlgebraicTransitionPartialIso :
+    (rankTwoScalarAlgebraicChart (k := k) D.sA L.sA_a_sA
+      (PsiAProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.aProjection w L.sA_a_lift))).PartialIso
+    (rankTwoScalarAlgebraicChart (k := k) D.sA L.sA_c_sA
+      (PsiAProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.aProjection w L.sA_c_lift))) :=
+  rankTwoScalarTransitionPartialIso
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.sA_a_lift))
+    (PsiAProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.aProjection w L.sA_c_lift))
+    L.sA_graph_eq
+
 /-- The dominant principal-open transition reconciling the two scalar
 branches above the repeated output `uB` block. -/
 noncomputable def uBAlgebraicTransitionPartialMap :
@@ -194,6 +268,22 @@ instance uBAlgebraicTransitionPartialMap_isDominant :
     IsDominant L.uBAlgebraicTransitionPartialMap.hom := by
   unfold uBAlgebraicTransitionPartialMap
   infer_instance
+
+/-- The dense-open isomorphism reconciling the two scalar branches above the
+repeated output `uB` block. -/
+noncomputable def uBAlgebraicTransitionPartialIso :
+    (rankTwoScalarAlgebraicChart (k := k) D.uB L.s_b_uB
+      (PsiCProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.cProjection w L.s_b_lift))).PartialIso
+    (rankTwoScalarAlgebraicChart (k := k) D.uB L.sA_c_uB
+      (PsiCProjectionRelation.scalar_mem_racl w hψ
+        (PsiChunkProjectionRelation.cProjection w L.sA_c_lift))) :=
+  rankTwoScalarTransitionPartialIso
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.s_b_lift))
+    (PsiCProjectionRelation.scalar_mem_racl w hψ
+      (PsiChunkProjectionRelation.cProjection w L.sA_c_lift))
+    L.uB_graph_eq
 
 end PsiChunkFourArrowEdgeLifts
 
