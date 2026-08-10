@@ -497,3 +497,19 @@ two rigidity statements required by the curve-action classification are:
 {docstring AclGeom.derivation_eq_zero_of_two_le_genus}
 
 {docstring AclGeom.derivation_eq_zero_of_genus_eq_one}
+
+The dual-number formulation is completely elementary. An automorphism
+of `F[ε]` which fixes `ε` and reduces to the identity sends each
+constant `f` to `f + εD(f)`; multiplicativity is exactly Leibniz, and
+the inverse uses `-D`. Thus derivations and infinitesimal
+automorphisms are equivalent. The two rigidity theorems immediately
+rule out regular infinitesimal automorphisms in the corresponding
+genera:
+
+{docstring AclGeom.InfinitesimalAutomorphism}
+
+{docstring AclGeom.InfinitesimalAutomorphism.derivationEquiv}
+
+{docstring AclGeom.InfinitesimalAutomorphism.eq_refl_of_two_le_genus}
+
+{docstring AclGeom.InfinitesimalAutomorphism.eq_refl_of_genus_eq_one}

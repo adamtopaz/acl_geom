@@ -32,6 +32,7 @@ import AclGeom.Curves.Differentials
 import AclGeom.Curves.Divisors
 import AclGeom.Curves.Genus
 import AclGeom.Curves.GlobalResidue
+import AclGeom.Curves.InfinitesimalAutomorphisms
 import AclGeom.Curves.Places
 import AclGeom.Curves.Rational
 import AclGeom.Curves.Residues
