@@ -891,6 +891,25 @@ and the finite-correspondence germ certificate:
 
 {docstring AclGeom.QWitness.psi_selected_family_groupoid_composition}
 
+The same six-coordinate prime locus is generically finite in all three
+directions.  Each pair among `(A,B)`, `(A,C)`, and `(B,C)` has rank four,
+while the omitted rank-two parameter is coordinatewise algebraic over that
+pair.  Packaging these facts gives multiplication and both division
+relocations above every independent generic parameter pair; the operation
+is still a correspondence, so no uniqueness is asserted:
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.exists_output}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.exists_right}
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.exists_left}
+
+{docstring AclGeom.QWitness.psiParameterMultiplication}
+
+{docstring AclGeom.QWitness.exists_psiParameter_output}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

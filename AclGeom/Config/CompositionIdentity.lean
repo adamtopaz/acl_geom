@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.Psi
-import AclGeom.Correspondence.Family
+import AclGeom.Correspondence.RankTwoMultiplication
 import AclGeom.Correspondence.FamilyGroupoid
 import AclGeom.Correspondence.PartialQuadrangle
 
@@ -336,6 +336,135 @@ theorem abc_join_eq_iSup_point :
 theorem ab_eq_abc (hψ : w.Psi) :
     w.A ⊔ w.B = w.A ⊔ w.B ⊔ w.C :=
   RankEq.eq_of_le le_sup_left hψ.rank_AB hψ.rank_ABC
+
+/-- The rank-four `A,C` flat already contains `B`. -/
+theorem ac_eq_abc (hψ : w.Psi) :
+    w.A ⊔ w.C = w.A ⊔ w.B ⊔ w.C :=
+  RankEq.eq_of_le
+    (sup_le (le_sup_left.trans le_sup_left) le_sup_right)
+    hψ.rank_AC hψ.rank_ABC
+
+/-- The rank-four `B,C` flat already contains `A`. -/
+theorem bc_eq_abc (hψ : w.Psi) :
+    w.B ⊔ w.C = w.A ⊔ w.B ⊔ w.C :=
+  RankEq.eq_of_le
+    (sup_le (le_sup_right.trans le_sup_left) le_sup_right)
+    hψ.rank_BC hψ.rank_ABC
+
+/-- Every output-parameter coordinate is algebraic over the two input
+parameter tuples. -/
+theorem cReps_mem_racl_abReps (hψ : w.Psi) (i : Fin 2) :
+    w.cReps i ∈ racl k (Set.range w.abReps) := by
+  have hp : ClosedIF.point k (w.cReps i) ≤ w.C := by
+    rw [w.c_eq_iSup_point]
+    exact le_iSup (fun j ↦ ClosedIF.point k (w.cReps j)) i
+  have hC : w.C ≤ w.A ⊔ w.B := by
+    rw [w.ab_eq_abc hψ]
+    exact le_sup_right
+  rw [w.ab_join_eq_iSup_point] at hC
+  exact mem_iSup_point_iff.1
+    ((hp.trans hC) (ClosedIF.mem_point_self (w.cReps i)))
+
+/-- Every right-input coordinate is algebraic over the left input and
+output parameter tuples. -/
+theorem bReps_mem_racl_acReps (hψ : w.Psi) (i : Fin 2) :
+    w.bReps i ∈ racl k (Set.range w.acReps) := by
+  have hp : ClosedIF.point k (w.bReps i) ≤ w.B := by
+    rw [w.b_eq_iSup_point]
+    exact le_iSup (fun j ↦ ClosedIF.point k (w.bReps j)) i
+  have hB : w.B ≤ w.A ⊔ w.C := by
+    rw [w.ac_eq_abc hψ]
+    exact le_sup_right.trans le_sup_left
+  rw [w.ac_join_eq_iSup_point] at hB
+  exact mem_iSup_point_iff.1
+    ((hp.trans hB) (ClosedIF.mem_point_self (w.bReps i)))
+
+/-- Every left-input coordinate is algebraic over the right input and
+output parameter tuples. -/
+theorem aReps_mem_racl_bcReps (hψ : w.Psi) (i : Fin 2) :
+    w.aReps i ∈ racl k (Set.range w.bcReps) := by
+  have hp : ClosedIF.point k (w.aReps i) ≤ w.A := by
+    rw [w.a_eq_iSup_point]
+    exact le_iSup (fun j ↦ ClosedIF.point k (w.aReps j)) i
+  have hA : w.A ≤ w.B ⊔ w.C := by
+    rw [w.bc_eq_abc hψ]
+    exact le_sup_left.trans le_sup_left
+  rw [w.bc_join_eq_iSup_point] at hA
+  exact mem_iSup_point_iff.1
+    ((hp.trans hA) (ClosedIF.mem_point_self (w.aReps i)))
+
+/-- The `Psi` parameter locus, packaged as a generically finite
+rank-two multiplication correspondence. -/
+def psiParameterMultiplication (hψ : w.Psi) :
+    RankTwoFiniteCorrespondenceMultiplication (k := k) (Ω := K) where
+  left := w.aReps
+  right := w.bReps
+  output := w.cReps
+  leftRight_independent := by
+    simpa [rankTwoPairTuple, aReps, bReps, abReps] using
+      w.abReps_independent hψ
+  leftOutput_independent := by
+    simpa [rankTwoPairTuple, aReps, cReps, acReps] using
+      w.acReps_independent hψ
+  rightOutput_independent := by
+    simpa [rankTwoPairTuple, bReps, cReps, bcReps] using
+      w.bcReps_independent hψ
+  output_mem_left_right := by
+    intro i
+    simpa [rankTwoPairTuple, aReps, bReps, abReps] using
+      w.cReps_mem_racl_abReps hψ i
+  right_mem_left_output := by
+    intro i
+    simpa [rankTwoPairTuple, aReps, cReps, acReps] using
+      w.bReps_mem_racl_acReps hψ i
+  left_mem_right_output := by
+    intro i
+    simpa [rankTwoPairTuple, bReps, cReps, bcReps] using
+      w.aReps_mem_racl_bcReps hψ i
+
+/-- The generic ideal of the packaged multiplication correspondence is
+the selected six-parameter `Psi` ideal. -/
+@[simp] theorem psiParameterMultiplication_ideal (hψ : w.Psi) :
+    (w.psiParameterMultiplication hψ).ideal = idealOf k w.abcReps := by
+  rfl
+
+/-- The configuration-specific composition relation is exactly
+realization of the packaged rank-two multiplication locus. -/
+theorem psiFamilyCompositionRelation_iff_isRealization
+    (hψ : w.Psi) (a b c : Fin 2 → K) :
+    w.psiFamilyCompositionRelation a b c ↔
+      (w.psiParameterMultiplication hψ).IsRealization a b c := by
+  rw [psiFamilyCompositionRelation,
+    RankTwoFiniteCorrespondenceMultiplication.IsRealization,
+    w.psiParameterMultiplication_ideal hψ]
+  rfl
+
+/-- Every independent generic pair of rank-two input parameters has an
+output on the selected `Psi` composition locus. -/
+theorem exists_psiParameter_output [IsAlgClosed K] (hψ : w.Psi)
+    {a b : Fin 2 → K}
+    (hab : AlgebraicIndependent k (rankTwoPairTuple a b)) :
+    ∃ c : Fin 2 → K, w.psiFamilyCompositionRelation a b c := by
+  obtain ⟨c, hc⟩ := (w.psiParameterMultiplication hψ).exists_output hab
+  exact ⟨c, (w.psiFamilyCompositionRelation_iff_isRealization hψ a b c).2 hc⟩
+
+/-- Every independent generic left-input/output pair admits a right
+division solution on the selected `Psi` locus. -/
+theorem exists_psiParameter_right [IsAlgClosed K] (hψ : w.Psi)
+    {a c : Fin 2 → K}
+    (hac : AlgebraicIndependent k (rankTwoPairTuple a c)) :
+    ∃ b : Fin 2 → K, w.psiFamilyCompositionRelation a b c := by
+  obtain ⟨b, hb⟩ := (w.psiParameterMultiplication hψ).exists_right hac
+  exact ⟨b, (w.psiFamilyCompositionRelation_iff_isRealization hψ a b c).2 hb⟩
+
+/-- Every independent generic right-input/output pair admits a left
+division solution on the selected `Psi` locus. -/
+theorem exists_psiParameter_left [IsAlgClosed K] (hψ : w.Psi)
+    {b c : Fin 2 → K}
+    (hbc : AlgebraicIndependent k (rankTwoPairTuple b c)) :
+    ∃ a : Fin 2 → K, w.psiFamilyCompositionRelation a b c := by
+  obtain ⟨a, ha⟩ := (w.psiParameterMultiplication hψ).exists_left hbc
+  exact ⟨a, (w.psiFamilyCompositionRelation_iff_isRealization hψ a b c).2 ha⟩
 
 /-- The `A` representatives occur among `abReps`. -/
 theorem aReps_range_subset_abReps :

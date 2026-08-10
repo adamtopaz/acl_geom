@@ -19,6 +19,7 @@ import AclGeom.Correspondence.Composition
 import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
+import AclGeom.Correspondence.RankTwoMultiplication
 import AclGeom.Correspondence.FamilyNormalization
 import AclGeom.Correspondence.FamilyGroupoid
 import AclGeom.Correspondence.PartialQuadrangle
