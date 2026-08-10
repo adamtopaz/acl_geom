@@ -1086,6 +1086,54 @@ theorem repeatedSPairIdeal_eq_over_commonInputField
   simpa only [R.se_source, R.sb_source] using
     R.repeatedSPairIdeal_eq_over_independentInputField hind
 
+/-- The exact common-input equality is the equality of the two selected
+finite-correspondence ideals used by the common-cover triangles. -/
+theorem repeatedSCommonCorrespondencePair_ideal_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).ideal =
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ).ideal := by
+  change idealOf (↥(R.seCommonBaseData.coefficientField))
+      ![commonCurveSource (K := K), R.se.middle] =
+    idealOf (↥(R.seCommonBaseData.coefficientField))
+      ![commonCurveSource (K := K), R.sb.middle]
+  exact R.repeatedSPairIdeal_eq_over_commonInputField hind
+
+/-- The repeated `s` curve ideals therefore identify their concrete normal
+covers semilinearly over the induced common-source-field equivalence. -/
+noncomputable def repeatedSCommonNormalCoverEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).normalCoverEquivOfIdealEq
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.repeatedSCommonCorrespondencePair_ideal_eq hind)
+
+/-- The common-input comparison of the repeated `s` relation is corrected
+to preserve the literal selected branch.  This is the first faithful
+anchor for the eventual four-triangle reference alignment. -/
+noncomputable def repeatedSCommonBasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).basedBranchEquivOfIdealEq
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.repeatedSCommonCorrespondencePair_ideal_eq hind)
+
+/-- The faithful common-input `s` comparison sends the selected branch to
+the selected branch. -/
+@[simp] theorem repeatedSCommonBasedBranchEquiv_selected
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedSCommonBasedBranchEquiv hind).branchEquiv
+        (finiteCoverSelectedBranch
+          (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+            (R := R.se) R.seCommonBaseData hψ).sourceField_le_branchField) =
+      finiteCoverSelectedBranch
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sb) R.sbCommonBaseData hψ).sourceField_le_branchField :=
+  (R.repeatedSCommonBasedBranchEquiv hind).map_selected
+
 /-- The repeated `sA` curve relation remains equal after adjoining its six
 complementary independent inputs. -/
 theorem repeatedSAPairIdeal_eq_over_independentInputField

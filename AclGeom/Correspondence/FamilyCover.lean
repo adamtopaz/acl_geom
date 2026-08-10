@@ -344,6 +344,180 @@ theorem pairIdeal_eq_over_independentExtension_of_pairIdeal_eq
     have := e.injective (hzero.trans (map_zero e).symm)
     simpa using congrArg M.val this
 
+namespace FiniteCorrespondencePair
+
+variable (P : FiniteCorrespondencePair k Ω)
+
+@[simp] private theorem coe_equivOfEq
+    {E E' : IntermediateField k Ω} (h : E = E') (x : E) :
+    (((IntermediateField.equivOfEq h) x : E') : Ω) = x := by
+  subst E'
+  rfl
+
+/-- Equality of selected curve ideals restricts to equality of the
+one-coordinate source loci. -/
+theorem sourceIdeal_eq_of_ideal_eq
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    idealOf k (![P.source] : Fin 1 → Ω) =
+      idealOf k (![Q.source] : Fin 1 → Ω) := by
+  let e : Fin 1 → Fin 2 := Fin.castSucc
+  have h' := idealOf_comp_eq_of_idealOf_eq h e
+  convert h' using 1 <;> congr 1 <;> funext i <;> fin_cases i <;> rfl
+
+/-- Equal selected curve ideals identify the finite extensions from the
+source-coordinate fields to the complete branch fields.  The comparison
+sends both displayed endpoints to their counterparts and remembers the
+source-field inclusion square. -/
+def extensionEquivOfIdealEq
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    FiniteCover.ExtensionEquiv P.sourceField_le_branchField
+      Q.sourceField_le_branchField := by
+  let hsource := P.sourceIdeal_eq_of_ideal_eq Q h
+  let pSourceRange : P.sourceField =
+      adjoin k (Set.range (![P.source] : Fin 1 → Ω)) := by
+    ext z
+    simp [FiniteCorrespondencePair.sourceField,
+      Matrix.range_cons, Matrix.range_empty]
+  let qSourceRange : Q.sourceField =
+      adjoin k (Set.range (![Q.source] : Fin 1 → Ω)) := by
+    ext z
+    simp [FiniteCorrespondencePair.sourceField,
+      Matrix.range_cons, Matrix.range_empty]
+  let pBranchRange : P.branchField =
+      adjoin k (Set.range (![P.source, P.target] : Fin 2 → Ω)) := by
+    change adjoin k {P.source, P.target} = _
+    rw [show Set.range (![P.source, P.target] : Fin 2 → Ω) =
+      {P.target, P.source} by
+        simp [Matrix.range_cons, Matrix.range_empty]]
+    exact congrArg (adjoin k) (Set.pair_comm _ _)
+  let qBranchRange : Q.branchField =
+      adjoin k (Set.range (![Q.source, Q.target] : Fin 2 → Ω)) := by
+    change adjoin k {Q.source, Q.target} = _
+    rw [show Set.range (![Q.source, Q.target] : Fin 2 → Ω) =
+      {Q.target, Q.source} by
+        simp [Matrix.range_cons, Matrix.range_empty]]
+    exact congrArg (adjoin k) (Set.pair_comm _ _)
+  let eBase : (↥P.sourceField) ≃ₐ[k] (↥Q.sourceField) :=
+    (IntermediateField.equivOfEq pSourceRange).trans
+      ((locusFunctionFieldEquivOfIdealEq hsource).trans
+        (IntermediateField.equivOfEq qSourceRange.symm))
+  let eTotal : (↥P.branchField) ≃ₐ[k] (↥Q.branchField) :=
+    (IntermediateField.equivOfEq pBranchRange).trans
+      ((locusFunctionFieldEquivOfIdealEq h).trans
+        (IntermediateField.equivOfEq qBranchRange.symm))
+  refine
+    { baseEquiv := eBase
+      totalEquiv := eTotal
+      commutes := ?_ }
+  apply adjoin_algHom_ext k
+  rintro _ hz
+  rw [Set.mem_singleton_iff] at hz
+  subst hz
+  change eTotal ⟨P.source, _⟩ =
+    IntermediateField.inclusion Q.sourceField_le_branchField
+      (eBase ⟨P.source, _⟩)
+  apply Subtype.ext
+  change ((eTotal ⟨P.source, _⟩ : Q.branchField) : Ω) =
+    ((eBase ⟨P.source, _⟩ : Q.sourceField) : Ω)
+  have htotal := congrArg Subtype.val
+    (locusFunctionFieldEquivOfIdealEq_apply h 0)
+  have hbase := congrArg Subtype.val
+    (locusFunctionFieldEquivOfIdealEq_apply hsource 0)
+  have hpTotal :
+      IntermediateField.equivOfEq pBranchRange
+          ⟨P.source, subset_adjoin k _ (by simp)⟩ =
+        ⟨(![P.source, P.target] : Fin 2 → Ω) 0,
+          subset_adjoin k _ (Set.mem_range_self 0)⟩ := by
+    apply Subtype.ext
+    rfl
+  have hpBase :
+      IntermediateField.equivOfEq pSourceRange
+          ⟨P.source, subset_adjoin k _ (by simp)⟩ =
+        ⟨(![P.source] : Fin 1 → Ω) 0,
+          subset_adjoin k _ (Set.mem_range_self 0)⟩ := by
+    apply Subtype.ext
+    rfl
+  dsimp only [eTotal, eBase]
+  simp only [AlgEquiv.trans_apply]
+  rw [hpTotal, hpBase]
+  simpa only [coe_equivOfEq] using
+    htotal.trans hbase.symm
+
+/-- Equal selected curve ideals identify the canonical normal extensions
+semilinearly over the induced source-coordinate equivalence. -/
+noncomputable def normalExtensionEquivOfIdealEq
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    FiniteCover.NormalExtensionEquiv P.sourceField_le_branchField
+      Q.sourceField_le_branchField :=
+  (P.extensionEquivOfIdealEq Q h).normalLift
+
+/-- Equal selected curve ideals identify the concrete normal closures in
+the common algebraically closed ambient field. -/
+noncomputable def normalCoverEquivOfIdealEq [IsAlgClosed Ω]
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    (↥(FiniteCover.normalClosureOver P.sourceField_le_branchField)) ≃+*
+      (↥(FiniteCover.normalClosureOver
+        Q.sourceField_le_branchField)) := by
+  letI : FiniteDimensional (↥P.sourceField)
+      (↥(extendScalars P.sourceField_le_branchField)) :=
+    P.branchOverSource_finiteDimensional
+  letI : FiniteDimensional (↥Q.sourceField)
+      (↥(extendScalars Q.sourceField_le_branchField)) :=
+    Q.branchOverSource_finiteDimensional
+  let cP := FiniteCover.normalClosureOverEquivCanonical
+    P.sourceField_le_branchField
+    (Algebra.IsAlgebraic.of_finite _ _)
+  let cQ := FiniteCover.normalClosureOverEquivCanonical
+    Q.sourceField_le_branchField
+    (Algebra.IsAlgebraic.of_finite _ _)
+  exact cP.toRingEquiv |>.trans
+    ((P.normalExtensionEquivOfIdealEq Q h).normalEquiv.trans
+      cQ.symm.toRingEquiv)
+
+/-- The concrete normal-cover comparison is semilinear over the source
+coordinate equivalence induced by the equal curve ideals. -/
+@[simp] theorem normalCoverEquivOfIdealEq_algebraMap [IsAlgClosed Ω]
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal)
+    (z : P.sourceField) :
+    P.normalCoverEquivOfIdealEq Q h
+        (algebraMap (↥P.sourceField)
+          (↥(FiniteCover.normalClosureOver
+            P.sourceField_le_branchField)) z) =
+      algebraMap (↥Q.sourceField)
+        (↥(FiniteCover.normalClosureOver
+          Q.sourceField_le_branchField))
+        ((P.extensionEquivOfIdealEq Q h).baseEquiv z) := by
+  simp [normalCoverEquivOfIdealEq, normalExtensionEquivOfIdealEq,
+    extensionEquivOfIdealEq]
+
+/-- Correct the normal-cover comparison by a target deck transformation
+so that equal selected curve ideals identify their literal selected
+branches, not merely their abstract normal fields. -/
+noncomputable def basedBranchEquivOfIdealEq [IsAlgClosed Ω]
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    FiniteCoverBasedBranchEquiv P.sourceField_le_branchField
+      Q.sourceField_le_branchField := by
+  apply finiteCoverBasedBranchEquivOfExtensionEquiv
+    P.sourceField_le_branchField
+    Q.sourceField_le_branchField
+    Q.branchOverSource_finiteDimensional
+    (P.extensionEquivOfIdealEq Q h)
+    (P.normalCoverEquivOfIdealEq Q h)
+  apply RingHom.ext
+  intro z
+  exact P.normalCoverEquivOfIdealEq_algebraMap Q h z
+
+/-- The based comparison of equal selected curve ideals preserves the
+literal selected branch. -/
+@[simp] theorem basedBranchEquivOfIdealEq_selected [IsAlgClosed Ω]
+    (Q : FiniteCorrespondencePair k Ω) (h : P.ideal = Q.ideal) :
+    (P.basedBranchEquivOfIdealEq Q h).branchEquiv
+        (finiteCoverSelectedBranch P.sourceField_le_branchField) =
+      finiteCoverSelectedBranch Q.sourceField_le_branchField :=
+  (P.basedBranchEquivOfIdealEq Q h).map_selected
+
+end FiniteCorrespondencePair
+
 namespace FiniteCorrespondenceFamilyMember
 
 variable {d : ℕ}

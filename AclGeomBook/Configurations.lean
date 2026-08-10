@@ -1442,6 +1442,23 @@ the exact common base:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSPairIdeal_eq_over_commonInputField}
 
+Equality of a selected two-variable curve ideal also identifies the finite
+extension from its source-coordinate field to its full branch field.  This
+comparison lifts to the concrete normal closures and admits a deck
+correction preserving the literal selected branch.  Applying it to the
+exact common-base `s` ideal gives the first faithful selected-normal-cover
+anchor, rather than merely an abstract chart equivalence:
+
+{docstring AclGeom.FiniteCorrespondencePair.extensionEquivOfIdealEq}
+
+{docstring AclGeom.FiniteCorrespondencePair.normalCoverEquivOfIdealEq_algebraMap}
+
+{docstring AclGeom.FiniteCorrespondencePair.basedBranchEquivOfIdealEq_selected}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSCommonCorrespondencePair_ideal_eq}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSCommonBasedBranchEquiv_selected}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

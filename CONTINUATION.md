@@ -503,6 +503,16 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     closure as the original input field but are not definitionally equal;
     their finite algebraic coefficient changes must still be normalized
     before transporting the selected branches to the common covers.
+39. Equality of a selected two-variable curve ideal now canonically
+    identifies the finite extension from the source-coordinate field to the
+    complete branch field.  The comparison lifts semilinearly to the
+    concrete normal closures and a deck correction makes it preserve the
+    literal selected branch.  The exact common-input `s` relation from item
+    38 instantiates this construction on the actual common-base
+    finite-correspondence pairs, producing the first faithful selected-normal-
+    cover anchor for the reference alignment.  This is stronger than an
+    arbitrary equivalence between transported middle fields: it remembers
+    which normal subcover and selected branch encode the repeated curve.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -510,11 +520,11 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--38 give four strict finite-normal-cover curve triangles, the exact
+Items 29--39 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--38 supply selected-branch-preserving comparisons and equality of
+items 36--39 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field.
 Normalize the three remaining finite algebraic changes between their
