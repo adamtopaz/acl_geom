@@ -148,6 +148,67 @@ theorem PsiCProjectionRelation.scalar_mem_racl
   scalar_mem_racl_of_rankTwoScalar_locus h
     (w.U_rep_mem_racl_cReps hψ)
 
+/-- Equality of rank-two/scalar graph loci restricts to equality of the
+underlying rank-two parameter loci. -/
+theorem rankTwoParameter_ideal_eq_of_scalar_ideal_eq
+    {p q : Fin 2 → K} {x y : K}
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    idealOf k p = idealOf k q := by
+  let e : Fin 2 → Fin 3 := ![0, 1]
+  have h := idealOf_comp_eq_of_idealOf_eq hxy e
+  have hp : rankTwoScalarTuple p x ∘ e = p := by
+    funext i
+    fin_cases i <;> rfl
+  have hq : rankTwoScalarTuple q y ∘ e = q := by
+    funext i
+    fin_cases i <;> rfl
+  rwa [hp, hq] at h
+
+/-- Equal scalar graph loci canonically identify their finite extensions,
+including when the two displayed generic parameter tuples are different
+realizations of that locus. -/
+def rankTwoScalarExtensionEquivOfIdealEq
+    {p q : Fin 2 → K} {x y : K}
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    FiniteCover.ExtensionEquiv
+      (rankTwoParameterField_le_rankTwoScalarField (k := k) p x)
+      (rankTwoParameterField_le_rankTwoScalarField (k := k) q y) where
+  baseEquiv := locusFunctionFieldEquivOfIdealEq
+    (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy)
+  totalEquiv := locusFunctionFieldEquivOfIdealEq hxy
+  commutes := by
+    apply adjoin_algHom_ext k
+    rintro _ ⟨i, rfl⟩
+    fin_cases i
+    · change locusFunctionFieldEquivOfIdealEq hxy
+          ⟨p 0, _⟩ =
+        IntermediateField.inclusion
+          (rankTwoParameterField_le_rankTwoScalarField (k := k) q y)
+          (locusFunctionFieldEquivOfIdealEq
+            (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy)
+            ⟨p 0, _⟩)
+      rw [locusFunctionFieldEquivOfIdealEq_apply
+        (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy) 0]
+      apply Subtype.ext
+      have ht := congrArg Subtype.val
+        (locusFunctionFieldEquivOfIdealEq_apply hxy 0)
+      simpa [rankTwoScalarTuple] using ht
+    · change locusFunctionFieldEquivOfIdealEq hxy
+          ⟨p 1, _⟩ =
+        IntermediateField.inclusion
+          (rankTwoParameterField_le_rankTwoScalarField (k := k) q y)
+          (locusFunctionFieldEquivOfIdealEq
+            (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy)
+            ⟨p 1, _⟩)
+      rw [locusFunctionFieldEquivOfIdealEq_apply
+        (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy) 1]
+      apply Subtype.ext
+      have ht := congrArg Subtype.val
+        (locusFunctionFieldEquivOfIdealEq_apply hxy 1)
+      simpa [rankTwoScalarTuple] using ht
+
 /-- Equal scalar graph loci over the same rank-two parameter canonically
 identify their finite extensions. -/
 def rankTwoScalarExtensionEquiv {p : Fin 2 → K} {x y : K}
@@ -170,6 +231,65 @@ def rankTwoScalarExtensionEquiv {p : Fin 2 → K} {x y : K}
           ⟨rankTwoScalarTuple p x 1, _⟩ =
         ⟨rankTwoScalarTuple p y 1, _⟩
       exact locusFunctionFieldEquivOfIdealEq_apply hxy 1
+
+/-- Normal closures of two arbitrary generic realizations of the same
+rank-two/scalar graph locus are semilinearly equivalent over the induced
+equivalence of their rank-two parameter fields. -/
+noncomputable def rankTwoScalarNormalCoverEquivOfIdealEq [IsAlgClosed K]
+    {p q : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    (↥(FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField (k := k) p x))) ≃+*
+      (↥(FiniteCover.normalClosureOver
+        (rankTwoParameterField_le_rankTwoScalarField (k := k) q y))) := by
+  have hfinx := rankTwoScalarExtension_finiteDimensional
+    (k := k) (K := K) hx
+  have hfiny := rankTwoScalarExtension_finiteDimensional
+    (k := k) (K := K) hy
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) p))
+      (↥(extendScalars
+        (rankTwoParameterField_le_rankTwoScalarField (k := k) p x))) :=
+    hfinx
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) q))
+      (↥(extendScalars
+        (rankTwoParameterField_le_rankTwoScalarField (k := k) q y))) :=
+    hfiny
+  let cx := FiniteCover.normalClosureOverEquivCanonical
+    (rankTwoParameterField_le_rankTwoScalarField (k := k) p x)
+    (Algebra.IsAlgebraic.of_finite _ _)
+  let cy := FiniteCover.normalClosureOverEquivCanonical
+    (rankTwoParameterField_le_rankTwoScalarField (k := k) q y)
+    (Algebra.IsAlgebraic.of_finite _ _)
+  exact cx.toRingEquiv |>.trans
+    (rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) hxy).normalLift.normalEquiv |>.trans
+      cy.symm.toRingEquiv
+
+/-- The normal-cover equivalence between equal graph realizations is
+semilinear over the corresponding parameter-field equivalence. -/
+@[simp] theorem rankTwoScalarNormalCoverEquivOfIdealEq_algebraMap
+    [IsAlgClosed K]
+    {p q : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y))
+    (z : rankTwoParameterField (k := k) p) :
+    rankTwoScalarNormalCoverEquivOfIdealEq hx hy hxy
+        (algebraMap (↥(rankTwoParameterField (k := k) p))
+          (↥(FiniteCover.normalClosureOver
+            (rankTwoParameterField_le_rankTwoScalarField (k := k) p x))) z) =
+      algebraMap (↥(rankTwoParameterField (k := k) q))
+        (↥(FiniteCover.normalClosureOver
+          (rankTwoParameterField_le_rankTwoScalarField (k := k) q y)))
+        (locusFunctionFieldEquivOfIdealEq
+          (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy) z) := by
+  simp [rankTwoScalarNormalCoverEquivOfIdealEq,
+    rankTwoScalarExtensionEquivOfIdealEq]
+  congr 1
 
 /-- The concrete normal covers of two scalar branches on the same graph
 locus are equivalent over the common rank-two parameter field. -/

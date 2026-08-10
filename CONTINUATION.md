@@ -239,6 +239,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     proof.  The existing finite reference-normalized scalar atlas should now
     be understood precisely as the branch-normalization input to Weil's
     theorem, not as the translation-indexed group atlas itself.
+17. Equality of full rank-two/scalar graph loci now restricts to equality of
+    their rank-two parameter loci.  The induced equivalences of the two base
+    function fields and scalar extensions lift semilinearly to the normal
+    covers, even when the displayed generic rank-two tuples are different.
+    Normalizing these equivalences through one selected realization gives
+    strict identity, inverse, and transitive laws, dominant rational chart
+    comparisons, and dense-open isomorphisms over `Spec k`.  For the actual
+    Ψ cancellation family, `psiBProjectionReferenceRationalMap` specializes
+    this construction to arbitrary generic realizations of the `B/T` graph,
+    all represented by one fixed positive-dimensional affine normal-cover
+    model.  This is the model-comparison prerequisite for spreading the
+    four-arrow difference product; it does not yet construct that product.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

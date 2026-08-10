@@ -42,6 +42,349 @@ namespace QWitness
 variable {k K : Type u} [Field k] [Field K] [Algebra k K]
   [IsAlgClosed K]
 
+/-- The semilinear normal-cover equivalence between arbitrary generic
+realizations of one scalar projection locus, upgraded to a ground-field
+algebra equivalence. -/
+noncomputable def rankTwoScalarLocusNormalCoverAlgEquiv
+    {p q : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    rankTwoScalarNormalField (k := k) p x ≃ₐ[k]
+      rankTwoScalarNormalField (k := k) q y :=
+  { rankTwoScalarNormalCoverEquivOfIdealEq hx hy hxy with
+    commutes' := fun r ↦ by
+      rw [IsScalarTower.algebraMap_apply k
+          (rankTwoParameterField (k := k) p)
+          (rankTwoScalarNormalField (k := k) p x),
+        IsScalarTower.algebraMap_apply k
+          (rankTwoParameterField (k := k) q)
+          (rankTwoScalarNormalField (k := k) q y)]
+      calc
+        _ = algebraMap (↥(rankTwoParameterField (k := k) q))
+              (rankTwoScalarNormalField (k := k) q y)
+              (locusFunctionFieldEquivOfIdealEq
+                (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy)
+                (algebraMap k
+                  (rankTwoParameterField (k := k) p) r)) :=
+          rankTwoScalarNormalCoverEquivOfIdealEq_algebraMap
+            hx hy hxy (algebraMap k
+              (rankTwoParameterField (k := k) p) r)
+        _ = _ := by
+          congr 1
+          exact (locusFunctionFieldEquivOfIdealEq
+            (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy)).commutes r }
+
+/-- Normalize transitions between arbitrary realizations of one projection
+locus through a fixed generic realization.  This removes all dependence on
+independently chosen normal-closure lifts. -/
+noncomputable def rankTwoScalarLocusReferenceAlgEquiv
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    rankTwoScalarNormalField (k := k) p x ≃ₐ[k]
+      rankTwoScalarNormalField (k := k) q y :=
+  (rankTwoScalarLocusNormalCoverAlgEquiv hz hx hrx).symm.trans
+    (rankTwoScalarLocusNormalCoverAlgEquiv hz hy hry)
+
+@[simp] theorem rankTwoScalarLocusReferenceAlgEquiv_self
+    {r p : Fin 2 → K} {z x : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x)) :
+    rankTwoScalarLocusReferenceAlgEquiv hz hx hx hrx hrx =
+      AlgEquiv.refl := by
+  unfold rankTwoScalarLocusReferenceAlgEquiv
+  ext t
+  simp
+
+@[simp] theorem rankTwoScalarLocusReferenceAlgEquiv_symm
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    (rankTwoScalarLocusReferenceAlgEquiv hz hx hy hrx hry).symm =
+      rankTwoScalarLocusReferenceAlgEquiv hz hy hx hry hrx := by
+  unfold rankTwoScalarLocusReferenceAlgEquiv
+  ext t
+  simp
+
+@[simp] theorem rankTwoScalarLocusReferenceAlgEquiv_trans
+    {r p q v : Fin 2 → K} {z x y u : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hu : u ∈ racl k (Set.range v))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y))
+    (hru : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple v u)) :
+    (rankTwoScalarLocusReferenceAlgEquiv hz hx hy hrx hry).trans
+        (rankTwoScalarLocusReferenceAlgEquiv hz hy hu hry hru) =
+      rankTwoScalarLocusReferenceAlgEquiv hz hx hu hrx hru := by
+  unfold rankTwoScalarLocusReferenceAlgEquiv
+  ext t
+  simp
+
+/-- The strict reference-normalized field comparison between two arbitrary
+generic realizations of one projection locus, spread to a rational map
+between their affine normal-cover models. -/
+noncomputable def rankTwoScalarLocusReferenceRationalMap
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    Scheme.RationalMap
+      (rankTwoScalarAlgebraicChart (k := k) p x hx)
+      (rankTwoScalarAlgebraicChart (k := k) q y hy) := by
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) q))
+      (rankTwoScalarNormalField (k := k) q y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarAlgebraicChart
+  exact FiniteExtensionTransition.rationalMap
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) q)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
+    (rankTwoScalarLocusReferenceAlgEquiv hz hx hy hrx hry)
+
+instance rankTwoScalarLocusReferenceRationalMap_isDominant
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    (rankTwoScalarLocusReferenceRationalMap
+      hz hx hy hrx hry).IsDominant := by
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) q))
+      (rankTwoScalarNormalField (k := k) q y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  change (FiniteExtensionTransition.rationalMap
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) q)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
+    (rankTwoScalarLocusReferenceAlgEquiv
+      hz hx hy hrx hry)).IsDominant
+  infer_instance
+
+/-- Reference-normalized rational comparisons between arbitrary generic
+realizations obey a strict transitive cocycle. -/
+theorem rankTwoScalarLocusReferenceRationalMap_comp
+    {r p q v : Fin 2 → K} {z x y u : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hu : u ∈ racl k (Set.range v))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y))
+    (hru : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple v u)) :
+    (rankTwoScalarLocusReferenceRationalMap
+      hz hx hy hrx hry).comp
+        (rankTwoScalarLocusReferenceRationalMap
+          hz hy hu hry hru) =
+      rankTwoScalarLocusReferenceRationalMap
+        hz hx hu hrx hru := by
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) q))
+      (rankTwoScalarNormalField (k := k) q y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) v))
+      (rankTwoScalarNormalField (k := k) v u) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hu
+  change (FiniteExtensionTransition.rationalMap
+      (rankTwoParameterCoordinates (k := k) p)
+      (rankTwoParameterCoordinates (k := k) q)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
+      (rankTwoScalarLocusReferenceAlgEquiv
+        hz hx hy hrx hry)).comp
+      (FiniteExtensionTransition.rationalMap
+        (rankTwoParameterCoordinates (k := k) q)
+        (rankTwoParameterCoordinates (k := k) v)
+        (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
+        (rankTwoParameterCoordinates_adjoin_eq_top (k := k) v)
+        (rankTwoScalarLocusReferenceAlgEquiv
+          hz hy hu hry hru)) =
+    FiniteExtensionTransition.rationalMap
+      (rankTwoParameterCoordinates (k := k) p)
+      (rankTwoParameterCoordinates (k := k) v)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+      (rankTwoParameterCoordinates_adjoin_eq_top (k := k) v)
+      (rankTwoScalarLocusReferenceAlgEquiv
+        hz hx hu hrx hru)
+  rw [FiniteExtensionTransition.rationalMap_comp]
+  rw [rankTwoScalarLocusReferenceAlgEquiv_trans]
+
+/-- Arbitrary generic realizations of one scalar projection locus have
+isomorphic dense open subschemes in their affine normal-cover models. -/
+noncomputable def rankTwoScalarLocusReferencePartialIso
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    (rankTwoScalarAlgebraicChart (k := k) p x hx).PartialIso
+      (rankTwoScalarAlgebraicChart (k := k) q y hy) := by
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) q))
+      (rankTwoScalarNormalField (k := k) q y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarAlgebraicChart
+  exact FiniteExtensionTransition.partialIso
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) q)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
+    (rankTwoScalarLocusReferenceAlgEquiv hz hx hy hrx hry)
+
+/-- The dense-open comparison between generic locus models is a morphism
+over the ground-field spectrum. -/
+theorem rankTwoScalarLocusReferencePartialIso_isOver
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    (rankTwoScalarLocusReferencePartialIso
+      hz hx hy hrx hry).IsOver
+      (rankTwoScalarAlgebraicChartToSpec (k := k) p x hx)
+      (rankTwoScalarAlgebraicChartToSpec (k := k) q y hy) := by
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) p))
+      (rankTwoScalarNormalField (k := k) p x) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI : FiniteDimensional (↥(rankTwoParameterField (k := k) q))
+      (rankTwoScalarNormalField (k := k) q y) :=
+    rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarLocusReferencePartialIso
+    rankTwoScalarAlgebraicChartToSpec rankTwoScalarAlgebraicChart
+  apply FiniteExtensionTransition.partialIso_isOver
+
+/-- The affine normal-cover model attached to an arbitrary generic
+realization of the Ψ `B/T` projection locus. -/
+noncomputable abbrev psiBProjectionAlgebraicChart
+    (w : QWitness k K) (hψ : w.Psi)
+    {p : Fin 2 → K} {x : K} (h : w.psiBProjectionRelation p x) :
+    Scheme :=
+  rankTwoScalarAlgebraicChart (k := k) p x
+    (PsiBProjectionRelation.scalar_mem_racl w hψ h)
+
+/-- Any two generic realizations of the Ψ `B/T` parameter chart are related
+by the strict rational comparison normalized through the selected
+`(B,T)` realization. -/
+noncomputable def psiBProjectionReferenceRationalMap
+    (w : QWitness k K) (hψ : w.Psi)
+    {p q : Fin 2 → K} {x y : K}
+    (hp : w.psiBProjectionRelation p x)
+    (hq : w.psiBProjectionRelation q y) :
+    Scheme.RationalMap
+      (w.psiBProjectionAlgebraicChart hψ hp)
+      (w.psiBProjectionAlgebraicChart hψ hq) :=
+  rankTwoScalarLocusReferenceRationalMap
+    (w.T_rep_mem_racl_bReps hψ)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hq)
+    hp.symm hq.symm
+
+instance psiBProjectionReferenceRationalMap_isDominant
+    (w : QWitness k K) (hψ : w.Psi)
+    {p q : Fin 2 → K} {x y : K}
+    (hp : w.psiBProjectionRelation p x)
+    (hq : w.psiBProjectionRelation q y) :
+    (w.psiBProjectionReferenceRationalMap hψ hp hq).IsDominant := by
+  unfold psiBProjectionReferenceRationalMap
+  infer_instance
+
+/-- The Ψ `B/T` chart comparisons obey the strict transitive cocycle needed
+to use one fixed affine model for every generic parameter realization. -/
+theorem psiBProjectionReferenceRationalMap_comp
+    (w : QWitness k K) (hψ : w.Psi)
+    {p q v : Fin 2 → K} {x y u : K}
+    (hp : w.psiBProjectionRelation p x)
+    (hq : w.psiBProjectionRelation q y)
+    (hv : w.psiBProjectionRelation v u) :
+    (w.psiBProjectionReferenceRationalMap hψ hp hq).comp
+        (w.psiBProjectionReferenceRationalMap hψ hq hv) =
+      w.psiBProjectionReferenceRationalMap hψ hp hv := by
+  exact rankTwoScalarLocusReferenceRationalMap_comp
+    (w.T_rep_mem_racl_bReps hψ)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hq)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hv)
+    hp.symm hq.symm hv.symm
+
+/-- Two generic realizations of the Ψ `B/T` parameter chart have isomorphic
+dense open subschemes of their affine normal-cover models. -/
+noncomputable def psiBProjectionReferencePartialIso
+    (w : QWitness k K) (hψ : w.Psi)
+    {p q : Fin 2 → K} {x y : K}
+    (hp : w.psiBProjectionRelation p x)
+    (hq : w.psiBProjectionRelation q y) :
+    (w.psiBProjectionAlgebraicChart hψ hp).PartialIso
+      (w.psiBProjectionAlgebraicChart hψ hq) :=
+  rankTwoScalarLocusReferencePartialIso
+    (w.T_rep_mem_racl_bReps hψ)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hq)
+    hp.symm hq.symm
+
+/-- The dense-open comparison between Ψ `B/T` parameter realizations is a
+morphism over the ground-field spectrum. -/
+theorem psiBProjectionReferencePartialIso_isOver
+    (w : QWitness k K) (hψ : w.Psi)
+    {p q : Fin 2 → K} {x y : K}
+    (hp : w.psiBProjectionRelation p x)
+    (hq : w.psiBProjectionRelation q y) :
+    (w.psiBProjectionReferencePartialIso hψ hp hq).IsOver
+      (rankTwoScalarAlgebraicChartToSpec (k := k) p x
+        (PsiBProjectionRelation.scalar_mem_racl w hψ hp))
+      (rankTwoScalarAlgebraicChartToSpec (k := k) q y
+        (PsiBProjectionRelation.scalar_mem_racl w hψ hq)) :=
+  rankTwoScalarLocusReferencePartialIso_isOver
+    (w.T_rep_mem_racl_bReps hψ)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hq)
+    hp.symm hq.symm
+
 /-- The normal-cover equivalence between two scalar branches on the same
 rank-two locus, upgraded to an equivalence over the ground field. -/
 noncomputable def rankTwoScalarNormalCoverAlgEquiv

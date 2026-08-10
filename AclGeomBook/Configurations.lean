@@ -1346,6 +1346,30 @@ principal-open transition between its two scalar-branch charts:
 
 {docstring AclGeom.QWitness.rankTwoScalarTransitionPartialIso}
 
+The same construction now compares genuinely different generic parameter
+tuples on one full rank-two/scalar graph locus.  Equality of the graph loci
+first identifies the two rank-two base fields; the scalar extensions and
+their normal closures then transport semilinearly over that base change.
+After normalization through a selected realization, the resulting rational
+maps satisfy a strict transitive cocycle:
+
+{docstring AclGeom.QWitness.rankTwoParameter_ideal_eq_of_scalar_ideal_eq}
+
+{docstring AclGeom.QWitness.rankTwoScalarNormalCoverEquivOfIdealEq}
+
+{docstring AclGeom.QWitness.rankTwoScalarLocusReferenceRationalMap_comp}
+
+For the actual Ψ cancellation chart this means every generic realization of
+the `B/T` projection graph is represented by the same affine normal-cover
+model, with dominant rational comparisons and dense-open isomorphisms over
+the ground-field spectrum:
+
+{docstring AclGeom.QWitness.psiBProjectionAlgebraicChart}
+
+{docstring AclGeom.QWitness.psiBProjectionReferenceRationalMap_comp}
+
+{docstring AclGeom.QWitness.psiBProjectionReferencePartialIso_isOver}
+
 Normal-closure lifts chosen independently need not compose literally.
 Choosing one reference branch removes this ambiguity: every transition is
 defined by going back to the reference and out again.  The resulting field
