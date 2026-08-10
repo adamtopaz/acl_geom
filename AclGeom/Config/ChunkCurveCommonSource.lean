@@ -261,6 +261,316 @@ theorem exists_psiCurveCompositionBaseChangeRealization [IsAlgClosed Ω]
       locus := by rw [htotal]; exact hv }
   exact ⟨R, rfl⟩
 
+namespace PsiCurveCompositionBaseChangeRealization
+
+variable {w : QWitness k K} {ι : K →ₐ[k] Ω}
+  {a b c : Fin 2 → Ω}
+  (R : w.PsiCurveCompositionBaseChangeRealization ι a b c)
+
+/-- The complete tuple of an ambient-base-changed realization. -/
+abbrev totalTuple : Fin 9 → Ω :=
+  w.psiCurveCompositionTupleOver a b c R.source R.middle R.target
+
+/-- Its `A` branch is the corresponding restriction of the complete
+tuple. -/
+@[simp] theorem totalTuple_comp_aFamilyIndex :
+    R.totalTuple ∘ PsiCurveCompositionRealization.aFamilyIndex =
+      Fin.snoc (Fin.snoc a R.source) R.middle := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- Its `B` branch is the corresponding restriction of the complete
+tuple. -/
+@[simp] theorem totalTuple_comp_bFamilyIndex :
+    R.totalTuple ∘ PsiCurveCompositionRealization.bFamilyIndex =
+      Fin.snoc (Fin.snoc b R.middle) R.target := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- Its direct `C` branch is the corresponding restriction of the complete
+tuple. -/
+@[simp] theorem totalTuple_comp_cFamilyIndex :
+    R.totalTuple ∘ PsiCurveCompositionRealization.cFamilyIndex =
+      Fin.snoc (Fin.snoc c R.source) R.target := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The embedded selected tuple restricts to the embedded selected `A`
+family member. -/
+@[simp] theorem selectedTuple_comp_aFamilyIndex (hψ : w.Psi) :
+    (ι ∘ w.psiSelectedCurveCompositionTuple) ∘
+        PsiCurveCompositionRealization.aFamilyIndex =
+      ((w.xyCorrespondenceFamilyMember hψ).map ι).tuple := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The embedded selected tuple restricts to the embedded selected `B`
+family member. -/
+@[simp] theorem selectedTuple_comp_bFamilyIndex (hψ : w.Psi) :
+    (ι ∘ w.psiSelectedCurveCompositionTuple) ∘
+        PsiCurveCompositionRealization.bFamilyIndex =
+      ((w.yzCorrespondenceFamilyMember hψ).map ι).tuple := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The embedded selected tuple restricts to the embedded selected `C`
+family member. -/
+@[simp] theorem selectedTuple_comp_cFamilyIndex (hψ : w.Psi) :
+    (ι ∘ w.psiSelectedCurveCompositionTuple) ∘
+        PsiCurveCompositionRealization.cFamilyIndex =
+      ((w.xzCorrespondenceFamilyMember hψ).map ι).tuple := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The relocated `A` branch has exactly the embedded selected `A` family
+locus. -/
+theorem aFamilyLocus (hψ : w.Psi) :
+    idealOf k (Fin.snoc (Fin.snoc a R.source) R.middle) =
+      ((w.xyCorrespondenceFamilyMember hψ).map ι).ideal := by
+  have h := idealOf_comp_eq_of_idealOf_eq R.locus
+    PsiCurveCompositionRealization.aFamilyIndex
+  change idealOf k (Fin.snoc (Fin.snoc a R.source) R.middle) =
+    idealOf k ((w.xyCorrespondenceFamilyMember hψ).map ι).tuple
+  rw [← R.totalTuple_comp_aFamilyIndex,
+    ← selectedTuple_comp_aFamilyIndex (w := w) (ι := ι) hψ]
+  exact h
+
+/-- The relocated `B` branch has exactly the embedded selected `B` family
+locus. -/
+theorem bFamilyLocus (hψ : w.Psi) :
+    idealOf k (Fin.snoc (Fin.snoc b R.middle) R.target) =
+      ((w.yzCorrespondenceFamilyMember hψ).map ι).ideal := by
+  have h := idealOf_comp_eq_of_idealOf_eq R.locus
+    PsiCurveCompositionRealization.bFamilyIndex
+  change idealOf k (Fin.snoc (Fin.snoc b R.middle) R.target) =
+    idealOf k ((w.yzCorrespondenceFamilyMember hψ).map ι).tuple
+  rw [← R.totalTuple_comp_bFamilyIndex,
+    ← selectedTuple_comp_bFamilyIndex (w := w) (ι := ι) hψ]
+  exact h
+
+/-- The relocated direct `C` branch has exactly the embedded selected `C`
+family locus. -/
+theorem cFamilyLocus (hψ : w.Psi) :
+    idealOf k (Fin.snoc (Fin.snoc c R.source) R.target) =
+      ((w.xzCorrespondenceFamilyMember hψ).map ι).ideal := by
+  have h := idealOf_comp_eq_of_idealOf_eq R.locus
+    PsiCurveCompositionRealization.cFamilyIndex
+  change idealOf k (Fin.snoc (Fin.snoc c R.source) R.target) =
+    idealOf k ((w.xzCorrespondenceFamilyMember hψ).map ι).tuple
+  rw [← R.totalTuple_comp_cFamilyIndex,
+    ← selectedTuple_comp_cFamilyIndex (w := w) (ι := ι) hψ]
+  exact h
+
+/-- The relocated embedded `A` restriction is a genuine generic member of
+the mapped selected family. -/
+def aCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) 2 :=
+  ((w.xyCorrespondenceFamilyMember hψ).map ι).ofTupleIdealEqOnly
+    (R.aFamilyLocus hψ)
+
+/-- The relocated embedded `B` restriction is a genuine generic member of
+the mapped selected family. -/
+def bCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) 2 :=
+  ((w.yzCorrespondenceFamilyMember hψ).map ι).ofTupleIdealEqOnly
+    (R.bFamilyLocus hψ)
+
+/-- The relocated embedded `C` restriction is a genuine generic member of
+the mapped selected family. -/
+def cCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) 2 :=
+  ((w.xzCorrespondenceFamilyMember hψ).map ι).ofTupleIdealEqOnly
+    (R.cFamilyLocus hψ)
+
+/-- Data witnessing that an embedded curve triangle can be regarded over a
+larger common coefficient field.  Its three displayed parameter blocks may
+be algebraic, rather than rational, over that field. -/
+structure CommonBaseData {n : ℕ} (base : Fin n → Ω) where
+  /-- The source coordinate used literally in all common-base pairs. -/
+  source : Ω
+  /-- The relocated source equals the displayed common source. -/
+  source_eq : R.source = source
+  /-- The common source is generic over the larger coefficient tuple. -/
+  source_generic : source ∉ racl k (Set.range base)
+  /-- Every `A` parameter coordinate is algebraic over the common base. -/
+  a_mem : ∀ i, a i ∈ racl k (Set.range base)
+  /-- Every `B` parameter coordinate is algebraic over the common base. -/
+  b_mem : ∀ i, b i ∈ racl k (Set.range base)
+  /-- Every `C` parameter coordinate is algebraic over the common base. -/
+  c_mem : ∀ i, c i ∈ racl k (Set.range base)
+
+namespace CommonBaseData
+
+variable {n : ℕ} {base : Fin n → Ω}
+  (H : R.CommonBaseData base)
+
+/-- The common coefficient field generated by the larger base tuple. -/
+def coefficientField (_H : R.CommonBaseData base) :
+    IntermediateField k Ω :=
+  adjoin k (Set.range base)
+
+private theorem lift_insert_dependency
+    (_H : R.CommonBaseData base) {p : Fin 2 → Ω} {x y : Ω}
+    (hy : y ∈ racl k (insert x (Set.range p)))
+    (hp : ∀ i, p i ∈ racl k (Set.range base)) :
+    y ∈ racl k (insert x (Set.range base)) := by
+  refine racl_le_of_subset_racl ?_ hy
+  intro z hz
+  rw [Set.mem_insert_iff] at hz
+  rcases hz with rfl | ⟨i, rfl⟩
+  · exact subset_racl k _ (Set.mem_insert _ _)
+  · exact racl_mono (Set.subset_insert x _) (hp i)
+
+private theorem descend_generic
+    (_H : R.CommonBaseData base) {p : Fin 2 → Ω} {x y : Ω}
+    (hx : x ∉ racl k (Set.range base))
+    (hxy : x ∈ racl k (insert y (Set.range p)))
+    (hp : ∀ i, p i ∈ racl k (Set.range base)) :
+    y ∉ racl k (Set.range base) := by
+  intro hy
+  apply hx
+  refine racl_le_of_subset_racl ?_ hxy
+  intro z hz
+  rw [Set.mem_insert_iff] at hz
+  rcases hz with rfl | ⟨i, rfl⟩
+  · exact hy
+  · exact hp i
+
+/-- The embedded `A` branch as a finite correspondence over the larger
+common coefficient field. -/
+def aCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥H.coefficientField) Ω where
+  source := H.source
+  target := R.middle
+  source_generic := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact H.source_generic
+  target_mem_source := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.aCorrespondenceFamilyMember hψ)
+      |>.target_mem_parameter_source
+    change R.middle ∈ racl k (insert R.source (Set.range a)) at h
+    rw [H.source_eq] at h
+    exact lift_insert_dependency (R := R) H h H.a_mem
+  source_mem_target := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.aCorrespondenceFamilyMember hψ)
+      |>.source_mem_parameter_target
+    change R.source ∈ racl k (insert R.middle (Set.range a)) at h
+    rw [H.source_eq] at h
+    exact lift_insert_dependency (R := R) H h H.a_mem
+
+/-- The middle coordinate is generic over the larger common coefficient
+field because it is interalgebraic there with the common formal source. -/
+theorem middle_generic (H : R.CommonBaseData base) (hψ : w.Psi) :
+    R.middle ∉ racl k (Set.range base) := by
+  have h := (R.aCorrespondenceFamilyMember hψ)
+    |>.source_mem_parameter_target
+  change R.source ∈ racl k (insert R.middle (Set.range a)) at h
+  rw [H.source_eq] at h
+  exact descend_generic (R := R) H H.source_generic h H.a_mem
+
+/-- The embedded `B` branch as a finite correspondence over the same
+larger common coefficient field. -/
+def bCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥H.coefficientField) Ω where
+  source := R.middle
+  target := R.target
+  source_generic := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact middle_generic (R := R) H hψ
+  target_mem_source := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.bCorrespondenceFamilyMember hψ)
+      |>.target_mem_parameter_source
+    change R.target ∈ racl k (insert R.middle (Set.range b)) at h
+    exact lift_insert_dependency (R := R) H h H.b_mem
+  source_mem_target := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.bCorrespondenceFamilyMember hψ)
+      |>.source_mem_parameter_target
+    change R.middle ∈ racl k (insert R.target (Set.range b)) at h
+    exact lift_insert_dependency (R := R) H h H.b_mem
+
+/-- The embedded direct `C` branch as a finite correspondence over the
+same larger common coefficient field. -/
+def cCorrespondencePair (hψ : w.Psi) :
+    FiniteCorrespondencePair (↥H.coefficientField) Ω where
+  source := H.source
+  target := R.target
+  source_generic := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_empty]
+    exact H.source_generic
+  target_mem_source := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.cCorrespondenceFamilyMember hψ)
+      |>.target_mem_parameter_source
+    change R.target ∈ racl k (insert R.source (Set.range c)) at h
+    rw [H.source_eq] at h
+    exact lift_insert_dependency (R := R) H h H.c_mem
+  source_mem_target := by
+    rw [coefficientField, mem_racl_adjoin_base_iff, Set.union_singleton]
+    have h := (R.cCorrespondenceFamilyMember hψ)
+      |>.source_mem_parameter_target
+    change R.source ∈ racl k (insert R.target (Set.range c)) at h
+    rw [H.source_eq] at h
+    exact lift_insert_dependency (R := R) H h H.c_mem
+
+/-- The two successive common-base pairs share their middle coordinate
+definitionally. -/
+@[simp] theorem aPair_target_eq_bPair_source (hψ : w.Psi) :
+    (aCorrespondencePair (R := R) H hψ).target =
+      (bCorrespondencePair (R := R) H hψ).source := rfl
+
+/-- The common finite normal source cover of the larger-base triangle. -/
+noncomputable def finiteSourceCover (hψ : w.Psi) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.sourceCover
+    (aCorrespondencePair (R := R) H hψ)
+    (bCorrespondencePair (R := R) H hψ)
+    (aPair_target_eq_bPair_source (R := R) H hψ)
+
+/-- The common finite normal middle cover of the larger-base triangle. -/
+noncomputable def finiteMiddleCover (hψ : w.Psi) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.middleCover
+    (aCorrespondencePair (R := R) H hψ)
+    (bCorrespondencePair (R := R) H hψ)
+    (aPair_target_eq_bPair_source (R := R) H hψ)
+
+/-- The common finite normal target cover of the larger-base triangle. -/
+noncomputable def finiteTargetCover (hψ : w.Psi) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.targetCover
+    (aCorrespondencePair (R := R) H hψ)
+    (bCorrespondencePair (R := R) H hψ)
+    (aPair_target_eq_bPair_source (R := R) H hψ)
+
+/-- The deck-corrected finite-cover action of the common-base triangle. -/
+noncomputable def finiteCoverCompositionTriangle (hψ : w.Psi) :
+    FieldEquiv.CompositionTriangle
+      (↥(finiteSourceCover (R := R) H hψ).field)
+      (↥(finiteMiddleCover (R := R) H hψ).field)
+      (↥(finiteTargetCover (R := R) H hψ).field) where
+  left := FiniteCorrespondencePair.FiniteCoverTriangle.leftEquiv
+    (aCorrespondencePair (R := R) H hψ)
+    (bCorrespondencePair (R := R) H hψ)
+    (aPair_target_eq_bPair_source (R := R) H hψ)
+  right := FiniteCorrespondencePair.FiniteCoverTriangle.rightEquiv
+    (aCorrespondencePair (R := R) H hψ)
+    (bCorrespondencePair (R := R) H hψ)
+    (aPair_target_eq_bPair_source (R := R) H hψ)
+  direct := FiniteCorrespondencePair.FiniteCoverTriangle.strictDirectEquiv
+    (aCorrespondencePair (R := R) H hψ)
+    (bCorrespondencePair (R := R) H hψ)
+    (aPair_target_eq_bPair_source (R := R) H hψ)
+  composition :=
+    FiniteCorrespondencePair.FiniteCoverTriangle.strictComposition
+      (aCorrespondencePair (R := R) H hψ)
+      (bCorrespondencePair (R := R) H hψ)
+      (aPair_target_eq_bPair_source (R := R) H hψ)
+
+end CommonBaseData
+
+end PsiCurveCompositionBaseChangeRealization
+
 /-- Four embedded Ψ curve triangles with one literal common formal source. -/
 structure PsiCurveFourArrowCommonSourceRealizations
     (hψ : w.Psi) {s a b e : Fin 2 → K}
@@ -334,6 +644,162 @@ theorem exists_psiCurveFourArrowCommonSourceRealizations
       (commonCurveSource_notMem_racl
         (k := k) (K := K) (compositionParameterTuple D.sA D.c D.uB))
   exact ⟨⟨Rse, hRse, RsAa, hRsAa, Rsb, hRsb, RsAc, hRsAc⟩⟩
+
+namespace PsiCurveFourArrowCommonSourceRealizations
+
+variable {w : QWitness k K} {hψ : w.Psi}
+  {s a b e : Fin 2 → K}
+  {D : w.PsiParameterFourArrowDifferenceDiagram hψ s a b e}
+  (R : w.PsiCurveFourArrowCommonSourceRealizations hψ D)
+
+/-- The mapped eight-input tuple used as the one coefficient base for all
+four embedded curve triangles. -/
+def commonInputTuple (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 8 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    rankTwoFourTuple s e a b
+
+private theorem map_mem_input_racl {x : K}
+    (hx : x ∈ racl k (Set.range (rankTwoFourTuple s e a b))) :
+    commonCurveEmbedding (k := k) (K := K) x ∈ racl k
+      (Set.range R.commonInputTuple) := by
+  rw [commonInputTuple, Set.range_comp]
+  exact (algHom_mem_racl_image_iff
+    (commonCurveEmbedding (k := k) (K := K))).2 hx
+
+/-- The mapped `s` coordinates belong to the closure of the common input
+tuple. -/
+theorem s_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (s i) ∈ racl k
+      (Set.range R.commonInputTuple) := by
+  apply R.map_mem_input_racl
+  fin_cases i
+  · exact subset_racl k _ ⟨0, rfl⟩
+  · exact subset_racl k _ ⟨1, rfl⟩
+
+/-- The mapped `e` coordinates belong to the closure of the common input
+tuple. -/
+theorem e_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (e i) ∈ racl k
+      (Set.range R.commonInputTuple) := by
+  apply R.map_mem_input_racl
+  fin_cases i
+  · exact subset_racl k _ ⟨2, rfl⟩
+  · exact subset_racl k _ ⟨3, rfl⟩
+
+/-- The mapped `a` coordinates belong to the closure of the common input
+tuple. -/
+theorem a_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (a i) ∈ racl k
+      (Set.range R.commonInputTuple) := by
+  apply R.map_mem_input_racl
+  fin_cases i
+  · exact subset_racl k _ ⟨4, rfl⟩
+  · exact subset_racl k _ ⟨5, rfl⟩
+
+/-- The mapped `b` coordinates belong to the closure of the common input
+tuple. -/
+theorem b_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (b i) ∈ racl k
+      (Set.range R.commonInputTuple) := by
+  apply R.map_mem_input_racl
+  fin_cases i
+  · exact subset_racl k _ ⟨6, rfl⟩
+  · exact subset_racl k _ ⟨7, rfl⟩
+
+/-- The mapped selected output `u` is algebraic over the common input
+tuple. -/
+theorem u_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (D.u i) ∈ racl k
+      (Set.range R.commonInputTuple) :=
+  R.map_mem_input_racl (D.u_mem_input_racl i)
+
+/-- The mapped selected quotient `sA` is algebraic over the common input
+tuple. -/
+theorem sA_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (D.sA i) ∈ racl k
+      (Set.range R.commonInputTuple) :=
+  R.map_mem_input_racl (D.sA_mem_input_racl i)
+
+/-- The mapped selected output `uB` is algebraic over the common input
+tuple. -/
+theorem uB_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (D.uB i) ∈ racl k
+      (Set.range R.commonInputTuple) :=
+  R.map_mem_input_racl (D.uB_mem_input_racl i)
+
+/-- The mapped difference output `c` is algebraic over the common input
+tuple. -/
+theorem c_mem_commonInput_racl (i : Fin 2) :
+    commonCurveEmbedding (k := k) (K := K) (D.c i) ∈ racl k
+      (Set.range R.commonInputTuple) :=
+  R.map_mem_input_racl (D.c_mem_input_racl i)
+
+/-- Common-base data for the face `s·e=u`. -/
+def seCommonBaseData : R.se.CommonBaseData R.commonInputTuple where
+  source := commonCurveSource (K := K)
+  source_eq := R.se_source
+  source_generic := commonCurveSource_notMem_racl
+    (k := k) (K := K) (rankTwoFourTuple s e a b)
+  a_mem := R.s_mem_commonInput_racl
+  b_mem := R.e_mem_commonInput_racl
+  c_mem := R.u_mem_commonInput_racl
+
+/-- Common-base data for the face `sA·a=u`. -/
+def sAaCommonBaseData : R.sAa.CommonBaseData R.commonInputTuple where
+  source := commonCurveSource (K := K)
+  source_eq := R.sAa_source
+  source_generic := commonCurveSource_notMem_racl
+    (k := k) (K := K) (rankTwoFourTuple s e a b)
+  a_mem := R.sA_mem_commonInput_racl
+  b_mem := R.a_mem_commonInput_racl
+  c_mem := R.u_mem_commonInput_racl
+
+/-- Common-base data for the face `s·b=uB`. -/
+def sbCommonBaseData : R.sb.CommonBaseData R.commonInputTuple where
+  source := commonCurveSource (K := K)
+  source_eq := R.sb_source
+  source_generic := commonCurveSource_notMem_racl
+    (k := k) (K := K) (rankTwoFourTuple s e a b)
+  a_mem := R.s_mem_commonInput_racl
+  b_mem := R.b_mem_commonInput_racl
+  c_mem := R.uB_mem_commonInput_racl
+
+/-- Common-base data for the face `sA·c=uB`. -/
+def sAcCommonBaseData : R.sAc.CommonBaseData R.commonInputTuple where
+  source := commonCurveSource (K := K)
+  source_eq := R.sAc_source
+  source_generic := commonCurveSource_notMem_racl
+    (k := k) (K := K) (rankTwoFourTuple s e a b)
+  a_mem := R.sA_mem_commonInput_racl
+  b_mem := R.c_mem_commonInput_racl
+  c_mem := R.uB_mem_commonInput_racl
+
+/-- The strict finite-cover composition triangle for `s·e=u`, now over the
+common eight-input coefficient field. -/
+noncomputable def seFiniteCoverCompositionTriangle :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteCoverCompositionTriangle
+    (R := R.se) R.seCommonBaseData hψ
+
+/-- The strict finite-cover composition triangle for `sA·a=u`, over the
+same common coefficient field. -/
+noncomputable def sAaFiniteCoverCompositionTriangle :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteCoverCompositionTriangle
+    (R := R.sAa) R.sAaCommonBaseData hψ
+
+/-- The strict finite-cover composition triangle for `s·b=uB`, over the
+same common coefficient field. -/
+noncomputable def sbFiniteCoverCompositionTriangle :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteCoverCompositionTriangle
+    (R := R.sb) R.sbCommonBaseData hψ
+
+/-- The strict finite-cover composition triangle for `sA·c=uB`, over the
+same common coefficient field. -/
+noncomputable def sAcFiniteCoverCompositionTriangle :=
+  PsiCurveCompositionBaseChangeRealization.CommonBaseData.finiteCoverCompositionTriangle
+    (R := R.sAc) R.sAcCommonBaseData hψ
+
+end PsiCurveFourArrowCommonSourceRealizations
 
 end QWitness
 
