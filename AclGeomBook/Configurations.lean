@@ -1219,6 +1219,21 @@ pairwise overlaps glue to an integral scheme:
 
 {docstring AclGeom.WeilGluing.isIntegral}
 
+Finite normal function fields are converted into concrete affine charts by
+adjoining the displayed parameter coordinates together with a basis of the
+finite extension.  The resulting coordinate ring is a finitely generated
+domain, its spectrum is integral, separated, quasi-compact, and locally of
+finite type over the ground field, and its fraction field recovers the
+chosen extension:
+
+{docstring AclGeom.FiniteExtensionChart.liftedCoordinates}
+
+{docstring AclGeom.FiniteExtensionChart.adjoin_liftedCoordinates_eq_top}
+
+{docstring AclGeom.FiniteExtensionChart.scheme}
+
+{docstring AclGeom.FiniteExtensionChart.generatedFieldEquiv}
+
 The normalized finite-cover action must next supply the concrete transition
 opens and transition morphisms for this gluing engine.  Multiplication and
 inverse can then be glued into the genuine scheme-level target, after which
