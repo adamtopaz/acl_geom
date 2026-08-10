@@ -1574,6 +1574,45 @@ strict transitive cocycle.
 
 {docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.referenceTransitionRationalMap_comp}
 
+The scalar lifts on the four edges are now normalized together with the
+ambient component.  The resulting tuple retains all sixteen ambient
+coordinates and all twelve independently selected scalar branches.  Its
+four nine-coordinate restrictions are literally the original complete
+joint projection relations, while every coordinate is algebraic over the
+same eight ambient inputs.  One finite normal cover therefore carries the
+whole lifted diagram and has dominant rational projections to the four raw
+`B/T` scalar branch charts.  Calling these targets raw is important: their
+individual normal closures still have to be adjoined before the existing
+reference-model transitions can be applied.
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.jointTuple}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.se_relation}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAa_relation}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sb_relation}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sAc_relation}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.jointTuple_mem_input_racl}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.jointOverInput_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.normalCover}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.normalCover_normal}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.algebraicChart}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toRawE}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toRawA}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toRawB}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toRawC}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

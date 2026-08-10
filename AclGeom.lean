@@ -74,6 +74,7 @@ import AclGeom.Config.ChunkBranchCover
 import AclGeom.Config.ChunkAlgebraicChart
 import AclGeom.Config.ChunkAlgebraicTransition
 import AclGeom.Config.ChunkRelationCover
+import AclGeom.Config.ChunkFourArrowNormalization
 import AclGeom.Config.ChunkNormalizedChart
 import AclGeom.Config.ChunkFieldAction
 import AclGeom.Config.ChunkFiniteFieldAction

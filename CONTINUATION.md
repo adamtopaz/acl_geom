@@ -319,18 +319,36 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     transitive cocycle on the rational chart comparisons.  Thus the selected
     branch is now a genuine generically spread component, not one isolated
     tuple.
+24. `Config/ChunkFourArrowNormalization.lean` retains the complete scalar
+    information on that component.  Its twenty-eight-coordinate tuple is
+    the sixteen ambient coordinates followed by the three independently
+    selected scalar branches on each of the four edges.  Restriction to each
+    nine-coordinate edge is literally the selected complete joint
+    rank-two/scalar projection locus.  All twelve scalar coordinates are
+    algebraic over their displayed rank-two blocks, hence all twenty-eight
+    coordinates are algebraic over the same eight independent ambient
+    inputs.  Their field is finite over that input field and lies in one
+    finite normal cover with an integral affine chart.  The four displayed
+    `e`, inverse-`a`, `b`, and output-`c` `B/T` branch fields embed in this
+    cover, producing dominant rational projections to their raw finite
+    scalar-branch charts.  The targets are intentionally not yet their
+    individual normal closures, so this step records all finite branch data
+    without claiming a comparison with the selected reference model.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
-parameter cover.  Item 22 now supplies the normalized eight-input
-four-arrow component and item 23 spreads it with a strict normalized chart
-cocycle over every generic realization.  Compare the
-`e`, inverse-`a`, `b`, and output-`c` blocks with one reference `B/T` chart
-using the already normalized projection-locus transitions.  Prove that the
-canonical germ-coordinate map factors through the strict presented-arrow
-cancellation (equivalently, that its output is independent of the auxiliary
-`s` after passage to the reference chart), and then extract multiplication
-and inverse on that single chart with strict rational identities.
+parameter cover.  Item 24 gives one common cover of the complete lifted
+four-arrow diagram and raw projections to its four based scalar branches.
+Enlarge that cover by finite generating bases of the four individual
+`B/T` normal closures.  This remains finite over the eight-coordinate input
+field and makes the four normalized branch fields literal subfields of one
+source.  Compose the resulting projections with the already normalized
+projection-locus transitions to compare `e`, inverse-`a`, `b`, and output
+`c` with the selected reference `B/T` chart.  Prove that the canonical
+germ-coordinate map factors through the strict presented-arrow cancellation
+(equivalently, that its output is independent of the auxiliary `s` after
+passage to the reference chart), and then extract multiplication and inverse
+on that single chart with strict rational identities.
 Use the resulting maps to construct the translation-indexed Weil atlas and
 glue its multiplication, unit, and inverse with the strict field/rational
 cocycle.  The resulting group scheme is automatically separated by item 16;
