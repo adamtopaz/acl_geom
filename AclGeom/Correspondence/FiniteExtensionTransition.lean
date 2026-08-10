@@ -5,6 +5,8 @@ Authors: Adam Topaz, Codex
 -/
 import AclGeom.Correspondence.FiniteExtensionChart
 import AclGeom.Correspondence.PrincipalLocalization
+import AclGeom.Correspondence.FunctionFieldEquivalence
+import AclGeom.Correspondence.BirationalGluing
 
 /-!
 # Principal-open maps between finite-extension charts
@@ -29,6 +31,7 @@ noncomputable section
 
 open IntermediateField
 open AlgebraicGeometry
+open CategoryTheory
 
 universe u v w
 
@@ -96,6 +99,157 @@ instance partialMap_isDominant [Fintype ι₂]
     (transitionAlgHom (k := k) a₂ e)
     (transitionAlgHom_injective (k := k) a₂ e)).hom
   infer_instance
+
+/-- The field equivalence between the scheme-theoretic function fields of
+two finite-extension charts induced by an equivalence of their selected
+ambient extension fields. -/
+noncomputable def functionFieldAlgEquiv
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (FiniteExtensionChart.scheme
+      (k := k) (K := K₁) (L := L₁) a₁).functionField ≃ₐ[k]
+      (FiniteExtensionChart.scheme
+        (k := k) (K := K₂) (L := L₂) a₂).functionField :=
+  (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).trans <|
+    e.trans (FiniteExtensionChart.functionFieldAlgEquiv a₂ ha₂).symm
+
+set_option backward.isDefEq.respectTransparency false in
+/-- The generic-point morphism induced by the chart function-field
+equivalence is compatible with both chart structure maps to `Spec k`. -/
+theorem functionFieldMorphism_comp_structureMap
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    let E := functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e
+    Scheme.functionFieldMorphism E.toRingEquiv ≫
+        FiniteExtensionChart.structureMap a₂ =
+      (FiniteExtensionChart.scheme a₁).fromSpecStalk
+          (genericPoint (FiniteExtensionChart.scheme a₁)) ≫
+        FiniteExtensionChart.structureMap a₁ := by
+  let E := functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e
+  change Scheme.functionFieldMorphism E.toRingEquiv ≫
+      FiniteExtensionChart.structureMap a₂ =
+    (FiniteExtensionChart.scheme a₁).fromSpecStalk
+        (genericPoint (FiniteExtensionChart.scheme a₁)) ≫
+      FiniteExtensionChart.structureMap a₁
+  unfold Scheme.functionFieldMorphism FiniteExtensionChart.structureMap
+    FiniteExtensionChart.scheme
+  rw [Category.assoc]
+  rw [Spec.fromSpecStalk_eq, Spec.fromSpecStalk_eq]
+  simp only [← Spec.map_comp]
+  congr 1
+  ext z
+  exact E.symm.commutes z
+
+/-- The rational map between finite-extension charts attached to an ambient
+field equivalence.  It is characterized by the corresponding map of function
+fields and is spread out over the ground field. -/
+noncomputable def rationalMap [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    Scheme.RationalMap
+      (FiniteExtensionChart.scheme
+        (k := k) (K := K₁) (L := L₁) a₁)
+      (FiniteExtensionChart.scheme
+        (k := k) (K := K₂) (L := L₂) a₂) :=
+  Scheme.RationalMap.ofFunctionField
+    (FiniteExtensionChart.structureMap
+      (k := k) (K := K₁) (L := L₁) a₁)
+    (FiniteExtensionChart.structureMap
+      (k := k) (K := K₂) (L := L₂) a₂)
+    (Scheme.functionFieldMorphism
+      (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).toRingEquiv)
+    (functionFieldMorphism_comp_structureMap a₁ a₂ ha₁ ha₂ e)
+
+/-- The function-field morphism of the chart rational map is the one induced
+by the selected ambient field equivalence. -/
+theorem rationalMap_fromFunctionField [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (rationalMap a₁ a₂ ha₁ ha₂ e).fromFunctionField =
+      Scheme.functionFieldMorphism
+        (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).toRingEquiv := by
+  unfold rationalMap
+  exact Scheme.RationalMap.fromFunctionField_ofFunctionField _ _ _ _
+
+/-- The chart rational map induced by a function-field equivalence is
+dominant. -/
+instance rationalMap_isDominant [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (rationalMap a₁ a₂ ha₁ ha₂ e).IsDominant := by
+  apply Scheme.RationalMap.isDominant_of_fromFunctionField_closedPoint
+  rw [rationalMap_fromFunctionField]
+  exact Scheme.functionFieldMorphism_closedPoint _
+
+/-- Reversing the ambient field equivalence reverses the induced
+scheme-function-field equivalence. -/
+theorem functionFieldAlgEquiv_symm
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    functionFieldAlgEquiv a₂ a₁ ha₂ ha₁ e.symm =
+      (functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e).symm := by
+  ext z
+  simp [functionFieldAlgEquiv]
+
+/-- The rational maps induced by an ambient field equivalence and its inverse
+compose to the identity. -/
+theorem rationalMap_comp_symm [Finite ι₁] [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (rationalMap a₁ a₂ ha₁ ha₂ e).comp
+        (rationalMap a₂ a₁ ha₂ ha₁ e.symm) =
+      Scheme.RationalMap.id (FiniteExtensionChart.scheme
+        (k := k) (K := K₁) (L := L₁) a₁) := by
+  let E := functionFieldAlgEquiv a₁ a₂ ha₁ ha₂ e
+  apply Scheme.RationalMap.comp_eq_id_of_fromFunctionField_eq
+    _ _ E.toRingEquiv
+  · exact rationalMap_fromFunctionField a₁ a₂ ha₁ ha₂ e
+  · rw [rationalMap_fromFunctionField, functionFieldAlgEquiv_symm]
+    rfl
+
+/-- The inverse composite of the two chart rational maps is also the
+identity. -/
+theorem rationalMap_symm_comp [Finite ι₁] [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (rationalMap a₂ a₁ ha₂ ha₁ e.symm).comp
+        (rationalMap a₁ a₂ ha₁ ha₂ e) =
+      Scheme.RationalMap.id (FiniteExtensionChart.scheme
+        (k := k) (K := K₂) (L := L₂) a₂) := by
+  exact rationalMap_comp_symm a₂ a₁ ha₂ ha₁ e.symm
+
+/-- A field equivalence between finite-extension charts therefore produces
+an explicit isomorphism between dense open subschemes. -/
+noncomputable def partialIso [Finite ι₁] [Finite ι₂]
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₁ ≃ₐ[k] L₂) :
+    (FiniteExtensionChart.scheme
+      (k := k) (K := K₁) (L := L₁) a₁).PartialIso
+      (FiniteExtensionChart.scheme
+        (k := k) (K := K₂) (L := L₂) a₂) :=
+  BirationalGluing.partialIsoOfMutualInverseRationalMaps
+    (rationalMap a₁ a₂ ha₁ ha₂ e)
+    (rationalMap a₂ a₁ ha₂ ha₁ e.symm)
+    (rationalMap_comp_symm a₁ a₂ ha₁ ha₂ e)
+    (rationalMap_symm_comp a₁ a₂ ha₁ ha₂ e)
 
 end FiniteExtensionTransition
 

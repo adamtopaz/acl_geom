@@ -34,6 +34,7 @@ import AclGeom.Correspondence.GroupChunk
 import AclGeom.Correspondence.AlgebraicGroup
 import AclGeom.Correspondence.WeilGluing
 import AclGeom.Correspondence.FiniteExtensionChart
+import AclGeom.Correspondence.FunctionFieldEquivalence
 import AclGeom.Correspondence.BirationalGluing
 import AclGeom.Correspondence.PrincipalLocalization
 import AclGeom.Correspondence.FiniteExtensionTransition

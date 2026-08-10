@@ -186,18 +186,29 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     the construction at all four repeated blocks `s`, `u`, `sA`, and `uB` of
     a lifted Ψ four-arrow diagram.  Thus every branch comparison used by the
     chunk now has a concrete dominant principal-open representative.
+12. `Correspondence/FunctionFieldEquivalence.lean` proves the generic-point
+    composition law for dominant partial and rational maps, recovers the
+    induced field homomorphism, and proves that a function-field equivalence
+    and its inverse give mutually inverse dominant rational maps.  Every
+    finite-extension chart now carries its canonical ground-field function
+    field, identified with the selected ambient cover field.
+    `Correspondence/FiniteExtensionTransition.lean` conjugates an ambient
+    equivalence through those identifications, spreads the resulting map over
+    `Spec k`, proves both rational composites are identities, and extracts an
+    explicit isomorphism between dense open chart subschemes via
+    `BirationalGluing`.
 
-**Next exact step:** apply the principal-open construction to each normalized
-field equivalence and its inverse, prove that the resulting rational maps are
-mutually inverse, and use `BirationalGluing` to extract their dense-open
-transition isomorphisms.  Prove the reference-normalized cocycle and package
-the transitions as `Scheme.GlueData`; then glue multiplication and inverse on
-the resulting integral locally finite-type scheme.  Prove separatedness and
-extract the finite atlas to package the result in the new scheme-level
-algebraic-group target.  Then identify the already constructed categorical
-rank-one normal kernel with the connected component of its scheme-theoretic
-kernel, apply the completed affine-action classification, and finish
-affine-grid extraction (8.5) and Q correctness.
+**Next exact step:** instantiate the new dense-open transition isomorphism on
+the four normalized `s`, `u`, `sA`, and `uB` comparisons, identify its
+rational map with the already constructed principal-open representative, and
+prove the reference-normalized cocycle.  Package the transitions as
+`Scheme.GlueData`; then glue multiplication and inverse on the resulting
+integral locally finite-type scheme.  Prove separatedness and extract the
+finite atlas to package the result in the new scheme-level algebraic-group
+target.  Then identify the already constructed categorical rank-one normal
+kernel with the connected component of its scheme-theoretic kernel, apply the
+completed affine-action classification, and finish affine-grid extraction
+(8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
 group only records the vertical ambiguity of chosen lifts; the parameter
