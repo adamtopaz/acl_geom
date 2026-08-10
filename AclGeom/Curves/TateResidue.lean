@@ -1615,6 +1615,118 @@ theorem Place.residue_mul_right (P : Place k F) (x g h : F) :
   rw [hS] at hflip hid1
   rw [Place.residue, Place.residue, Place.residue, hmain, hflip, hid1]
 
+section AdaptedProjection
+
+variable (P : Place k F)
+
+/-- The **principal-part space** at a place: the span of the negative
+uniformizer powers. -/
+noncomputable def Place.principalSpan : Submodule k F :=
+  Submodule.span k (Set.range fun i : ℕ ↦ (P.pi : F) ^ (-(i : ℤ) - 1))
+
+/-- Negative monomial combinations have negative order: the deepest
+pole dominates. -/
+theorem Place.ord_sum_neg_zpow {c : ℕ →₀ k} (hc : c ≠ 0) :
+    (∑ i ∈ c.support, c i • (P.pi : F) ^ (-(i : ℤ) - 1)) ≠ 0 ∧
+      P.ord (∑ i ∈ c.support, c i • (P.pi : F) ^ (-(i : ℤ) - 1)) < 0 := by
+  classical
+  obtain ⟨i₀, hi₀⟩ := Finset.exists_max_image c.support id
+    (Finsupp.support_nonempty_iff.2 hc)
+  obtain ⟨hi₀s, hmax⟩ := hi₀
+  have hterm : ∀ i ∈ c.support,
+      P.val.valuation (c i • (P.pi : F) ^ (-(i : ℤ) - 1)) =
+        P.val.valuation P.pi ^ (-(i : ℤ) - 1) := by
+    intro i hi
+    rw [Algebra.smul_def, Valuation.map_mul,
+      valuation_algebraMap_eq_one P.algebraMap_mem
+        (Finsupp.mem_support_iff.1 hi), one_mul, map_zpow₀]
+  have hdom : P.val.valuation
+      (∑ i ∈ c.support, c i • (P.pi : F) ^ (-(i : ℤ) - 1)) =
+      P.val.valuation P.pi ^ (-(i₀ : ℤ) - 1) := by
+    rw [← hterm i₀ hi₀s]
+    refine valuation_sum_eq_of_forall_lt hi₀s fun j hj hji ↦ ?_
+    rw [hterm j hj, hterm i₀ hi₀s,
+      zpow_lt_zpow_iff_right_of_lt_one₀ P.pi_valuation_pos
+        P.pi_valuation_lt_one]
+    have h1 : j < i₀ := lt_of_le_of_ne (hmax j hj)
+      (fun h ↦ hji (by exact_mod_cast h))
+    omega
+  have hz0 : (∑ i ∈ c.support,
+      c i • (P.pi : F) ^ (-(i : ℤ) - 1)) ≠ 0 := by
+    intro h0
+    rw [h0, Valuation.map_zero] at hdom
+    exact zpow_ne_zero _ P.pi_valuation_pos.ne' hdom.symm
+  refine ⟨hz0, ?_⟩
+  rw [P.ord_eq_of_valuation_eq_zpow hz0 hdom]
+  omega
+
+/-- The valuation ring and the principal parts are complementary:
+Taylor expansion splits off the polar tail. -/
+theorem Place.isCompl_principalSpan :
+    IsCompl P.toSubmodule P.principalSpan := by
+  classical
+  refine IsCompl.of_eq ?_ ?_
+  · -- disjointness via the dominance bound
+    refine le_antisymm ?_ bot_le
+    rintro x ⟨hxO, hxN⟩
+    rw [Submodule.mem_bot]
+    by_contra hx0
+    obtain ⟨c, hc⟩ := (Finsupp.mem_span_range_iff_exists_finsupp).1 hxN
+    have hcne : c ≠ 0 := by
+      rintro rfl
+      simp at hc
+      exact hx0 hc.symm
+    have h1 := P.ord_sum_neg_zpow hcne
+    rw [Finsupp.sum] at hc
+    rw [hc] at h1
+    have h2 : 0 ≤ P.ord x := (P.ord_nonneg_iff hx0).2
+      (Place.mem_toSubmodule_iff.1 hxO)
+    omega
+  · -- codisjointness: strip the pole by Taylor expansion
+    rw [eq_top_iff]
+    intro x _
+    rcases eq_or_ne x 0 with rfl | hx0
+    · exact Submodule.zero_mem _
+    rcases le_or_gt 0 (P.ord x) with hord | hord
+    · refine Submodule.mem_sup_left ?_
+      rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff hx0]
+      exact hord
+    · set n : ℕ := (-(P.ord x)).toNat with hn
+      have hxn : P.pi ^ n * x ∈ P.toSubmodule := by
+        rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff
+          (mul_ne_zero (pow_ne_zero _ P.pi_ne_zero) hx0),
+          P.ord_mul (pow_ne_zero _ P.pi_ne_zero) hx0,
+          P.ord_pow P.pi_ne_zero, P.ord_pi, mul_one]
+        omega
+      obtain ⟨cs, b, hb, hexp⟩ := P.exists_taylor hxn n
+      have hx : x = (∑ i : Fin n, cs i •
+          (P.pi : F) ^ ((i : ℤ) - n)) + b := by
+        have h1 : x = (P.pi ^ n)⁻¹ * (P.pi ^ n * x) := by
+          rw [← mul_assoc, inv_mul_cancel₀
+            (pow_ne_zero _ P.pi_ne_zero), one_mul]
+        rw [h1, hexp, mul_add, Finset.mul_sum]
+        congr 1
+        · refine Finset.sum_congr rfl fun i _ ↦ ?_
+          rw [mul_smul_comm]
+          congr 1
+          rw [← zpow_natCast (P.pi : F) (i : ℕ), ← zpow_natCast
+            (P.pi : F) n, ← zpow_neg, ← zpow_add₀ P.pi_ne_zero]
+          congr 1
+          omega
+        · rw [← mul_assoc, inv_mul_cancel₀
+            (pow_ne_zero _ P.pi_ne_zero), one_mul]
+      rw [hx]
+      refine Submodule.add_mem _ (Submodule.mem_sup_right ?_)
+        (Submodule.mem_sup_left hb)
+      refine Submodule.sum_mem _ fun i _ ↦ Submodule.smul_mem _ _ ?_
+      have h2 : ((i : ℤ) - n) = -((n - 1 - (i : ℕ) : ℕ) : ℤ) - 1 := by
+        have := i.isLt
+        omega
+      rw [h2]
+      exact Submodule.subset_span ⟨n - 1 - (i : ℕ), rfl⟩
+
+end AdaptedProjection
+
 end ResidueCalculus
 
 end Projection
