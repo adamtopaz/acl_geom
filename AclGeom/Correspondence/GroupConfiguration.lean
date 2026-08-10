@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import AclGeom.Correspondence.GroupChunk
+import Mathlib.CategoryTheory.Groupoid.VertexGroup
 
 /-!
 # The six-point group-configuration bookkeeping
@@ -11,6 +12,8 @@ import AclGeom.Correspondence.GroupChunk
 The group-theoretic identities in the final part of blueprint Theorem
 `six-point-group`, separated from the geometric extraction of the group:
 
+* a genuine three-object groupoid transports its vertex group to a
+  `RationalGroupChunk` on every based arrow family;
 * `differenceChart e a = e⁻¹a` is the chart based at the generic arrow `e`;
 * `differenceChart_mul` and `differenceChart_inv` compute multiplication and
   inverse in that chart;
@@ -20,9 +23,10 @@ The group-theoretic identities in the final part of blueprint Theorem
   `(α, γ, αγ, ε, αγε, γε)`, and
   `sixPointGroupTuple_relations` proves its four named product relations.
 
-These lemmas are valid in every group.  The still-geometric part of the
-blueprint theorem must construct the group and the finite-cover coordinates;
-once it has done so, the conclusions below supply its exact normalized output.
+The groupoid lemmas formalize the exact four-arrow cancellation before
+algebraization; the group lemmas give its normalized output.  The
+still-geometric part of the blueprint theorem must construct the genuine
+groupoid from the finite-cover correspondence components.
 
 **Status:** complete algebraic bookkeeping for M4a / blueprint (8.3); the
 geometric six-point extraction remains in progress.
@@ -34,6 +38,101 @@ reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 namespace AclGeom
 
 noncomputable section
+
+open CategoryTheory
+
+section GroupoidDifferenceChart
+
+variable {C : Type*} [CategoryTheory.Groupoid C] {X Y Z : C}
+
+/-- The difference chart of arrows in a genuine groupoid.  For base and
+variable arrows `e,a : X ⟶ Y`, it is the vertex-group element obtained by
+following `a` with `e⁻¹`.  This is the categorical form of `e⁻¹a` in the
+blueprint's functional-composition convention. -/
+def groupoidDifferenceChart (e a : X ⟶ Y) : X ⟶ X :=
+  a ≫ inv e
+
+/-- The arrow-family parameter representing the product of two groupoid
+difference-chart elements. -/
+def groupoidDifferenceProduct (e a b : X ⟶ Y) : X ⟶ Y :=
+  a ≫ inv e ≫ b
+
+/-- Multiplication in the vertex group is closed in the difference chart,
+with the parameter formula `a e⁻¹ b`. -/
+theorem groupoidDifferenceChart_mul (e a b : X ⟶ Y) :
+    groupoidDifferenceChart e a * groupoidDifferenceChart e b =
+      groupoidDifferenceChart e (groupoidDifferenceProduct e a b) := by
+  simp only [groupoidDifferenceChart, groupoidDifferenceProduct,
+    CategoryTheory.Groupoid.vertexGroup_mul, Category.assoc]
+
+/-- The arrow-family parameter representing the inverse of a difference-
+chart element. -/
+def groupoidDifferenceInverse (e a : X ⟶ Y) : X ⟶ Y :=
+  e ≫ inv a ≫ e
+
+/-- Inversion in the vertex group is closed in the difference chart. -/
+theorem groupoidDifferenceChart_inv (e a : X ⟶ Y) :
+    (groupoidDifferenceChart e a)⁻¹ =
+      groupoidDifferenceChart e (groupoidDifferenceInverse e a) := by
+  simp [groupoidDifferenceChart, groupoidDifferenceInverse,
+    CategoryTheory.Groupoid.vertexGroup_inv, Category.assoc]
+
+/-- The four-arrow cancellation from blueprint (8.3), stated in a genuine
+three-object groupoid.  Starting with a fresh arrow `s : Y ⟶ Z`, the
+successive `U`, `S`, `U`, and `T` components return the difference-product
+parameter `a e⁻¹ b`. -/
+theorem groupoidFourArrowComposite (e a b : X ⟶ Y) (s : Y ⟶ Z) :
+    (a ≫ s) ≫ inv (inv b ≫ e ≫ s) =
+      groupoidDifferenceProduct e a b := by
+  simp [groupoidDifferenceProduct, Category.assoc]
+
+/-- The four-arrow groupoid construction computes multiplication in the
+difference chart. -/
+theorem groupoidFourArrowComposite_chart (e a b : X ⟶ Y) (s : Y ⟶ Z) :
+    groupoidDifferenceChart e a * groupoidDifferenceChart e b =
+      groupoidDifferenceChart e ((a ≫ s) ≫ inv (inv b ≫ e ≫ s)) := by
+  rw [groupoidFourArrowComposite]
+  exact groupoidDifferenceChart_mul e a b
+
+/-- The arrow family `X ⟶ Y`, based at `e`, is equivalent to the vertex
+group at `X`. -/
+def groupoidDifferenceEquiv (e : X ⟶ Y) : (X ⟶ Y) ≃ (X ⟶ X) where
+  toFun := groupoidDifferenceChart e
+  invFun g := g ≫ e
+  left_inv a := by simp [groupoidDifferenceChart, Category.assoc]
+  right_inv g := by simp [groupoidDifferenceChart, Category.assoc]
+
+/-- A genuine groupoid transports its vertex-group operations to a
+rational group chunk on every nonempty arrow family.  Multiplication and
+inverse are exactly the difference-product formulas used in blueprint
+(8.3). -/
+def groupoidArrowChunk (e : X ⟶ Y) : RationalGroupChunk (X ⟶ Y) where
+  mul := groupoidDifferenceProduct e
+  inv := groupoidDifferenceInverse e
+  mul_assoc a b c := by
+    simp [groupoidDifferenceProduct, Category.assoc]
+  inv_mul_mul a b := by
+    simp [groupoidDifferenceProduct, groupoidDifferenceInverse,
+      Category.assoc]
+  mul_mul_inv a b := by
+    simp [groupoidDifferenceProduct, groupoidDifferenceInverse,
+      Category.assoc]
+
+/-- The groupoid difference chart intertwines the transported chunk
+multiplication with multiplication in the vertex group. -/
+theorem groupoidDifferenceEquiv_mul (e a b : X ⟶ Y) :
+    groupoidDifferenceEquiv e ((groupoidArrowChunk e).mul a b) =
+      groupoidDifferenceEquiv e a * groupoidDifferenceEquiv e b := by
+  exact (groupoidDifferenceChart_mul e a b).symm
+
+/-- The groupoid difference chart intertwines the transported chunk
+inverse with inversion in the vertex group. -/
+theorem groupoidDifferenceEquiv_inv (e a : X ⟶ Y) :
+    groupoidDifferenceEquiv e ((groupoidArrowChunk e).inv a) =
+      (groupoidDifferenceEquiv e a)⁻¹ := by
+  exact (groupoidDifferenceChart_inv e a).symm
+
+end GroupoidDifferenceChart
 
 section DifferenceChart
 

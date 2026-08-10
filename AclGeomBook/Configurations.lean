@@ -400,10 +400,18 @@ three-coordinate field:
 
 {docstring AclGeom.IsPartialQuadrangle.configurationNormalOverGroupCoordinates_normal}
 
-The abstract difference-chart calculation then uses direct group
-cancellation to obtain the chart product and inverse.  Its normalized
-six-point output has exactly the four product relations prescribed by the
-partial quadrangle:
+Once those selected components form a genuine three-object groupoid, the
+difference chart is no longer an abstract placeholder.  A based arrow
+family is equivalent to the vertex group, its four-arrow cancellation
+defines a `RationalGroupChunk`, and the chart transports multiplication
+and inverse exactly.  The normalized six-point output then has the four
+product relations prescribed by the partial quadrangle:
+
+{docstring AclGeom.groupoidFourArrowComposite}
+
+{docstring AclGeom.groupoidArrowChunk}
+
+{docstring AclGeom.groupoidDifferenceEquiv_mul}
 
 {docstring AclGeom.groupoidComposite_eq}
 
