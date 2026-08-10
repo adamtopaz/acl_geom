@@ -630,6 +630,52 @@ def abcField : IntermediateField k K :=
 theorem abField_le_abcField : w.abField ≤ w.abcField :=
   adjoin.mono k _ _ w.abReps_range_subset_abcReps
 
+/-- Every displayed `A,B,C` coordinate is algebraic over the independent
+`A,B` coefficient field.  For the `C` coordinates this is the content of
+`rank_AB = rank_ABC = 4`. -/
+theorem abcReps_isAlgebraic_abField (hψ : w.Psi) (i : Fin 6) :
+    IsAlgebraic (↥w.abField) (w.abcReps i) := by
+  have hp : ClosedIF.point k (w.abcReps i) ≤
+      ⨆ j, ClosedIF.point k (w.abcReps j) :=
+    le_iSup (fun j ↦ ClosedIF.point k (w.abcReps j)) i
+  rw [← w.abc_join_eq_iSup_point, ← w.ab_eq_abc hψ,
+    w.ab_join_eq_iSup_point] at hp
+  have hmem := mem_iSup_point_iff.1
+    (hp (ClosedIF.mem_point_self (w.abcReps i)))
+  rw [abField]
+  exact (mem_racl_iff k).1 hmem
+
+/-- The common coefficient field, regarded as an extension of the
+composable `A,B` field. -/
+def abcOverAb : IntermediateField (↥w.abField) K :=
+  extendScalars w.abField_le_abcField
+
+/-- The common coefficient cover is algebraic over the `A,B` field. -/
+theorem abcOverAb_isAlgebraic (hψ : w.Psi) :
+    Algebra.IsAlgebraic (↥w.abField) (↥w.abcOverAb) := by
+  apply isAlgebraic_extendScalars_adjoin w.abField_le_abcField
+  rintro _ ⟨i, rfl⟩
+  exact w.abcReps_isAlgebraic_abField hψ i
+
+/-- **The common parameter cover is finite.**  It is generated over the
+`A,B` field by the finite six-tuple `abcReps`, all of whose members are
+algebraic there. -/
+theorem abcOverAb_finiteDimensional (hψ : w.Psi) :
+    FiniteDimensional (↥w.abField) (↥w.abcOverAb) := by
+  have key : w.abcOverAb =
+      adjoin (↥w.abField) (Set.range w.abcReps) := by
+    refine restrictScalars_injective k ?_
+    unfold abcOverAb abField abcField
+    rw [adjoin_adjoin_left,
+      extendScalars_restrictScalars, adjoin_union]
+    exact (sup_eq_right.2 w.abField_le_abcField).symm
+  rw [key]
+  letI : Fintype (Set.range w.abcReps) :=
+    Set.Finite.fintype (Set.finite_range w.abcReps)
+  exact finiteDimensional_adjoin fun x hx ↦ by
+    obtain ⟨i, rfl⟩ := hx
+    exact (w.abcReps_isAlgebraic_abField hψ i).isIntegral
+
 /-- The `A` coefficient field embeds in the composable `A,B` field. -/
 theorem aField_le_abField : w.aField ≤ w.abField :=
   adjoin.mono k _ _ w.aReps_range_subset_abReps

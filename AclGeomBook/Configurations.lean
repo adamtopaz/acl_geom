@@ -297,6 +297,14 @@ selected base changes are the branches used above:
 
 {docstring AclGeom.QWitness.bFamily_map_le_abBranch}
 
+The common coefficient cover used to select the output component is not
+merely terminology: equality of the rank-four `A ∨ B` and
+`A ∨ B ∨ C` flats makes every `C` coordinate algebraic over the
+`A,B` field, and finite generation then gives a finite-dimensional field
+extension:
+
+{docstring AclGeom.QWitness.abcOverAb_finiteDimensional}
+
 On the common normal cover, a chosen branch makes the generic
 multiplication and inverse single-valued.  Associativity and the two inverse
 identities already force an honest group: the apparently
