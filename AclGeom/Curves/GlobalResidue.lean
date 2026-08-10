@@ -1212,6 +1212,72 @@ theorem residueFunctional_diagonal (g h : F) :
   rw [h1]
   exact sum_residue_eq_zero h g S hmem
 
+/-- **The residue functional is a Weil differential**: it kills the
+bounded space at level `−2 · (pole divisor of g)` — integral pairs at
+good places, the depth threshold at the poles. -/
+theorem residueFunctional_mem_weilDifferentialsAt {g : F}
+    (hg : g ≠ 0) :
+    residueFunctional (k := k) (F := F) g ∈
+      weilDifferentialsAt (-((2 : ℤ) • (-(divisorOf k g)).pos)) := by
+  rw [mem_weilDifferentialsAt_iff]
+  intro α hα
+  rw [mem_boundedSubmodule_iff] at hα
+  obtain ⟨u, hu, w, hw, huw⟩ := Submodule.mem_sup.1 hα
+  obtain ⟨h, rfl⟩ := hw
+  have hu' : u ∈ adeleSubmodule k F :=
+    adeleSpace_le_adeleSubmodule _ hu
+  have hα' : α = (⟨u, hu'⟩ : ↥(adeleSubmodule k F)) +
+      ⟨adeleDiagonal k F h, adeleDiagonal_mem_adeleSubmodule h⟩ :=
+    Subtype.ext huw.symm
+  rw [hα', map_add, residueFunctional_diagonal, add_zero]
+  rw [residueFunctional_eq_sum (S := (∅ : Finset (Place k F)))
+    (fun P _ ↦ ?_), Finset.sum_empty]
+  have hcoord : ((⟨u, hu'⟩ : ↥(adeleSubmodule k F)) :
+      (Q : Place k F) → F) P = u P := rfl
+  rw [hcoord]
+  rcases eq_or_ne (u P) 0 with h0 | h0
+  · rw [h0]
+    exact P.residue_zero_left g
+  have h1 := (hu P).resolve_left h0
+  have h2 : (-((2 : ℤ) • (-(divisorOf k g)).pos)) P =
+      -(2 * max (-(P.ord g)) 0) := by
+    rw [Finsupp.neg_apply, Finsupp.smul_apply, smul_eq_mul,
+      Divisor.pos, Finsupp.mapRange_apply, Finsupp.neg_apply,
+      divisorOf_apply hg]
+  rw [h2] at h1
+  rcases le_or_gt 0 (P.ord g) with hgP | hgP
+  · refine P.residue_eq_zero_of_mem ?_ ?_
+    · rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff h0]
+      omega
+    · rw [Place.mem_toSubmodule_iff, ← P.ord_nonneg_iff hg]
+      exact hgP
+  · refine P.residue_eq_zero_of_ord_ge (m := (-(P.ord g)).toNat)
+      h0 hg ?_ ?_
+    · omega
+    · omega
+
+/-- **The residue functional of a uniformizer is nonzero**: it takes
+the value `1` on the single-place adele `π⁻¹`. -/
+theorem residueFunctional_pi_ne_zero (P : Place k F) :
+    residueFunctional (k := k) (F := F) P.pi ≠ 0 := by
+  intro h0
+  have h1 : residueFunctional (k := k) (F := F) P.pi
+      (adeleSingle P (P.pi)⁻¹) = 0 := by
+    rw [h0, LinearMap.zero_apply]
+  rw [residueFunctional_eq_sum (S := {P}) (fun Q hQ ↦ ?_)] at h1
+  · rw [Finset.sum_singleton] at h1
+    have h2 : ((adeleSingle P (P.pi)⁻¹ : ↥(adeleSubmodule k F)) :
+        (Q : Place k F) → F) P = (P.pi)⁻¹ :=
+      adeleSinglePi_apply_self P _
+    rw [h2, P.residue_inv_self P.pi_ne_zero
+      (by rw [P.ord_pi]; omega), P.ord_pi] at h1
+    simp at h1
+  · have h3 : ((adeleSingle P (P.pi)⁻¹ : ↥(adeleSubmodule k F)) :
+        (R : Place k F) → F) Q = 0 :=
+      adeleSinglePi_apply_ne P (by simpa using hQ) _
+    rw [h3]
+    exact Q.residue_zero_left _
+
 end
 
 end AclGeom
