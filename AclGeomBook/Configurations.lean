@@ -259,6 +259,15 @@ is exposed separately as an algebraic-independence and closure statement:
 
 {docstring AclGeom.fiber_product_rank_count}
 
+The reverse rank bridge makes that abstract count available from the actual
+clauses of a `Psi` witness: `rank_AB` yields independence of the four chosen
+parameter representatives, `Y_notLe` supplies the fifth generic coordinate,
+and the two incidence clauses make `X,Z` algebraic over it:
+
+{docstring AclGeom.algebraicIndependent_of_rankEq_iSup_point}
+
+{docstring AclGeom.QWitness.psi_fiber_product_rank_count}
+
 On the common normal cover, a chosen branch makes the generic
 multiplication and inverse single-valued.  Associativity and the two inverse
 identities already force an honest group: the apparently

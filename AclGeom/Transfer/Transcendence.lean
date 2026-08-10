@@ -39,7 +39,8 @@ theorem exists_notMem_racl_of_mk_lt_trdeg (S : Set K)
   by_contra h
   push Not at h
   letI : Algebra.IsAlgebraic (Algebra.adjoin k S) K := ⟨fun z ↦
-    mem_racl_iff_isAlgebraic_adjoin.1 (h z)⟩
+    (mem_racl_iff_isAlgebraic_adjoin
+      (k := k) (S := S) (x := z)).1 (h z)⟩
   exact (not_le_of_gt hS) (Algebra.IsAlgebraic.trdeg_le_cardinalMk k S)
 
 /-- A natural lower bound on transcendence degree supplies a fresh element

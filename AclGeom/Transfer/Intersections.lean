@@ -46,16 +46,6 @@ variable {k : Type*} {Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
 
 section MatroidBridge
 
-open scoped IntermediateField.algebraAdjoinAdjoin
-
-/-- Membership in `racl` is algebraicity over the *ring* `k[S]`; the
-fraction-field bridge to the defining `k(S)`-algebraicity. -/
-theorem mem_racl_iff_isAlgebraic_adjoin {S : Set Ω} {x : Ω} :
-    x ∈ racl k S ↔ IsAlgebraic (Algebra.adjoin k S) x := by
-  rw [mem_racl_iff]
-  exact (IsFractionRing.isAlgebraic_iff (Algebra.adjoin k S)
-    (adjoin k S) Ω).symm
-
 variable (k) in
 /-- The closure operator of mathlib's algebraic-independence matroid on `Ω`
 is exactly `racl`. -/
@@ -64,7 +54,8 @@ theorem mem_matroidClosure_iff {S : Set Ω} {x : Ω}
     x ∈ (AlgebraicIndependent.matroid k Ω).closure S ↔ x ∈ racl k S := by
   rw [AlgebraicIndependent.matroid_closure_eq, SetLike.mem_coe,
     Subalgebra.mem_algebraicClosure]
-  exact mem_racl_iff_isAlgebraic_adjoin.symm
+  exact (mem_racl_iff_isAlgebraic_adjoin
+    (k := k) (S := S) (x := x)).symm
 
 end MatroidBridge
 
@@ -153,7 +144,8 @@ theorem exists_finite_inter_generator [IsAlgClosed Ω]
   obtain ⟨-, hsub, halg⟩ := AlgebraicIndependent.matroid_isBasis_iff.1 hs
   -- The basis generates `E` algebraically.
   have hEs : E ≤ racl k s := fun x hx ↦
-    mem_racl_iff_isAlgebraic_adjoin.2 (halg x hx)
+    (mem_racl_iff_isAlgebraic_adjoin
+      (k := k) (S := s) (x := x)).2 (halg x hx)
   -- The basis is finite: an independent set inside the closure of `A`.
   have hsA : s ⊆ (AlgebraicIndependent.matroid k Ω).closure A := by
     intro x hx

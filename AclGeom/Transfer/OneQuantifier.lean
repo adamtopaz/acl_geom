@@ -78,13 +78,17 @@ theorem exists_finite_racl_envelope_of_trdeg_eq
   · intro z hz
     let z₁ : ↥K₁ := ⟨z, hz⟩
     have hz₁ : z₁ ∈ racl k (Set.range ((↑) : s → (↥K₁))) :=
-      mem_racl_iff_isAlgebraic_adjoin.2 (hs.isAlgebraic.isAlgebraic z₁)
+      (mem_racl_iff_isAlgebraic_adjoin
+        (k := k) (S := Set.range ((↑) : s → (↥K₁))) (x := z₁)).2
+        (hs.isAlgebraic.isAlgebraic z₁)
     have hzΩ := (algHom_mem_racl_image_iff K₁.val).2 hz₁
     simpa [C, Set.range_comp] using hzΩ
   · intro z hz
     let z₂ : ↥K₂ := ⟨z, hz⟩
     have hz₂ : z₂ ∈ racl k (Set.range f) :=
-      mem_racl_iff_isAlgebraic_adjoin.2 (hs₂.isAlgebraic.isAlgebraic z₂)
+      (mem_racl_iff_isAlgebraic_adjoin
+        (k := k) (S := Set.range f) (x := z₂)).2
+        (hs₂.isAlgebraic.isAlgebraic z₂)
     have hzΩ := (algHom_mem_racl_image_iff K₂.val).2 hz₂
     have hset : (K₂.val : (↥K₂) → Ω) '' Set.range f = C := by
       ext y

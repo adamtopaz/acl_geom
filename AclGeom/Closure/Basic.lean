@@ -36,6 +36,7 @@ reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 namespace AclGeom
 
 open IntermediateField
+open scoped IntermediateField.algebraAdjoinAdjoin
 
 noncomputable section
 
@@ -55,6 +56,16 @@ def racl (S : Set K) : IntermediateField k K :=
 theorem mem_racl_iff {S : Set K} {x : K} :
     x ∈ racl k S ↔ IsAlgebraic (adjoin k S) x := by
   rw [racl, mem_restrictScalars, mem_algebraicClosure_iff]
+
+/-- Membership in `racl` is equivalently algebraicity over the ring
+subalgebra `k[S]`.  This is the fraction-field bridge between the algebraic
+matroid API, whose closure uses `Algebra.adjoin`, and the intermediate-field
+definition of `racl`. -/
+theorem mem_racl_iff_isAlgebraic_adjoin {S : Set K} {x : K} :
+    x ∈ racl k S ↔ IsAlgebraic (Algebra.adjoin k S) x := by
+  rw [mem_racl_iff]
+  exact (IsFractionRing.isAlgebraic_iff (Algebra.adjoin k S)
+    (adjoin k S) K).symm
 
 /-- `k(S)` is contained in the relative algebraic closure of `S`. -/
 theorem adjoin_le_racl (S : Set K) : adjoin k S ≤ racl k S := by

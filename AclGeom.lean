@@ -48,6 +48,7 @@ import AclGeom.Correspondence.JRigidity
 import AclGeom.Config.Language
 import AclGeom.Config.Semantic
 import AclGeom.Config.Psi
+import AclGeom.Config.CompositionIdentity
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import AclGeom.Geometry.Equivalence
+import Mathlib.Combinatorics.Matroid.Rank.ENat
 
 /-!
 # Independent tuples and finite-rank predicates
@@ -183,6 +184,93 @@ theorem pointIndep_point {n : ℕ} {v : Fin n → K}
   rw [hcompl] at hne
   exact hne hmem'
 
+/-- Independence of a finite point tuple is exactly algebraic independence
+of any chosen representatives.  This is the reverse direction of
+`pointIndep_point`; unlike that constructor it needs no separate
+non-bottom hypotheses because every `Point.rep` generates its point. -/
+theorem algebraicIndependent_rep_of_pointIndep {n : ℕ}
+    {f : Fin n → Point k K} (hf : PointIndep k K f) :
+    AlgebraicIndependent k fun i ↦ (f i).rep := by
+  rw [algebraicIndependent_iff_forall_notMem_racl]
+  intro i
+  have hi := hf i
+  rw [mem_pointCl_iff_rep_mem] at hi
+  have hcompl : ({i}ᶜ : Set (Fin n)) = {j | j ≠ i} := by
+    ext j
+    simp
+  rw [hcompl]
+  simpa only [Set.image_image, Function.comp_apply] using hi
+
+/-- The algebraic-independence matroid has `racl` as its closure operator. -/
+theorem algebraicMatroid_closure_eq_racl (S : Set K) :
+    (AlgebraicIndependent.matroid k K).closure S = (racl k S : Set K) := by
+  ext x
+  rw [AlgebraicIndependent.matroid_closure_eq, SetLike.mem_coe,
+    Subalgebra.mem_algebraicClosure]
+  exact (mem_racl_iff_isAlgebraic_adjoin
+    (k := k) (S := S) (x := x)).symm
+
+/-- If an `n`-tuple of principal points spans an element of geometric rank
+`n`, then its representatives are algebraically independent.  This is the
+missing reverse rank bridge: a dependent `n`-tuple cannot span the same
+closed element as an independent `n`-tuple.
+
+The proof compares finite ranks in the algebraic-independence matroid.  The
+witness tuple supplied by `RankEq` is an independent set of size `n`; equality
+of the two `racl`-spans gives equality of matroid closures, so the explicit
+tuple also has matroid rank `n`, hence is independent. -/
+theorem algebraicIndependent_of_rankEq_iSup_point {n : ℕ} {v : Fin n → K}
+    (h : RankEq n (⨆ i, ClosedIF.point k (v i))) :
+    AlgebraicIndependent k v := by
+  classical
+  obtain ⟨f, hf, hspan⟩ := h
+  let M := AlgebraicIndependent.matroid k K
+  let s : Set K := Set.range fun i ↦ (f i).rep
+  let t : Set K := Set.range v
+  have hfrep : AlgebraicIndependent k fun i ↦ (f i).rep :=
+    algebraicIndependent_rep_of_pointIndep hf
+  have hsind : M.Indep s := by
+    exact AlgebraicIndependent.matroid_indep_iff.2 hfrep.to_subtype_range
+  have hsencard : s.encard = n := by
+    apply le_antisymm
+    · simpa [s, ← Set.image_univ] using
+        (Set.encard_image_le (fun i ↦ (f i).rep) (Set.univ : Set (Fin n)))
+    · simpa [s] using hfrep.injective.encard_range
+  have htfinite : t.Finite := Set.finite_range v
+  have htencard : t.encard ≤ n := by
+    simpa [t, ← Set.image_univ] using
+      (Set.encard_image_le v (Set.univ : Set (Fin n)))
+  have hclosure : M.closure s = M.closure t := by
+    rw [algebraicMatroid_closure_eq_racl,
+      algebraicMatroid_closure_eq_racl]
+    have hfields : racl k s = racl k t := by
+      calc
+        racl k s =
+            ((⨆ i, (f i).1).1 : IntermediateField k K) :=
+          (iSup_point_val f).symm
+        _ = ((⨆ i, ClosedIF.point k (v i)).1 :
+            IntermediateField k K) := by rw [← hspan]
+        _ = racl k t := coe_iSup_point v
+    exact congrArg (fun E : IntermediateField k K ↦ (E : Set K)) hfields
+  have hrank : M.eRk t = n := by
+    calc
+      M.eRk t = M.eRk (M.closure t) := (M.eRk_closure_eq t).symm
+      _ = M.eRk (M.closure s) := by rw [hclosure]
+      _ = M.eRk s := M.eRk_closure_eq s
+      _ = s.encard := hsind.eRk_eq_encard
+      _ = n := hsencard
+  have htcard : t.encard = n :=
+    le_antisymm htencard (hrank ▸ M.eRk_le_encard t)
+  have htind : M.Indep t :=
+    (M.indep_iff_eRk_eq_encard_of_finite htfinite).2
+      (hrank.trans htcard.symm)
+  have hinj : Function.Injective v := by
+    rw [← Set.injOn_univ]
+    apply (Set.finite_univ : (Set.univ : Set (Fin n)).Finite).injOn_of_encard_image_eq
+    simpa [t, Set.image_univ] using htcard
+  exact (AlgebraicIndependent.of_subtype_range hinj)
+    (AlgebraicIndependent.matroid_indep_iff.1 htind)
+
 /-- The join of principal closures at an algebraically independent
 `n`-tuple of generators has rank exactly `n` — the bridge from field
 theory to geometric rank. -/
@@ -192,6 +280,13 @@ theorem rankEq_iSup_point {n : ℕ} {v : Fin n → K}
   have h0 : ∀ i, v i ∉ (⊥ : ClosedIF k K) := fun i hi ↦
     hv.transcendental i (ClosedIF.mem_bot_iff.1 hi)
   exact ⟨fun i ↦ Point.mk' k (v i) (h0 i), pointIndep_point hv h0, rfl⟩
+
+/-- Exact rank of an explicitly generated closed element is equivalent to
+algebraic independence of its representatives. -/
+theorem rankEq_iSup_point_iff {n : ℕ} {v : Fin n → K} :
+    RankEq n (⨆ i, ClosedIF.point k (v i)) ↔
+      AlgebraicIndependent k v :=
+  ⟨algebraicIndependent_of_rankEq_iSup_point, rankEq_iSup_point⟩
 
 /-- Rank transfers along equalities of closed elements. -/
 theorem RankEq.congr {n : ℕ} {E F : ClosedIF k K} (h : E = F)
