@@ -374,6 +374,17 @@ three-object groupoid:
 
 {docstring AclGeom.QWitness.psi_exists_partialQuadrangle_correspondence_groupoid}
 
+The three selected branches share a finite chain field.  Normalizing it
+over the `U` endpoint branch adjoins every ambient conjugate; the literal
+chain is one selected embedding, and embeddings of the normal cover are
+exactly its automorphisms:
+
+{docstring AclGeom.IsPartialQuadrangle.selected_chain_normal_cover}
+
+{docstring AclGeom.IsPartialQuadrangle.selected_chain_component_on_normal_cover}
+
+{docstring AclGeom.IsPartialQuadrangle.selectedChainEmbeddingEquivAut}
+
 The abstract difference-chart calculation then uses direct group
 cancellation to obtain the chart product and inverse.  Its normalized
 six-point output has exactly the four product relations prescribed by the

@@ -329,6 +329,94 @@ theorem selected_correspondence_composes (h : IsPartialQuadrangle f) :
   refine ⟨tPair h, sPair h, rfl, rfl, rfl, ?_⟩
   rfl
 
+/-- The literal `S' → U' → T'` chain has a common joint function field
+finite over the `T` branch, the `S` branch, and the selected `U` endpoint
+branch. -/
+theorem selected_chain_field_finite_covers (h : IsPartialQuadrangle f) :
+    let P := tPair h
+    let Q := sPair h
+    FiniteDimensional (↥P.branchField) (↥(P.chainOverLeft Q)) ∧
+      FiniteDimensional (↥Q.branchField) (↥(P.chainOverRight Q rfl)) ∧
+      FiniteDimensional (↥(P.comp Q rfl).branchField)
+        (↥(P.chainOverComposite Q rfl)) := by
+  dsimp only
+  exact
+    ⟨(tPair h).chainOverLeft_finiteDimensional (sPair h) rfl,
+      (tPair h).chainOverRight_finiteDimensional (sPair h) rfl,
+      (tPair h).chainOverComposite_finiteDimensional (sPair h) rfl⟩
+
+/-- In an algebraically closed ambient field, the partial-quadrangle
+chain embeds in a finite normal closure over its selected `U` endpoint
+branch. -/
+theorem selected_chain_normal_cover [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) :
+    let P := tPair h
+    let Q := sPair h
+    FiniteDimensional (↥(P.comp Q rfl).branchField)
+        (↥(P.chainNormalOverComposite Q rfl)) ∧
+      Normal (↥(P.comp Q rfl).branchField)
+        (↥(P.chainNormalOverComposite Q rfl)) ∧
+      P.chainOverComposite Q rfl ≤ P.chainNormalOverComposite Q rfl := by
+  dsimp only
+  exact
+    ⟨(tPair h).chainNormalOverComposite_finiteDimensional (sPair h) rfl,
+      (tPair h).chainNormalOverComposite_normal (sPair h) rfl,
+      (tPair h).chainOverComposite_le_normal (sPair h) rfl⟩
+
+/-- On the normal cover, the literal partial-quadrangle branch is a
+selected embedding.  Its conjugate branches and the automorphisms of the
+normal cover form finite types. -/
+theorem selected_chain_component_on_normal_cover
+    (h : IsPartialQuadrangle f) :
+    let P := tPair h
+    let Q := sPair h
+    let hle := P.compositeBranchField_le_chainField Q rfl
+    (P.chainNormalOverComposite Q rfl).val.comp
+          (FiniteCover.selectedEmbedding hle) =
+        (P.chainOverComposite Q rfl).val ∧
+      Finite ((↥(P.chainOverComposite Q rfl)) →ₐ[
+        ↥(P.comp Q rfl).branchField] K) ∧
+      Finite ((↥(P.chainNormalOverComposite Q rfl)) ≃ₐ[
+        ↥(P.comp Q rfl).branchField]
+          (↥(P.chainNormalOverComposite Q rfl))) := by
+  dsimp only
+  exact
+    ⟨FiniteCover.normalClosure_val_comp_selectedEmbedding _,
+      FiniteCover.finite_ambientEmbeddings _
+        ((tPair h).chainOverComposite_finiteDimensional (sPair h) rfl),
+      FiniteCover.finite_normalAutomorphisms _
+        ((tPair h).chainOverComposite_finiteDimensional (sPair h) rfl)⟩
+
+/-- Ambient embeddings of the partial-quadrangle normal cover are exactly
+its automorphisms over the selected `U` endpoint branch. -/
+noncomputable def selectedChainEmbeddingEquivAut [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) :
+    let P := tPair h
+    let Q := sPair h
+    ((↥(P.chainNormalOverComposite Q rfl)) →ₐ[
+        ↥(P.comp Q rfl).branchField] K) ≃
+      ((↥(P.chainNormalOverComposite Q rfl)) ≃ₐ[
+        ↥(P.comp Q rfl).branchField]
+          (↥(P.chainNormalOverComposite Q rfl))) := by
+  dsimp only
+  let P := tPair h
+  let Q := sPair h
+  let hle := P.compositeBranchField_le_chainField Q rfl
+  change ((↥(FiniteCover.normalClosureOver hle)) →ₐ[
+      ↥(P.comp Q rfl).branchField] K) ≃
+    ((↥(FiniteCover.normalClosureOver hle)) ≃ₐ[
+      ↥(P.comp Q rfl).branchField]
+        (↥(FiniteCover.normalClosureOver hle)))
+  letI : FiniteDimensional (↥(P.comp Q rfl).branchField)
+      (↥(extendScalars hle)) :=
+    P.chainOverComposite_finiteDimensional Q rfl
+  letI : Normal (↥(P.comp Q rfl).branchField)
+      (↥(FiniteCover.normalClosureOver hle)) :=
+    FiniteCover.normalClosureOver_normal hle
+      (Algebra.IsAlgebraic.of_finite
+        (↥(P.comp Q rfl).branchField) (↥(extendScalars hle)))
+  exact FiniteCover.normalEmbeddingEquivAut hle
+
 end IsPartialQuadrangle
 
 end
