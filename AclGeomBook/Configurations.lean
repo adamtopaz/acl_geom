@@ -385,6 +385,21 @@ exactly its automorphisms:
 
 {docstring AclGeom.IsPartialQuadrangle.selectedChainEmbeddingEquivAut}
 
+The free triple `(S,T,S')` already gives independent representatives for
+the three group-configuration coordinates.  Every other displayed
+representative is algebraic over that triple, while each of the parameters
+`S,T,U` is recoverable from the endpoints of its selected arrow.  Thus the
+full six-coordinate field has a finite normal cover over the independent
+three-coordinate field:
+
+{docstring AclGeom.IsPartialQuadrangle.groupReps_independent}
+
+{docstring AclGeom.IsPartialQuadrangle.T_rep_mem_racl_endpoints}
+
+{docstring AclGeom.IsPartialQuadrangle.configurationOverGroupCoordinates_finiteDimensional}
+
+{docstring AclGeom.IsPartialQuadrangle.configurationNormalOverGroupCoordinates_normal}
+
 The abstract difference-chart calculation then uses direct group
 cancellation to obtain the chart product and inverse.  Its normalized
 six-point output has exactly the four product relations prescribed by the
