@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Correspondence.Composition
+import AclGeom.Correspondence.BaseChange
 import AclGeom.Correspondence.CurveIdeal
 import Mathlib.Algebra.MvPolynomial.Nilpotent
 import Mathlib.RingTheory.MvPolynomial.MonomialOrder
@@ -194,6 +195,30 @@ theorem aeval_curveEquationOverCoefficientField :
   rw [MvPolynomial.aeval_map_algebraMap,
     MvPolynomial.aeval_map_algebraMap, P.aeval_curveEquation] at hm
   exact hm
+
+/-- The source remains transcendental after shrinking the field of
+definition to the intrinsic coefficient field. -/
+theorem source_transcendental_curveCoefficientField :
+    Transcendental (P.curveCoefficientField k E) P.source := by
+  intro h
+  exact P.source_transcendental'
+    (isAlgebraic_of_le (P.curveCoefficientField_le k E) h)
+
+/-- The canonical equation makes the target algebraic over the intrinsic
+coefficient field and the source.  This is the finite-correspondence fact
+needed to compare the rank of the coefficient field with a family's
+minimal parameter rank. -/
+theorem target_mem_racl_curveCoefficientField_source :
+    P.target ∈ racl (P.curveCoefficientField k E) {P.source} := by
+  rw [mem_racl_iff]
+  refine ⟨evalFst (K := P.curveCoefficientField k E) P.source
+      (P.curveEquationOverCoefficientField k E), ?_, ?_⟩
+  · intro h
+    exact P.curveEquationOverCoefficientField_ne_zero k E
+      ((evalFst_injective P.source_transcendental_curveCoefficientField)
+        (by rw [h, map_zero]))
+  · rw [Polynomial.aeval_def, eval₂_evalFst]
+    exact P.aeval_curveEquationOverCoefficientField k E
 
 /-- Equal branch ideals have equal intrinsic coefficient sets. -/
 theorem curveCoefficientSet_eq_of_ideal_eq

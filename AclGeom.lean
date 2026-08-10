@@ -66,6 +66,7 @@ import AclGeom.Config.Language
 import AclGeom.Config.Semantic
 import AclGeom.Config.Psi
 import AclGeom.Config.CompositionIdentity
+import AclGeom.Config.ChunkGermCoordinates
 import AclGeom.Config.ChunkProjection
 import AclGeom.Config.ChunkBranchCover
 import AclGeom.Config.ChunkAlgebraicChart

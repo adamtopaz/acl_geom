@@ -369,6 +369,70 @@ theorem RankEq.eq_of_le {n : ℕ} {E F : ClosedIF k K}
   apply Subtype.ext
   exact SetLike.ext' hset
 
+/-- A closed subfield of a rank-two flat is the whole flat if it is not
+contained in any point of that flat.  This is the rank-two form of the
+matroid fact that every proper nonzero subflat of a plane is a point. -/
+theorem RankEq.eq_of_le_of_not_le_point {E F : ClosedIF k K}
+    (hEF : E ≤ F) (hF : RankEq 2 F)
+    (havoid : ∀ P : Point k K, P.1 ≤ F → ¬ E ≤ P.1) : E = F := by
+  obtain ⟨f, hf, hFspan⟩ := hF
+  have hf0F : (f 0).1 ≤ F := by
+    rw [hFspan]
+    exact le_iSup (fun i ↦ (f i).1) 0
+  have hE0 : E ≠ ⊥ := by
+    intro h
+    subst E
+    exact (havoid (f 0) hf0F) bot_le
+  obtain ⟨x, hxE, hx0⟩ :=
+    SetLike.exists_of_lt (bot_lt_iff_ne_bot.2 hE0)
+  let P : Point k K := Point.mk' k x hx0
+  have hP_le_E : P.1 ≤ E := by
+    change ClosedIF.point k x ≤ E
+    exact ClosedIF.point_le_iff.2 hxE
+  have hP_lt_E : P.1 < E := by
+    refine lt_of_le_of_ne hP_le_E ?_
+    intro hPE
+    exact (havoid P (hP_le_E.trans hEF)) (by rw [hPE])
+  obtain ⟨y, hyE, hyP⟩ := SetLike.exists_of_lt hP_lt_E
+  have hy0 : y ∉ (⊥ : ClosedIF k K) := by
+    intro hy
+    exact hyP ((ClosedIF.le_iff.1 (bot_le : (⊥ : ClosedIF k K) ≤ P.1)) hy)
+  have hyx : y ∉ racl k ({x} : Set K) := by
+    change y ∉ P.1 at hyP
+    change y ∉ ClosedIF.point k x at hyP
+    exact hyP
+  have hxy : x ∉ racl k ({y} : Set K) := by
+    intro h
+    apply hyx
+    change x ∈ ClosedIF.point k y at h
+    have := ClosedIF.mem_point_symm h hx0
+    exact this
+  have hind : AlgebraicIndependent k ![x, y] :=
+    algebraicIndependent_pair hxy hyx
+  have hRank : RankEq 2 (ClosedIF.point k x ⊔ ClosedIF.point k y) := by
+    have hspan : ClosedIF.point k x ⊔ ClosedIF.point k y =
+        ⨆ i : Fin 2, ClosedIF.point k ((![x, y] : Fin 2 → K) i) := by
+      apply le_antisymm
+      · apply sup_le
+        · exact le_iSup_of_le 0 (by simp)
+        · exact le_iSup_of_le 1 (by simp)
+      · apply iSup_le
+        intro i
+        fin_cases i
+        · exact le_sup_left
+        · exact le_sup_right
+    rw [hspan]
+    simpa using rankEq_iSup_point hind
+  have hSupE : ClosedIF.point k x ⊔ ClosedIF.point k y ≤ E := by
+    apply sup_le
+    · exact hP_le_E
+    · exact ClosedIF.point_le_iff.2 hyE
+  have hSupF : ClosedIF.point k x ⊔ ClosedIF.point k y ≤ F :=
+    hSupE.trans hEF
+  have hEq : ClosedIF.point k x ⊔ ClosedIF.point k y = F :=
+    RankEq.eq_of_le hSupF hRank ⟨f, hf, hFspan⟩
+  exact le_antisymm hEF (by rwa [← hEq])
+
 /-- The working form of the rank bridge: a closed element whose underlying
 field is the closure of an independent `n`-tuple of generators has rank
 exactly `n`. Rank clauses of configuration witnesses are verified by

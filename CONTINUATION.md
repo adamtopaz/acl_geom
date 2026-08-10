@@ -262,13 +262,24 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     multiplication-graph normalization; arbitrary unnormalized generators
     cannot be used because rescaling them would change their coefficient
     fields.
+19. The descended canonical equation now proves that the target is
+    algebraic over the intrinsic coefficient field and the source.
+    `RankEq.eq_of_le_of_not_le_point` supplies the corresponding rank-two
+    lattice principle: a closed subfield of a rank-two flat which is not
+    contained in any point is the whole flat.  Applying the Ψ minimality
+    clauses in `Config/ChunkGermCoordinates.lean` shows that the canonical
+    coefficient closures of the inverse-oriented `A` germ, the `B` germ,
+    and the output `C` germ are exactly `A`, `B`, and `C`.  Thus the germ
+    coefficients are faithful rank-two coordinates up to finite algebraic
+    extension, rather than merely fields contained in the displayed
+    parameter fields.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
-parameter cover.  First apply the rank-two minimality clauses to the
-canonical coefficient fields from item 18, showing that the normalized
-germ coordinates recover the rank-two parameter generically; then normalize
-the selected multiplication and inverse components over those coordinates.
+parameter cover.  Turn the relative-closure equalities from item 19 into
+finite extensions of the intrinsic coefficient fields, form one common
+normal cover for the selected `A`, `B`, and `C` multiplication component,
+and extract multiplication and inverse over those coordinates.
 Use the resulting maps to construct the translation-indexed Weil atlas and
 glue its multiplication, unit, and inverse with the strict field/rational
 cocycle.  The resulting group scheme is automatically separated by item 16;

@@ -1456,6 +1456,24 @@ vanishes at the selected generic endpoint pair:
 
 {docstring AclGeom.FiniteCorrespondencePair.aeval_curveEquationOverCoefficientField}
 
+Partial evaluation of the descended equation now makes the selected target
+algebraic over the intrinsic coefficient field and source.  The Ψ atom
+clauses then force these coefficients to have the full minimal parameter
+rank: a closed subfield of a rank-two flat not contained in any point is the
+entire flat.  Applied in the inverse orientation for `A` and the forward
+orientation for `B` and `C`, the coefficient closures recover all three
+rank-two parameter flats exactly:
+
+{docstring AclGeom.FiniteCorrespondencePair.target_mem_racl_curveCoefficientField_source}
+
+{docstring AclGeom.RankEq.eq_of_le_of_not_le_point}
+
+{docstring AclGeom.QWitness.aInverseGermCoefficientClosure_eq_A}
+
+{docstring AclGeom.QWitness.bGermCoefficientClosure_eq_B}
+
+{docstring AclGeom.QWitness.cGermCoefficientClosure_eq_C}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse
