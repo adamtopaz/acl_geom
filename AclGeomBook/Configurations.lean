@@ -825,14 +825,40 @@ three-coordinate field:
 
 {docstring AclGeom.IsPartialQuadrangle.configurationNormalOverGroupCoordinates_normal}
 
+The varying family components now have their own genuine categorical
+home.  Start with the free groupoid on parameter-labelled arrows
+`T(t) : X₀ ⟶ X₁`, `S(s) : X₁ ⟶ X₂`, and
+`U(u) : X₀ ⟶ X₂`, then quotient by the selected-component
+relations `T(t) ≫ S(s) = U(u)` whenever `(s,t,u)` lies on the ternary
+parameter locus.  A quotient of a free groupoid is again a genuine
+groupoid, so inverse and associativity come from category operations rather
+than extra laws:
+
+{docstring AclGeom.PresentedFamilyGroupoid}
+
+{docstring AclGeom.PresentedFamilyGroupoid.t_comp_s_eq_u}
+
+The exact four-arrow diagram cancels in this presented groupoid.  After
+swapping the two chart inputs to account for categorical composition order,
+every independent generic triple `(e,a,b)` therefore has a `T`-family
+output representing `a ≫ e⁻¹ ≫ b`.  The four full six-coordinate
+lifts certify that this equation concerns the positive-dimensional family
+arrows, while the finite branch groupoids above resolve the conjugate
+ambiguity in each individual normalized fiber:
+
+{docstring AclGeom.PresentedFamilyGroupoid.fourArrow_cancellation}
+
+{docstring AclGeom.IsPartialQuadrangle.parameterFamilyGroupoid}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameter_groupoidDifferenceProduct}
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowFamilyLifts.groupoid_cancellation}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse
-exactly.  The finite branch groupoids above resolve conjugate ambiguity on
-each fixed normal cover; assembling the varying parameter families into
-this interface is the remaining geometric step.  The normalized six-point
-output then has the four product relations prescribed by the partial
-quadrangle:
+exactly.  The normalized six-point output then has the four product
+relations prescribed by the partial quadrangle:
 
 {docstring AclGeom.groupoidFourArrowComposite}
 
