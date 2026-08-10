@@ -500,6 +500,31 @@ distinct from the finite deck group acting on any one normalized fiber:
 
 {docstring AclGeom.IsPartialQuadrangle.exists_parameter_left}
 
+Every displayed point of that locus inherits the same pairwise
+independence, algebraicity, and equality of the three two-coordinate
+closures.  Starting with four independent parameters `(s,e,a,b)`, exchange
+then supplies the entire blueprint difference diagram on the same prime
+locus:
+
+`u=s·e`, `sA·a=u`, `uB=s·b`, and `sA·c=uB`.
+
+No independence of the intermediate pairs `(a,u)` or `(sA,uB)` is assumed;
+both are derived from the four inputs and the preceding finite relations.
+This remains a relational diagram until the selected branch transports
+certify the groupoid cancellation identity.
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication.IsRealization}
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication.IsRealization.racl_leftRight_eq_leftOutput}
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram}
+
+{docstring AclGeom.FiniteCorrespondenceMultiplication.exists_fourArrowDifferenceDiagram}
+
+{docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowDifferenceDiagram}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_parameter_fourArrowDifferenceDiagram}
+
 Before passing to the common `k(S,T,U)` cover, the three arrows are genuine
 members of separate one-parameter families: `T` carries `S' → U'`, `S`
 carries `U' → T'`, and `U` carries `S' → T'`.  Each family locus relocates

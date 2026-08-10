@@ -804,6 +804,177 @@ def tuple : Fin 3 → Ω := ![M.left, M.right, M.output]
 /-- The prime ideal of the ternary multiplication locus. -/
 def ideal : Ideal (MvPolynomial (Fin 3) k) := idealOf k M.tuple
 
+/-- A displayed triple lies on the ternary multiplication locus. -/
+def IsRealization (a b c : Ω) : Prop :=
+  idealOf k ![a, b, c] = M.ideal
+
+namespace IsRealization
+
+variable {M : FiniteCorrespondenceMultiplication (k := k) (Ω := Ω)}
+  {a b c : Ω} (h : M.IsRealization a b c)
+
+include h
+
+/-- Every realization retains independence of its two inputs. -/
+theorem leftRight_independent : AlgebraicIndependent k ![a, b] := by
+  let e : Fin 2 → Fin 3 := ![0, 1]
+  have hfull : idealOf k M.tuple = idealOf k ![a, b, c] := by
+    simpa [IsRealization, ideal] using h.symm
+  have hsource : AlgebraicIndependent k (M.tuple ∘ e) := by
+    convert M.leftRight_independent using 1
+    funext i
+    fin_cases i <;> rfl
+  have ht := algebraicIndependent_comp_of_idealOf_eq hfull e
+    hsource
+  convert ht using 1
+  funext i
+  fin_cases i <;> rfl
+
+/-- Every realization retains independence of its left input and output. -/
+theorem leftOutput_independent : AlgebraicIndependent k ![a, c] := by
+  let e : Fin 2 → Fin 3 := ![0, 2]
+  have hfull : idealOf k M.tuple = idealOf k ![a, b, c] := by
+    simpa [IsRealization, ideal] using h.symm
+  have hsource : AlgebraicIndependent k (M.tuple ∘ e) := by
+    convert M.leftOutput_independent using 1
+    funext i
+    fin_cases i <;> rfl
+  have ht := algebraicIndependent_comp_of_idealOf_eq hfull e
+    hsource
+  convert ht using 1
+  funext i
+  fin_cases i <;> rfl
+
+/-- Every realization retains independence of its right input and output. -/
+theorem rightOutput_independent : AlgebraicIndependent k ![b, c] := by
+  let e : Fin 2 → Fin 3 := ![1, 2]
+  have hfull : idealOf k M.tuple = idealOf k ![a, b, c] := by
+    simpa [IsRealization, ideal] using h.symm
+  have hsource : AlgebraicIndependent k (M.tuple ∘ e) := by
+    convert M.rightOutput_independent using 1
+    funext i
+    fin_cases i <;> rfl
+  have ht := algebraicIndependent_comp_of_idealOf_eq hfull e
+    hsource
+  convert ht using 1
+  funext i
+  fin_cases i <;> rfl
+
+/-- In every realization the output is algebraic over the two inputs. -/
+theorem output_mem_left_right : c ∈ racl k ({a, b} : Set Ω) := by
+  have hfull : idealOf k M.tuple = idealOf k ![a, b, c] := by
+    simpa [IsRealization, ideal] using h.symm
+  have himageM : M.tuple '' ({0, 1} : Set (Fin 3)) =
+      ({M.left, M.right} : Set Ω) := by
+    ext z
+    constructor
+    · rintro ⟨i, hi, rfl⟩
+      fin_cases i <;> simp [tuple] at hi ⊢
+    · rintro (rfl | rfl)
+      · exact ⟨0, by simp, rfl⟩
+      · exact ⟨1, by simp, rfl⟩
+  have ho : M.tuple 2 ∈
+      racl k (M.tuple '' ({0, 1} : Set (Fin 3))) := by
+    rw [himageM]
+    exact M.output_mem_left_right
+  have ht := mem_racl_image_of_idealOf_eq k hfull ho
+  have himage : (![a, b, c] : Fin 3 → Ω) '' ({0, 1} : Set (Fin 3)) =
+      ({a, b} : Set Ω) := by
+    ext z
+    constructor
+    · rintro ⟨i, hi, rfl⟩
+      fin_cases i <;> simp at hi ⊢
+    · rintro (rfl | rfl)
+      · exact ⟨0, by simp, rfl⟩
+      · exact ⟨1, by simp, rfl⟩
+  rwa [himage] at ht
+
+/-- In every realization the right input is algebraic over the left input
+and output. -/
+theorem right_mem_left_output : b ∈ racl k ({a, c} : Set Ω) := by
+  have hfull : idealOf k M.tuple = idealOf k ![a, b, c] := by
+    simpa [IsRealization, ideal] using h.symm
+  have himageM : M.tuple '' ({0, 2} : Set (Fin 3)) =
+      ({M.left, M.output} : Set Ω) := by
+    ext z
+    constructor
+    · rintro ⟨i, hi, rfl⟩
+      fin_cases i <;> simp [tuple] at hi ⊢
+    · rintro (rfl | rfl)
+      · exact ⟨0, by simp, rfl⟩
+      · exact ⟨2, by simp, rfl⟩
+  have ho : M.tuple 1 ∈
+      racl k (M.tuple '' ({0, 2} : Set (Fin 3))) := by
+    rw [himageM]
+    exact M.right_mem_left_output
+  have ht := mem_racl_image_of_idealOf_eq k hfull ho
+  have himage : (![a, b, c] : Fin 3 → Ω) '' ({0, 2} : Set (Fin 3)) =
+      ({a, c} : Set Ω) := by
+    ext z
+    constructor
+    · rintro ⟨i, hi, rfl⟩
+      fin_cases i <;> simp at hi ⊢
+    · rintro (rfl | rfl)
+      · exact ⟨0, by simp, rfl⟩
+      · exact ⟨2, by simp, rfl⟩
+  rwa [himage] at ht
+
+/-- In every realization the left input is algebraic over the right input
+and output. -/
+theorem left_mem_right_output : a ∈ racl k ({b, c} : Set Ω) := by
+  have hfull : idealOf k M.tuple = idealOf k ![a, b, c] := by
+    simpa [IsRealization, ideal] using h.symm
+  have himageM : M.tuple '' ({1, 2} : Set (Fin 3)) =
+      ({M.right, M.output} : Set Ω) := by
+    ext z
+    constructor
+    · rintro ⟨i, hi, rfl⟩
+      fin_cases i <;> simp [tuple] at hi ⊢
+    · rintro (rfl | rfl)
+      · exact ⟨1, by simp, rfl⟩
+      · exact ⟨2, by simp, rfl⟩
+  have ho : M.tuple 0 ∈
+      racl k (M.tuple '' ({1, 2} : Set (Fin 3))) := by
+    rw [himageM]
+    exact M.left_mem_right_output
+  have ht := mem_racl_image_of_idealOf_eq k hfull ho
+  have himage : (![a, b, c] : Fin 3 → Ω) '' ({1, 2} : Set (Fin 3)) =
+      ({b, c} : Set Ω) := by
+    ext z
+    constructor
+    · rintro ⟨i, hi, rfl⟩
+      fin_cases i <;> simp at hi ⊢
+    · rintro (rfl | rfl)
+      · exact ⟨1, by simp, rfl⟩
+      · exact ⟨2, by simp, rfl⟩
+  rwa [himage] at ht
+
+/-- Any two coordinate pairs in a realization generate the same relative
+algebraic closure. -/
+theorem racl_leftRight_eq_leftOutput :
+    racl k ({a, b} : Set Ω) = racl k ({a, c} : Set Ω) := by
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rintro z (rfl | rfl)
+    · exact subset_racl k _ (by simp)
+    · exact h.right_mem_left_output
+  · rintro z (rfl | rfl)
+    · exact subset_racl k _ (by simp)
+    · exact h.output_mem_left_right
+
+/-- The right-input/output pair generates the same closure as the input
+pair in every realization. -/
+theorem racl_leftRight_eq_rightOutput :
+    racl k ({a, b} : Set Ω) = racl k ({b, c} : Set Ω) := by
+  refine racl_congr_of_subset_racl ?_ ?_
+  · rintro z (rfl | rfl)
+    · exact h.left_mem_right_output
+    · exact subset_racl k _ (by simp)
+  · rintro z (rfl | rfl)
+    · exact subset_racl k _ (by simp)
+    · exact h.output_mem_left_right
+
+end IsRealization
+
 /-- The multiplication locus has a point over every independent generic
 pair of inputs. -/
 theorem exists_output [IsAlgClosed Ω] {a b : Ω}
@@ -888,6 +1059,213 @@ theorem exists_left [IsAlgClosed Ω] {b c : Ω}
   change idealOf k ![v 0, b, c] = idealOf k M.tuple
   rw [← hvtuple]
   exact hv
+
+/-- The four multiplication/division edges used by the group-configuration
+difference chart.  In blueprint notation these fields satisfy the four
+prime-locus relations
+
+`u = s · e`, `sA · a = u`, `uB = s · b`, and `sA · c = uB`.
+
+The notation is relational: a finite correspondence need not yet be a
+single-valued operation. -/
+structure FourArrowDifferenceDiagram (s a b e : Ω) where
+  /-- A selected output of `s · e`. -/
+  u : Ω
+  /-- A selected left quotient solving `sA · a = u`. -/
+  sA : Ω
+  /-- A selected output of `s · b`. -/
+  uB : Ω
+  /-- The selected difference-chart output solving `sA · c = uB`. -/
+  c : Ω
+  /-- The edge `u = s · e`. -/
+  se_u : M.IsRealization s e u
+  /-- The edge `sA · a = u`. -/
+  sA_a_u : M.IsRealization sA a u
+  /-- The edge `uB = s · b`. -/
+  s_b_uB : M.IsRealization s b uB
+  /-- The edge `sA · c = uB`. -/
+  sA_c_uB : M.IsRealization sA c uB
+
+set_option maxHeartbeats 800000 in
+-- The four nested closure-intersection arguments elaborate above the default budget.
+/-- Four independent generic inputs admit the complete four-arrow
+difference diagram on one ternary finite-correspondence locus.  The proof
+derives the two intermediate independence conditions by exchange.  In
+particular, independence of the last division pair is a consequence of the
+four generic inputs and the three preceding finite relations; it is not an
+extra hypothesis. -/
+theorem exists_fourArrowDifferenceDiagram [IsAlgClosed Ω]
+    {s e a b : Ω} (hind : AlgebraicIndependent k ![s, e, a, b]) :
+    Nonempty (M.FourArrowDifferenceDiagram s a b e) := by
+  classical
+  let q : Fin 4 → Ω := ![s, e, a, b]
+  have hq : AlgebraicIndependent k q := hind
+  have hq01 : q '' ({0, 1} : Set (Fin 4)) = ({s, e} : Set Ω) := by
+    ext z
+    simp [q]
+    tauto
+  have hq012 : q '' ({0, 1, 2} : Set (Fin 4)) =
+      ({s, e, a} : Set Ω) := by
+    ext z
+    simp [q]
+    tauto
+  have hq02 : q '' ({0, 2} : Set (Fin 4)) = ({s, a} : Set Ω) := by
+    ext z
+    simp [q]
+    tauto
+  have ha_se : a ∉ racl k ({s, e} : Set Ω) := by
+    have hnot := AlgebraicIndependent.notMem_racl_image hq
+      (S := ({0, 1} : Set (Fin 4))) (i := 2) (by simp)
+    rw [hq01] at hnot
+    simpa [q] using hnot
+  have hb_sea : b ∉ racl k ({s, e, a} : Set Ω) := by
+    have hnot := AlgebraicIndependent.notMem_racl_image hq
+      (S := ({0, 1, 2} : Set (Fin 4))) (i := 3) (by simp)
+    rw [hq012] at hnot
+    simpa [q] using hnot
+  have he_sa : e ∉ racl k ({s, a} : Set Ω) := by
+    have hnot := AlgebraicIndependent.notMem_racl_image hq
+      (S := ({0, 2} : Set (Fin 4))) (i := 1) (by simp)
+    rw [hq02] at hnot
+    simpa [q] using hnot
+  have hb_se : b ∉ racl k ({s, e} : Set Ω) := by
+    intro hmem
+    exact hb_sea (racl_mono (by intro z hz; simp at hz ⊢; tauto) hmem)
+  have hb_s : b ∉ racl k ({s} : Set Ω) := by
+    intro hmem
+    exact hb_se (racl_mono (by intro z hz; simp at hz ⊢; tauto) hmem)
+  have he_s : e ∉ racl k ({s} : Set Ω) := by
+    intro hmem
+    exact he_sa (racl_mono (by intro z hz; simp at hz ⊢; tauto) hmem)
+  have hse : AlgebraicIndependent k ![s, e] := by
+    have hp := AlgebraicIndependent.comp_pair hq
+      (i := 0) (j := 1) (by decide)
+    simpa [q] using hp
+  obtain ⟨u, hu⟩ := M.exists_output hse
+  have hRu : M.IsRealization s e u := hu
+  have hau : AlgebraicIndependent k ![a, u] := by
+    refine algebraicIndependent_pair ?_ ?_
+    · intro ha_u
+      apply ha_se
+      refine racl_le_of_subset_racl ?_ ha_u
+      rintro z rfl
+      exact hRu.output_mem_left_right
+    · intro hu_a
+      have hu_as : u ∈ racl k (insert a ({s} : Set Ω)) :=
+        racl_mono (by intro z hz; simp at hz ⊢; tauto) hu_a
+      have hu_es : u ∈ racl k (insert e ({s} : Set Ω)) := by
+        have hset : insert e ({s} : Set Ω) = ({s, e} : Set Ω) := by
+          ext z
+          simp
+          tauto
+        rw [hset]
+        exact hRu.output_mem_left_right
+      have ha_es : a ∉ racl k (insert e ({s} : Set Ω)) := by
+        have hset : insert e ({s} : Set Ω) = ({s, e} : Set Ω) := by
+          ext z
+          simp
+          tauto
+        rwa [hset]
+      have hu_s : u ∈ racl k ({s} : Set Ω) :=
+        mem_racl_of_mem_racl_insert hu_es hu_as ha_es
+      have he_s' : e ∈ racl k ({s} : Set Ω) := by
+        refine racl_le_of_subset_racl ?_ hRu.right_mem_left_output
+        rintro z (rfl | rfl)
+        · exact subset_racl k _ (by simp)
+        · exact hu_s
+      exact he_s he_s'
+  obtain ⟨sA, hsA⟩ := M.exists_left hau
+  have hRsA : M.IsRealization sA a u := hsA
+  have hsb : AlgebraicIndependent k ![s, b] := by
+    have hp := AlgebraicIndependent.comp_pair hq
+      (i := 0) (j := 3) (by decide)
+    simpa [q] using hp
+  obtain ⟨uB, huB⟩ := M.exists_output hsb
+  have hRuB : M.IsRealization s b uB := huB
+  have hsa_sea : sA ∈ racl k ({s, e, a} : Set Ω) := by
+    refine racl_le_of_subset_racl ?_ hRsA.left_mem_right_output
+    rintro z (rfl | rfl)
+    · exact subset_racl k _ (by simp)
+    · exact racl_mono (by intro z hz; simp at hz ⊢; tauto)
+        hRu.output_mem_left_right
+  have huB_sb : uB ∈ racl k ({s, b} : Set Ω) :=
+    hRuB.output_mem_left_right
+  have hinsert_a_se : insert a ({s, e} : Set Ω) =
+      ({s, e, a} : Set Ω) := by
+    ext z
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
+    constructor <;> rintro (rfl | rfl | rfl) <;> simp
+  have hinsert_e_s : insert e ({s} : Set Ω) = ({s, e} : Set Ω) := by
+    ext z
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
+    constructor <;> rintro (rfl | rfl) <;> simp
+  have hinsert_b_s : insert b ({s} : Set Ω) = ({s, b} : Set Ω) := by
+    ext z
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
+    constructor <;> rintro (rfl | rfl) <;> simp
+  have hintersection {w : Ω}
+      (hw_sea : w ∈ racl k ({s, e, a} : Set Ω))
+      (hw_sb : w ∈ racl k ({s, b} : Set Ω)) :
+      w ∈ racl k ({s} : Set Ω) := by
+    have hw_a_se : w ∈ racl k (insert a ({s, e} : Set Ω)) := by
+      rwa [hinsert_a_se]
+    have hw_b_se : w ∈ racl k (insert b ({s, e} : Set Ω)) :=
+      racl_mono (by
+        rintro z (rfl | rfl)
+        · exact Set.mem_insert_of_mem _ (by simp)
+        · exact Set.mem_insert _ _) hw_sb
+    have hb_a_se : b ∉ racl k (insert a ({s, e} : Set Ω)) := by
+      rwa [hinsert_a_se]
+    have hw_se : w ∈ racl k ({s, e} : Set Ω) :=
+      mem_racl_of_mem_racl_insert hw_a_se hw_b_se hb_a_se
+    have hw_e_s : w ∈ racl k (insert e ({s} : Set Ω)) := by
+      rwa [hinsert_e_s]
+    have hw_b_s : w ∈ racl k (insert b ({s} : Set Ω)) := by
+      rwa [hinsert_b_s]
+    have hb_e_s : b ∉ racl k (insert e ({s} : Set Ω)) := by
+      rwa [hinsert_e_s]
+    exact mem_racl_of_mem_racl_insert hw_e_s hw_b_s hb_e_s
+  have hsa_uB : AlgebraicIndependent k ![sA, uB] := by
+    refine algebraicIndependent_pair ?_ ?_
+    · intro hsa_uB
+      have hsa_sb : sA ∈ racl k ({s, b} : Set Ω) := by
+        refine racl_le_of_subset_racl ?_ hsa_uB
+        rintro z rfl
+        exact huB_sb
+      have hsa_s := hintersection hsa_sea hsa_sb
+      have hu_sa : u ∈ racl k ({s, a} : Set Ω) := by
+        refine racl_le_of_subset_racl ?_ hRsA.output_mem_left_right
+        rintro z (rfl | rfl)
+        · exact racl_mono (by simp) hsa_s
+        · exact subset_racl k _ (by simp)
+      have he_sa' : e ∈ racl k ({s, a} : Set Ω) := by
+        refine racl_le_of_subset_racl ?_ hRu.right_mem_left_output
+        rintro z (rfl | rfl)
+        · exact subset_racl k _ (by simp)
+        · exact hu_sa
+      exact he_sa he_sa'
+    · intro huB_sa
+      have huB_sea : uB ∈ racl k ({s, e, a} : Set Ω) := by
+        refine racl_le_of_subset_racl ?_ huB_sa
+        rintro z rfl
+        exact hsa_sea
+      have huB_s := hintersection huB_sea huB_sb
+      have hb_s' : b ∈ racl k ({s} : Set Ω) := by
+        refine racl_le_of_subset_racl ?_ hRuB.right_mem_left_output
+        rintro z (rfl | rfl)
+        · exact subset_racl k _ (by simp)
+        · exact huB_s
+      exact hb_s hb_s'
+  obtain ⟨c, hc⟩ := M.exists_right hsa_uB
+  exact ⟨{
+    u := u
+    sA := sA
+    uB := uB
+    c := c
+    se_u := hRu
+    sA_a_u := hRsA
+    s_b_uB := hRuB
+    sA_c_uB := hc }⟩
 
 end FiniteCorrespondenceMultiplication
 
