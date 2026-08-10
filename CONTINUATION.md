@@ -146,12 +146,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
    cover.  Its middle and target transports contain all three branches,
    and the deck-corrected `A · B = C` equality now holds on these
    finite-dimensional normal fields.
+7. `Correspondence/AlgebraicGroup.lean` fixes the honest target of the
+   algebraization step: separated finite-type group schemes over the base
+   field, with the connected version geometrically integral.  It constructs
+   scheme-theoretic kernels in the internal group category, proves that the
+   kernel is a closed finite-type separated subgroup scheme, and proves its
+   inclusion normal by identifying the kernel square with pullback along the
+   unit section.
 
-**Next exact step:** algebraize the finite-normal-cover action as a
-rank-two algebraic group chunk and identify the already constructed
-categorical rank-one normal kernel with its connected algebraic kernel.
-Then apply the completed affine-action classification and finish
-affine-grid extraction (8.5) and Q correctness.
+**Next exact step:** carry out Weil's chart gluing from the normalized
+finite-correspondence chunk into the new scheme-level algebraic-group
+target, then identify the already constructed categorical rank-one normal
+kernel with the connected component of its scheme-theoretic kernel.  Then
+apply the completed affine-action classification and finish affine-grid
+extraction (8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
 group only records the vertical ambiguity of chosen lifts; the parameter

@@ -1185,9 +1185,27 @@ an exact equality after the restricted vertical deck correction:
 
 {docstring AclGeom.QWitness.psiFiniteCoverComposition}
 
-This gives the finite-type field action needed for the next geometric
-step: algebraize the presented rank-two chunk and identify its categorical
-rank-one normal kernel with a connected algebraic kernel.  That conclusion
+The scheme-theoretic target of the next step is now fixed precisely.  An
+algebraic group is a separated finite-type group object over the base-field
+spectrum; a connected algebraic group is geometrically integral, rather
+than merely an abstract group whose carrier happens to be a parameter type:
+
+{docstring AclGeom.AlgebraicGroup}
+
+{docstring AclGeom.ConnectedAlgebraicGroup}
+
+Kernels are formed in the category of group schemes.  Forgetting the
+kernel square to schemes identifies it with the pullback along the unit
+section.  Consequently the kernel is a closed finite-type separated
+subgroup scheme and its inclusion is normal in the internal-group sense:
+
+{docstring AclGeom.AlgebraicGroup.Hom.kernelAlgebraicGroup}
+
+{docstring AclGeom.AlgebraicGroup.Hom.kernelInclusion_normal}
+
+The finite normal-cover action must next be algebraized into this genuine
+scheme-level target, and its categorical rank-one kernel identified with
+the connected component of this scheme-theoretic kernel.  That conclusion
 is not inferred merely from the presented quotient or from finiteness of
 the earlier deck action.
 
