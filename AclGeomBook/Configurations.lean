@@ -1484,6 +1484,36 @@ the common normal coefficient field:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedAlternativeBasedBranchEquiv_selected}
 
+The finite comparison field is finite over each alternative base as well
+as over the original common inputs.  Ambient closure equality survives an
+embedding; applied to the three alternative eight-tuples, it shows that
+all common and replacement coefficients are algebraic over each named
+alternative field.  Finite adjoining and the tower law then make the same
+common coefficient normal field a finite extension of all three bases.
+This is the precise finiteness input for taking pairwise normal closures
+after the formal source and the common source cover are adjoined, without
+assuming that a curve ideal stays prime under algebraic base change:
+
+{docstring AclGeom.algHom_racl_image_eq_of_racl_eq}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonInput_racl_eq_repeatedSAInput}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonInput_racl_eq_repeatedUInput}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonInput_racl_eq_repeatedUBInput}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientOverRepeatedSA_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientOverRepeatedU_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientOverRepeatedUB_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientNormalOverRepeatedSA_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientNormalOverRepeatedU_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientNormalOverRepeatedUB_finiteDimensional}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

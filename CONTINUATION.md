@@ -526,6 +526,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     selected branch.  The remaining bridge is to transport these three
     based comparisons through their embeddings into the common coefficient
     normal field and then into the simultaneous common source cover.
+41. The common coefficient comparison field is now proved finite over all
+    three alternative eight-input fields, not merely over the original
+    common input field.  A reusable ambient-invariance lemma shows that
+    equality of relative algebraic closures survives an embedding into a
+    larger ambient field.  The diagram's successive interalgebraic block
+    replacements therefore identify the closures of the original input
+    tuple with `(s,sA,a,b)`, `(s,u,a,b)`, and `(s,sA,a,uB)` after embedding.
+    Every common or replacement coefficient is algebraic over each named
+    alternative field, so the explicit coefficient enlargement is finite
+    over each; finiteness then ascends to its common normal closure by the
+    finite-extension tower law.  Thus the next transport may take finite
+    pairwise normal closures after adjoining the formal source and the
+    simultaneous source cover.  No unsupported assertion that curve ideals
+    remain prime after algebraic base change is used.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -537,12 +551,14 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--40 supply selected-branch-preserving comparisons and equality of
+items 36--41 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field.
 The three remaining alternative fields and their selected comparisons now
-lie in one finite normal coefficient field.  Transport those based
-comparisons through this common coefficient normalization, then use
+lie in one coefficient field finite over every relevant base and normal
+over the original common field.  Form the required pairwise normal source
+extensions and transport those based comparisons through this common
+coefficient normalization, then use
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with

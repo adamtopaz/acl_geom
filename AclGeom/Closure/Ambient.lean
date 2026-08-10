@@ -98,6 +98,26 @@ theorem algHom_mem_racl_image_iff {N : Type*} [Field N] [Algebra k N]
         ⟨q₀.coeff n, hqc n, rfl⟩
       rwa [adjoin_map k S ι] at h1
 
+/-- Equal relative algebraic closures of two generating sets remain equal
+after embedding them in a larger ambient field.  This is weaker than
+commuting `racl` with an embedding: the larger ambient field may contain
+additional algebraic elements, but mutual algebraicity of the generators
+is still preserved. -/
+theorem algHom_racl_image_eq_of_racl_eq
+    {N : Type*} [Field N] [Algebra k N]
+    (ι : N →ₐ[k] Ω) {S T : Set N}
+    (h : racl k S = racl k T) :
+    racl k (⇑ι '' S) = racl k (⇑ι '' T) := by
+  apply racl_congr_of_subset_racl
+  · rintro _ ⟨x, hx, rfl⟩
+    apply (algHom_mem_racl_image_iff ι).2
+    rw [← h]
+    exact subset_racl k S hx
+  · rintro _ ⟨x, hx, rfl⟩
+    apply (algHom_mem_racl_image_iff ι).2
+    rw [h]
+    exact subset_racl k T hx
+
 /-- Ambient invariance in embedding form, singleton case. -/
 theorem algHom_mem_racl_singleton_iff {N : Type*} [Field N] [Algebra k N]
     (ι : N →ₐ[k] Ω) {w x : N} :
