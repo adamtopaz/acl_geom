@@ -218,6 +218,33 @@ follows from the same normalization calculus:
 With this, the soundness half of the configuration layer is complete:
 `QSem → QGeom`, `Q'Sem → Q'Geom`, and `JSem → JGeom` all hold over any
 infinite base field, given a supply of fresh elements over small sets.
+
+# Selected correspondence composition and the group-chunk core
+%%%
+tag := "group-chunk-core"
+%%%
+
+Finite correspondence composition keeps track of a selected generic
+component.  The matching theorem relocates the source of the second germ
+onto the target of the first; the resulting endpoint pair is the chosen
+component.  The fiber-product dimension calculation used in equation (8.6)
+is exposed separately as an algebraic-independence and closure statement:
+
+{docstring AclGeom.FiniteCorrespondenceGerm.exists_composite}
+
+{docstring AclGeom.fiber_product_rank_count}
+
+On the common normal cover, a chosen branch makes the generic
+multiplication and inverse single-valued.  Associativity and the two inverse
+identities already force an honest group: the apparently
+parameter-dependent left and right units coincide.  The left-translation
+chart is consequently an injective homomorphism into the automorphism group
+of the normalized function field:
+
+{docstring AclGeom.RationalGroupChunk.toGroup}
+
+{docstring AclGeom.TranslationGroupChunk.translationHom}
+
 The completeness directions — resting on the affine grid extraction of
 blueprint Lemma 8.5, the rational group chunk, and the affine-action
 classification — are the remaining chunk of this layer; the design
