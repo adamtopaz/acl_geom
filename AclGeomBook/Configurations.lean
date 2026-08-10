@@ -1109,11 +1109,56 @@ The categorical kernel is now normal, the graph dimension count is in
 place, and the finite edge covers have descended to a product local system
 equipped with faithful actions on one reference field.  These automorphisms
 form the finite deck group; they are not the positive-dimensional parameter
-group.  The next step is to lift the presented rank-two multiplication
-through this normalized product chart and algebraize its existing
-categorical kernel as a connected rank-one normal kernel.  Neither
-conclusion is inferred merely from the presented quotient or from
-finiteness of the deck action.
+group.
+
+The positive-dimensional action begins with the actual curve-coordinate
+fields of the selected correspondence families.  A finite correspondence
+does not usually act on its source rational field, since its target is only
+algebraic over that field.  It does induce an equivalence between the
+source and target rational fields, and a chosen semilinear equivalence of
+their algebraic closures.  Chosen lifts are not falsely declared
+functorial: the discrepancy between strict composition and a separately
+chosen composite lift is an explicit deck transformation fixing the target
+curve field:
+
+{docstring AclGeom.AlgebraicClosureTransport}
+
+{docstring AclGeom.FiniteCorrespondencePair.coordinateClosureTransport}
+
+{docstring AclGeom.FiniteCorrespondencePair.coordinateClosureTransport_source}
+
+{docstring AclGeom.FiniteCorrespondencePair.chainCoordinateClosureTransport_source}
+
+{docstring AclGeom.FiniteCorrespondencePair.compositionDefect}
+
+{docstring AclGeom.FiniteCorrespondencePair.chainCoordinateClosureTransport_trans_compositionDefect}
+
+For the Ψ witness this gives the field-action form of blueprint equation
+`(8.6)`: the `A` branch carries `X` to `Y`, the `B` branch carries `Y` to
+`Z`, and their strict composite agrees with the independently selected `C`
+lift after the vertical deck correction.  Its coefficient field contains
+the two independent rank-two parameters `A,B`; this is therefore the first
+single-valued positive-dimensional field action, not another finite deck
+chart:
+
+{docstring AclGeom.QWitness.psiAClosureTransport}
+
+{docstring AclGeom.QWitness.psiBClosureTransport}
+
+{docstring AclGeom.QWitness.psiABClosureTransport_X}
+
+{docstring AclGeom.QWitness.psiClosureCompositionDefect}
+
+{docstring AclGeom.QWitness.psiClosureComposition}
+
+{docstring AclGeom.QWitness.psiClosureParameters_independent}
+
+The remaining normalization step is to prove that these algebraic-closure
+transports and their vertical defects stabilize one common finite curve
+cover.  Restricting there will give the finite-type action needed to
+algebraize the categorical normal kernel as a connected rank-one group.
+Neither conclusion is inferred merely from the presented quotient or from
+finiteness of the earlier deck action.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
