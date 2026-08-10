@@ -28,6 +28,7 @@ namespace AclGeom
 
 open IntermediateField
 open AlgebraicGeometry
+open CategoryTheory
 
 noncomputable section
 
@@ -450,6 +451,59 @@ def projectionToNormalizedScalar (p : Fin 2 → K) (x : K)
     D.adjoin_inputCoordinates_eq_top
     (L.scalarNormalFieldToReferenceNormalCover p x hfield)
 
+instance projectionToNormalizedScalar_isDominant
+    (p : Fin 2 → K) (x : K)
+    (hx : x ∈ racl k (Set.range p))
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    (L.projectionToNormalizedScalar p x hx hfield).IsDominant := by
+  letI := L.referenceNormalCover_finiteDimensional
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  unfold projectionToNormalizedScalar
+  exact FiniteExtensionProjection.rationalMap_isDominant
+    D.inputCoordinates (rankTwoParameterCoordinates (k := k) p)
+    D.adjoin_inputCoordinates_eq_top
+    (L.scalarNormalFieldToReferenceNormalCover p x hfield)
+
+/-- The contravariant function-field embedding underlying a direct
+projection from the common chart to a normalized scalar branch chart. -/
+noncomputable def projectionFunctionFieldRingHom (p : Fin 2 → K) (x : K)
+    (hx : x ∈ racl k (Set.range p))
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    (rankTwoScalarAlgebraicChart (k := k) p x hx).functionField →+*
+      L.referenceAlgebraicChart.functionField := by
+  letI := L.referenceNormalCover_finiteDimensional
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  exact (FiniteExtensionProjection.functionFieldAlgHom
+    D.inputCoordinates (rankTwoParameterCoordinates (k := k) p)
+    D.adjoin_inputCoordinates_eq_top
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (L.scalarNormalFieldToReferenceNormalCover p x hfield)).toRingHom
+
+/-- The generic-point morphism of a direct normalized projection is exactly
+the one attached to its explicit contravariant field embedding. -/
+theorem projectionToNormalizedScalar_fromFunctionField
+    (p : Fin 2 → K) (x : K)
+    (hx : x ∈ racl k (Set.range p))
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    (L.projectionToNormalizedScalar p x hx hfield).fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (L.projectionFunctionFieldRingHom p x hx hfield)) := by
+  letI := L.referenceNormalCover_finiteDimensional
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  unfold projectionToNormalizedScalar projectionFunctionFieldRingHom
+  exact FiniteExtensionProjection.rationalMap_fromFunctionField
+    D.inputCoordinates (rankTwoParameterCoordinates (k := k) p)
+    D.adjoin_inputCoordinates_eq_top
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (L.scalarNormalFieldToReferenceNormalCover p x hfield)
+
 /-- Direct projection to the normalized first-input `B/T` chart. -/
 abbrev toNormalizedE : Scheme.RationalMap L.referenceAlgebraicChart
     (w.psiBProjectionAlgebraicChart hψ L.eProjectionRelation) :=
@@ -473,6 +527,46 @@ abbrev toNormalizedC : Scheme.RationalMap L.referenceAlgebraicChart
     (w.psiBProjectionAlgebraicChart hψ L.cProjectionRelation) :=
   L.projectionToNormalizedScalar D.c L.sA_c_c L.cScalar_mem_racl
     L.cNormalField_le_normalizedField
+
+/-- Exact generic-point description of the first-input projection. -/
+theorem toNormalizedE_fromFunctionField :
+    L.toNormalizedE.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (L.projectionFunctionFieldRingHom e L.se_e L.eScalar_mem_racl
+            L.eNormalField_le_normalizedField)) :=
+  L.projectionToNormalizedScalar_fromFunctionField e L.se_e
+    L.eScalar_mem_racl L.eNormalField_le_normalizedField
+
+/-- Exact generic-point description of the inverse-input projection. -/
+theorem toNormalizedA_fromFunctionField :
+    L.toNormalizedA.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (L.projectionFunctionFieldRingHom a L.sA_a_a L.aScalar_mem_racl
+            L.aNormalField_le_normalizedField)) :=
+  L.projectionToNormalizedScalar_fromFunctionField a L.sA_a_a
+    L.aScalar_mem_racl L.aNormalField_le_normalizedField
+
+/-- Exact generic-point description of the second-input projection. -/
+theorem toNormalizedB_fromFunctionField :
+    L.toNormalizedB.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (L.projectionFunctionFieldRingHom b L.s_b_b L.bScalar_mem_racl
+            L.bNormalField_le_normalizedField)) :=
+  L.projectionToNormalizedScalar_fromFunctionField b L.s_b_b
+    L.bScalar_mem_racl L.bNormalField_le_normalizedField
+
+/-- Exact generic-point description of the selected output projection. -/
+theorem toNormalizedC_fromFunctionField :
+    L.toNormalizedC.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (L.projectionFunctionFieldRingHom D.c L.sA_c_c L.cScalar_mem_racl
+            L.cNormalField_le_normalizedField)) :=
+  L.projectionToNormalizedScalar_fromFunctionField D.c L.sA_c_c
+    L.cScalar_mem_racl L.cNormalField_le_normalizedField
 
 instance toNormalizedE_isDominant : L.toNormalizedE.IsDominant := by
   letI := L.referenceNormalCover_finiteDimensional
@@ -523,6 +617,65 @@ abbrev selectedBAlgebraicChart : Scheme :=
   w.psiBProjectionAlgebraicChart hψ
     (selectedBProjectionRelation (w := w))
 
+/-- The contravariant function-field isomorphism underlying the transition
+from an arbitrary normalized `B/T` branch chart to the selected chart. -/
+noncomputable def normalizedToSelectedFunctionFieldRingHom [IsAlgClosed K]
+    {p : Fin 2 → K} {x : K} (hp : w.psiBProjectionRelation p x) :
+    (selectedBAlgebraicChart (w := w) (hψ := hψ)).functionField →+*
+      (w.psiBProjectionAlgebraicChart hψ hp).functionField := by
+  let hx := PsiBProjectionRelation.scalar_mem_racl w hψ hp
+  let hy := w.T_rep_mem_racl_bReps hψ
+  exact (rankTwoScalarLocusReferenceFunctionFieldRingEquiv
+    hy hx hy hp.symm
+      (selectedBProjectionRelation (w := w)).symm).symm.toRingHom
+
+/-- The normalized-to-selected chart transition has exactly the preceding
+contravariant function-field isomorphism at its generic point. -/
+theorem normalizedToSelected_fromFunctionField [IsAlgClosed K]
+    {p : Fin 2 → K} {x : K} (hp : w.psiBProjectionRelation p x) :
+    (w.psiBProjectionReferenceRationalMap hψ hp
+      (selectedBProjectionRelation (w := w))).fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (normalizedToSelectedFunctionFieldRingHom
+            (w := w) (hψ := hψ) hp)) := by
+  rw [QWitness.psiBProjectionReferenceRationalMap_fromFunctionField]
+  unfold normalizedToSelectedFunctionFieldRingHom
+  rfl
+
+/-- Composing a common-cover projection with the selected-chart transition
+induces the literal composite of their contravariant field embeddings. -/
+theorem projectionToReference_fromFunctionField [IsAlgClosed K]
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    ((L.projectionToNormalizedScalar p x
+        (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hfield).comp
+      (w.psiBProjectionReferenceRationalMap hψ hp
+        (selectedBProjectionRelation (w := w)))).fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+            (normalizedToSelectedFunctionFieldRingHom
+              (w := w) (hψ := hψ) hp) ≫
+          CommRingCat.ofHom
+            (L.projectionFunctionFieldRingHom p x
+              (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hfield)) := by
+  let hx := PsiBProjectionRelation.scalar_mem_racl w hψ hp
+  letI := L.referenceNormalCover_finiteDimensional
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k)
+    hx
+  letI : (L.projectionToNormalizedScalar p x hx hfield).IsDominant := by
+    unfold projectionToNormalizedScalar
+    exact FiniteExtensionProjection.rationalMap_isDominant
+      D.inputCoordinates (rankTwoParameterCoordinates (k := k) p)
+      D.adjoin_inputCoordinates_eq_top
+      (L.scalarNormalFieldToReferenceNormalCover p x hfield)
+  apply Scheme.RationalMap.comp_fromFunctionField_eq_hom
+  · exact L.projectionToNormalizedScalar_fromFunctionField p x
+      (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hfield
+  · exact normalizedToSelected_fromFunctionField (w := w) (hψ := hψ) hp
+
 /-- The first based input, transported to the selected `B/T` reference
 model. -/
 def toReferenceE [IsAlgClosed K] : Scheme.RationalMap L.referenceAlgebraicChart
@@ -552,6 +705,65 @@ def toReferenceC [IsAlgClosed K] : Scheme.RationalMap L.referenceAlgebraicChart
   L.toNormalizedC.comp
     (w.psiBProjectionReferenceRationalMap hψ L.cProjectionRelation
       (selectedBProjectionRelation (w := w)))
+
+/-- Exact composite field embedding induced by the first-input reference
+map. -/
+theorem toReferenceE_fromFunctionField [IsAlgClosed K] :
+    L.toReferenceE.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+            (normalizedToSelectedFunctionFieldRingHom
+              (w := w) (hψ := hψ) L.eProjectionRelation) ≫
+          CommRingCat.ofHom
+            (L.projectionFunctionFieldRingHom e L.se_e L.eScalar_mem_racl
+              L.eNormalField_le_normalizedField)) := by
+  unfold toReferenceE toNormalizedE
+  exact L.projectionToReference_fromFunctionField e L.se_e
+    L.eProjectionRelation L.eNormalField_le_normalizedField
+
+/-- Exact composite field embedding induced by the inverse-input reference
+map. -/
+theorem toReferenceA_fromFunctionField [IsAlgClosed K] :
+    L.toReferenceA.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+            (normalizedToSelectedFunctionFieldRingHom
+              (w := w) (hψ := hψ) L.aProjectionRelation) ≫
+          CommRingCat.ofHom
+            (L.projectionFunctionFieldRingHom a L.sA_a_a L.aScalar_mem_racl
+              L.aNormalField_le_normalizedField)) := by
+  unfold toReferenceA toNormalizedA
+  exact L.projectionToReference_fromFunctionField a L.sA_a_a
+    L.aProjectionRelation L.aNormalField_le_normalizedField
+
+/-- Exact composite field embedding induced by the second-input reference
+map. -/
+theorem toReferenceB_fromFunctionField [IsAlgClosed K] :
+    L.toReferenceB.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+            (normalizedToSelectedFunctionFieldRingHom
+              (w := w) (hψ := hψ) L.bProjectionRelation) ≫
+          CommRingCat.ofHom
+            (L.projectionFunctionFieldRingHom b L.s_b_b L.bScalar_mem_racl
+              L.bNormalField_le_normalizedField)) := by
+  unfold toReferenceB toNormalizedB
+  exact L.projectionToReference_fromFunctionField b L.s_b_b
+    L.bProjectionRelation L.bNormalField_le_normalizedField
+
+/-- Exact composite field embedding induced by the output reference map. -/
+theorem toReferenceC_fromFunctionField [IsAlgClosed K] :
+    L.toReferenceC.fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+            (normalizedToSelectedFunctionFieldRingHom
+              (w := w) (hψ := hψ) L.cProjectionRelation) ≫
+          CommRingCat.ofHom
+            (L.projectionFunctionFieldRingHom D.c L.sA_c_c
+              L.cScalar_mem_racl L.cNormalField_le_normalizedField)) := by
+  unfold toReferenceC toNormalizedC
+  exact L.projectionToReference_fromFunctionField D.c L.sA_c_c
+    L.cProjectionRelation L.cNormalField_le_normalizedField
 
 instance toReferenceE_isDominant [IsAlgClosed K] : L.toReferenceE.IsDominant := by
   unfold toReferenceE

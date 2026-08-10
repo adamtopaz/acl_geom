@@ -1661,6 +1661,49 @@ all four based blocks on the one selected `(B,T)` model.
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceC}
 
+These common-cover maps now carry exact generic-point data.  An arbitrary
+embedding of integral-scheme function fields has a canonical generic-point
+morphism, and denominator clearing is proved to recover exactly the
+conjugated ambient embedding.  Reference transport is equally explicit.
+Thus every direct projection and every transported `toReference` map is
+identified with one displayed contravariant field homomorphism; composition
+is literal composition of those homomorphisms.  This isolates the next
+obligation cleanly: a faithful comparison with the presented-family arrows
+is still required before categorical cancellation can imply an equality of
+rational maps.
+
+{docstring AlgebraicGeometry.Scheme.functionFieldMorphismOfHom}
+
+{docstring AclGeom.FiniteExtensionProjection.functionFieldAlgHom}
+
+{docstring AclGeom.FiniteExtensionProjection.rationalMap_fromFunctionField}
+
+{docstring AclGeom.QWitness.rankTwoScalarLocusReferenceRationalMap_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.projectionFunctionFieldRingHom}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.projectionToNormalizedScalar_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedE_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedA_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedB_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedC_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.normalizedToSelectedFunctionFieldRingHom}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.projectionToReference_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceE_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceA_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceB_fromFunctionField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceC_fromFunctionField}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

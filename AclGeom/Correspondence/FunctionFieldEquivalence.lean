@@ -248,6 +248,76 @@ lemma functionFieldMap_functionFieldMorphism
     (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q = q
   simp
 
+/-- The generic-point morphism contravariantly attached to an arbitrary
+embedding of integral-scheme function fields. -/
+noncomputable def functionFieldMorphismOfHom
+    [IrreducibleSpace X] [IrreducibleSpace Y]
+    (q : Y.functionField ⟶ X.functionField) :
+    Spec X.functionField ⟶ Y :=
+  Spec.map q ≫ Y.fromSpecStalk (genericPoint Y)
+
+/-- A function-field embedding sends the closed point of the source field
+spectrum to the generic point of the target scheme. -/
+lemma functionFieldMorphismOfHom_closedPoint
+    [IsIntegral X] [IsIntegral Y]
+    (q : Y.functionField ⟶ X.functionField) :
+    functionFieldMorphismOfHom q (closedPoint X.functionField) =
+      genericPoint Y := by
+  letI : IsLocalHom q.hom := by
+    refine ⟨fun a ha ↦ ?_⟩
+    apply isUnit_iff_ne_zero.mpr
+    intro hz
+    exact (isUnit_iff_ne_zero.mp ha) (by rw [hz, map_zero])
+  rw [functionFieldMorphismOfHom, Scheme.Hom.comp_apply, Spec_closedPoint,
+    Scheme.fromSpecStalk_closedPoint]
+
+/-- Recovering the contravariant function-field map from the generic-point
+morphism attached to an embedding returns that embedding. -/
+lemma functionFieldMap_functionFieldMorphismOfHom
+    [IsIntegral X] [IsIntegral Y]
+    (q : Y.functionField ⟶ X.functionField) :
+    functionFieldMapOfMorphism (functionFieldMorphismOfHom q)
+      (functionFieldMorphismOfHom_closedPoint q) = q := by
+  letI : IsLocalHom q.hom := by
+    refine ⟨fun a ha ↦ ?_⟩
+    apply isUnit_iff_ne_zero.mpr
+    intro hz
+    exact (isUnit_iff_ne_zero.mp ha) (by rw [hz, map_zero])
+  let xq : Σ y, { q : Y.presheaf.stalk y ⟶ X.functionField //
+      IsLocalHom q.hom } := ⟨genericPoint Y, q, inferInstance⟩
+  have hr := (SpecToEquivOfLocalRing Y X.functionField).apply_symm_apply xq
+  obtain ⟨hpoint, hmap⟩ := SpecToEquivOfLocalRing_eq_iff.mp hr
+  dsimp [SpecToEquivOfLocalRing, xq] at hpoint hmap
+  change Scheme.stalkClosedPointTo
+      (Spec.map q ≫ Y.fromSpecStalk (genericPoint Y)) = _ ≫ q at hmap
+  change _ ≫ Scheme.stalkClosedPointTo
+      (Spec.map q ≫ Y.fromSpecStalk (genericPoint Y)) = q
+  let hF := functionFieldMorphismOfHom_closedPoint q
+  have hmap' : Scheme.stalkClosedPointTo
+      (Spec.map q ≫ Y.fromSpecStalk (genericPoint Y)) =
+        (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q := by
+    convert hmap using 1
+    congr 1
+  rw [hmap']
+  change (Y.presheaf.stalkCongr (.of_eq hF)).inv ≫
+    (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q = q
+  simp
+
+/-- A dominant partial map induces a prescribed function-field embedding as
+soon as its generic-point morphism is the one attached to that embedding. -/
+lemma PartialMap.functionFieldMap_eq_of_fromFunctionField_eq_hom
+    [IsIntegral X] [IsIntegral Y]
+    (f : X.PartialMap Y) [IsDominant f.hom]
+    (q : Y.functionField ⟶ X.functionField)
+    (h : f.fromFunctionField = functionFieldMorphismOfHom q) :
+    f.functionFieldMap = q := by
+  change functionFieldMapOfMorphism f.fromFunctionField
+      f.fromFunctionField_closedPoint = q
+  exact (functionFieldMapOfMorphism_congr h
+    f.fromFunctionField_closedPoint
+    (functionFieldMorphismOfHom_closedPoint q)).trans
+      (functionFieldMap_functionFieldMorphismOfHom q)
+
 /-- Two morphisms from the spectrum of an integral scheme's function field
 which carry the closed point to the target generic point are equal as soon as
 they induce the same map on function fields. -/
@@ -337,6 +407,38 @@ lemma RationalMap.fromFunctionField_comp
   rw [PartialMap.fromFunctionField_comp]
   rw [RationalMap.fromFunctionField_representative]
   rw [g.toRationalMap_representative]
+
+/-- The representative of a dominant rational map recovers a prescribed
+function-field embedding from its generic-point description. -/
+lemma RationalMap.functionFieldMap_representative_eq_of_fromFunctionField_eq_hom
+    [IsIntegral X] [IsIntegral Y]
+    (f : Scheme.RationalMap X Y) [f.IsDominant]
+    (q : Y.functionField ⟶ X.functionField)
+    (h : f.fromFunctionField = functionFieldMorphismOfHom q) :
+    f.representative.functionFieldMap = q := by
+  apply PartialMap.functionFieldMap_eq_of_fromFunctionField_eq_hom
+  rw [RationalMap.fromFunctionField_representative]
+  exact h
+
+/-- Generic-point morphisms prescribed by two successive function-field
+embeddings compose contravariantly by composition of those embeddings. -/
+theorem RationalMap.comp_fromFunctionField_eq_hom
+    [IsIntegral X] [IsIntegral Y] [IsIntegral Z]
+    (f : Scheme.RationalMap X Y) [f.IsDominant]
+    (g : Scheme.RationalMap Y Z)
+    (qf : Y.functionField ⟶ X.functionField)
+    (qg : Z.functionField ⟶ Y.functionField)
+    (hf : f.fromFunctionField = functionFieldMorphismOfHom qf)
+    (hg : g.fromFunctionField = functionFieldMorphismOfHom qg) :
+    (f.comp g).fromFunctionField =
+      functionFieldMorphismOfHom (qg ≫ qf) := by
+  rw [RationalMap.fromFunctionField_comp]
+  rw [f.functionFieldMap_representative_eq_of_fromFunctionField_eq_hom qf hf]
+  rw [hg]
+  unfold functionFieldMorphismOfHom
+  rw [← Category.assoc]
+  exact congrArg (fun t ↦ t ≫ Z.fromSpecStalk (genericPoint Z))
+    (Spec.map_comp qg qf).symm
 
 lemma RationalMap.fromFunctionField_id [IrreducibleSpace X] :
     (RationalMap.id X).fromFunctionField =

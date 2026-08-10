@@ -348,14 +348,32 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     model.  Thus the reference-model comparison requested after item 24 is
     now concrete; equality of the output map with the categorical
     difference product of the three input maps remains to be proved.
+26. `Correspondence/FunctionFieldEquivalence.lean` now treats arbitrary
+    embeddings, not only equivalences: it constructs their generic-point
+    morphisms, recovers the embedding from any dominant representative, and
+    proves that successive rational maps induce the literal contravariant
+    composite.  `Correspondence/FiniteExtensionProjection.lean` identifies
+    the denominator-cleared projection with the embedding obtained by
+    conjugating its ambient field inclusion through the two canonical chart
+    function-field identifications.  The scalar-chart reference transition
+    exposes its exact function-field equivalence as well.  Consequently
+    `ChunkFourArrowReference.lean` gives exact generic-point formulas for
+    `toNormalizedE/A/B/C` and, after reference transport, for all four
+    `toReferenceE/A/B/C`: each is attached to a displayed composite field
+    embedding from the selected `(B,T)` function field into the common
+    eight-input cover field.  The remaining comparison with the presented
+    family is therefore an equality of explicit field maps, rather than an
+    implicit appeal to dominance or birational equivalence.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
-parameter cover.  Item 25 now puts the four normalized based projections on
-one literal source and one literal selected `(B,T)` target.  Identify their
-generic-point function-field maps with the corresponding presented-family
-arrows, and prove that `toReferenceC` factors through the strict categorical
-four-arrow cancellation of `toReferenceE`, `toReferenceA`, and
+parameter cover.  Items 25--26 put the four normalized based projections on
+one literal source and target and identify every generic-point map with an
+explicit field embedding.  Construct the faithful bridge from these
+function-field embeddings to the corresponding presented-family arrows;
+do not infer coordinate equality from abstract groupoid-arrow equality.
+Use that bridge to prove that `toReferenceC` factors through the strict
+categorical four-arrow cancellation of `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not
 merely hold on the eight-input relational source.  Then extract

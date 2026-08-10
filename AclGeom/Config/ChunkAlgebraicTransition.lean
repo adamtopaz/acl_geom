@@ -168,6 +168,56 @@ noncomputable def rankTwoScalarLocusReferenceRationalMap
     (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
     (rankTwoScalarLocusReferenceAlgEquiv hz hx hy hrx hry)
 
+/-- The function-field equivalence underlying a reference-normalized
+scalar-chart transition. -/
+noncomputable def rankTwoScalarLocusReferenceFunctionFieldRingEquiv
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    (rankTwoScalarAlgebraicChart (k := k) p x hx).functionField ≃+*
+      (rankTwoScalarAlgebraicChart (k := k) q y hy).functionField := by
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  exact (FiniteExtensionTransition.functionFieldAlgEquiv
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) q)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
+    (rankTwoScalarLocusReferenceAlgEquiv hz hx hy hrx hry)).toRingEquiv
+
+/-- The generic-point morphism of a reference-normalized scalar-chart
+transition is the one induced by its explicit function-field equivalence. -/
+theorem rankTwoScalarLocusReferenceRationalMap_fromFunctionField
+    {r p q : Fin 2 → K} {z x y : K}
+    (hz : z ∈ racl k (Set.range r))
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hrx : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple p x))
+    (hry : idealOf k (rankTwoScalarTuple r z) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    (rankTwoScalarLocusReferenceRationalMap
+      hz hx hy hrx hry).fromFunctionField =
+      Scheme.functionFieldMorphism
+        (rankTwoScalarLocusReferenceFunctionFieldRingEquiv
+          hz hx hy hrx hry) := by
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k) hx
+  letI := rankTwoScalarNormalField_finiteDimensional (k := k) hy
+  unfold rankTwoScalarLocusReferenceRationalMap
+    rankTwoScalarLocusReferenceFunctionFieldRingEquiv
+    rankTwoScalarAlgebraicChart
+  exact FiniteExtensionTransition.rationalMap_fromFunctionField
+    (rankTwoParameterCoordinates (k := k) p)
+    (rankTwoParameterCoordinates (k := k) q)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) p)
+    (rankTwoParameterCoordinates_adjoin_eq_top (k := k) q)
+    (rankTwoScalarLocusReferenceAlgEquiv hz hx hy hrx hry)
+
 instance rankTwoScalarLocusReferenceRationalMap_isDominant
     {r p q : Fin 2 → K} {z x y : K}
     (hz : z ∈ racl k (Set.range r))
@@ -320,6 +370,27 @@ noncomputable def psiBProjectionReferenceRationalMap
       (w.psiBProjectionAlgebraicChart hψ hp)
       (w.psiBProjectionAlgebraicChart hψ hq) :=
   rankTwoScalarLocusReferenceRationalMap
+    (w.T_rep_mem_racl_bReps hψ)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hq)
+    hp.symm hq.symm
+
+/-- Exact generic-point description of the reference-normalized comparison
+between two realizations of the Ψ `B/T` projection locus. -/
+theorem psiBProjectionReferenceRationalMap_fromFunctionField
+    (w : QWitness k K) (hψ : w.Psi)
+    {p q : Fin 2 → K} {x y : K}
+    (hp : w.psiBProjectionRelation p x)
+    (hq : w.psiBProjectionRelation q y) :
+    (w.psiBProjectionReferenceRationalMap hψ hp hq).fromFunctionField =
+      Scheme.functionFieldMorphism
+        (rankTwoScalarLocusReferenceFunctionFieldRingEquiv
+          (w.T_rep_mem_racl_bReps hψ)
+          (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
+          (PsiBProjectionRelation.scalar_mem_racl w hψ hq)
+          hp.symm hq.symm) := by
+  unfold psiBProjectionReferenceRationalMap
+  exact rankTwoScalarLocusReferenceRationalMap_fromFunctionField
     (w.T_rep_mem_racl_bReps hψ)
     (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
     (PsiBProjectionRelation.scalar_mem_racl w hψ hq)
