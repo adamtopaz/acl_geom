@@ -241,6 +241,27 @@ theorem finiteCoverBranchGroupoid_isConnected [IsAlgClosed Ω]
       (finiteCoverBranch_exists_smul_eq h hfin)
   infer_instance
 
+/-- A chosen arrow from the literal branch to any conjugate branch of a
+finite normal cover.  Connectedness makes the relevant hom-set nonempty;
+the choice is deliberately kept behind this interface. -/
+def finiteCoverSelectedArrow [IsAlgClosed Ω]
+    (h : E ≤ L) (hfin : FiniteDimensional (↥E) (↥(extendScalars h)))
+    (b : finiteCoverBranchGroupoid h) :
+    finiteCoverSelectedObject h ⟶ b := by
+  let hex := finiteCoverBranch_exists_smul_eq h hfin
+    (finiteCoverSelectedBranch h) b.back
+  let σ := Classical.choose hex
+  have hσ := Classical.choose_spec hex
+  exact ⟨σ, hσ⟩
+
+/-- Every conjugate branch of a finite normal cover carries the rational
+group chunk obtained from arrows based at the literal selected branch. -/
+def finiteCoverArrowChunk [IsAlgClosed Ω]
+    (h : E ≤ L) (hfin : FiniteDimensional (↥E) (↥(extendScalars h)))
+    (b : finiteCoverBranchGroupoid h) :
+    RationalGroupChunk (finiteCoverSelectedObject h ⟶ b) :=
+  groupoidArrowChunk (finiteCoverSelectedArrow h hfin b)
+
 end FiniteCoverBranches
 
 end

@@ -1216,6 +1216,80 @@ theorem selectedChainBranchGroupoid_isConnected [IsAlgClosed K]
   finiteCoverBranchGroupoid_isConnected _
     ((tPair h).chainOverComposite_finiteDimensional (sPair h) rfl)
 
+/-- The genuine conjugate-branch groupoid attached to any relocated
+partial-quadrangle chain.  Its coefficient field and branch fields vary
+with the relocated tuple. -/
+abbrev relocatedChainBranchGroupoid (h : IsPartialQuadrangle f)
+    (v : Fin 6 → K)
+    (hv : idealOf k v = idealOf k (configurationReps f)) :=
+  finiteCoverBranchGroupoid
+    ((tPairOfIdealEq h v hv).compositeBranchField_le_chainField
+      (sPairOfIdealEq h v hv) rfl)
+
+/-- The literal relocated chain as the distinguished object in its
+finite-cover branch groupoid. -/
+def relocatedChainBranchObject (h : IsPartialQuadrangle f)
+    (v : Fin 6 → K)
+    (hv : idealOf k v = idealOf k (configurationReps f)) :
+    relocatedChainBranchGroupoid h v hv :=
+  finiteCoverSelectedObject
+    ((tPairOfIdealEq h v hv).compositeBranchField_le_chainField
+      (sPairOfIdealEq h v hv) rfl)
+
+/-- Every relocated chain has only finitely many conjugate branches on
+its selected finite normal cover. -/
+theorem finite_relocatedChainBranches (h : IsPartialQuadrangle f)
+    (v : Fin 6 → K)
+    (hv : idealOf k v = idealOf k (configurationReps f)) :
+    Finite
+      (FiniteCoverBranch
+        ((tPairOfIdealEq h v hv).compositeBranchField_le_chainField
+          (sPairOfIdealEq h v hv) rfl)) :=
+  finite_coverBranches _
+    ((tPairOfIdealEq h v hv).chainOverComposite_finiteDimensional
+      (sPairOfIdealEq h v hv) rfl)
+
+/-- Over an algebraically closed ambient field, the branch groupoid of
+every relocated chain is connected. -/
+theorem relocatedChainBranchGroupoid_isConnected [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) (v : Fin 6 → K)
+    (hv : idealOf k v = idealOf k (configurationReps f)) :
+    CategoryTheory.IsConnected (relocatedChainBranchGroupoid h v hv) :=
+  finiteCoverBranchGroupoid_isConnected _
+    ((tPairOfIdealEq h v hv).chainOverComposite_finiteDimensional
+      (sPairOfIdealEq h v hv) rfl)
+
+/-- Based arrows from the literal relocated chain to any conjugate branch
+carry a rational group chunk.  This is the finite branch-groupoid fiber of
+the varying parameter-family construction. -/
+def relocatedChainArrowChunk [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) (v : Fin 6 → K)
+    (hv : idealOf k v = idealOf k (configurationReps f))
+    (b : relocatedChainBranchGroupoid h v hv) :
+    RationalGroupChunk (relocatedChainBranchObject h v hv ⟶ b) :=
+  finiteCoverArrowChunk _
+    ((tPairOfIdealEq h v hv).chainOverComposite_finiteDimensional
+      (sPairOfIdealEq h v hv) rfl) b
+
+/-- Every independent replacement of `(S,T,S')` therefore carries a
+compatible relocated correspondence chain together with a connected
+finite branch groupoid above that chain. -/
+theorem exists_relocated_connected_branch_groupoid [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {g : Fin 3 → K}
+    (hg : AlgebraicIndependent k g) :
+    ∃ (v : Fin 6 → K)
+      (hv : idealOf k v = idealOf k (configurationReps f)),
+      v ∘ groupCoordinateIndex = g ∧
+        FiniteCorrespondenceGerm.Composes
+          (FiniteCorrespondenceGerm.ofPair (tPairOfIdealEq h v hv))
+          (FiniteCorrespondenceGerm.ofPair (sPairOfIdealEq h v hv))
+          (FiniteCorrespondenceGerm.ofPair (uPairOfIdealEq h v hv)) ∧
+        CategoryTheory.IsConnected (relocatedChainBranchGroupoid h v hv) := by
+  obtain ⟨v, hv, hfix, hcomp⟩ :=
+    exists_relocated_correspondence_groupoid h hg
+  exact ⟨v, hv, hfix, hcomp,
+    relocatedChainBranchGroupoid_isConnected h v hv⟩
+
 end IsPartialQuadrangle
 
 end

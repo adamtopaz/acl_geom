@@ -506,6 +506,28 @@ holds above every independent replacement of `(S,T,S')`:
 
 {docstring AclGeom.IsPartialQuadrangle.exists_relocated_correspondence_groupoid}
 
+For each such relocated tuple, the selected chain has its own finite
+normal-cover branch groupoid.  Every conjugate branch is reachable from
+the literal one, and its based arrow family carries the difference-chart
+group chunk.  The final theorem packages this finite categorical fiber
+together with the varying generic realization:
+
+{docstring AclGeom.finiteCoverSelectedArrow}
+
+{docstring AclGeom.finiteCoverArrowChunk}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchGroupoid}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchObject}
+
+{docstring AclGeom.IsPartialQuadrangle.finite_relocatedChainBranches}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainBranchGroupoid_isConnected}
+
+{docstring AclGeom.IsPartialQuadrangle.relocatedChainArrowChunk}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_relocated_connected_branch_groupoid}
+
 The free triple `(S,T,S')` already gives independent representatives for
 the three group-configuration coordinates.  Every other displayed
 representative is algebraic over that triple, while each of the parameters
