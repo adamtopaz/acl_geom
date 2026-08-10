@@ -101,6 +101,17 @@ theorem commonCurveSource_notMem_racl {n : ℕ} (q : Fin n → K) :
       (RingHom.id (CommonCurveAmbient K)) Function.injective_id hcomm).1 hF
   exact commonCurveSource_transcendental halgK
 
+/-- Mapping an independent ambient tuple into the common curve ambient and
+then adjoining the formal source preserves algebraic independence. -/
+theorem mappedTuple_snoc_commonCurveSource_independent {n : ℕ}
+    {q : Fin n → K} (hq : AlgebraicIndependent k q) :
+    AlgebraicIndependent k
+      (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ q)
+        (commonCurveSource (K := K))) :=
+  algebraicIndependent_snoc
+    (hq.map' (commonCurveEmbedding (k := k) (K := K)).injective)
+    (commonCurveSource_notMem_racl (k := k) (K := K) q)
+
 namespace QWitness
 
 variable (w : QWitness k K)
@@ -660,6 +671,113 @@ def commonInputTuple (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
   commonCurveEmbedding (k := k) (K := K) ∘
     rankTwoFourTuple s e a b
 
+/-- The six independent ambient coordinates complementary to the repeated
+`s` parameter block. -/
+def repeatedSAuxiliaryInput
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 6 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    ![e 0, e 1, a 0, a 1, b 0, b 1]
+
+/-- The six independent ambient coordinates complementary to the repeated
+`sA` parameter block in the independent presentation `(s,sA,a,b)`. -/
+def repeatedSAAuxiliaryInput
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 6 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    ![s 0, s 1, a 0, a 1, b 0, b 1]
+
+/-- The six independent ambient coordinates complementary to the repeated
+`u` parameter block in the independent presentation `(s,u,a,b)`. -/
+def repeatedUAuxiliaryInput
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 6 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    ![s 0, s 1, a 0, a 1, b 0, b 1]
+
+/-- The six independent ambient coordinates complementary to the repeated
+`uB` parameter block in the independent presentation `(s,sA,a,uB)`. -/
+def repeatedUBAuxiliaryInput
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 6 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    ![s 0, s 1, D.sA 0, D.sA 1, a 0, a 1]
+
+/-- The repeated `s` parameter, its six complementary inputs, and the
+formal source are jointly independent. -/
+theorem repeatedS_auxiliary_parameter_source_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k
+      (Sum.elim R.repeatedSAuxiliaryInput
+        (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ s)
+          (commonCurveSource (K := K)))) := by
+  let f : Fin 6 ⊕ Fin 3 → Fin 9 :=
+    Sum.elim ![2, 3, 4, 5, 6, 7] ![0, 1, 8]
+  have hf : Function.Injective f := by decide
+  have h := AlgebraicIndependent.comp
+    (mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) hind) f hf
+  convert h using 1
+  funext i
+  rcases i with i | i <;> fin_cases i <;> rfl
+
+/-- The repeated `sA` parameter, its six complementary inputs, and the
+formal source are jointly independent. -/
+theorem repeatedSA_auxiliary_parameter_source_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k
+      (Sum.elim R.repeatedSAAuxiliaryInput
+        (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.sA)
+          (commonCurveSource (K := K)))) := by
+  let q : Fin 8 → K := rankTwoFourTuple s D.sA a b
+  let f : Fin 6 ⊕ Fin 3 → Fin 9 :=
+    Sum.elim ![0, 1, 4, 5, 6, 7] ![2, 3, 8]
+  have hf : Function.Injective f := by decide
+  have h := AlgebraicIndependent.comp
+    (mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) (D.s_sA_a_b_independent hind)) f hf
+  convert h using 1
+  funext i
+  rcases i with i | i <;> fin_cases i <;> rfl
+
+/-- The repeated `u` parameter, its six complementary inputs, and the
+formal source are jointly independent. -/
+theorem repeatedU_auxiliary_parameter_source_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k
+      (Sum.elim R.repeatedUAuxiliaryInput
+        (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.u)
+          (commonCurveSource (K := K)))) := by
+  let q : Fin 8 → K := rankTwoFourTuple s D.u a b
+  let f : Fin 6 ⊕ Fin 3 → Fin 9 :=
+    Sum.elim ![0, 1, 4, 5, 6, 7] ![2, 3, 8]
+  have hf : Function.Injective f := by decide
+  have h := AlgebraicIndependent.comp
+    (mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) (D.s_u_a_b_independent hind)) f hf
+  convert h using 1
+  funext i
+  rcases i with i | i <;> fin_cases i <;> rfl
+
+/-- The repeated `uB` parameter, its six complementary inputs, and the
+formal source are jointly independent. -/
+theorem repeatedUB_auxiliary_parameter_source_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k
+      (Sum.elim R.repeatedUBAuxiliaryInput
+        (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.uB)
+          (commonCurveSource (K := K)))) := by
+  let q : Fin 8 → K := rankTwoFourTuple s D.sA a D.uB
+  let f : Fin 6 ⊕ Fin 3 → Fin 9 :=
+    Sum.elim ![0, 1, 2, 3, 4, 5] ![6, 7, 8]
+  have hf : Function.Injective f := by decide
+  have h := AlgebraicIndependent.comp
+    (mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) (D.s_sA_a_uB_independent hind)) f hf
+  convert h using 1
+  funext i
+  rcases i with i | i <;> fin_cases i <;> rfl
+
 private theorem map_mem_input_racl {x : K}
     (hx : x ∈ racl k (Set.range (rankTwoFourTuple s e a b))) :
     commonCurveEmbedding (k := k) (K := K) x ∈ racl k
@@ -891,6 +1009,163 @@ theorem repeatedUBPairIdeal_eq_over_parameterField :
         ![R.sAc.source, R.sAc.target] := by
   apply pairIdeal_eq_over_commonParameter_of_familyIdeal_eq
   exact R.sbCFamily_ideal_eq_sAcCFamily
+
+/-- The repeated `s` curve relation remains equal after adjoining the six
+complementary independent inputs. -/
+theorem repeatedSPairIdeal_eq_over_independentInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ s))))
+          (Set.range R.repeatedSAuxiliaryInput)).restrictScalars k))
+        ![R.se.source, R.se.middle] =
+      idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ s))))
+          (Set.range R.repeatedSAuxiliaryInput)).restrictScalars k))
+        ![R.sb.source, R.sb.middle] := by
+  apply pairIdeal_eq_over_independentExtension_of_pairIdeal_eq
+    R.repeatedSPairIdeal_eq_over_parameterField
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.se_source] using
+        R.repeatedS_auxiliary_parameter_source_independent hind
+    · exact (R.se.aCorrespondenceFamilyMember hψ).target_mem_parameter_source
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.sb_source] using
+        R.repeatedS_auxiliary_parameter_source_independent hind
+    · exact (R.sb.aCorrespondenceFamilyMember hψ).target_mem_parameter_source
+
+/-- For the repeated `s` block, adjoining its six complementary inputs is
+literally the original common eight-input coefficient field after
+restricting scalars back to `k`. -/
+theorem repeatedSIndependentInputField_restrictScalars :
+    (adjoin
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ s))))
+        (Set.range R.repeatedSAuxiliaryInput)).restrictScalars k =
+      (R.seCommonBaseData.coefficientField) := by
+  unfold PsiCurveCompositionBaseChangeRealization.CommonBaseData.coefficientField
+  rw [adjoin_adjoin_left]
+  apply congrArg (adjoin k)
+  ext z
+  simp only [Set.mem_union, Set.mem_range, Function.comp_apply,
+    Fin.exists_fin_two, Fin.isValue]
+  constructor
+  · rintro ((h | h) | ⟨i, h⟩)
+    · exact ⟨0, h⟩
+    · exact ⟨1, h⟩
+    · fin_cases i
+      · exact ⟨2, h⟩
+      · exact ⟨3, h⟩
+      · exact ⟨4, h⟩
+      · exact ⟨5, h⟩
+      · exact ⟨6, h⟩
+      · exact ⟨7, h⟩
+  · rintro ⟨i, h⟩
+    fin_cases i
+    · exact Or.inl (Or.inl h)
+    · exact Or.inl (Or.inr h)
+    · exact Or.inr ⟨0, h⟩
+    · exact Or.inr ⟨1, h⟩
+    · exact Or.inr ⟨2, h⟩
+    · exact Or.inr ⟨3, h⟩
+    · exact Or.inr ⟨4, h⟩
+    · exact Or.inr ⟨5, h⟩
+
+/-- The two occurrences of the `s` action therefore have the same selected
+curve ideal over the literal common eight-input coefficient field. -/
+theorem repeatedSPairIdeal_eq_over_commonInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf (↥(R.seCommonBaseData.coefficientField))
+        ![commonCurveSource (K := K), R.se.middle] =
+      idealOf (↥(R.seCommonBaseData.coefficientField))
+        ![commonCurveSource (K := K), R.sb.middle] := by
+  rw [← R.repeatedSIndependentInputField_restrictScalars]
+  simpa only [R.se_source, R.sb_source] using
+    R.repeatedSPairIdeal_eq_over_independentInputField hind
+
+/-- The repeated `sA` curve relation remains equal after adjoining its six
+complementary independent inputs. -/
+theorem repeatedSAPairIdeal_eq_over_independentInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ D.sA))))
+          (Set.range R.repeatedSAAuxiliaryInput)).restrictScalars k))
+        ![R.sAa.source, R.sAa.middle] =
+      idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ D.sA))))
+          (Set.range R.repeatedSAAuxiliaryInput)).restrictScalars k))
+        ![R.sAc.source, R.sAc.middle] := by
+  apply pairIdeal_eq_over_independentExtension_of_pairIdeal_eq
+    R.repeatedSAPairIdeal_eq_over_parameterField
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.sAa_source] using
+        R.repeatedSA_auxiliary_parameter_source_independent hind
+    · exact (R.sAa.aCorrespondenceFamilyMember hψ).target_mem_parameter_source
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.sAc_source] using
+        R.repeatedSA_auxiliary_parameter_source_independent hind
+    · exact (R.sAc.aCorrespondenceFamilyMember hψ).target_mem_parameter_source
+
+/-- The repeated direct `u` curve relation remains equal after adjoining
+its six complementary independent inputs. -/
+theorem repeatedUPairIdeal_eq_over_independentInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ D.u))))
+          (Set.range R.repeatedUAuxiliaryInput)).restrictScalars k))
+        ![R.se.source, R.se.target] =
+      idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ D.u))))
+          (Set.range R.repeatedUAuxiliaryInput)).restrictScalars k))
+        ![R.sAa.source, R.sAa.target] := by
+  apply pairIdeal_eq_over_independentExtension_of_pairIdeal_eq
+    R.repeatedUPairIdeal_eq_over_parameterField
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.se_source] using
+        R.repeatedU_auxiliary_parameter_source_independent hind
+    · exact (R.se.cCorrespondenceFamilyMember hψ).target_mem_parameter_source
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.sAa_source] using
+        R.repeatedU_auxiliary_parameter_source_independent hind
+    · exact (R.sAa.cCorrespondenceFamilyMember hψ).target_mem_parameter_source
+
+/-- The repeated direct `uB` curve relation remains equal after adjoining
+its six complementary independent inputs. -/
+theorem repeatedUBPairIdeal_eq_over_independentInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ D.uB))))
+          (Set.range R.repeatedUBAuxiliaryInput)).restrictScalars k))
+        ![R.sb.source, R.sb.target] =
+      idealOf
+        (↥((adjoin
+          (↥(adjoin k (Set.range
+            (commonCurveEmbedding (k := k) (K := K) ∘ D.uB))))
+          (Set.range R.repeatedUBAuxiliaryInput)).restrictScalars k))
+        ![R.sAc.source, R.sAc.target] := by
+  apply pairIdeal_eq_over_independentExtension_of_pairIdeal_eq
+    R.repeatedUBPairIdeal_eq_over_parameterField
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.sb_source] using
+        R.repeatedUB_auxiliary_parameter_source_independent hind
+    · exact (R.sb.cCorrespondenceFamilyMember hψ).target_mem_parameter_source
+  · apply auxiliary_independent_over_parameterPairField
+    · simpa only [R.sAc_source] using
+        R.repeatedUB_auxiliary_parameter_source_independent hind
+    · exact (R.sAc.cCorrespondenceFamilyMember hψ).target_mem_parameter_source
 
 /-- The coefficient-aware normal-cover comparison for the repeated
 `s` branch.  It retains the displayed `s` parameter and source coordinates;

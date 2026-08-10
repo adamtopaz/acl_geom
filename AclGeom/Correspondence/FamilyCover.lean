@@ -5,6 +5,7 @@ Authors: Adam Topaz, Codex
 -/
 import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.BranchGroupoid
+import Mathlib.RingTheory.AlgebraicIndependent.AlgebraicClosure
 
 /-!
 # Finite normal covers of generic correspondence-family members
@@ -136,6 +137,212 @@ theorem pairIdeal_eq_over_commonParameter_of_familyIdeal_eq
       simpa using hz
     have := e.injective (hzero.trans (map_zero e).symm)
     simpa using congrArg L.val this
+
+/-- If an auxiliary tuple is jointly independent from a parameter/source
+prefix, it remains independent after adjoining a target algebraic over that
+prefix.  The conclusion is stated over the endpoint-pair field above the
+parameter field, exactly as required by independent scalar extension. -/
+theorem auxiliary_independent_over_parameterPairField
+    {d n : ℕ} {p : Fin d → Ω} {r : Fin n → Ω} {x y : Ω}
+    (hprx : AlgebraicIndependent k
+      (Sum.elim r (Fin.snoc p x) : Fin n ⊕ Fin (d + 1) → Ω))
+    (hy : y ∈ racl k (insert x (Set.range p))) :
+    AlgebraicIndependent
+      (↥(adjoin (↥(adjoin k (Set.range p)))
+        (Set.range (![x, y] : Fin 2 → Ω)))) r := by
+  classical
+  let base : Fin (d + 1) → Ω := Fin.snoc p x
+  let B : IntermediateField k Ω := adjoin k (Set.range base)
+  let E : IntermediateField k Ω := adjoin k (Set.range p)
+  let L : IntermediateField (↥E) Ω :=
+    adjoin (↥E) (Set.range (![x, y] : Fin 2 → Ω))
+  have hrB : AlgebraicIndependent (↥B) r := by
+    change AlgebraicIndependent
+      (↥(adjoin k (Set.range (Fin.snoc p x)))) r
+    rw [IntermediateField.algebraicIndependent_adjoin_iff]
+    exact (AlgebraicIndependent.sumElim_iff.1 hprx).2
+  have hEB : E ≤ B := by
+    apply adjoin.mono
+    rintro _ ⟨i, rfl⟩
+    exact ⟨i.castSucc, by simp [base]⟩
+  have hBL : B ≤ L.restrictScalars k := by
+    apply adjoin_le_iff.2
+    rintro _ ⟨i, rfl⟩
+    refine Fin.lastCases ?_ (fun j ↦ ?_) i
+    · simpa [L, base] using
+        (subset_adjoin (↥E)
+          (Set.range (![x, y] : Fin 2 → Ω))
+          (Set.mem_range_self (0 : Fin 2)))
+    · simpa [L, base] using
+        (IntermediateField.algebraMap_mem L
+          ⟨p j, subset_adjoin k _ (Set.mem_range_self j)⟩)
+  letI : Algebra B L := (IntermediateField.inclusion hBL).toAlgebra
+  haveI : IsScalarTower B L Ω := IsScalarTower.of_algebraMap_eq' rfl
+  have hLB : Algebra.IsAlgebraic (↥B) (↥L) := by
+    constructor
+    rintro ⟨z, hz⟩
+    rw [← isAlgebraic_algHom_iff
+      (IsScalarTower.toAlgHom (↥B) (↥L) Ω) Subtype.val_injective]
+    change IsAlgebraic (↥B) z
+    apply adjoin_induction (F := ↥E) (s := Set.range (![x, y] : Fin 2 → Ω))
+        (p := fun z _ ↦ IsAlgebraic (↥B) z)
+    · rintro _ ⟨i, rfl⟩
+      fin_cases i
+      · exact isAlgebraic_algebraMap (R := ↥B) (A := Ω)
+          ⟨x, subset_adjoin k _ ⟨Fin.last d, by simp [base]⟩⟩
+      · have hy' : IsAlgebraic (↥B) y := by
+          change IsAlgebraic
+            (↥(adjoin k (Set.range (Fin.snoc p x)))) y
+          rw [Fin.range_snoc]
+          exact (mem_racl_iff k).1 hy
+        exact hy'
+    · intro z
+      exact isAlgebraic_algebraMap (R := ↥B) (A := Ω)
+        ⟨z, hEB z.2⟩
+    · exact fun _ _ _ _ hx hy ↦ hx.add hy
+    · exact fun _ _ hx ↦ hx.inv
+    · exact fun _ _ _ _ hx hy ↦ hx.mul hy
+    · exact hz
+  exact hrB.extendScalars L
+
+set_option maxHeartbeats 800000 in
+-- The nested coefficient-field transports elaborate above the default budget.
+/-- Equality of endpoint-pair ideals survives adjoining a matching tuple
+that is algebraically independent over both complete endpoint fields.  The
+extended function-field equivalence fixes the enlarged coefficient field
+and still carries both displayed endpoints. -/
+theorem pairIdeal_eq_over_independentExtension_of_pairIdeal_eq
+    {E : IntermediateField k Ω} {ι : Type*} {r : ι → Ω}
+    {x y x' y' : Ω}
+    (h : idealOf (↥E) ![x, y] = idealOf (↥E) ![x', y'])
+    (hr : AlgebraicIndependent
+      (↥(adjoin (↥E) (Set.range (![x, y] : Fin 2 → Ω)))) r)
+    (hr' : AlgebraicIndependent
+      (↥(adjoin (↥E) (Set.range (![x', y'] : Fin 2 → Ω)))) r) :
+    idealOf
+        (↥((adjoin (↥E) (Set.range r)).restrictScalars k)) ![x, y] =
+      idealOf
+        (↥((adjoin (↥E) (Set.range r)).restrictScalars k)) ![x', y'] := by
+  classical
+  let L : IntermediateField (↥E) Ω :=
+    adjoin (↥E) (Set.range (![x, y] : Fin 2 → Ω))
+  let L' : IntermediateField (↥E) Ω :=
+    adjoin (↥E) (Set.range (![x', y'] : Fin 2 → Ω))
+  let C : IntermediateField (↥E) Ω := adjoin (↥E) (Set.range r)
+  let Ck : IntermediateField k Ω := C.restrictScalars k
+  let M : IntermediateField (↥L) Ω := adjoin (↥L) (Set.range r)
+  let M' : IntermediateField (↥L') Ω := adjoin (↥L') (Set.range r)
+  let e₀ : L ≃ₐ[E] L' := locusFunctionFieldEquivOfIdealEq h
+  let ex : M ≃ₐ[E] M' :=
+    adjoinIndependentEquivOfEquiv e₀ hr hr'
+  have hCM : C ≤ M.restrictScalars (↥E) := by
+    apply adjoin_le_iff.2
+    rintro _ ⟨i, rfl⟩
+    exact subset_adjoin (↥L) _ (Set.mem_range_self i)
+  have hCM' : C ≤ M'.restrictScalars (↥E) := by
+    apply adjoin_le_iff.2
+    rintro _ ⟨i, rfl⟩
+    exact subset_adjoin (↥L') _ (Set.mem_range_self i)
+  let iCkM : Ck →+* M :=
+    { toFun := fun z ↦ ⟨z, hCM z.2⟩
+      map_one' := rfl
+      map_mul' := fun _ _ ↦ rfl
+      map_zero' := rfl
+      map_add' := fun _ _ ↦ rfl }
+  let iCkM' : Ck →+* M' :=
+    { toFun := fun z ↦ ⟨z, hCM' z.2⟩
+      map_one' := rfl
+      map_mul' := fun _ _ ↦ rfl
+      map_zero' := rfl
+      map_add' := fun _ _ ↦ rfl }
+  letI : Algebra Ck M := iCkM.toAlgebra
+  letI : Algebra Ck M' := iCkM'.toAlgebra
+  have hexC : ex.toAlgHom.comp (IntermediateField.inclusion hCM) =
+      IntermediateField.inclusion hCM' := by
+    apply adjoin_algHom_ext (↥E)
+    rintro _ ⟨i, rfl⟩
+    change ex ⟨r i, _⟩ = ⟨r i, _⟩
+    simpa [ex, M, M'] using
+      (adjoinIndependentEquivOfEquiv_generator e₀ hr hr' i)
+  let e : M ≃ₐ[Ck] M' :=
+    { ex.toRingEquiv with
+      commutes' := fun z ↦ by
+        change ex ⟨z, hCM z.2⟩ = ⟨z, hCM' z.2⟩
+        exact DFunLike.congr_fun hexC (⟨z, z.2⟩ : C) }
+  let q : Fin 2 → M :=
+    ![algebraMap L M
+        ⟨x, subset_adjoin (↥E) _ (Set.mem_range_self 0)⟩,
+      algebraMap L M
+        ⟨y, subset_adjoin (↥E) _ (Set.mem_range_self 1)⟩]
+  let q' : Fin 2 → M' :=
+    ![algebraMap L' M'
+        ⟨x', subset_adjoin (↥E) _ (Set.mem_range_self 0)⟩,
+      algebraMap L' M'
+        ⟨y', subset_adjoin (↥E) _ (Set.mem_range_self 1)⟩]
+  have heq (i : Fin 2) : e (q i) = q' i := by
+    fin_cases i
+    · change ex (algebraMap L M ⟨x, _⟩) = algebraMap L' M' ⟨x', _⟩
+      rw [adjoinIndependentEquivOfEquiv_algebraMap]
+      exact congrArg (algebraMap L' M')
+        (locusFunctionFieldEquivOfIdealEq_apply h 0)
+    · change ex (algebraMap L M ⟨y, _⟩) = algebraMap L' M' ⟨y', _⟩
+      rw [adjoinIndependentEquivOfEquiv_algebraMap]
+      exact congrArg (algebraMap L' M')
+        (locusFunctionFieldEquivOfIdealEq_apply h 1)
+  let vM : M →ₐ[Ck] Ω :=
+    { M.val.toRingHom with commutes' := fun _ ↦ rfl }
+  let vM' : M' →ₐ[Ck] Ω :=
+    { M'.val.toRingHom with commutes' := fun _ ↦ rfl }
+  change idealOf (↥Ck) ![x, y] = idealOf (↥Ck) ![x', y']
+  ext f
+  rw [mem_idealOf_iff, mem_idealOf_iff]
+  have hval : MvPolynomial.aeval ![x, y] f =
+      M.val (MvPolynomial.aeval q f) := by
+    have hqval : (fun i ↦ vM (q i)) = (![x, y] : Fin 2 → Ω) := by
+      funext i
+      fin_cases i <;> rfl
+    calc
+      MvPolynomial.aeval ![x, y] f =
+          MvPolynomial.aeval (fun i ↦ vM (q i)) f := by
+        exact congrArg (fun g ↦ MvPolynomial.aeval g f) hqval.symm
+      _ = vM (MvPolynomial.aeval q f) := by
+        exact (MvPolynomial.comp_aeval_apply (f := q) vM f).symm
+      _ = M.val (MvPolynomial.aeval q f) := rfl
+  have hval' : MvPolynomial.aeval ![x', y'] f =
+      M'.val (MvPolynomial.aeval q' f) := by
+    have hqval : (fun i ↦ vM' (q' i)) = (![x', y'] : Fin 2 → Ω) := by
+      funext i
+      fin_cases i <;> rfl
+    calc
+      MvPolynomial.aeval ![x', y'] f =
+          MvPolynomial.aeval (fun i ↦ vM' (q' i)) f := by
+        exact congrArg (fun g ↦ MvPolynomial.aeval g f) hqval.symm
+      _ = vM' (MvPolynomial.aeval q' f) := by
+        exact (MvPolynomial.comp_aeval_apply (f := q') vM' f).symm
+      _ = M'.val (MvPolynomial.aeval q' f) := rfl
+  have heval : MvPolynomial.aeval q' f =
+      e (MvPolynomial.aeval q f) := by
+    have hqeval : (fun i ↦ e.toAlgHom (q i)) = q' := by
+      funext i
+      exact heq i
+    calc
+      MvPolynomial.aeval q' f =
+          MvPolynomial.aeval (fun i ↦ e.toAlgHom (q i)) f := by
+        exact congrArg (fun g ↦ MvPolynomial.aeval g f) hqeval.symm
+      _ = e (MvPolynomial.aeval q f) := by
+        exact (MvPolynomial.comp_aeval_apply (f := q) e.toAlgHom f).symm
+  rw [hval, hval', heval]
+  constructor
+  · intro hz
+    have hzero : MvPolynomial.aeval q f = 0 := M.val.injective hz
+    rw [hzero, map_zero]
+    rfl
+  · intro hz
+    have hzero : e (MvPolynomial.aeval q f) = 0 := by
+      apply M'.val.injective
+      simpa using hz
+    have := e.injective (hzero.trans (map_zero e).symm)
+    simpa using congrArg M.val this
 
 namespace FiniteCorrespondenceFamilyMember
 

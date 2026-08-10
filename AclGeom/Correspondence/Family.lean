@@ -285,6 +285,69 @@ equalities of complete tuple loci. -/
         ⟨a i, subset_adjoin k _ (Set.mem_range_self i)⟩ :=
       (locusFunctionFieldEquivOfIdealEq_apply (hab.trans hbc) i).symm
 
+/-- A base-field equivalence extends canonically after adjoining matching
+algebraically independent tuples on both sides. -/
+def adjoinIndependentEquivOfEquiv {ι : Type*}
+    {E E' : IntermediateField k Ω} (e : E ≃ₐ[k] E')
+    {x y : ι → Ω} (hx : AlgebraicIndependent E x)
+    (hy : AlgebraicIndependent E' y) :
+    (↥(adjoin E (Set.range x))) ≃ₐ[k]
+      (↥(adjoin E' (Set.range y))) :=
+  (hx.aevalEquivField.symm.restrictScalars k).trans
+    ((IsFractionRing.algEquivOfAlgEquiv
+      (MvPolynomial.mapAlgEquiv ι e)).trans
+        (hy.aevalEquivField.restrictScalars k))
+
+/-- The independent extension of a base equivalence agrees with that
+equivalence on the base field. -/
+theorem adjoinIndependentEquivOfEquiv_algebraMap {ι : Type*}
+    {E E' : IntermediateField k Ω} (e : E ≃ₐ[k] E')
+    {x y : ι → Ω} (hx : AlgebraicIndependent E x)
+    (hy : AlgebraicIndependent E' y) (z : E) :
+    adjoinIndependentEquivOfEquiv e hx hy
+        (algebraMap E (↥(adjoin E (Set.range x))) z) =
+      algebraMap E' (↥(adjoin E' (Set.range y))) (e z) := by
+  change hy.aevalEquivField
+      ((IsFractionRing.algEquivOfAlgEquiv
+        (MvPolynomial.mapAlgEquiv ι e))
+          (hx.aevalEquivField.symm
+            (algebraMap E (↥(adjoin E (Set.range x))) z))) = _
+  rw [hx.aevalEquivField.symm.commutes]
+  have hbase :
+      algebraMap E (FractionRing (MvPolynomial ι E)) z =
+        algebraMap (MvPolynomial ι E)
+          (FractionRing (MvPolynomial ι E)) (MvPolynomial.C z) := rfl
+  rw [hbase, IsFractionRing.algEquivOfAlgEquiv_algebraMap]
+  apply Subtype.ext
+  rw [AlgebraicIndependent.aevalEquivField_algebraMap_apply_coe]
+  simp
+
+/-- The independent extension of a base equivalence sends every displayed
+source generator to its matching target generator. -/
+theorem adjoinIndependentEquivOfEquiv_generator {ι : Type*}
+    {E E' : IntermediateField k Ω} (e : E ≃ₐ[k] E')
+    {x y : ι → Ω} (hx : AlgebraicIndependent E x)
+    (hy : AlgebraicIndependent E' y) (i : ι) :
+    adjoinIndependentEquivOfEquiv e hx hy
+        ⟨x i, subset_adjoin E _ (Set.mem_range_self i)⟩ =
+      ⟨y i, subset_adjoin E' _ (Set.mem_range_self i)⟩ := by
+  have hxgen : hx.aevalEquivField
+      (algebraMap (MvPolynomial ι E)
+        (FractionRing (MvPolynomial ι E)) (MvPolynomial.X i)) =
+        ⟨x i, subset_adjoin E _ (Set.mem_range_self i)⟩ := by
+    apply Subtype.ext
+    rw [AlgebraicIndependent.aevalEquivField_algebraMap_apply_coe]
+    simp
+  change hy.aevalEquivField
+      ((IsFractionRing.algEquivOfAlgEquiv
+        (MvPolynomial.mapAlgEquiv ι e))
+          (hx.aevalEquivField.symm ⟨x i, _⟩)) = _
+  rw [← hxgen, hx.aevalEquivField.symm_apply_apply,
+    IsFractionRing.algEquivOfAlgEquiv_algebraMap]
+  apply Subtype.ext
+  rw [AlgebraicIndependent.aevalEquivField_algebraMap_apply_coe]
+  simp
+
 /-- A base-field equivalence extends canonically after adjoining one
 transcendental generator on each side, sending the displayed source
 generator to the displayed target generator. -/

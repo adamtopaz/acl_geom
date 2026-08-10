@@ -486,6 +486,23 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     four equal pair ideals while adjoining the other six independent input
     coordinates and then pass their selected normal branches to the common
     coefficient field of item 35.
+38. Independent scalar extension is now proved without an irreducibility
+    shortcut.  A base-field equivalence extends canonically after adjoining
+    matching algebraically independent tuples, fixing every new generator.
+    Consequently equal endpoint-pair ideals remain equal after adjoining an
+    auxiliary tuple independent over both complete endpoint fields.  A
+    separate tower lemma shows that six coordinates jointly independent from
+    the parameter/source prefix stay independent after adjoining the
+    algebraic family target.  The alternative independent presentations
+    `(s,e,a,b)`, `(s,sA,a,b)`, `(s,u,a,b)`, and `(s,sA,a,uB)` supply the four
+    required six-coordinate complements, so all four repeated curve ideals
+    are now equal over full transcendence-degree-eight input fields.  For the
+    repeated `s` block this field is literally the common input field from
+    item 35, yielding the first exact common-base repeated-arrow equality.
+    The other three full input fields have the same relative algebraic
+    closure as the original input field but are not definitionally equal;
+    their finite algebraic coefficient changes must still be normalized
+    before transporting the selected branches to the common covers.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -493,14 +510,15 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--37 give four strict finite-normal-cover curve triangles, the exact
+Items 29--38 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--37 supply selected-branch-preserving comparisons and equality of
-the curve relations over the smaller parameter and parameter/source fields.
-Extend those comparisons over the remaining independent input coordinates,
-then use
+items 36--38 supply selected-branch-preserving comparisons and equality of
+the curve relations after the honest independent scalar extensions.  The
+repeated `s` relation already lives over the literal common input field.
+Normalize the three remaining finite algebraic changes between their
+alternative full input fields and the original common field, then use
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with

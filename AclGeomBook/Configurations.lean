@@ -1412,6 +1412,36 @@ scalar-extension step:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBPairIdeal_eq_over_parameterField}
 
+Independent scalar extension is handled at the function-field level.  A
+base equivalence extends across matching algebraically independent tuples,
+fixing each new coordinate.  If the new tuple is independent over both
+complete endpoint fields, equality of the endpoint curve ideals therefore
+survives over the enlarged coefficient field.  Algebraicity of the family
+target does not destroy this independence:
+
+{docstring AclGeom.adjoinIndependentEquivOfEquiv_generator}
+
+{docstring AclGeom.auxiliary_independent_over_parameterPairField}
+
+{docstring AclGeom.pairIdeal_eq_over_independentExtension_of_pairIdeal_eq}
+
+The four alternative independent eight-coordinate presentations provide
+the six complementary coordinates for `s`, `sA`, `u`, and `uB`.  Thus all
+four repeated curve relations are equal after full independent scalar
+extension.  For `s`, this enlarged field is literally the original common
+eight-input coefficient field, giving the first repeated-arrow relation on
+the exact common base:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSPairIdeal_eq_over_independentInputField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAPairIdeal_eq_over_independentInputField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUPairIdeal_eq_over_independentInputField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBPairIdeal_eq_over_independentInputField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSPairIdeal_eq_over_commonInputField}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
