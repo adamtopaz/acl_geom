@@ -836,6 +836,62 @@ theorem sbCFamily_ideal_eq_sAcCFamily :
         R.sAc.source) R.sAc.target)
   exact (R.sb.cFamilyLocus hψ).trans (R.sAc.cFamilyLocus hψ).symm
 
+/-- The two selected `s` branches have the same endpoint-pair ideal over
+the literal rank-two `s` parameter field. -/
+theorem repeatedSPairIdeal_eq_over_parameterField :
+    idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ s))))
+        ![R.se.source, R.se.middle] =
+      idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ s))))
+        ![R.sb.source, R.sb.middle] := by
+  apply pairIdeal_eq_over_commonParameter_of_familyIdeal_eq
+  exact R.seAFamily_ideal_eq_sbAFamily
+
+/-- The two selected `sA` branches have the same endpoint-pair ideal over
+the literal rank-two `sA` parameter field. -/
+theorem repeatedSAPairIdeal_eq_over_parameterField :
+    idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.sA))))
+        ![R.sAa.source, R.sAa.middle] =
+      idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.sA))))
+        ![R.sAc.source, R.sAc.middle] := by
+  apply pairIdeal_eq_over_commonParameter_of_familyIdeal_eq
+  exact R.sAaAFamily_ideal_eq_sAcAFamily
+
+/-- The two selected direct `u` branches have the same endpoint-pair ideal
+over the literal rank-two `u` parameter field. -/
+theorem repeatedUPairIdeal_eq_over_parameterField :
+    idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.u))))
+        ![R.se.source, R.se.target] =
+      idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.u))))
+        ![R.sAa.source, R.sAa.target] := by
+  apply pairIdeal_eq_over_commonParameter_of_familyIdeal_eq
+  exact R.seCFamily_ideal_eq_sAaCFamily
+
+/-- The two selected direct `uB` branches have the same endpoint-pair ideal
+over the literal rank-two `uB` parameter field. -/
+theorem repeatedUBPairIdeal_eq_over_parameterField :
+    idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.uB))))
+        ![R.sb.source, R.sb.target] =
+      idealOf
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.uB))))
+        ![R.sAc.source, R.sAc.target] := by
+  apply pairIdeal_eq_over_commonParameter_of_familyIdeal_eq
+  exact R.sbCFamily_ideal_eq_sAcCFamily
+
 /-- The coefficient-aware normal-cover comparison for the repeated
 `s` branch.  It retains the displayed `s` parameter and source coordinates;
 the based comparison below additionally corrects it to the selected
