@@ -1438,6 +1438,24 @@ must be identified with the connected component of the scheme-theoretic
 kernel.  None of these conclusions is inferred merely from the presented
 quotient or from finiteness of the earlier deck action.
 
+Before the multiplication graph can be normalized, a correspondence germ
+needs coordinates unaffected by rescaling its defining equation.  Its prime
+planar ideal now has a canonical lexicographically monic generator.  Equal
+branch ideals give literally equal generators, so adjoining their
+coefficients produces an intrinsic field contained in every field of
+definition.  The equation descends to that field, remains nonzero, and still
+vanishes at the selected generic endpoint pair:
+
+{docstring AclGeom.FiniteCorrespondencePair.curveEquation}
+
+{docstring AclGeom.FiniteCorrespondencePair.curveEquation_eq_of_ideal_eq}
+
+{docstring AclGeom.FiniteCorrespondencePair.curveCoefficientField}
+
+{docstring AclGeom.FiniteCorrespondencePair.curveCoefficientField_le}
+
+{docstring AclGeom.FiniteCorrespondencePair.aeval_curveEquationOverCoefficientField}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse

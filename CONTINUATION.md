@@ -251,17 +251,32 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     all represented by one fixed positive-dimensional affine normal-cover
     model.  This is the model-comparison prerequisite for spreading the
     four-arrow difference product; it does not yet construct that product.
+18. `Correspondence/CurveEquation.lean` removes the remaining scalar
+    ambiguity from an irreducible finite-correspondence germ.  Its prime
+    planar ideal now has a canonical lexicographically monic generator,
+    proved to depend only on the ideal.  The coefficients generate an
+    intrinsic intermediate field contained in every chosen field of
+    definition, and the canonical equation descends nontrivially to that
+    field while still vanishing on the selected generic endpoint pair.  This
+    supplies faithful, scaling-independent coordinates for the next
+    multiplication-graph normalization; arbitrary unnormalized generators
+    cannot be used because rescaling them would change their coefficient
+    fields.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
-parameter cover.  Use those maps to construct the translation-indexed Weil
-atlas and glue its multiplication, unit, and inverse with the strict
-field/rational cocycle.  The resulting group scheme is automatically
-separated by item 16; then extract a finite subatlas and package it in the
-scheme-level algebraic-group target.  After that, identify the already
-constructed categorical rank-one normal kernel with the connected component
-of its scheme-theoretic kernel, apply the completed affine-action
-classification, and finish affine-grid extraction (8.5) and Q correctness.
+parameter cover.  First apply the rank-two minimality clauses to the
+canonical coefficient fields from item 18, showing that the normalized
+germ coordinates recover the rank-two parameter generically; then normalize
+the selected multiplication and inverse components over those coordinates.
+Use the resulting maps to construct the translation-indexed Weil atlas and
+glue its multiplication, unit, and inverse with the strict field/rational
+cocycle.  The resulting group scheme is automatically separated by item 16;
+then extract a finite subatlas and package it in the scheme-level
+algebraic-group target.  After that, identify the already constructed
+categorical rank-one normal kernel with the connected component of its
+scheme-theoretic kernel, apply the completed affine-action classification,
+and finish affine-grid extraction (8.5) and Q correctness.
 
 Do not substitute the finite deck group for the parameter group.  The deck
 group only records the vertical ambiguity of chosen lifts; the parameter
