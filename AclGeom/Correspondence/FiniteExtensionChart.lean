@@ -38,11 +38,11 @@ open IntermediateField
 open scoped IntermediateField.algebraAdjoinAdjoin
 open AlgebraicGeometry
 
-universe u
+universe u v
 
 namespace FiniteExtensionChart
 
-variable {k K L ι : Type u} [Field k] [Field K] [Field L]
+variable {k K L : Type u} {ι : Type v} [Field k] [Field K] [Field L]
   [Algebra K L] [Algebra k L] [FiniteDimensional K L]
 
 /-- A finite family of generators for `L` as a field over `k`: the displayed

@@ -160,11 +160,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
    nonempty pairwise overlaps glue to an integral scheme.  These discharge
    the abstract descent and irreducibility consequences needed once the
    normalized chunk supplies its concrete transition charts.
+9. `Correspondence/FiniteExtensionChart.lean` turns a finite extension of a
+   finitely generated parameter field into an integral separated affine
+   scheme of finite type over the ground field, with the prescribed extension
+   as its fraction field.  `Config/ChunkAlgebraicChart.lean` applies this
+   construction to the normalized `A/S`, `B/T`, and `C/U` scalar covers.  The
+   two displayed parameter coordinates still generate their base fields and
+   are algebraically independent, so these are genuine rank-two scheme charts
+   rather than finite deck groups.
 
-**Next exact step:** construct the concrete dense transition opens and
-transition morphisms of the normalized finite-correspondence chunk as
-`Scheme.GlueData`, then glue multiplication and inverse on the resulting
-integral locally finite-type scheme.  Prove separatedness and extract the
+**Next exact step:** localize the normalized field equivalences to concrete
+dense principal opens of these affine models, package their transition
+morphisms as `Scheme.GlueData`, then glue multiplication and inverse on the
+resulting integral locally finite-type scheme.  Prove separatedness and extract the
 finite atlas to package the result in the new scheme-level algebraic-group
 target.  Then identify the already constructed categorical rank-one normal
 kernel with the connected component of its scheme-theoretic kernel, apply

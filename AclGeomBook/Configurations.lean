@@ -1234,6 +1234,19 @@ chosen extension:
 
 {docstring AclGeom.FiniteExtensionChart.generatedFieldEquiv}
 
+Applying this construction to every normalized rank-two/scalar branch gives
+the concrete `A/S`, `B/T`, and `C/U` affine charts.  Their function fields
+are exactly the corresponding finite normal covers, while the two base
+coordinates remain algebraically independent on each selected Ψ chart:
+
+{docstring AclGeom.QWitness.rankTwoScalarAlgebraicChart}
+
+{docstring AclGeom.QWitness.rankTwoScalarAlgebraicChartFunctionFieldEquiv}
+
+{docstring AclGeom.QWitness.psiAAlgebraicChart}
+
+{docstring AclGeom.QWitness.psiAParameterCoordinates_independent}
+
 The normalized finite-cover action must next supply the concrete transition
 opens and transition morphisms for this gluing engine.  Multiplication and
 inverse can then be glued into the genuine scheme-level target, after which

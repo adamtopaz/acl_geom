@@ -63,6 +63,7 @@ import AclGeom.Config.Psi
 import AclGeom.Config.CompositionIdentity
 import AclGeom.Config.ChunkProjection
 import AclGeom.Config.ChunkBranchCover
+import AclGeom.Config.ChunkAlgebraicChart
 import AclGeom.Config.ChunkRelationCover
 import AclGeom.Config.ChunkNormalizedChart
 import AclGeom.Config.ChunkFieldAction
