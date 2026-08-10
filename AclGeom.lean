@@ -40,6 +40,7 @@ import AclGeom.Correspondence.FunctionFieldEquivalence
 import AclGeom.Correspondence.BirationalGluing
 import AclGeom.Correspondence.PrincipalLocalization
 import AclGeom.Correspondence.FiniteExtensionTransition
+import AclGeom.Correspondence.FiniteExtensionCompositum
 import AclGeom.Correspondence.GroupConfiguration
 import AclGeom.Correspondence.AffineAction
 import AclGeom.Correspondence.Additive
@@ -75,6 +76,7 @@ import AclGeom.Config.ChunkAlgebraicChart
 import AclGeom.Config.ChunkAlgebraicTransition
 import AclGeom.Config.ChunkRelationCover
 import AclGeom.Config.ChunkFourArrowNormalization
+import AclGeom.Config.ChunkFourArrowReference
 import AclGeom.Config.ChunkNormalizedChart
 import AclGeom.Config.ChunkFieldAction
 import AclGeom.Config.ChunkFiniteFieldAction

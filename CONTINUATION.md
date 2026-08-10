@@ -334,21 +334,33 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     scalar-branch charts.  The targets are intentionally not yet their
     individual normal closures, so this step records all finite branch data
     without claiming a comparison with the selected reference model.
+25. `Correspondence/FiniteExtensionCompositum.lean` gives the required
+    finite-basis base-change lemma: if `F ≤ E` and `N/F` is finite, adjoining
+    the values of a finite `F`-basis of `N` to `E` contains all of `N` and is
+    finite over `E`.  `Config/ChunkFourArrowReference.lean` iterates this
+    construction for the `e`, inverse-`a`, `b`, and output-`c` `B/T` normal
+    fields.  The resulting common field is still finite over the original
+    eight inputs and literally contains every individual normal field.  One
+    final normal closure gives an integral affine source chart with dominant
+    rational projections `toNormalizedE/A/B/C`.  Composing each with
+    `psiBProjectionReferenceRationalMap` yields four dominant maps
+    `toReferenceE/A/B/C` to the exact same selected `(B,T)` affine normal
+    model.  Thus the reference-model comparison requested after item 24 is
+    now concrete; equality of the output map with the categorical
+    difference product of the three input maps remains to be proved.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
-parameter cover.  Item 24 gives one common cover of the complete lifted
-four-arrow diagram and raw projections to its four based scalar branches.
-Enlarge that cover by finite generating bases of the four individual
-`B/T` normal closures.  This remains finite over the eight-coordinate input
-field and makes the four normalized branch fields literal subfields of one
-source.  Compose the resulting projections with the already normalized
-projection-locus transitions to compare `e`, inverse-`a`, `b`, and output
-`c` with the selected reference `B/T` chart.  Prove that the canonical
-germ-coordinate map factors through the strict presented-arrow cancellation
-(equivalently, that its output is independent of the auxiliary `s` after
-passage to the reference chart), and then extract multiplication and inverse
-on that single chart with strict rational identities.
+parameter cover.  Item 25 now puts the four normalized based projections on
+one literal source and one literal selected `(B,T)` target.  Identify their
+generic-point function-field maps with the corresponding presented-family
+arrows, and prove that `toReferenceC` factors through the strict categorical
+four-arrow cancellation of `toReferenceE`, `toReferenceA`, and
+`toReferenceB`.  This is the precise auxiliary-`s` independence statement:
+the factorization must descend to the intrinsic two-input germ chart, not
+merely hold on the eight-input relational source.  Then extract
+multiplication and inverse on that single chart with strict rational
+identities.
 Use the resulting maps to construct the translation-indexed Weil atlas and
 glue its multiplication, unit, and inverse with the strict field/rational
 cocycle.  The resulting group scheme is automatically separated by item 16;

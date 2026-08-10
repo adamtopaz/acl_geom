@@ -1613,6 +1613,54 @@ reference-model transitions can be applied.
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toRawC}
 
+Each of those raw scalar fields has its own finite normal closure over its
+rank-two parameter block.  A finite-basis compositum construction now
+adjoins such a smaller normal field to any larger ambient function field
+without introducing an infinite extension.  Iterating it for the four
+`B/T` branches gives one field, still finite over the original eight inputs,
+that literally contains all four normal fields.  A final common normal
+closure therefore projects directly to every normalized branch chart.
+Composing those projections with the strict reference transitions places
+all four based blocks on the one selected `(B,T)` model.
+
+{docstring AclGeom.FiniteExtensionCompositum.restrictScalars_le_of_basisValues_subset}
+
+{docstring AclGeom.FiniteExtensionCompositum.over_finiteDimensional}
+
+{docstring AclGeom.FiniteExtensionCompositum.extendScalars_trans_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.normalizedField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.eNormalField_le_normalizedField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.aNormalField_le_normalizedField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.bNormalField_le_normalizedField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.cNormalField_le_normalizedField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.normalizedOverInput_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.referenceNormalCover}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.referenceNormalCover_normal}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedE}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedA}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedB}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toNormalizedC}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceE}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceA}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceB}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.toReferenceC}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse
