@@ -21,12 +21,19 @@ elements, and composition happens at a *shared middle representative*:
   `(w', u)` relocates onto any prescribed interalgebraic representative
   `w` of its source point, preserving the vanishing ideal and hence the
   germ. This is blueprint Lemma 8.1(b) with the transcendence basis pinned
-  to a prescribed image.
+  to a prescribed image;
+* `FiniteCorrespondencePair`, `FiniteCorrespondenceGerm`, and
+  `FiniteCorrespondenceGerm.Composes`: the selected-branch presentation of
+  finite correspondences and their composition;
+* `FiniteCorrespondenceGerm.exists_composite`: matching makes the relational
+  composite nonempty, while retaining the chosen irreducible component;
+* `fiber_product_rank_count`: the explicit rank-five calculation used in
+  blueprint equation (8.6).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M4a, issue #12 pipeline step 1).
+**Status:** complete (M4a, issue #12 pipeline step 1).
 -/
 
 namespace AclGeom
@@ -158,6 +165,167 @@ theorem exists_pair_relocation_fixing [IsAlgClosed Ω] {w' u w : Ω}
       map_zero]
 
 end Matching
+
+section Germs
+
+/-- A generic pair presenting a finite correspondence between two rational
+curves.  The two coordinates are interalgebraic and the source is generic
+over the ground field. -/
+structure FiniteCorrespondencePair (k Ω : Type*) [Field k] [Field Ω]
+    [Algebra k Ω] where
+  /-- Source coordinate of the selected generic branch. -/
+  source : Ω
+  /-- Target coordinate of the selected generic branch. -/
+  target : Ω
+  /-- The source coordinate is transcendental over the ground field. -/
+  source_generic : source ∉ racl k (∅ : Set Ω)
+  /-- The target is algebraic over the source. -/
+  target_mem_source : target ∈ racl k {source}
+  /-- The source is algebraic over the target. -/
+  source_mem_target : source ∈ racl k {target}
+
+namespace FiniteCorrespondencePair
+
+variable (P : FiniteCorrespondencePair k Ω)
+
+/-- The target of a finite correspondence is generic whenever its source
+is generic. -/
+theorem target_generic : P.target ∉ racl k (∅ : Set Ω) := by
+  intro ht
+  exact P.source_generic
+    (racl_le_of_subset_racl (Set.singleton_subset_iff.2 ht) P.source_mem_target)
+
+/-- The prime ideal of the selected generic branch. -/
+def ideal : Ideal (MvPolynomial (Fin 2) k) :=
+  idealOf k ![P.source, P.target]
+
+/-- Composition at a literally shared middle coordinate. -/
+def comp (Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source) :
+    FiniteCorrespondencePair k Ω where
+  source := P.source
+  target := Q.target
+  source_generic := P.source_generic
+  target_mem_source := by
+    apply mem_racl_trans (w := P.target)
+    · simpa [h] using Q.target_mem_source
+    · exact P.target_mem_source
+  source_mem_target := by
+    apply mem_racl_trans (w := P.target)
+    · exact P.source_mem_target
+    · simpa [h] using Q.source_mem_target
+
+@[simp] theorem comp_source (Q : FiniteCorrespondencePair k Ω)
+    (h : P.target = Q.source) : (P.comp Q h).source = P.source := rfl
+
+@[simp] theorem comp_target (Q : FiniteCorrespondencePair k Ω)
+    (h : P.target = Q.source) : (P.comp Q h).target = Q.target := rfl
+
+/-- Associativity of selected-branch composition.  Both parenthesizations
+have the same endpoint pair, hence the same prime component ideal. -/
+theorem comp_ideal_assoc (Q R : FiniteCorrespondencePair k Ω)
+    (hPQ : P.target = Q.source) (hQR : Q.target = R.source) :
+    ((P.comp Q hPQ).comp R (by simpa using hQR)).ideal =
+      (P.comp (Q.comp R hQR) (by simpa using hPQ)).ideal := rfl
+
+end FiniteCorrespondencePair
+
+/-- A finite-correspondence germ is its prime branch ideal together with a
+generic interalgebraic pair presenting that ideal.  Keeping the witness is
+intentional: composition of correspondences selects a component rather than
+the whole scheme-theoretic fiber product. -/
+structure FiniteCorrespondenceGerm (k Ω : Type*) [Field k] [Field Ω]
+    [Algebra k Ω] where
+  /-- Prime ideal of the selected correspondence component. -/
+  carrier : Ideal (MvPolynomial (Fin 2) k)
+  /-- A generic pair presenting the component. -/
+  presentation : ∃ P : FiniteCorrespondencePair k Ω, carrier = P.ideal
+
+namespace FiniteCorrespondenceGerm
+
+/-- The germ presented by a generic finite-correspondence pair. -/
+def ofPair (P : FiniteCorrespondencePair k Ω) :
+    FiniteCorrespondenceGerm k Ω where
+  carrier := P.ideal
+  presentation := ⟨P, rfl⟩
+
+/-- Relational composition of selected correspondence components.  The
+literal common middle records the chosen component of the fiber product. -/
+def Composes (C D E : FiniteCorrespondenceGerm k Ω) : Prop :=
+  ∃ (P Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source),
+    C.carrier = P.ideal ∧ D.carrier = Q.ideal ∧
+      E.carrier = (P.comp Q h).ideal
+
+theorem composes_of_shared_middle (P Q : FiniteCorrespondencePair k Ω)
+    (h : P.target = Q.source) :
+    Composes (ofPair P) (ofPair Q) (ofPair (P.comp Q h)) :=
+  ⟨P, Q, h, rfl, rfl, rfl⟩
+
+/-- Every two finite-correspondence germs admit a selected composite.  The
+second presentation is relocated onto the first target, and the resulting
+end pair is the selected irreducible component. -/
+theorem exists_composite [IsAlgClosed Ω] (C D : FiniteCorrespondenceGerm k Ω) :
+    ∃ E : FiniteCorrespondenceGerm k Ω, Composes C D E := by
+  obtain ⟨P, hP⟩ := C.presentation
+  obtain ⟨Q, hQ⟩ := D.presentation
+  obtain ⟨u, hu⟩ := exists_pair_relocation_fixing
+    Q.source_generic Q.target_mem_source P.target_generic
+  have htarget : u ∈ racl k {P.target} := by
+    have hv : (![Q.source, Q.target] : Fin 2 → Ω) 1 ∈ racl k
+        ((![Q.source, Q.target] : Fin 2 → Ω) '' {(0 : Fin 2)}) := by
+      simpa [Set.image_singleton] using Q.target_mem_source
+    have h := mem_racl_image_of_idealOf_eq k hu.symm
+      (J := {(0 : Fin 2)}) (i := (1 : Fin 2)) hv
+    simpa [Set.image_singleton] using h
+  have hsource : P.target ∈ racl k {u} := by
+    have hv : (![Q.source, Q.target] : Fin 2 → Ω) 0 ∈ racl k
+        ((![Q.source, Q.target] : Fin 2 → Ω) '' {(1 : Fin 2)}) := by
+      simpa [Set.image_singleton] using Q.source_mem_target
+    have h := mem_racl_image_of_idealOf_eq k hu.symm
+      (J := {(1 : Fin 2)}) (i := (0 : Fin 2)) hv
+    simpa [Set.image_singleton] using h
+  let Q' : FiniteCorrespondencePair k Ω :=
+    { source := P.target
+      target := u
+      source_generic := P.target_generic
+      target_mem_source := htarget
+      source_mem_target := hsource }
+  have hQ' : D.carrier = Q'.ideal := by
+    rw [hQ, FiniteCorrespondencePair.ideal]
+    change idealOf k ![Q.source, Q.target] = idealOf k ![P.target, u]
+    exact hu.symm
+  refine ⟨ofPair (P.comp Q' rfl), P, Q', rfl, hP, hQ', rfl⟩
+
+end FiniteCorrespondenceGerm
+
+end Germs
+
+section FiberProductRank
+
+/-- **The rank-five fiber-product count behind blueprint (8.6).**
+If the four correspondence parameters are independent, `x` is generic over
+them, and the successive fiber coordinates `y,z` are algebraic over those
+five generators, then the seven-coordinate fiber-product tuple has the same
+relative algebraic closure as the independent five-coordinate tuple.
+
+The conclusion exposes both halves of the dimension calculation: the five
+generators are independent and adjoining `y,z` does not enlarge their
+relative algebraic closure. -/
+theorem fiber_product_rank_count {p : Fin 4 → Ω} {x y z : Ω}
+    (hp : AlgebraicIndependent k p)
+    (hx : x ∉ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range (Fin.snoc p x)))
+    (hz : z ∈ racl k (Set.range (Fin.snoc p x))) :
+    AlgebraicIndependent k (Fin.snoc p x) ∧
+      racl k (Set.range (Fin.snoc (Fin.snoc (Fin.snoc p x) y) z)) =
+        racl k (Set.range (Fin.snoc p x)) := by
+  have hpx : AlgebraicIndependent k (Fin.snoc p x) :=
+    algebraicIndependent_snoc hp hx
+  refine ⟨hpx, ?_⟩
+  rw [Fin.range_snoc, Fin.range_snoc]
+  rw [racl_insert_of_mem (racl_mono (Set.subset_insert y _) hz)]
+  exact racl_insert_of_mem hy
+
+end FiberProductRank
 
 end
 
