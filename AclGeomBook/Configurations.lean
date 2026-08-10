@@ -284,6 +284,17 @@ composition:
 
 {docstring AclGeom.QWitness.psi_selected_correspondence_groupoid_laws}
 
+Each selected branch also carries its concrete joint function field.  It
+is finite over either endpoint field; for a composable pair the three-point
+chain field is finite over the left branch, the right branch, and the
+selected composite branch:
+
+{docstring AclGeom.FiniteCorrespondencePair.branchOverSource_finiteDimensional}
+
+{docstring AclGeom.FiniteCorrespondencePair.chainOverComposite_finiteDimensional}
+
+{docstring AclGeom.QWitness.psi_selected_chain_field_finite_covers}
+
 The second `Z` incidence simultaneously presents `(X,Z)` as the member
 parametrized by `C`.  After adjoining all six displayed parameters, both
 the composed endpoint ideal and the `C`-family ideal lie under the same

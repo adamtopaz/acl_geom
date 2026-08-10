@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.Psi
-import AclGeom.Correspondence.Composition
+import AclGeom.Correspondence.FiniteCover
 
 /-!
 # The selected-component core of the Ψ composition identity
@@ -958,6 +958,26 @@ theorem psi_selected_correspondence_groupoid_laws (hψ : w.Psi) :
       (w.yzCorrespondencePair hψ),
     FiniteCorrespondenceGerm.composes_inverse_left
       (w.yzCorrespondencePair hψ)⟩
+
+/-- The literal `X → Y → Z` chain selected by `Psi` has a common joint
+function field finite over the left branch, the right branch, and the
+composite endpoint branch.  These are the three finite covers on which
+the selected correspondence groupoid can be compared before normalizing. -/
+theorem psi_selected_chain_field_finite_covers (hψ : w.Psi) :
+    let P := w.xyCorrespondencePair hψ
+    let Q := w.yzCorrespondencePair hψ
+    FiniteDimensional (↥P.branchField) (↥(P.chainOverLeft Q)) ∧
+      FiniteDimensional (↥Q.branchField) (↥(P.chainOverRight Q rfl)) ∧
+      FiniteDimensional (↥(P.comp Q rfl).branchField)
+        (↥(P.chainOverComposite Q rfl)) := by
+  dsimp only
+  exact
+    ⟨(w.xyCorrespondencePair hψ).chainOverLeft_finiteDimensional
+        (w.yzCorrespondencePair hψ) rfl,
+      (w.xyCorrespondencePair hψ).chainOverRight_finiteDimensional
+        (w.yzCorrespondencePair hψ) rfl,
+      (w.xyCorrespondencePair hψ).chainOverComposite_finiteDimensional
+        (w.yzCorrespondencePair hψ) rfl⟩
 
 /-- **The rank-five fiber-product calculation for a `Psi` witness.**
 The five-tuple `(A₁,A₂,B₁,B₂,Y)` is algebraically independent, and

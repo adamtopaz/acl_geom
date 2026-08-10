@@ -16,6 +16,7 @@ import AclGeom.Correspondence.FunctionField
 import AclGeom.Correspondence.Regular
 import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.Composition
+import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.Moebius
 import AclGeom.Correspondence.CurveIdeal
 import AclGeom.Correspondence.BaseChange
