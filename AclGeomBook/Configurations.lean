@@ -1266,6 +1266,31 @@ so all four curve triangles can be constructed together:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowRealizations.finiteCoverStrictCompositions}
 
+Those edgewise sources cannot be used after enlarging coefficients to the
+whole eight-input field, because each is itself one of the eight inputs.  A
+single genuinely fresh coordinate is obtained by passing to the algebraic
+closure of the rational-function field over the original ambient field.
+Its formal variable is transcendental over that entire field and therefore
+generic over every embedded parameter edge:
+
+{docstring AclGeom.CommonCurveAmbient}
+
+{docstring AclGeom.commonCurveSource_transcendental}
+
+{docstring AclGeom.commonCurveSource_notMem_racl}
+
+Ambient invariance transports the complete selected Ψ locus along the
+canonical embedding.  The same relocation theorem then fixes the mapped
+edge parameters together with the one formal source.  Applying it four
+times produces four complete curve triangles whose sources agree literally,
+which is the first coefficient-compatible cross-edge identification:
+
+{docstring AclGeom.QWitness.exists_psiCurveCompositionBaseChangeRealization}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations}
+
+{docstring AclGeom.QWitness.exists_psiCurveFourArrowCommonSourceRealizations}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

@@ -427,6 +427,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     cancellation.  Thus the remaining obligation is exactly to construct
     the coefficient-compatible reference equivalences; arbitrary abstract
     field isomorphisms are insufficient.
+33. `Config/ChunkCurveCommonSource.lean` removes the first obstruction to
+    those coefficient-compatible equivalences.  It embeds the original
+    ambient field `K` into the algebraic closure of `K(X)` and proves that
+    the image of the formal variable is transcendental over all of `K`,
+    hence generic over every embedded finite parameter tuple.  Ambient
+    invariance transports the selected nine-coordinate Ψ locus and its
+    algebraicity data along the embedding.  The tuple-relocation theorem can
+    therefore be applied to all four parameter edges while fixing the same
+    formal source literally.  The resulting four complete curve triangles
+    now have a common source over the full eight-input coefficient field;
+    their middle and target normal covers still have to be normalized over
+    that common base.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -434,10 +446,14 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--32 give four strict finite-normal-cover curve triangles and the
-exact semantic target for aligning them.  Construct the Ψ-specific
-`ReferenceAlignment` with coefficient-compatible equivalences to three
-reference fields.  Then apply its literal cancellation theorem
+Items 29--33 give four strict finite-normal-cover curve triangles, the exact
+semantic target for aligning them, and one formal curve source shared by all
+four embedded loci.  Repackage those embedded restrictions as finite
+correspondence pairs over the common eight-input coefficient field and
+normalize their middle and target covers there.  Use those common-base
+triangles to construct the Ψ-specific `ReferenceAlignment` with
+coefficient-compatible equivalences to three reference fields.  Then apply
+its literal cancellation theorem
 and canonical-curve-coefficient faithfulness to identify the four displayed
 parameter field embeddings.  Use that equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
