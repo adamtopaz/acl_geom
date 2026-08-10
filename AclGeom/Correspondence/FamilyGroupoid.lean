@@ -33,6 +33,11 @@ the blueprint cancellation identity on the `T`-arrow chart.  This is the
 parameter-labelled categorical layer above the finite normal-cover branch
 groupoids; it does not identify a family parameter with a deck
 transformation of one fixed finite cover.
+
+The generic construction `PresentedFamilyGroupoidOf R` is also exposed for
+an arbitrary ternary relation `R`.  This lets the rank-two `A/B/C` family
+composition from a `Psi` witness use the same categorical layer without
+pretending its parameters are single field elements.
 -/
 
 namespace AclGeom
@@ -98,6 +103,70 @@ def u (a : Ω) : x0 (Ω := Ω) ⟶ x2 (Ω := Ω) :=
     (CorrespondenceFamilyGenerator.u a)
 
 end FreeCorrespondenceFamilyGroupoid
+
+section ArbitraryRelation
+
+variable {P : Type v} (R : P → P → P → Prop)
+
+/-- The generating composition relations attached to an arbitrary ternary
+parameter locus, oriented as `T(t) ≫ S(s) = U(u)`. -/
+inductive CorrespondenceFamilyRelationOf :
+    HomRel (FreeCorrespondenceFamilyGroupoid P)
+  | multiplication (t s u : P) (h : R t s u) :
+      CorrespondenceFamilyRelationOf
+        (FreeCorrespondenceFamilyGroupoid.t t ≫
+          FreeCorrespondenceFamilyGroupoid.s s)
+        (FreeCorrespondenceFamilyGroupoid.u u)
+
+/-- The genuine three-object groupoid presented by any ternary relation on
+the parameter type. -/
+abbrev PresentedFamilyGroupoidOf :=
+  CategoryTheory.Quotient (CorrespondenceFamilyRelationOf R)
+
+namespace PresentedFamilyGroupoidOf
+
+/-- The object `X₀` in the groupoid presented by `R`. -/
+def x0 : PresentedFamilyGroupoidOf R :=
+  (CategoryTheory.Quotient.functor (CorrespondenceFamilyRelationOf R)).obj
+    FreeCorrespondenceFamilyGroupoid.x0
+
+/-- The object `X₁` in the groupoid presented by `R`. -/
+def x1 : PresentedFamilyGroupoidOf R :=
+  (CategoryTheory.Quotient.functor (CorrespondenceFamilyRelationOf R)).obj
+    FreeCorrespondenceFamilyGroupoid.x1
+
+/-- The object `X₂` in the groupoid presented by `R`. -/
+def x2 : PresentedFamilyGroupoidOf R :=
+  (CategoryTheory.Quotient.functor (CorrespondenceFamilyRelationOf R)).obj
+    FreeCorrespondenceFamilyGroupoid.x2
+
+/-- A `T`-family arrow in the groupoid presented by `R`. -/
+def t (a : P) : x0 R ⟶ x1 R :=
+  (CategoryTheory.Quotient.functor (CorrespondenceFamilyRelationOf R)).map
+    (FreeCorrespondenceFamilyGroupoid.t a)
+
+/-- An `S`-family arrow in the groupoid presented by `R`. -/
+def s (a : P) : x1 R ⟶ x2 R :=
+  (CategoryTheory.Quotient.functor (CorrespondenceFamilyRelationOf R)).map
+    (FreeCorrespondenceFamilyGroupoid.s a)
+
+/-- A `U`-family arrow in the groupoid presented by `R`. -/
+def u (a : P) : x0 R ⟶ x2 R :=
+  (CategoryTheory.Quotient.functor (CorrespondenceFamilyRelationOf R)).map
+    (FreeCorrespondenceFamilyGroupoid.u a)
+
+/-- Every point of `R` gives its defining literal composition in the
+presented groupoid. -/
+theorem t_comp_s_eq_u {t s u : P} (h : R t s u) :
+    PresentedFamilyGroupoidOf.t R t ≫ PresentedFamilyGroupoidOf.s R s =
+      PresentedFamilyGroupoidOf.u R u := by
+  exact CategoryTheory.Quotient.sound
+    (CorrespondenceFamilyRelationOf R)
+    (CorrespondenceFamilyRelationOf.multiplication t s u h)
+
+end PresentedFamilyGroupoidOf
+
+end ArbitraryRelation
 
 variable (M : FiniteCorrespondenceMultiplication (k := k) (Ω := Ω))
 

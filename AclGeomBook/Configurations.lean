@@ -879,6 +879,18 @@ positive-dimensional `T` chart at independent generic inputs:
 
 {docstring AclGeom.IsPartialQuadrangle.ParameterFourArrowFamilyLifts.groupoid_cancellation}
 
+Equation (8.6) has the same categorical presentation at parameter dimension
+two.  Here the parameter type is a pair, the relation is the complete
+prime locus of `(A,B,C)`, and the arrows are oriented exactly as the actual
+`X → Y → Z` chain.  The selected theorem retains both the groupoid identity
+and the finite-correspondence germ certificate:
+
+{docstring AclGeom.PresentedFamilyGroupoidOf}
+
+{docstring AclGeom.QWitness.psiParameterFamilyGroupoid}
+
+{docstring AclGeom.QWitness.psi_selected_family_groupoid_composition}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse
