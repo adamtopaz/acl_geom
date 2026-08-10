@@ -466,6 +466,79 @@ theorem exists_psiParameter_left [IsAlgClosed K] (hψ : w.Psi)
   obtain ⟨a, ha⟩ := (w.psiParameterMultiplication hψ).exists_left hbc
   exact ⟨a, (w.psiFamilyCompositionRelation_iff_isRealization hψ a b c).2 ha⟩
 
+/-- A four-arrow diagram on the selected rank-two `Psi` multiplication
+locus. -/
+abbrev PsiParameterFourArrowDifferenceDiagram (hψ : w.Psi)
+    (s a b e : Fin 2 → K) :=
+  (w.psiParameterMultiplication hψ).FourArrowDifferenceDiagram s a b e
+
+/-- Eight independent input coordinates admit the complete four-arrow
+diagram on the selected `Psi` locus. -/
+theorem exists_psiParameter_fourArrowDifferenceDiagram [IsAlgClosed K]
+    (hψ : w.Psi) {s e a b : Fin 2 → K}
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    Nonempty (w.PsiParameterFourArrowDifferenceDiagram hψ s a b e) :=
+  (w.psiParameterMultiplication hψ).exists_fourArrowDifferenceDiagram hind
+
+/-- Every selected rank-two four-arrow diagram satisfies the exact
+difference-product identity on the `B`-family arrow chart. -/
+theorem PsiParameterFourArrowDifferenceDiagram.cancellation
+    (hψ : w.Psi) {s a b e : Fin 2 → K}
+    (D : w.PsiParameterFourArrowDifferenceDiagram hψ s a b e) :
+    w.psiBArrow D.c =
+      groupoidDifferenceProduct (w.psiBArrow e)
+        (w.psiBArrow a) (w.psiBArrow b) := by
+  apply PresentedFamilyGroupoidOf.fourArrow_right_cancellation
+      w.psiFamilyCompositionRelation
+  · exact (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ s e D.u).2 D.se_u
+  · exact (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ D.sA a D.u).2 D.sA_a_u
+  · exact (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ s b D.uB).2 D.s_b_uB
+  · exact (w.psiFamilyCompositionRelation_iff_isRealization
+      hψ D.sA D.c D.uB).2 D.sA_c_uB
+
+/-- At eight independent generic input coordinates, the presented
+`B`-family is closed under the ordinary difference product
+`a ≫ e⁻¹ ≫ b`. -/
+theorem exists_psiParameter_groupoidDifferenceProduct [IsAlgClosed K]
+    (hψ : w.Psi) {s e a b : Fin 2 → K}
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    ∃ D : w.PsiParameterFourArrowDifferenceDiagram hψ s a b e,
+      w.psiBArrow D.c =
+        groupoidDifferenceProduct (w.psiBArrow e)
+          (w.psiBArrow a) (w.psiBArrow b) := by
+  obtain ⟨D⟩ := w.exists_psiParameter_fourArrowDifferenceDiagram hψ hind
+  exact ⟨D, PsiParameterFourArrowDifferenceDiagram.cancellation w hψ D⟩
+
+/-- The full `B`-arrow family, based at parameter `e`, carries the genuine
+groupoid difference-chart chunk. -/
+def psiBArrowChunk (e : Fin 2 → K) :
+    RationalGroupChunk
+      (PresentedFamilyGroupoidOf.x1 w.psiFamilyCompositionRelation ⟶
+        PresentedFamilyGroupoidOf.x2 w.psiFamilyCompositionRelation) :=
+  groupoidArrowChunk (w.psiBArrow e)
+
+/-- Multiplication in the based `B`-arrow chunk is the categorical
+difference product. -/
+theorem psiBArrowChunk_mul (e a b : Fin 2 → K) :
+    (w.psiBArrowChunk e).mul (w.psiBArrow a) (w.psiBArrow b) =
+      groupoidDifferenceProduct (w.psiBArrow e)
+        (w.psiBArrow a) (w.psiBArrow b) :=
+  rfl
+
+/-- At eight independent generic input coordinates, multiplication in the
+based `B`-arrow chunk returns to the actual rank-two parameter chart. -/
+theorem exists_psiBArrowChunk_mul [IsAlgClosed K]
+    (hψ : w.Psi) {s e a b : Fin 2 → K}
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    ∃ c : Fin 2 → K,
+      (w.psiBArrowChunk e).mul (w.psiBArrow a) (w.psiBArrow b) =
+        w.psiBArrow c := by
+  obtain ⟨D, hD⟩ := w.exists_psiParameter_groupoidDifferenceProduct hψ hind
+  exact ⟨D.c, (w.psiBArrowChunk_mul e a b).trans hD.symm⟩
+
 /-- The `A` representatives occur among `abReps`. -/
 theorem aReps_range_subset_abReps :
     Set.range w.aReps ⊆ Set.range w.abReps := by

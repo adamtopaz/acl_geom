@@ -164,6 +164,39 @@ theorem t_comp_s_eq_u {t s u : P} (h : R t s u) :
     (CorrespondenceFamilyRelationOf R)
     (CorrespondenceFamilyRelationOf.multiplication t s u h)
 
+/-- Four points of an arbitrary ternary relation cancel on the
+right-family arrow chart.  If
+
+`s · e = u`, `sA · a = u`, `s · b = uB`, and
+`sA · c = uB`,
+
+then the presented `S`-family arrow satisfies `c = a e⁻¹ b`. -/
+theorem fourArrow_right_cancellation
+    {s e a b u sA uB c : P}
+    (hse : R s e u) (hsa : R sA a u)
+    (hsb : R s b uB) (hsc : R sA c uB) :
+    PresentedFamilyGroupoidOf.s R c =
+      groupoidDifferenceProduct
+        (PresentedFamilyGroupoidOf.s R e)
+        (PresentedFamilyGroupoidOf.s R a)
+        (PresentedFamilyGroupoidOf.s R b) := by
+  let ts := PresentedFamilyGroupoidOf.t R s
+  let tsA := PresentedFamilyGroupoidOf.t R sA
+  let se := PresentedFamilyGroupoidOf.s R e
+  let sa := PresentedFamilyGroupoidOf.s R a
+  let sb := PresentedFamilyGroupoidOf.s R b
+  let sc := PresentedFamilyGroupoidOf.s R c
+  let uu := PresentedFamilyGroupoidOf.u R u
+  let uuB := PresentedFamilyGroupoidOf.u R uB
+  have hse' : ts ≫ se = uu := t_comp_s_eq_u R hse
+  have hsa' : tsA ≫ sa = uu := t_comp_s_eq_u R hsa
+  have hsb' : ts ≫ sb = uuB := t_comp_s_eq_u R hsb
+  have hsc' : tsA ≫ sc = uuB := t_comp_s_eq_u R hsc
+  change sc = sa ≫ inv se ≫ sb
+  apply (cancel_epi tsA).1
+  rw [hsc', ← Category.assoc, hsa', ← hse']
+  simpa [Category.assoc] using hsb'.symm
+
 end PresentedFamilyGroupoidOf
 
 end ArbitraryRelation

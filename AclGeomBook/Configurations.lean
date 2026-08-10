@@ -910,6 +910,29 @@ is still a correspondence, so no uniqueness is asserted:
 
 {docstring AclGeom.QWitness.exists_psiParameter_output}
 
+Four independent rank-two inputs contribute eight independent scalar
+coordinates.  Along the four-arrow construction, each selected relation
+replaces one two-coordinate block by an interalgebraic block.  Thus the
+relative algebraic closure of the ambient eight-tuple, and hence its exact
+rank, is unchanged at every step.  The final division pair is therefore
+generic without an extra hypothesis:
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.exists_fourArrowDifferenceDiagram}
+
+With the `A ≫ B = C` orientation of equation (8.6), cancellation takes
+place on the `B`-family chart: the output arrow is exactly
+`a ≫ e⁻¹ ≫ b`.  Fixing the base `B(e)` transports the vertex-group
+structure to all `B`-arrows, and multiplication returns to the actual
+rank-two parameter chart at independent generic inputs:
+
+{docstring AclGeom.PresentedFamilyGroupoidOf.fourArrow_right_cancellation}
+
+{docstring AclGeom.QWitness.exists_psiParameter_groupoidDifferenceProduct}
+
+{docstring AclGeom.QWitness.psiBArrowChunk}
+
+{docstring AclGeom.QWitness.exists_psiBArrowChunk_mul}
+
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
 `RationalGroupChunk`, and the chart transports multiplication and inverse
