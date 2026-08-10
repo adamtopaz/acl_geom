@@ -1516,6 +1516,105 @@ theorem Place.residue_eq_of_projection_filtration (P : Place k F)
     (fun x ↦ P.proj_mem x) (fun x hx ↦ P.proj_eq_self hx)
     hmem heq (P.isTraceClass_residue_commutator f g)
 
+/-- **The Leibniz rule for the residue**:
+`res(x d(gh)) = res(xg dh) + res(xh dg)`. The commutator at `(x, gh)`
+splits as the commutator at `(xg, h)` plus a composite whose trace
+flips onto the commutator at `(xh, g)`. -/
+theorem Place.residue_mul_right (P : Place k F) (x g h : F) :
+    P.residue x (g * h) =
+      P.residue (x * g) h + P.residue (x * h) g := by
+  set S : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k x) ∘ₗ LinearMap.mulLeft k g -
+      LinearMap.mulLeft k g ∘ₗ (P.proj ∘ₗ LinearMap.mulLeft k x)
+    with hS
+  set X : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k (x * g)) ∘ₗ LinearMap.mulLeft k h -
+      LinearMap.mulLeft k h ∘ₗ
+        (P.proj ∘ₗ LinearMap.mulLeft k (x * g))
+    with hX
+  set A : Module.End k F :=
+    (P.proj ∘ₗ LinearMap.mulLeft k x) ∘ₗ LinearMap.mulLeft k (g * h) -
+      LinearMap.mulLeft k (g * h) ∘ₗ
+        (P.proj ∘ₗ LinearMap.mulLeft k x)
+    with hA
+  have hStc := P.isTraceClass_residue_commutator x g
+  have hXtc := P.isTraceClass_residue_commutator (x * g) h
+  rw [← hS] at hStc
+  rw [← hX] at hXtc
+  have hYtc : IsTraceClass P.toSubmodule
+      (LinearMap.mulLeft k h ∘ₗ S) :=
+    hStc.comp_left (P.mulLeft_map_almostLE h)
+  -- the splitting identity: `A = X + m_h ∘ S`
+  have hid2 : A = X + LinearMap.mulLeft k h ∘ₗ S := by
+    rw [hA, hX, hS]
+    refine LinearMap.ext fun y ↦ ?_
+    simp only [LinearMap.add_apply, LinearMap.sub_apply,
+      LinearMap.comp_apply, LinearMap.mulLeft_apply, map_sub]
+    have h1 : x * (g * h * y) = x * g * (h * y) := by ring
+    have h2 : x * (g * y) = x * g * y := by ring
+    rw [h1, h2]
+    ring
+  -- the composite flips onto the commutator at `(xh, g)`
+  have hid1 : S ∘ₗ LinearMap.mulLeft k h =
+      (P.proj ∘ₗ LinearMap.mulLeft k (x * h)) ∘ₗ
+          LinearMap.mulLeft k g -
+        LinearMap.mulLeft k g ∘ₗ
+          (P.proj ∘ₗ LinearMap.mulLeft k (x * h)) := by
+    rw [hS]
+    refine LinearMap.ext fun y ↦ ?_
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply,
+      LinearMap.mulLeft_apply]
+    have h1 : x * (g * (h * y)) = x * h * (g * y) := by ring
+    have h2 : x * (h * y) = x * h * y := by ring
+    rw [h1, h2]
+  -- trace additivity across the split
+  haveI I1 : FiniteDimensional k (LinearMap.range (X ∘ₗ X)) :=
+    hXtc.finiteDimensional_range_comp hXtc
+  haveI I2 : FiniteDimensional k (LinearMap.range
+      (X ∘ₗ (LinearMap.mulLeft k h ∘ₗ S))) :=
+    hXtc.finiteDimensional_range_comp hYtc
+  haveI I3 : FiniteDimensional k (LinearMap.range
+      ((LinearMap.mulLeft k h ∘ₗ S) ∘ₗ X)) :=
+    hYtc.finiteDimensional_range_comp hXtc
+  haveI I4 : FiniteDimensional k (LinearMap.range
+      ((LinearMap.mulLeft k h ∘ₗ S) ∘ₗ
+        (LinearMap.mulLeft k h ∘ₗ S))) :=
+    hYtc.finiteDimensional_range_comp hYtc
+  -- the flip instances
+  have hStc' : IsTraceClass P.toSubmodule
+      (S ∘ₗ LinearMap.mulLeft k h) := by
+    rw [hid1]
+    exact P.isTraceClass_residue_commutator (x * h) g
+  haveI I5 : FiniteDimensional k (LinearMap.range
+      ((LinearMap.mulLeft k h ∘ₗ S) ^ 2)) := by
+    have h1 : ((LinearMap.mulLeft k h ∘ₗ S) ^ 2 :
+        Module.End k F) =
+        (LinearMap.mulLeft k h ∘ₗ S) ∘ₗ
+          (LinearMap.mulLeft k h ∘ₗ S) := by
+      rw [pow_two]
+      rfl
+    rw [h1]
+    exact hYtc.finiteDimensional_range_comp hYtc
+  haveI I6 : FiniteDimensional k (LinearMap.range
+      ((S ∘ₗ LinearMap.mulLeft k h) ^ 2)) := by
+    have h1 : ((S ∘ₗ LinearMap.mulLeft k h) ^ 2 :
+        Module.End k F) =
+        (S ∘ₗ LinearMap.mulLeft k h) ∘ₗ
+          (S ∘ₗ LinearMap.mulLeft k h) := by
+      rw [pow_two]
+      rfl
+    rw [h1]
+    exact hStc'.finiteDimensional_range_comp hStc'
+  have hflip := tateTrace_comp_comm_of_sq
+    (LinearMap.mulLeft k h) S
+  have hmain : tateTrace A = tateTrace X +
+      tateTrace (LinearMap.mulLeft k h ∘ₗ S) := by
+    rw [hid2]
+    exact tateTrace_add_of_sq X (LinearMap.mulLeft k h ∘ₗ S)
+  rw [hS, hX, hA] at hmain
+  rw [hS] at hflip hid1
+  rw [Place.residue, Place.residue, Place.residue, hmain, hflip, hid1]
+
 end ResidueCalculus
 
 end Projection
