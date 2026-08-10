@@ -147,6 +147,19 @@ theorem jointExtension_finiteDimensional (hψ : w.Psi) :
     exact ((mem_racl_iff k).1
       (R.jointTuple_mem_racl_ambientTuple hψ i)).isIntegral
 
+/-- The normalized branch arrows above a full joint edge act faithfully on
+its concrete normal-cover field over the six-coordinate ambient field.
+This packages the finite deck action used to remove branch ambiguity; it
+does not identify that finite group with the positive-dimensional chunk
+parameter reconstructed from the quadrangle. -/
+def translationChunk [IsAlgClosed K] (hψ : w.Psi)
+    (b : finiteCoverBranchGroupoid R.ambientField_le_jointField) :
+    TranslationGroupChunk (↥R.ambientField)
+      (↥(FiniteCover.normalClosureOver R.ambientField_le_jointField))
+      (finiteCoverSelectedObject R.ambientField_le_jointField ⟶ b) :=
+  finiteCoverTranslationChunk R.ambientField_le_jointField
+    (R.jointExtension_finiteDimensional hψ) b
+
 /-- Equal joint loci identify their six-coordinate ambient fields. -/
 def ambientEquiv (R V : w.PsiChunkRelationRealization) :
     (↥R.ambientField) ≃ₐ[k] (↥V.ambientField) :=

@@ -346,6 +346,88 @@ def actionCategoryFunctorOfEquivariantEquiv
     {x y : ActionCategory G X} (f : x ⟶ y) :
     (CategoryTheory.Groupoid.inv f).val = f.val⁻¹ := rfl
 
+/-- The acting-group label of an action-category arrow, exposing the group
+element hidden by the category-of-elements presentation. -/
+def actionCategoryLabel {x y : ActionCategory G X} (f : x ⟶ y) : G :=
+  f.val
+
+/-- Action-category labels determine arrows. -/
+theorem actionCategoryLabel_injective {x y : ActionCategory G X} :
+    Function.Injective (actionCategoryLabel : (x ⟶ y) → G) := by
+  intro f g h
+  apply Subtype.ext
+  exact h
+
+/-- Action-category composition reverses the order of acting-group labels. -/
+@[simp] theorem actionCategoryLabel_comp
+    {x y z : ActionCategory G X} (f : x ⟶ y) (g : y ⟶ z) :
+    actionCategoryLabel (f ≫ g) =
+      actionCategoryLabel g * actionCategoryLabel f := by
+  unfold actionCategoryLabel
+  exact ActionCategory.comp_val f g
+
+/-- The inverse arrow written directly in the action-category presentation. -/
+def actionCategoryArrowInv {x y : ActionCategory G X} (f : x ⟶ y) : y ⟶ x :=
+  ⟨(actionCategoryLabel f)⁻¹, by
+    rcases x with ⟨⟨⟩, x⟩
+    rcases y with ⟨⟨⟩, y⟩
+    change X at x y
+    change (actionCategoryLabel f)⁻¹ • y = x
+    have hf : actionCategoryLabel f • x = y := f.property
+    calc
+      (actionCategoryLabel f)⁻¹ • y =
+          (actionCategoryLabel f)⁻¹ • (actionCategoryLabel f • x) :=
+        congrArg (fun z : X ↦ (actionCategoryLabel f)⁻¹ • z) hf.symm
+      _ = x := by simp⟩
+
+/-- Direct inversion has the inverse acting-group label. -/
+@[simp] theorem actionCategoryLabel_arrowInv
+    {x y : ActionCategory G X} (f : x ⟶ y) :
+    actionCategoryLabel (actionCategoryArrowInv f) =
+      (actionCategoryLabel f)⁻¹ := rfl
+
+/-- The based product on an action-category arrow family. -/
+def actionCategoryArrowProduct {x y : ActionCategory G X}
+    (e a b : x ⟶ y) : x ⟶ y :=
+  a ≫ actionCategoryArrowInv e ≫ b
+
+/-- The acting-group label of the based arrow product. -/
+@[simp] theorem actionCategoryLabel_arrowProduct
+    {x y : ActionCategory G X} (e a b : x ⟶ y) :
+    actionCategoryLabel (actionCategoryArrowProduct e a b) =
+      actionCategoryLabel b *
+        ((actionCategoryLabel e)⁻¹ * actionCategoryLabel a) := by
+  simp [actionCategoryArrowProduct, actionCategoryLabel_comp, mul_assoc]
+
+/-- The based inverse on an action-category arrow family. -/
+def actionCategoryArrowInverse {x y : ActionCategory G X}
+    (e a : x ⟶ y) : x ⟶ y :=
+  e ≫ actionCategoryArrowInv a ≫ e
+
+/-- The acting-group label of the based arrow inverse. -/
+@[simp] theorem actionCategoryLabel_arrowInverse
+    {x y : ActionCategory G X} (e a : x ⟶ y) :
+    actionCategoryLabel (actionCategoryArrowInverse e a) =
+      actionCategoryLabel e *
+        ((actionCategoryLabel a)⁻¹ * actionCategoryLabel e) := by
+  simp [actionCategoryArrowInverse, actionCategoryLabel_comp, mul_assoc]
+
+/-- The rational group chunk carried directly by a based arrow family in
+an action category. -/
+def actionCategoryArrowChunk {x y : ActionCategory G X} (e : x ⟶ y) :
+    RationalGroupChunk (x ⟶ y) where
+  mul := actionCategoryArrowProduct e
+  inv := actionCategoryArrowInverse e
+  mul_assoc a b c := by
+    apply actionCategoryLabel_injective
+    simp [mul_assoc]
+  inv_mul_mul a b := by
+    apply actionCategoryLabel_injective
+    simp [mul_assoc]
+  mul_mul_inv a b := by
+    apply actionCategoryLabel_injective
+    simp [mul_assoc]
+
 /-- Equivariant equivalences of group actions induce equivalences of their
 action categories. -/
 noncomputable def actionCategoryEquivalenceOfEquivariantEquiv
@@ -385,6 +467,43 @@ noncomputable def actionCategoryEquivalenceOfEquivariantEquiv
   exact F.asEquivalence
 
 end ActionCategoryTransport
+
+section ActionCategoryTranslationChunk
+
+variable {E N X : Type*} [Field E] [Field N] [Algebra E N]
+  [MulAction (N ≃ₐ[E] N) X]
+  {x y : ActionCategory (N ≃ₐ[E] N) X}
+
+/-- A based arrow family in an action groupoid acts faithfully on the
+underlying field.  The inverse on the arrow label corrects the convention
+`(f ≫ g).val = g.val * f.val`, so the groupoid difference chart becomes
+an honest homomorphic translation chart. -/
+def actionCategoryTranslationChunk (e : x ⟶ y) :
+    TranslationGroupChunk E N (x ⟶ y) where
+  toRationalGroupChunk := actionCategoryArrowChunk e
+  translation a :=
+    ((actionCategoryLabel e)⁻¹ * actionCategoryLabel a)⁻¹
+  translation_mul a b := by
+    change (((actionCategoryLabel e)⁻¹ *
+      actionCategoryLabel (actionCategoryArrowProduct e a b))⁻¹) = _
+    simp [mul_assoc]
+  translation_inv a := by
+    change (((actionCategoryLabel e)⁻¹ *
+      actionCategoryLabel (actionCategoryArrowInverse e a))⁻¹) = _
+    simp
+  translation_injective := by
+    intro a b hab
+    apply actionCategoryLabel_injective
+    exact mul_left_cancel (inv_injective hab)
+
+/-- The faithful action attached to a based action-groupoid arrow is
+literally the inverse of its difference-chart label. -/
+@[simp] theorem actionCategoryTranslationChunk_translation
+    (e a : x ⟶ y) :
+    (actionCategoryTranslationChunk e).translation a =
+      ((actionCategoryLabel e)⁻¹ * actionCategoryLabel a)⁻¹ := rfl
+
+end ActionCategoryTranslationChunk
 
 /-- The action groupoid of conjugate embeddings of a branch field into a
 normal cover. -/
@@ -429,6 +548,14 @@ def arrowChunk [Normal E N] (f : NormalBranchEmbedding E M N) :
     RationalGroupChunk
       (selectedObject (E := E) (M := M) (N := N) ⟶ object f) :=
   groupoidArrowChunk (selectedArrow f)
+
+/-- Based arrows to a conjugate branch act faithfully by `E`-automorphisms
+of the normal-cover field.  This is the normalized finite deck action, not
+the positive-dimensional parameter group reconstructed from a quadrangle. -/
+def translationChunk [Normal E N] (f : NormalBranchEmbedding E M N) :
+    TranslationGroupChunk E N
+      (selectedObject (E := E) (M := M) (N := N) ⟶ object f) :=
+  actionCategoryTranslationChunk (selectedArrow f)
 
 end normalBranchGroupoid
 
@@ -867,6 +994,17 @@ def finiteCoverArrowChunk [IsAlgClosed Ω]
     (b : finiteCoverBranchGroupoid h) :
     RationalGroupChunk (finiteCoverSelectedObject h ⟶ b) :=
   groupoidArrowChunk (finiteCoverSelectedArrow h hfin b)
+
+/-- Based arrows of a concrete finite cover act faithfully on its normal
+closure by automorphisms over the endpoint field.  The resulting finite
+deck action is the normalized branch interface; it is not identified with
+the positive-dimensional group parameter. -/
+def finiteCoverTranslationChunk [IsAlgClosed Ω]
+    (h : E ≤ L) (hfin : FiniteDimensional (↥E) (↥(extendScalars h)))
+    (b : finiteCoverBranchGroupoid h) :
+    TranslationGroupChunk (↥E) (↥(FiniteCover.normalClosureOver h))
+      (finiteCoverSelectedObject h ⟶ b) :=
+  actionCategoryTranslationChunk (finiteCoverSelectedArrow h hfin b)
 
 end FiniteCoverBranches
 

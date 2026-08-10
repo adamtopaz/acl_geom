@@ -1067,11 +1067,31 @@ cocyclic, so every reference-based cycle has trivial holonomy:
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.fourEdge_branchCycle}
 
+The arrows of an action category also carry a direct based chunk.  Since
+categorical composition reverses deck labels, taking the inverse of the
+based difference label turns that chunk into an injective homomorphism to
+automorphisms of the normal-cover field.  This faithful action is available
+for every normal branch groupoid, every concrete finite cover, and in
+particular every full joint edge:
+
+{docstring AclGeom.actionCategoryArrowChunk}
+
+{docstring AclGeom.actionCategoryTranslationChunk}
+
+{docstring AclGeom.normalBranchGroupoid.translationChunk}
+
+{docstring AclGeom.finiteCoverTranslationChunk}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.translationChunk}
+
 The categorical kernel is now normal, the graph dimension count is in
-place, and the finite edge covers form a coherent local system.  The next
-step is descent from that system to one single-valued normalized chunk
-chart and its algebraization as a connected rank-one normal kernel.
-Neither conclusion is inferred merely from the presented quotient.
+place, and the finite edge covers form a coherent local system equipped
+with faithful normalized branch actions.  These automorphisms form the
+finite deck group; they are not the positive-dimensional parameter group.
+The next step is descent from that system to one single-valued normalized
+joint chart, followed by its algebraization as a connected rank-one normal
+kernel.  Neither conclusion is inferred merely from the presented quotient
+or from finiteness of the deck action.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
