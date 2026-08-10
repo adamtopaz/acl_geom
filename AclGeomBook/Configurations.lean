@@ -1043,11 +1043,35 @@ field-theoretic data rather than an implicit equality of conjugates:
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.scalar_edge_relations}
 
-The categorical kernel is now normal and the graph dimension count is in
-place.  The remaining gluing step is to prove that the four normal-cover
-transports have trivial cycle obstruction on a sufficiently generic
-diagram; after that, algebraization of the finite-cover chart is still
-needed.  Neither conclusion is inferred merely from the presented quotient.
+Normalizing each scalar graph separately does not yet remember that three
+branches occur on one multiplication edge.  The full-edge normalization
+does: all nine joint coordinates form a finite extension of the six
+ambient coordinates.  Equal-locus edges have compatible ambient-field,
+joint-field, and concrete normal-cover equivalences.  Trivializing all four
+edge fibers through one reference edge makes the transports strictly
+cocyclic, so every reference-based cycle has trivial holonomy:
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.jointExtension_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.basedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.branchTransition}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.branchTransition_trans}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.seRealization}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.edge_branchTransition_cocycle}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.fourEdge_branchCycle}
+
+The categorical kernel is now normal, the graph dimension count is in
+place, and the finite edge covers form a coherent local system.  The next
+step is descent from that system to one single-valued normalized chunk
+chart and its algebraization as a connected rank-one normal kernel.
+Neither conclusion is inferred merely from the presented quotient.
 
 On any genuine three-object groupoid, a based arrow family is equivalent to
 the vertex group, its four-arrow cancellation defines a
