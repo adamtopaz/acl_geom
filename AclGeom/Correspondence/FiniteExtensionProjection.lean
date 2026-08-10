@@ -67,6 +67,22 @@ def functionFieldAlgHom
   (FiniteExtensionChart.functionFieldAlgEquiv a₁ ha₁).symm.toAlgHom.comp
     (e.comp (FiniteExtensionChart.functionFieldAlgEquiv a₂ ha₂).toAlgHom)
 
+/-- Conjugating the scheme-theoretic function-field embedding back to the
+selected ambient extension fields recovers the original embedding. -/
+@[simp] theorem functionFieldAlgHom_commutes
+    (a₁ : ι₁ → K₁) (a₂ : ι₂ → K₂)
+    (ha₁ : adjoin k (Set.range a₁) = ⊤)
+    (ha₂ : adjoin k (Set.range a₂) = ⊤)
+    (e : L₂ →ₐ[k] L₁)
+    (z : (FiniteExtensionChart.scheme
+      (k := k) (K := K₂) (L := L₂) a₂).functionField) :
+    FiniteExtensionChart.functionFieldAlgEquiv
+        (k := k) (K := K₁) (L := L₁) a₁ ha₁
+        (functionFieldAlgHom a₁ a₂ ha₁ ha₂ e z) =
+      e (FiniteExtensionChart.functionFieldAlgEquiv
+        (k := k) (K := K₂) (L := L₂) a₂ ha₂ z) := by
+  simp [functionFieldAlgHom]
+
 /-- A ground-field embedding of the target function field into the source
 function field spreads to a dominant map on one dense principal open. -/
 def partialMap [Fintype ι₂]

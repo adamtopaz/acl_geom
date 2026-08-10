@@ -1516,15 +1516,29 @@ selected inverse-`A`, input-`B`, and output-`C` germ charts:
 
 {docstring AclGeom.FiniteExtensionProjection.rationalMap}
 
+{docstring AclGeom.FiniteExtensionProjection.functionFieldAlgHom_commutes}
+
 {docstring AclGeom.QWitness.adjoin_abGermCoordinates_eq_top}
 
 {docstring AclGeom.QWitness.germMultiplicationAlgebraicChart}
 
 {docstring AclGeom.QWitness.germMultiplicationToA}
 
+{docstring AclGeom.QWitness.germMultiplicationToAFunctionFieldRingHom}
+
+{docstring AclGeom.QWitness.germMultiplicationToA_fromFunctionField}
+
 {docstring AclGeom.QWitness.germMultiplicationToB}
 
+{docstring AclGeom.QWitness.germMultiplicationToBFunctionFieldRingHom}
+
+{docstring AclGeom.QWitness.germMultiplicationToB_fromFunctionField}
+
 {docstring AclGeom.QWitness.germMultiplicationToC}
+
+{docstring AclGeom.QWitness.germMultiplicationToCFunctionFieldRingHom}
+
+{docstring AclGeom.QWitness.germMultiplicationToC_fromFunctionField}
 
 The complete four-arrow difference component is now normalized over its
 actual eight free coordinates.  Successive multiplication and division

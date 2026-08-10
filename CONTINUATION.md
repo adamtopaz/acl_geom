@@ -364,6 +364,16 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     eight-input cover field.  The remaining comparison with the presented
     family is therefore an equality of explicit field maps, rather than an
     implicit appeal to dominance or birational equivalence.
+27. The normalized intrinsic multiplication graph now carries the same
+    exact generic-point data as the four-arrow reference chart.  The three
+    projections in `Config/ChunkGermChart.lean` expose explicit
+    contravariant function-field embeddings for inverse-`A`, input-`B`, and
+    output-`C`; conjugating each through the canonical chart identifications
+    recovers the literal inclusion of its displayed parameter field into the
+    common normal multiplication field.  Each dominant rational projection
+    is proved to induce exactly that embedding.  Thus a future descent from
+    the eight-input four-arrow source to this intrinsic two-input graph can
+    be stated and checked entirely as equality of concrete field maps.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

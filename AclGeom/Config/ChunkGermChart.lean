@@ -215,6 +215,44 @@ def germMultiplicationToA (hψ : w.Psi) :
     (w.adjoin_abGermCoordinates_eq_top hψ)
     (w.aParameterToGermMultiplicationNormal hψ)
 
+/-- The explicit contravariant function-field embedding induced by the
+inverse-`A` projection of the normalized multiplication graph. -/
+noncomputable def germMultiplicationToAFunctionFieldRingHom (hψ : w.Psi) :
+    (w.aInverseGermAlgebraicChart hψ).functionField →+*
+      (w.germMultiplicationAlgebraicChart hψ).functionField := by
+  letI := w.germMultiplicationNormalCover_finiteDimensional hψ
+  letI := w.aParameterOverInverseGerm_finiteDimensional hψ
+  letI : Fintype (w.aInverseGermCoordinateIndex hψ) :=
+    Set.Finite.fintype
+      ((w.xyCorrespondencePairOverA hψ).swap.curveCoefficientSet_finite
+        k w.aField)
+  exact (FiniteExtensionProjection.functionFieldAlgHom
+    (w.abGermCoordinates hψ) (w.aInverseGermCoordinates hψ)
+    (w.adjoin_abGermCoordinates_eq_top hψ)
+    (w.adjoin_aInverseGermCoordinates_eq_top hψ)
+    (w.aParameterToGermMultiplicationNormal hψ)).toRingHom
+
+/-- The inverse-`A` graph projection has exactly its displayed field
+embedding at the generic point. -/
+theorem germMultiplicationToA_fromFunctionField (hψ : w.Psi) :
+    (w.germMultiplicationToA hψ).fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (w.germMultiplicationToAFunctionFieldRingHom hψ)) := by
+  letI := w.germMultiplicationNormalCover_finiteDimensional hψ
+  letI := w.aParameterOverInverseGerm_finiteDimensional hψ
+  letI : Fintype (w.aInverseGermCoordinateIndex hψ) :=
+    Set.Finite.fintype
+      ((w.xyCorrespondencePairOverA hψ).swap.curveCoefficientSet_finite
+        k w.aField)
+  unfold germMultiplicationToA
+    germMultiplicationToAFunctionFieldRingHom
+  exact FiniteExtensionProjection.rationalMap_fromFunctionField
+    (w.abGermCoordinates hψ) (w.aInverseGermCoordinates hψ)
+    (w.adjoin_abGermCoordinates_eq_top hψ)
+    (w.adjoin_aInverseGermCoordinates_eq_top hψ)
+    (w.aParameterToGermMultiplicationNormal hψ)
+
 instance germMultiplicationToA_isDominant (hψ : w.Psi) :
     (w.germMultiplicationToA hψ).IsDominant := by
   letI := w.germMultiplicationNormalCover_finiteDimensional hψ
@@ -242,6 +280,44 @@ def germMultiplicationToB (hψ : w.Psi) :
     (w.adjoin_abGermCoordinates_eq_top hψ)
     (w.bParameterToGermMultiplicationNormal hψ)
 
+/-- The explicit contravariant function-field embedding induced by the
+`B`-input projection of the normalized multiplication graph. -/
+noncomputable def germMultiplicationToBFunctionFieldRingHom (hψ : w.Psi) :
+    (w.bGermAlgebraicChart hψ).functionField →+*
+      (w.germMultiplicationAlgebraicChart hψ).functionField := by
+  letI := w.germMultiplicationNormalCover_finiteDimensional hψ
+  letI := w.bParameterOverGerm_finiteDimensional hψ
+  letI : Fintype (w.bGermCoordinateIndex hψ) :=
+    Set.Finite.fintype
+      ((w.yzCorrespondencePairOverB hψ).curveCoefficientSet_finite
+        k w.bField)
+  exact (FiniteExtensionProjection.functionFieldAlgHom
+    (w.abGermCoordinates hψ) (w.bGermCoordinates hψ)
+    (w.adjoin_abGermCoordinates_eq_top hψ)
+    (w.adjoin_bGermCoordinates_eq_top hψ)
+    (w.bParameterToGermMultiplicationNormal hψ)).toRingHom
+
+/-- The `B`-input graph projection has exactly its displayed field
+embedding at the generic point. -/
+theorem germMultiplicationToB_fromFunctionField (hψ : w.Psi) :
+    (w.germMultiplicationToB hψ).fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (w.germMultiplicationToBFunctionFieldRingHom hψ)) := by
+  letI := w.germMultiplicationNormalCover_finiteDimensional hψ
+  letI := w.bParameterOverGerm_finiteDimensional hψ
+  letI : Fintype (w.bGermCoordinateIndex hψ) :=
+    Set.Finite.fintype
+      ((w.yzCorrespondencePairOverB hψ).curveCoefficientSet_finite
+        k w.bField)
+  unfold germMultiplicationToB
+    germMultiplicationToBFunctionFieldRingHom
+  exact FiniteExtensionProjection.rationalMap_fromFunctionField
+    (w.abGermCoordinates hψ) (w.bGermCoordinates hψ)
+    (w.adjoin_abGermCoordinates_eq_top hψ)
+    (w.adjoin_bGermCoordinates_eq_top hψ)
+    (w.bParameterToGermMultiplicationNormal hψ)
+
 instance germMultiplicationToB_isDominant (hψ : w.Psi) :
     (w.germMultiplicationToB hψ).IsDominant := by
   letI := w.germMultiplicationNormalCover_finiteDimensional hψ
@@ -267,6 +343,44 @@ def germMultiplicationToC (hψ : w.Psi) :
   exact FiniteExtensionProjection.rationalMap
     (w.abGermCoordinates hψ) (w.cGermCoordinates hψ)
     (w.adjoin_abGermCoordinates_eq_top hψ)
+    (w.cParameterToGermMultiplicationNormal hψ)
+
+/-- The explicit contravariant function-field embedding induced by the
+output-`C` projection of the normalized multiplication graph. -/
+noncomputable def germMultiplicationToCFunctionFieldRingHom (hψ : w.Psi) :
+    (w.cGermAlgebraicChart hψ).functionField →+*
+      (w.germMultiplicationAlgebraicChart hψ).functionField := by
+  letI := w.germMultiplicationNormalCover_finiteDimensional hψ
+  letI := w.cParameterOverGerm_finiteDimensional hψ
+  letI : Fintype (w.cGermCoordinateIndex hψ) :=
+    Set.Finite.fintype
+      ((w.xzCorrespondencePairOverC hψ).curveCoefficientSet_finite
+        k w.cField)
+  exact (FiniteExtensionProjection.functionFieldAlgHom
+    (w.abGermCoordinates hψ) (w.cGermCoordinates hψ)
+    (w.adjoin_abGermCoordinates_eq_top hψ)
+    (w.adjoin_cGermCoordinates_eq_top hψ)
+    (w.cParameterToGermMultiplicationNormal hψ)).toRingHom
+
+/-- The output-`C` graph projection has exactly its displayed field
+embedding at the generic point. -/
+theorem germMultiplicationToC_fromFunctionField (hψ : w.Psi) :
+    (w.germMultiplicationToC hψ).fromFunctionField =
+      Scheme.functionFieldMorphismOfHom
+        (CommRingCat.ofHom
+          (w.germMultiplicationToCFunctionFieldRingHom hψ)) := by
+  letI := w.germMultiplicationNormalCover_finiteDimensional hψ
+  letI := w.cParameterOverGerm_finiteDimensional hψ
+  letI : Fintype (w.cGermCoordinateIndex hψ) :=
+    Set.Finite.fintype
+      ((w.xzCorrespondencePairOverC hψ).curveCoefficientSet_finite
+        k w.cField)
+  unfold germMultiplicationToC
+    germMultiplicationToCFunctionFieldRingHom
+  exact FiniteExtensionProjection.rationalMap_fromFunctionField
+    (w.abGermCoordinates hψ) (w.cGermCoordinates hψ)
+    (w.adjoin_abGermCoordinates_eq_top hψ)
+    (w.adjoin_cGermCoordinates_eq_top hψ)
     (w.cParameterToGermMultiplicationNormal hψ)
 
 instance germMultiplicationToC_isDominant (hψ : w.Psi) :
