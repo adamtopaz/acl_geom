@@ -825,6 +825,22 @@ three-coordinate field:
 
 {docstring AclGeom.IsPartialQuadrangle.configurationNormalOverGroupCoordinates_normal}
 
+Parameter recovery can also be normalized arrow by arrow.  A recoverable
+one-parameter family has full field `k(p,x,y)` finite over its endpoint
+field `k(x,y)`; its normal closure retains every conjugate parameter branch.
+For the partial quadrangle, all three displayed arrow families satisfy this
+condition, and the `T` cover is exposed with both finiteness and normality:
+
+{docstring AclGeom.RecoverableFiniteCorrespondenceFamilyMember}
+
+{docstring AclGeom.RecoverableFiniteCorrespondenceFamilyMember.familyOverEndpoints_finiteDimensional}
+
+{docstring AclGeom.RecoverableFiniteCorrespondenceFamilyMember.normalFamilyOverEndpoints}
+
+{docstring AclGeom.IsPartialQuadrangle.tRecoverableFamilyMember}
+
+{docstring AclGeom.IsPartialQuadrangle.tNormalFamilyOverEndpoints_finite_normal}
+
 The varying family components now have their own genuine categorical
 home.  Start with the free groupoid on parameter-labelled arrows
 `T(t) : X₀ ⟶ X₁`, `S(s) : X₁ ⟶ X₂`, and

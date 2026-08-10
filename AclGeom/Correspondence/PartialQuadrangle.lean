@@ -6,6 +6,7 @@ Authors: Adam Topaz
 import AclGeom.Config.Language
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
+import AclGeom.Correspondence.FamilyNormalization
 import AclGeom.Correspondence.FamilyGroupoid
 
 /-!
@@ -787,6 +788,67 @@ def uFamilyMember (h : IsPartialQuadrangle f) :
         ((IsPartialQuadrangle.injective h).ne (by decide)) (by
           simpa only [sup_comm (f 3).1 (f 4).1]
             using IsPartialQuadrangle.rank_S'T'U h)
+
+/-- The `T`-family together with its finite parameter-recovery map from
+the generic endpoint pair. -/
+def tRecoverableFamilyMember (h : IsPartialQuadrangle f) :
+    RecoverableFiniteCorrespondenceFamilyMember (k := k) (Ω := K) where
+  toFiniteCorrespondenceFamilyMember := tFamilyMember h
+  parameter_mem_endpoints := by
+    simpa [tFamilyMember] using T_rep_mem_racl_endpoints h
+
+/-- The `S`-family together with its finite parameter-recovery map from
+the generic endpoint pair. -/
+def sRecoverableFamilyMember (h : IsPartialQuadrangle f) :
+    RecoverableFiniteCorrespondenceFamilyMember (k := k) (Ω := K) where
+  toFiniteCorrespondenceFamilyMember := sFamilyMember h
+  parameter_mem_endpoints := by
+    simpa [sFamilyMember] using S_rep_mem_racl_endpoints h
+
+/-- The `U`-family together with its finite parameter-recovery map from
+the generic endpoint pair. -/
+def uRecoverableFamilyMember (h : IsPartialQuadrangle f) :
+    RecoverableFiniteCorrespondenceFamilyMember (k := k) (Ω := K) where
+  toFiniteCorrespondenceFamilyMember := uFamilyMember h
+  parameter_mem_endpoints := by
+    simpa [uFamilyMember] using U_rep_mem_racl_endpoints h
+
+/-- The full generic `T`-family field is finite over its endpoint field. -/
+theorem tFamilyOverEndpoints_finiteDimensional
+    (h : IsPartialQuadrangle f) :
+    FiniteDimensional
+      (↥(tRecoverableFamilyMember h).endpointField)
+      (↥(tRecoverableFamilyMember h).familyOverEndpoints) :=
+  (tRecoverableFamilyMember h).familyOverEndpoints_finiteDimensional
+
+/-- The full generic `S`-family field is finite over its endpoint field. -/
+theorem sFamilyOverEndpoints_finiteDimensional
+    (h : IsPartialQuadrangle f) :
+    FiniteDimensional
+      (↥(sRecoverableFamilyMember h).endpointField)
+      (↥(sRecoverableFamilyMember h).familyOverEndpoints) :=
+  (sRecoverableFamilyMember h).familyOverEndpoints_finiteDimensional
+
+/-- The full generic `U`-family field is finite over its endpoint field. -/
+theorem uFamilyOverEndpoints_finiteDimensional
+    (h : IsPartialQuadrangle f) :
+    FiniteDimensional
+      (↥(uRecoverableFamilyMember h).endpointField)
+      (↥(uRecoverableFamilyMember h).familyOverEndpoints) :=
+  (uRecoverableFamilyMember h).familyOverEndpoints_finiteDimensional
+
+/-- The normalized `T`-family parameter cover is finite and normal over
+the endpoint field. -/
+theorem tNormalFamilyOverEndpoints_finite_normal [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) :
+    FiniteDimensional
+        (↥(tRecoverableFamilyMember h).endpointField)
+        (↥(tRecoverableFamilyMember h).normalFamilyOverEndpoints) ∧
+      Normal
+        (↥(tRecoverableFamilyMember h).endpointField)
+        (↥(tRecoverableFamilyMember h).normalFamilyOverEndpoints) :=
+  ⟨(tRecoverableFamilyMember h).normalFamilyOverEndpoints_finiteDimensional,
+    (tRecoverableFamilyMember h).normalFamilyOverEndpoints_normal⟩
 
 /-- The `T`-family tuple is the corresponding projection of the complete
 partial-quadrangle tuple. -/
