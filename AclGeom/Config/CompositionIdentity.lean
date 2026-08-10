@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.Psi
+import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.PartialQuadrangle
 
 /-!
@@ -714,6 +715,83 @@ theorem bField_le_abField : w.bField ≤ w.abField :=
 theorem cField_le_abcField : w.cField ≤ w.abcField :=
   adjoin.mono k _ _ w.cReps_range_subset_abcReps
 
+/-- The actual rank-two `A`-family member, oriented `X → Y`.  This retains
+the parameter tuple in the ground field `k`, rather than replacing it by a
+fixed coefficient field. -/
+def xyCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 2 where
+  parameter := w.aReps
+  source := w.X.rep
+  target := w.Y.rep
+  parameter_independent := w.aReps_independent hψ
+  source_generic := w.X_rep_notMem_racl_aReps hψ
+  target_mem_parameter_source := by
+    simpa only [Fin.range_snoc] using
+      w.Y_rep_mem_racl_aReps_snoc_X hψ
+  source_mem_parameter_target := by
+    simpa only [Fin.range_snoc] using
+      w.X_rep_mem_racl_aReps_snoc_Y hψ
+
+/-- The actual rank-two `B`-family member, oriented `Y → Z`. -/
+def yzCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 2 where
+  parameter := w.bReps
+  source := w.Y.rep
+  target := w.Z.rep
+  parameter_independent := w.bReps_independent hψ
+  source_generic := w.Y_rep_notMem_racl_bReps hψ
+  target_mem_parameter_source := by
+    simpa only [Fin.range_snoc] using
+      w.Z_rep_mem_racl_bReps_snoc_Y hψ
+  source_mem_parameter_target := by
+    simpa only [Fin.range_snoc] using
+      w.Y_rep_mem_racl_bReps_snoc_Z hψ
+
+/-- The actual rank-two output `C`-family member, oriented `X → Z`. -/
+def xzCorrespondenceFamilyMember (hψ : w.Psi) :
+    FiniteCorrespondenceFamilyMember (k := k) (Ω := K) 2 where
+  parameter := w.cReps
+  source := w.X.rep
+  target := w.Z.rep
+  parameter_independent := w.cReps_independent hψ
+  source_generic := w.X_rep_notMem_racl_cReps hψ
+  target_mem_parameter_source := by
+    simpa only [Fin.range_snoc] using
+      w.Z_rep_mem_racl_cReps_snoc_X hψ
+  source_mem_parameter_target := by
+    simpa only [Fin.range_snoc] using
+      w.X_rep_mem_racl_cReps_snoc_Z hψ
+
+/-- Every independent parameter/source triple carries a member of the
+same `A`-family locus as the selected `(A,X,Y)` tuple. -/
+theorem xyFamily_exists_relocation [IsAlgClosed K] (hψ : w.Psi)
+    {q : Fin 2 → K} {x : K}
+    (hqx : AlgebraicIndependent k (Fin.snoc q x)) :
+    ∃ y : K,
+      idealOf k (Fin.snoc (Fin.snoc q x) y) =
+        (w.xyCorrespondenceFamilyMember hψ).ideal :=
+  (w.xyCorrespondenceFamilyMember hψ).exists_relocation hqx
+
+/-- Every independent parameter/source triple carries a member of the
+same `B`-family locus as the selected `(B,Y,Z)` tuple. -/
+theorem yzFamily_exists_relocation [IsAlgClosed K] (hψ : w.Psi)
+    {q : Fin 2 → K} {y : K}
+    (hqy : AlgebraicIndependent k (Fin.snoc q y)) :
+    ∃ z : K,
+      idealOf k (Fin.snoc (Fin.snoc q y) z) =
+        (w.yzCorrespondenceFamilyMember hψ).ideal :=
+  (w.yzCorrespondenceFamilyMember hψ).exists_relocation hqy
+
+/-- Every independent parameter/source triple carries a member of the
+same output `C`-family locus as the selected `(C,X,Z)` tuple. -/
+theorem xzFamily_exists_relocation [IsAlgClosed K] (hψ : w.Psi)
+    {q : Fin 2 → K} {x : K}
+    (hqx : AlgebraicIndependent k (Fin.snoc q x)) :
+    ∃ z : K,
+      idealOf k (Fin.snoc (Fin.snoc q x) z) =
+        (w.xzCorrespondenceFamilyMember hψ).ideal :=
+  (w.xzCorrespondenceFamilyMember hψ).exists_relocation hqx
+
 /-- The actual family member parametrized by `A`, oriented `X → Y` so
 that it composes with the `B` member below. -/
 def xyCorrespondencePairOverA (hψ : w.Psi) :
@@ -732,6 +810,13 @@ def xyCorrespondencePairOverA (hψ : w.Psi) :
     simpa only [Fin.range_snoc] using
       w.X_rep_mem_racl_aReps_snoc_Y hψ
 
+/-- Forgetting the varying parameter from the `A`-family member recovers
+the previously selected finite-correspondence pair over `k(A)`. -/
+theorem xyCorrespondenceFamilyMember_toPair (hψ : w.Psi) :
+    (w.xyCorrespondenceFamilyMember hψ).toPair =
+      w.xyCorrespondencePairOverA hψ :=
+  rfl
+
 /-- The actual family member parametrized by `B`, oriented `Y → Z`. -/
 def yzCorrespondencePairOverB (hψ : w.Psi) :
     FiniteCorrespondencePair (↥w.bField) K where
@@ -748,6 +833,13 @@ def yzCorrespondencePairOverB (hψ : w.Psi) :
     rw [bField, mem_racl_adjoin_base_iff, Set.union_singleton]
     simpa only [Fin.range_snoc] using
       w.Y_rep_mem_racl_bReps_snoc_Z hψ
+
+/-- Forgetting the varying parameter from the `B`-family member recovers
+the selected finite-correspondence pair over `k(B)`. -/
+theorem yzCorrespondenceFamilyMember_toPair (hψ : w.Psi) :
+    (w.yzCorrespondenceFamilyMember hψ).toPair =
+      w.yzCorrespondencePairOverB hψ :=
+  rfl
 
 /-- The selected `X → Y` correspondence branch over the combined
 parameter field.  Both directions of interalgebraicity are consequences of
@@ -841,6 +933,13 @@ def xzCorrespondencePairOverC (hψ : w.Psi) :
     rw [cField, mem_racl_adjoin_base_iff, Set.union_singleton]
     simpa only [Fin.range_snoc] using
       w.X_rep_mem_racl_cReps_snoc_Z hψ
+
+/-- Forgetting the varying output parameter from the `C`-family member
+recovers the selected endpoint pair over `k(C)`. -/
+theorem xzCorrespondenceFamilyMember_toPair (hψ : w.Psi) :
+    (w.xzCorrespondenceFamilyMember hψ).toPair =
+      w.xzCorrespondencePairOverC hψ :=
+  rfl
 
 /-- The common-cover presentation of the endpoint pair `(X,Z)`.  This is
 the prime component selected by the given generic tuple after adjoining

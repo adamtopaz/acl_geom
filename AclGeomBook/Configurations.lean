@@ -353,6 +353,36 @@ selected base changes are the branches used above:
 
 {docstring AclGeom.QWitness.psi_family_parameters_rank_two_minimal}
 
+Keeping the parameter tuple visible gives a genuine generic member of each
+positive-dimensional correspondence family.  The parameter together with
+the source coordinate is independent, while the target is algebraic over
+that prefix.  An extension theorem for algebraic function fields then pins
+any other independent parameter/source prefix literally and supplies a
+target with the same complete family ideal:
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.parameterSource_independent}
+
+{docstring AclGeom.exists_snoc_relocation_fixing}
+
+For the three families occurring in `Psi`, these generic members specialize
+exactly to the selected pairs over `k(A)`, `k(B)`, and `k(C)`.  Their
+relocation theorems say that every independent generic parameter/source
+tuple lies under the corresponding total family locus:
+
+{docstring AclGeom.QWitness.xyCorrespondenceFamilyMember_toPair}
+
+{docstring AclGeom.QWitness.yzCorrespondenceFamilyMember_toPair}
+
+{docstring AclGeom.QWitness.xzCorrespondenceFamilyMember_toPair}
+
+{docstring AclGeom.QWitness.xyFamily_exists_relocation}
+
+{docstring AclGeom.QWitness.yzFamily_exists_relocation}
+
+{docstring AclGeom.QWitness.xzFamily_exists_relocation}
+
 {docstring AclGeom.QWitness.aFamily_map_le_abBranch}
 
 {docstring AclGeom.QWitness.bFamily_map_le_abBranch}
