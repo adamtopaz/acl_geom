@@ -2016,6 +2016,279 @@ theorem repeatedAlternativeBasedBranchEquiv_selected
     (R.repeatedUAlternativeBasedBranchEquiv hind).map_selected,
     (R.repeatedUBAlternativeBasedBranchEquiv hind).map_selected⟩
 
+/-- The two alternative-field `sA` pairs have the same literal formal
+source coordinate. -/
+theorem repeatedSAAlternativePair_source_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedSAFirstAlternativePair hind).source =
+      (R.repeatedSASecondAlternativePair hind).source := by
+  change R.sAa.source = R.sAc.source
+  exact R.sAa_source.trans R.sAc_source.symm
+
+/-- A finite normal source field containing the common coefficient
+normalization and both selected `sA` branches. -/
+noncomputable def repeatedSACoefficientBranchNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField
+    R.repeatedSAAlternativeInputField
+    (R.repeatedSAFirstAlternativePair hind)
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedSA
+
+/-- The joint `sA` coefficient-and-branch normal field is finite over its
+alternative source-coordinate field. -/
+theorem repeatedSACoefficientBranchNormalField_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional
+      (↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedSAAlternativeInputField
+        (R.repeatedSAFirstAlternativePair hind)))
+      (↥(R.repeatedSACoefficientBranchNormalField hind)) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional
+    R.repeatedSAAlternativeInputField
+    (R.repeatedSAFirstAlternativePair hind)
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedSA
+
+/-- The joint `sA` field is normal over its alternative source-coordinate
+field. -/
+theorem repeatedSACoefficientBranchNormalField_normal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    Normal
+      (↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedSAAlternativeInputField
+        (R.repeatedSAFirstAlternativePair hind)))
+      (↥(R.repeatedSACoefficientBranchNormalField hind)) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField_normal
+    R.repeatedSAAlternativeInputField
+    (R.repeatedSAFirstAlternativePair hind)
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedSA
+
+/-- The pairwise `sA` normal source field contains the common coefficient
+normalization and both selected branches. -/
+theorem repeatedSACoefficientBranchNormalField_contains
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.commonCoefficientNormalOverRepeatedSA.restrictScalars k ≤
+        (R.repeatedSACoefficientBranchNormalField hind).restrictScalars k ∧
+      (FiniteCoefficientBranchCompositum.firstBranchOverSource
+          R.repeatedSAAlternativeInputField
+          (R.repeatedSAFirstAlternativePair hind)).restrictScalars k ≤
+        (R.repeatedSACoefficientBranchNormalField hind).restrictScalars k ∧
+      (FiniteCoefficientBranchCompositum.secondBranchOverSource
+          R.repeatedSAAlternativeInputField
+          (R.repeatedSAFirstAlternativePair hind)
+          (R.repeatedSASecondAlternativePair hind)
+          (R.repeatedSAAlternativePair_source_eq hind)).restrictScalars k ≤
+        (R.repeatedSACoefficientBranchNormalField hind).restrictScalars k := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact ⟨FiniteCoefficientBranchCompositum.coefficientExtension_le_normalField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA,
+    FiniteCoefficientBranchCompositum.firstBranch_le_normalField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA,
+    FiniteCoefficientBranchCompositum.secondBranch_le_normalField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA⟩
+
+/-- The two alternative-field direct-`u` pairs have the same literal
+formal source coordinate. -/
+theorem repeatedUAlternativePair_source_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedUFirstAlternativePair hind).source =
+      (R.repeatedUSecondAlternativePair hind).source := by
+  change R.se.source = R.sAa.source
+  exact R.se_source.trans R.sAa_source.symm
+
+/-- A finite normal source field containing the common coefficient
+normalization and both selected direct-`u` branches. -/
+noncomputable def repeatedUCoefficientBranchNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField
+    R.repeatedUAlternativeInputField
+    (R.repeatedUFirstAlternativePair hind)
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedU
+
+/-- The joint direct-`u` coefficient-and-branch normal field is finite
+over its alternative source-coordinate field. -/
+theorem repeatedUCoefficientBranchNormalField_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional
+      (↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedUAlternativeInputField
+        (R.repeatedUFirstAlternativePair hind)))
+      (↥(R.repeatedUCoefficientBranchNormalField hind)) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional
+    R.repeatedUAlternativeInputField
+    (R.repeatedUFirstAlternativePair hind)
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedU
+
+/-- The joint direct-`u` field is normal over its alternative
+source-coordinate field. -/
+theorem repeatedUCoefficientBranchNormalField_normal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    Normal
+      (↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedUAlternativeInputField
+        (R.repeatedUFirstAlternativePair hind)))
+      (↥(R.repeatedUCoefficientBranchNormalField hind)) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField_normal
+    R.repeatedUAlternativeInputField
+    (R.repeatedUFirstAlternativePair hind)
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedU
+
+/-- The pairwise direct-`u` normal source field contains the common
+coefficient normalization and both selected branches. -/
+theorem repeatedUCoefficientBranchNormalField_contains
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.commonCoefficientNormalOverRepeatedU.restrictScalars k ≤
+        (R.repeatedUCoefficientBranchNormalField hind).restrictScalars k ∧
+      (FiniteCoefficientBranchCompositum.firstBranchOverSource
+          R.repeatedUAlternativeInputField
+          (R.repeatedUFirstAlternativePair hind)).restrictScalars k ≤
+        (R.repeatedUCoefficientBranchNormalField hind).restrictScalars k ∧
+      (FiniteCoefficientBranchCompositum.secondBranchOverSource
+          R.repeatedUAlternativeInputField
+          (R.repeatedUFirstAlternativePair hind)
+          (R.repeatedUSecondAlternativePair hind)
+          (R.repeatedUAlternativePair_source_eq hind)).restrictScalars k ≤
+        (R.repeatedUCoefficientBranchNormalField hind).restrictScalars k := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact ⟨FiniteCoefficientBranchCompositum.coefficientExtension_le_normalField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU,
+    FiniteCoefficientBranchCompositum.firstBranch_le_normalField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU,
+    FiniteCoefficientBranchCompositum.secondBranch_le_normalField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU⟩
+
+/-- The two alternative-field direct-`uB` pairs have the same literal
+formal source coordinate. -/
+theorem repeatedUBAlternativePair_source_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedUBFirstAlternativePair hind).source =
+      (R.repeatedUBSecondAlternativePair hind).source := by
+  change R.sb.source = R.sAc.source
+  exact R.sb_source.trans R.sAc_source.symm
+
+/-- A finite normal source field containing the common coefficient
+normalization and both selected direct-`uB` branches. -/
+noncomputable def repeatedUBCoefficientBranchNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+
+/-- The joint direct-`uB` coefficient-and-branch normal field is finite
+over its alternative source-coordinate field. -/
+theorem repeatedUBCoefficientBranchNormalField_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional
+      (↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedUBAlternativeInputField
+        (R.repeatedUBFirstAlternativePair hind)))
+      (↥(R.repeatedUBCoefficientBranchNormalField hind)) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+
+/-- The joint direct-`uB` field is normal over its alternative
+source-coordinate field. -/
+theorem repeatedUBCoefficientBranchNormalField_normal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    Normal
+      (↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedUBAlternativeInputField
+        (R.repeatedUBFirstAlternativePair hind)))
+      (↥(R.repeatedUBCoefficientBranchNormalField hind)) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.normalField_normal
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+
+/-- The pairwise direct-`uB` normal source field contains the common
+coefficient normalization and both selected branches. -/
+theorem repeatedUBCoefficientBranchNormalField_contains
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.commonCoefficientNormalOverRepeatedUB.restrictScalars k ≤
+        (R.repeatedUBCoefficientBranchNormalField hind).restrictScalars k ∧
+      (FiniteCoefficientBranchCompositum.firstBranchOverSource
+          R.repeatedUBAlternativeInputField
+          (R.repeatedUBFirstAlternativePair hind)).restrictScalars k ≤
+        (R.repeatedUBCoefficientBranchNormalField hind).restrictScalars k ∧
+      (FiniteCoefficientBranchCompositum.secondBranchOverSource
+          R.repeatedUBAlternativeInputField
+          (R.repeatedUBFirstAlternativePair hind)
+          (R.repeatedUBSecondAlternativePair hind)
+          (R.repeatedUBAlternativePair_source_eq hind)).restrictScalars k ≤
+        (R.repeatedUBCoefficientBranchNormalField hind).restrictScalars k := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact ⟨FiniteCoefficientBranchCompositum.coefficientExtension_le_normalField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB,
+    FiniteCoefficientBranchCompositum.firstBranch_le_normalField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB,
+    FiniteCoefficientBranchCompositum.secondBranch_le_normalField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB⟩
+
 /-- The coefficient-aware normal-cover comparison for the repeated
 `s` branch.  It retains the displayed `s` parameter and source coordinates;
 the based comparison below additionally corrects it to the selected

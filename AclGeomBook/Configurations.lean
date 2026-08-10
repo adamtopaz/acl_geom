@@ -1514,6 +1514,36 @@ assuming that a curve ideal stays prime under algebraic base change:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientNormalOverRepeatedUB_finiteDimensional}
 
+A reusable finite-compositum construction now adjoins such a coefficient
+extension and two correspondence branches with the same source, then takes
+their normal closure over that source-coordinate field.  It proves the
+result finite and normal and records all three literal containments.  The
+three alternative `sA`, `u`, and `uB` comparisons instantiate this
+construction, producing the pairwise normal ambient fields on which their
+selected comparisons can next be extended:
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.normalField_finiteDimensional}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.normalField_normal}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.coefficientExtension_le_normalField}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.firstBranch_le_normalField}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.secondBranch_le_normalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACoefficientBranchNormalField_normal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACoefficientBranchNormalField_contains}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCoefficientBranchNormalField_normal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCoefficientBranchNormalField_contains}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCoefficientBranchNormalField_normal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCoefficientBranchNormalField_contains}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

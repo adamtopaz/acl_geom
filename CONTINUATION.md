@@ -540,6 +540,21 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     pairwise normal closures after adjoining the formal source and the
     simultaneous source cover.  No unsupported assertion that curve ideals
     remain prime after algebraic base change is used.
+42. `FiniteCoefficientBranchCompositum` now performs the next pairwise
+    normalization without tensoring curve ideals.  Given a finite coefficient
+    extension and two finite correspondences with the same literal source,
+    it successively adjoins the coefficient field, the first selected branch,
+    and the second selected branch.  Each step is finite over the preceding
+    field, so the joint field is finite over the source-coordinate field;
+    its ambient normal closure is finite and normal and contains the
+    coefficient extension and both selected branches literally.  The `sA`,
+    `u`, and `uB` alternative pairs now instantiate this construction using
+    the common coefficient normalization from items 40--41.  Thus each
+    comparison has a concrete pairwise normal source field on which its
+    branch equivalence can be extended.  The remaining local step is to
+    choose that extension, correct it to the selected branch, and identify
+    the resulting pairwise fields with the corresponding transported fields
+    of the simultaneous common source cover.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -551,14 +566,15 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--41 supply selected-branch-preserving comparisons and equality of
+items 36--42 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field.
 The three remaining alternative fields and their selected comparisons now
 lie in one coefficient field finite over every relevant base and normal
-over the original common field.  Form the required pairwise normal source
-extensions and transport those based comparisons through this common
-coefficient normalization, then use
+over the original common field, and each alternative comparison now has a
+finite pairwise normal source extension containing both literal branches.
+Extend the selected comparisons to these pairwise normal fields, transport
+them through the common coefficient normalization, then use
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with
