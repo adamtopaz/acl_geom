@@ -32,6 +32,93 @@ noncomputable section
 
 variable {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
 
+/-- Relocate a finite algebraic tuple while fixing a chosen independent
+coordinate subsystem literally.  The map `e` identifies the coordinates
+of `u` that equal the independent tuple `t`; every coordinate of `u` is
+algebraic over `k(t)`.  Any other independent tuple `s` can therefore be
+installed at those same coordinate positions without changing the complete
+vanishing ideal of the full tuple. -/
+theorem exists_tuple_relocation_fixing [IsAlgClosed Ω] {n m : ℕ}
+    {t s : Fin n → Ω} {u : Fin m → Ω} {e : Fin n → Fin m}
+    (ht : AlgebraicIndependent k t) (hs : AlgebraicIndependent k s)
+    (he : ∀ i, u (e i) = t i)
+    (hu : ∀ j, u j ∈ racl k (Set.range t)) :
+    ∃ v : Fin m → Ω,
+      idealOf k v = idealOf k u ∧ ∀ i, v (e i) = s i := by
+  classical
+  let E := adjoin k (Set.range t)
+  let L := adjoin k (Set.range u)
+  have hle : E ≤ L := by
+    apply adjoin.mono
+    rintro _ ⟨i, rfl⟩
+    have hti : t i ∈ Set.range u := ⟨e i, he i⟩
+    exact hti
+  have halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars hle)) := by
+    apply isAlgebraic_extendScalars_adjoin hle
+    rintro _ ⟨j, rfl⟩
+    exact (mem_racl_iff k).1 (hu j)
+  obtain ⟨ψ, hψ⟩ := exists_extension_of_isAlgebraic
+    (halg := halg) hle (adjoinTranscendentalAlgHom ht hs)
+  have huMem (j : Fin m) : u j ∈ L :=
+    subset_adjoin k _ (Set.mem_range_self j)
+  let ua : Fin m → ↥L := fun j ↦ ⟨u j, huMem j⟩
+  let v : Fin m → Ω := fun j ↦ ψ (ua j)
+  have hfix (i : Fin n) : v (e i) = s i := by
+    have hmem : t i ∈ E := subset_adjoin k _ ⟨i, rfl⟩
+    have hua : ua (e i) = ⟨t i, hle hmem⟩ := by
+      apply Subtype.ext
+      exact he i
+    change ψ (ua (e i)) = s i
+    rw [hua, hψ ⟨t i, hmem⟩]
+    exact adjoinTranscendentalAlgHom_apply ht hs i
+  refine ⟨v, ?_, hfix⟩
+  ext f
+  rw [mem_idealOf_iff, mem_idealOf_iff]
+  have h1 : MvPolynomial.aeval v f =
+      ψ (MvPolynomial.aeval ua f) := by
+    change MvPolynomial.aeval (fun j ↦ ψ (ua j)) f = _
+    rw [MvPolynomial.comp_aeval_apply]
+  have h2 : MvPolynomial.aeval u f =
+      L.val (MvPolynomial.aeval ua f) := by
+    rw [MvPolynomial.comp_aeval_apply]
+    rfl
+  rw [h1, h2]
+  constructor
+  · intro hz
+    have ha : ψ (MvPolynomial.aeval ua f) = ψ 0 := by
+      rw [map_zero]
+      exact hz
+    rw [ψ.injective ha, map_zero]
+  · intro hz
+    have ha : L.val (MvPolynomial.aeval ua f) = L.val 0 := by
+      rw [map_zero]
+      exact hz
+    rw [L.val.injective ha, map_zero]
+
+/-- Equality of complete tuple ideals restricts to every chosen coordinate
+subtuple. -/
+theorem idealOf_comp_eq_of_idealOf_eq {ι κ : Type*}
+    {a b : ι → Ω} (h : idealOf k a = idealOf k b) (e : κ → ι) :
+    idealOf k (a ∘ e) = idealOf k (b ∘ e) := by
+  ext f
+  rw [mem_idealOf_iff, mem_idealOf_iff]
+  have ha : MvPolynomial.aeval (a ∘ e) f =
+      MvPolynomial.aeval a (MvPolynomial.rename e f) := by
+    rw [MvPolynomial.aeval_rename]
+  have hb : MvPolynomial.aeval (b ∘ e) f =
+      MvPolynomial.aeval b (MvPolynomial.rename e f) := by
+    rw [MvPolynomial.aeval_rename]
+  rw [ha, hb]
+  constructor
+  · intro hz
+    have hm : MvPolynomial.rename e f ∈ idealOf k a :=
+      (mem_idealOf_iff k).2 hz
+    exact (mem_idealOf_iff k).1 (h ▸ hm)
+  · intro hz
+    have hm : MvPolynomial.rename e f ∈ idealOf k b :=
+      (mem_idealOf_iff k).2 hz
+    exact (mem_idealOf_iff k).1 (h.symm ▸ hm)
+
 /-- Relocate a one-element algebraic extension while fixing its entire
 independent transcendence prefix.  If `u` is algebraic over `k(t)`, then
 for every equally long independent tuple `s` there is `v` such that

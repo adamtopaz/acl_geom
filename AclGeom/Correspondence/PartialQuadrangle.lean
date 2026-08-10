@@ -235,6 +235,19 @@ configuration proof. -/
 def groupReps (f : Fin 6 → Point k K) : Fin 3 → K :=
   ![(f 0).rep, (f 1).rep, (f 3).rep]
 
+/-- The positions of `(S,T,S')` inside the displayed six-coordinate
+partial quadrangle. -/
+def groupCoordinateIndex : Fin 3 → Fin 6 := ![0, 1, 3]
+
+/-- The positions `(T,S',U')` of the `T`-family member. -/
+def tFamilyIndex : Fin 3 → Fin 6 := ![1, 3, 5]
+
+/-- The positions `(S,U',T')` of the `S`-family member. -/
+def sFamilyIndex : Fin 3 → Fin 6 := ![0, 5, 4]
+
+/-- The positions `(U,S',T')` of the endpoint `U`-family member. -/
+def uFamilyIndex : Fin 3 → Fin 6 := ![2, 3, 4]
+
 /-- The six displayed representatives of the partial quadrangle. -/
 def configurationReps (f : Fin 6 → Point k K) : Fin 6 → K :=
   fun i ↦ (f i).rep
@@ -290,6 +303,30 @@ theorem configurationReps_mem_racl_groupReps
     exact third_rep_mem_racl_pair_of_rankEq_two
       ((IsPartialQuadrangle.injective h).ne (by decide))
       (IsPartialQuadrangle.rank_S'TU' h)
+
+/-- Restricting the six-coordinate tuple to `groupCoordinateIndex`
+recovers the independent tuple `(S,T,S')`. -/
+theorem configurationReps_comp_groupCoordinateIndex :
+    configurationReps f ∘ groupCoordinateIndex = groupReps f := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The complete partial-quadrangle locus can be relocated while fixing an
+arbitrary independent replacement for `(S,T,S')`.  All six coordinates
+move simultaneously, so every dependent triple and all three selected
+family branches remain compatible. -/
+theorem exists_configuration_relocation [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {g : Fin 3 → K}
+    (hg : AlgebraicIndependent k g) :
+    ∃ v : Fin 6 → K,
+      idealOf k v = idealOf k (configurationReps f) ∧
+        v ∘ groupCoordinateIndex = g := by
+  obtain ⟨v, hv, hfix⟩ := exists_tuple_relocation_fixing
+    (groupReps_independent h) hg
+    (u := configurationReps f) (e := groupCoordinateIndex)
+    (fun i ↦ congrFun configurationReps_comp_groupCoordinateIndex i)
+    (configurationReps_mem_racl_groupReps h)
+  exact ⟨v, hv, funext hfix⟩
 
 /-- The parameter `T` is recoverable up to finitely many choices from
 the endpoints of its selected `S' → U'` branch. -/
@@ -479,6 +516,49 @@ def uFamilyMember (h : IsPartialQuadrangle f) :
         ((IsPartialQuadrangle.injective h).ne (by decide)) (by
           simpa only [sup_comm (f 3).1 (f 4).1]
             using IsPartialQuadrangle.rank_S'T'U h)
+
+/-- The `T`-family tuple is the corresponding projection of the complete
+partial-quadrangle tuple. -/
+theorem configurationReps_comp_tFamilyIndex (h : IsPartialQuadrangle f) :
+    configurationReps f ∘ tFamilyIndex = (tFamilyMember h).tuple := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The `S`-family tuple is the corresponding projection of the complete
+partial-quadrangle tuple. -/
+theorem configurationReps_comp_sFamilyIndex (h : IsPartialQuadrangle f) :
+    configurationReps f ∘ sFamilyIndex = (sFamilyMember h).tuple := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- The endpoint `U`-family tuple is the corresponding projection of the
+complete partial-quadrangle tuple. -/
+theorem configurationReps_comp_uFamilyIndex (h : IsPartialQuadrangle f) :
+    configurationReps f ∘ uFamilyIndex = (uFamilyMember h).tuple := by
+  funext i
+  fin_cases i <;> rfl
+
+/-- **Simultaneous compatible family relocation.**  After installing any
+independent replacement for `(S,T,S')`, a single relocated six-tuple
+simultaneously realizes the original `T`, `S`, and `U` family ideals.  The
+three projected tuples share the same relocated `S'`, `U'`, and `T'`
+coordinates, so their selected composition remains literal. -/
+theorem exists_compatible_family_relocation [IsAlgClosed K]
+    (h : IsPartialQuadrangle f) {g : Fin 3 → K}
+    (hg : AlgebraicIndependent k g) :
+    ∃ v : Fin 6 → K,
+      v ∘ groupCoordinateIndex = g ∧
+        idealOf k (v ∘ tFamilyIndex) = (tFamilyMember h).ideal ∧
+        idealOf k (v ∘ sFamilyIndex) = (sFamilyMember h).ideal ∧
+        idealOf k (v ∘ uFamilyIndex) = (uFamilyMember h).ideal := by
+  obtain ⟨v, hv, hfix⟩ := exists_configuration_relocation h hg
+  have ht := idealOf_comp_eq_of_idealOf_eq hv tFamilyIndex
+  have hs := idealOf_comp_eq_of_idealOf_eq hv sFamilyIndex
+  have hu := idealOf_comp_eq_of_idealOf_eq hv uFamilyIndex
+  rw [configurationReps_comp_tFamilyIndex h] at ht
+  rw [configurationReps_comp_sFamilyIndex h] at hs
+  rw [configurationReps_comp_uFamilyIndex h] at hu
+  exact ⟨v, hfix, ht, hs, hu⟩
 
 /-- Every independent parameter/source pair carries a member of the same
 `T`-family locus as the selected `(T,S',U')` tuple. -/

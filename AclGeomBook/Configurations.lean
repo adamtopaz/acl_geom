@@ -470,6 +470,22 @@ composition:
 
 {docstring AclGeom.IsPartialQuadrangle.uFamily_map_le_selectedPair}
 
+Independent relocation can be performed on the whole finite algebraic
+configuration, not only one family member at a time.  The generic tuple
+extension theorem fixes any designated independent coordinate subsystem,
+and equality of the complete ideal automatically restricts to every
+coordinate projection.  Applied to the displayed `(S,T,U,S',T',U')`, one
+relocated six-tuple therefore realizes all three original family ideals at once,
+with their intermediate and endpoint coordinates shared literally:
+
+{docstring AclGeom.exists_tuple_relocation_fixing}
+
+{docstring AclGeom.idealOf_comp_eq_of_idealOf_eq}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_configuration_relocation}
+
+{docstring AclGeom.IsPartialQuadrangle.exists_compatible_family_relocation}
+
 The free triple `(S,T,S')` already gives independent representatives for
 the three group-configuration coordinates.  Every other displayed
 representative is algebraic over that triple, while each of the parameters
