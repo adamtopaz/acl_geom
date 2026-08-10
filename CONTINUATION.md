@@ -513,6 +513,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     cover anchor for the reference alignment.  This is stronger than an
     arbitrary equivalence between transported middle fields: it remembers
     which normal subcover and selected branch encode the repeated curve.
+40. The remaining finite algebraic coefficient changes are now packaged in
+    one field obtained by adjoining the actual `sA`, `u`, and `uB` blocks to
+    the common eight inputs.  This extension is finite; its normal closure
+    is finite and normal over the common input field and contains each of
+    the three named alternative full input fields.  A generic family member
+    plus an auxiliary tuple jointly independent from its parameter/source
+    prefix now becomes a finite-correspondence pair over the enlarged
+    coefficient field.  Applying this to both occurrences of `sA`, `u`, and
+    `uB` turns their alternative-field ideal equalities into three genuine
+    `FiniteCoverBasedBranchEquiv`s, each proved to preserve the literal
+    selected branch.  The remaining bridge is to transport these three
+    based comparisons through their embeddings into the common coefficient
+    normal field and then into the simultaneous common source cover.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -520,15 +533,16 @@ parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
 explicit field embedding.  Item 28 provides the faithful semantic
 field-equivalence target and one strict selected composition triangle.
-Items 29--39 give four strict finite-normal-cover curve triangles, the exact
+Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--39 supply selected-branch-preserving comparisons and equality of
+items 36--40 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field.
-Normalize the three remaining finite algebraic changes between their
-alternative full input fields and the original common field, then use
+The three remaining alternative fields and their selected comparisons now
+lie in one finite normal coefficient field.  Transport those based
+comparisons through this common coefficient normalization, then use
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with

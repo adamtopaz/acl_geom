@@ -1459,6 +1459,31 @@ anchor, rather than merely an abstract chart equivalence:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSCommonBasedBranchEquiv_selected}
 
+The other three coefficient changes are finite, not transcendental.  One
+field adjoins the actual `sA`, `u`, and `uB` blocks to the common inputs;
+it is finite over the common field, and its normal closure contains all
+three named alternative eight-input fields.  Joint independence also
+packages each repeated relation as a genuine finite correspondence over
+its own alternative field.  Their equal ideals therefore yield three more
+selected-branch-preserving normal-cover comparisons before transport into
+the common normal coefficient field:
+
+{docstring AclGeom.source_notMem_racl_independentExtension}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.pairOverIndependentExtension}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientOverInput_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientNormalField_normal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAAlternativeInputField_le_normalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUAlternativeInputField_le_normalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBAlternativeInputField_le_normalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedAlternativeBasedBranchEquiv_selected}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

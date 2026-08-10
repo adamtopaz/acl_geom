@@ -703,6 +703,107 @@ def repeatedUBAuxiliaryInput
   commonCurveEmbedding (k := k) (K := K) ∘
     ![s 0, s 1, D.sA 0, D.sA 1, a 0, a 1]
 
+/-- The six algebraic coefficient coordinates needed to compare the three
+alternative full input fields with the original common input field. -/
+def algebraicCoefficientTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 6 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    ![D.sA 0, D.sA 1, D.u 0, D.u 1, D.uB 0, D.uB 1]
+
+/-- The common input field enlarged by the actual algebraic parameter
+blocks `sA`, `u`, and `uB`. -/
+def commonCoefficientExtendedField :
+    IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k
+    (Set.range R.commonInputTuple ∪ Set.range R.algebraicCoefficientTuple)
+
+/-- The alternative independent coefficient field used by the repeated
+`sA` relation. -/
+def repeatedSAAlternativeInputField :
+    IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k
+    (Set.range (commonCurveEmbedding (k := k) (K := K) ∘ D.sA) ∪
+      Set.range R.repeatedSAAuxiliaryInput)
+
+/-- The alternative independent coefficient field used by the repeated
+direct `u` relation. -/
+def repeatedUAlternativeInputField :
+    IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k
+    (Set.range (commonCurveEmbedding (k := k) (K := K) ∘ D.u) ∪
+      Set.range R.repeatedUAuxiliaryInput)
+
+/-- The alternative independent coefficient field used by the repeated
+direct `uB` relation. -/
+def repeatedUBAlternativeInputField :
+    IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k
+    (Set.range (commonCurveEmbedding (k := k) (K := K) ∘ D.uB) ∪
+      Set.range R.repeatedUBAuxiliaryInput)
+
+private theorem commonInput_mem_extended (i : Fin 8) :
+    R.commonInputTuple i ∈ R.commonCoefficientExtendedField :=
+  subset_adjoin k _ (Or.inl (Set.mem_range_self i))
+
+private theorem algebraicCoefficient_mem_extended (i : Fin 6) :
+    R.algebraicCoefficientTuple i ∈ R.commonCoefficientExtendedField :=
+  subset_adjoin k _ (Or.inr (Set.mem_range_self i))
+
+/-- The full alternative `sA` input field lies in the common finite
+coefficient enlargement. -/
+theorem repeatedSAAlternativeInputField_le_extended :
+    R.repeatedSAAlternativeInputField ≤
+      R.commonCoefficientExtendedField := by
+  apply adjoin_le_iff.2
+  rintro _ (⟨i, rfl⟩ | ⟨i, rfl⟩)
+  · fin_cases i
+    · exact R.algebraicCoefficient_mem_extended 0
+    · exact R.algebraicCoefficient_mem_extended 1
+  · fin_cases i
+    · exact R.commonInput_mem_extended 0
+    · exact R.commonInput_mem_extended 1
+    · exact R.commonInput_mem_extended 4
+    · exact R.commonInput_mem_extended 5
+    · exact R.commonInput_mem_extended 6
+    · exact R.commonInput_mem_extended 7
+
+/-- The full alternative `u` input field lies in the common finite
+coefficient enlargement. -/
+theorem repeatedUAlternativeInputField_le_extended :
+    R.repeatedUAlternativeInputField ≤
+      R.commonCoefficientExtendedField := by
+  apply adjoin_le_iff.2
+  rintro _ (⟨i, rfl⟩ | ⟨i, rfl⟩)
+  · fin_cases i
+    · exact R.algebraicCoefficient_mem_extended 2
+    · exact R.algebraicCoefficient_mem_extended 3
+  · fin_cases i
+    · exact R.commonInput_mem_extended 0
+    · exact R.commonInput_mem_extended 1
+    · exact R.commonInput_mem_extended 4
+    · exact R.commonInput_mem_extended 5
+    · exact R.commonInput_mem_extended 6
+    · exact R.commonInput_mem_extended 7
+
+/-- The full alternative `uB` input field lies in the common finite
+coefficient enlargement. -/
+theorem repeatedUBAlternativeInputField_le_extended :
+    R.repeatedUBAlternativeInputField ≤
+      R.commonCoefficientExtendedField := by
+  apply adjoin_le_iff.2
+  rintro _ (⟨i, rfl⟩ | ⟨i, rfl⟩)
+  · fin_cases i
+    · exact R.algebraicCoefficient_mem_extended 4
+    · exact R.algebraicCoefficient_mem_extended 5
+  · fin_cases i
+    · exact R.commonInput_mem_extended 0
+    · exact R.commonInput_mem_extended 1
+    · exact R.algebraicCoefficient_mem_extended 0
+    · exact R.algebraicCoefficient_mem_extended 1
+    · exact R.commonInput_mem_extended 4
+    · exact R.commonInput_mem_extended 5
+
 /-- The repeated `s` parameter, its six complementary inputs, and the
 formal source are jointly independent. -/
 theorem repeatedS_auxiliary_parameter_source_independent
@@ -893,6 +994,129 @@ def sAcCommonBaseData : R.sAc.CommonBaseData R.commonInputTuple where
   a_mem := R.sA_mem_commonInput_racl
   b_mem := R.c_mem_commonInput_racl
   c_mem := R.uB_mem_commonInput_racl
+
+/-- The original common eight-input coefficient field embeds in the finite
+algebraic coefficient enlargement. -/
+theorem commonCoefficientField_le_extended :
+    R.seCommonBaseData.coefficientField ≤
+      R.commonCoefficientExtendedField := by
+  change adjoin k (Set.range R.commonInputTuple) ≤
+    adjoin k
+      (Set.range R.commonInputTuple ∪ Set.range R.algebraicCoefficientTuple)
+  exact adjoin.mono k _ _ Set.subset_union_left
+
+/-- The algebraic coefficient enlargement regarded as an extension of the
+literal common eight-input field. -/
+def commonCoefficientOverInput :
+    IntermediateField (↥R.seCommonBaseData.coefficientField)
+      (CommonCurveAmbient K) :=
+  extendScalars R.commonCoefficientField_le_extended
+
+/-- Every newly adjoined coefficient coordinate is algebraic over the
+common eight-input tuple. -/
+theorem algebraicCoefficientTuple_mem_commonInput_racl (i : Fin 6) :
+    R.algebraicCoefficientTuple i ∈
+      racl k (Set.range R.commonInputTuple) := by
+  fin_cases i
+  · exact R.sA_mem_commonInput_racl 0
+  · exact R.sA_mem_commonInput_racl 1
+  · exact R.u_mem_commonInput_racl 0
+  · exact R.u_mem_commonInput_racl 1
+  · exact R.uB_mem_commonInput_racl 0
+  · exact R.uB_mem_commonInput_racl 1
+
+/-- The common coefficient enlargement is finite over the original
+eight-input field. -/
+theorem commonCoefficientOverInput_finiteDimensional :
+    FiniteDimensional (↥R.seCommonBaseData.coefficientField)
+      (↥R.commonCoefficientOverInput) := by
+  have key : R.commonCoefficientOverInput =
+      adjoin (↥R.seCommonBaseData.coefficientField)
+        (Set.range R.algebraicCoefficientTuple) := by
+    refine restrictScalars_injective k ?_
+    unfold commonCoefficientOverInput commonCoefficientExtendedField
+      PsiCurveCompositionBaseChangeRealization.CommonBaseData.coefficientField
+    rw [adjoin_adjoin_left, extendScalars_restrictScalars, adjoin_union]
+  rw [key]
+  letI : Fintype (Set.range R.algebraicCoefficientTuple) :=
+    Set.Finite.fintype (Set.finite_range R.algebraicCoefficientTuple)
+  exact finiteDimensional_adjoin fun z hz ↦ by
+    obtain ⟨i, rfl⟩ := hz
+    have hmem : R.algebraicCoefficientTuple i ∈
+        racl (↥R.seCommonBaseData.coefficientField)
+          (∅ : Set (CommonCurveAmbient K)) := by
+      rw [PsiCurveCompositionBaseChangeRealization.CommonBaseData.coefficientField,
+        mem_racl_adjoin_base_iff, Set.union_empty]
+      exact R.algebraicCoefficientTuple_mem_commonInput_racl i
+    exact (isAlgebraic_of_mem_racl_empty hmem).isIntegral
+
+/-- One normal coefficient field containing the original common inputs and
+all three algebraic replacement blocks. -/
+def commonCoefficientNormalField :
+    IntermediateField (↥R.seCommonBaseData.coefficientField)
+      (CommonCurveAmbient K) :=
+  FiniteCover.normalClosureOver R.commonCoefficientField_le_extended
+
+/-- The finite coefficient enlargement lies in its normal closure. -/
+theorem commonCoefficientOverInput_le_normalField :
+    R.commonCoefficientOverInput ≤ R.commonCoefficientNormalField :=
+  FiniteCover.extendScalars_le_normalClosureOver
+    R.commonCoefficientField_le_extended
+
+/-- The common coefficient normal field remains finite over the original
+eight-input field. -/
+theorem commonCoefficientNormalField_finiteDimensional :
+    FiniteDimensional (↥R.seCommonBaseData.coefficientField)
+      (↥R.commonCoefficientNormalField) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    R.commonCoefficientField_le_extended
+    R.commonCoefficientOverInput_finiteDimensional
+
+/-- The common coefficient normal field is normal over the original
+eight-input field. -/
+theorem commonCoefficientNormalField_normal :
+    Normal (↥R.seCommonBaseData.coefficientField)
+      (↥R.commonCoefficientNormalField) := by
+  letI : FiniteDimensional (↥R.seCommonBaseData.coefficientField)
+      (↥(extendScalars R.commonCoefficientField_le_extended)) :=
+    R.commonCoefficientOverInput_finiteDimensional
+  exact FiniteCover.normalClosureOver_normal
+    R.commonCoefficientField_le_extended
+    (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- The full finite coefficient enlargement embeds in the underlying
+`k`-field of its normal closure. -/
+theorem commonCoefficientExtendedField_le_normalField :
+    R.commonCoefficientExtendedField ≤
+      R.commonCoefficientNormalField.restrictScalars k := by
+  have h : R.commonCoefficientOverInput.restrictScalars k ≤
+      R.commonCoefficientNormalField.restrictScalars k :=
+    R.commonCoefficientOverInput_le_normalField
+  simpa [commonCoefficientOverInput] using h
+
+/-- The alternative `sA` coefficient field is contained in the common
+finite normal coefficient field. -/
+theorem repeatedSAAlternativeInputField_le_normalField :
+    R.repeatedSAAlternativeInputField ≤
+      R.commonCoefficientNormalField.restrictScalars k :=
+  R.repeatedSAAlternativeInputField_le_extended.trans
+    R.commonCoefficientExtendedField_le_normalField
+
+/-- The alternative `u` coefficient field is contained in the common
+finite normal coefficient field. -/
+theorem repeatedUAlternativeInputField_le_normalField :
+    R.repeatedUAlternativeInputField ≤
+      R.commonCoefficientNormalField.restrictScalars k :=
+  R.repeatedUAlternativeInputField_le_extended.trans
+    R.commonCoefficientExtendedField_le_normalField
+
+/-- The alternative `uB` coefficient field is contained in the common
+finite normal coefficient field. -/
+theorem repeatedUBAlternativeInputField_le_normalField :
+    R.repeatedUBAlternativeInputField ≤
+      R.commonCoefficientNormalField.restrictScalars k :=
+  R.repeatedUBAlternativeInputField_le_extended.trans
+    R.commonCoefficientExtendedField_le_normalField
 
 /-- The two independently relocated occurrences of the `s`-family branch
 have the same complete parameter/source/target locus. -/
@@ -1134,6 +1358,39 @@ the selected branch. -/
           (R := R.sb) R.sbCommonBaseData hψ).sourceField_le_branchField :=
   (R.repeatedSCommonBasedBranchEquiv hind).map_selected
 
+/-- The nested scalar-extension presentation for `sA` is exactly its named
+alternative eight-input coefficient field. -/
+theorem repeatedSAIndependentInputField_eq_alternative :
+    (adjoin
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.sA))))
+        (Set.range R.repeatedSAAuxiliaryInput)).restrictScalars k =
+      R.repeatedSAAlternativeInputField := by
+  unfold repeatedSAAlternativeInputField
+  rw [adjoin_adjoin_left]
+
+/-- The nested scalar-extension presentation for `u` is exactly its named
+alternative eight-input coefficient field. -/
+theorem repeatedUIndependentInputField_eq_alternative :
+    (adjoin
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.u))))
+        (Set.range R.repeatedUAuxiliaryInput)).restrictScalars k =
+      R.repeatedUAlternativeInputField := by
+  unfold repeatedUAlternativeInputField
+  rw [adjoin_adjoin_left]
+
+/-- The nested scalar-extension presentation for `uB` is exactly its named
+alternative eight-input coefficient field. -/
+theorem repeatedUBIndependentInputField_eq_alternative :
+    (adjoin
+        (↥(adjoin k (Set.range
+          (commonCurveEmbedding (k := k) (K := K) ∘ D.uB))))
+        (Set.range R.repeatedUBAuxiliaryInput)).restrictScalars k =
+      R.repeatedUBAlternativeInputField := by
+  unfold repeatedUBAlternativeInputField
+  rw [adjoin_adjoin_left]
+
 /-- The repeated `sA` curve relation remains equal after adjoining its six
 complementary independent inputs. -/
 theorem repeatedSAPairIdeal_eq_over_independentInputField
@@ -1160,6 +1417,17 @@ theorem repeatedSAPairIdeal_eq_over_independentInputField
     · simpa only [R.sAc_source] using
         R.repeatedSA_auxiliary_parameter_source_independent hind
     · exact (R.sAc.aCorrespondenceFamilyMember hψ).target_mem_parameter_source
+
+/-- The repeated `sA` relation over its named alternative full input
+field. -/
+theorem repeatedSAPairIdeal_eq_over_alternativeInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf (↥R.repeatedSAAlternativeInputField)
+        ![R.sAa.source, R.sAa.middle] =
+      idealOf (↥R.repeatedSAAlternativeInputField)
+        ![R.sAc.source, R.sAc.middle] := by
+  rw [← R.repeatedSAIndependentInputField_eq_alternative]
+  exact R.repeatedSAPairIdeal_eq_over_independentInputField hind
 
 /-- The repeated direct `u` curve relation remains equal after adjoining
 its six complementary independent inputs. -/
@@ -1188,6 +1456,17 @@ theorem repeatedUPairIdeal_eq_over_independentInputField
         R.repeatedU_auxiliary_parameter_source_independent hind
     · exact (R.sAa.cCorrespondenceFamilyMember hψ).target_mem_parameter_source
 
+/-- The repeated direct `u` relation over its named alternative full input
+field. -/
+theorem repeatedUPairIdeal_eq_over_alternativeInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf (↥R.repeatedUAlternativeInputField)
+        ![R.se.source, R.se.target] =
+      idealOf (↥R.repeatedUAlternativeInputField)
+        ![R.sAa.source, R.sAa.target] := by
+  rw [← R.repeatedUIndependentInputField_eq_alternative]
+  exact R.repeatedUPairIdeal_eq_over_independentInputField hind
+
 /-- The repeated direct `uB` curve relation remains equal after adjoining
 its six complementary independent inputs. -/
 theorem repeatedUBPairIdeal_eq_over_independentInputField
@@ -1214,6 +1493,190 @@ theorem repeatedUBPairIdeal_eq_over_independentInputField
     · simpa only [R.sAc_source] using
         R.repeatedUB_auxiliary_parameter_source_independent hind
     · exact (R.sAc.cCorrespondenceFamilyMember hψ).target_mem_parameter_source
+
+/-- The repeated direct `uB` relation over its named alternative full input
+field. -/
+theorem repeatedUBPairIdeal_eq_over_alternativeInputField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    idealOf (↥R.repeatedUBAlternativeInputField)
+        ![R.sb.source, R.sb.target] =
+      idealOf (↥R.repeatedUBAlternativeInputField)
+        ![R.sAc.source, R.sAc.target] := by
+  rw [← R.repeatedUBIndependentInputField_eq_alternative]
+  exact R.repeatedUBPairIdeal_eq_over_independentInputField hind
+
+/-- The first occurrence of the repeated `sA` relation as an actual finite
+correspondence over its alternative full input field. -/
+def repeatedSAFirstAlternativePair
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteCorrespondencePair (↥R.repeatedSAAlternativeInputField)
+      (CommonCurveAmbient K) := by
+  apply (R.sAa.aCorrespondenceFamilyMember hψ).pairOverIndependentExtension
+    R.repeatedSAAuxiliaryInput
+  change AlgebraicIndependent k
+    (Sum.elim R.repeatedSAAuxiliaryInput
+      (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.sA)
+        R.sAa.source))
+  simpa only [R.sAa_source] using
+    R.repeatedSA_auxiliary_parameter_source_independent hind
+
+/-- The second occurrence of the repeated `sA` relation over the same
+alternative full input field. -/
+def repeatedSASecondAlternativePair
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteCorrespondencePair (↥R.repeatedSAAlternativeInputField)
+      (CommonCurveAmbient K) := by
+  apply (R.sAc.aCorrespondenceFamilyMember hψ).pairOverIndependentExtension
+    R.repeatedSAAuxiliaryInput
+  change AlgebraicIndependent k
+    (Sum.elim R.repeatedSAAuxiliaryInput
+      (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.sA)
+        R.sAc.source))
+  simpa only [R.sAc_source] using
+    R.repeatedSA_auxiliary_parameter_source_independent hind
+
+/-- The first occurrence of the repeated direct `u` relation over its
+alternative full input field. -/
+def repeatedUFirstAlternativePair
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteCorrespondencePair (↥R.repeatedUAlternativeInputField)
+      (CommonCurveAmbient K) := by
+  apply (R.se.cCorrespondenceFamilyMember hψ).pairOverIndependentExtension
+    R.repeatedUAuxiliaryInput
+  change AlgebraicIndependent k
+    (Sum.elim R.repeatedUAuxiliaryInput
+      (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.u)
+        R.se.source))
+  simpa only [R.se_source] using
+    R.repeatedU_auxiliary_parameter_source_independent hind
+
+/-- The second occurrence of the repeated direct `u` relation over the
+same alternative full input field. -/
+def repeatedUSecondAlternativePair
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteCorrespondencePair (↥R.repeatedUAlternativeInputField)
+      (CommonCurveAmbient K) := by
+  apply (R.sAa.cCorrespondenceFamilyMember hψ).pairOverIndependentExtension
+    R.repeatedUAuxiliaryInput
+  change AlgebraicIndependent k
+    (Sum.elim R.repeatedUAuxiliaryInput
+      (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.u)
+        R.sAa.source))
+  simpa only [R.sAa_source] using
+    R.repeatedU_auxiliary_parameter_source_independent hind
+
+/-- The first occurrence of the repeated direct `uB` relation over its
+alternative full input field. -/
+def repeatedUBFirstAlternativePair
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteCorrespondencePair (↥R.repeatedUBAlternativeInputField)
+      (CommonCurveAmbient K) := by
+  apply (R.sb.cCorrespondenceFamilyMember hψ).pairOverIndependentExtension
+    R.repeatedUBAuxiliaryInput
+  change AlgebraicIndependent k
+    (Sum.elim R.repeatedUBAuxiliaryInput
+      (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.uB)
+        R.sb.source))
+  simpa only [R.sb_source] using
+    R.repeatedUB_auxiliary_parameter_source_independent hind
+
+/-- The second occurrence of the repeated direct `uB` relation over the
+same alternative full input field. -/
+def repeatedUBSecondAlternativePair
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteCorrespondencePair (↥R.repeatedUBAlternativeInputField)
+      (CommonCurveAmbient K) := by
+  apply (R.sAc.cCorrespondenceFamilyMember hψ).pairOverIndependentExtension
+    R.repeatedUBAuxiliaryInput
+  change AlgebraicIndependent k
+    (Sum.elim R.repeatedUBAuxiliaryInput
+      (Fin.snoc (commonCurveEmbedding (k := k) (K := K) ∘ D.uB)
+        R.sAc.source))
+  simpa only [R.sAc_source] using
+    R.repeatedUB_auxiliary_parameter_source_independent hind
+
+/-- The two alternative-field `sA` pairs have the same selected curve
+ideal. -/
+theorem repeatedSAAlternativePair_ideal_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedSAFirstAlternativePair hind).ideal =
+      (R.repeatedSASecondAlternativePair hind).ideal := by
+  change idealOf (↥R.repeatedSAAlternativeInputField)
+      ![R.sAa.source, R.sAa.middle] =
+    idealOf (↥R.repeatedSAAlternativeInputField)
+      ![R.sAc.source, R.sAc.middle]
+  exact R.repeatedSAPairIdeal_eq_over_alternativeInputField hind
+
+/-- The two alternative-field direct `u` pairs have the same selected
+curve ideal. -/
+theorem repeatedUAlternativePair_ideal_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedUFirstAlternativePair hind).ideal =
+      (R.repeatedUSecondAlternativePair hind).ideal := by
+  change idealOf (↥R.repeatedUAlternativeInputField)
+      ![R.se.source, R.se.target] =
+    idealOf (↥R.repeatedUAlternativeInputField)
+      ![R.sAa.source, R.sAa.target]
+  exact R.repeatedUPairIdeal_eq_over_alternativeInputField hind
+
+/-- The two alternative-field direct `uB` pairs have the same selected
+curve ideal. -/
+theorem repeatedUBAlternativePair_ideal_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedUBFirstAlternativePair hind).ideal =
+      (R.repeatedUBSecondAlternativePair hind).ideal := by
+  change idealOf (↥R.repeatedUBAlternativeInputField)
+      ![R.sb.source, R.sb.target] =
+    idealOf (↥R.repeatedUBAlternativeInputField)
+      ![R.sAc.source, R.sAc.target]
+  exact R.repeatedUBPairIdeal_eq_over_alternativeInputField hind
+
+/-- The repeated `sA` relation has a selected-branch-preserving comparison
+over its full alternative input field. -/
+noncomputable def repeatedSAAlternativeBasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.repeatedSAFirstAlternativePair hind).basedBranchEquivOfIdealEq
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_ideal_eq hind)
+
+/-- The repeated direct `u` relation has a selected-branch-preserving
+comparison over its full alternative input field. -/
+noncomputable def repeatedUAlternativeBasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.repeatedUFirstAlternativePair hind).basedBranchEquivOfIdealEq
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_ideal_eq hind)
+
+/-- The repeated direct `uB` relation has a selected-branch-preserving
+comparison over its full alternative input field. -/
+noncomputable def repeatedUBAlternativeBasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.repeatedUBFirstAlternativePair hind).basedBranchEquivOfIdealEq
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_ideal_eq hind)
+
+/-- All three alternative-field comparisons preserve their literal
+selected branches. -/
+theorem repeatedAlternativeBasedBranchEquiv_selected
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedSAAlternativeBasedBranchEquiv hind).branchEquiv
+        (finiteCoverSelectedBranch
+          (R.repeatedSAFirstAlternativePair hind).sourceField_le_branchField) =
+        finiteCoverSelectedBranch
+          (R.repeatedSASecondAlternativePair hind).sourceField_le_branchField ∧
+      (R.repeatedUAlternativeBasedBranchEquiv hind).branchEquiv
+        (finiteCoverSelectedBranch
+          (R.repeatedUFirstAlternativePair hind).sourceField_le_branchField) =
+        finiteCoverSelectedBranch
+          (R.repeatedUSecondAlternativePair hind).sourceField_le_branchField ∧
+      (R.repeatedUBAlternativeBasedBranchEquiv hind).branchEquiv
+        (finiteCoverSelectedBranch
+          (R.repeatedUBFirstAlternativePair hind).sourceField_le_branchField) =
+        finiteCoverSelectedBranch
+          (R.repeatedUBSecondAlternativePair hind).sourceField_le_branchField :=
+  ⟨(R.repeatedSAAlternativeBasedBranchEquiv hind).map_selected,
+    (R.repeatedUAlternativeBasedBranchEquiv hind).map_selected,
+    (R.repeatedUBAlternativeBasedBranchEquiv hind).map_selected⟩
 
 /-- The coefficient-aware normal-cover comparison for the repeated
 `s` branch.  It retains the displayed `s` parameter and source coordinates;
