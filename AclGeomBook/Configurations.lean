@@ -2091,6 +2091,30 @@ four-arrow action:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceCInSemanticSourceRingHom}
 
+This comparison is now coefficient-faithful on the intrinsic selected
+`B`-germ field, not only on the eight displayed free inputs.  Equality of
+the selected and relocated `B/T` loci induces the canonical equivalence of
+their rank-two parameter fields.  The normal-cover transition restricts to
+that equivalence, so each explicit reference map sends an intrinsic curve
+coefficient to its canonical relocated parameter-field value.  All four
+restrictions are named and packaged in one simultaneous formula:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.bGermCoefficientToProjectionParameterAlgHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBNormalEquivProjection_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.projectionToReferenceOnBGermCoefficientRingHom_apply_parameterTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceEOnBGermCoefficientRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceAOnBGermCoefficientRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceBOnBGermCoefficientRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceCOnBGermCoefficientRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceOnBGermCoefficientRingHom_apply_parameterTransport}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

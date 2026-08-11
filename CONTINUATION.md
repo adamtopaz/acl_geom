@@ -799,6 +799,26 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     an equality of maps with the same domain and codomain: identify their
     restrictions on intrinsic germ coefficients, then align the finite
     scalar branches inside the common normal cover.
+60. The four explicit reference maps now have exact restrictions to the
+    intrinsic selected-`B` germ coefficient field.  The selected coefficient
+    field is included first in `k(B₁,B₂)` and then in the selected
+    normalized `B/T` cover.  For every relocated projection `(p,x)`, the
+    normalized selected-to-projection equivalence is proved semilinear over
+    the canonical function-field equivalence induced by equality of the
+    two parameter loci.  Consequently its restriction to an intrinsic germ
+    coefficient is exactly that coefficient transported to `k(p₁,p₂)`,
+    followed by the literal algebra map to the scalar normal cover.  This
+    formula is pushed through the original reference cover and the combined
+    semantic/reference source, and is instantiated as four named maps
+    `toReferenceE/A/B/COnBGermCoefficientRingHom`.  Their simultaneous
+    restriction theorem removes all chart-conjugation choices from the
+    coefficient layer.  Direct leaf compilation also exposed and repaired
+    an old stale-artifact defect in the preceding common-codomain theorem:
+    its dependencies are now explicit and its large opaque composite is
+    factored into small maps with a fast direct proof.  The next local step
+    is to identify these canonical parameter transports with the
+    coefficients of the four relocated right-branch curve equations, then
+    align the remaining finite scalar-normal branches.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -829,10 +849,12 @@ middle and target charts fix the common coefficient field.  The original
 normalized reference cover has now been transported into the same canonical
 source algebraic closure and joined with the semantic branch cover; the four
 explicit `toReference` field maps therefore have the same literal codomain
-as the semantic action, and their eight-input coefficient square commutes.
-Combine the curve-equation identities with the intrinsic germ
-coefficient-field theorem to identify the restrictions of those four maps,
-then align their finite scalar branches in the common normal cover.  Use that equality
+as the semantic action, their eight-input coefficient square commutes, and
+their restrictions to the intrinsic `B` germ coefficient field are the
+canonical transports to the four displayed parameter fields.  Identify
+those transported coefficients with the coefficients of the four relocated
+right-branch curve equations, then align the remaining finite scalar
+branches in the common normal cover.  Use that equality
 to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
