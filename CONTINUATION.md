@@ -989,6 +989,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     selected semantic branches in one coherent normal model, then choose
     non-induced middle/target charts (or equivalent graph-faithful data) whose
     restriction theorems retain the `e/a/b/c` coefficient embeddings.
+71. Each relocated intrinsic curve-coefficient field now has a literal ring
+    embedding in its complete selected right-branch field.  Composing the four
+    coefficient equivalences from item 69 with these inclusions gives named
+    whole-field embeddings of the intrinsic selected-`B` germ into the
+    complete `e`, `a`, `b`, and `c` curve branches, and a simultaneous theorem
+    identifies every canonical generator with the same-index relocated curve
+    coefficient.  This closes the first unchecked task of issue #14.  The
+    codomains intentionally remain the four original complete branches: the
+    next issue-#16 step is the honest scalar extension/joint normal-cover
+    comparison that places them beside the common-base semantic branches
+    without assuming, especially for `c`, that the full relocated parameter
+    field lies in the eight-input coefficient field.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

@@ -1626,6 +1626,38 @@ every canonical curve coefficient. -/
     (bGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient
       (w := w) (hψ := hψ) p x hp G h hG d)
 
+/-- Include the intrinsic coefficient field of a relocated canonical curve
+in its complete selected right-branch field.  The map uses only literal
+ambient inclusions: coefficients first lie in the displayed parameter
+field, hence in the curve source field, and finally in the complete branch
+over that source. -/
+noncomputable def relocatedBCoefficientToCompleteRightBranchRingHom
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2) :
+    (↥(G.toPair.curveCoefficientField k G.parameterField)) →+*
+      (↥G.toPair.branchOverSource) where
+  toFun z := ⟨z.1, by
+    let zP : G.parameterField :=
+      ⟨z.1, G.toPair.curveCoefficientField_le k G.parameterField z.2⟩
+    let zS : G.toPair.sourceField :=
+      ⟨z.1, G.toPair.sourceField.algebraMap_mem zP⟩
+    have hz := G.toPair.branchOverSource.algebraMap_mem zS
+    simpa [zS] using hz⟩
+  map_one' := by ext; rfl
+  map_mul' x y := by ext; rfl
+  map_zero' := by ext; rfl
+  map_add' x y := by ext; rfl
+
+/-- The complete-branch inclusion does not change the ambient value of an
+intrinsic relocated coefficient. -/
+@[simp] theorem relocatedBCoefficientToCompleteRightBranchRingHom_val
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (z : G.toPair.curveCoefficientField k G.parameterField) :
+    ((relocatedBCoefficientToCompleteRightBranchRingHom G z :
+        G.toPair.branchOverSource) : CommonCurveAmbient K) = z :=
+  rfl
+
 /-- The whole relocated parameter transport is the intrinsic coefficient
 equivalence followed by the literal inclusion of the relocated coefficient
 field into its displayed parameter field. -/
@@ -1834,6 +1866,119 @@ noncomputable def sAcBGermCoefficientToRelocatedBCoefficientAlgEquiv :
     (R.sAc.bCorrespondenceFamilyMember hψ)
     R.sAcMappedSelectedBFamily_ideal_eq
     R.relocatedBFamily_parameters.2.2.2
+
+/-- The intrinsic selected-`B` coefficient field embedded in the complete
+right `e` branch through its relocated coefficient field. -/
+noncomputable def seBGermCoefficientToCompleteRightBranchRingHom :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (↥(R.se.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (relocatedBCoefficientToCompleteRightBranchRingHom
+    (R.se.bCorrespondenceFamilyMember hψ)).comp
+      (R.seBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toRingEquiv.toRingHom
+
+/-- The corresponding intrinsic embedding in the complete right `a`
+branch. -/
+noncomputable def sAaBGermCoefficientToCompleteRightBranchRingHom :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (↥(R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (relocatedBCoefficientToCompleteRightBranchRingHom
+    (R.sAa.bCorrespondenceFamilyMember hψ)).comp
+      (R.sAaBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toRingEquiv.toRingHom
+
+/-- The corresponding intrinsic embedding in the complete right `b`
+branch. -/
+noncomputable def sbBGermCoefficientToCompleteRightBranchRingHom :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (↥(R.sb.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (relocatedBCoefficientToCompleteRightBranchRingHom
+    (R.sb.bCorrespondenceFamilyMember hψ)).comp
+      (R.sbBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toRingEquiv.toRingHom
+
+/-- The corresponding intrinsic embedding in the complete right `c`
+branch. -/
+noncomputable def sAcBGermCoefficientToCompleteRightBranchRingHom :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (↥(R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (relocatedBCoefficientToCompleteRightBranchRingHom
+    (R.sAc.bCorrespondenceFamilyMember hψ)).comp
+      (R.sAcBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toRingEquiv.toRingHom
+
+/-- On every canonical generator, the four complete-branch embeddings are
+the literal same-index relocated curve coefficients. -/
+theorem fourBGermCoefficientToCompleteRightBranchRingHom_selected
+    (d : Fin 2 →₀ ℕ) :
+    R.seBGermCoefficientToCompleteRightBranchRingHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        relocatedBCoefficientToCompleteRightBranchRingHom
+          (R.se.bCorrespondenceFamilyMember hψ)
+          ⟨(((R.se.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+              (R.se.bCorrespondenceFamilyMember hψ).parameterField) :
+              CommonCurveAmbient K),
+            (R.se.bCorrespondenceFamilyMember hψ).toPair
+              |>.coeff_mem_curveCoefficientField k
+                (R.se.bCorrespondenceFamilyMember hψ).parameterField d⟩ ∧
+      R.sAaBGermCoefficientToCompleteRightBranchRingHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        relocatedBCoefficientToCompleteRightBranchRingHom
+          (R.sAa.bCorrespondenceFamilyMember hψ)
+          ⟨(((R.sAa.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+              (R.sAa.bCorrespondenceFamilyMember hψ).parameterField) :
+              CommonCurveAmbient K),
+            (R.sAa.bCorrespondenceFamilyMember hψ).toPair
+              |>.coeff_mem_curveCoefficientField k
+                (R.sAa.bCorrespondenceFamilyMember hψ).parameterField d⟩ ∧
+      R.sbBGermCoefficientToCompleteRightBranchRingHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        relocatedBCoefficientToCompleteRightBranchRingHom
+          (R.sb.bCorrespondenceFamilyMember hψ)
+          ⟨(((R.sb.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+              (R.sb.bCorrespondenceFamilyMember hψ).parameterField) :
+              CommonCurveAmbient K),
+            (R.sb.bCorrespondenceFamilyMember hψ).toPair
+              |>.coeff_mem_curveCoefficientField k
+                (R.sb.bCorrespondenceFamilyMember hψ).parameterField d⟩ ∧
+      R.sAcBGermCoefficientToCompleteRightBranchRingHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        relocatedBCoefficientToCompleteRightBranchRingHom
+          (R.sAc.bCorrespondenceFamilyMember hψ)
+          ⟨(((R.sAc.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+              (R.sAc.bCorrespondenceFamilyMember hψ).parameterField) :
+              CommonCurveAmbient K),
+            (R.sAc.bCorrespondenceFamilyMember hψ).toPair
+              |>.coeff_mem_curveCoefficientField k
+                (R.sAc.bCorrespondenceFamilyMember hψ).parameterField d⟩ := by
+  simp only [seBGermCoefficientToCompleteRightBranchRingHom,
+    sAaBGermCoefficientToCompleteRightBranchRingHom,
+    sbBGermCoefficientToCompleteRightBranchRingHom,
+    sAcBGermCoefficientToCompleteRightBranchRingHom, RingHom.comp_apply]
+  exact ⟨congrArg
+      (relocatedBCoefficientToCompleteRightBranchRingHom
+        (R.se.bCorrespondenceFamilyMember hψ))
+      (bGermCoefficientToRelocatedBCoefficientAlgEquiv_selected
+        (w := w) (hψ := hψ) e L.se_e L.eProjectionRelation
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.seMappedSelectedBFamily_ideal_eq R.relocatedBFamily_parameters.1 d),
+    congrArg
+      (relocatedBCoefficientToCompleteRightBranchRingHom
+        (R.sAa.bCorrespondenceFamilyMember hψ))
+      (bGermCoefficientToRelocatedBCoefficientAlgEquiv_selected
+        (w := w) (hψ := hψ) a L.sA_a_a L.aProjectionRelation
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.sAaMappedSelectedBFamily_ideal_eq R.relocatedBFamily_parameters.2.1 d),
+    congrArg
+      (relocatedBCoefficientToCompleteRightBranchRingHom
+        (R.sb.bCorrespondenceFamilyMember hψ))
+      (bGermCoefficientToRelocatedBCoefficientAlgEquiv_selected
+        (w := w) (hψ := hψ) b L.s_b_b L.bProjectionRelation
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.sbMappedSelectedBFamily_ideal_eq R.relocatedBFamily_parameters.2.2.1 d),
+    congrArg
+      (relocatedBCoefficientToCompleteRightBranchRingHom
+        (R.sAc.bCorrespondenceFamilyMember hψ))
+      (bGermCoefficientToRelocatedBCoefficientAlgEquiv_selected
+        (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.sAcMappedSelectedBFamily_ideal_eq R.relocatedBFamily_parameters.2.2.2 d)⟩
 
 /-- Simultaneously, all four whole parameter transports factor through the
 intrinsic coefficient fields of their relocated canonical curves. -/
