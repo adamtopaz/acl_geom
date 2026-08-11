@@ -2028,6 +2028,8 @@ cover:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientFourArrowDiagram}
 
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientFourArrow_right_arrows_eq_refl}
+
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientFourArrow_right_cancellation}
 
 Coefficient faithfulness can be checked directly on the selected right

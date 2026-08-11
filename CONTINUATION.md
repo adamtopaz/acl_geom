@@ -975,6 +975,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     embed these four relocated coefficient fields in their complete branch
     fields, compare their semantic images with the normalized reference maps,
     and then use coefficient-field extensionality and four-arrow cancellation.
+70. A chart-gauge audit has isolated an important boundary in the existing
+    semantic comparison.  For every composition triangle, choosing both the
+    middle and target charts by transport from a source chart conjugates not
+    only the left and direct arrows but also the right arrow to the identity.
+    This is now a proved reusable theorem, and its four-face specialization
+    states explicitly that all four right arrows in
+    `coefficientFourArrowDiagram` are `RingEquiv.refl`.  The diagram still
+    organizes coefficient-faithful selected graph embeddings, but its abstract
+    cancellation theorem alone is therefore gauge-trivial and cannot justify
+    intrinsic parameter factorization.  GitHub issue #16 tracks the corrective
+    construction: put the transported normalized reference cover and the four
+    selected semantic branches in one coherent normal model, then choose
+    non-induced middle/target charts (or equivalent graph-faithful data) whose
+    restriction theorems retain the `e/a/b/c` coefficient embeddings.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

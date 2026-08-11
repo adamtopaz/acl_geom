@@ -5196,11 +5196,34 @@ noncomputable def coefficientFourTriangleReference
     (R.sbCoefficientSourceChart hind)
     (R.sAcCoefficientSourceChart hind)
 
-/-- The faithful semantic four-arrow diagram obtained from the four
-coefficient/source charts on the enlarged common normal cover. -/
+/-- The source-gauge-normalized four-arrow diagram obtained from the four
+coefficient/source charts on the enlarged common normal cover.  Its selected
+graph embeddings remain useful, but its four abstract right arrows are
+identities because the middle and target charts are induced from the source
+charts. -/
 noncomputable def coefficientFourArrowDiagram
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
   (R.coefficientFourTriangleReference hind).toFourArrowDiagram
+
+/-- All four abstract right arrows in the source-induced coefficient diagram
+are identities.  This theorem records that its cancellation law is a gauge
+identity; parameter-dependent information must be read from the selected
+branch embeddings until independently chosen common charts are supplied. -/
+theorem coefficientFourArrow_right_arrows_eq_refl
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.coefficientFourArrowDiagram hind).rightE = RingEquiv.refl _ ∧
+      (R.coefficientFourArrowDiagram hind).rightA = RingEquiv.refl _ ∧
+      (R.coefficientFourArrowDiagram hind).rightB = RingEquiv.refl _ ∧
+      (R.coefficientFourArrowDiagram hind).rightC = RingEquiv.refl _ := by
+  exact FieldEquiv.FourTriangleReference.ofSourceCharts_right_arrows_eq_refl
+    (R.seBranchComparisonCoverCompositionTriangle hind)
+    (R.sAaBranchComparisonCoverCompositionTriangle hind)
+    (R.sbBranchComparisonCoverCompositionTriangle hind)
+    (R.sAcBranchComparisonCoverCompositionTriangle hind)
+    (R.seCoefficientSourceChart hind)
+    (R.sAaCoefficientSourceChart hind)
+    (R.sbCoefficientSourceChart hind)
+    (R.sAcCoefficientSourceChart hind)
 
 /-- The induced middle chart on the `s·e=u` face fixes the original
 common coefficient field. -/
@@ -5675,8 +5698,10 @@ theorem sAcCoefficientTargetChart_selectedDirect
     (R.sAcRepeatedUBTotalAnchorAlignmentAut_smul hind)
   exact hmap
 
-/-- Literal four-arrow cancellation on the coefficient-charted common
-normal cover. -/
+/-- Literal four-arrow cancellation on the coefficient-charted common normal
+cover.  With the current source-induced charts this is the identity gauge
+law recorded above, rather than the eventual intrinsic parameter
+factorization. -/
 theorem coefficientFourArrow_right_cancellation
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     (R.coefficientFourArrowDiagram hind).rightC =

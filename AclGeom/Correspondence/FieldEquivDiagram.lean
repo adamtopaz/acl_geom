@@ -196,6 +196,22 @@ identity on the reference source. -/
   ext x
   simp [conjugate, inducedTargetChart]
 
+/-- With both induced charts, the conjugated right arrow is also the
+identity.  Thus a reference assembled solely from source charts is a
+gauge-normalized organizational diagram; a nontrivial family action still
+requires independently fixed middle/target charts or selected graph data. -/
+@[simp] theorem conjugate_induced_right (eX : X ≃+* X') :
+    (T.conjugate eX (T.inducedMiddleChart eX)
+      (T.inducedTargetChart eX)).right = RingEquiv.refl X' := by
+  ext x
+  change eX (T.direct.symm (T.right (T.left (eX.symm x)))) = x
+  calc
+    _ = eX (T.direct.symm
+        ((T.left.trans T.right) (eX.symm x))) := rfl
+    _ = eX (T.direct.symm (T.direct (eX.symm x))) := by
+      rw [T.composition]
+    _ = x := by simp
+
 end CompositionTriangle
 
 /-- Four composition triangles together with compatible identifications of
@@ -297,8 +313,10 @@ variable {Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc : Type u}
   [Field Xsc] [Field Ysc] [Field Zsc]
 
 /-- Four composition triangles with chosen charts to one reference source
-acquire canonical middle and target charts.  All repeated left and direct
-arrows then agree because their conjugates are identities. -/
+acquire canonical gauge-normalized middle and target charts.  Every
+conjugated arrow is an identity, so the result organizes four selected
+graphs in one field but does not by itself retain a nontrivial action on
+that field. -/
 def ofSourceCharts
     (se : CompositionTriangle Xse Yse Zse)
     (sAa : CompositionTriangle Xsa Ysa Zsa)
@@ -359,6 +377,29 @@ def toFourArrowDiagram : FourArrowDiagram X Y Z where
     rw [← R.leftSA,
       (R.sAc.conjugate R.sAcX R.sAcY R.sAcZ).composition,
       R.compositeUB]
+
+/-- The four right arrows of a source-induced reference are all identities.
+This exposes the exact boundary of `ofSourceCharts`: parameter-dependent
+information must be recovered from selected graph embeddings, or from a
+reference with independently specified middle and target charts. -/
+theorem ofSourceCharts_right_arrows_eq_refl
+    (se : CompositionTriangle Xse Yse Zse)
+    (sAa : CompositionTriangle Xsa Ysa Zsa)
+    (sb : CompositionTriangle Xsb Ysb Zsb)
+    (sAc : CompositionTriangle Xsc Ysc Zsc)
+    (seX : Xse ≃+* X) (sAaX : Xsa ≃+* X)
+    (sbX : Xsb ≃+* X) (sAcX : Xsc ≃+* X) :
+    let A := FourTriangleReference.ofSourceCharts
+      se sAa sb sAc seX sAaX sbX sAcX
+    A.toFourArrowDiagram.rightE = RingEquiv.refl X ∧
+      A.toFourArrowDiagram.rightA = RingEquiv.refl X ∧
+      A.toFourArrowDiagram.rightB = RingEquiv.refl X ∧
+      A.toFourArrowDiagram.rightC = RingEquiv.refl X := by
+  dsimp only [toFourArrowDiagram]
+  exact ⟨se.conjugate_induced_right seX,
+    sAa.conjugate_induced_right sAaX,
+    sb.conjugate_induced_right sbX,
+    sAc.conjugate_induced_right sAcX⟩
 
 /-- The first semantic right arrow acts on an element expressed in its
 original middle chart by the original right arrow followed by the target
