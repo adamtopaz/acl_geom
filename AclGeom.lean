@@ -87,6 +87,7 @@ import AclGeom.Config.ChunkFiniteFieldAction
 import AclGeom.Config.ChunkCurveRelocation
 import AclGeom.Config.ChunkCurveFourArrow
 import AclGeom.Config.ChunkCurveCommonSource
+import AclGeom.Config.ChunkCurveReferenceBridge
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

@@ -2065,6 +2065,32 @@ satisfy its original canonical curve equation:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCoefficientMiddleChart_selectedRight_curveEquation}
 
+The normalized scalar reference cover and the semantic curve action can now
+be compared inside one literal finite normal source.  The original
+eight-input field maps exactly to the common curve coefficient field; the
+transported reference cover remains finite, is normalized after adjoining
+the formal curve source, and is joined with the semantic branch-comparison
+cover.  The resulting embedding agrees with the semantic algebra map on all
+eight free inputs.  Postcomposing the four explicit `toReference` field maps
+therefore gives four maps with exactly the same codomain as the semantic
+four-arrow action:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.mappedReferenceInputField_eq_commonCoefficientField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.mappedReferenceNormalOverInput_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceSemanticSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceNormalCoverToReferenceSemanticSourceCover_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceEInSemanticSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceAInSemanticSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceBInSemanticSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceCInSemanticSourceRingHom}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
