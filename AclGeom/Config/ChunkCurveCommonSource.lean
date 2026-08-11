@@ -2516,6 +2516,147 @@ noncomputable def repeatedUBBranchAutomorphism
     R.commonCoefficientNormalOverRepeatedUB
     (R.repeatedUBAlternativePair_ideal_eq hind)
 
+/-- The literal common source field, included in the joint `sA` comparison
+normal field while retaining its ground-field scalar structure. -/
+def repeatedSACommonSourceEmbedding
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) →ₐ[k]
+      (↥(R.repeatedSACoefficientBranchNormalField hind)) :=
+  IntermediateField.algHomIntoOfLeRestrictScalars _ _
+    (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)
+
+/-- The literal common source field, included in the joint direct-`u`
+comparison normal field while retaining its ground-field scalar structure. -/
+def repeatedUCommonSourceEmbedding
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) →ₐ[k]
+      (↥(R.repeatedUCoefficientBranchNormalField hind)) :=
+  IntermediateField.algHomIntoOfLeRestrictScalars _ _
+    (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)
+
+/-- The literal common source field, included in the joint direct-`uB`
+comparison normal field while retaining its ground-field scalar structure. -/
+def repeatedUBCommonSourceEmbedding
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) →ₐ[k]
+      (↥(R.repeatedUBCoefficientBranchNormalField hind)) :=
+  IntermediateField.algHomIntoOfLeRestrictScalars _ _
+    (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)
+
+/-- The common source presentation after applying the alternative-base
+`sA` branch comparison.  It is recorded as an image field because the
+comparison is only linear over the alternative coefficient presentation. -/
+def repeatedSACommonSourceImage
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    IntermediateField k (↥(R.repeatedSACoefficientBranchNormalField hind)) :=
+  IntermediateField.imageUnderAutomorphism
+    (R.repeatedSACommonSourceEmbedding hind)
+    ((R.repeatedSABranchAutomorphism hind).restrictScalars k)
+
+/-- The common source presentation after applying the alternative-base
+direct-`u` branch comparison. -/
+def repeatedUCommonSourceImage
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    IntermediateField k (↥(R.repeatedUCoefficientBranchNormalField hind)) :=
+  IntermediateField.imageUnderAutomorphism
+    (R.repeatedUCommonSourceEmbedding hind)
+    ((R.repeatedUBranchAutomorphism hind).restrictScalars k)
+
+/-- The common source presentation after applying the alternative-base
+direct-`uB` branch comparison. -/
+def repeatedUBCommonSourceImage
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    IntermediateField k (↥(R.repeatedUBCoefficientBranchNormalField hind)) :=
+  IntermediateField.imageUnderAutomorphism
+    (R.repeatedUBCommonSourceEmbedding hind)
+    ((R.repeatedUBBranchAutomorphism hind).restrictScalars k)
+
+/-- The coefficient-faithful semilinear source chart induced by the `sA`
+alternative-base comparison. -/
+noncomputable def repeatedSACommonSourceImageEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.equivImageUnderAutomorphism
+    (R.repeatedSACommonSourceEmbedding hind)
+    ((R.repeatedSABranchAutomorphism hind).restrictScalars k)
+
+/-- The coefficient-faithful semilinear source chart induced by the direct-`u`
+alternative-base comparison. -/
+noncomputable def repeatedUCommonSourceImageEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.equivImageUnderAutomorphism
+    (R.repeatedUCommonSourceEmbedding hind)
+    ((R.repeatedUBranchAutomorphism hind).restrictScalars k)
+
+/-- The coefficient-faithful semilinear source chart induced by the direct-`uB`
+alternative-base comparison. -/
+noncomputable def repeatedUBCommonSourceImageEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.equivImageUnderAutomorphism
+    (R.repeatedUBCommonSourceEmbedding hind)
+    ((R.repeatedUBBranchAutomorphism hind).restrictScalars k)
+
+/-- The formal curve coordinate as an element of the literal common source
+field. -/
+def commonSourceGenerator :
+    ↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k) :=
+  ⟨commonCurveSource (K := K), by
+    change commonCurveSource (K := K) ∈
+      adjoin (↑R.seCommonBaseData.coefficientField)
+        {commonCurveSource (K := K)}
+    exact subset_adjoin _ _ (by simp)⟩
+
+/-- The semilinear `sA` source chart fixes the formal curve coordinate even
+though it may move coefficients of the literal common source presentation. -/
+theorem repeatedSACommonSourceImageEquiv_generator
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (((R.repeatedSACommonSourceImageEquiv hind)
+      R.commonSourceGenerator : R.repeatedSACommonSourceImage hind) :
+        R.repeatedSACoefficientBranchNormalField hind) =
+      R.repeatedSACommonSourceEmbedding hind R.commonSourceGenerator := by
+  apply IntermediateField.equivImageUnderAutomorphism_eq_of_eq_algebraMap
+    (y := ⟨commonCurveSource (K := K), by
+      change commonCurveSource (K := K) ∈
+        (R.repeatedSAFirstAlternativePair hind).sourceField
+      exact subset_adjoin _ _ (by simpa using R.sAa_source.symm)⟩)
+  ext
+  rfl
+
+/-- The semilinear direct-`u` source chart fixes the formal curve coordinate
+while retaining its potentially moved coefficient presentation. -/
+theorem repeatedUCommonSourceImageEquiv_generator
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (((R.repeatedUCommonSourceImageEquiv hind)
+      R.commonSourceGenerator : R.repeatedUCommonSourceImage hind) :
+        R.repeatedUCoefficientBranchNormalField hind) =
+      R.repeatedUCommonSourceEmbedding hind R.commonSourceGenerator := by
+  apply IntermediateField.equivImageUnderAutomorphism_eq_of_eq_algebraMap
+    (y := ⟨commonCurveSource (K := K), by
+      change commonCurveSource (K := K) ∈
+        (R.repeatedUFirstAlternativePair hind).sourceField
+      exact subset_adjoin _ _ (by simpa using R.se_source.symm)⟩)
+  ext
+  rfl
+
+/-- The semilinear direct-`uB` source chart fixes the formal curve coordinate
+while retaining its potentially moved coefficient presentation. -/
+theorem repeatedUBCommonSourceImageEquiv_generator
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (((R.repeatedUBCommonSourceImageEquiv hind)
+      R.commonSourceGenerator : R.repeatedUBCommonSourceImage hind) :
+        R.repeatedUBCoefficientBranchNormalField hind) =
+      R.repeatedUBCommonSourceEmbedding hind R.commonSourceGenerator := by
+  apply IntermediateField.equivImageUnderAutomorphism_eq_of_eq_algebraMap
+    (y := ⟨commonCurveSource (K := K), by
+      change commonCurveSource (K := K) ∈
+        (R.repeatedUBFirstAlternativePair hind).sourceField
+      exact subset_adjoin _ _ (by simpa using R.sb_source.symm)⟩)
+  ext
+  rfl
+
 /-- The rebased `sA` source field and the literal common source field have
 the same underlying intermediate field in the common curve ambient. -/
 theorem repeatedSARebasedSourceField_eq

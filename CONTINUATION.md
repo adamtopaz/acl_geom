@@ -644,6 +644,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     to transport these four equations through the strict face triangles,
     choose coefficient-compatible middle and target reference charts, and
     instantiate the Ψ-specific `ReferenceAlignment`.
+50. The alternative-base comparisons are now exposed with their correct
+    semilinear source data.  Their branch automorphisms are linear over the
+    alternative `sA`, `u`, and `uB` source-coordinate fields, but need not
+    fix every coefficient of the literal eight-input common source field.
+    The literal common source is therefore included in each pairwise normal
+    field as a ground-field algebra, its image under the corresponding
+    restricted automorphism is retained as an actual intermediate field,
+    and an explicit algebra equivalence identifies the original source with
+    that image.  A reusable scalar-fixity lemma proves that all three image
+    equivalences fix the common formal curve generator while faithfully
+    recording the potentially moved coefficient presentation.  Thus the
+    next middle/target charts can be induced from genuine semilinear source
+    charts; no false common-base deck-transformation assertion is needed.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -655,7 +668,7 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--49 supply selected-branch-preserving comparisons and equality of
+items 36--50 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field, and
 the repeated `sA`, direct `u`, and direct `uB` comparisons have now been
@@ -663,8 +676,9 @@ transported explicitly into that base.  Each alternative comparison has a
 finite pairwise normal source extension containing both literal branches;
 all three comparison covers have been rebased and adjoined to the common
 source cover, and their actual selected branches have been aligned there.
-Transport those four alignment equations to the induced middle/target
-embeddings, then use
+Use the three explicit semilinear source-image equivalences to induce
+middle/target charts on the transported comparison branches, combine those
+charts with the four exact face-to-copy alignment equations, and then use
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with

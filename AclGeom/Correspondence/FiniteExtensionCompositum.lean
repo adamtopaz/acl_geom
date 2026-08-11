@@ -82,6 +82,64 @@ theorem adjoin_singleton_carrier_eq_of_carrier_eq
     rw [adjoin_toSubfield, adjoin_toSubfield, hrange, hxy]
   exact congrArg (fun U : Subfield Ω ↦ U.carrier) hfield
 
+/-- Include a ground-field intermediate field in an intermediate field
+displayed over a larger scalar field, given containment after restricting
+scalars. -/
+def algHomIntoOfLeRestrictScalars
+    {k F Ω : Type*} [Field k] [Field F] [Field Ω]
+    [Algebra k F] [Algebra k Ω] [Algebra F Ω] [IsScalarTower k F Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) : (↥E) →ₐ[k] (↥N) where
+  toFun x := ⟨x, h x.2⟩
+  map_one' := by ext; rfl
+  map_mul' x y := by ext; rfl
+  map_zero' := by ext; rfl
+  map_add' x y := by ext; rfl
+  commutes' x := by ext; rfl
+
+/-- The image of an embedded field after applying a semilinear ambient
+automorphism.  This records the moved coefficient presentation rather than
+silently requiring the automorphism to preserve it. -/
+def imageUnderAutomorphism
+    {k E L : Type*} [Field k] [Field E] [Field L]
+    [Algebra k E] [Algebra k L]
+    (i : E →ₐ[k] L) (sigma : L ≃ₐ[k] L) : IntermediateField k L :=
+  i.fieldRange.map sigma.toAlgHom
+
+/-- An embedded field is semilinearly equivalent to its image under an
+ambient automorphism. -/
+noncomputable def equivImageUnderAutomorphism
+    {k E L : Type*} [Field k] [Field E] [Field L]
+    [Algebra k E] [Algebra k L]
+    (i : E →ₐ[k] L) (sigma : L ≃ₐ[k] L) :
+    E ≃ₐ[k] imageUnderAutomorphism i sigma :=
+  (AlgEquiv.ofInjective i i.injective).trans (i.fieldRange.equivMap sigma.toAlgHom)
+
+/-- Pointwise, the semilinear image equivalence is ambient application of
+the chosen automorphism after the original embedding. -/
+@[simp] theorem equivImageUnderAutomorphism_apply
+    {k E L : Type*} [Field k] [Field E] [Field L]
+    [Algebra k E] [Algebra k L]
+    (i : E →ₐ[k] L) (sigma : L ≃ₐ[k] L) (x : E) :
+    ((equivImageUnderAutomorphism i sigma x :
+      imageUnderAutomorphism i sigma) : L) = sigma (i x) :=
+  rfl
+
+/-- An element of the embedded presentation that comes from the scalar
+field is fixed by the source chart induced from a scalar-linear ambient
+automorphism. -/
+theorem equivImageUnderAutomorphism_eq_of_eq_algebraMap
+    {k F E L : Type*} [Field k] [Field F] [Field E] [Field L]
+    [Algebra k F] [Algebra k E] [Algebra k L] [Algebra F L]
+    [IsScalarTower k F L]
+    (i : E →ₐ[k] L) (sigma : L ≃ₐ[F] L) (x : E) (y : F)
+    (hxy : i x = algebraMap F L y) :
+    ((equivImageUnderAutomorphism i (sigma.restrictScalars k) x :
+      imageUnderAutomorphism i (sigma.restrictScalars k)) : L) = i x := by
+  rw [equivImageUnderAutomorphism_apply, hxy]
+  change sigma (algebraMap F L y) = algebraMap F L y
+  exact sigma.commutes y
+
 end IntermediateField
 
 namespace AclGeom

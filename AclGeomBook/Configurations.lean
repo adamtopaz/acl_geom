@@ -1735,6 +1735,38 @@ selected-branch equations on one finite normal source cover:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBSecondClosureAlignmentAut_smul}
 
+The three alternative-base branch automorphisms are deliberately not
+misidentified as deck transformations over the literal common source.  Each
+is linear over its own alternative source presentation and can therefore
+move coefficients that occur only in the original eight-input presentation.
+The literal common source is included in the corresponding comparison normal
+field, its image under the restricted ground-field automorphism is retained
+as a named intermediate field, and the resulting source equivalence records
+that semilinear coefficient change.  All three charts fix the formal curve
+coordinate pointwise; only its coefficient presentation is allowed to move:
+
+{docstring IntermediateField.algHomIntoOfLeRestrictScalars}
+
+{docstring IntermediateField.imageUnderAutomorphism}
+
+{docstring IntermediateField.equivImageUnderAutomorphism}
+
+{docstring IntermediateField.equivImageUnderAutomorphism_eq_of_eq_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceGenerator}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSourceImageEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonSourceImageEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSourceImageEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSourceImageEquiv_generator}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonSourceImageEquiv_generator}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSourceImageEquiv_generator}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
