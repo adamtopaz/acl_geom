@@ -925,6 +925,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     the exact comparison.  The remaining half of the local step is to
     identify these four whole-field maps with the four complete semantic
     curve-branch embeddings and then apply literal four-arrow cancellation.
+67. The four complete semantic right-branch maps now have the same literal
+    codomain as the promoted normalized reference maps.  The reusable
+    finite-cover triangle API proves that its right equivalence fixes the
+    original coefficient field, and the four-triangle API gives exact
+    pointwise formulas expressing every charted right arrow as the original
+    complete right-arrow transport followed by its target chart.  The
+    branch-comparison cover has a named literal inclusion in
+    `referenceSemanticSourceCover`; composing it with the selected complete
+    `e`, `a`, `b`, and `c` branch embeddings, the four middle charts, and the
+    semantic right arrows yields four ring homomorphisms defined on the
+    entire curve-branch fields.  The remaining comparison is now an equality
+    between named maps with a common codomain: prove that their intrinsic
+    parameter restrictions are the four whole normalized maps from item 66,
+    then descend four-arrow cancellation to the `B` germ chart.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -967,8 +981,10 @@ complete-edge inclusions on every element of all four selected nonnormal
 `B/T` scalar extensions, and their intrinsic-germ restrictions are the
 named coefficient transports.  Their action on the entire selected
 normalized function field is also exactly the based ambient normal-cover
-transport.  Identify those four whole-field maps with the complete semantic
-curve-branch embeddings and use that equality to prove that
+transport.  The complete semantic curve-branch maps have now been named in
+the same final cover with exact charted-arrow formulas.  Identify their
+intrinsic parameter restrictions with those four whole normalized maps and
+use that equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not

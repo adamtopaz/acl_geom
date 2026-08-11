@@ -2204,6 +2204,35 @@ reference projections:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal}
 
+The complete semantic curve branches are now exposed with that same final
+codomain.  At the reusable level, a right equivalence on any supplied
+finite normal source cover fixes the coefficient field, and every right
+arrow of a charted four-triangle reference has a pointwise formula in terms
+of its original complete right-arrow transport and target chart.  For each
+of the four faces, the selected complete right branch is embedded in the
+middle cover, charted, acted on by the corresponding semantic arrow, and
+included literally in the combined semantic/reference source:
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.rightEquiv_algebraMap}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.toFourArrowDiagram_rightE_apply}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.toFourArrowDiagram_rightA_apply}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.toFourArrowDiagram_rightB_apply}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.toFourArrowDiagram_rightC_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.branchComparisonSourceCoverToReferenceSemanticSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSemanticRightCurveBranchToReferenceSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSemanticRightCurveBranchToReferenceSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSemanticRightCurveBranchToReferenceSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSemanticRightCurveBranchToReferenceSourceRingHom}
+
 This comparison is now coefficient-faithful on the intrinsic selected
 `B`-germ field, not only on the eight displayed free inputs.  Equality of
 the selected and relocated `B/T` loci induces the canonical equivalence of

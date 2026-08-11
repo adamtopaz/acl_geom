@@ -360,6 +360,36 @@ def toFourArrowDiagram : FourArrowDiagram X Y Z where
       (R.sAc.conjugate R.sAcX R.sAcY R.sAcZ).composition,
       R.compositeUB]
 
+/-- The first semantic right arrow acts on an element expressed in its
+original middle chart by the original right arrow followed by the target
+chart. -/
+@[simp] theorem toFourArrowDiagram_rightE_apply (y : Yse) :
+    R.toFourArrowDiagram.rightE (R.seY y) =
+      R.seZ (R.se.right y) := by
+  simp [toFourArrowDiagram, CompositionTriangle.conjugate,
+    FieldEquiv.conjugate]
+
+/-- Pointwise chart formula for the inverse-input semantic right arrow. -/
+@[simp] theorem toFourArrowDiagram_rightA_apply (y : Ysa) :
+    R.toFourArrowDiagram.rightA (R.sAaY y) =
+      R.sAaZ (R.sAa.right y) := by
+  simp [toFourArrowDiagram, CompositionTriangle.conjugate,
+    FieldEquiv.conjugate]
+
+/-- Pointwise chart formula for the second-input semantic right arrow. -/
+@[simp] theorem toFourArrowDiagram_rightB_apply (y : Ysb) :
+    R.toFourArrowDiagram.rightB (R.sbY y) =
+      R.sbZ (R.sb.right y) := by
+  simp [toFourArrowDiagram, CompositionTriangle.conjugate,
+    FieldEquiv.conjugate]
+
+/-- Pointwise chart formula for the output semantic right arrow. -/
+@[simp] theorem toFourArrowDiagram_rightC_apply (y : Ysc) :
+    R.toFourArrowDiagram.rightC (R.sAcY y) =
+      R.sAcZ (R.sAc.right y) := by
+  simp [toFourArrowDiagram, CompositionTriangle.conjugate,
+    FieldEquiv.conjugate]
+
 end FourTriangleReference
 
 namespace FourArrowDiagram

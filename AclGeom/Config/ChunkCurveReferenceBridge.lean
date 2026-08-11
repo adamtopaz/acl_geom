@@ -239,6 +239,16 @@ theorem branchComparisonSourceCover_le_referenceSemanticSourceCover
       (R.referenceSemanticSourceCover L hind).field :=
   le_sup_left
 
+/-- The literal inclusion of the semantic branch-comparison cover in the
+combined semantic/reference source cover. -/
+def branchComparisonSourceCoverToReferenceSemanticSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.branchComparisonSourceCover hind).field →ₐ[k]
+      (R.referenceSemanticSourceCover L hind).field :=
+  (IntermediateField.inclusion
+    (R.branchComparisonSourceCover_le_referenceSemanticSourceCover
+      L hind)).restrictScalars k
+
 /-- The transported explicit reference cover embeds in the combined
 reference/semantic cover. -/
 theorem transportedReferenceSourceCover_le_referenceSemanticSourceCover
@@ -1667,6 +1677,122 @@ theorem fourToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
       R.projectionToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
         L hind D.c L.sA_c_c L.cProjectionRelation
           L.cNormalField_le_normalizedField⟩
+
+/-- The complete selected right `e` curve branch, acted on by the semantic
+right arrow and included in the combined semantic/reference source. -/
+noncomputable def seSemanticRightCurveBranchToReferenceSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).branchOverSource →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToReferenceSemanticSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightE.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).seY.toRingHom.comp
+        (R.seSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
+
+/-- Pointwise, the preceding complete-branch map is the charted semantic
+right arrow followed by the literal final-cover inclusion. -/
+theorem seSemanticRightCurveBranchToReferenceSourceRingHom_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).branchOverSource) :
+    R.seSemanticRightCurveBranchToReferenceSourceRingHom L hind z =
+      R.branchComparisonSourceCoverToReferenceSemanticSourceCover L hind
+        ((R.coefficientFourArrowDiagram hind).rightE
+          ((R.coefficientFourTriangleReference hind).seY
+            ((R.seSelectedRightBranchInComparisonMiddleCover
+              hind).toAlgHom z))) :=
+  rfl
+
+/-- The complete selected right `a` curve branch after its semantic right
+arrow, in the same combined source. -/
+noncomputable def sAaSemanticRightCurveBranchToReferenceSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).branchOverSource →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToReferenceSemanticSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightA.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).sAaY.toRingHom.comp
+        (R.sAaSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
+
+/-- Pointwise description of the charted semantic `a` arrow on its complete
+curve branch field. -/
+theorem sAaSemanticRightCurveBranchToReferenceSourceRingHom_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAa) R.sAaCommonBaseData hψ).branchOverSource) :
+    R.sAaSemanticRightCurveBranchToReferenceSourceRingHom L hind z =
+      R.branchComparisonSourceCoverToReferenceSemanticSourceCover L hind
+        ((R.coefficientFourArrowDiagram hind).rightA
+          ((R.coefficientFourTriangleReference hind).sAaY
+            ((R.sAaSelectedRightBranchInComparisonMiddleCover
+              hind).toAlgHom z))) :=
+  rfl
+
+/-- The complete selected right `b` curve branch after its semantic right
+arrow, in the combined source. -/
+noncomputable def sbSemanticRightCurveBranchToReferenceSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).branchOverSource →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToReferenceSemanticSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightB.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).sbY.toRingHom.comp
+        (R.sbSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
+
+/-- Pointwise description of the charted semantic `b` arrow on its complete
+curve branch field. -/
+theorem sbSemanticRightCurveBranchToReferenceSourceRingHom_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ).branchOverSource) :
+    R.sbSemanticRightCurveBranchToReferenceSourceRingHom L hind z =
+      R.branchComparisonSourceCoverToReferenceSemanticSourceCover L hind
+        ((R.coefficientFourArrowDiagram hind).rightB
+          ((R.coefficientFourTriangleReference hind).sbY
+            ((R.sbSelectedRightBranchInComparisonMiddleCover
+              hind).toAlgHom z))) :=
+  rfl
+
+/-- The complete selected right `c` curve branch after its semantic right
+arrow, in the combined source. -/
+noncomputable def sAcSemanticRightCurveBranchToReferenceSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToReferenceSemanticSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightC.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).sAcY.toRingHom.comp
+        (R.sAcSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
+
+/-- Pointwise description of the charted semantic `c` arrow on its complete
+curve branch field. -/
+theorem sAcSemanticRightCurveBranchToReferenceSourceRingHom_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource) :
+    R.sAcSemanticRightCurveBranchToReferenceSourceRingHom L hind z =
+      R.branchComparisonSourceCoverToReferenceSemanticSourceCover L hind
+        ((R.coefficientFourArrowDiagram hind).rightC
+          ((R.coefficientFourTriangleReference hind).sAcY
+            ((R.sAcSelectedRightBranchInComparisonMiddleCover
+              hind).toAlgHom z))) :=
+  rfl
 
 /-- Transport the selected nonnormal `B/T` branch to the first complete
 edge and include it in that scalar-extended edge. -/

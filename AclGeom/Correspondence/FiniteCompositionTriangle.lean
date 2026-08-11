@@ -370,6 +370,20 @@ noncomputable def rightEquiv :
   ((middleCover P Q h N).mapEquiv Q.coordinateClosureTransport).trans
     (IntermediateField.equivOfEq (rightMap_field P Q h N)).toRingEquiv
 
+/-- The right branch on an arbitrary supplied source cover fixes the
+original coefficient field. -/
+@[simp] theorem rightEquiv_algebraMap (c : E) :
+    rightEquiv P Q h N
+        (algebraMap E (↥(middleCover P Q h N).field) c) =
+      algebraMap E (↥(targetCover P Q h N).field) c := by
+  unfold rightEquiv
+  rw [RingEquiv.trans_apply]
+  rw [(middleCover P Q h N).mapEquiv_coefficient_algebraMap
+    Q.coordinateClosureTransport
+      Q.coordinateClosureTransport_baseEquiv_algebraMap]
+  apply Subtype.ext
+  rfl
+
 /-- Strict two-step transport restricted to the supplied source cover. -/
 noncomputable def compositeEquiv :
     (↥N.field) ≃+* (↥(targetCover P Q h N).field) :=
