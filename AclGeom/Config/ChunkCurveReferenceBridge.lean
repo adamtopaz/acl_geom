@@ -1501,6 +1501,156 @@ recovers the matching coefficient of the relocated curve equation. -/
   exact projectionParameterTransport_selectedBCurveCoefficient
     (w := w) (hψ := hψ) p x hp G h hG d
 
+/-- The ambient form of the intrinsic coefficient transport.  Its image is
+exactly the intrinsic coefficient field of the relocated canonical curve. -/
+private noncomputable def bGermToRelocatedAmbientAlgHom
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    (↥((w.yzCorrespondencePairOverB hψ).curveCoefficientField
+      k w.bField)) →ₐ[k] CommonCurveAmbient K :=
+  G.parameterField.val.comp
+    (bGermCoefficientToRelocatedBParameterAlgHom
+      (w := w) (hψ := hψ) p x hp G hG)
+
+private theorem bGermToRelocatedAmbient_fieldRange
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    (bGermToRelocatedAmbientAlgHom
+      (w := w) (hψ := hψ) p x hp G hG).fieldRange =
+      G.toPair.curveCoefficientField k G.parameterField := by
+  have htop := (w.yzCorrespondencePairOverB hψ).adjoin_curveCoefficientCoordinates_eq_top
+    k w.bField
+  have htop' : (⊤ : IntermediateField k
+      ((w.yzCorrespondencePairOverB hψ).curveCoefficientField k w.bField)) =
+      IntermediateField.adjoin k
+        (Set.range ((w.yzCorrespondencePairOverB hψ).curveCoefficientCoordinates
+          k w.bField)) := htop.symm
+  rw [AlgHom.fieldRange_eq_map, htop', IntermediateField.adjoin_map]
+  unfold FiniteCorrespondencePair.curveCoefficientField
+  congr 1
+  ext y
+  constructor
+  · rintro ⟨_, ⟨c, rfl⟩, rfl⟩
+    obtain ⟨d, hd⟩ := c.2
+    have hc : c = ⟨_, ⟨d, rfl⟩⟩ := Subtype.ext hd.symm
+    subst c
+    refine ⟨d, ?_⟩
+    exact (congrArg Subtype.val
+      (bGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient
+        (w := w) (hψ := hψ) p x hp G h hG d)).symm
+  · rintro ⟨d, rfl⟩
+    refine ⟨selectedBCurveCoefficient (w := w) (hψ := hψ) d, ?_, ?_⟩
+    · exact ⟨⟨_, ⟨d, rfl⟩⟩, rfl⟩
+    · exact congrArg Subtype.val
+        (bGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient
+          (w := w) (hψ := hψ) p x hp G h hG d)
+
+private theorem bGermToRelocatedAmbient_mem_curveCoefficientField
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p)
+    (z : w.bGermCoefficientField hψ) :
+    bGermToRelocatedAmbientAlgHom
+        (w := w) (hψ := hψ) p x hp G hG z ∈
+      G.toPair.curveCoefficientField k G.parameterField := by
+  rw [← bGermToRelocatedAmbient_fieldRange
+    (w := w) (hψ := hψ) p x hp G h hG]
+  exact AlgHom.mem_fieldRange.mpr ⟨z, rfl⟩
+
+/-- The intrinsic selected-`B` coefficient field is canonically equivalent
+to the intrinsic coefficient field of any relocated canonical curve on the
+same family locus. -/
+noncomputable def bGermCoefficientToRelocatedBCoefficientAlgEquiv
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    (↥(w.bGermCoefficientField hψ)) ≃ₐ[k]
+      (↥(G.toPair.curveCoefficientField k G.parameterField)) := by
+  let f : (↥(w.bGermCoefficientField hψ)) →ₐ[k]
+      (↥(G.toPair.curveCoefficientField k G.parameterField)) :=
+    (bGermToRelocatedAmbientAlgHom
+      (w := w) (hψ := hψ) p x hp G hG).codRestrict
+      (G.toPair.curveCoefficientField k G.parameterField).toSubalgebra
+      (bGermToRelocatedAmbient_mem_curveCoefficientField
+        (w := w) (hψ := hψ) p x hp G h hG)
+  apply AlgEquiv.ofBijective f
+  constructor
+  · exact f.injective
+  · intro y
+    have hy : (y : CommonCurveAmbient K) ∈
+        (bGermToRelocatedAmbientAlgHom
+          (w := w) (hψ := hψ) p x hp G hG).fieldRange := by
+      rw [bGermToRelocatedAmbient_fieldRange
+        (w := w) (hψ := hψ) p x hp G h hG]
+      exact y.2
+    obtain ⟨z, hz⟩ := AlgHom.mem_fieldRange.mp hy
+    refine ⟨z, ?_⟩
+    apply Subtype.ext
+    exact hz
+
+/-- The intrinsic coefficient equivalence preserves the monomial index of
+every canonical curve coefficient. -/
+@[simp] theorem bGermCoefficientToRelocatedBCoefficientAlgEquiv_selected
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p)
+    (d : Fin 2 →₀ ℕ) :
+    bGermCoefficientToRelocatedBCoefficientAlgEquiv
+        (w := w) (hψ := hψ) p x hp G h hG
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+      ⟨((G.toPair.curveEquation.coeff d : G.parameterField) :
+          CommonCurveAmbient K),
+        G.toPair.coeff_mem_curveCoefficientField k G.parameterField d⟩ := by
+  apply Subtype.ext
+  change ((bGermCoefficientToRelocatedBParameterAlgHom
+      (w := w) (hψ := hψ) p x hp G hG
+      (selectedBCurveCoefficient (w := w) (hψ := hψ) d) :
+        G.parameterField) : CommonCurveAmbient K) = _
+  exact congrArg Subtype.val
+    (bGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient
+      (w := w) (hψ := hψ) p x hp G h hG d)
+
+/-- The whole relocated parameter transport is the intrinsic coefficient
+equivalence followed by the literal inclusion of the relocated coefficient
+field into its displayed parameter field. -/
+theorem bGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    bGermCoefficientToRelocatedBParameterAlgHom
+        (w := w) (hψ := hψ) p x hp G hG =
+      (IntermediateField.inclusion
+        (G.toPair.curveCoefficientField_le k G.parameterField)).comp
+        (bGermCoefficientToRelocatedBCoefficientAlgEquiv
+          (w := w) (hψ := hψ) p x hp G h hG).toAlgHom := by
+  apply bGermCoefficientAlgHom_ext (w := w) (hψ := hψ)
+  intro d
+  rw [bGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient
+    (w := w) (hψ := hψ) p x hp G h hG d]
+  apply Subtype.ext
+  exact (congrArg Subtype.val
+    (bGermCoefficientToRelocatedBCoefficientAlgEquiv_selected
+      (w := w) (hψ := hψ) p x hp G h hG d)).symm
+
 /-- The mapped selected `B` family locus equals the relocated right-family
 locus in the `s·e=u` face. -/
 theorem seMappedSelectedBFamily_ideal_eq :
@@ -1636,6 +1786,98 @@ noncomputable def sAcBGermCoefficientToRelocatedBParameterAlgHom :
     (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
     (R.sAc.bCorrespondenceFamilyMember hψ)
     R.relocatedBFamily_parameters.2.2.2
+
+/-- The intrinsic coefficient equivalence for the relocated right family in
+the `s·e=u` face. -/
+noncomputable def seBGermCoefficientToRelocatedBCoefficientAlgEquiv :
+    (↥(w.bGermCoefficientField hψ)) ≃ₐ[k]
+      (↥((R.se.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField k
+          (R.se.bCorrespondenceFamilyMember hψ).parameterField)) :=
+  bGermCoefficientToRelocatedBCoefficientAlgEquiv
+    (w := w) (hψ := hψ) e L.se_e L.eProjectionRelation
+    (R.se.bCorrespondenceFamilyMember hψ)
+    R.seMappedSelectedBFamily_ideal_eq
+    R.relocatedBFamily_parameters.1
+
+/-- The intrinsic coefficient equivalence for the relocated right family in
+the `sA·a=u` face. -/
+noncomputable def sAaBGermCoefficientToRelocatedBCoefficientAlgEquiv :
+    (↥(w.bGermCoefficientField hψ)) ≃ₐ[k]
+      (↥((R.sAa.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField k
+          (R.sAa.bCorrespondenceFamilyMember hψ).parameterField)) :=
+  bGermCoefficientToRelocatedBCoefficientAlgEquiv
+    (w := w) (hψ := hψ) a L.sA_a_a L.aProjectionRelation
+    (R.sAa.bCorrespondenceFamilyMember hψ)
+    R.sAaMappedSelectedBFamily_ideal_eq
+    R.relocatedBFamily_parameters.2.1
+
+/-- The intrinsic coefficient equivalence for the relocated right family in
+the `s·b=uB` face. -/
+noncomputable def sbBGermCoefficientToRelocatedBCoefficientAlgEquiv :
+    (↥(w.bGermCoefficientField hψ)) ≃ₐ[k]
+      (↥((R.sb.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField k
+          (R.sb.bCorrespondenceFamilyMember hψ).parameterField)) :=
+  bGermCoefficientToRelocatedBCoefficientAlgEquiv
+    (w := w) (hψ := hψ) b L.s_b_b L.bProjectionRelation
+    (R.sb.bCorrespondenceFamilyMember hψ)
+    R.sbMappedSelectedBFamily_ideal_eq
+    R.relocatedBFamily_parameters.2.2.1
+
+/-- The intrinsic coefficient equivalence for the relocated right family in
+the `sA·c=uB` face. -/
+noncomputable def sAcBGermCoefficientToRelocatedBCoefficientAlgEquiv :
+    (↥(w.bGermCoefficientField hψ)) ≃ₐ[k]
+      (↥((R.sAc.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField k
+          (R.sAc.bCorrespondenceFamilyMember hψ).parameterField)) :=
+  bGermCoefficientToRelocatedBCoefficientAlgEquiv
+    (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
+    (R.sAc.bCorrespondenceFamilyMember hψ)
+    R.sAcMappedSelectedBFamily_ideal_eq
+    R.relocatedBFamily_parameters.2.2.2
+
+/-- Simultaneously, all four whole parameter transports factor through the
+intrinsic coefficient fields of their relocated canonical curves. -/
+theorem fourBGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients :
+    R.seBGermCoefficientToRelocatedBParameterAlgHom L =
+        (IntermediateField.inclusion
+          ((R.se.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField_le k
+              (R.se.bCorrespondenceFamilyMember hψ).parameterField)).comp
+          (R.seBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toAlgHom ∧
+      R.sAaBGermCoefficientToRelocatedBParameterAlgHom L =
+        (IntermediateField.inclusion
+          ((R.sAa.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField_le k
+              (R.sAa.bCorrespondenceFamilyMember hψ).parameterField)).comp
+          (R.sAaBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toAlgHom ∧
+      R.sbBGermCoefficientToRelocatedBParameterAlgHom L =
+        (IntermediateField.inclusion
+          ((R.sb.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField_le k
+              (R.sb.bCorrespondenceFamilyMember hψ).parameterField)).comp
+          (R.sbBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toAlgHom ∧
+      R.sAcBGermCoefficientToRelocatedBParameterAlgHom L =
+        (IntermediateField.inclusion
+          ((R.sAc.bCorrespondenceFamilyMember hψ).toPair.curveCoefficientField_le k
+              (R.sAc.bCorrespondenceFamilyMember hψ).parameterField)).comp
+          (R.sAcBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toAlgHom := by
+  exact ⟨bGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients
+      (w := w) (hψ := hψ) e L.se_e L.eProjectionRelation
+      (R.se.bCorrespondenceFamilyMember hψ)
+      R.seMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.1,
+    bGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients
+      (w := w) (hψ := hψ) a L.sA_a_a L.aProjectionRelation
+      (R.sAa.bCorrespondenceFamilyMember hψ)
+      R.sAaMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.2.1,
+    bGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients
+      (w := w) (hψ := hψ) b L.s_b_b L.bProjectionRelation
+      (R.sb.bCorrespondenceFamilyMember hψ)
+      R.sbMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.2.2.1,
+    bGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients
+      (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
+      (R.sAc.bCorrespondenceFamilyMember hψ)
+      R.sAcMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.2.2.2⟩
 
 /-- Simultaneously, the four whole-field maps recover the coefficient with
 the same monomial index in each relocated right-family equation. -/
