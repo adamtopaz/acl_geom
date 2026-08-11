@@ -113,6 +113,21 @@ noncomputable def lift (e : E ≃+* E') :
     (T.trans U).closureEquiv =
       T.closureEquiv.trans U.closureEquiv := rfl
 
+/-- Composition preserves coefficient-faithfulness of semilinear base
+maps. -/
+theorem trans_baseEquiv_algebraMap
+    {F : Type*} [Field F] [Algebra F E] [Algebra F E'] [Algebra F E'']
+    (T : AlgebraicClosureTransport E E')
+    (U : AlgebraicClosureTransport E' E'')
+    (hT : ∀ c : F,
+      T.baseEquiv (algebraMap F E c) = algebraMap F E' c)
+    (hU : ∀ c : F,
+      U.baseEquiv (algebraMap F E' c) = algebraMap F E'' c)
+    (c : F) :
+    (T.trans U).baseEquiv (algebraMap F E c) =
+      algebraMap F E'' c := by
+  rw [trans_baseEquiv, RingEquiv.trans_apply, hT, hU]
+
 @[simp] theorem lift_baseEquiv (e : E ≃+* E') :
     (lift e).baseEquiv = e := rfl
 
@@ -195,6 +210,14 @@ noncomputable def coordinateClosureTransport :
     AlgebraicClosureTransport (↥P.sourceField) (↥P.targetField) :=
   AlgebraicClosureTransport.lift P.coordinateEquiv.toRingEquiv
 
+/-- The coordinate transport fixes the original coefficient field. -/
+@[simp] theorem coordinateClosureTransport_baseEquiv_algebraMap (c : k) :
+    P.coordinateClosureTransport.baseEquiv
+        (algebraMap k (↥P.sourceField) c) =
+      algebraMap k (↥P.targetField) c := by
+  change P.coordinateEquiv (algebraMap k (↥P.sourceField) c) = _
+  exact P.coordinateEquiv.commutes c
+
 /-- The algebraic-closure transport carries the source coordinate to the
 selected target coordinate. -/
 @[simp] theorem coordinateClosureTransport_source :
@@ -232,6 +255,16 @@ noncomputable def middleClosureTransport
     (Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source) :
     AlgebraicClosureTransport (↥P.targetField) (↥Q.sourceField) :=
   AlgebraicClosureTransport.lift (P.middleFieldEquiv Q h).toRingEquiv
+
+/-- The lifted shared-middle identification fixes the original
+coefficient field. -/
+@[simp] theorem middleClosureTransport_baseEquiv_algebraMap
+    (Q : FiniteCorrespondencePair k Ω) (h : P.target = Q.source) (c : k) :
+    (P.middleClosureTransport Q h).baseEquiv
+        (algebraMap k (↥P.targetField) c) =
+      algebraMap k (↥Q.sourceField) c := by
+  change P.middleFieldEquiv Q h (algebraMap k (↥P.targetField) c) = _
+  exact (P.middleFieldEquiv Q h).commutes c
 
 /-- The lifted middle-field identification still preserves the shared
 coordinate. -/

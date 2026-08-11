@@ -25,6 +25,16 @@ open IntermediateField
 
 noncomputable section
 
+/-- An algebra equivalence over an intermediate field also fixes every
+smaller coefficient field in a scalar tower. -/
+theorem algEquiv_coefficient_algebraMap
+    {F E L : Type*} [Field F] [Field E] [Field L]
+    [Algebra F E] [Algebra E L] [Algebra F L]
+    [IsScalarTower F E L]
+    (σ : L ≃ₐ[E] L) (c : F) :
+    σ (algebraMap F L c) = algebraMap F L c := by
+  rw [IsScalarTower.algebraMap_apply F E L, σ.commutes]
+
 namespace AlgebraicClosureTransport
 
 variable {E E' E'' : Type*} [Field E] [Field E'] [Field E'']
@@ -258,6 +268,24 @@ base-field equivalence. -/
     N.mapEquiv T (algebraMap E (↥N.field) x) =
       algebraMap E' (↥(N.map T).field) (T.baseEquiv x) := by
   exact (DFunLike.congr_fun (N.mapEquiv_commutes T) x).symm
+
+/-- If the base equivalence of a semilinear transport fixes a smaller
+coefficient field, then its restriction to every finite normal cover fixes
+that coefficient field too. -/
+theorem mapEquiv_coefficient_algebraMap
+    {F : Type*} [Field F] [Algebra F E] [Algebra F E']
+    (T : AlgebraicClosureTransport E E')
+    [Algebra F (↥N.field)] [Algebra F (↥(N.map T).field)]
+    [IsScalarTower F E (↥N.field)]
+    [IsScalarTower F E' (↥(N.map T).field)]
+    (hbase : ∀ c : F,
+      T.baseEquiv (algebraMap F E c) = algebraMap F E' c)
+    (c : F) :
+    N.mapEquiv T (algebraMap F (↥N.field) c) =
+      algebraMap F (↥(N.map T).field) c := by
+  rw [IsScalarTower.algebraMap_apply F E (↥N.field),
+    N.mapEquiv_algebraMap, hbase,
+    IsScalarTower.algebraMap_apply F E' (↥(N.map T).field)]
 
 /-- Mapping a finite normal cover along two transports agrees at the field
 level with mapping it along their composite. -/

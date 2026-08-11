@@ -17,6 +17,7 @@ import AclGeom.Correspondence.Regular
 import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.Composition
 import AclGeom.Correspondence.CurveEquation
+import AclGeom.Correspondence.CurveEquationTransport
 import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.AlgebraicClosureTransport
 import AclGeom.Correspondence.FiniteNormalTransport

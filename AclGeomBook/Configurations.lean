@@ -2002,6 +2002,69 @@ cover:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientFourArrow_right_cancellation}
 
+Coefficient faithfulness can be checked directly on the selected right
+branches, rather than inferred only from the abstract cancellation identity.
+The source and target coordinates are first named inside the source-based
+branch field.  They satisfy the canonical equation there, and every
+coefficient-linear realization preserves that equation:
+
+{docstring AclGeom.FiniteCorrespondencePair.sourceInBranchOverSource}
+
+{docstring AclGeom.FiniteCorrespondencePair.targetInBranchOverSource}
+
+{docstring AclGeom.FiniteCorrespondencePair.curveEquationOverSourceField}
+
+{docstring AclGeom.FiniteCorrespondencePair.aeval_curveEquation_inBranchOverSource}
+
+{docstring AclGeom.FiniteCorrespondencePair.aeval_curveEquation_map}
+
+The finite composition cover contains the literal selected right branch in
+its transported middle field.  Any chart fixing the original coefficient
+field carries that branch to another zero of its original equation:
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.rightSourceFiniteNormalCover_le_middleCover}
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle}
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle_curveEquation}
+
+For the four Ψ faces, all four selected right branches are present in their
+middle covers.  Both the induced middle and target charts fix the literal
+common coefficient field, and the charted endpoints of each right branch
+satisfy its original canonical curve equation:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedRightBranchInComparisonMiddleCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedRightBranchInComparisonMiddleCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedRightBranchInComparisonMiddleCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedRightBranchInComparisonMiddleCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCoefficientMiddleChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaCoefficientMiddleChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCoefficientMiddleChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCoefficientMiddleChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCoefficientTargetChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaCoefficientTargetChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCoefficientTargetChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCoefficientTargetChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCoefficientMiddleChart_selectedRight_curveEquation}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaCoefficientMiddleChart_selectedRight_curveEquation}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCoefficientMiddleChart_selectedRight_curveEquation}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCoefficientMiddleChart_selectedRight_curveEquation}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

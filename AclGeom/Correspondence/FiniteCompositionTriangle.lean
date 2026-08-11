@@ -6,6 +6,7 @@ Authors: Adam Topaz, Codex
 import AclGeom.Correspondence.FiniteNormalTransport
 import AclGeom.Correspondence.FieldEquivDiagram
 import AclGeom.Correspondence.BranchGroupoid
+import AclGeom.Correspondence.CurveEquationTransport
 
 /-!
 # Strict composition triangles on finite normal covers
@@ -41,6 +42,43 @@ its target coordinate field with the right branch source coordinate
 field. -/
 noncomputable def sourceToMiddleTransport :=
   P.coordinateClosureTransport.trans (P.middleClosureTransport Q h)
+
+/-- The left-plus-middle transport fixes the original coefficient field. -/
+@[simp] theorem sourceToMiddleTransport_baseEquiv_algebraMap (c : E) :
+    (sourceToMiddleTransport P Q h).baseEquiv
+        (algebraMap E (↥P.sourceField) c) =
+      algebraMap E (↥Q.sourceField) c := by
+  exact AlgebraicClosureTransport.trans_baseEquiv_algebraMap
+    P.coordinateClosureTransport (P.middleClosureTransport Q h)
+    P.coordinateClosureTransport_baseEquiv_algebraMap
+    (P.middleClosureTransport_baseEquiv_algebraMap Q h) c
+
+/-- The strict two-step source-to-target transport fixes the original
+coefficient field. -/
+@[simp] theorem chainCoordinateClosureTransport_baseEquiv_algebraMap
+    (c : E) :
+    (P.chainCoordinateClosureTransport Q h).baseEquiv
+        (algebraMap E (↥P.sourceField) c) =
+      algebraMap E (↥Q.targetField) c := by
+  exact AlgebraicClosureTransport.trans_baseEquiv_algebraMap
+    P.coordinateClosureTransport
+    ((P.middleClosureTransport Q h).trans Q.coordinateClosureTransport)
+    P.coordinateClosureTransport_baseEquiv_algebraMap
+    (fun c ↦ AlgebraicClosureTransport.trans_baseEquiv_algebraMap
+      (P.middleClosureTransport Q h) Q.coordinateClosureTransport
+      (P.middleClosureTransport_baseEquiv_algebraMap Q h)
+      Q.coordinateClosureTransport_baseEquiv_algebraMap c) c
+
+/-- The independently selected direct transport has the same
+coefficient-fixing base map as strict two-step transport. -/
+@[simp] theorem directCompositeClosureTransport_baseEquiv_algebraMap
+    (c : E) :
+    (P.directCompositeClosureTransport Q h).baseEquiv
+        (algebraMap E (↥P.sourceField) c) =
+      algebraMap E (↥Q.targetField) c := by
+  change (P.chainCoordinateClosureTransport Q h).baseEquiv
+      (algebraMap E (↥P.sourceField) c) = _
+  exact chainCoordinateClosureTransport_baseEquiv_algebraMap P Q h c
 
 /-- A common finite normal source cover containing the left and direct
 branch normalizations and the pullback of the right branch normalization. -/
@@ -117,6 +155,67 @@ noncomputable def selectedDirectBranchIn
     (Algebra.IsAlgebraic.of_finite (↥(P.comp Q h).sourceField)
       (↥(P.comp Q h).branchOverSource))
     N.field (directSourceFiniteNormalCover_le_sourceCover P Q h |>.trans hle)
+
+/-- If a supplied source cover contains the composition source cover, then
+transporting it through the left branch contains the literal selected right
+normalization. -/
+theorem rightSourceFiniteNormalCover_le_middleCover
+    (N : AlgebraicClosureTransport.FiniteNormalCover (↥P.sourceField))
+    (hle : (sourceCover P Q h).field ≤ N.field) :
+    Q.sourceFiniteNormalCover.field ≤
+      (N.map (sourceToMiddleTransport P Q h)).field := by
+  let T := sourceToMiddleTransport P Q h
+  have hpre : (Q.sourceFiniteNormalCover.map T.symm).field ≤ N.field :=
+    (pulledRightSourceFiniteNormalCover_le_sourceCover P Q h).trans hle
+  have hmap := T.mapField_mono hpre
+  simpa [T] using hmap
+
+/-- The distinguished selected right branch, embedded in the middle cover
+transported from any supplied source cover containing the composition
+source cover. -/
+noncomputable def selectedRightBranchInMiddle
+    [IsAlgClosed Ω]
+    (N : AlgebraicClosureTransport.FiniteNormalCover (↥P.sourceField))
+    (hle : (sourceCover P Q h).field ≤ N.field) :
+    NormalBranchEmbedding (↥Q.sourceField) (↥Q.branchOverSource)
+      (↥(N.map (sourceToMiddleTransport P Q h)).field) := by
+  letI : FiniteDimensional (↥Q.sourceField) (↥Q.branchOverSource) :=
+    Q.branchOverSource_finiteDimensional
+  exact finiteCoverCanonicalSelectedBranchIn Q.sourceField_le_branchField
+    (Algebra.IsAlgebraic.of_finite (↥Q.sourceField) (↥Q.branchOverSource))
+    (N.map (sourceToMiddleTransport P Q h)).field
+    (rightSourceFiniteNormalCover_le_middleCover P Q h N hle)
+
+/-- A coefficient-linear chart out of the transported middle cover carries
+the distinguished right branch to another zero of its original canonical
+curve equation.  The chart may move the right source coordinate; only the
+coefficient field is required to remain fixed. -/
+theorem selectedRightBranchInMiddle_curveEquation
+    [IsAlgClosed Ω]
+    (N : AlgebraicClosureTransport.FiniteNormalCover (↥P.sourceField))
+    (hle : (sourceCover P Q h).field ≤ N.field)
+    {L : Type*} [Field L] [Algebra E L]
+    (chart :
+      (↥(N.map (sourceToMiddleTransport P Q h)).field) ≃+* L)
+    (hchart : ∀ c : E,
+      chart (algebraMap E
+        (↥(N.map (sourceToMiddleTransport P Q h)).field) c) =
+        algebraMap E L c) :
+    MvPolynomial.aeval
+        ![chart ((selectedRightBranchInMiddle P Q h N hle).toAlgHom
+            Q.sourceInBranchOverSource),
+          chart ((selectedRightBranchInMiddle P Q h N hle).toAlgHom
+            Q.targetInBranchOverSource)]
+        Q.curveEquation = 0 := by
+  letI : IsScalarTower E (↥Q.sourceField)
+      (↥(N.map (sourceToMiddleTransport P Q h)).field) :=
+    IsScalarTower.of_algebraMap_eq' rfl
+  let branch : (↥Q.branchOverSource) →ₐ[E]
+      (↥(N.map (sourceToMiddleTransport P Q h)).field) :=
+    (selectedRightBranchInMiddle P Q h N hle).toAlgHom.restrictScalars E
+  let e : (↥(N.map (sourceToMiddleTransport P Q h)).field) ≃ₐ[E] L :=
+    AlgEquiv.ofRingEquiv hchart
+  exact Q.aeval_curveEquation_map (e.toAlgHom.comp branch)
 
 /-- The common middle cover obtained by transporting the source cover
 through the left branch. -/
@@ -255,6 +354,15 @@ noncomputable def leftEquiv :
     (↥N.field) ≃+* (↥(middleCover P Q h N).field) :=
   N.mapEquiv (sourceToMiddleTransport P Q h)
 
+/-- The left branch on an arbitrary supplied source cover fixes the
+original coefficient field. -/
+@[simp] theorem leftEquiv_algebraMap (c : E) :
+    leftEquiv P Q h N (algebraMap E (↥N.field) c) =
+      algebraMap E (↥(middleCover P Q h N).field) c := by
+  exact N.mapEquiv_coefficient_algebraMap
+    (sourceToMiddleTransport P Q h)
+    (sourceToMiddleTransport_baseEquiv_algebraMap P Q h) c
+
 /-- The right branch restricted to the transported middle cover. -/
 noncomputable def rightEquiv :
     (↥(middleCover P Q h N).field) ≃+*
@@ -266,6 +374,15 @@ noncomputable def rightEquiv :
 noncomputable def compositeEquiv :
     (↥N.field) ≃+* (↥(targetCover P Q h N).field) :=
   N.mapEquiv (P.chainCoordinateClosureTransport Q h)
+
+/-- Strict two-step transport on an arbitrary supplied source cover fixes
+the original coefficient field. -/
+@[simp] theorem compositeEquiv_algebraMap (c : E) :
+    compositeEquiv P Q h N (algebraMap E (↥N.field) c) =
+      algebraMap E (↥(targetCover P Q h N).field) c := by
+  exact N.mapEquiv_coefficient_algebraMap
+    (P.chainCoordinateClosureTransport Q h)
+    (chainCoordinateClosureTransport_baseEquiv_algebraMap P Q h) c
 
 /-- Restriction to an arbitrary source cover commutes literally with the
 two-step composition. -/
@@ -321,6 +438,16 @@ theorem strictComposition :
     (compositeEquiv P Q h N) (directEquiv P Q h N)
     (defectEquiv P Q h N).toRingEquiv
     (compositeEquiv_trans_defectEquiv P Q h N)
+
+/-- The deck-corrected direct arrow is coefficient-faithful because it is
+literally strict two-step transport on the supplied finite cover. -/
+@[simp] theorem strictDirectEquiv_algebraMap (c : E) :
+    strictDirectEquiv P Q h N (algebraMap E (↥N.field) c) =
+      algebraMap E (↥(targetCover P Q h N).field) c := by
+  have heq : strictDirectEquiv P Q h N = compositeEquiv P Q h N :=
+    (strictComposition P Q h N).symm.trans
+      (leftEquiv_trans_rightEquiv P Q h N)
+  rw [heq, compositeEquiv_algebraMap]
 
 /-- Package the three restricted arrows as one literal composition
 triangle on the supplied source cover. -/

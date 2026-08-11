@@ -764,6 +764,25 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     next local step is to apply canonical-curve-equation faithfulness to
     these restriction formulas and identify the four displayed parameter
     field embeddings occurring in the normalized reference projections.
+58. Canonical-curve-equation faithfulness now survives the actual
+    finite-cover charts.  A selected correspondence branch is represented
+    inside its source-based branch field by explicit source and target
+    elements; both satisfy the original canonical equation, and every
+    coefficient-linear embedding carries them to another zero.  The strict
+    finite composition cover now contains the literal selected right branch
+    in its transported middle field.  Its left and deck-corrected direct
+    equivalences fix the original coefficient field, and any
+    coefficient-linear middle chart therefore preserves the right branch's
+    equation.  All four `e`, `a`, `b`, and `c` right branches are embedded in
+    their enlarged middle covers.  The induced middle and target charts are
+    proved to fix the literal common coefficient field, and the two charted
+    coordinates of every selected right branch are proved to satisfy its
+    original canonical curve equation.  Thus semantic four-arrow
+    cancellation is now coefficient-faithful on the actual selected
+    branches, not only an identity of abstract cover equivalences.  The next
+    local step is to combine these four equation identities with intrinsic
+    germ coefficient-field faithfulness and identify the explicit
+    function-field embeddings underlying `toReferenceE/A/B/C`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -787,9 +806,13 @@ source cover, and their actual selected branches have been aligned there.
 The four direct-anchor corrections now provide the coefficient/source
 charts, the induced middle and target charts have exact selected-branch
 restriction formulas, and the resulting common-cover reference already
-carries literal semantic cancellation.  Apply canonical-curve-coefficient
-faithfulness to those restriction formulas to identify the four displayed
-parameter field embeddings.  Use that equality to prove that
+carries literal semantic cancellation.  The selected right `e`, `a`, `b`,
+and `c` branches have also been embedded in the transported middle covers;
+their charted endpoints satisfy the original canonical equations, while all
+middle and target charts fix the common coefficient field.  Combine these
+equation identities with the intrinsic germ coefficient-field theorem to
+identify the four displayed parameter-field embeddings.  Use that equality
+to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not

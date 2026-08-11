@@ -5,6 +5,7 @@ Authors: Adam Topaz, Codex
 -/
 import AclGeom.Closure.Ambient
 import AclGeom.Config.ChunkCurveFourArrow
+import AclGeom.Correspondence.CurveEquationTransport
 import AclGeom.Correspondence.FamilyCover
 import Mathlib.FieldTheory.RatFunc.AsPolynomial
 
@@ -4611,6 +4612,62 @@ noncomputable def sAcSelectedLeftBranchInComparisonSourceCover
     (R.branchComparisonSourceCover hind)
     (R.sAcFiniteSourceCover_le_branchComparisonSourceCover hind)
 
+/-- The selected right `e` branch, embedded in the middle cover of the
+enlarged `s·e=u` composition triangle. -/
+noncomputable def seSelectedRightBranchInComparisonMiddleCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.se) R.seCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.seFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The selected right `a` branch, embedded in the middle cover of the
+enlarged `sA·a=u` composition triangle. -/
+noncomputable def sAaSelectedRightBranchInComparisonMiddleCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sAaFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The selected right `b` branch, embedded in the middle cover of the
+enlarged `s·b=uB` composition triangle. -/
+noncomputable def sbSelectedRightBranchInComparisonMiddleCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sbFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The selected right `c` branch, embedded in the middle cover of the
+enlarged `sA·c=uB` composition triangle. -/
+noncomputable def sAcSelectedRightBranchInComparisonMiddleCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sAcFiniteSourceCover_le_branchComparisonSourceCover hind)
+
 /-- The literal selected direct `u` branch of the `s·e=u` face, embedded
 in the enlarged common source cover. -/
 noncomputable def seSelectedDirectBranchInComparisonSourceCover
@@ -5144,6 +5201,318 @@ coefficient/source charts on the enlarged common normal cover. -/
 noncomputable def coefficientFourArrowDiagram
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
   (R.coefficientFourTriangleReference hind).toFourArrowDiagram
+
+/-- The induced middle chart on the `s·e=u` face fixes the original
+common coefficient field. -/
+theorem seCoefficientMiddleChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).seY
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.seBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+      (R.seCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.seBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_algebraMap (R.seCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.seRepeatedUTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.leftEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.se) R.seCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- The induced middle chart on the `sA·a=u` face fixes the same
+coefficient field. -/
+theorem sAaCoefficientMiddleChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).sAaY
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.sAaBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+      (R.sAaCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.sAaBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_algebraMap (R.sAaCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.sAaRepeatedUTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.leftEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sAa) R.sAaCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.sAa) R.sAaCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.sAa) R.sAaCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- The induced middle chart on the `s·b=uB` face fixes the common
+coefficient field. -/
+theorem sbCoefficientMiddleChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).sbY
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.sbBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+      (R.sbCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.sbBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_algebraMap (R.sbCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.sbRepeatedUBTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.leftEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sb) R.sbCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.sb) R.sbCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.sb) R.sbCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- The induced middle chart on the `sA·c=uB` face fixes the common
+coefficient field. -/
+theorem sAcCoefficientMiddleChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).sAcY
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.sAcBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+      (R.sAcCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.sAcBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_algebraMap (R.sAcCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.sAcRepeatedUBTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.leftEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sAc) R.sAcCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.sAc) R.sAcCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.sAc) R.sAcCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- The induced target chart on the `s·e=u` face fixes the original
+common coefficient field. -/
+theorem seCoefficientTargetChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).seZ
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.seBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+      (R.seCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.seBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedTargetChart_algebraMap (R.seCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.seRepeatedUTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.strictDirectEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.se) R.seCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- The induced target chart on the `sA·a=u` face fixes the same
+coefficient field. -/
+theorem sAaCoefficientTargetChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).sAaZ
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.sAaBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+      (R.sAaCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.sAaBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedTargetChart_algebraMap (R.sAaCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.sAaRepeatedUTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.strictDirectEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sAa) R.sAaCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.sAa) R.sAaCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.sAa) R.sAaCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- The induced target chart on the `s·b=uB` face fixes the common
+coefficient field. -/
+theorem sbCoefficientTargetChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).sbZ
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.sbBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+      (R.sbCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.sbBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedTargetChart_algebraMap (R.sbCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.sbRepeatedUBTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.strictDirectEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sb) R.sbCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.sb) R.sbCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.sb) R.sbCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- The induced target chart on the `sA·c=uB` face fixes the common
+coefficient field. -/
+theorem sAcCoefficientTargetChart_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (c : ↥R.seCommonBaseData.coefficientField) :
+    (R.coefficientFourTriangleReference hind).sAcZ
+        (algebraMap _ _ c) =
+      algebraMap _ (↥(R.branchComparisonSourceCover hind).field) c := by
+  change (R.sAcBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+      (R.sAcCoefficientSourceChart hind) (algebraMap _ _ c) = _
+  apply (R.sAcBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedTargetChart_algebraMap (R.sAcCoefficientSourceChart hind)
+  · intro d
+    exact algEquiv_coefficient_algebraMap
+      (R.sAcRepeatedUBTotalAnchorAlignmentAut hind) d
+  · exact
+      FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.strictDirectEquiv_algebraMap
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sAc) R.sAcCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+          (R := R.sAc) R.sAcCommonBaseData hψ)
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+          (R := R.sAc) R.sAcCommonBaseData hψ)
+        (R.branchComparisonSourceCover hind)
+
+/-- After the coefficient chart, the selected right `e` branch still
+satisfies its original canonical curve equation. -/
+theorem seCoefficientMiddleChart_selectedRight_curveEquation
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    let Q :=
+      PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ
+    MvPolynomial.aeval
+        ![(R.coefficientFourTriangleReference hind).seY
+            ((R.seSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.sourceInBranchOverSource),
+          (R.coefficientFourTriangleReference hind).seY
+            ((R.seSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.targetInBranchOverSource)]
+        Q.curveEquation = 0 := by
+  exact
+    FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle_curveEquation
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+        (R := R.se) R.seCommonBaseData hψ)
+      (R.branchComparisonSourceCover hind)
+      (R.seFiniteSourceCover_le_branchComparisonSourceCover hind)
+      (R.coefficientFourTriangleReference hind).seY
+      (R.seCoefficientMiddleChart_algebraMap hind)
+
+/-- After the coefficient chart, the selected right `a` branch still
+satisfies its original canonical curve equation. -/
+theorem sAaCoefficientMiddleChart_selectedRight_curveEquation
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    let Q :=
+      PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAa) R.sAaCommonBaseData hψ
+    MvPolynomial.aeval
+        ![(R.coefficientFourTriangleReference hind).sAaY
+            ((R.sAaSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.sourceInBranchOverSource),
+          (R.coefficientFourTriangleReference hind).sAaY
+            ((R.sAaSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.targetInBranchOverSource)]
+        Q.curveEquation = 0 := by
+  exact
+    FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle_curveEquation
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sAa) R.sAaCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAa) R.sAaCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+        (R := R.sAa) R.sAaCommonBaseData hψ)
+      (R.branchComparisonSourceCover hind)
+      (R.sAaFiniteSourceCover_le_branchComparisonSourceCover hind)
+      (R.coefficientFourTriangleReference hind).sAaY
+      (R.sAaCoefficientMiddleChart_algebraMap hind)
+
+/-- After the coefficient chart, the selected right `b` branch still
+satisfies its original canonical curve equation. -/
+theorem sbCoefficientMiddleChart_selectedRight_curveEquation
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    let Q :=
+      PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ
+    MvPolynomial.aeval
+        ![(R.coefficientFourTriangleReference hind).sbY
+            ((R.sbSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.sourceInBranchOverSource),
+          (R.coefficientFourTriangleReference hind).sbY
+            ((R.sbSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.targetInBranchOverSource)]
+        Q.curveEquation = 0 := by
+  exact
+    FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle_curveEquation
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+        (R := R.sb) R.sbCommonBaseData hψ)
+      (R.branchComparisonSourceCover hind)
+      (R.sbFiniteSourceCover_le_branchComparisonSourceCover hind)
+      (R.coefficientFourTriangleReference hind).sbY
+      (R.sbCoefficientMiddleChart_algebraMap hind)
+
+/-- After the coefficient chart, the selected right `c` branch still
+satisfies its original canonical curve equation. -/
+theorem sAcCoefficientMiddleChart_selectedRight_curveEquation
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    let Q :=
+      PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAc) R.sAcCommonBaseData hψ
+    MvPolynomial.aeval
+        ![(R.coefficientFourTriangleReference hind).sAcY
+            ((R.sAcSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.sourceInBranchOverSource),
+          (R.coefficientFourTriangleReference hind).sAcY
+            ((R.sAcSelectedRightBranchInComparisonMiddleCover hind).toAlgHom
+              Q.targetInBranchOverSource)]
+        Q.curveEquation = 0 := by
+  exact
+    FiniteCorrespondencePair.FiniteCoverTriangle.selectedRightBranchInMiddle_curveEquation
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sAc) R.sAcCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAc) R.sAcCommonBaseData hψ)
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+        (R := R.sAc) R.sAcCommonBaseData hψ)
+      (R.branchComparisonSourceCover hind)
+      (R.sAcFiniteSourceCover_le_branchComparisonSourceCover hind)
+      (R.coefficientFourTriangleReference hind).sAcY
+      (R.sAcCoefficientMiddleChart_algebraMap hind)
 
 /-- On the first face, the induced middle chart is exactly the
 coefficient-fixing source chart on the selected left branch. -/

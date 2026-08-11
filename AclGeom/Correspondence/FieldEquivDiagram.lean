@@ -150,6 +150,36 @@ value on every point transported through the direct arrow. -/
     T.inducedTargetChart eX (T.direct x) = eX x := by
   simp [inducedTargetChart]
 
+/-- If the source chart and left arrow fix a coefficient field, then the
+middle chart induced from them fixes that coefficient field as well. -/
+theorem inducedMiddleChart_algebraMap
+    {F : Type u} [Field F] [Algebra F X] [Algebra F Y] [Algebra F X']
+    (eX : X ≃+* X')
+    (heX : ∀ c : F, eX (algebraMap F X c) = algebraMap F X' c)
+    (hleft : ∀ c : F, T.left (algebraMap F X c) = algebraMap F Y c)
+    (c : F) :
+    T.inducedMiddleChart eX (algebraMap F Y c) =
+      algebraMap F X' c := by
+  have hs : T.left.symm (algebraMap F Y c) = algebraMap F X c := by
+    apply T.left.injective
+    rw [T.left.apply_symm_apply, hleft]
+  rw [inducedMiddleChart, RingEquiv.trans_apply, hs, heX]
+
+/-- If the source chart and direct arrow fix a coefficient field, then the
+target chart induced from them fixes that coefficient field as well. -/
+theorem inducedTargetChart_algebraMap
+    {F : Type u} [Field F] [Algebra F X] [Algebra F Z] [Algebra F X']
+    (eX : X ≃+* X')
+    (heX : ∀ c : F, eX (algebraMap F X c) = algebraMap F X' c)
+    (hdirect : ∀ c : F, T.direct (algebraMap F X c) = algebraMap F Z c)
+    (c : F) :
+    T.inducedTargetChart eX (algebraMap F Z c) =
+      algebraMap F X' c := by
+  have hs : T.direct.symm (algebraMap F Z c) = algebraMap F X c := by
+    apply T.direct.injective
+    rw [T.direct.apply_symm_apply, hdirect]
+  rw [inducedTargetChart, RingEquiv.trans_apply, hs, heX]
+
 /-- With the induced middle chart, the conjugated left arrow is the
 identity on the reference source. -/
 @[simp] theorem conjugate_induced_left (eX : X ≃+* X') :
