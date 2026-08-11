@@ -1145,6 +1145,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     issue-#16 step is their honest scalar extension into compatible common
     semantic middle/target covers, followed by the selected-graph join and
     item 79's `RightRestriction`.
+83. Finite-basis scalar extension now packages the branch-preserving normal
+    cover needed by that next step.  Given a finite field `N/F` and a larger
+    base `F ≤ E` in one algebraically closed ambient field, the concrete
+    compositum has a finite normal closure over `E` and a canonical finite
+    normal-cover model.  The original `N` remains literally contained in the
+    ambient normal field, and its named map to the canonical cover factors
+    through the literal compositum inclusion and the canonical selected
+    normal-closure embedding.  Thus rebasing one of the four separately based
+    selected-`B` normal covers no longer discards its distinguished branch.
+    The next issue-#16 step is to instantiate this construction on the four
+    facewise middle covers and transport their based equivalences through the
+    common semantic bases.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

@@ -3106,6 +3106,23 @@ all four based blocks on the one selected `(B,T)` model.
 
 {docstring AclGeom.FiniteExtensionCompositum.over_finiteDimensional}
 
+The same finite-basis construction now carries its selected cover through
+normalization over the larger base.  Its ambient normal field and canonical
+normal cover remain finite, the original smaller normal field is still a
+literal subfield of the ambient model, and a named map into the canonical
+model factors through the canonical selected embedding of the compositum.
+This is the branch-preserving scalar-rebase operation needed for the four
+separately based middle covers; using uniqueness of normal closures alone
+would forget which conjugate contains the selected branch.
+
+{docstring AclGeom.FiniteExtensionCompositum.normalField}
+
+{docstring AclGeom.FiniteExtensionCompositum.normal_le_normalField_restrictScalars}
+
+{docstring AclGeom.FiniteExtensionCompositum.canonicalCover}
+
+{docstring AclGeom.FiniteExtensionCompositum.originalToCanonicalRingHom}
+
 {docstring AclGeom.FiniteExtensionCompositum.extendScalars_trans_finiteDimensional}
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.normalizedField}

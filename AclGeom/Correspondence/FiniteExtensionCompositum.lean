@@ -461,6 +461,97 @@ theorem over_finiteDimensional (hFE : F ≤ E) :
     obtain ⟨i, rfl⟩ := hx
     exact basisValues_isIntegral_of_le F E N hFE i
 
+/-- The finite scalar extension is algebraic over the enlarged base. -/
+theorem over_isAlgebraic (hFE : F ≤ E) :
+    Algebra.IsAlgebraic (↥E) (↥(over F E N)) := by
+  letI : FiniteDimensional (↥E) (↥(over F E N)) :=
+    over_finiteDimensional F E N hFE
+  exact Algebra.IsAlgebraic.of_finite _ _
+
+/-- The ambient normal closure of the finite-basis compositum over the
+larger base field.  This is the concrete scalar-rebased normal cover: it
+contains both `E` and the original finite extension `N`, while remaining
+finite over `E`. -/
+def normalField (_hFE : F ≤ E) : IntermediateField (↥E) K :=
+  FiniteCover.normalClosureOver (le_field F E N)
+
+/-- Scalar rebasing followed by ambient normal closure remains finite over
+the larger base field. -/
+theorem normalField_finiteDimensional (hFE : F ≤ E) :
+    FiniteDimensional (↥E) (↥(normalField F E N hFE)) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    (le_field F E N) (over_finiteDimensional F E N hFE)
+
+/-- In an algebraically closed ambient field, the scalar-rebased normal
+field is normal over the larger base. -/
+theorem normalField_normal [IsAlgClosed K] (hFE : F ≤ E) :
+    Normal (↥E) (↥(normalField F E N hFE)) := by
+  exact FiniteCover.normalClosureOver_normal
+    (le_field F E N) (over_isAlgebraic F E N hFE)
+
+/-- The original finite extension is still literally contained in the
+ambient scalar-rebased normal field after forgetting its smaller scalar
+presentation. -/
+theorem normal_le_normalField_restrictScalars (hFE : F ≤ E) :
+    N.restrictScalars k ≤
+      (normalField F E N hFE).restrictScalars k := by
+  intro z hz
+  apply FiniteCover.extendScalars_le_normalClosureOver
+    (le_field F E N)
+  exact normal_le_field F E N hFE hz
+
+/-- The canonical finite normal cover attached to the scalar-rebased
+compositum.  Unlike `normalField`, its ambient algebraic closure depends
+only on the enlarged base `E`. -/
+def canonicalCover (hFE : F ≤ E) :
+    AlgebraicClosureTransport.FiniteNormalCover (↥E) where
+  field := FiniteCover.canonicalNormalClosure (le_field F E N)
+  finiteDimensional :=
+    FiniteCover.canonicalNormalClosure_finiteDimensional
+      (le_field F E N) (over_finiteDimensional F E N hFE)
+  normal := by
+    exact FiniteCover.canonicalNormalClosure_normal
+      (le_field F E N) (over_isAlgebraic F E N hFE)
+
+/-- Include the original finite extension in the concrete compositum over
+the enlarged base.  The map is the literal ambient inclusion and therefore
+does not alter any selected element of `N`. -/
+def originalToCompositumRingHom (hFE : F ≤ E) :
+    (↥N) →+* (↥(over F E N)) where
+  toFun z := ⟨z, normal_le_field F E N hFE z.2⟩
+  map_one' := by ext; rfl
+  map_mul' x y := by ext; rfl
+  map_zero' := by ext; rfl
+  map_add' x y := by ext; rfl
+
+/-- The literal inclusion of the original cover preserves its value in the
+common ambient field. -/
+@[simp] theorem originalToCompositumRingHom_val (hFE : F ≤ E) (z : N) :
+    ((originalToCompositumRingHom F E N hFE z : over F E N) : K) = z :=
+  rfl
+
+/-- The distinguished embedding of the original finite extension into the
+canonical scalar-rebased normal cover.  It first uses the literal
+compositum inclusion and then the canonical selected normal-closure
+embedding, so subsequent normal-cover comparisons retain the chosen
+branch rather than only its conjugacy class. -/
+noncomputable def originalToCanonicalRingHom [IsAlgClosed K]
+    (hFE : F ≤ E) :
+    (↥N) →+* (↥(canonicalCover F E N hFE).field) := by
+  exact (FiniteCover.canonicalSelectedEmbedding
+    (le_field F E N) (over_isAlgebraic F E N hFE)).toRingHom.comp
+      (originalToCompositumRingHom F E N hFE)
+
+/-- Pointwise factorization of the selected original-cover embedding
+through the canonical selected compositum branch. -/
+theorem originalToCanonicalRingHom_apply [IsAlgClosed K]
+    (hFE : F ≤ E) (z : N) :
+    originalToCanonicalRingHom F E N hFE z =
+      FiniteCover.canonicalSelectedEmbedding
+        (le_field F E N) (over_isAlgebraic F E N hFE)
+        (originalToCompositumRingHom F E N hFE z) :=
+  rfl
+
 /-- Finiteness of two nested concrete intermediate-field extensions composes
 to finiteness of their direct extension inside the same ambient field. -/
 theorem extendScalars_trans_finiteDimensional
