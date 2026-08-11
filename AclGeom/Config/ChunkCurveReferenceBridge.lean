@@ -650,6 +650,56 @@ theorem sAcRelocatedRightBranch_le_selectedSemanticReferenceJoin
   apply hG
   exact hz
 
+/-- The full relocated `e` parameter/source field lies in the selected
+joint field.  This is the base-field inclusion needed to rebase its native
+normal cover without changing the selected complete branch. -/
+theorem seRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.se.bCorrespondenceFamilyMember hψ).parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.se.bCorrespondenceFamilyMember hψ
+  intro z hz
+  apply R.seRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind
+  rw [← G.familyField_eq_toPair_branchField]
+  exact G.parameterSourceField_le_familyField hz
+
+/-- The full relocated `a` parameter/source field lies in the same selected
+joint field. -/
+theorem sAaRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAa.bCorrespondenceFamilyMember hψ).parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.sAa.bCorrespondenceFamilyMember hψ
+  intro z hz
+  apply R.sAaRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind
+  rw [← G.familyField_eq_toPair_branchField]
+  exact G.parameterSourceField_le_familyField hz
+
+/-- The full relocated `b` parameter/source field lies in the same selected
+joint field. -/
+theorem sbRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sb.bCorrespondenceFamilyMember hψ).parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.sb.bCorrespondenceFamilyMember hψ
+  intro z hz
+  apply R.sbRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind
+  rw [← G.familyField_eq_toPair_branchField]
+  exact G.parameterSourceField_le_familyField hz
+
+/-- The full algebraic-output `c` parameter/source field also lies in the
+selected joint field; the two output parameters were included explicitly
+when that field was formed. -/
+theorem sAcRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAc.bCorrespondenceFamilyMember hψ).parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.sAc.bCorrespondenceFamilyMember hψ
+  intro z hz
+  apply R.sAcRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind
+  rw [← G.familyField_eq_toPair_branchField]
+  exact G.parameterSourceField_le_familyField hz
+
 /-- The concrete joint field displayed as an extension of the literal
 common coefficient/source field. -/
 def selectedSemanticReferenceJoinOverSource
@@ -3595,6 +3645,267 @@ theorem fourSelectedBNormalCoverRingEquiv_completeBranch :
       |>.basedNormalEquivOfIdealEq_completeBranch
         (R.sAc.bCorrespondenceFamilyMember hψ)
         R.sAcMappedSelectedBFamily_ideal_eq⟩
+
+/-- Rebase the native normal cover of a relocated right-family member to
+the one selected semantic/reference joint field.  The construction retains
+the native normal field as a named selected subextension. -/
+noncomputable def relocatedRightRebasedCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind) :
+    AlgebraicClosureTransport.FiniteNormalCover
+      (↥(R.selectedSemanticReferenceJoin L hind)) := by
+  let N := FiniteCover.normalClosureOver
+    G.parameterSourceField_le_familyField
+  letI : FiniteDimensional (↥G.parameterSourceField)
+      (↥(extendScalars G.parameterSourceField_le_familyField)) :=
+    G.familyOverParameterSource_finiteDimensional
+  letI : FiniteDimensional (↥G.parameterSourceField) (↥N) :=
+    FiniteCover.normalClosureOver_finiteDimensional
+      G.parameterSourceField_le_familyField
+      G.familyOverParameterSource_finiteDimensional
+  exact FiniteExtensionCompositum.canonicalCover
+    G.parameterSourceField (R.selectedSemanticReferenceJoin L hind) N hG
+
+/-- The selected native normal field embeds in its scalar-rebased canonical
+cover through the branch-preserving map of the finite-basis compositum. -/
+noncomputable def relocatedRightNormalToRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind) :
+    (↥(FiniteCover.normalClosureOver
+      G.parameterSourceField_le_familyField)) →+*
+      (↥(R.relocatedRightRebasedCover L hind G hG).field) := by
+  let N := FiniteCover.normalClosureOver
+    G.parameterSourceField_le_familyField
+  letI : FiniteDimensional (↥G.parameterSourceField)
+      (↥(extendScalars G.parameterSourceField_le_familyField)) :=
+    G.familyOverParameterSource_finiteDimensional
+  letI : FiniteDimensional (↥G.parameterSourceField) (↥N) :=
+    FiniteCover.normalClosureOver_finiteDimensional
+      G.parameterSourceField_le_familyField
+      G.familyOverParameterSource_finiteDimensional
+  exact FiniteExtensionCompositum.originalToCanonicalRingHom
+    G.parameterSourceField (R.selectedSemanticReferenceJoin L hind) N hG
+
+/-- The scalar-rebased native normal cover for the `e` right face. -/
+noncomputable def seRelocatedRightRebasedCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.relocatedRightRebasedCover L hind
+    (R.se.bCorrespondenceFamilyMember hψ)
+    (R.seRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+
+/-- The scalar-rebased native normal cover for the `a` right face. -/
+noncomputable def sAaRelocatedRightRebasedCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.relocatedRightRebasedCover L hind
+    (R.sAa.bCorrespondenceFamilyMember hψ)
+    (R.sAaRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+
+/-- The scalar-rebased native normal cover for the `b` right face. -/
+noncomputable def sbRelocatedRightRebasedCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.relocatedRightRebasedCover L hind
+    (R.sb.bCorrespondenceFamilyMember hψ)
+    (R.sbRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+
+/-- The scalar-rebased native normal cover for the algebraic `c` right
+face. -/
+noncomputable def sAcRelocatedRightRebasedCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.relocatedRightRebasedCover L hind
+    (R.sAc.bCorrespondenceFamilyMember hψ)
+    (R.sAcRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+
+/-- One finite normal cover over the selected joint field containing all
+four scalar-rebased relocated right normal covers. -/
+noncomputable def fourRelocatedRightRebasedCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (((R.seRelocatedRightRebasedCover L hind).sup
+      (R.sAaRelocatedRightRebasedCover L hind)).sup
+        (R.sbRelocatedRightRebasedCover L hind)).sup
+      (R.sAcRelocatedRightRebasedCover L hind)
+
+/-- The rebased `e` cover is a literal subcover of the four-face right
+cover. -/
+theorem seRelocatedRightRebasedCover_le_four
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.seRelocatedRightRebasedCover L hind).field ≤
+      (R.fourRelocatedRightRebasedCover L hind).field :=
+  (le_sup_left.trans le_sup_left).trans le_sup_left
+
+/-- The rebased `a` cover is a literal subcover of the four-face right
+cover. -/
+theorem sAaRelocatedRightRebasedCover_le_four
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAaRelocatedRightRebasedCover L hind).field ≤
+      (R.fourRelocatedRightRebasedCover L hind).field :=
+  (le_sup_right.trans le_sup_left).trans le_sup_left
+
+/-- The rebased `b` cover is a literal subcover of the four-face right
+cover. -/
+theorem sbRelocatedRightRebasedCover_le_four
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sbRelocatedRightRebasedCover L hind).field ≤
+      (R.fourRelocatedRightRebasedCover L hind).field :=
+  le_sup_right.trans le_sup_left
+
+/-- The rebased `c` cover is a literal subcover of the four-face right
+cover. -/
+theorem sAcRelocatedRightRebasedCover_le_four
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAcRelocatedRightRebasedCover L hind).field ≤
+      (R.fourRelocatedRightRebasedCover L hind).field :=
+  le_sup_right
+
+/-- Carry one relocated native normal cover through scalar rebase and into
+the common four-face right cover. -/
+noncomputable def relocatedRightNormalToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind)
+    (hcover : (R.relocatedRightRebasedCover L hind G hG).field ≤
+      (R.fourRelocatedRightRebasedCover L hind).field) :
+    (↥(FiniteCover.normalClosureOver
+      G.parameterSourceField_le_familyField)) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (IntermediateField.inclusion hcover).toRingHom.comp
+    (R.relocatedRightNormalToRebasedCoverRingHom L hind G hG)
+
+/-- Carry the complete selected branch of one relocated right-family member
+through its native normal cover, its branch-preserving scalar rebase, and
+finally the literal inclusion in the four-face right cover. -/
+noncomputable def relocatedCompleteBranchToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameterSourceField ≤
+      R.selectedSemanticReferenceJoin L hind)
+    (hcover : (R.relocatedRightRebasedCover L hind G hG).field ≤
+      (R.fourRelocatedRightRebasedCover L hind).field) :
+    (↥G.toPair.branchOverSource) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedRightNormalToFourRebasedCoverRingHom
+    L hind G hG hcover).comp G.completeBranchToNormalCoverRingHom
+
+/-- The common mapped selected-`B` complete branch carried to the `e`
+image in the four-face scalar-rebased cover. -/
+noncomputable def seSelectedBCompleteBranchToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedCompleteBranchToFourRebasedCoverRingHom L hind
+    (R.se.bCorrespondenceFamilyMember hψ)
+    (R.seRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.seRelocatedRightRebasedCover_le_four L hind)).comp
+      R.seSelectedBCompleteBranchRingEquiv.toRingHom
+
+/-- The corresponding common-branch map to the `a` image. -/
+noncomputable def sAaSelectedBCompleteBranchToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedCompleteBranchToFourRebasedCoverRingHom L hind
+    (R.sAa.bCorrespondenceFamilyMember hψ)
+    (R.sAaRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.sAaRelocatedRightRebasedCover_le_four L hind)).comp
+      R.sAaSelectedBCompleteBranchRingEquiv.toRingHom
+
+/-- The corresponding common-branch map to the `b` image. -/
+noncomputable def sbSelectedBCompleteBranchToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedCompleteBranchToFourRebasedCoverRingHom L hind
+    (R.sb.bCorrespondenceFamilyMember hψ)
+    (R.sbRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.sbRelocatedRightRebasedCover_le_four L hind)).comp
+      R.sbSelectedBCompleteBranchRingEquiv.toRingHom
+
+/-- The corresponding common-branch map to the algebraic `c` image. -/
+noncomputable def sAcSelectedBCompleteBranchToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedCompleteBranchToFourRebasedCoverRingHom L hind
+    (R.sAc.bCorrespondenceFamilyMember hψ)
+    (R.sAcRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.sAcRelocatedRightRebasedCover_le_four L hind)).comp
+      R.sAcSelectedBCompleteBranchRingEquiv.toRingHom
+
+/-- Transport the whole mapped selected-`B` native normal cover through the
+based `e` comparison and then through the branch-preserving scalar rebase. -/
+noncomputable def seSelectedBNormalToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedRightNormalToFourRebasedCoverRingHom L hind
+    (R.se.bCorrespondenceFamilyMember hψ)
+    (R.seRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.seRelocatedRightRebasedCover_le_four L hind)).comp
+      R.seSelectedBNormalCoverRingEquiv.toRingHom
+
+/-- Transport the mapped selected-`B` native normal cover through the based
+`a` comparison and its scalar rebase. -/
+noncomputable def sAaSelectedBNormalToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedRightNormalToFourRebasedCoverRingHom L hind
+    (R.sAa.bCorrespondenceFamilyMember hψ)
+    (R.sAaRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.sAaRelocatedRightRebasedCover_le_four L hind)).comp
+      R.sAaSelectedBNormalCoverRingEquiv.toRingHom
+
+/-- Transport the mapped selected-`B` native normal cover through the based
+`b` comparison and its scalar rebase. -/
+noncomputable def sbSelectedBNormalToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedRightNormalToFourRebasedCoverRingHom L hind
+    (R.sb.bCorrespondenceFamilyMember hψ)
+    (R.sbRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.sbRelocatedRightRebasedCover_le_four L hind)).comp
+      R.sbSelectedBNormalCoverRingEquiv.toRingHom
+
+/-- Transport the mapped selected-`B` native normal cover through the based
+`c` comparison and its scalar rebase. -/
+noncomputable def sAcSelectedBNormalToFourRebasedCoverRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) →+*
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+  (R.relocatedRightNormalToFourRebasedCoverRingHom L hind
+    (R.sAc.bCorrespondenceFamilyMember hψ)
+    (R.sAcRelocatedParameterSourceField_le_selectedSemanticReferenceJoin
+      L hind)
+    (R.sAcRelocatedRightRebasedCover_le_four L hind)).comp
+      R.sAcSelectedBNormalCoverRingEquiv.toRingHom
 
 /-- The four relocated right-family members display the four mapped
 normalized parameter tuples literally. -/

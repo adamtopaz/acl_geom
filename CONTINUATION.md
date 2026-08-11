@@ -1157,6 +1157,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     The next issue-#16 step is to instantiate this construction on the four
     facewise middle covers and transport their based equivalences through the
     common semantic bases.
+84. The branch-preserving scalar rebase is now instantiated on all four
+    relocated right-family normal covers.  Their complete parameter/source
+    fields, including the algebraic `c` face, embed in the one selected
+    semantic/reference joint field.  Rebasing over that field and taking a
+    supremum gives `fourRelocatedRightRebasedCover`, a literal common finite
+    normal codomain.  Four named maps from the one mapped selected-`B`
+    complete branch enter this cover through the full family-locus
+    equivalences, while four companion maps carry the entire mapped native
+    normal cover through the selected-branch-corrected normal equivalences
+    before scalar rebase.  The next issue-#16 step is to transport this
+    common right cover from the finite selected joint base back to the
+    literal semantic common source (using algebraicity of the joint field),
+    adjoin it to the selected graph source, and extend the four maps to the
+    independent common middle/target charts required by `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

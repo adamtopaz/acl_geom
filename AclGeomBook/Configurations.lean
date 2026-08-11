@@ -2636,6 +2636,29 @@ middle/target covers is the remaining chart step:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSelectedBNormalCoverRingEquiv_completeBranch}
 
+The four separate bases have now been enlarged honestly to the single
+selected semantic/reference joint field.  Each native relocated normal
+cover is passed through the branch-preserving finite-basis scalar rebase,
+and the four resulting canonical covers are joined into one finite normal
+right cover.  Thus one mapped selected-`B` complete branch has four named
+images in a literal common codomain.  The corresponding native-normal maps
+factor through exactly the based equivalences above before entering the
+same common cover; in particular the algebraic output face is treated by
+the same construction as the three input faces, rather than by an implicit
+containment in the original eight-input field:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.relocatedRightRebasedCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.relocatedRightNormalToRebasedCoverRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRelocatedRightRebasedCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.relocatedRightNormalToFourRebasedCoverRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedBCompleteBranchToFourRebasedCoverRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedBNormalToFourRebasedCoverRingHom}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
