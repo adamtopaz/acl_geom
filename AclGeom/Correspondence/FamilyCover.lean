@@ -818,6 +818,174 @@ displayed family coordinate to its counterpart. -/
       ⟨G.tuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ :=
   locusFunctionFieldEquivOfIdealEq_apply h i
 
+/-- The family parameter/source field is literally the restriction to the
+ground field of the source field of the associated correspondence pair. -/
+theorem parameterSourceField_eq_toPair_sourceField :
+    F.parameterSourceField = F.toPair.sourceField.restrictScalars k := by
+  unfold parameterSourceField parameterSource
+    FiniteCorrespondencePair.sourceField parameterField
+  rw [adjoin_adjoin_left]
+  simp only [Fin.range_snoc, Set.union_singleton]
+  rfl
+
+/-- The complete family field is the ground-field restriction of the full
+branch field of the associated correspondence pair. -/
+theorem familyField_eq_toPair_branchField :
+    F.familyField = F.toPair.branchField.restrictScalars k := by
+  unfold familyField tuple parameterSource
+    FiniteCorrespondencePair.branchField parameterField
+  rw [adjoin_adjoin_left]
+  simp only [Fin.range_snoc]
+  congr 1
+  ext z
+  change z ∈ insert F.target (insert F.source (Set.range F.parameter)) ↔
+    z ∈ Set.range F.parameter ∪ {F.source, F.target}
+  simp
+  tauto
+
+/-- Identify the family parameter/source subtype with the source-field
+subtype used by its associated correspondence pair. -/
+noncomputable def parameterSourceFieldEquivPairSource :
+    (↥F.parameterSourceField) ≃+* (↥F.toPair.sourceField) :=
+  (IntermediateField.equivOfEq
+    F.parameterSourceField_eq_toPair_sourceField).toRingEquiv
+
+/-- Identify the complete family-field subtype with the selected branch
+viewed as an extension of its source field. -/
+noncomputable def familyFieldEquivPairBranch :
+    (↥F.familyField) ≃+* (↥F.toPair.branchOverSource) :=
+  (IntermediateField.equivOfEq
+    F.familyField_eq_toPair_branchField).toRingEquiv
+
+/-- The family/branch identification does not change ambient values. -/
+@[simp] theorem familyFieldEquivPairBranch_val (z : F.familyField) :
+    ((F.familyFieldEquivPairBranch z : F.toPair.branchOverSource) : Ω) = z :=
+  rfl
+
+/-- The inverse family/branch identification also preserves ambient values. -/
+@[simp] theorem familyFieldEquivPairBranch_symm_val
+    (z : F.toPair.branchOverSource) :
+    ((F.familyFieldEquivPairBranch.symm z : F.familyField) : Ω) = z :=
+  rfl
+
+/-- The family parameter field is contained in its parameter/source
+field. -/
+theorem parameterField_le_parameterSourceField :
+    F.parameterField ≤ F.parameterSourceField := by
+  apply adjoin.mono
+  rintro _ ⟨i, rfl⟩
+  exact ⟨i.castSucc, by simp [parameterSource]⟩
+
+/-- The base equivalence attached to equality of complete family loci
+restricts to the canonical equivalence of their parameter fields. -/
+theorem extensionEquivOfIdealEq_base_parameter
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) (z : F.parameterField) :
+    (F.extensionEquivOfIdealEq G h).baseEquiv
+        (IntermediateField.inclusion
+          F.parameterField_le_parameterSourceField z) =
+      IntermediateField.inclusion G.parameterField_le_parameterSourceField
+        (F.parameterEquivOfIdealEq G h z) := by
+  let f : F.parameterField →ₐ[k] G.parameterSourceField :=
+    (F.extensionEquivOfIdealEq G h).baseEquiv.toAlgHom.comp
+      (IntermediateField.inclusion
+        F.parameterField_le_parameterSourceField)
+  let g : F.parameterField →ₐ[k] G.parameterSourceField :=
+    (IntermediateField.inclusion
+      G.parameterField_le_parameterSourceField).comp
+        (F.parameterEquivOfIdealEq G h).toAlgHom
+  change f z = g z
+  apply adjoin_induction (F := k) (s := Set.range F.parameter)
+      (p := fun x hx ↦ f ⟨x, hx⟩ = g ⟨x, hx⟩)
+  · rintro _ ⟨i, rfl⟩
+    unfold f g
+    simp only [AlgHom.comp_apply]
+    have hin : IntermediateField.inclusion
+          F.parameterField_le_parameterSourceField
+          ⟨F.parameter i, subset_adjoin k _ (Set.mem_range_self i)⟩ =
+        ⟨F.parameterSource i.castSucc,
+          subset_adjoin k _ (Set.mem_range_self i.castSucc)⟩ := by
+      apply Subtype.ext
+      simp [parameterSource]
+    have hout : IntermediateField.inclusion
+          G.parameterField_le_parameterSourceField
+          (F.parameterEquivOfIdealEq G h
+            ⟨F.parameter i, subset_adjoin k _ (Set.mem_range_self i)⟩) =
+        ⟨G.parameterSource i.castSucc,
+          subset_adjoin k _ (Set.mem_range_self i.castSucc)⟩ := by
+      apply Subtype.ext
+      change ↑(F.parameterEquivOfIdealEq G h
+        ⟨F.parameter i, subset_adjoin k _ (Set.mem_range_self i)⟩) =
+          G.parameterSource i.castSucc
+      rw [F.parameterEquivOfIdealEq_apply G h i]
+      simp [parameterSource]
+    rw [hin]
+    exact (F.extensionEquivOfIdealEq_base_apply G h i.castSucc).trans
+      hout.symm
+  · intro x
+    exact (f.commutes x).trans (g.commutes x).symm
+  · intro x y hx hy hfx hfy
+    change f (⟨x, hx⟩ + ⟨y, hy⟩) = g (⟨x, hx⟩ + ⟨y, hy⟩)
+    rw [map_add, map_add, hfx, hfy]
+  · intro x hx hfx
+    change f (⟨x, hx⟩⁻¹) = g (⟨x, hx⟩⁻¹)
+    rw [map_inv₀, map_inv₀, hfx]
+  · intro x y hx hy hfx hfy
+    change f (⟨x, hx⟩ * ⟨y, hy⟩) = g (⟨x, hx⟩ * ⟨y, hy⟩)
+    rw [map_mul, map_mul, hfx, hfy]
+
+/-- Equality of complete family loci identifies the actual complete branch
+fields used by their associated finite correspondences.  This is the
+branch-level form of the family extension equivalence. -/
+noncomputable def completeBranchRingEquivOfIdealEq
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) :
+    (↥F.toPair.branchOverSource) ≃+* (↥G.toPair.branchOverSource) :=
+  F.familyFieldEquivPairBranch.symm.trans
+    ((F.extensionEquivOfIdealEq G h).totalEquiv.toRingEquiv.trans
+      G.familyFieldEquivPairBranch)
+
+/-- On the displayed parameter field, the complete-branch equivalence is
+the canonical parameter transport induced by equality of family loci. -/
+theorem completeBranchRingEquivOfIdealEq_algebraMap
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) (z : F.parameterField) :
+    F.completeBranchRingEquivOfIdealEq G h
+        (algebraMap (↥F.parameterField) (↥F.toPair.branchOverSource) z) =
+      algebraMap (↥G.parameterField) (↥G.toPair.branchOverSource)
+        (F.parameterEquivOfIdealEq G h z) := by
+  have hb := F.extensionEquivOfIdealEq_base_parameter G h z
+  have ht := (F.extensionEquivOfIdealEq G h).commutes_apply
+    (IntermediateField.inclusion
+      F.parameterField_le_parameterSourceField z)
+  have htotal := ht.trans (congrArg
+    (IntermediateField.inclusion G.parameterSourceField_le_familyField) hb)
+  have hin : F.familyFieldEquivPairBranch.symm
+        (algebraMap (↥F.parameterField) (↥F.toPair.branchOverSource) z) =
+      IntermediateField.inclusion F.parameterSourceField_le_familyField
+        (IntermediateField.inclusion
+          F.parameterField_le_parameterSourceField z) := by
+    apply Subtype.ext
+    rfl
+  have hout : G.familyFieldEquivPairBranch
+        (IntermediateField.inclusion G.parameterSourceField_le_familyField
+          (IntermediateField.inclusion
+            G.parameterField_le_parameterSourceField
+            (F.parameterEquivOfIdealEq G h z))) =
+      algebraMap (↥G.parameterField) (↥G.toPair.branchOverSource)
+        (F.parameterEquivOfIdealEq G h z) := by
+    apply Subtype.ext
+    rfl
+  unfold completeBranchRingEquivOfIdealEq
+  simp only [RingEquiv.trans_apply]
+  rw [hin]
+  change (F.extensionEquivOfIdealEq G h).totalEquiv.toRingEquiv
+      (IntermediateField.inclusion F.parameterSourceField_le_familyField
+        (IntermediateField.inclusion
+          F.parameterField_le_parameterSourceField z)) = _ at htotal
+  rw [htotal]
+  exact hout
+
 /-- The canonical normal covers of equal complete family loci are
 semilinearly equivalent over the induced parameter/source-field
 equivalence. -/

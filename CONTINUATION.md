@@ -1118,6 +1118,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     independently canonicalized branch embeddings.  The next issue-#16 step
     is to transport the middle/target covers to this anchor and package their
     restrictions as the `RightRestriction` of item 79.
+81. Equality of complete family loci now reaches the actual complete branch
+    types used by the four semantic triangles.  A reusable bridge identifies
+    the family-field presentation with `toPair.branchOverSource`, transports
+    equal loci to a full branch ring equivalence, and proves that this
+    equivalence restricts to the canonical parameter-field transport.  The
+    mapped selected `B` family therefore supplies one common complete middle
+    branch, with four full equivalences to the relocated `e`, `a`, `b`, and
+    `c` branches.  A simultaneous factorization theorem proves that the one
+    intrinsic germ embedding in this common branch becomes exactly the four
+    named complete-branch coefficient embeddings.  The remaining issue-#16
+    step is to extend these branch equivalences to compatible common finite
+    normal middle/target covers, join them with the selected graph source,
+    and package the resulting four restrictions as item 79's
+    `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -1164,11 +1178,14 @@ transport.  The complete semantic curve-branch maps have now been named in
 the same final cover with exact charted-arrow formulas.  The intrinsic germ
 maps into all four relocated parameter fields are also defined on the whole
 field, are characterized by canonical curve coefficients, and factor the
-    four normalized reference restrictions.  Those complete-branch
+the four normalized reference restrictions.  Those complete-branch
 embeddings and their whole intrinsic-field reference identifications are now
 established, and the four semantic branches factor through one coherent
-whole-face anchor.  Transport the middle and target covers to that anchor,
-construct the resulting `RightRestriction`, and use its faithful
+whole-face anchor.  The mapped selected `B` family is also now one common
+complete middle branch whose four full branch equivalences recover the
+relocated `e/a/b/c` intrinsic maps exactly.  Extend those equivalences to
+compatible common finite normal middle and target covers, join them to the
+selected graph source, construct the resulting `RightRestriction`, and use its faithful
 cancellation theorem to prove that `toReferenceC` factors through
 `toReferenceE`, `toReferenceA`, and `toReferenceB`.  This is the precise
 auxiliary-`s` independence statement: the factorization must descend to the

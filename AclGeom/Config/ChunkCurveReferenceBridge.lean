@@ -2829,7 +2829,9 @@ theorem toReferenceOnBGermCoefficientRingHom_apply_parameterTransport
       L hind D.c L.sA_c_c L.cProjectionRelation
         L.cNormalField_le_normalizedField z⟩
 
-private abbrev mappedSelectedBFamily :
+/-- The selected `B` correspondence family transported into the common
+curve ambient field. -/
+abbrev mappedSelectedBFamily :
     FiniteCorrespondenceFamilyMember
       (k := k) (Ω := CommonCurveAmbient K) 2 :=
   (w.yzCorrespondenceFamilyMember hψ).map
@@ -3300,6 +3302,38 @@ theorem bGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients
     (bGermCoefficientToRelocatedBCoefficientAlgEquiv_selected
       (w := w) (hψ := hψ) p x hp G h hG d)).symm
 
+/-- Embedding the relocated parameter transport in the complete branch is
+the same map as passing through the intrinsic relocated coefficient field.
+This turns the coefficient factorization into an exact branch restriction. -/
+theorem bGermCoefficientToCompleteRightBranchRingHom_eq_parameter
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    (algebraMap (↥G.parameterField)
+        (↥G.toPair.branchOverSource)).comp
+          (bGermCoefficientToRelocatedBParameterAlgHom
+            (w := w) (hψ := hψ) p x hp G hG).toRingHom =
+      (relocatedBCoefficientToCompleteRightBranchRingHom G).comp
+        (bGermCoefficientToRelocatedBCoefficientAlgEquiv
+          (w := w) (hψ := hψ) p x hp G h hG).toRingEquiv.toRingHom := by
+  apply RingHom.ext
+  intro z
+  simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe]
+  change algebraMap (↥G.parameterField) (↥G.toPair.branchOverSource)
+      (bGermCoefficientToRelocatedBParameterAlgHom
+        (w := w) (hψ := hψ) p x hp G hG z) =
+    relocatedBCoefficientToCompleteRightBranchRingHom G
+      (bGermCoefficientToRelocatedBCoefficientAlgEquiv
+        (w := w) (hψ := hψ) p x hp G h hG z)
+  rw [DFunLike.congr_fun
+    (bGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients
+      (w := w) (hψ := hψ) p x hp G h hG) z]
+  apply Subtype.ext
+  rfl
+
 /-- The mapped selected `B` family locus equals the relocated right-family
 locus in the `s·e=u` face. -/
 theorem seMappedSelectedBFamily_ideal_eq :
@@ -3327,6 +3361,139 @@ theorem sAcMappedSelectedBFamily_ideal_eq :
     (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal =
       (R.sAc.bCorrespondenceFamilyMember hψ).ideal := by
   exact (R.sAc.bFamilyLocus hψ).symm
+
+/-- Include the original selected `B` parameter field in the complete
+branch of its mapped family member.  This is the one common middle-branch
+map from which the four relocated complete-branch transports start. -/
+noncomputable def selectedBParameterToMappedCompleteBranchRingHom :
+    (↥w.bField) →+*
+      (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) :=
+  (algebraMap
+      (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).parameterField)
+      (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource)).comp
+    ((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
+      (commonCurveEmbedding (k := k) (K := K))).toRingEquiv.toRingHom
+
+/-- Restrict the common mapped selected-`B` branch to the intrinsic germ
+coefficient field.  This is the candidate common middle map for the final
+right-restriction package. -/
+noncomputable def bGermCoefficientToMappedCompleteBranchRingHom :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) :=
+  (selectedBParameterToMappedCompleteBranchRingHom
+    (w := w) (hψ := hψ)).comp
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ)).toRingHom
+
+/-- The complete selected `B` branch is equivalent to the relocated
+complete right branch on the `e` face, using equality of the full family
+loci rather than only their coefficient fields. -/
+noncomputable def seSelectedBCompleteBranchRingEquiv :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) ≃+*
+      (↥(R.se.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ))
+    |>.completeBranchRingEquivOfIdealEq
+      (R.se.bCorrespondenceFamilyMember hψ)
+      R.seMappedSelectedBFamily_ideal_eq
+
+/-- The corresponding complete-branch equivalence on the `a` face. -/
+noncomputable def sAaSelectedBCompleteBranchRingEquiv :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) ≃+*
+      (↥(R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ))
+    |>.completeBranchRingEquivOfIdealEq
+      (R.sAa.bCorrespondenceFamilyMember hψ)
+      R.sAaMappedSelectedBFamily_ideal_eq
+
+/-- The corresponding complete-branch equivalence on the `b` face. -/
+noncomputable def sbSelectedBCompleteBranchRingEquiv :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) ≃+*
+      (↥(R.sb.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ))
+    |>.completeBranchRingEquivOfIdealEq
+      (R.sb.bCorrespondenceFamilyMember hψ)
+      R.sbMappedSelectedBFamily_ideal_eq
+
+/-- The corresponding complete-branch equivalence on the algebraic `c`
+face. -/
+noncomputable def sAcSelectedBCompleteBranchRingEquiv :
+    (↥(mappedSelectedBFamily (w := w) (hψ := hψ)).toPair.branchOverSource) ≃+*
+      (↥(R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchOverSource) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ))
+    |>.completeBranchRingEquivOfIdealEq
+      (R.sAc.bCorrespondenceFamilyMember hψ)
+      R.sAcMappedSelectedBFamily_ideal_eq
+
+/-- Simultaneously, the four full branch equivalences restrict on the
+whole selected `B` parameter field to the canonical selected-to-relocated
+parameter transports.  Thus the common middle branch is already identified
+before passing to normal middle and target covers. -/
+theorem fourSelectedBCompleteBranchRingEquiv_parameter :
+    R.seSelectedBCompleteBranchRingEquiv.toRingHom.comp
+          (selectedBParameterToMappedCompleteBranchRingHom
+            (w := w) (hψ := hψ)) =
+        (algebraMap
+          (↥(R.se.bCorrespondenceFamilyMember hψ).parameterField)
+          (↥(R.se.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)).comp
+            (selectedBToRelocatedBParameterEquiv
+              (w := w) (hψ := hψ)
+              (R.se.bCorrespondenceFamilyMember hψ)
+              R.seMappedSelectedBFamily_ideal_eq).toRingEquiv.toRingHom ∧
+      R.sAaSelectedBCompleteBranchRingEquiv.toRingHom.comp
+          (selectedBParameterToMappedCompleteBranchRingHom
+            (w := w) (hψ := hψ)) =
+        (algebraMap
+          (↥(R.sAa.bCorrespondenceFamilyMember hψ).parameterField)
+          (↥(R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)).comp
+            (selectedBToRelocatedBParameterEquiv
+              (w := w) (hψ := hψ)
+              (R.sAa.bCorrespondenceFamilyMember hψ)
+              R.sAaMappedSelectedBFamily_ideal_eq).toRingEquiv.toRingHom ∧
+      R.sbSelectedBCompleteBranchRingEquiv.toRingHom.comp
+          (selectedBParameterToMappedCompleteBranchRingHom
+            (w := w) (hψ := hψ)) =
+        (algebraMap
+          (↥(R.sb.bCorrespondenceFamilyMember hψ).parameterField)
+          (↥(R.sb.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)).comp
+            (selectedBToRelocatedBParameterEquiv
+              (w := w) (hψ := hψ)
+              (R.sb.bCorrespondenceFamilyMember hψ)
+              R.sbMappedSelectedBFamily_ideal_eq).toRingEquiv.toRingHom ∧
+      R.sAcSelectedBCompleteBranchRingEquiv.toRingHom.comp
+          (selectedBParameterToMappedCompleteBranchRingHom
+            (w := w) (hψ := hψ)) =
+        (algebraMap
+          (↥(R.sAc.bCorrespondenceFamilyMember hψ).parameterField)
+          (↥(R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)).comp
+            (selectedBToRelocatedBParameterEquiv
+              (w := w) (hψ := hψ)
+              (R.sAc.bCorrespondenceFamilyMember hψ)
+              R.sAcMappedSelectedBFamily_ideal_eq).toRingEquiv.toRingHom := by
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> apply RingHom.ext <;> intro z
+  · exact (mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.completeBranchRingEquivOfIdealEq_algebraMap
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.seMappedSelectedBFamily_ideal_eq
+        ((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
+          (commonCurveEmbedding (k := k) (K := K)) z))
+  · exact (mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.completeBranchRingEquivOfIdealEq_algebraMap
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.sAaMappedSelectedBFamily_ideal_eq
+        ((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
+          (commonCurveEmbedding (k := k) (K := K)) z))
+  · exact (mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.completeBranchRingEquivOfIdealEq_algebraMap
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.sbMappedSelectedBFamily_ideal_eq
+        ((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
+          (commonCurveEmbedding (k := k) (K := K)) z))
+  · exact (mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.completeBranchRingEquivOfIdealEq_algebraMap
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.sAcMappedSelectedBFamily_ideal_eq
+        ((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
+          (commonCurveEmbedding (k := k) (K := K)) z))
 
 /-- The four relocated right-family members display the four mapped
 normalized parameter tuples literally. -/
@@ -3519,6 +3686,167 @@ noncomputable def sAcBGermCoefficientToCompleteRightBranchRingHom :
   (relocatedBCoefficientToCompleteRightBranchRingHom
     (R.sAc.bCorrespondenceFamilyMember hψ)).comp
       (R.sAcBGermCoefficientToRelocatedBCoefficientAlgEquiv L).toRingEquiv.toRingHom
+
+/-- The four intrinsic complete-branch embeddings are restrictions of the
+four full branch equivalences from one common mapped selected-`B` branch.
+This is the branch-level middle chart, before extension to the four normal
+middle covers. -/
+theorem fourBGermCoefficientCompleteBranch_factor_selectedB :
+    R.seSelectedBCompleteBranchRingEquiv.toRingHom.comp
+        (bGermCoefficientToMappedCompleteBranchRingHom
+          (w := w) (hψ := hψ)) =
+      R.seBGermCoefficientToCompleteRightBranchRingHom L ∧
+    R.sAaSelectedBCompleteBranchRingEquiv.toRingHom.comp
+        (bGermCoefficientToMappedCompleteBranchRingHom
+          (w := w) (hψ := hψ)) =
+      R.sAaBGermCoefficientToCompleteRightBranchRingHom L ∧
+    R.sbSelectedBCompleteBranchRingEquiv.toRingHom.comp
+        (bGermCoefficientToMappedCompleteBranchRingHom
+          (w := w) (hψ := hψ)) =
+      R.sbBGermCoefficientToCompleteRightBranchRingHom L ∧
+    R.sAcSelectedBCompleteBranchRingEquiv.toRingHom.comp
+        (bGermCoefficientToMappedCompleteBranchRingHom
+          (w := w) (hψ := hψ)) =
+      R.sAcBGermCoefficientToCompleteRightBranchRingHom L := by
+  obtain ⟨he, ha, hb, hc⟩ :=
+    R.fourSelectedBCompleteBranchRingEquiv_parameter
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> apply RingHom.ext <;> intro z
+  · have hbranch := DFunLike.congr_fun he
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    have hparam := DFunLike.congr_fun
+      (selectedBToRelocatedBParameterEquiv_eq_projection
+        (w := w) (hψ := hψ) e L.se_e L.eProjectionRelation
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.seMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.1)
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    change selectedBToRelocatedBParameterEquiv
+        (w := w) (hψ := hψ)
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.seMappedSelectedBFamily_ideal_eq
+        (bGermCoefficientToSelectedBParameterAlgHom
+          (w := w) (hψ := hψ) z) =
+      R.seBGermCoefficientToRelocatedBParameterAlgHom L z at hparam
+    have hcomplete := DFunLike.congr_fun
+      (bGermCoefficientToCompleteRightBranchRingHom_eq_parameter
+        (w := w) (hψ := hψ) e L.se_e L.eProjectionRelation
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.seMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.1) z
+    change algebraMap
+        (↥(R.se.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.se.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)
+        (R.seBGermCoefficientToRelocatedBParameterAlgHom L z) =
+      R.seBGermCoefficientToCompleteRightBranchRingHom L z at hcomplete
+    exact hbranch.trans ((congrArg
+      (algebraMap
+        (↥(R.se.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.se.bCorrespondenceFamilyMember hψ).toPair.branchOverSource))
+      hparam).trans hcomplete)
+  · have hbranch := DFunLike.congr_fun ha
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    have hparam := DFunLike.congr_fun
+      (selectedBToRelocatedBParameterEquiv_eq_projection
+        (w := w) (hψ := hψ) a L.sA_a_a L.aProjectionRelation
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.sAaMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.2.1)
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    change selectedBToRelocatedBParameterEquiv
+        (w := w) (hψ := hψ)
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.sAaMappedSelectedBFamily_ideal_eq
+        (bGermCoefficientToSelectedBParameterAlgHom
+          (w := w) (hψ := hψ) z) =
+      R.sAaBGermCoefficientToRelocatedBParameterAlgHom L z at hparam
+    have hcomplete := DFunLike.congr_fun
+      (bGermCoefficientToCompleteRightBranchRingHom_eq_parameter
+        (w := w) (hψ := hψ) a L.sA_a_a L.aProjectionRelation
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.sAaMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.2.1) z
+    change algebraMap
+        (↥(R.sAa.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)
+        (R.sAaBGermCoefficientToRelocatedBParameterAlgHom L z) =
+      R.sAaBGermCoefficientToCompleteRightBranchRingHom L z at hcomplete
+    exact hbranch.trans ((congrArg
+      (algebraMap
+        (↥(R.sAa.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchOverSource))
+      hparam).trans hcomplete)
+  · have hbranch := DFunLike.congr_fun hb
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    have hparam := DFunLike.congr_fun
+      (selectedBToRelocatedBParameterEquiv_eq_projection
+        (w := w) (hψ := hψ) b L.s_b_b L.bProjectionRelation
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.sbMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.2.2.1)
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    change selectedBToRelocatedBParameterEquiv
+        (w := w) (hψ := hψ)
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.sbMappedSelectedBFamily_ideal_eq
+        (bGermCoefficientToSelectedBParameterAlgHom
+          (w := w) (hψ := hψ) z) =
+      R.sbBGermCoefficientToRelocatedBParameterAlgHom L z at hparam
+    have hcomplete := DFunLike.congr_fun
+      (bGermCoefficientToCompleteRightBranchRingHom_eq_parameter
+        (w := w) (hψ := hψ) b L.s_b_b L.bProjectionRelation
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.sbMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.2.2.1) z
+    change algebraMap
+        (↥(R.sb.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.sb.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)
+        (R.sbBGermCoefficientToRelocatedBParameterAlgHom L z) =
+      R.sbBGermCoefficientToCompleteRightBranchRingHom L z at hcomplete
+    exact hbranch.trans ((congrArg
+      (algebraMap
+        (↥(R.sb.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.sb.bCorrespondenceFamilyMember hψ).toPair.branchOverSource))
+      hparam).trans hcomplete)
+  · have hbranch := DFunLike.congr_fun hc
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    have hparam := DFunLike.congr_fun
+      (selectedBToRelocatedBParameterEquiv_eq_projection
+        (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.sAcMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.2.2.2)
+      (bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ) z)
+    change selectedBToRelocatedBParameterEquiv
+        (w := w) (hψ := hψ)
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.sAcMappedSelectedBFamily_ideal_eq
+        (bGermCoefficientToSelectedBParameterAlgHom
+          (w := w) (hψ := hψ) z) =
+      R.sAcBGermCoefficientToRelocatedBParameterAlgHom L z at hparam
+    have hcomplete := DFunLike.congr_fun
+      (bGermCoefficientToCompleteRightBranchRingHom_eq_parameter
+        (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.sAcMappedSelectedBFamily_ideal_eq
+        R.relocatedBFamily_parameters.2.2.2) z
+    change algebraMap
+        (↥(R.sAc.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchOverSource)
+        (R.sAcBGermCoefficientToRelocatedBParameterAlgHom L z) =
+      R.sAcBGermCoefficientToCompleteRightBranchRingHom L z at hcomplete
+    exact hbranch.trans ((congrArg
+      (algebraMap
+        (↥(R.sAc.bCorrespondenceFamilyMember hψ).parameterField)
+        (↥(R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchOverSource))
+      hparam).trans hcomplete)
 
 /-- On every canonical generator, the four complete-branch embeddings are
 the literal same-index relocated curve coefficients. -/

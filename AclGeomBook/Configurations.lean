@@ -2589,6 +2589,33 @@ choices:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSemanticRightBranchesToSelectedGraph_factor_extension}
 
+Equality of the four complete family loci now provides the complementary
+middle-branch comparison.  A reusable family-cover theorem identifies the
+family-field presentation with the actual branch-over-source type and turns
+equality of loci into a ring equivalence of the complete branches.  Its
+restriction to the displayed parameter field is exactly the canonical
+parameter transport.  Applied simultaneously to the mapped selected `B`
+family and the relocated `e`, `a`, `b`, and `c` families, this gives one
+common selected complete branch and four equivalences out of it.  The single
+intrinsic germ embedding in that branch factors through those equivalences to
+the four previously named complete-branch embeddings.  Thus the common
+middle map is already coefficient-faithful before extending the four
+equivalences to normal middle and target covers:
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.completeBranchRingEquivOfIdealEq}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.completeBranchRingEquivOfIdealEq_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBParameterToMappedCompleteBranchRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.bGermCoefficientToMappedCompleteBranchRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedBCompleteBranchRingEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSelectedBCompleteBranchRingEquiv_parameter}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientCompleteBranch_factor_selectedB}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
