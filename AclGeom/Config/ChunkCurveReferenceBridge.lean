@@ -1577,6 +1577,97 @@ noncomputable def toReferenceCInSemanticSourceRingHom [IsAlgClosed K]
   R.projectionToReferenceInSemanticSourceRingHom L hind D.c L.sA_c_c
     L.cProjectionRelation L.cNormalField_le_normalizedField
 
+/-- The ambient description of a promoted projection on the entire
+selected normalized `B/T` field: first use the based selected-to-projection
+normal-cover equivalence and then the two literal cover inclusions. -/
+noncomputable def selectedBNormalProjectionInSemanticSourceRingHom
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    rankTwoScalarNormalField (k := k) w.bReps w.T.rep →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.referenceNormalCoverToReferenceSemanticSourceCover L hind).toRingHom.comp
+    ((L.scalarNormalFieldToReferenceNormalCover p x hfield).toRingHom.comp
+      (selectedBNormalEquivProjection
+        (w := w) (hψ := hψ) hp).toRingEquiv.toRingHom)
+
+/-- Pull the preceding ambient normal-field map back across the canonical
+generic-point identification of the selected normalized chart. -/
+noncomputable def projectionViaSelectedBNormalInSemanticSourceRingHom
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    (QWitness.PsiChunkFourArrowEdgeLifts.selectedBAlgebraicChart
+      (k := k) (K := K) (w := w) (hψ := hψ)).functionField →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.selectedBNormalProjectionInSemanticSourceRingHom
+      L hind p x hp hfield).comp
+    (selectedBFunctionFieldAlgEquiv
+      (w := w) (hψ := hψ)).toRingHom
+
+/-- A promoted projection agrees on the whole selected normalized function
+field with its based ambient normal-cover map. -/
+theorem projectionToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    R.projectionToReferenceInSemanticSourceRingHom L hind p x hp hfield =
+      R.projectionViaSelectedBNormalInSemanticSourceRingHom
+        L hind p x hp hfield := by
+  apply RingHom.ext
+  intro z
+  have hnormal :=
+    R.projectionToReferenceInSemanticSourceRingHom_apply_selectedNormal
+      L hind p x hp hfield
+        (selectedBFunctionFieldAlgEquiv (w := w) (hψ := hψ) z)
+  simpa [projectionViaSelectedBNormalInSemanticSourceRingHom,
+    selectedBNormalProjectionInSemanticSourceRingHom] using hnormal
+
+/-- Simultaneously, the four named `toReference` embeddings are exactly
+their based ambient normal-cover descriptions on the full selected
+normalized function field. -/
+theorem fourToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceEInSemanticSourceRingHom L hind =
+        R.projectionViaSelectedBNormalInSemanticSourceRingHom
+          L hind e L.se_e L.eProjectionRelation
+            L.eNormalField_le_normalizedField ∧
+      R.toReferenceAInSemanticSourceRingHom L hind =
+        R.projectionViaSelectedBNormalInSemanticSourceRingHom
+          L hind a L.sA_a_a L.aProjectionRelation
+            L.aNormalField_le_normalizedField ∧
+      R.toReferenceBInSemanticSourceRingHom L hind =
+        R.projectionViaSelectedBNormalInSemanticSourceRingHom
+          L hind b L.s_b_b L.bProjectionRelation
+            L.bNormalField_le_normalizedField ∧
+      R.toReferenceCInSemanticSourceRingHom L hind =
+        R.projectionViaSelectedBNormalInSemanticSourceRingHom
+          L hind D.c L.sA_c_c L.cProjectionRelation
+            L.cNormalField_le_normalizedField := by
+  exact
+    ⟨R.projectionToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
+        L hind e L.se_e L.eProjectionRelation
+          L.eNormalField_le_normalizedField,
+      R.projectionToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
+        L hind a L.sA_a_a L.aProjectionRelation
+          L.aNormalField_le_normalizedField,
+      R.projectionToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
+        L hind b L.s_b_b L.bProjectionRelation
+          L.bNormalField_le_normalizedField,
+      R.projectionToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal
+        L hind D.c L.sA_c_c L.cProjectionRelation
+          L.cNormalField_le_normalizedField⟩
+
 /-- Transport the selected nonnormal `B/T` branch to the first complete
 edge and include it in that scalar-extended edge. -/
 noncomputable def selectedBScalarExtensionToSeEdgeRingHom :

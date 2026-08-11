@@ -913,6 +913,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     identify the explicit reference embeddings with the semantic curve
     arrows and yield the auxiliary-`s`-independent three-input
     factorization.
+66. The explicit comparison now extends across the entire selected
+    normalized `B/T` function field.  A generic ambient ring homomorphism
+    applies the based selected-to-projection normal-cover equivalence and
+    then the literal inclusions into `referenceNormalCover` and
+    `referenceSemanticSourceCover`.  Pulling that map back through the
+    selected chart's generic-point equivalence is proved equal, as a ring
+    homomorphism on every function-field element, to the promoted reference
+    projection.  The equality is specialized and packaged simultaneously
+    for `toReferenceE/A/B/C`; thus no normal-closure element remains outside
+    the exact comparison.  The remaining half of the local step is to
+    identify these four whole-field maps with the four complete semantic
+    curve-branch embeddings and then apply literal four-arrow cancellation.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -953,9 +965,10 @@ embedded, coordinate-for-coordinate, into the common formal-source cover.
 The promoted reference embeddings now agree there with the literal
 complete-edge inclusions on every element of all four selected nonnormal
 `B/T` scalar extensions, and their intrinsic-germ restrictions are the
-named coefficient transports.  Extend this exact agreement across the full
-normalized function field and complete curve-branch fields and use that
-equality to prove that
+named coefficient transports.  Their action on the entire selected
+normalized function field is also exactly the based ambient normal-cover
+transport.  Identify those four whole-field maps with the complete semantic
+curve-branch embeddings and use that equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not

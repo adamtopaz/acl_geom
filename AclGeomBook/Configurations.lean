@@ -2188,6 +2188,22 @@ therefore exactly the four literal complete-edge maps:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourReferenceEmbeddingsOnSelectedBScalarExtension}
 
+The comparison also extends through normalization.  On the whole selected
+normal field, the ambient map is the based selected-to-projection normal
+equivalence followed by the literal inclusions into the reference cover and
+the common semantic source.  Pulling this description back through the
+selected chart's generic-point equivalence gives equality of ring
+homomorphisms on its entire function field, simultaneously for all four
+reference projections:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBNormalProjectionInSemanticSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.projectionViaSelectedBNormalInSemanticSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.projectionToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourToReferenceInSemanticSourceRingHom_eq_viaSelectedBNormal}
+
 This comparison is now coefficient-faithful on the intrinsic selected
 `B`-germ field, not only on the eight displayed free inputs.  Equality of
 the selected and relocated `B/T` loci induces the canonical equivalence of
