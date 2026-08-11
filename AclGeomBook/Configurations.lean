@@ -2161,6 +2161,33 @@ of the scalar-extended complete edges in the common semantic source:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourToReferenceInSemanticSourceRingHom_selectedBScalar}
 
+In fact the comparison holds on the whole selected nonnormal `B/T` branch,
+not merely on its distinguished scalar.  Every scalar-extended complete edge
+contains its three-coordinate right scalar extension literally.  Its direct
+inclusion in the reference normal cover equals the route through the complete
+edge.  The based normalized transition agrees on every element with the
+canonical total-field equivalence to each relocated branch; after promotion
+to the common semantic source, the four restricted reference embeddings are
+therefore exactly the four literal complete-edge maps:
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.rightScalarField_le_field}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.seRightScalarExtensionToReferenceNormalCover_eq}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sA_aRightScalarExtensionToReferenceNormalCover_eq}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.s_bRightScalarExtensionToReferenceNormalCover_eq}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.sA_cRightScalarExtensionToReferenceNormalCover_eq}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBScalarExtensionToFunctionFieldRingHom_eq}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBNormalEquivProjection_selectedExtension}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.projectionToReferenceInSemanticSourceRingHom_apply_selectedExtension}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourReferenceEmbeddingsOnSelectedBScalarExtension}
+
 This comparison is now coefficient-faithful on the intrinsic selected
 `B`-germ field, not only on the eight displayed free inputs.  Equality of
 the selected and relocated `B/T` loci induces the canonical equivalence of

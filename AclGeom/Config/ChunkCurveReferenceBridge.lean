@@ -602,6 +602,44 @@ noncomputable def selectedBScalarFunctionFieldElement :
     (rankTwoScalarSelectedNormalElement
       (k := k) w.bReps w.T.rep)
 
+/-- Embed the entire selected, generally nonnormal `B/T` scalar branch in
+the function field of its normalized chart. -/
+noncomputable def selectedBScalarExtensionToFunctionFieldRingHom :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (QWitness.PsiChunkFourArrowEdgeLifts.selectedBAlgebraicChart
+        (k := k) (K := K) (w := w) (hψ := hψ)).functionField :=
+  (selectedBFunctionFieldAlgEquiv
+      (w := w) (hψ := hψ)).symm.toRingHom.comp
+    (FiniteCover.selectedEmbedding
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) w.bReps w.T.rep)).toRingHom
+
+/-- Conjugating the selected scalar-branch inclusion through the generic
+point identification recovers its literal normal-cover embedding. -/
+theorem selectedBScalarExtensionToFunctionFieldRingHom_conjugate
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    selectedBFunctionFieldAlgEquiv (w := w) (hψ := hψ)
+        (selectedBScalarExtensionToFunctionFieldRingHom
+          (w := w) (hψ := hψ) z) =
+      FiniteCover.selectedEmbedding
+        (rankTwoParameterField_le_rankTwoScalarField
+          (k := k) w.bReps w.T.rep) z := by
+  unfold selectedBScalarExtensionToFunctionFieldRingHom
+  simp only [RingHom.comp_apply]
+  exact (selectedBFunctionFieldAlgEquiv
+    (w := w) (hψ := hψ)).apply_symm_apply _
+
+/-- Pointwise form of the selected scalar-branch inclusion. -/
+theorem selectedBScalarExtensionToFunctionFieldRingHom_eq
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    selectedBScalarExtensionToFunctionFieldRingHom
+        (w := w) (hψ := hψ) z =
+      (selectedBFunctionFieldAlgEquiv (w := w) (hψ := hψ)).symm
+        (FiniteCover.selectedEmbedding
+          (rankTwoParameterField_le_rankTwoScalarField
+            (k := k) w.bReps w.T.rep) z) :=
+  rfl
+
 @[simp] theorem selectedBFunctionFieldAlgEquiv_selectedBScalar :
     selectedBFunctionFieldAlgEquiv (w := w) (hψ := hψ)
         (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
@@ -757,6 +795,61 @@ theorem selectedBNormalEquivProjection_selected [IsAlgClosed K]
         (k := k) w.bReps w.T.rep) = _
   exact rankTwoScalarLocusBasedNormalCoverAlgEquiv_selected
     hselected (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm
+
+/-- The normalized selected-to-projection transition preserves the whole
+literal nonnormal scalar branch, through the canonical total-field
+equivalence induced by equality of the displayed `B/T` loci. -/
+theorem selectedBNormalEquivProjection_selectedExtension [IsAlgClosed K]
+    {p : Fin 2 → K} {x : K} (hp : w.psiBProjectionRelation p x)
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    selectedBNormalEquivProjection (w := w) (hψ := hψ) hp
+        (FiniteCover.selectedEmbedding
+          (rankTwoParameterField_le_rankTwoScalarField
+            (k := k) w.bReps w.T.rep) z) =
+      FiniteCover.selectedEmbedding
+        (rankTwoParameterField_le_rankTwoScalarField (k := k) p x)
+        ((rankTwoScalarExtensionEquivOfIdealEq
+          (k := k) hp.symm).totalEquiv z) := by
+  rw [selectedBNormalEquivProjection,
+    rankTwoScalarLocusReferenceAlgEquiv_symm]
+  let hselected := w.T_rep_mem_racl_bReps hψ
+  let hself : idealOf k (rankTwoScalarTuple w.bReps w.T.rep) =
+      idealOf k (rankTwoScalarTuple w.bReps w.T.rep) := rfl
+  let es := rankTwoScalarLocusBasedNormalCoverAlgEquiv
+    hselected hselected hself
+  let ep := rankTwoScalarLocusBasedNormalCoverAlgEquiv
+    hselected (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm
+  change ep (es.symm
+      (FiniteCover.selectedEmbedding
+        (rankTwoParameterField_le_rankTwoScalarField
+          (k := k) w.bReps w.T.rep) z)) = _
+  have hes : es
+      (FiniteCover.selectedEmbedding
+        (rankTwoParameterField_le_rankTwoScalarField
+          (k := k) w.bReps w.T.rep) z) =
+      FiniteCover.selectedEmbedding
+        (rankTwoParameterField_le_rankTwoScalarField
+          (k := k) w.bReps w.T.rep) z := by
+    have hz := (rankTwoScalarLocusBasedNormalEquiv
+      hselected hselected hself).map_selected_apply z
+    have htotal :
+        (rankTwoScalarExtensionEquivOfIdealEq
+          (k := k) hself).totalEquiv = AlgEquiv.refl := by
+      exact locusFunctionFieldEquivOfIdealEq_refl _
+    rw [htotal] at hz
+    exact hz
+  have hes' : es.symm
+      (FiniteCover.selectedEmbedding
+        (rankTwoParameterField_le_rankTwoScalarField
+          (k := k) w.bReps w.T.rep) z) =
+      FiniteCover.selectedEmbedding
+        (rankTwoParameterField_le_rankTwoScalarField
+          (k := k) w.bReps w.T.rep) z :=
+    es.symm_apply_eq.mpr hes.symm
+  rw [hes']
+  exact (rankTwoScalarLocusBasedNormalEquiv hselected
+    (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
+      hp.symm).map_selected_apply z
 
 /-- Canonical transport of intrinsic selected-`B` germ coefficients to the
 parameter field of an arbitrary `B/T` projection realization. -/
@@ -914,6 +1007,32 @@ theorem projectionToReferenceInSemanticSourceRingHom_apply_selectedNormal
   rw [normalizedToSelectedFunctionFieldRingHom_conjugate
     (w := w) (hψ := hψ) hp z]
   rfl
+
+/-- A promoted projection on the whole selected nonnormal `B/T` branch is
+the canonical total-field transport followed by the two literal cover
+inclusions. -/
+theorem projectionToReferenceInSemanticSourceRingHom_apply_selectedExtension
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField)
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    R.projectionToReferenceInSemanticSourceRingHom L hind p x hp hfield
+        (selectedBScalarExtensionToFunctionFieldRingHom
+          (w := w) (hψ := hψ) z) =
+      R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+        (L.scalarNormalFieldToReferenceNormalCover p x hfield
+          (FiniteCover.selectedEmbedding
+            (rankTwoParameterField_le_rankTwoScalarField (k := k) p x)
+            ((rankTwoScalarExtensionEquivOfIdealEq
+              (k := k) hp.symm).totalEquiv z))) := by
+  rw [selectedBScalarExtensionToFunctionFieldRingHom_eq]
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedNormal
+    L hind p x hp hfield]
+  rw [selectedBNormalEquivProjection_selectedExtension
+    (w := w) (hψ := hψ) hp z]
 
 /-- Every promoted projection sends the intrinsic selected scalar generator
 to the literal selected scalar in that projection's ambient normal cover. -/
@@ -1457,6 +1576,242 @@ noncomputable def toReferenceCInSemanticSourceRingHom [IsAlgClosed K]
       (↥(R.referenceSemanticSourceCover L hind).field) :=
   R.projectionToReferenceInSemanticSourceRingHom L hind D.c L.sA_c_c
     L.cProjectionRelation L.cNormalField_le_normalizedField
+
+/-- Transport the selected nonnormal `B/T` branch to the first complete
+edge and include it in that scalar-extended edge. -/
+noncomputable def selectedBScalarExtensionToSeEdgeRingHom :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      L.seTotalBaseChangedEdge.field :=
+  L.seRightScalarExtensionToField.toRingHom.comp
+    (rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.eProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom
+
+/-- Restriction of the promoted first-input reference embedding to the
+whole selected nonnormal `B/T` branch. -/
+noncomputable def toReferenceEOnSelectedBScalarExtensionRingHom
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.toReferenceEInSemanticSourceRingHom L hind).comp
+    (selectedBScalarExtensionToFunctionFieldRingHom
+      (w := w) (hψ := hψ))
+
+/-- The same branch map obtained by canonical total-field transport to the
+first complete edge followed by its literal inclusion. -/
+noncomputable def seEdgeOnSelectedBScalarExtensionRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+      L.seTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSeEdgeRingHom (w := w) L)
+
+/-- On the entire selected nonnormal `B/T` branch, the first-input
+reference embedding is the literal scalar-extended complete-edge map. -/
+theorem toReferenceEOnSelectedBScalarExtensionRingHom_apply
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    R.toReferenceEOnSelectedBScalarExtensionRingHom L hind z =
+      R.seEdgeOnSelectedBScalarExtensionRingHom L hind z := by
+  unfold toReferenceEOnSelectedBScalarExtensionRingHom
+    seEdgeOnSelectedBScalarExtensionRingHom
+  simp only [RingHom.comp_apply]
+  unfold toReferenceEInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedExtension
+    L hind e L.se_e L.eProjectionRelation
+      L.eNormalField_le_normalizedField z]
+  unfold selectedBScalarExtensionToSeEdgeRingHom
+    totalBaseChangedEdgeToReferenceSemanticSourceCover
+  simp only [RingHom.comp_apply]
+  apply congrArg
+  exact L.seRightScalarExtensionToReferenceNormalCover_eq
+    ((rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.eProjectionRelation.symm).totalEquiv z)
+
+/-- Transport the selected nonnormal `B/T` branch to the inverse-input
+complete edge and include it in that scalar-extended edge. -/
+noncomputable def selectedBScalarExtensionToSAaEdgeRingHom :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      L.sA_aTotalBaseChangedEdge.field :=
+  L.sA_aRightScalarExtensionToField.toRingHom.comp
+    (rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.aProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom
+
+/-- Restriction of the promoted inverse-input reference embedding to the
+whole selected nonnormal `B/T` branch. -/
+noncomputable def toReferenceAOnSelectedBScalarExtensionRingHom
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.toReferenceAInSemanticSourceRingHom L hind).comp
+    (selectedBScalarExtensionToFunctionFieldRingHom
+      (w := w) (hψ := hψ))
+
+/-- The same branch map obtained through the inverse-input complete edge. -/
+noncomputable def sAaEdgeOnSelectedBScalarExtensionRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+      L.sA_aTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSAaEdgeRingHom (w := w) L)
+
+/-- On the entire selected nonnormal `B/T` branch, the inverse-input
+reference embedding is the literal scalar-extended complete-edge map. -/
+theorem toReferenceAOnSelectedBScalarExtensionRingHom_apply
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    R.toReferenceAOnSelectedBScalarExtensionRingHom L hind z =
+      R.sAaEdgeOnSelectedBScalarExtensionRingHom L hind z := by
+  unfold toReferenceAOnSelectedBScalarExtensionRingHom
+    sAaEdgeOnSelectedBScalarExtensionRingHom
+  simp only [RingHom.comp_apply]
+  unfold toReferenceAInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedExtension
+    L hind a L.sA_a_a L.aProjectionRelation
+      L.aNormalField_le_normalizedField z]
+  unfold selectedBScalarExtensionToSAaEdgeRingHom
+    totalBaseChangedEdgeToReferenceSemanticSourceCover
+  simp only [RingHom.comp_apply]
+  apply congrArg
+  exact L.sA_aRightScalarExtensionToReferenceNormalCover_eq
+    ((rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.aProjectionRelation.symm).totalEquiv z)
+
+/-- Transport the selected nonnormal `B/T` branch to the second-input
+complete edge and include it in that scalar-extended edge. -/
+noncomputable def selectedBScalarExtensionToSbEdgeRingHom :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      L.s_bTotalBaseChangedEdge.field :=
+  L.s_bRightScalarExtensionToField.toRingHom.comp
+    (rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.bProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom
+
+/-- Restriction of the promoted second-input reference embedding to the
+whole selected nonnormal `B/T` branch. -/
+noncomputable def toReferenceBOnSelectedBScalarExtensionRingHom
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.toReferenceBInSemanticSourceRingHom L hind).comp
+    (selectedBScalarExtensionToFunctionFieldRingHom
+      (w := w) (hψ := hψ))
+
+/-- The same branch map obtained through the second-input complete edge. -/
+noncomputable def sbEdgeOnSelectedBScalarExtensionRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+      L.s_bTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSbEdgeRingHom (w := w) L)
+
+/-- On the entire selected nonnormal `B/T` branch, the second-input
+reference embedding is the literal scalar-extended complete-edge map. -/
+theorem toReferenceBOnSelectedBScalarExtensionRingHom_apply
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    R.toReferenceBOnSelectedBScalarExtensionRingHom L hind z =
+      R.sbEdgeOnSelectedBScalarExtensionRingHom L hind z := by
+  unfold toReferenceBOnSelectedBScalarExtensionRingHom
+    sbEdgeOnSelectedBScalarExtensionRingHom
+  simp only [RingHom.comp_apply]
+  unfold toReferenceBInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedExtension
+    L hind b L.s_b_b L.bProjectionRelation
+      L.bNormalField_le_normalizedField z]
+  unfold selectedBScalarExtensionToSbEdgeRingHom
+    totalBaseChangedEdgeToReferenceSemanticSourceCover
+  simp only [RingHom.comp_apply]
+  apply congrArg
+  exact L.s_bRightScalarExtensionToReferenceNormalCover_eq
+    ((rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.bProjectionRelation.symm).totalEquiv z)
+
+/-- Transport the selected nonnormal `B/T` branch to the output complete
+edge and include it in that scalar-extended edge. -/
+noncomputable def selectedBScalarExtensionToSAcEdgeRingHom :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      L.sA_cTotalBaseChangedEdge.field :=
+  L.sA_cRightScalarExtensionToField.toRingHom.comp
+    (rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.cProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom
+
+/-- Restriction of the promoted output reference embedding to the whole
+selected nonnormal `B/T` branch. -/
+noncomputable def toReferenceCOnSelectedBScalarExtensionRingHom
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.toReferenceCInSemanticSourceRingHom L hind).comp
+    (selectedBScalarExtensionToFunctionFieldRingHom
+      (w := w) (hψ := hψ))
+
+/-- The same branch map obtained through the output complete edge. -/
+noncomputable def sAcEdgeOnSelectedBScalarExtensionRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.referenceSemanticSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+      L.sA_cTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSAcEdgeRingHom (w := w) L)
+
+/-- On the entire selected nonnormal `B/T` branch, the output reference
+embedding is the literal scalar-extended complete-edge map. -/
+theorem toReferenceCOnSelectedBScalarExtensionRingHom_apply
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (z : rankTwoScalarExtension (k := k) w.bReps w.T.rep) :
+    R.toReferenceCOnSelectedBScalarExtensionRingHom L hind z =
+      R.sAcEdgeOnSelectedBScalarExtensionRingHom L hind z := by
+  unfold toReferenceCOnSelectedBScalarExtensionRingHom
+    sAcEdgeOnSelectedBScalarExtensionRingHom
+  simp only [RingHom.comp_apply]
+  unfold toReferenceCInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedExtension
+    L hind D.c L.sA_c_c L.cProjectionRelation
+      L.cNormalField_le_normalizedField z]
+  unfold selectedBScalarExtensionToSAcEdgeRingHom
+    totalBaseChangedEdgeToReferenceSemanticSourceCover
+  simp only [RingHom.comp_apply]
+  apply congrArg
+  exact L.sA_cRightScalarExtensionToReferenceNormalCover_eq
+    ((rankTwoScalarExtensionEquivOfIdealEq
+      (k := k) L.cProjectionRelation.symm).totalEquiv z)
+
+/-- Simultaneously, all four promoted reference embeddings restrict on the
+selected nonnormal `B/T` branch to the corresponding complete-edge maps. -/
+theorem fourReferenceEmbeddingsOnSelectedBScalarExtension
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceEOnSelectedBScalarExtensionRingHom L hind =
+        R.seEdgeOnSelectedBScalarExtensionRingHom L hind ∧
+      R.toReferenceAOnSelectedBScalarExtensionRingHom L hind =
+        R.sAaEdgeOnSelectedBScalarExtensionRingHom L hind ∧
+      R.toReferenceBOnSelectedBScalarExtensionRingHom L hind =
+        R.sbEdgeOnSelectedBScalarExtensionRingHom L hind ∧
+      R.toReferenceCOnSelectedBScalarExtensionRingHom L hind =
+        R.sAcEdgeOnSelectedBScalarExtensionRingHom L hind := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · apply RingHom.ext
+    intro z
+    exact R.toReferenceEOnSelectedBScalarExtensionRingHom_apply L hind z
+  · apply RingHom.ext
+    intro z
+    exact R.toReferenceAOnSelectedBScalarExtensionRingHom_apply L hind z
+  · apply RingHom.ext
+    intro z
+    exact R.toReferenceBOnSelectedBScalarExtensionRingHom_apply L hind z
+  · apply RingHom.ext
+    intro z
+    exact R.toReferenceCOnSelectedBScalarExtensionRingHom_apply L hind z
 
 /-- The first-input reference embedding and the literal base-changed
 complete edge agree on the selected scalar generator. -/

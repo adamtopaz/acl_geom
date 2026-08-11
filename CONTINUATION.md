@@ -895,6 +895,24 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     from the coefficient field plus selected scalar to the whole relevant
     branch/function-field comparison and derive the auxiliary-`s`-independent
     three-input factorization.
+65. The pointwise selected-scalar comparison now extends to every element of
+    the selected nonnormal `B/T` scalar extension.  Each scalar-extended
+    complete edge contains its entire three-coordinate right branch
+    literally, and the direct inclusion of that branch in
+    `referenceNormalCover` is proved equal to the route through the complete
+    edge.  Canonical total-field equivalences transport the intrinsic
+    selected branch to each of the `e`, `a`, `b`, and `c` branches, while the
+    based normal-cover transitions agree with those equivalences on the
+    whole extension.  After promotion to `referenceSemanticSourceCover`, all
+    four `toReferenceE/A/B/C` embeddings therefore restrict as ring
+    homomorphisms to the corresponding literal complete-edge inclusions;
+    the four equalities are packaged simultaneously.  The next local step
+    is to extend this exact comparison from the nonnormal scalar extensions
+    across the full selected normalized function field and the four complete
+    curve-branch fields.  That whole-function-field equality should then
+    identify the explicit reference embeddings with the semantic curve
+    arrows and yield the auxiliary-`s`-independent three-input
+    factorization.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -932,10 +950,11 @@ transports are now proved to be exactly the coefficients of the four
 relocated right-branch curve equations.  The four complete selected edges
 have also been scalar-extended to the common sixteen-coordinate field and
 embedded, coordinate-for-coordinate, into the common formal-source cover.
-The promoted reference embeddings now agree there with all four literal
-coordinate-`7` scalar branches, and their intrinsic-germ restrictions are
-the named coefficient transports.  Extend this coefficient-and-selected-
-scalar agreement to the whole relevant branch/function fields and use that
+The promoted reference embeddings now agree there with the literal
+complete-edge inclusions on every element of all four selected nonnormal
+`B/T` scalar extensions, and their intrinsic-germ restrictions are the
+named coefficient transports.  Extend this exact agreement across the full
+normalized function field and complete curve-branch fields and use that
 equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:

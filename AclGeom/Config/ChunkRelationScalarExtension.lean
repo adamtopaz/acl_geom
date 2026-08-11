@@ -92,6 +92,35 @@ def selectedCoordinate (i : Fin 9) : E.field :=
     (E.selectedCoordinate i : K) = E.realization.jointTuple i :=
   rfl
 
+/-- The right rank-two parameter and its selected scalar coordinate form a
+literal subfield of the scalar-extended complete edge. -/
+theorem rightScalarField_le_field :
+    rankTwoScalarField (k := k) E.realization.b E.realization.t ≤ E.field := by
+  apply le_trans ?_ E.jointField_le_field
+  unfold rankTwoScalarField
+    QWitness.PsiChunkRelationRealization.jointField
+  apply adjoin.mono
+  rintro _ ⟨i, rfl⟩
+  show rankTwoScalarTuple E.realization.b E.realization.t i ∈
+    Set.range E.realization.jointTuple
+  fin_cases i
+  · exact ⟨2, rfl⟩
+  · exact ⟨3, rfl⟩
+  · exact ⟨7, rfl⟩
+
+/-- Literal inclusion of the selected right scalar branch extension in the
+scalar-extended complete edge. -/
+def rightScalarExtensionToField :
+    (rankTwoScalarExtension
+      (k := k) E.realization.b E.realization.t) →ₐ[k] E.field :=
+  IntermediateField.inclusion E.rightScalarField_le_field
+
+@[simp] theorem rightScalarExtensionToField_val
+    (z : rankTwoScalarExtension
+      (k := k) E.realization.b E.realization.t) :
+    (E.rightScalarExtensionToField z : K) = z :=
+  rfl
+
 /-- The scalar-extended edge is still contained in the literal common
 twenty-eight-coordinate selected field. -/
 theorem field_le_jointField : E.field ≤ L.jointField := by
@@ -199,6 +228,51 @@ def sA_cTotalBaseChangedEdge : L.TotalBaseChangedEdge where
       funext i
       fin_cases i <;> rfl)
 
+/-- Literal inclusion of the first edge's right `B/T` branch in its
+scalar-extended complete edge. -/
+def seRightScalarExtensionToField :
+    (rankTwoScalarExtension (k := k) e L.se_e) →ₐ[k]
+      L.seTotalBaseChangedEdge.field :=
+  L.seTotalBaseChangedEdge.rightScalarExtensionToField
+
+/-- Literal inclusion of the inverse-input edge's right `B/T` branch. -/
+def sA_aRightScalarExtensionToField :
+    (rankTwoScalarExtension (k := k) a L.sA_a_a) →ₐ[k]
+      L.sA_aTotalBaseChangedEdge.field :=
+  L.sA_aTotalBaseChangedEdge.rightScalarExtensionToField
+
+/-- Literal inclusion of the second-input edge's right `B/T` branch. -/
+def s_bRightScalarExtensionToField :
+    (rankTwoScalarExtension (k := k) b L.s_b_b) →ₐ[k]
+      L.s_bTotalBaseChangedEdge.field :=
+  L.s_bTotalBaseChangedEdge.rightScalarExtensionToField
+
+/-- Literal inclusion of the output edge's right `B/T` branch. -/
+def sA_cRightScalarExtensionToField :
+    (rankTwoScalarExtension (k := k) D.c L.sA_c_c) →ₐ[k]
+      L.sA_cTotalBaseChangedEdge.field :=
+  L.sA_cTotalBaseChangedEdge.rightScalarExtensionToField
+
+@[simp] theorem seRightScalarExtensionToField_val
+    (z : rankTwoScalarExtension (k := k) e L.se_e) :
+    (L.seRightScalarExtensionToField z : K) = z :=
+  rfl
+
+@[simp] theorem sA_aRightScalarExtensionToField_val
+    (z : rankTwoScalarExtension (k := k) a L.sA_a_a) :
+    (L.sA_aRightScalarExtensionToField z : K) = z :=
+  rfl
+
+@[simp] theorem s_bRightScalarExtensionToField_val
+    (z : rankTwoScalarExtension (k := k) b L.s_b_b) :
+    (L.s_bRightScalarExtensionToField z : K) = z :=
+  rfl
+
+@[simp] theorem sA_cRightScalarExtensionToField_val
+    (z : rankTwoScalarExtension (k := k) D.c L.sA_c_c) :
+    (L.sA_cRightScalarExtensionToField z : K) = z :=
+  rfl
+
 /-- The literal joint field, and therefore every scalar-extended selected
 edge, lies in the final reference normal cover. -/
 theorem jointField_le_referenceNormalCover :
@@ -226,6 +300,217 @@ def TotalBaseChangedEdge.toReferenceNormalCover
     (↥E.field) →ₐ[k] (↥L.referenceNormalCover) :=
   IntermediateField.algHomIntoOfLeRestrictScalars E.field
     L.referenceNormalCover E.field_le_referenceNormalCover
+
+/-- Direct inclusion of a selected right scalar branch in the final
+reference normal cover. -/
+def TotalBaseChangedEdge.rightScalarExtensionToReferenceNormalCover
+    (E : L.TotalBaseChangedEdge)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) E.realization.b E.realization.t)).restrictScalars k ≤
+          L.normalizedField) :
+    (rankTwoScalarExtension
+      (k := k) E.realization.b E.realization.t) →ₐ[k]
+        L.referenceNormalCover :=
+  (L.scalarNormalFieldToReferenceNormalCover
+      E.realization.b E.realization.t hfield).comp
+    ((FiniteCover.selectedEmbedding
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) E.realization.b E.realization.t)).restrictScalars k)
+
+/-- Inclusion of the same right scalar branch through the scalar-extended
+complete edge. -/
+def TotalBaseChangedEdge.rightScalarExtensionToReferenceNormalCoverViaEdge
+    (E : L.TotalBaseChangedEdge) :
+    (rankTwoScalarExtension
+      (k := k) E.realization.b E.realization.t) →ₐ[k]
+        L.referenceNormalCover :=
+  (TotalBaseChangedEdge.toReferenceNormalCover L E).comp
+    E.rightScalarExtensionToField
+
+@[simp] theorem TotalBaseChangedEdge.rightScalarExtensionToReferenceNormalCover_val
+    (E : L.TotalBaseChangedEdge)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) E.realization.b E.realization.t)).restrictScalars k ≤
+          L.normalizedField)
+    (z : rankTwoScalarExtension
+      (k := k) E.realization.b E.realization.t) :
+    ((TotalBaseChangedEdge.rightScalarExtensionToReferenceNormalCover
+      L E hfield z : L.referenceNormalCover) : K) = z := by
+  rfl
+
+@[simp] theorem TotalBaseChangedEdge.rightScalarExtensionToReferenceNormalCoverViaEdge_val
+    (E : L.TotalBaseChangedEdge)
+    (z : rankTwoScalarExtension
+      (k := k) E.realization.b E.realization.t) :
+    ((TotalBaseChangedEdge.rightScalarExtensionToReferenceNormalCoverViaEdge
+      L E z : L.referenceNormalCover) : K) = z := by
+  rfl
+
+/-- Direct inclusion of the first edge's right scalar branch in the final
+reference normal cover. -/
+def seRightScalarExtensionToReferenceNormalCover :
+    (rankTwoScalarExtension (k := k) e L.se_e) →ₐ[k]
+      L.referenceNormalCover :=
+  (L.scalarNormalFieldToReferenceNormalCover e L.se_e
+      L.eNormalField_le_normalizedField).comp
+    ((FiniteCover.selectedEmbedding
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) e L.se_e)).restrictScalars k)
+
+/-- Inclusion of the first edge's right scalar branch through its complete
+scalar-extended edge. -/
+def seRightScalarExtensionToReferenceNormalCoverViaEdge :
+    (rankTwoScalarExtension (k := k) e L.se_e) →ₐ[k]
+      L.referenceNormalCover :=
+  (TotalBaseChangedEdge.toReferenceNormalCover L
+      L.seTotalBaseChangedEdge).comp L.seRightScalarExtensionToField
+
+@[simp] theorem seRightScalarExtensionToReferenceNormalCover_val
+    (z : rankTwoScalarExtension (k := k) e L.se_e) :
+    ((L.seRightScalarExtensionToReferenceNormalCover z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+@[simp] theorem seRightScalarExtensionToReferenceNormalCoverViaEdge_val
+    (z : rankTwoScalarExtension (k := k) e L.se_e) :
+    ((L.seRightScalarExtensionToReferenceNormalCoverViaEdge z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+/-- The first edge's right scalar branch has the same literal inclusion in
+the reference normal cover by either route. -/
+theorem seRightScalarExtensionToReferenceNormalCover_eq
+    (z : rankTwoScalarExtension (k := k) e L.se_e) :
+    L.seRightScalarExtensionToReferenceNormalCover z =
+      L.seRightScalarExtensionToReferenceNormalCoverViaEdge z := by
+  apply Subtype.ext
+  rw [L.seRightScalarExtensionToReferenceNormalCover_val,
+    L.seRightScalarExtensionToReferenceNormalCoverViaEdge_val]
+
+/-- Direct inclusion of the inverse-input edge's right scalar branch in
+the final reference normal cover. -/
+def sA_aRightScalarExtensionToReferenceNormalCover :
+    (rankTwoScalarExtension (k := k) a L.sA_a_a) →ₐ[k]
+      L.referenceNormalCover :=
+  (L.scalarNormalFieldToReferenceNormalCover a L.sA_a_a
+      L.aNormalField_le_normalizedField).comp
+    ((FiniteCover.selectedEmbedding
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) a L.sA_a_a)).restrictScalars k)
+
+/-- Inclusion of the inverse-input edge's right scalar branch through its
+complete scalar-extended edge. -/
+def sA_aRightScalarExtensionToReferenceNormalCoverViaEdge :
+    (rankTwoScalarExtension (k := k) a L.sA_a_a) →ₐ[k]
+      L.referenceNormalCover :=
+  (TotalBaseChangedEdge.toReferenceNormalCover L
+      L.sA_aTotalBaseChangedEdge).comp L.sA_aRightScalarExtensionToField
+
+@[simp] theorem sA_aRightScalarExtensionToReferenceNormalCover_val
+    (z : rankTwoScalarExtension (k := k) a L.sA_a_a) :
+    ((L.sA_aRightScalarExtensionToReferenceNormalCover z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+@[simp] theorem sA_aRightScalarExtensionToReferenceNormalCoverViaEdge_val
+    (z : rankTwoScalarExtension (k := k) a L.sA_a_a) :
+    ((L.sA_aRightScalarExtensionToReferenceNormalCoverViaEdge z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+/-- The inverse-input edge's right scalar branch has the same literal
+inclusion in the reference normal cover by either route. -/
+theorem sA_aRightScalarExtensionToReferenceNormalCover_eq
+    (z : rankTwoScalarExtension (k := k) a L.sA_a_a) :
+    L.sA_aRightScalarExtensionToReferenceNormalCover z =
+      L.sA_aRightScalarExtensionToReferenceNormalCoverViaEdge z := by
+  apply Subtype.ext
+  rw [L.sA_aRightScalarExtensionToReferenceNormalCover_val,
+    L.sA_aRightScalarExtensionToReferenceNormalCoverViaEdge_val]
+
+/-- Direct inclusion of the second-input edge's right scalar branch in the
+final reference normal cover. -/
+def s_bRightScalarExtensionToReferenceNormalCover :
+    (rankTwoScalarExtension (k := k) b L.s_b_b) →ₐ[k]
+      L.referenceNormalCover :=
+  (L.scalarNormalFieldToReferenceNormalCover b L.s_b_b
+      L.bNormalField_le_normalizedField).comp
+    ((FiniteCover.selectedEmbedding
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) b L.s_b_b)).restrictScalars k)
+
+/-- Inclusion of the second-input edge's right scalar branch through its
+complete scalar-extended edge. -/
+def s_bRightScalarExtensionToReferenceNormalCoverViaEdge :
+    (rankTwoScalarExtension (k := k) b L.s_b_b) →ₐ[k]
+      L.referenceNormalCover :=
+  (TotalBaseChangedEdge.toReferenceNormalCover L
+      L.s_bTotalBaseChangedEdge).comp L.s_bRightScalarExtensionToField
+
+@[simp] theorem s_bRightScalarExtensionToReferenceNormalCover_val
+    (z : rankTwoScalarExtension (k := k) b L.s_b_b) :
+    ((L.s_bRightScalarExtensionToReferenceNormalCover z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+@[simp] theorem s_bRightScalarExtensionToReferenceNormalCoverViaEdge_val
+    (z : rankTwoScalarExtension (k := k) b L.s_b_b) :
+    ((L.s_bRightScalarExtensionToReferenceNormalCoverViaEdge z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+/-- The second-input edge's right scalar branch has the same literal
+inclusion in the reference normal cover by either route. -/
+theorem s_bRightScalarExtensionToReferenceNormalCover_eq
+    (z : rankTwoScalarExtension (k := k) b L.s_b_b) :
+    L.s_bRightScalarExtensionToReferenceNormalCover z =
+      L.s_bRightScalarExtensionToReferenceNormalCoverViaEdge z := by
+  apply Subtype.ext
+  rw [L.s_bRightScalarExtensionToReferenceNormalCover_val,
+    L.s_bRightScalarExtensionToReferenceNormalCoverViaEdge_val]
+
+/-- Direct inclusion of the output edge's right scalar branch in the final
+reference normal cover. -/
+def sA_cRightScalarExtensionToReferenceNormalCover :
+    (rankTwoScalarExtension (k := k) D.c L.sA_c_c) →ₐ[k]
+      L.referenceNormalCover :=
+  (L.scalarNormalFieldToReferenceNormalCover D.c L.sA_c_c
+      L.cNormalField_le_normalizedField).comp
+    ((FiniteCover.selectedEmbedding
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) D.c L.sA_c_c)).restrictScalars k)
+
+/-- Inclusion of the output edge's right scalar branch through its complete
+scalar-extended edge. -/
+def sA_cRightScalarExtensionToReferenceNormalCoverViaEdge :
+    (rankTwoScalarExtension (k := k) D.c L.sA_c_c) →ₐ[k]
+      L.referenceNormalCover :=
+  (TotalBaseChangedEdge.toReferenceNormalCover L
+      L.sA_cTotalBaseChangedEdge).comp L.sA_cRightScalarExtensionToField
+
+@[simp] theorem sA_cRightScalarExtensionToReferenceNormalCover_val
+    (z : rankTwoScalarExtension (k := k) D.c L.sA_c_c) :
+    ((L.sA_cRightScalarExtensionToReferenceNormalCover z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+@[simp] theorem sA_cRightScalarExtensionToReferenceNormalCoverViaEdge_val
+    (z : rankTwoScalarExtension (k := k) D.c L.sA_c_c) :
+    ((L.sA_cRightScalarExtensionToReferenceNormalCoverViaEdge z :
+      L.referenceNormalCover) : K) = z :=
+  rfl
+
+/-- The output edge's right scalar branch has the same literal inclusion in
+the reference normal cover by either route. -/
+theorem sA_cRightScalarExtensionToReferenceNormalCover_eq
+    (z : rankTwoScalarExtension (k := k) D.c L.sA_c_c) :
+    L.sA_cRightScalarExtensionToReferenceNormalCover z =
+      L.sA_cRightScalarExtensionToReferenceNormalCoverViaEdge z := by
+  apply Subtype.ext
+  rw [L.sA_cRightScalarExtensionToReferenceNormalCover_val,
+    L.sA_cRightScalarExtensionToReferenceNormalCoverViaEdge_val]
 
 /-- The common sixteen-coordinate coefficient field embeds directly in the
 final reference normal cover. -/
