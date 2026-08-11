@@ -769,6 +769,38 @@ noncomputable def secondBranchEmbeddingInRebasedCanonical [IsAlgClosed Ω]
       (secondBranchOverRebasedSource_le_rebasedNormalField
         F P Q hsource C E hEC))⟩
 
+/-- Place the first literal branch from a rebased pairwise comparison in
+any larger canonical normal cover containing that comparison cover. -/
+noncomputable def firstBranchEmbeddingInRebasedCanonicalIn [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC)))
+    (N : AlgebraicClosureTransport.FiniteNormalCover
+      (↥((adjoin E {P.source}).restrictScalars k)))
+    (hle : (rebasedCanonicalCover
+      F P Q hsource C E hEC hfinEC).field ≤ N.field) :
+    NormalBranchEmbedding
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(firstBranchOverRebasedSource F P E)) (↥N.field) :=
+  ⟨(IntermediateField.inclusion hle).comp
+    (firstBranchEmbeddingInRebasedCanonical
+      F P Q hsource C E hEC hfinEC).toAlgHom⟩
+
+/-- Place the second literal branch from a rebased pairwise comparison in
+the same larger canonical normal cover. -/
+noncomputable def secondBranchEmbeddingInRebasedCanonicalIn [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC)))
+    (N : AlgebraicClosureTransport.FiniteNormalCover
+      (↥((adjoin E {P.source}).restrictScalars k)))
+    (hle : (rebasedCanonicalCover
+      F P Q hsource C E hEC hfinEC).field ≤ N.field) :
+    NormalBranchEmbedding
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(secondBranchOverRebasedSource F P Q E)) (↥N.field) :=
+  ⟨(IntermediateField.inclusion hle).comp
+    (secondBranchEmbeddingInRebasedCanonical
+      F P Q hsource C E hEC hfinEC).toAlgHom⟩
+
 /-- The second literal branch, transported back along the ideal-induced
 branch equivalence, as an embedding of the first branch into the joint
 normal field. -/

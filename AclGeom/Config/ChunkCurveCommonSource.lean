@@ -1734,6 +1734,62 @@ theorem repeatedSCommonCorrespondencePair_ideal_eq
       ![commonCurveSource (K := K), R.sb.middle]
   exact R.repeatedSPairIdeal_eq_over_commonInputField hind
 
+/-- The two common-input occurrences of the repeated `s` branch have the
+same literal formal source coordinate. -/
+theorem repeatedSCommonCorrespondencePair_source_eq :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).source =
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ).source :=
+  rfl
+
+/-- Equality of the repeated `s` curve ideal identifies the two literal
+selected branch fields over the exact common coefficient/source field. -/
+noncomputable def repeatedSCommonBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).branchOverSource) ≃ₐ[
+        ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ).branchOverSource) := by
+  exact FiniteCoefficientBranchCompositum.branchEquivOfIdealEq
+    R.seCommonBaseData.coefficientField
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    R.repeatedSCommonCorrespondencePair_source_eq
+    (R.repeatedSCommonCorrespondencePair_ideal_eq hind)
+
+/-- The common-base branch equivalence carries the first displayed `s`
+target to the second displayed `s` target. -/
+@[simp] theorem repeatedSCommonBranchEquiv_target
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedSCommonBranchEquiv hind
+        ⟨R.se.middle, by
+          change
+            (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.se) R.seCommonBaseData hψ).target ∈
+                (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+                  (R := R.se) R.seCommonBaseData hψ).branchField
+          exact subset_adjoin _ _ (by simp)⟩ =
+      ⟨R.sb.middle, by
+        change
+          (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+            (R := R.sb) R.sbCommonBaseData hψ).target ∈
+              (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+                (R := R.sb) R.sbCommonBaseData hψ).branchField
+        exact subset_adjoin _ _ (by simp)⟩ := by
+  exact FiniteCoefficientBranchCompositum.branchEquivOfIdealEq_target
+    R.seCommonBaseData.coefficientField
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    R.repeatedSCommonCorrespondencePair_source_eq
+    (R.repeatedSCommonCorrespondencePair_ideal_eq hind)
+
 /-- The repeated `s` curve ideals therefore identify their concrete normal
 covers semilinearly over the induced common-source-field equivalence. -/
 noncomputable def repeatedSCommonNormalCoverEquiv
@@ -3015,6 +3071,102 @@ noncomputable def sAcSelectedDirectBranchInComparisonSourceCover
       (R := R.sAc) R.sAcCommonBaseData hψ)
     (R.branchComparisonSourceCover hind)
     (R.sAcFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The second selected `s` branch, reparametrized by the exact
+common-base ideal-induced branch equivalence so that both occurrences now
+have the first branch field as their literal domain. -/
+noncomputable def sbSelectedLeftBranchReparametrizedInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.sbSelectedLeftBranchInComparisonSourceCover hind).reparametrize
+    (R.repeatedSCommonBranchEquiv hind)
+
+/-- The distinguished common-source deck transformation aligning the two
+selected occurrences of the repeated `s` branch.  It fixes the full common
+eight-input coefficient/source field, not only the ground field. -/
+noncomputable def repeatedSBranchAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.seSelectedLeftBranchInComparisonSourceCover hind)
+    (R.sbSelectedLeftBranchReparametrizedInComparisonSourceCover hind)
+
+/-- The common-source alignment automorphism carries the first selected
+`s` embedding to the reparametrized second selected `s` embedding. -/
+theorem repeatedSBranchAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedSBranchAlignmentAut hind •
+        R.seSelectedLeftBranchInComparisonSourceCover hind =
+      R.sbSelectedLeftBranchReparametrizedInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul
+    (R.seSelectedLeftBranchInComparisonSourceCover hind)
+    (R.sbSelectedLeftBranchReparametrizedInComparisonSourceCover hind)
+
+/-- Pointwise, the common-source alignment carries the actual first
+displayed middle coordinate of the repeated `s` branch to the actual
+second displayed middle coordinate. -/
+theorem repeatedSBranchAlignmentAut_selectedTarget
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedSBranchAlignmentAut hind
+        ((R.seSelectedLeftBranchInComparisonSourceCover hind).toAlgHom
+          ⟨R.se.middle, by
+            change
+              (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+                (R := R.se) R.seCommonBaseData hψ).target ∈
+              (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+                (R := R.se) R.seCommonBaseData hψ).branchField
+            exact subset_adjoin _ _ (by simp)⟩) =
+      (R.sbSelectedLeftBranchInComparisonSourceCover hind).toAlgHom
+        ⟨R.sb.middle, by
+          change
+            (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.sb) R.sbCommonBaseData hψ).target ∈
+            (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.sb) R.sbCommonBaseData hψ).branchField
+          exact subset_adjoin _ _ (by simp)⟩ := by
+  let x :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).branchOverSource :=
+    ⟨R.se.middle, by
+      change
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ).target ∈
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ).branchField
+      exact subset_adjoin _ _ (by simp)⟩
+  let y :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ).branchOverSource :=
+    ⟨R.sb.middle, by
+      change
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sb) R.sbCommonBaseData hψ).target ∈
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.sb) R.sbCommonBaseData hψ).branchField
+      exact subset_adjoin _ _ (by simp)⟩
+  have hmap := congrArg (fun f ↦ f.toAlgHom x)
+    (R.repeatedSBranchAlignmentAut_smul hind)
+  change R.repeatedSBranchAlignmentAut hind
+      ((R.seSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x) =
+    (R.sbSelectedLeftBranchInComparisonSourceCover hind).toAlgHom
+      (R.repeatedSCommonBranchEquiv hind x) at hmap
+  have hxy : R.repeatedSCommonBranchEquiv hind x = y := by
+    simpa only [x, y] using R.repeatedSCommonBranchEquiv_target hind
+  have htarget := congrArg
+    (R.sbSelectedLeftBranchInComparisonSourceCover hind).toAlgHom hxy
+  simpa only [x, y] using hmap.trans htarget
 
 end PsiCurveFourArrowCommonSourceRealizations
 

@@ -1634,6 +1634,35 @@ diagram now live in `branchComparisonSourceCover`:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedDirectBranchInComparisonSourceCover}
 
+Branch comparison now has a chosen, coefficient-linear deck adjustment
+rather than only an existential transitivity statement.  An equivalence of
+branch domains first reparametrizes the second embedding; anchoring the
+temporary algebra structure at the first embedding then extends the second
+embedding to a distinguished deck transformation.  The exact common-base
+`s` ideal supplies such a domain equivalence.  Its induced automorphism of
+`branchComparisonSourceCover` fixes the full eight-input coefficient/source
+field, carries the selected first `s` branch to the selected second branch,
+and sends the displayed first middle coordinate to the displayed second
+middle coordinate.  Rebased pairwise branches can likewise be inherited by
+any larger canonical cover once the remaining coefficient-compatible domain
+identifications are constructed:
+
+{docstring AclGeom.NormalBranchEmbedding.reparametrize}
+
+{docstring AclGeom.NormalBranchEmbedding.alignmentAut}
+
+{docstring AclGeom.NormalBranchEmbedding.alignmentAut_smul_reparametrize}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.firstBranchEmbeddingInRebasedCanonicalIn}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.secondBranchEmbeddingInRebasedCanonicalIn}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSCommonBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSBranchAlignmentAut}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSBranchAlignmentAut_selectedTarget}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

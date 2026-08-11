@@ -54,6 +54,25 @@ namespace NormalBranchEmbedding
 
 variable {E M N}
 
+section Reparametrize
+
+variable {M' : Type*} [Field M'] [Algebra E M']
+
+/-- Regard an embedding of an equivalent branch field as an embedding of
+the original branch field.  This is the domain-side operation needed before
+two selected branches can be compared by a deck transformation of one
+normal cover. -/
+def reparametrize (g : NormalBranchEmbedding E M' N)
+    (e : M ≃ₐ[E] M') : NormalBranchEmbedding E M N :=
+  ⟨g.toAlgHom.comp e.toAlgHom⟩
+
+@[simp] theorem reparametrize_apply
+    (g : NormalBranchEmbedding E M' N) (e : M ≃ₐ[E] M') (x : M) :
+    (g.reparametrize e).toAlgHom x = g.toAlgHom (e x) :=
+  rfl
+
+end Reparametrize
+
 section Transport
 
 variable {E' M' N' : Type*} [Field E'] [Field M'] [Field N']
@@ -284,24 +303,49 @@ theorem extendToAut_smul_canonical [Normal E N]
   ext x
   exact f.toAlgHom.liftNormal_commutes N x
 
+end NormalBranchEmbedding
+
+namespace NormalBranchEmbedding
+
+variable {E M N}
+
+/-- The distinguished deck transformation carrying one branch embedding
+to another.  The first embedding supplies the temporary algebra structure
+on the branch field, so this definition does not depend on an unrelated
+ambient inclusion of that field into the normal cover. -/
+noncomputable def alignmentAut [Normal E N]
+    (f g : NormalBranchEmbedding E M N) : N ≃ₐ[E] N := by
+  letI : Algebra M N := f.toAlgHom.toAlgebra
+  letI : IsScalarTower E M N :=
+    IsScalarTower.of_algebraMap_eq fun x ↦ f.toAlgHom.commutes x |>.symm
+  exact g.extendToAut
+
+/-- The distinguished alignment automorphism sends its anchoring branch
+embedding to the requested branch embedding. -/
+theorem alignmentAut_smul [Normal E N]
+    (f g : NormalBranchEmbedding E M N) :
+    alignmentAut f g • f = g := by
+  letI : Algebra M N := f.toAlgHom.toAlgebra
+  letI : IsScalarTower E M N :=
+    IsScalarTower.of_algebraMap_eq fun x ↦ f.toAlgHom.commutes x |>.symm
+  exact g.extendToAut_smul_canonical
+
+/-- After identifying two branch domains over the common base, the
+distinguished deck transformation carries the first embedding to the
+reparametrized second embedding. -/
+theorem alignmentAut_smul_reparametrize [Normal E N]
+    {M' : Type*} [Field M'] [Algebra E M']
+    (f : NormalBranchEmbedding E M N)
+    (g : NormalBranchEmbedding E M' N) (e : M ≃ₐ[E] M') :
+    alignmentAut f (g.reparametrize e) • f = g.reparametrize e :=
+  alignmentAut_smul f (g.reparametrize e)
+
 /-- The deck-transformation action on branches of a normal cover is
 transitive. -/
 theorem exists_smul_eq [Normal E N]
     (f g : NormalBranchEmbedding E M N) :
     ∃ σ : N ≃ₐ[E] N, σ • f = g := by
-  let α := f.extendToAut
-  let β := g.extendToAut
-  refine ⟨β * α⁻¹, ?_⟩
-  ext x
-  change (β * α⁻¹) (f.toAlgHom x) = g.toAlgHom x
-  rw [AlgEquiv.mul_apply]
-  have hf : α (algebraMap M N x) = f.toAlgHom x :=
-    congrArg (fun h ↦ h.toAlgHom x) f.extendToAut_smul_canonical
-  have hg : β (algebraMap M N x) = g.toAlgHom x :=
-    congrArg (fun h ↦ h.toAlgHom x) g.extendToAut_smul_canonical
-  rw [← hf]
-  change β (α.symm (α (algebraMap M N x))) = g.toAlgHom x
-  rw [α.symm_apply_apply, hg]
+  exact ⟨alignmentAut f g, alignmentAut_smul f g⟩
 
 end NormalBranchEmbedding
 

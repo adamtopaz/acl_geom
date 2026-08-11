@@ -590,6 +590,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     generic ideal-induced generator theorems were also made explicit enough
     for clean dependency rebuilds, and the finite coefficient compositum now
     imports and instantiates its normal-cover prerequisites directly.
+46. Branch-domain equivalences can now reparametrize a selected embedding,
+    after which a distinguished deck automorphism aligns it with any other
+    embedding in the same normal cover.  The construction anchors the
+    temporary algebra structure at the first embedding, so it does not
+    silently use an unrelated inclusion of the branch field.  The exact
+    common-base repeated `s` ideal identifies its two literal branch fields;
+    the induced automorphism of `branchComparisonSourceCover` fixes the full
+    common coefficient/source field, carries the first selected `s` branch
+    to the reparametrized second branch, and sends the first displayed middle
+    coordinate to the second.  A rebased comparison branch can also be
+    inherited by any larger canonical normal cover.  Thus the `s` coherence
+    is now coefficient-faithful; the same domain comparison over the literal
+    common base remains to be proved for `sA`, `u`, and `uB`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -601,7 +614,7 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-    items 36--45 supply selected-branch-preserving comparisons and equality of
+    items 36--46 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field.
 The three remaining alternative fields and their selected comparisons now
