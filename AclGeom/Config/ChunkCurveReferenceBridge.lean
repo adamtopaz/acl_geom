@@ -593,6 +593,22 @@ noncomputable def selectedBFunctionFieldAlgEquiv :
     (rankTwoParameterCoordinates (k := k) w.bReps)
     (rankTwoParameterCoordinates_adjoin_eq_top (k := k) w.bReps)).toRingEquiv
 
+/-- The selected `B/T` scalar generator, expressed intrinsically in the
+function field of the selected normalized chart. -/
+noncomputable def selectedBScalarFunctionFieldElement :
+    (QWitness.PsiChunkFourArrowEdgeLifts.selectedBAlgebraicChart
+      (k := k) (K := K) (w := w) (hψ := hψ)).functionField :=
+  (selectedBFunctionFieldAlgEquiv (w := w) (hψ := hψ)).symm
+    (rankTwoScalarSelectedNormalElement
+      (k := k) w.bReps w.T.rep)
+
+@[simp] theorem selectedBFunctionFieldAlgEquiv_selectedBScalar :
+    selectedBFunctionFieldAlgEquiv (w := w) (hψ := hψ)
+        (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+      rankTwoScalarSelectedNormalElement
+        (k := k) w.bReps w.T.rep := by
+  simp [selectedBScalarFunctionFieldElement]
+
 /-- Embed the intrinsic selected-`B` germ coefficients into the
 scheme-theoretic function field of the selected normalized `B/T` chart. -/
 noncomputable def bGermCoefficientToSelectedBFunctionFieldRingHom :
@@ -660,9 +676,9 @@ theorem selectedBNormalEquivProjection_algebraMap [IsAlgClosed K]
   let hselected := w.T_rep_mem_racl_bReps hψ
   let hself : idealOf k (rankTwoScalarTuple w.bReps w.T.rep) =
       idealOf k (rankTwoScalarTuple w.bReps w.T.rep) := rfl
-  let es := rankTwoScalarLocusNormalCoverAlgEquiv
+  let es := rankTwoScalarLocusBasedNormalCoverAlgEquiv
     hselected hselected hself
-  let ep := rankTwoScalarLocusNormalCoverAlgEquiv
+  let ep := rankTwoScalarLocusBasedNormalCoverAlgEquiv
     hselected (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm
   change ep (es.symm
       (algebraMap (↥(rankTwoParameterField (k := k) w.bReps))
@@ -672,10 +688,17 @@ theorem selectedBNormalEquivProjection_algebraMap [IsAlgClosed K]
         (rankTwoScalarNormalField (k := k) w.bReps w.T.rep) z) =
       algebraMap (↥(rankTwoParameterField (k := k) w.bReps))
         (rankTwoScalarNormalField (k := k) w.bReps w.T.rep) z := by
-    have hz := rankTwoScalarNormalCoverEquivOfIdealEq_algebraMap
-      hselected hselected hself z
-    rw [locusFunctionFieldEquivOfIdealEq_refl] at hz
-    exact hz
+    change rankTwoScalarLocusBasedNormalCoverAlgEquiv
+        hselected hselected hself
+        (algebraMap (↥(rankTwoParameterField (k := k) w.bReps))
+          (rankTwoScalarNormalField (k := k) w.bReps w.T.rep) z) = _
+    rw [rankTwoScalarLocusBasedNormalCoverAlgEquiv_algebraMap]
+    change algebraMap (↥(rankTwoParameterField (k := k) w.bReps))
+        (rankTwoScalarNormalField (k := k) w.bReps w.T.rep)
+        (locusFunctionFieldEquivOfIdealEq
+          (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hself) z) = _
+    rw [locusFunctionFieldEquivOfIdealEq_refl]
+    rfl
   have hes' : es.symm
       (algebraMap (↥(rankTwoParameterField (k := k) w.bReps))
         (rankTwoScalarNormalField (k := k) w.bReps w.T.rep) z) =
@@ -683,8 +706,57 @@ theorem selectedBNormalEquivProjection_algebraMap [IsAlgClosed K]
         (rankTwoScalarNormalField (k := k) w.bReps w.T.rep) z :=
     es.symm_apply_eq.mpr hes.symm
   rw [hes']
-  exact rankTwoScalarNormalCoverEquivOfIdealEq_algebraMap
-    hselected (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm z
+  change rankTwoScalarLocusBasedNormalCoverAlgEquiv hselected
+      (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm
+      (algebraMap (↥(rankTwoParameterField (k := k) w.bReps))
+        (rankTwoScalarNormalField (k := k) w.bReps w.T.rep) z) = _
+  rw [rankTwoScalarLocusBasedNormalCoverAlgEquiv_algebraMap]
+  rfl
+
+/-- The normalized selected-to-projection transport carries the literal
+selected scalar branch to the literal scalar displayed by that projection. -/
+theorem selectedBNormalEquivProjection_selected [IsAlgClosed K]
+    {p : Fin 2 → K} {x : K} (hp : w.psiBProjectionRelation p x) :
+    selectedBNormalEquivProjection (w := w) (hψ := hψ) hp
+        (rankTwoScalarSelectedNormalElement
+          (k := k) w.bReps w.T.rep) =
+      rankTwoScalarSelectedNormalElement (k := k) p x := by
+  rw [selectedBNormalEquivProjection,
+    rankTwoScalarLocusReferenceAlgEquiv_symm]
+  let hselected := w.T_rep_mem_racl_bReps hψ
+  let hself : idealOf k (rankTwoScalarTuple w.bReps w.T.rep) =
+      idealOf k (rankTwoScalarTuple w.bReps w.T.rep) := rfl
+  let es := rankTwoScalarLocusBasedNormalCoverAlgEquiv
+    hselected hselected hself
+  let ep := rankTwoScalarLocusBasedNormalCoverAlgEquiv
+    hselected (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm
+  change ep (es.symm
+      (rankTwoScalarSelectedNormalElement
+        (k := k) w.bReps w.T.rep)) = _
+  have hes : es
+      (rankTwoScalarSelectedNormalElement
+        (k := k) w.bReps w.T.rep) =
+      rankTwoScalarSelectedNormalElement
+        (k := k) w.bReps w.T.rep := by
+    change rankTwoScalarLocusBasedNormalCoverAlgEquiv
+        hselected hselected hself
+        (rankTwoScalarSelectedNormalElement
+          (k := k) w.bReps w.T.rep) = _
+    exact rankTwoScalarLocusBasedNormalCoverAlgEquiv_selected
+      hselected hselected hself
+  have hes' : es.symm
+      (rankTwoScalarSelectedNormalElement
+        (k := k) w.bReps w.T.rep) =
+      rankTwoScalarSelectedNormalElement
+        (k := k) w.bReps w.T.rep :=
+    es.symm_apply_eq.mpr hes.symm
+  rw [hes']
+  change rankTwoScalarLocusBasedNormalCoverAlgEquiv hselected
+      (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm
+      (rankTwoScalarSelectedNormalElement
+        (k := k) w.bReps w.T.rep) = _
+  exact rankTwoScalarLocusBasedNormalCoverAlgEquiv_selected
+    hselected (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hp.symm
 
 /-- Canonical transport of intrinsic selected-`B` germ coefficients to the
 parameter field of an arbitrary `B/T` projection realization. -/
@@ -842,6 +914,25 @@ theorem projectionToReferenceInSemanticSourceRingHom_apply_selectedNormal
   rw [normalizedToSelectedFunctionFieldRingHom_conjugate
     (w := w) (hψ := hψ) hp z]
   rfl
+
+/-- Every promoted projection sends the intrinsic selected scalar generator
+to the literal selected scalar in that projection's ambient normal cover. -/
+theorem projectionToReferenceInSemanticSourceRingHom_apply_selectedBScalar
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField) :
+    R.projectionToReferenceInSemanticSourceRingHom L hind p x hp hfield
+        (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+      R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+        (L.scalarNormalFieldToReferenceNormalCover p x hfield
+          (rankTwoScalarSelectedNormalElement (k := k) p x)) := by
+  unfold selectedBScalarFunctionFieldElement
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedNormal
+    L hind p x hp hfield]
+  rw [selectedBNormalEquivProjection_selected (w := w) (hψ := hψ) hp]
 
 /-- Restrict a promoted reference projection to the intrinsic coefficient
 field of the selected `B` germ. -/
@@ -1366,6 +1457,139 @@ noncomputable def toReferenceCInSemanticSourceRingHom [IsAlgClosed K]
       (↥(R.referenceSemanticSourceCover L hind).field) :=
   R.projectionToReferenceInSemanticSourceRingHom L hind D.c L.sA_c_c
     L.cProjectionRelation L.cNormalField_le_normalizedField
+
+/-- The first-input reference embedding and the literal base-changed
+complete edge agree on the selected scalar generator. -/
+theorem toReferenceEInSemanticSourceRingHom_selectedBScalar
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceEInSemanticSourceRingHom L hind
+        (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+      R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.seTotalBaseChangedEdge hind
+        (L.seTotalBaseChangedEdge.selectedCoordinate 7) := by
+  unfold toReferenceEInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedBScalar
+    L hind e L.se_e L.eProjectionRelation
+      L.eNormalField_le_normalizedField]
+  rw [R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+    L L.seTotalBaseChangedEdge hind 7]
+  apply congrArg
+  apply Subtype.ext
+  rfl
+
+/-- The inverse-input reference embedding and the literal base-changed
+complete edge agree on the selected scalar generator. -/
+theorem toReferenceAInSemanticSourceRingHom_selectedBScalar
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceAInSemanticSourceRingHom L hind
+        (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+      R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.sA_aTotalBaseChangedEdge hind
+        (L.sA_aTotalBaseChangedEdge.selectedCoordinate 7) := by
+  unfold toReferenceAInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedBScalar
+    L hind a L.sA_a_a L.aProjectionRelation
+      L.aNormalField_le_normalizedField]
+  rw [R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+    L L.sA_aTotalBaseChangedEdge hind 7]
+  apply congrArg
+  apply Subtype.ext
+  rfl
+
+/-- The second-input reference embedding and the literal base-changed
+complete edge agree on the selected scalar generator. -/
+theorem toReferenceBInSemanticSourceRingHom_selectedBScalar
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceBInSemanticSourceRingHom L hind
+        (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+      R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.s_bTotalBaseChangedEdge hind
+        (L.s_bTotalBaseChangedEdge.selectedCoordinate 7) := by
+  unfold toReferenceBInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedBScalar
+    L hind b L.s_b_b L.bProjectionRelation
+      L.bNormalField_le_normalizedField]
+  rw [R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+    L L.s_bTotalBaseChangedEdge hind 7]
+  apply congrArg
+  apply Subtype.ext
+  rfl
+
+/-- The output reference embedding and the literal base-changed complete
+edge agree on the selected scalar generator. -/
+theorem toReferenceCInSemanticSourceRingHom_selectedBScalar
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceCInSemanticSourceRingHom L hind
+        (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+      R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.sA_cTotalBaseChangedEdge hind
+        (L.sA_cTotalBaseChangedEdge.selectedCoordinate 7) := by
+  unfold toReferenceCInSemanticSourceRingHom
+  rw [R.projectionToReferenceInSemanticSourceRingHom_apply_selectedBScalar
+    L hind D.c L.sA_c_c L.cProjectionRelation
+      L.cNormalField_le_normalizedField]
+  rw [R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+    L L.sA_cTotalBaseChangedEdge hind 7]
+  apply congrArg
+  apply Subtype.ext
+  rfl
+
+/-- All four promoted reference embeddings meet the literal selected
+complete edges at coordinate `7` inside the one common semantic source. -/
+theorem fourToReferenceInSemanticSourceRingHom_selectedBScalar
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceEInSemanticSourceRingHom L hind
+          (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+        R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+          L.seTotalBaseChangedEdge hind
+          (L.seTotalBaseChangedEdge.selectedCoordinate 7) ∧
+      R.toReferenceAInSemanticSourceRingHom L hind
+          (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+        R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+          L.sA_aTotalBaseChangedEdge hind
+          (L.sA_aTotalBaseChangedEdge.selectedCoordinate 7) ∧
+      R.toReferenceBInSemanticSourceRingHom L hind
+          (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+        R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+          L.s_bTotalBaseChangedEdge hind
+          (L.s_bTotalBaseChangedEdge.selectedCoordinate 7) ∧
+      R.toReferenceCInSemanticSourceRingHom L hind
+          (selectedBScalarFunctionFieldElement (w := w) (hψ := hψ)) =
+        R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+          L.sA_cTotalBaseChangedEdge hind
+          (L.sA_cTotalBaseChangedEdge.selectedCoordinate 7) := by
+  exact ⟨R.toReferenceEInSemanticSourceRingHom_selectedBScalar L hind,
+    R.toReferenceAInSemanticSourceRingHom_selectedBScalar L hind,
+    R.toReferenceBInSemanticSourceRingHom_selectedBScalar L hind,
+    R.toReferenceCInSemanticSourceRingHom_selectedBScalar L hind⟩
+
+/-- The four named intrinsic-germ maps are literally the restrictions of
+the four promoted reference embeddings to the selected `B` germ chart. -/
+theorem fourToReferenceInSemanticSourceRingHom_restrict_bGerm
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceEOnBGermCoefficientRingHom L hind =
+        (R.toReferenceEInSemanticSourceRingHom L hind).comp
+          (bGermCoefficientToSelectedBFunctionFieldRingHom
+            (w := w) (hψ := hψ)) ∧
+      R.toReferenceAOnBGermCoefficientRingHom L hind =
+        (R.toReferenceAInSemanticSourceRingHom L hind).comp
+          (bGermCoefficientToSelectedBFunctionFieldRingHom
+            (w := w) (hψ := hψ)) ∧
+      R.toReferenceBOnBGermCoefficientRingHom L hind =
+        (R.toReferenceBInSemanticSourceRingHom L hind).comp
+          (bGermCoefficientToSelectedBFunctionFieldRingHom
+            (w := w) (hψ := hψ)) ∧
+      R.toReferenceCOnBGermCoefficientRingHom L hind =
+        (R.toReferenceCInSemanticSourceRingHom L hind).comp
+          (bGermCoefficientToSelectedBFunctionFieldRingHom
+            (w := w) (hψ := hψ)) := by
+  exact ⟨rfl, rfl, rfl, rfl⟩
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
 

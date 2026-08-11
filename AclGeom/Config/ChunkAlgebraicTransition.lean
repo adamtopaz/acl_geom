@@ -76,6 +76,125 @@ noncomputable def rankTwoScalarLocusNormalCoverAlgEquiv
           exact (locusFunctionFieldEquivOfIdealEq
             (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy)).commutes r }
 
+omit [IsAlgClosed K] in
+/-- The literal selected scalar coordinate in its concrete normal cover. -/
+def rankTwoScalarSelectedNormalElement
+    (p : Fin 2 → K) (x : K) :
+    rankTwoScalarNormalField (k := k) p x :=
+  FiniteCover.selectedEmbedding
+    (rankTwoParameterField_le_rankTwoScalarField (k := k) p x)
+    ⟨x, by
+      change x ∈ rankTwoScalarField (k := k) p x
+      exact subset_adjoin k _ (Set.mem_range_self (2 : Fin 3))⟩
+
+/-- Equal scalar loci have a semilinear normal-cover equivalence corrected
+to carry the literal selected scalar branch to the literal selected target
+branch. -/
+noncomputable def rankTwoScalarLocusBasedNormalEquiv
+    {p q : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    FiniteCoverBasedNormalEquiv
+      (rankTwoParameterField_le_rankTwoScalarField (k := k) p x)
+      (rankTwoParameterField_le_rankTwoScalarField (k := k) q y)
+      (rankTwoScalarExtensionEquivOfIdealEq (k := k) hxy) := by
+  let hp := rankTwoParameterField_le_rankTwoScalarField (k := k) p x
+  let hq := rankTwoParameterField_le_rankTwoScalarField (k := k) q y
+  apply finiteCoverBasedNormalEquivOfExtensionEquiv hp hq
+    (rankTwoScalarExtension_finiteDimensional (k := k) (K := K) hy)
+    (rankTwoScalarExtensionEquivOfIdealEq (k := k) hxy)
+    (rankTwoScalarNormalCoverEquivOfIdealEq hx hy hxy)
+  apply RingHom.ext
+  intro z
+  exact rankTwoScalarNormalCoverEquivOfIdealEq_algebraMap hx hy hxy z
+
+omit [IsAlgClosed K] in
+@[simp] theorem rankTwoScalarSelectedNormalElement_val
+    (p : Fin 2 → K) (x : K) :
+    (rankTwoScalarSelectedNormalElement (k := k) p x : K) = x :=
+  rfl
+
+/-- Ground-field algebra equivalence underlying the based scalar-locus
+normal-cover transport. -/
+noncomputable def rankTwoScalarLocusBasedNormalCoverAlgEquiv
+    {p q : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    rankTwoScalarNormalField (k := k) p x ≃ₐ[k]
+      rankTwoScalarNormalField (k := k) q y :=
+  { (rankTwoScalarLocusBasedNormalEquiv hx hy hxy).toRingEquiv with
+    commutes' := fun r ↦ by
+      rw [IsScalarTower.algebraMap_apply k
+          (rankTwoParameterField (k := k) p)
+          (rankTwoScalarNormalField (k := k) p x),
+        IsScalarTower.algebraMap_apply k
+          (rankTwoParameterField (k := k) q)
+          (rankTwoScalarNormalField (k := k) q y)]
+      calc
+        _ = algebraMap (↥(rankTwoParameterField (k := k) q))
+              (rankTwoScalarNormalField (k := k) q y)
+              ((rankTwoScalarExtensionEquivOfIdealEq
+                (k := k) hxy).baseEquiv
+                (algebraMap k
+                  (rankTwoParameterField (k := k) p) r)) :=
+          DFunLike.congr_fun
+            (rankTwoScalarLocusBasedNormalEquiv hx hy hxy).commutes
+            (algebraMap k (rankTwoParameterField (k := k) p) r)
+        _ = _ := by
+          congr 1
+          exact (rankTwoScalarExtensionEquivOfIdealEq
+            (k := k) hxy).baseEquiv.commutes r }
+
+/-- The based normal-cover equivalence remains semilinear over the
+canonical parameter-field equivalence. -/
+@[simp] theorem rankTwoScalarLocusBasedNormalCoverAlgEquiv_algebraMap
+    {p q : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y))
+    (v : rankTwoParameterField (k := k) p) :
+    rankTwoScalarLocusBasedNormalCoverAlgEquiv hx hy hxy
+        (algebraMap (↥(rankTwoParameterField (k := k) p))
+          (rankTwoScalarNormalField (k := k) p x) v) =
+      algebraMap (↥(rankTwoParameterField (k := k) q))
+        (rankTwoScalarNormalField (k := k) q y)
+        ((rankTwoScalarExtensionEquivOfIdealEq
+          (k := k) hxy).baseEquiv v) :=
+  DFunLike.congr_fun
+    (rankTwoScalarLocusBasedNormalEquiv hx hy hxy).commutes v
+
+/-- The based scalar-locus transport sends the selected scalar coordinate
+to the selected scalar coordinate, not merely to an unspecified conjugate. -/
+@[simp] theorem rankTwoScalarLocusBasedNormalCoverAlgEquiv_selected
+    {p q : Fin 2 → K} {x y : K}
+    (hx : x ∈ racl k (Set.range p))
+    (hy : y ∈ racl k (Set.range q))
+    (hxy : idealOf k (rankTwoScalarTuple p x) =
+      idealOf k (rankTwoScalarTuple q y)) :
+    rankTwoScalarLocusBasedNormalCoverAlgEquiv hx hy hxy
+        (rankTwoScalarSelectedNormalElement (k := k) p x) =
+      rankTwoScalarSelectedNormalElement (k := k) q y := by
+  let sx : rankTwoScalarExtension (k := k) p x :=
+    ⟨x, by
+      change x ∈ rankTwoScalarField (k := k) p x
+      exact subset_adjoin k _ (Set.mem_range_self (2 : Fin 3))⟩
+  have hmap :=
+    (rankTwoScalarLocusBasedNormalEquiv hx hy hxy).map_selected_apply sx
+  have htotal :
+      (rankTwoScalarExtensionEquivOfIdealEq (k := k) hxy).totalEquiv sx =
+        (⟨y, by
+          change y ∈ rankTwoScalarField (k := k) q y
+          exact subset_adjoin k _ (Set.mem_range_self (2 : Fin 3))⟩ :
+            rankTwoScalarExtension (k := k) q y) := by
+    exact locusFunctionFieldEquivOfIdealEq_apply hxy 2
+  rw [htotal] at hmap
+  exact hmap
+
 /-- Normalize transitions between arbitrary realizations of one projection
 locus through a fixed generic realization.  This removes all dependence on
 independently chosen normal-closure lifts. -/
@@ -90,8 +209,8 @@ noncomputable def rankTwoScalarLocusReferenceAlgEquiv
       idealOf k (rankTwoScalarTuple q y)) :
     rankTwoScalarNormalField (k := k) p x ≃ₐ[k]
       rankTwoScalarNormalField (k := k) q y :=
-  (rankTwoScalarLocusNormalCoverAlgEquiv hz hx hrx).symm.trans
-    (rankTwoScalarLocusNormalCoverAlgEquiv hz hy hry)
+  (rankTwoScalarLocusBasedNormalCoverAlgEquiv hz hx hrx).symm.trans
+    (rankTwoScalarLocusBasedNormalCoverAlgEquiv hz hy hry)
 
 @[simp] theorem rankTwoScalarLocusReferenceAlgEquiv_self
     {r p : Fin 2 → K} {z x : K}

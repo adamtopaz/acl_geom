@@ -2142,6 +2142,25 @@ formal-source normal cover without a new branch choice:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceCInSemanticSourceRingHom}
 
+The reference-normalized scalar transition now retains its based
+normal-cover correction.  Besides the strict cocycle, it therefore preserves
+the selected scalar branch exactly.  Pulling that scalar back through the
+selected chart gives one intrinsic function-field generator; the four
+promoted reference maps send it to the four literal coordinate-`7` elements
+of the scalar-extended complete edges in the common semantic source:
+
+{docstring AclGeom.QWitness.rankTwoScalarSelectedNormalElement}
+
+{docstring AclGeom.QWitness.rankTwoScalarLocusBasedNormalCoverAlgEquiv_selected}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBScalarFunctionFieldElement}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBNormalEquivProjection_selected}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.projectionToReferenceInSemanticSourceRingHom_apply_selectedBScalar}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourToReferenceInSemanticSourceRingHom_selectedBScalar}
+
 This comparison is now coefficient-faithful on the intrinsic selected
 `B`-germ field, not only on the eight displayed free inputs.  Equality of
 the selected and relocated `B/T` loci induces the canonical equivalence of
@@ -2165,6 +2184,8 @@ restrictions are named and packaged in one simultaneous formula:
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceCOnBGermCoefficientRingHom}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceOnBGermCoefficientRingHom_apply_parameterTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourToReferenceInSemanticSourceRingHom_restrict_bGerm}
 
 The coefficient values in that formula are now identified with the actual
 canonical equations on the four semantic right branches.  At the reusable

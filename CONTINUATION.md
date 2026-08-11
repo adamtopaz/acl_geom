@@ -877,6 +877,24 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     coefficient field and the formal source, using the coefficient-
     semilinear source charts.  Their coordinate-`7` formulas can then be
     compared pointwise with the promoted `toReferenceE/A/B/C` maps.
+64. The normalized scalar-reference transitions now retain the based
+    normal-cover correction instead of reverting to an arbitrary lift after
+    strict reference normalization.  They therefore still satisfy strict
+    identity, inverse, and transitive laws while also carrying the literal
+    selected scalar branch to the literal selected target branch.  The
+    selected normalized `B/T` chart has a named intrinsic function-field
+    scalar generator, and every promoted projection sends it to the selected
+    scalar in that projection's concrete normal field.  After inclusion in
+    `referenceSemanticSourceCover`, the four named `toReferenceE/A/B/C`
+    embeddings agree pointwise on this generator with coordinate `7` of the
+    four literal scalar-extended complete edges from item 63.  The four named
+    intrinsic-`B`-germ maps are also proved to be literally the restrictions
+    of those promoted embeddings.  Thus both the coefficient layer and the
+    distinguished finite scalar branch now meet the semantic construction in
+    the same codomain.  The remaining local step is to extend this equality
+    from the coefficient field plus selected scalar to the whole relevant
+    branch/function-field comparison and derive the auxiliary-`s`-independent
+    three-input factorization.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -914,9 +932,10 @@ transports are now proved to be exactly the coefficients of the four
 relocated right-branch curve equations.  The four complete selected edges
 have also been scalar-extended to the common sixteen-coordinate field and
 embedded, coordinate-for-coordinate, into the common formal-source cover.
-Extend the selected-branch-preserving normal-cover equivalences across this
-common coefficient/formal-source base, compare their coordinate-`7` maps
-with the four promoted reference embeddings, and use that whole-branch
+The promoted reference embeddings now agree there with all four literal
+coordinate-`7` scalar branches, and their intrinsic-germ restrictions are
+the named coefficient transports.  Extend this coefficient-and-selected-
+scalar agreement to the whole relevant branch/function fields and use that
 equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
