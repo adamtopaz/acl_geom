@@ -1827,6 +1827,28 @@ normal-cover transports and their exact selected-branch equations:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedCommonSourceBasedBranchEquiv_selected}
 
+The concrete based comparisons and the canonical comparison covers now
+meet through an explicit equality-based bridge.  The literal common source
+and the raw rebased source present the same intermediate field, so they give
+an equivalence of the corresponding total extensions.  Its normal lift,
+followed by the already chosen raw-to-common algebraic-closure transport,
+identifies the direct canonical normal closure with the named rebased cover
+which is already a subcover of the simultaneous source compositum:
+
+{docstring AclGeom.FiniteCover.finiteDimensional_of_eq}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonToRawRebasedExtensionEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonToRawRebasedExtensionEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonToRawRebasedExtensionEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonCanonicalCoverEquivRebased}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonCanonicalCoverEquivRebased}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonCanonicalCoverEquivRebased}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

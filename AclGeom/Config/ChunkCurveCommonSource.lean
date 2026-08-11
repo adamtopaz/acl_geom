@@ -3420,6 +3420,90 @@ theorem repeatedUBCoefficientBranchNormalField_finiteDimensional_overCommonSourc
       R.commonCoefficientField_le_normalOverRepeatedUB
       R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
 
+/-- Regard the literal-common-source `sA` extension as the raw rebased
+extension used to construct the already embedded canonical comparison
+cover.  Both changes are equality-based and preserve ambient values. -/
+noncomputable def repeatedSACommonToRawRebasedExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact FiniteCover.ExtensionEquiv.ofEq
+    (h := R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)
+    (h' := FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedSA)
+    (R.repeatedSARebasedSourceField_eq hind)
+    (by unfold repeatedSACoefficientBranchNormalField; rfl)
+
+/-- The same equality-based comparison for the repeated direct-`u`
+extension. -/
+noncomputable def repeatedUCommonToRawRebasedExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact FiniteCover.ExtensionEquiv.ofEq
+    (h := R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)
+    (h' := FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedU)
+    (R.repeatedURebasedSourceField_eq hind)
+    (by unfold repeatedUCoefficientBranchNormalField; rfl)
+
+/-- The equality-based comparison from the literal common-source
+direct-`uB` extension to its raw rebased presentation. -/
+noncomputable def repeatedUBCommonToRawRebasedExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact FiniteCover.ExtensionEquiv.ofEq
+    (h := R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)
+    (h' := FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedUB)
+    (R.repeatedUBRebasedSourceField_eq hind)
+    (by unfold repeatedUBCoefficientBranchNormalField; rfl)
+
+/-- Compare the canonical normal closure of the pairwise `sA` total field
+over the literal common source with the rebased canonical cover already
+adjoined to `branchComparisonSourceCover`. -/
+noncomputable def repeatedSACommonCanonicalCoverEquivRebased
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCover.canonicalNormalClosure
+      (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind))) ≃+*
+      (↥(R.repeatedSARebasedCanonicalCover hind).field) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact
+    (((R.repeatedSACommonToRawRebasedExtensionEquiv hind).normalLift
+      ).normalEquiv).trans
+      ((R.repeatedSARebasedClosureTransport hind).mapFieldEquiv
+        (R.repeatedSARawRebasedCanonicalCover hind).field)
+
+/-- Compare the direct-`u` common-source canonical normal closure with its
+named rebased comparison cover. -/
+noncomputable def repeatedUCommonCanonicalCoverEquivRebased
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCover.canonicalNormalClosure
+      (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind))) ≃+*
+      (↥(R.repeatedURebasedCanonicalCover hind).field) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact
+    (((R.repeatedUCommonToRawRebasedExtensionEquiv hind).normalLift
+      ).normalEquiv).trans
+      ((R.repeatedURebasedClosureTransport hind).mapFieldEquiv
+        (R.repeatedURawRebasedCanonicalCover hind).field)
+
 /-- The deck-corrected semilinear `sA` normal-cover comparison preserves
 the literal selected copy of the entire pairwise total field. -/
 noncomputable def repeatedSACommonSourceBasedBranchEquiv
@@ -3544,6 +3628,20 @@ noncomputable def repeatedUBRebasedCanonicalCover
     (↥(P₀.sourceField.restrictScalars k))
   exact (R.repeatedUBRawRebasedCanonicalCover hind).map
     (R.repeatedUBRebasedClosureTransport hind)
+
+/-- Compare the direct-`uB` common-source canonical normal closure with its
+named rebased comparison cover. -/
+noncomputable def repeatedUBCommonCanonicalCoverEquivRebased
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCover.canonicalNormalClosure
+      (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind))) ≃+*
+      (↥(R.repeatedUBRebasedCanonicalCover hind).field) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact
+    (((R.repeatedUBCommonToRawRebasedExtensionEquiv hind).normalLift
+      ).normalEquiv).trans
+      ((R.repeatedUBRebasedClosureTransport hind).mapFieldEquiv
+        (R.repeatedUBRawRebasedCanonicalCover hind).field)
 
 /-- The first raw rebased direct-`uB` branch has the same ambient carrier
 as the literal direct branch of the `s·b=uB` common-base face. -/

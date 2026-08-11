@@ -701,6 +701,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     leaf module in the validation loop whenever only `.olean.hash` artifacts
     are initially present.  The mathematical next step remains the
     corrected concrete-to-canonical cover comparison from item 52.
+54. The corrected concrete normal-cover comparisons now meet the canonical
+    comparison covers already present in `branchComparisonSourceCover`.
+    For each of `sA`, direct `u`, and direct `uB`, equality of the literal
+    common source with the raw rebased source is packaged together with
+    equality of the named pairwise total field as an extension
+    equivalence.  Its canonical normal lift is composed with the same
+    raw-to-common algebraic-closure transport used to define the rebased
+    cover.  The result is an explicit ring equivalence from the canonical
+    normal closure of the literal-common-source pairwise extension to the
+    named rebased canonical cover already embedded in the simultaneous
+    compositum.  The next local step is to record the base-compatibility of
+    these three bridges, transport the selected whole-total-field branches
+    through them, and include those embeddings into
+    `branchComparisonSourceCover`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -712,7 +726,7 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--53 supply selected-branch-preserving comparisons, equality of the
+items 36--54 supply selected-branch-preserving comparisons, equality of the
 curve relations, and source-level re-elaboration integrity after the honest
 independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field, and
