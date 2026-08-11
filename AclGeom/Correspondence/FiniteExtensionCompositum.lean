@@ -21,6 +21,39 @@ parameter blocks must be placed inside one common cover over a larger
 independent-input field.
 -/
 
+namespace IntermediateField
+
+/-- Intermediate fields with the same carrier in a common ambient field
+have canonically equivalent underlying fields, even when their displayed
+scalar fields are different. -/
+def ringEquivOfCarrierEq
+    {F F' Ω : Type*} [Field F] [Field F'] [Field Ω]
+    [Algebra F Ω] [Algebra F' Ω]
+    (S : IntermediateField F Ω) (T : IntermediateField F' Ω)
+    (h : (S : Set Ω) = (T : Set Ω)) : (↥S) ≃+* (↥T) where
+  toFun x := ⟨x, by
+    change (x : Ω) ∈ (T : Set Ω)
+    rw [← h]
+    exact x.2⟩
+  invFun y := ⟨y, by
+    change (y : Ω) ∈ (S : Set Ω)
+    rw [h]
+    exact y.2⟩
+  left_inv x := by ext; rfl
+  right_inv y := by ext; rfl
+  map_add' x y := by ext; rfl
+  map_mul' x y := by ext; rfl
+
+@[simp] theorem ringEquivOfCarrierEq_val
+    {F F' Ω : Type*} [Field F] [Field F'] [Field Ω]
+    [Algebra F Ω] [Algebra F' Ω]
+    (S : IntermediateField F Ω) (T : IntermediateField F' Ω)
+    (h : (S : Set Ω) = (T : Set Ω)) (x : S) :
+    ((ringEquivOfCarrierEq S T h x : T) : Ω) = x :=
+  rfl
+
+end IntermediateField
+
 namespace AclGeom
 
 open IntermediateField

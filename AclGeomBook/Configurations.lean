@@ -1663,6 +1663,35 @@ identifications are constructed:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSBranchAlignmentAut_selectedTarget}
 
+The first algebraic coefficient change is now transported without an
+equality cast.  For the repeated `sA` block, an explicit equivalence of the
+raw rebased source with the literal common source is extended to their
+algebraic closures.  Both raw selected branches are identified with the
+literal branch fields of the `sA·a=u` and `sA·c=uB` faces and transported by
+that same semilinear equivalence.  After inclusion in
+`branchComparisonSourceCover`, two distinguished deck transformations remove
+only the remaining normal-closure choices.  Their action equations therefore
+compare the actual selected face branches with the coefficient-comparison
+branches over the full common coefficient/source field:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSARebasedSourceEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSARebasedClosureTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSARawRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAFirstBranchEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSASecondBranchEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAFirstBranchEmbeddingInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSASecondBranchEmbeddingInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAFirstClosureAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSASecondClosureAlignmentAut_smul}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

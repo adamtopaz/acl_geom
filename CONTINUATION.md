@@ -603,6 +603,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     inherited by any larger canonical normal cover.  Thus the `s` coherence
     is now coefficient-faithful; the same domain comparison over the literal
     common base remains to be proved for `sA`, `u`, and `uB`.
+47. The repeated `sA` coefficient comparison is now transported through an
+    explicit semilinear rebase instead of an equality cast.  The raw rebased
+    source presentation is identified with the literal common source, that
+    equivalence is extended to the two algebraic closures, and both raw
+    selected branches are identified carrier-faithfully with the literal
+    branch fields of the `sA·a=u` and `sA·c=uB` common-base faces.  Transport
+    by the same source/closure equivalence puts both branch embeddings in the
+    named rebased cover and then in `branchComparisonSourceCover`.  The face
+    source fields reduce to the same literal common-base type, so two chosen
+    deck transformations now carry the actual selected `sA` face embeddings
+    to these coefficient-comparison copies, with exact `smul` equations.
+    Thus the closure choices for both occurrences of `sA` are aligned while
+    retaining the algebraic coefficient transport.  The analogous explicit
+    transports for the repeated direct `u` and `uB` branches remain next.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -614,10 +628,12 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-    items 36--46 supply selected-branch-preserving comparisons and equality of
+    items 36--47 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
-repeated `s` relation already lives over the literal common input field.
-The three remaining alternative fields and their selected comparisons now
+repeated `s` relation already lives over the literal common input field, and
+the repeated `sA` comparison has now been transported explicitly into that
+base.  The two remaining alternative fields and their selected comparisons
+now
 lie in one coefficient field finite over every relevant base and normal
 over the original common field, and each alternative comparison now has a
 finite pairwise normal source extension containing both literal branches,
