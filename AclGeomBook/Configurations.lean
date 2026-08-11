@@ -2536,6 +2536,23 @@ including the algebraic output `c` edge:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourReferenceEdgesOnBGermCoefficientInSelectedGraph}
 
+These reference restrictions are not merely parallel copies of the named
+selected intrinsic maps.  The relocated coefficient-field factorization and
+the base square of the scalar-extension equivalence identify the two routes
+on an arbitrary element of the intrinsic germ field.  Hence all four
+`e/a/b/c` maps are equal as whole-field homomorphisms in the selected graph
+source; the output comparison retains its algebraic `c` parameter field:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBGermCoefficientToSelectedGraph_eq_reference_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaBGermCoefficientToSelectedGraph_eq_reference_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbBGermCoefficientToSelectedGraph_eq_reference_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBGermCoefficientToSelectedGraph_eq_reference_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToSelectedGraph_eq_reference}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

@@ -1082,6 +1082,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     graph cover: identify these whole-field reference restrictions with the
     charted semantic right arrows while choosing common middle/target charts
     compatible with the already lifted source charts.
+78. The normalized-reference restrictions of item 77 are now identified
+    pointwise with the four named selected relocated intrinsic coefficient
+    maps in `selectedGraphSourceCover`.  The proof works on an arbitrary
+    element of the intrinsic germ field: the relocated coefficient-field
+    factorization recovers its full relocated parameter transport, while the
+    scalar-extension equivalence's base square shows that the complete-edge
+    route transports the same element before the common curve embedding.
+    Thus the simultaneous theorem is a whole-field equality for `e/a/b/c`,
+    not a generator-only comparison, and it includes the algebraic `c`
+    parameter field.  The remaining issue-#16 step is now specifically to
+    choose the non-induced common middle/target charts whose semantic
+    right-arrow restrictions are these already-identified maps.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
