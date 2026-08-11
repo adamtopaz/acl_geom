@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Correspondence.FamilyCover
+import AclGeom.Correspondence.FiniteNormalTransport
 
 /-!
 # Adjoining a finite subextension to a larger function field
@@ -306,6 +307,8 @@ theorem secondBranchOverSource_finiteDimensional :
       exact hAlg
     exact hAlg'.isIntegral
 
+omit [FiniteDimensional (↥F) (↥C)] C in
+include hsource in
 /-- When the displayed sources are literally equal, the source equivalence
 induced by equal branch ideals has the same ambient value as the identity. -/
 theorem extensionEquiv_base_coe_eq_of_source_eq
@@ -326,6 +329,7 @@ theorem extensionEquiv_base_coe_eq_of_source_eq
       (P.extensionEquivOfIdealEq_base_source Q hideal)
   exact DFunLike.congr_fun hfg (⟨z, z.2⟩ : P.sourceField)
 
+omit [FiniteDimensional (↥F) (↥C)] C in
 /-- Equal selected branch ideals with a literally common source give a
 source-linear equivalence between the two literal branch fields. -/
 noncomputable def branchEquivOfIdealEq
@@ -340,13 +344,14 @@ noncomputable def branchEquivOfIdealEq
             (⟨z, z.2⟩ : P.sourceField)) : Q.branchField) : Ω)) = z
       rw [FiniteCover.ExtensionEquiv.commutes_apply]
       exact extensionEquiv_base_coe_eq_of_source_eq
-        F P Q hsource C hideal z }
+        F P Q hsource hideal z }
 
+omit [FiniteDimensional (↥F) (↥C)] C in
 /-- The common-source branch equivalence sends the first displayed target
 to the second displayed target. -/
 @[simp] theorem branchEquivOfIdealEq_target
     (hideal : P.ideal = Q.ideal) :
-    branchEquivOfIdealEq F P Q hsource C hideal
+    branchEquivOfIdealEq F P Q hsource hideal
         ⟨P.target, by
           change P.target ∈ P.branchField
           exact subset_adjoin (↥F) _ (by simp)⟩ =
@@ -557,7 +562,8 @@ theorem normalField_finiteDimensional_over_coefficientSource
       apply hBD
       change P.source ∈ (adjoin E {P.source}).restrictScalars k
       rw [restrictScalars_adjoin_eq_sup]
-      exact le_sup_right (subset_adjoin k _ (by simp))
+      exact (le_sup_right : adjoin k {P.source} ≤
+        E ⊔ adjoin k {P.source}) (subset_adjoin k _ (by simp))
   have hfinBD : FiniteDimensional (↥B) (↥(extendScalars hBD)) :=
     FiniteExtensionCompositum.over_finiteDimensional E B CE hEB
   have hfinSN : FiniteDimensional (↥(sourceField F P))
@@ -657,8 +663,15 @@ noncomputable def rebasedCanonicalCover
       (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
       (normalField_finiteDimensional_over_coefficientSource
         F P Q hsource C E hEC hfinEC)
-  normal :=
-    FiniteCover.canonicalNormalClosure_normal
+  normal := by
+    letI : FiniteDimensional
+        (↥((adjoin E {P.source}).restrictScalars k))
+        (↥(extendScalars
+          (coefficientSourceAdjoin_le_normalField
+            F P Q hsource C E hEC))) :=
+      normalField_finiteDimensional_over_coefficientSource
+        F P Q hsource C E hEC hfinEC
+    exact FiniteCover.canonicalNormalClosure_normal
       (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
       (Algebra.IsAlgebraic.of_finite _ _)
 
@@ -669,8 +682,15 @@ noncomputable def rebasedNormalFieldEquivCanonical [IsAlgClosed Ω]
     (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
     (↥(rebasedNormalField F P Q hsource C E hEC)) ≃ₐ[
         ↥((adjoin E {P.source}).restrictScalars k)]
-      (↥(rebasedCanonicalCover F P Q hsource C E hEC hfinEC).field) :=
-  FiniteCover.normalClosureOverEquivCanonical
+      (↥(rebasedCanonicalCover F P Q hsource C E hEC hfinEC).field) := by
+  letI : FiniteDimensional
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(extendScalars
+        (coefficientSourceAdjoin_le_normalField
+          F P Q hsource C E hEC))) :=
+    normalField_finiteDimensional_over_coefficientSource
+      F P Q hsource C E hEC hfinEC
+  exact FiniteCover.normalClosureOverEquivCanonical
     (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
     (Algebra.IsAlgebraic.of_finite _ _)
 
@@ -759,7 +779,7 @@ noncomputable def secondBranchEmbeddingOfIdealEq
       (↥(normalField F P Q hsource C)) :=
   ⟨(IntermediateField.inclusion
       (secondBranch_le_normalField_overSource F P Q hsource C)).comp
-    (branchEquivOfIdealEq F P Q hsource C hideal).toAlgHom⟩
+    (branchEquivOfIdealEq F P Q hsource hideal).toAlgHom⟩
 
 /-- Normality extends the ideal-induced branch comparison to a deck
 transformation of the finite joint normal field. -/
@@ -790,7 +810,7 @@ theorem branchAutomorphismOfIdealEq_inclusion_apply [IsAlgClosed Ω]
           (firstBranch_le_normalField_overSource F P Q hsource C) x) =
       IntermediateField.inclusion
         (secondBranch_le_normalField_overSource F P Q hsource C)
-        (branchEquivOfIdealEq F P Q hsource C hideal x) := by
+        (branchEquivOfIdealEq F P Q hsource hideal x) := by
   letI : Algebra (↥(firstBranchOverSource F P))
       (↥(normalField F P Q hsource C)) :=
     (IntermediateField.inclusion
@@ -828,7 +848,7 @@ displayed target to the second displayed target. -/
   exact congrArg
     (IntermediateField.inclusion
       (secondBranch_le_normalField_overSource F P Q hsource C))
-    (branchEquivOfIdealEq_target F P Q hsource C hideal)
+    (branchEquivOfIdealEq_target F P Q hsource hideal)
 
 end FiniteCoefficientBranchCompositum
 

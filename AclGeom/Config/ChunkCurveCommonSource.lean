@@ -1462,8 +1462,12 @@ theorem commonCoefficientNormalOverRepeatedSA_overCommon_finiteDimensional :
     FiniteDimensional (↥R.seCommonBaseData.coefficientField)
       (↥(extendScalars
         R.commonCoefficientField_le_normalOverRepeatedSA)) := by
-  simpa [commonCoefficientNormalOverRepeatedSA] using
-    R.commonCoefficientNormalField_finiteDimensional
+  have heq : extendScalars
+      R.commonCoefficientField_le_normalOverRepeatedSA =
+      R.commonCoefficientNormalField := by
+    rfl
+  rw [heq]
+  exact R.commonCoefficientNormalField_finiteDimensional
 
 /-- The alternative direct-`u` presentation of the coefficient
 normalization is finite over the literal common input field. -/
@@ -1471,8 +1475,12 @@ theorem commonCoefficientNormalOverRepeatedU_overCommon_finiteDimensional :
     FiniteDimensional (↥R.seCommonBaseData.coefficientField)
       (↥(extendScalars
         R.commonCoefficientField_le_normalOverRepeatedU)) := by
-  simpa [commonCoefficientNormalOverRepeatedU] using
-    R.commonCoefficientNormalField_finiteDimensional
+  have heq : extendScalars
+      R.commonCoefficientField_le_normalOverRepeatedU =
+      R.commonCoefficientNormalField := by
+    rfl
+  rw [heq]
+  exact R.commonCoefficientNormalField_finiteDimensional
 
 /-- The alternative direct-`uB` presentation of the coefficient
 normalization is finite over the literal common input field. -/
@@ -1480,8 +1488,12 @@ theorem commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional :
     FiniteDimensional (↥R.seCommonBaseData.coefficientField)
       (↥(extendScalars
         R.commonCoefficientField_le_normalOverRepeatedUB)) := by
-  simpa [commonCoefficientNormalOverRepeatedUB] using
-    R.commonCoefficientNormalField_finiteDimensional
+  have heq : extendScalars
+      R.commonCoefficientField_le_normalOverRepeatedUB =
+      R.commonCoefficientNormalField := by
+    rfl
+  rw [heq]
+  exact R.commonCoefficientNormalField_finiteDimensional
 
 /-- The common coefficient normal field is finite over the alternative
 `sA` input field. -/
@@ -2756,6 +2768,42 @@ theorem sAcFiniteSourceCover_le_common :
       R.sbFiniteSourceCover.field) ⊔ R.sAcFiniteSourceCover.field
   exact le_sup_right
 
+/-- The `s·e=u` facewise source normalization lies in the enlarged
+branch-comparison source cover. -/
+theorem seFiniteSourceCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.seFiniteSourceCover.field ≤
+      (R.branchComparisonSourceCover hind).field :=
+  R.seFiniteSourceCover_le_common.trans
+    (R.commonFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The `sA·a=u` facewise source normalization lies in the enlarged
+branch-comparison source cover. -/
+theorem sAaFiniteSourceCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAaFiniteSourceCover.field ≤
+      (R.branchComparisonSourceCover hind).field :=
+  R.sAaFiniteSourceCover_le_common.trans
+    (R.commonFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The `s·b=uB` facewise source normalization lies in the enlarged
+branch-comparison source cover. -/
+theorem sbFiniteSourceCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sbFiniteSourceCover.field ≤
+      (R.branchComparisonSourceCover hind).field :=
+  R.sbFiniteSourceCover_le_common.trans
+    (R.commonFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The `sA·c=uB` facewise source normalization lies in the enlarged
+branch-comparison source cover. -/
+theorem sAcFiniteSourceCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAcFiniteSourceCover.field ≤
+      (R.branchComparisonSourceCover hind).field :=
+  R.sAcFiniteSourceCover_le_common.trans
+    (R.commonFiniteSourceCover_le_branchComparisonSourceCover hind)
+
 /-- The strict `s·e=u` action after enlarging its source to the
 simultaneous four-face compositum. -/
 noncomputable def seCommonCoverCompositionTriangle :=
@@ -2855,6 +2903,118 @@ noncomputable def sAcBranchComparisonCoverCompositionTriangle
     (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
       (R := R.sAc) R.sAcCommonBaseData hψ)
     (R.branchComparisonSourceCover hind)
+
+/-- The literal selected `s` branch of the `s·e=u` face, embedded in the
+enlarged common source cover. -/
+noncomputable def seSelectedLeftBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedLeftBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.se) R.seCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.seFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The literal selected `sA` branch of the `sA·a=u` face, embedded in
+the enlarged common source cover. -/
+noncomputable def sAaSelectedLeftBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedLeftBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sAaFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The literal selected `s` branch of the `s·b=uB` face, embedded in the
+enlarged common source cover. -/
+noncomputable def sbSelectedLeftBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedLeftBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sbFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The literal selected `sA` branch of the `sA·c=uB` face, embedded in
+the enlarged common source cover. -/
+noncomputable def sAcSelectedLeftBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedLeftBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sAcFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The literal selected direct `u` branch of the `s·e=u` face, embedded
+in the enlarged common source cover. -/
+noncomputable def seSelectedDirectBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedDirectBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.se) R.seCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.seFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The literal selected direct `u` branch of the `sA·a=u` face, embedded
+in the enlarged common source cover. -/
+noncomputable def sAaSelectedDirectBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedDirectBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sAaFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The literal selected direct `uB` branch of the `s·b=uB` face,
+embedded in the enlarged common source cover. -/
+noncomputable def sbSelectedDirectBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedDirectBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sbFiniteSourceCover_le_branchComparisonSourceCover hind)
+
+/-- The literal selected direct `uB` branch of the `sA·c=uB` face,
+embedded in the enlarged common source cover. -/
+noncomputable def sAcSelectedDirectBranchInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.selectedDirectBranchIn
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+    (R.sAcFiniteSourceCover_le_branchComparisonSourceCover hind)
 
 end PsiCurveFourArrowCommonSourceRealizations
 

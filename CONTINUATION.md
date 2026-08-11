@@ -576,6 +576,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     middle/target embeddings inside that cover and use the canonical curve
     coefficients to prove coefficient-compatible equality, rather than only
     existence of the two branch embeddings.
+45. Canonical normal closures now retain a distinguished branch: the
+    literal ambient extension is first included in its concrete normal
+    closure and then transported through the chosen concrete-to-canonical
+    equivalence.  Returning along that equivalence recovers the literal
+    inclusion.  The composition source cover now exposes its left,
+    pulled-right, and direct canonical subcovers, and any larger source cover
+    containing it inherits distinguished left and direct branch embeddings.
+    For each of the four Ψ faces, both selected embeddings have been placed
+    in `branchComparisonSourceCover`.  Thus the next comparison can refer to
+    the actual selected `s`, `sA`, `u`, and `uB` branches of the four strict
+    triangles, rather than merely to abstract isomorphic normal fields.  The
+    generic ideal-induced generator theorems were also made explicit enough
+    for clean dependency rebuilds, and the finite coefficient compositum now
+    imports and instantiates its normal-cover prerequisites directly.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -587,7 +601,7 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--44 supply selected-branch-preserving comparisons and equality of
+    items 36--45 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field.
 The three remaining alternative fields and their selected comparisons now

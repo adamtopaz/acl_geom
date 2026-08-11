@@ -1595,6 +1595,45 @@ then rebuilt, still strictly, on the enlarged source:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBranchComparisonCoverCompositionTriangle}
 
+The canonical models used above now remember which conjugate came from the
+literal ambient branch.  The ambient extension is included in its concrete
+normal closure and transported to the canonical model; the inverse
+comparison recovers the original inclusion.  The common composition source
+cover exposes the selected left and direct branch normalizations, and these
+distinguished embeddings are inherited by every larger source cover.  In
+particular, all eight selected left/direct occurrences in the four-arrow
+diagram now live in `branchComparisonSourceCover`:
+
+{docstring AclGeom.FiniteCover.canonicalSelectedEmbedding}
+
+{docstring AclGeom.FiniteCover.normalClosureOverEquivCanonical_symm_comp_selectedEmbedding}
+
+{docstring AclGeom.finiteCoverCanonicalSelectedBranchIn}
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.leftSourceFiniteNormalCover_le_sourceCover}
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.directSourceFiniteNormalCover_le_sourceCover}
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.selectedLeftBranchIn}
+
+{docstring AclGeom.FiniteCorrespondencePair.FiniteCoverTriangle.selectedDirectBranchIn}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedLeftBranchInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedLeftBranchInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedLeftBranchInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedLeftBranchInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedDirectBranchInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedDirectBranchInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedDirectBranchInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedDirectBranchInComparisonSourceCover}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

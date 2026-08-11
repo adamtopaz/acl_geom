@@ -488,7 +488,37 @@ displayed source to its counterpart. -/
     (P.extensionEquivOfIdealEq Q h).baseEquiv
         ⟨P.source, subset_adjoin k _ (by simp)⟩ =
       ⟨Q.source, subset_adjoin k _ (by simp)⟩ := by
-  simp [extensionEquivOfIdealEq]
+  let hsource := P.sourceIdeal_eq_of_ideal_eq Q h
+  let pSourceRange : P.sourceField =
+      adjoin k (Set.range (![P.source] : Fin 1 → Ω)) := by
+    ext z
+    simp [FiniteCorrespondencePair.sourceField,
+      Matrix.range_cons, Matrix.range_empty]
+  let qSourceRange : Q.sourceField =
+      adjoin k (Set.range (![Q.source] : Fin 1 → Ω)) := by
+    ext z
+    simp [FiniteCorrespondencePair.sourceField,
+      Matrix.range_cons, Matrix.range_empty]
+  let eBase : (↥P.sourceField) ≃ₐ[k] (↥Q.sourceField) :=
+    (IntermediateField.equivOfEq pSourceRange).trans
+      ((locusFunctionFieldEquivOfIdealEq hsource).trans
+        (IntermediateField.equivOfEq qSourceRange.symm))
+  change eBase ⟨P.source, subset_adjoin k _ (by simp)⟩ =
+    ⟨Q.source, subset_adjoin k _ (by simp)⟩
+  apply Subtype.ext
+  have hpBase :
+      IntermediateField.equivOfEq pSourceRange
+          ⟨P.source, subset_adjoin k _ (by simp)⟩ =
+        ⟨(![P.source] : Fin 1 → Ω) 0,
+          subset_adjoin k _ (Set.mem_range_self 0)⟩ := by
+    apply Subtype.ext
+    rfl
+  have hbase := congrArg Subtype.val
+    (locusFunctionFieldEquivOfIdealEq_apply hsource 0)
+  dsimp only [eBase]
+  simp only [AlgEquiv.trans_apply]
+  rw [hpBase]
+  simpa only [coe_equivOfEq, Matrix.cons_val_zero] using hbase
 
 /-- On the branch field, the extension comparison sends the displayed
 target to its counterpart. -/
@@ -497,7 +527,41 @@ target to its counterpart. -/
     (P.extensionEquivOfIdealEq Q h).totalEquiv
         ⟨P.target, subset_adjoin k _ (by simp)⟩ =
       ⟨Q.target, subset_adjoin k _ (by simp)⟩ := by
-  simp [extensionEquivOfIdealEq]
+  let pBranchRange : P.branchField =
+      adjoin k (Set.range (![P.source, P.target] : Fin 2 → Ω)) := by
+    change adjoin k {P.source, P.target} = _
+    rw [show Set.range (![P.source, P.target] : Fin 2 → Ω) =
+      {P.target, P.source} by
+        simp [Matrix.range_cons, Matrix.range_empty]]
+    exact congrArg (adjoin k) (Set.pair_comm _ _)
+  let qBranchRange : Q.branchField =
+      adjoin k (Set.range (![Q.source, Q.target] : Fin 2 → Ω)) := by
+    change adjoin k {Q.source, Q.target} = _
+    rw [show Set.range (![Q.source, Q.target] : Fin 2 → Ω) =
+      {Q.target, Q.source} by
+        simp [Matrix.range_cons, Matrix.range_empty]]
+    exact congrArg (adjoin k) (Set.pair_comm _ _)
+  let eTotal : (↥P.branchField) ≃ₐ[k] (↥Q.branchField) :=
+    (IntermediateField.equivOfEq pBranchRange).trans
+      ((locusFunctionFieldEquivOfIdealEq h).trans
+        (IntermediateField.equivOfEq qBranchRange.symm))
+  change eTotal ⟨P.target, subset_adjoin k _ (by simp)⟩ =
+    ⟨Q.target, subset_adjoin k _ (by simp)⟩
+  apply Subtype.ext
+  have hpTotal :
+      IntermediateField.equivOfEq pBranchRange
+          ⟨P.target, subset_adjoin k _ (by simp)⟩ =
+        ⟨(![P.source, P.target] : Fin 2 → Ω) 1,
+          subset_adjoin k _ (Set.mem_range_self 1)⟩ := by
+    apply Subtype.ext
+    rfl
+  have htotal := congrArg Subtype.val
+    (locusFunctionFieldEquivOfIdealEq_apply h 1)
+  dsimp only [eTotal]
+  simp only [AlgEquiv.trans_apply]
+  rw [hpTotal]
+  simpa only [coe_equivOfEq, Matrix.cons_val_one,
+    Matrix.cons_val_zero] using htotal
 
 /-- Equal selected curve ideals identify the canonical normal extensions
 semilinearly over the induced source-coordinate equivalence. -/

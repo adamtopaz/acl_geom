@@ -5,6 +5,7 @@ Authors: Adam Topaz, Codex
 -/
 import AclGeom.Correspondence.FiniteNormalTransport
 import AclGeom.Correspondence.FieldEquivDiagram
+import AclGeom.Correspondence.BranchGroupoid
 
 /-!
 # Strict composition triangles on finite normal covers
@@ -48,6 +49,74 @@ noncomputable def sourceCover :=
       (Q.sourceFiniteNormalCover.map
         (sourceToMiddleTransport P Q h).symm)).sup
     (P.comp Q h).sourceFiniteNormalCover)
+
+/-- The selected left-branch normalization is a subcover of the common
+composition source cover. -/
+theorem leftSourceFiniteNormalCover_le_sourceCover :
+    P.sourceFiniteNormalCover.field ≤ (sourceCover P Q h).field := by
+  change P.sourceFiniteNormalCover.field ≤
+    (P.sourceFiniteNormalCover.field ⊔
+      (Q.sourceFiniteNormalCover.map
+        (sourceToMiddleTransport P Q h).symm).field) ⊔
+      (P.comp Q h).sourceFiniteNormalCover.field
+  exact le_sup_left.trans le_sup_left
+
+/-- The pulled-back selected right-branch normalization is a subcover of
+the common composition source cover. -/
+theorem pulledRightSourceFiniteNormalCover_le_sourceCover :
+    (Q.sourceFiniteNormalCover.map
+      (sourceToMiddleTransport P Q h).symm).field ≤
+        (sourceCover P Q h).field := by
+  change (Q.sourceFiniteNormalCover.map
+      (sourceToMiddleTransport P Q h).symm).field ≤
+    (P.sourceFiniteNormalCover.field ⊔
+      (Q.sourceFiniteNormalCover.map
+        (sourceToMiddleTransport P Q h).symm).field) ⊔
+      (P.comp Q h).sourceFiniteNormalCover.field
+  exact le_sup_right.trans le_sup_left
+
+/-- The selected direct-branch normalization is a subcover of the common
+composition source cover. -/
+theorem directSourceFiniteNormalCover_le_sourceCover :
+    (P.comp Q h).sourceFiniteNormalCover.field ≤
+      (sourceCover P Q h).field := by
+  change (P.comp Q h).sourceFiniteNormalCover.field ≤
+    (P.sourceFiniteNormalCover.field ⊔
+      (Q.sourceFiniteNormalCover.map
+        (sourceToMiddleTransport P Q h).symm).field) ⊔
+      (P.comp Q h).sourceFiniteNormalCover.field
+  exact le_sup_right
+
+/-- The distinguished left branch, embedded in any larger canonical source
+cover containing the composition cover. -/
+noncomputable def selectedLeftBranchIn
+    [IsAlgClosed Ω]
+    (N : AlgebraicClosureTransport.FiniteNormalCover (↥P.sourceField))
+    (hle : (sourceCover P Q h).field ≤ N.field) :
+    NormalBranchEmbedding (↥P.sourceField) (↥P.branchOverSource)
+      (↥N.field) := by
+  letI : FiniteDimensional (↥P.sourceField) (↥P.branchOverSource) :=
+    P.branchOverSource_finiteDimensional
+  exact finiteCoverCanonicalSelectedBranchIn P.sourceField_le_branchField
+    (Algebra.IsAlgebraic.of_finite (↥P.sourceField) (↥P.branchOverSource))
+    N.field (leftSourceFiniteNormalCover_le_sourceCover P Q h |>.trans hle)
+
+/-- The distinguished direct branch, embedded in the same larger canonical
+source cover. -/
+noncomputable def selectedDirectBranchIn
+    [IsAlgClosed Ω]
+    (N : AlgebraicClosureTransport.FiniteNormalCover (↥P.sourceField))
+    (hle : (sourceCover P Q h).field ≤ N.field) :
+    NormalBranchEmbedding (↥P.sourceField)
+      (↥(P.comp Q h).branchOverSource) (↥N.field) := by
+  letI : FiniteDimensional (↥(P.comp Q h).sourceField)
+      (↥(P.comp Q h).branchOverSource) :=
+    (P.comp Q h).branchOverSource_finiteDimensional
+  exact finiteCoverCanonicalSelectedBranchIn
+    (P.comp Q h).sourceField_le_branchField
+    (Algebra.IsAlgebraic.of_finite (↥(P.comp Q h).sourceField)
+      (↥(P.comp Q h).branchOverSource))
+    N.field (directSourceFiniteNormalCover_le_sourceCover P Q h |>.trans hle)
 
 /-- The common middle cover obtained by transporting the source cover
 through the left branch. -/

@@ -647,6 +647,39 @@ branch action. -/
 def finiteCoverSelectedBranch (h : E ≤ L) : FiniteCoverBranch h :=
   ⟨FiniteCover.selectedEmbedding h⟩
 
+/-- The literal selected branch inside the canonical normal-closure model.
+Unlike an arbitrary equivalence between normal closures, this embedding is
+the algebra map used in the definition of the canonical normal closure. -/
+def finiteCoverCanonicalSelectedBranch [IsAlgClosed Ω] (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) :
+    NormalBranchEmbedding (↥E) (↥(extendScalars h))
+      (↥(FiniteCover.canonicalNormalClosure h)) :=
+  ⟨FiniteCover.canonicalSelectedEmbedding h halg⟩
+
+/-- Place the distinguished canonical branch in any larger canonical
+source cover which contains its normal closure. -/
+def finiteCoverCanonicalSelectedBranchIn
+    [IsAlgClosed Ω] (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h)))
+    (N : IntermediateField (↥E) (AlgebraicClosure (↥E)))
+    (hle : FiniteCover.canonicalNormalClosure h ≤ N) :
+    NormalBranchEmbedding (↥E) (↥(extendScalars h)) (↥N) :=
+  ⟨(IntermediateField.inclusion hle).comp
+    (FiniteCover.canonicalSelectedEmbedding h halg)⟩
+
+/-- Evaluation in the larger cover factors through the distinguished
+canonical branch. -/
+theorem finiteCoverCanonicalSelectedBranchIn_apply
+    [IsAlgClosed Ω] (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h)))
+    (N : IntermediateField (↥E) (AlgebraicClosure (↥E)))
+    (hle : FiniteCover.canonicalNormalClosure h ≤ N)
+    (x : extendScalars h) :
+    (finiteCoverCanonicalSelectedBranchIn h halg N hle).toAlgHom x =
+      IntermediateField.inclusion hle
+        (FiniteCover.canonicalSelectedEmbedding h halg x) :=
+  rfl
+
 /-- The selected branch as an object of its conjugate-branch groupoid. -/
 def finiteCoverSelectedObject (h : E ≤ L) :
     finiteCoverBranchGroupoid h :=

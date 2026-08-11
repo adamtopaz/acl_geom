@@ -195,6 +195,12 @@ extension. -/
 def normalClosureOver (h : E ≤ L) : IntermediateField (↥E) Ω :=
   normalClosure (↥E) (extendScalars h) Ω
 
+/-- The original finite extension embeds literally in its ambient normal
+closure. -/
+theorem extendScalars_le_normalClosureOver (h : E ≤ L) :
+    extendScalars h ≤ normalClosureOver h :=
+  le_normalClosure _
+
 /-- A canonical model of the normal closure inside the algebraic closure
 of the base field.  Unlike `normalClosureOver`, this model does not depend
 on the original ambient algebraically closed field. -/
@@ -242,6 +248,28 @@ def normalClosureOverEquivCanonical [IsAlgClosed Ω] (h : E ≤ L)
     (F := ↥E) (K := ↥(extendScalars h))
     (L := ↥(normalClosureOver h))
     (L' := ↥(canonicalNormalClosure h))
+
+/-- The literal ambient branch, transported into the canonical normal
+closure.  This records a distinguished branch in the canonical model;
+using only uniqueness of normal closures would otherwise forget which
+conjugate was selected in the original ambient field. -/
+noncomputable def canonicalSelectedEmbedding [IsAlgClosed Ω] (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) :
+    (↥(extendScalars h)) →ₐ[↥E] (↥(canonicalNormalClosure h)) :=
+  (normalClosureOverEquivCanonical h halg).toAlgHom.comp
+    (IntermediateField.inclusion (extendScalars_le_normalClosureOver h))
+
+/-- Returning the distinguished canonical branch to the ambient normal
+closure recovers the literal inclusion of the original extension. -/
+theorem normalClosureOverEquivCanonical_symm_comp_selectedEmbedding
+    [IsAlgClosed Ω] (h : E ≤ L)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) :
+    (normalClosureOverEquivCanonical h halg).symm.toAlgHom.comp
+        (canonicalSelectedEmbedding h halg) =
+      IntermediateField.inclusion (extendScalars_le_normalClosureOver h) := by
+  apply AlgHom.ext
+  intro x
+  simp [canonicalSelectedEmbedding]
 
 /-- A compatible equivalence of finite extensions together with an
 equivalence of their canonical normal closures.  The normal-cover map is
@@ -384,11 +412,6 @@ noncomputable def normalLift (e : ExtensionEquiv h h') :
   simp [normalLift]
 
 end ExtensionEquiv
-
-/-- The original finite extension embeds in its normal closure. -/
-theorem extendScalars_le_normalClosureOver (h : E ≤ L) :
-    extendScalars h ≤ normalClosureOver h :=
-  le_normalClosure _
 
 /-- A normal closure of a finite extension remains finite. -/
 theorem normalClosureOver_finiteDimensional (h : E ≤ L)
