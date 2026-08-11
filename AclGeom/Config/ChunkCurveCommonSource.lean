@@ -2790,6 +2790,24 @@ def sAaCommonDirectPair :=
     (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
       (R := R.sAa) R.sAaCommonBaseData hψ)
 
+/-- The strict direct pair of the `s·b=uB` common-base face. -/
+def sbCommonDirectPair :=
+  (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).comp
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+
+/-- The strict direct pair of the `sA·c=uB` common-base face. -/
+def sAcCommonDirectPair :=
+  (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).comp
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+
 /-- The raw rebased direct-`u` source field equals the literal common source
 field after restriction to the ground field. -/
 theorem repeatedURebasedSourceField_eq
@@ -2985,7 +3003,53 @@ noncomputable def repeatedUSecondBranchEmbeddingInRebasedCanonicalCover
     rfl
   · exact (T.mapFieldEquiv_commutes N.field).symm
 
-/-- The pairwise direct-`uB` comparison field, renormalized and placed in
+/-- The raw rebased direct-`uB` source field equals the literal common
+source field after restriction to the ground field. -/
+theorem repeatedUBRebasedSourceField_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k =
+      (adjoin R.seCommonBaseData.coefficientField
+        {(R.repeatedUBFirstAlternativePair hind).source}).restrictScalars k := by
+  change (adjoin R.seCommonBaseData.coefficientField
+      {commonCurveSource (K := K)}).restrictScalars k =
+    (adjoin R.seCommonBaseData.coefficientField
+      {R.sb.source}).restrictScalars k
+  rw [R.sb_source]
+
+/-- The identity-on-ambient-values equivalence from the raw direct-`uB`
+source presentation to the literal common source. -/
+def repeatedUBRebasedSourceEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((adjoin R.seCommonBaseData.coefficientField
+      {(R.repeatedUBFirstAlternativePair hind).source}).restrictScalars k)) ≃+*
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField) :=
+  (IntermediateField.equivOfEq
+    (R.repeatedUBRebasedSourceField_eq hind).symm).toRingEquiv
+
+/-- The algebraic-closure transport extending the raw-to-common direct-
+`uB` source equivalence. -/
+noncomputable def repeatedUBRebasedClosureTransport
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  AlgebraicClosureTransport.lift (R.repeatedUBRebasedSourceEquiv hind)
+
+/-- The direct-`uB` comparison cover before transporting its raw source
+presentation to the named common-source algebraic closure. -/
+noncomputable def repeatedUBRawRebasedCanonicalCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact FiniteCoefficientBranchCompositum.rebasedCanonicalCover
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedUB
+    R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
+
+/-- The pairwise direct-`uB` comparison field, semilinearly transported to
 the canonical algebraic closure of the literal common source field. -/
 noncomputable def repeatedUBRebasedCanonicalCover
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
@@ -2996,18 +3060,58 @@ noncomputable def repeatedUBRebasedCanonicalCover
   let P₀ :=
     PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
       (R := R.se) R.seCommonBaseData hψ
-  have hbase : P₀.sourceField.restrictScalars k =
-      (adjoin R.seCommonBaseData.coefficientField
-        {(R.repeatedUBFirstAlternativePair hind).source}).restrictScalars k := by
-    change (adjoin R.seCommonBaseData.coefficientField
-        {commonCurveSource (K := K)}).restrictScalars k =
-      (adjoin R.seCommonBaseData.coefficientField
-        {R.sb.source}).restrictScalars k
-    rw [R.sb_source]
   change AlgebraicClosureTransport.FiniteNormalCover
     (↥(P₀.sourceField.restrictScalars k))
-  rw [hbase]
-  exact FiniteCoefficientBranchCompositum.rebasedCanonicalCover
+  exact (R.repeatedUBRawRebasedCanonicalCover hind).map
+    (R.repeatedUBRebasedClosureTransport hind)
+
+/-- The first raw rebased direct-`uB` branch has the same ambient carrier
+as the literal direct branch of the `s·b=uB` common-base face. -/
+theorem repeatedUBFirstRebasedBranch_carrier_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    ((FiniteCoefficientBranchCompositum.firstBranchOverRebasedSource
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      R.seCommonBaseData.coefficientField) : Set (CommonCurveAmbient K)) =
+      (R.sbCommonDirectPair.branchOverSource : Set (CommonCurveAmbient K)) := by
+  let B := (adjoin R.seCommonBaseData.coefficientField
+    {(R.repeatedUBFirstAlternativePair hind).source}).restrictScalars k
+  have hbase : (B : Set (CommonCurveAmbient K)) =
+      (R.sbCommonDirectPair.sourceField : Set (CommonCurveAmbient K)) := by
+    change ((adjoin R.seCommonBaseData.coefficientField
+        {R.sb.source}).restrictScalars k : Set (CommonCurveAmbient K)) =
+      (adjoin R.seCommonBaseData.coefficientField
+        {commonCurveSource (K := K)} : Set (CommonCurveAmbient K))
+    rw [R.sb_source]
+    rfl
+  rw [FiniteCorrespondencePair.branchOverSource_eq_adjoin_target]
+  exact IntermediateField.adjoin_singleton_carrier_eq_of_carrier_eq _ _ hbase rfl
+
+/-- The identity-on-ambient-values equivalence of the first direct-`uB`
+branch fields. -/
+def repeatedUBFirstRebasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCoefficientBranchCompositum.firstBranchOverRebasedSource
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      R.seCommonBaseData.coefficientField)) ≃+*
+      (↥R.sbCommonDirectPair.branchOverSource) :=
+  IntermediateField.ringEquivOfCarrierEq _ _
+    (R.repeatedUBFirstRebasedBranch_carrier_eq hind)
+
+/-- Transport the first literal direct-`uB` branch through the same
+semilinear source and closure equivalences used by its comparison cover. -/
+noncomputable def repeatedUBFirstBranchEmbeddingInRebasedCanonicalCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sbCommonDirectPair.branchOverSource)
+      (↥(R.repeatedUBRebasedCanonicalCover hind).field) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  let N := R.repeatedUBRawRebasedCanonicalCover hind
+  let T := R.repeatedUBRebasedClosureTransport hind
+  let f := FiniteCoefficientBranchCompositum.firstBranchEmbeddingInRebasedCanonical
     R.repeatedUBAlternativeInputField
     (R.repeatedUBFirstAlternativePair hind)
     (R.repeatedUBSecondAlternativePair hind)
@@ -3016,6 +3120,83 @@ noncomputable def repeatedUBRebasedCanonicalCover
     R.seCommonBaseData.coefficientField
     R.commonCoefficientField_le_normalOverRepeatedUB
     R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
+  apply NormalBranchEmbedding.mapOfEquiv
+    (R.repeatedUBRebasedSourceEquiv hind)
+    (R.repeatedUBFirstRebasedBranchEquiv hind)
+    (T.mapFieldEquiv N.field) _ _ f
+  · apply RingHom.ext
+    intro x
+    apply Subtype.ext
+    rfl
+  · exact (T.mapFieldEquiv_commutes N.field).symm
+
+/-- The second raw rebased direct-`uB` branch has the same ambient carrier
+as the literal direct branch of the `sA·c=uB` common-base face. -/
+theorem repeatedUBSecondRebasedBranch_carrier_eq
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    ((FiniteCoefficientBranchCompositum.secondBranchOverRebasedSource
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      R.seCommonBaseData.coefficientField) : Set (CommonCurveAmbient K)) =
+      (R.sAcCommonDirectPair.branchOverSource : Set (CommonCurveAmbient K)) := by
+  let B := (adjoin R.seCommonBaseData.coefficientField
+    {(R.repeatedUBFirstAlternativePair hind).source}).restrictScalars k
+  have hbase : (B : Set (CommonCurveAmbient K)) =
+      (R.sAcCommonDirectPair.sourceField : Set (CommonCurveAmbient K)) := by
+    change ((adjoin R.seCommonBaseData.coefficientField
+        {R.sb.source}).restrictScalars k : Set (CommonCurveAmbient K)) =
+      (adjoin R.seCommonBaseData.coefficientField
+        {commonCurveSource (K := K)} : Set (CommonCurveAmbient K))
+    rw [R.sb_source]
+    rfl
+  rw [FiniteCorrespondencePair.branchOverSource_eq_adjoin_target,
+    FiniteCoefficientBranchCompositum.secondBranchOverRebasedSource]
+  exact IntermediateField.adjoin_singleton_carrier_eq_of_carrier_eq _ _ hbase rfl
+
+/-- The identity-on-ambient-values equivalence of the second direct-`uB`
+branch fields. -/
+def repeatedUBSecondRebasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(FiniteCoefficientBranchCompositum.secondBranchOverRebasedSource
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      R.seCommonBaseData.coefficientField)) ≃+*
+      (↥R.sAcCommonDirectPair.branchOverSource) :=
+  IntermediateField.ringEquivOfCarrierEq _ _
+    (R.repeatedUBSecondRebasedBranch_carrier_eq hind)
+
+/-- Transport the second literal direct-`uB` branch through the same
+semilinear source and closure equivalences. -/
+noncomputable def repeatedUBSecondBranchEmbeddingInRebasedCanonicalCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sAcCommonDirectPair.branchOverSource)
+      (↥(R.repeatedUBRebasedCanonicalCover hind).field) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  let N := R.repeatedUBRawRebasedCanonicalCover hind
+  let T := R.repeatedUBRebasedClosureTransport hind
+  let f := FiniteCoefficientBranchCompositum.secondBranchEmbeddingInRebasedCanonical
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedUB
+    R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
+  apply NormalBranchEmbedding.mapOfEquiv
+    (R.repeatedUBRebasedSourceEquiv hind)
+    (R.repeatedUBSecondRebasedBranchEquiv hind)
+    (T.mapFieldEquiv N.field) _ _ f
+  · apply RingHom.ext
+    intro x
+    apply Subtype.ext
+    rfl
+  · exact (T.mapFieldEquiv_commutes N.field).symm
 
 /-- The coefficient-aware normal-cover comparison for the repeated
 `s` branch.  It retains the displayed `s` parameter and source coordinates;
@@ -3743,6 +3924,116 @@ theorem repeatedUSecondClosureAlignmentAut_smul
     R.repeatedUSecondClosureAlignmentAut hind •
         R.sAaSelectedDirectBranchRebasedInComparisonSourceCover hind =
       R.repeatedUSecondBranchEmbeddingInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
+
+/-- The first coefficient-comparison direct-`uB` branch, included in the
+enlarged common source cover. -/
+noncomputable def repeatedUBFirstBranchEmbeddingInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sbCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨(IntermediateField.inclusion
+      (R.repeatedUBRebasedCanonicalCover_le_branchComparisonSourceCover hind)).comp
+    (R.repeatedUBFirstBranchEmbeddingInRebasedCanonicalCover hind).toAlgHom⟩
+
+/-- The second coefficient-comparison direct-`uB` branch in the same
+enlarged common source cover. -/
+noncomputable def repeatedUBSecondBranchEmbeddingInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sAcCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨(IntermediateField.inclusion
+      (R.repeatedUBRebasedCanonicalCover_le_branchComparisonSourceCover hind)).comp
+    (R.repeatedUBSecondBranchEmbeddingInRebasedCanonicalCover hind).toAlgHom⟩
+
+/-- Regard the selected direct branch of the `s·b=uB` face over the named
+canonical common-source presentation. -/
+noncomputable def sbSelectedDirectBranchRebasedInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sbCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  exact R.sbSelectedDirectBranchInComparisonSourceCover hind
+
+/-- Regard the selected direct branch of the `sA·c=uB` face over the same
+canonical common-source presentation. -/
+noncomputable def sAcSelectedDirectBranchRebasedInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sAcCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  exact R.sAcSelectedDirectBranchInComparisonSourceCover hind
+
+/-- A common-base deck transformation aligns the selected direct `uB`
+branch of the `s·b=uB` face with its first coefficient-comparison copy. -/
+noncomputable def repeatedUBFirstClosureAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.sbSelectedDirectBranchRebasedInComparisonSourceCover hind)
+    (R.repeatedUBFirstBranchEmbeddingInComparisonSourceCover hind)
+
+/-- The first direct-`uB` closure alignment has the prescribed action on
+the selected branch embedding. -/
+theorem repeatedUBFirstClosureAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedUBFirstClosureAlignmentAut hind •
+        R.sbSelectedDirectBranchRebasedInComparisonSourceCover hind =
+      R.repeatedUBFirstBranchEmbeddingInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
+
+/-- A common-base deck transformation aligns the selected direct `uB`
+branch of the `sA·c=uB` face with its second comparison copy. -/
+noncomputable def repeatedUBSecondClosureAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.sAcSelectedDirectBranchRebasedInComparisonSourceCover hind)
+    (R.repeatedUBSecondBranchEmbeddingInComparisonSourceCover hind)
+
+/-- The second direct-`uB` closure alignment likewise has the prescribed
+action on the selected branch embedding. -/
+theorem repeatedUBSecondClosureAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedUBSecondClosureAlignmentAut hind •
+        R.sAcSelectedDirectBranchRebasedInComparisonSourceCover hind =
+      R.repeatedUBSecondBranchEmbeddingInComparisonSourceCover hind := by
   letI : Normal
       (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
         (R := R.se) R.seCommonBaseData hψ).sourceField)

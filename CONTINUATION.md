@@ -631,6 +631,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     are now coefficient-faithfully aligned in the common source cover; only
     the symmetric direct `uB` transport remains before constructing the
     coefficient-compatible reference charts.
+49. The symmetric direct `uB` transport and alignment are now complete.  The
+    strict composite pairs of the `s·b=uB` and `sA·c=uB` faces identify the
+    literal direct branch domains.  Their raw comparison branches are
+    carried through the explicit common-source equivalence and its
+    algebraic-closure lift, included in `branchComparisonSourceCover`, and
+    aligned with the two actual selected face embeddings by distinguished
+    deck transformations.  Both exact `smul` equations are proved over the
+    full common coefficient/source field.  Consequently all four repeated
+    labels `s`, `sA`, `u`, and `uB` now have coefficient-faithful selected-
+    branch comparisons in one finite normal source cover.  The next step is
+    to transport these four equations through the strict face triangles,
+    choose coefficient-compatible middle and target reference charts, and
+    instantiate the Ψ-specific `ReferenceAlignment`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -642,19 +655,16 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--48 supply selected-branch-preserving comparisons and equality of
+items 36--49 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field, and
-the repeated `sA` and direct `u` comparisons have now been transported
-explicitly into that base.  The remaining `uB` alternative field and its
-selected comparison now lie in one coefficient field finite over every
-relevant base and normal
-over the original common field, and each alternative comparison now has a
-finite pairwise normal source extension containing both literal branches,
-together with an automorphism that carries the first branch to the second.
-Those comparison covers have now been rebased and adjoined to the common
-source cover.  Compare their two induced transported middle/target
-embeddings in that enlarged cover, then use
+the repeated `sA`, direct `u`, and direct `uB` comparisons have now been
+transported explicitly into that base.  Each alternative comparison has a
+finite pairwise normal source extension containing both literal branches;
+all three comparison covers have been rebased and adjoined to the common
+source cover, and their actual selected branches have been aligned there.
+Transport those four alignment equations to the induced middle/target
+embeddings, then use
 canonical-curve-coefficient faithfulness to identify the resulting middle
 and target covers coefficient-compatibly.  This constructs the Ψ-specific
 `ReferenceAlignment` with

@@ -1715,6 +1715,26 @@ their exact alignment equations in the common cover:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUSecondClosureAlignmentAut_smul}
 
+Finally, the two strict composite pairs ending at `uB` undergo the same
+transport.  The resulting equations align the selected direct branches of
+the `s·b=uB` and `sA·c=uB` faces with their coefficient-comparison copies.
+Hence all four repeated labels are now represented by coefficient-linear
+selected-branch equations on one finite normal source cover:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBRebasedSourceEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBRebasedClosureTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBRawRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBFirstBranchEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBSecondBranchEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBFirstClosureAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBSecondClosureAlignmentAut_smul}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
