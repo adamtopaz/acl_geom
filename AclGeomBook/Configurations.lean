@@ -1987,6 +1987,24 @@ cancellation:
 
 {docstring AclGeom.FieldEquiv.FourTriangleReference.ofSourceCharts}
 
+The non-induced replacement keeps the source charts but prescribes the two
+common left arrows and the two common direct arrows independently.  Each
+middle or target chart first returns through the corresponding source chart
+and only then follows its prescribed common arrow.  Thus the four right
+arrows are the genuine quotients `left⁻¹ ≫ direct`, rather than identities;
+the generic constructor packages all repeated-arrow coherence equations
+and exposes the eight resulting arrows exactly:
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.conjugate_inducedMiddle_trans_left}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.conjugate_inducedTarget_trans_direct}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.conjugate_induced_trans_right}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.ofCommonLeftDirect}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.ofCommonLeftDirect_toFourArrowDiagram}
+
 For the actual enlarged four-face cover, choose the two `u` anchor
 corrections on the first pair of faces and the two `uB` corrections on the
 second pair as the four source charts.  Every one of these charts is an

@@ -212,6 +212,42 @@ requires independently fixed middle/target charts or selected graph data. -/
       rw [T.composition]
     _ = x := by simp
 
+/-- Postcomposing an induced middle chart by an independently chosen
+common left arrow makes that arrow the literal conjugated left edge. -/
+@[simp] theorem conjugate_inducedMiddle_trans_left
+    (eX : X ≃+* X') (left' : X' ≃+* Y') (direct' : X' ≃+* Z') :
+    (T.conjugate eX ((T.inducedMiddleChart eX).trans left')
+      ((T.inducedTargetChart eX).trans direct')).left = left' := by
+  ext x
+  simp [conjugate, inducedMiddleChart]
+
+/-- Postcomposing an induced target chart by an independently chosen
+common direct arrow makes that arrow the literal conjugated direct edge. -/
+@[simp] theorem conjugate_inducedTarget_trans_direct
+    (eX : X ≃+* X') (left' : X' ≃+* Y') (direct' : X' ≃+* Z') :
+    (T.conjugate eX ((T.inducedMiddleChart eX).trans left')
+      ((T.inducedTargetChart eX).trans direct')).direct = direct' := by
+  ext x
+  simp [conjugate, inducedTargetChart]
+
+/-- With independently prescribed common left and direct arrows, the
+conjugated right edge is their quotient rather than an identity. -/
+@[simp] theorem conjugate_induced_trans_right
+    (eX : X ≃+* X') (left' : X' ≃+* Y') (direct' : X' ≃+* Z') :
+    (T.conjugate eX ((T.inducedMiddleChart eX).trans left')
+      ((T.inducedTargetChart eX).trans direct')).right =
+        left'.symm.trans direct' := by
+  ext y
+  change direct' (eX (T.direct.symm
+      (T.right (T.left (eX.symm (left'.symm y)))))) =
+    direct' (left'.symm y)
+  have hcomp := DFunLike.congr_fun T.composition
+    (eX.symm (left'.symm y))
+  change T.right (T.left (eX.symm (left'.symm y))) =
+    T.direct (eX.symm (left'.symm y)) at hcomp
+  rw [hcomp]
+  simp
+
 end CompositionTriangle
 
 /-- Four composition triangles together with compatible identifications of
@@ -312,6 +348,56 @@ variable {Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc : Type u}
   [Field Xsb] [Field Ysb] [Field Zsb]
   [Field Xsc] [Field Ysc] [Field Zsc]
 
+/-- Build compatible middle and target charts from independently chosen
+common left and direct arrows.  Unlike `ofSourceCharts`, this construction
+does not identify the three reference fields and does not force the right
+arrows to be identities.  The chart on each middle (respectively target)
+field first returns to its source chart and then follows the prescribed
+common left (respectively direct) arrow. -/
+def ofCommonLeftDirect
+    (se : CompositionTriangle Xse Yse Zse)
+    (sAa : CompositionTriangle Xsa Ysa Zsa)
+    (sb : CompositionTriangle Xsb Ysb Zsb)
+    (sAc : CompositionTriangle Xsc Ysc Zsc)
+    (seX : Xse ≃+* X) (sAaX : Xsa ≃+* X)
+    (sbX : Xsb ≃+* X) (sAcX : Xsc ≃+* X)
+    (leftS leftSA : X ≃+* Y)
+    (directU directUB : X ≃+* Z) :
+    FourTriangleReference X Y Z
+      Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc where
+  se := se
+  sAa := sAa
+  sb := sb
+  sAc := sAc
+  seX := seX
+  seY := (se.inducedMiddleChart seX).trans leftS
+  seZ := (se.inducedTargetChart seX).trans directU
+  sAaX := sAaX
+  sAaY := (sAa.inducedMiddleChart sAaX).trans leftSA
+  sAaZ := (sAa.inducedTargetChart sAaX).trans directU
+  sbX := sbX
+  sbY := (sb.inducedMiddleChart sbX).trans leftS
+  sbZ := (sb.inducedTargetChart sbX).trans directUB
+  sAcX := sAcX
+  sAcY := (sAc.inducedMiddleChart sAcX).trans leftSA
+  sAcZ := (sAc.inducedTargetChart sAcX).trans directUB
+  leftS := by
+    ext x
+    simp [CompositionTriangle.conjugate,
+      CompositionTriangle.inducedMiddleChart, FieldEquiv.conjugate]
+  leftSA := by
+    ext x
+    simp [CompositionTriangle.conjugate,
+      CompositionTriangle.inducedMiddleChart, FieldEquiv.conjugate]
+  compositeU := by
+    ext x
+    simp [CompositionTriangle.conjugate,
+      CompositionTriangle.inducedTargetChart, FieldEquiv.conjugate]
+  compositeUB := by
+    ext x
+    simp [CompositionTriangle.conjugate,
+      CompositionTriangle.inducedTargetChart, FieldEquiv.conjugate]
+
 /-- Four composition triangles with chosen charts to one reference source
 acquire canonical gauge-normalized middle and target charts.  Every
 conjugated arrow is an identity, so the result organizes four selected
@@ -377,6 +463,31 @@ def toFourArrowDiagram : FourArrowDiagram X Y Z where
     rw [← R.leftSA,
       (R.sAc.conjugate R.sAcX R.sAcY R.sAcZ).composition,
       R.compositeUB]
+
+/-- The semantic diagram obtained from independently prescribed common
+left and direct arrows retains those arrows literally, and its four right
+arrows are the corresponding nontrivial quotients. -/
+theorem ofCommonLeftDirect_toFourArrowDiagram
+    (se : CompositionTriangle Xse Yse Zse)
+    (sAa : CompositionTriangle Xsa Ysa Zsa)
+    (sb : CompositionTriangle Xsb Ysb Zsb)
+    (sAc : CompositionTriangle Xsc Ysc Zsc)
+    (seX : Xse ≃+* X) (sAaX : Xsa ≃+* X)
+    (sbX : Xsb ≃+* X) (sAcX : Xsc ≃+* X)
+    (leftS leftSA : X ≃+* Y)
+    (directU directUB : X ≃+* Z) :
+    let A := ofCommonLeftDirect se sAa sb sAc
+      seX sAaX sbX sAcX leftS leftSA directU directUB
+    A.toFourArrowDiagram.leftS = leftS ∧
+      A.toFourArrowDiagram.leftSA = leftSA ∧
+      A.toFourArrowDiagram.rightE = leftS.symm.trans directU ∧
+      A.toFourArrowDiagram.rightA = leftSA.symm.trans directU ∧
+      A.toFourArrowDiagram.rightB = leftS.symm.trans directUB ∧
+      A.toFourArrowDiagram.rightC = leftSA.symm.trans directUB ∧
+      A.toFourArrowDiagram.compositeU = directU ∧
+      A.toFourArrowDiagram.compositeUB = directUB := by
+  dsimp only [toFourArrowDiagram]
+  simp [ofCommonLeftDirect]
 
 /-- The four right arrows of a source-induced reference are all identities.
 This exposes the exact boundary of `ofSourceCharts`: parameter-dependent

@@ -1034,6 +1034,17 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     issue-#16 work is to construct common graph-faithful source/middle/target
     charts from this selected model, prove repeated-arrow coherence, and expose
     the resulting non-vacuous four-arrow coefficient restrictions for #14.
+74. The generic non-induced chart interface required by issue #16 is now
+    explicit.  Given four strict composition triangles, four source charts,
+    two independently selected common left arrows, and two independently
+    selected common direct arrows, `FourTriangleReference.ofCommonLeftDirect`
+    constructs all middle and target charts and proves the four repeated-arrow
+    coherence equations.  The conjugated right arrows are computed exactly as
+    `left⁻¹ ≫ direct`; unlike `ofSourceCharts`, they are not forced to be
+    identities.  The next local step is to instantiate those four common
+    arrows from the selected semantic/reference normal model of items 72--73
+    and prove that the resulting graph restrictions recover the four named
+    intrinsic coefficient embeddings.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
