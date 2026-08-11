@@ -672,6 +672,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     local step is the target deck correction which makes this semilinear
     normal-closure equivalence preserve the literal selected total branch,
     followed by its inclusion in the simultaneous source cover.
+52. The branch-faithful semilinear normal-cover comparisons are now
+    complete for `sA`, `u`, and `uB`.  Finiteness of the pairwise total
+    field over the literal common source is proved explicitly and
+    transported across each moved-base extension square.  The resulting
+    canonical normal-closure equivalence is returned to the concrete
+    normal closures, then corrected by a target deck transformation.  This
+    correction is packaged by the existing based finite-cover interface and
+    proves that the literal selected embedding of the entire pairwise total
+    field is carried to the literal selected embedding over the moved
+    source image.  Thus both the coefficient movement and the actual branch
+    automorphism survive normalization.  The next step is to compare these
+    corrected concrete normal covers with the already embedded canonical
+    rebased comparison covers, include the corrected charts in
+    `branchComparisonSourceCover`, and induce the middle/target charts.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -683,7 +697,7 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--51 supply selected-branch-preserving comparisons and equality of
+items 36--52 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field, and
 the repeated `sA`, direct `u`, and direct `uB` comparisons have now been

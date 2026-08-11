@@ -2777,6 +2777,27 @@ theorem repeatedSARebasedSourceField_eq
       {R.sAa.source}).restrictScalars k
   rw [R.sAa_source]
 
+/-- The pairwise `sA` total comparison field is finite over the literal
+common source presentation. -/
+theorem repeatedSACoefficientBranchNormalField_finiteDimensional_overCommonSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional
+      (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
+      (↥(extendScalars
+        (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind))) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  rw [R.repeatedSARebasedSourceField_eq hind]
+  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
+    R.repeatedSAAlternativeInputField
+    (R.repeatedSAFirstAlternativePair hind)
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedSA
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedSA
+    R.commonCoefficientNormalOverRepeatedSA_overCommon_finiteDimensional
+
 /-- The identity-on-ambient-values equivalence from the rebased `sA`
 source presentation to the literal common source presentation. -/
 def repeatedSARebasedSourceEquiv
@@ -3069,6 +3090,27 @@ theorem repeatedURebasedSourceField_eq
       {R.se.source}).restrictScalars k
   rw [R.se_source]
 
+/-- The pairwise direct-`u` total comparison field is finite over the
+literal common source presentation. -/
+theorem repeatedUCoefficientBranchNormalField_finiteDimensional_overCommonSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional
+      (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
+      (↥(extendScalars
+        (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind))) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  rw [R.repeatedURebasedSourceField_eq hind]
+  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
+    R.repeatedUAlternativeInputField
+    (R.repeatedUFirstAlternativePair hind)
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedU
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedU
+    R.commonCoefficientNormalOverRepeatedU_overCommon_finiteDimensional
+
 /-- The identity-on-ambient-values equivalence from the raw direct-`u`
 source presentation to the literal common source. -/
 def repeatedURebasedSourceEquiv
@@ -3263,6 +3305,104 @@ theorem repeatedUBRebasedSourceField_eq
     (adjoin R.seCommonBaseData.coefficientField
       {R.sb.source}).restrictScalars k
   rw [R.sb_source]
+
+/-- The pairwise direct-`uB` total comparison field is finite over the
+literal common source presentation. -/
+theorem repeatedUBCoefficientBranchNormalField_finiteDimensional_overCommonSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional
+      (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
+      (↥(extendScalars
+        (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind))) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  rw [R.repeatedUBRebasedSourceField_eq hind]
+  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedUB
+    R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
+
+/-- The deck-corrected semilinear `sA` normal-cover comparison preserves
+the literal selected copy of the entire pairwise total field. -/
+noncomputable def repeatedSACommonSourceBasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCover.basedBranchEquivUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedSACoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)
+    ((R.repeatedSABranchAutomorphism hind).restrictScalars k)
+    (R.repeatedSACoefficientBranchNormalField_finiteDimensional_overCommonSource
+      hind)
+
+/-- The deck-corrected semilinear direct-`u` normal-cover comparison
+preserves the literal selected pairwise total field. -/
+noncomputable def repeatedUCommonSourceBasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCover.basedBranchEquivUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedUCoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)
+    ((R.repeatedUBranchAutomorphism hind).restrictScalars k)
+    (R.repeatedUCoefficientBranchNormalField_finiteDimensional_overCommonSource
+      hind)
+
+/-- The deck-corrected semilinear direct-`uB` normal-cover comparison
+preserves the literal selected pairwise total field. -/
+noncomputable def repeatedUBCommonSourceBasedBranchEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCover.basedBranchEquivUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedUBCoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)
+    ((R.repeatedUBBranchAutomorphism hind).restrictScalars k)
+    (R.repeatedUBCoefficientBranchNormalField_finiteDimensional_overCommonSource
+      hind)
+
+/-- All three deck-corrected semilinear comparisons preserve their literal
+selected total-field branches. -/
+theorem repeatedCommonSourceBasedBranchEquiv_selected
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedSACommonSourceBasedBranchEquiv hind).branchEquiv
+        (finiteCoverSelectedBranch
+          (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)) =
+        finiteCoverSelectedBranch
+          (IntermediateField.ambientImageUnderAutomorphism_le
+            ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+            (R.repeatedSACoefficientBranchNormalField hind)
+            (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)
+            ((R.repeatedSABranchAutomorphism hind).restrictScalars k)) ∧
+      (R.repeatedUCommonSourceBasedBranchEquiv hind).branchEquiv
+        (finiteCoverSelectedBranch
+          (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)) =
+        finiteCoverSelectedBranch
+          (IntermediateField.ambientImageUnderAutomorphism_le
+            ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+            (R.repeatedUCoefficientBranchNormalField hind)
+            (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)
+            ((R.repeatedUBranchAutomorphism hind).restrictScalars k)) ∧
+      (R.repeatedUBCommonSourceBasedBranchEquiv hind).branchEquiv
+        (finiteCoverSelectedBranch
+          (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)) =
+        finiteCoverSelectedBranch
+          (IntermediateField.ambientImageUnderAutomorphism_le
+            ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+            (R.repeatedUBCoefficientBranchNormalField hind)
+            (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)
+            ((R.repeatedUBBranchAutomorphism hind).restrictScalars k)) :=
+  ⟨FiniteCover.basedBranchEquivUnderAutomorphism_selected _ _ _ _ _,
+    FiniteCover.basedBranchEquivUnderAutomorphism_selected _ _ _ _ _,
+    FiniteCover.basedBranchEquivUnderAutomorphism_selected _ _ _ _ _⟩
 
 /-- The identity-on-ambient-values equivalence from the raw direct-`uB`
 source presentation to the literal common source. -/

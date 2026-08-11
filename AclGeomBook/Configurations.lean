@@ -1801,6 +1801,32 @@ therefore retains the total-field comparison as well as the moved base:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSourceNormalExtensionEquiv}
 
+Finiteness transports across the full extension square.  Passing from the
+canonical models back to the concrete normal closures gives a semilinear
+normal-cover equivalence over the moved source.  As with the earlier
+selected curve branches, a target deck correction is essential: it makes
+the comparison preserve the literal embedded copy of the entire pairwise
+total field.  The three alternative comparisons now expose these based
+normal-cover transports and their exact selected-branch equations:
+
+{docstring IntermediateField.ambientImageUnderAutomorphism_finiteDimensional}
+
+{docstring AclGeom.FiniteCover.normalCoverEquivUnderAutomorphism}
+
+{docstring AclGeom.FiniteCover.basedBranchEquivUnderAutomorphism}
+
+{docstring AclGeom.FiniteCover.basedBranchEquivUnderAutomorphism_selected}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACoefficientBranchNormalField_finiteDimensional_overCommonSource}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSourceBasedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonSourceBasedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSourceBasedBranchEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedCommonSourceBasedBranchEquiv_selected}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

@@ -196,6 +196,32 @@ noncomputable def extensionEquivUnderAutomorphism
     intro x
     rfl
 
+/-- Finiteness of the original nested extension transports to the same
+total field displayed over its moved semilinear base. -/
+theorem ambientImageUnderAutomorphism_finiteDimensional
+    {k F Ω : Type*} [Field k] [Field F] [Field Ω]
+    [Algebra k F] [Algebra k Ω] [Algebra F Ω] [IsScalarTower k F Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N))
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    FiniteDimensional
+      (↥(ambientImageUnderAutomorphism E N h sigma))
+      (↥(extendScalars (ambientImageUnderAutomorphism_le E N h sigma))) := by
+  let h' := ambientImageUnderAutomorphism_le E N h sigma
+  let e := extensionEquivUnderAutomorphism E N h sigma
+  letI : Algebra (↥E) (↥(N.restrictScalars k)) :=
+    (inclusion h).toAlgebra
+  letI : Algebra (↥(ambientImageUnderAutomorphism E N h sigma))
+      (↥(N.restrictScalars k)) := (inclusion h').toAlgebra
+  letI : FiniteDimensional (↥E) (↥(N.restrictScalars k)) := by
+    change FiniteDimensional (↥E) (↥(extendScalars h))
+    exact hfin
+  apply Module.Finite.of_equiv_equiv e.baseEquiv.toRingEquiv
+    e.totalEquiv.toRingEquiv
+  apply RingHom.ext
+  intro x
+  exact (e.commutes_apply x).symm
+
 end IntermediateField
 
 namespace AclGeom
@@ -203,6 +229,88 @@ namespace AclGeom
 open IntermediateField
 
 noncomputable section
+
+namespace FiniteCover
+
+variable {k F Ω : Type*} [Field k] [Field F] [Field Ω]
+  [Algebra k F] [Algebra k Ω] [Algebra F Ω] [IsScalarTower k F Ω]
+
+/-- The concrete normal closures of a finite extension and its semilinear
+image are equivalent over the same base equivalence that moves the source
+field.  The total-field automorphism is retained in the intervening
+extension equivalence. -/
+noncomputable def normalCoverEquivUnderAutomorphism [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N))
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    (↥(normalClosureOver h)) ≃+*
+      (↥(normalClosureOver
+        (IntermediateField.ambientImageUnderAutomorphism_le E N h sigma))) := by
+  let h' := IntermediateField.ambientImageUnderAutomorphism_le E N h sigma
+  let hfin' := IntermediateField.ambientImageUnderAutomorphism_finiteDimensional
+    E N h sigma hfin
+  letI : FiniteDimensional (↥E) (↥(extendScalars h)) := hfin
+  letI : FiniteDimensional
+      (↥(IntermediateField.ambientImageUnderAutomorphism E N h sigma))
+      (↥(extendScalars h')) := hfin'
+  let c := normalClosureOverEquivCanonical h
+    (Algebra.IsAlgebraic.of_finite _ _)
+  let c' := normalClosureOverEquivCanonical h'
+    (Algebra.IsAlgebraic.of_finite _ _)
+  let e := IntermediateField.extensionEquivUnderAutomorphism E N h sigma
+  exact c.toRingEquiv.trans
+    ((e.normalLift).normalEquiv.trans c'.symm.toRingEquiv)
+
+/-- The concrete normal-cover equivalence extends the semilinear image
+equivalence on the displayed base field. -/
+@[simp] theorem normalCoverEquivUnderAutomorphism_algebraMap
+    [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N))
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) (x : E) :
+    normalCoverEquivUnderAutomorphism E N h sigma hfin
+        (algebraMap (↥E) (↥(normalClosureOver h)) x) =
+      algebraMap
+        (↥(IntermediateField.ambientImageUnderAutomorphism E N h sigma))
+        (↥(normalClosureOver
+          (IntermediateField.ambientImageUnderAutomorphism_le E N h sigma)))
+        (IntermediateField.equivAmbientImageUnderAutomorphism E N h sigma x) := by
+  simp [normalCoverEquivUnderAutomorphism,
+    IntermediateField.extensionEquivUnderAutomorphism]
+
+/-- Correct the semilinear normal-cover comparison by a target deck
+transformation so that it preserves the literal selected copy of the whole
+total field.  This is the branch-faithful form of the coefficient change. -/
+noncomputable def basedBranchEquivUnderAutomorphism [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N))
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    FiniteCoverBasedBranchEquiv h
+      (IntermediateField.ambientImageUnderAutomorphism_le E N h sigma) := by
+  let h' := IntermediateField.ambientImageUnderAutomorphism_le E N h sigma
+  let hfin' := IntermediateField.ambientImageUnderAutomorphism_finiteDimensional
+    E N h sigma hfin
+  apply finiteCoverBasedBranchEquivOfExtensionEquiv h h' hfin'
+    (IntermediateField.extensionEquivUnderAutomorphism E N h sigma)
+    (normalCoverEquivUnderAutomorphism E N h sigma hfin)
+  apply RingHom.ext
+  intro x
+  exact normalCoverEquivUnderAutomorphism_algebraMap E N h sigma hfin x
+
+/-- The based semilinear comparison sends the literal selected total-field
+branch to the literal selected branch over the moved source image. -/
+@[simp] theorem basedBranchEquivUnderAutomorphism_selected
+    [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N))
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    (basedBranchEquivUnderAutomorphism E N h sigma hfin).branchEquiv
+        (finiteCoverSelectedBranch h) =
+      finiteCoverSelectedBranch
+        (IntermediateField.ambientImageUnderAutomorphism_le E N h sigma) :=
+  (basedBranchEquivUnderAutomorphism E N h sigma hfin).map_selected
+
+end FiniteCover
 
 universe u
 
