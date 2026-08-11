@@ -2139,6 +2139,32 @@ that it lies in the original eight-input field:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField}
 
+The concrete normal field is then canonicalized exactly once.  The resulting
+algebra equivalence is linear over the full common coefficient/source field,
+and every semantic or relocated complete branch is mapped through the same
+literal ambient inclusion followed by this one equivalence.  Thus the branch
+maps no longer inherit independent canonical choices:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceNormalEquivSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSemanticRightBranchToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSemanticRightBranchToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSemanticRightBranchToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSemanticRightBranchToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seRelocatedRightBranchToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRelocatedRightBranchToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbRelocatedRightBranchToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRelocatedRightBranchToSelectedSourceRingHom}
+
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceSemanticSourceCover}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceNormalCoverToReferenceSemanticSourceCover_algebraMap}
@@ -2366,6 +2392,22 @@ comparison no longer carries unrelated parameter coordinates:
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBGermCoefficientToCompleteRightBranchRingHom}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToCompleteRightBranchRingHom_selected}
+
+Composing those literal complete-branch inclusions with the single selected
+normal-cover canonicalization gives four intrinsic coefficient embeddings
+with one common codomain.  Their generator theorem still records the actual
+same-index relocated curve coefficients, so canonicalization has not erased
+the parameter-dependent coefficient presentations:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBGermCoefficientToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaBGermCoefficientToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbBGermCoefficientToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBGermCoefficientToSelectedSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToSelectedSourceRingHom_selected}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients}
 

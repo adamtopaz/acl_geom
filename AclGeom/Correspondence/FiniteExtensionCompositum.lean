@@ -244,6 +244,30 @@ open IntermediateField
 
 noncomputable section
 
+/-- Include a selected correspondence branch in an intermediate field with
+the same ambient carrier, allowing the displayed scalar fields to differ. -/
+def FiniteCorrespondencePair.branchOverSourceToIntermediateFieldRingHom
+    {F E Ω : Type*} [Field F] [Field E] [Field Ω]
+    [Algebra F Ω] [Algebra E Ω]
+    (P : FiniteCorrespondencePair F Ω) (N : IntermediateField E Ω)
+    (h : ∀ z : Ω, z ∈ P.branchField → z ∈ N) :
+    (↥P.branchOverSource) →+* (↥N) where
+  toFun z := ⟨z, h z z.2⟩
+  map_one' := by ext; rfl
+  map_mul' x y := by ext; rfl
+  map_zero' := by ext; rfl
+  map_add' x y := by ext; rfl
+
+/-- The cross-base branch inclusion does not change the value in the common
+ambient field. -/
+@[simp] theorem FiniteCorrespondencePair.branchOverSourceToIntermediateFieldRingHom_val
+    {F E Ω : Type*} [Field F] [Field E] [Field Ω]
+    [Algebra F Ω] [Algebra E Ω]
+    (P : FiniteCorrespondencePair F Ω) (N : IntermediateField E Ω)
+    (h : ∀ z : Ω, z ∈ P.branchField → z ∈ N) (x : P.branchOverSource) :
+    ((P.branchOverSourceToIntermediateFieldRingHom N h x : N) : Ω) = x :=
+  rfl
+
 namespace FiniteCover
 
 variable {k F Ω : Type*} [Field k] [Field F] [Field Ω]

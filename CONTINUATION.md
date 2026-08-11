@@ -1017,6 +1017,23 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     The next issue-#16 checkpoint is to expose selected whole-branch embeddings
     into this normal field, canonicalize it once, and prove that the resulting
     comparison maps preserve the four intrinsic coefficient embeddings.
+73. The concrete selected semantic/reference normal field is now
+    canonicalized exactly once, with an explicit algebra equivalence over the
+    full common coefficient/source field.  A reusable cross-base branch
+    inclusion sends a complete selected correspondence branch into any
+    intermediate field containing its ambient branch carrier.  It supplies
+    eight named literal inclusions—four common-base semantic right branches
+    and four original relocated right branches—into the concrete normal field,
+    followed by eight maps through the same canonicalization equivalence.
+    The four intrinsic selected-`B` coefficient embeddings from item 71 now
+    compose with those relocated whole-branch maps into one selected canonical
+    cover.  A simultaneous generator theorem proves that all four still send
+    every canonical germ coefficient to the corresponding literal relocated
+    curve coefficient before the shared canonicalization.  This completes the
+    selected-embedding/canonical-comparison task of issue #16.  The remaining
+    issue-#16 work is to construct common graph-faithful source/middle/target
+    charts from this selected model, prove repeated-arrow coherence, and expose
+    the resulting non-vacuous four-arrow coefficient restrictions for #14.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

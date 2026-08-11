@@ -773,6 +773,204 @@ theorem fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField
     (R.sbRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ,
     (R.sAcRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ⟩
 
+/-- The concrete selected normal field canonicalized once over the common
+source. -/
+def selectedSemanticReferenceSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.FiniteNormalCover
+      (↥R.semanticCommonSourceField) where
+  field := FiniteCover.canonicalNormalClosure
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+  finiteDimensional :=
+    FiniteCover.canonicalNormalClosure_finiteDimensional
+      (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+      (R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind)
+  normal := by
+    letI : FiniteDimensional (↥R.semanticCommonSourceField)
+        (↥(extendScalars
+          (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind))) := by
+      change FiniteDimensional (↥R.semanticCommonSourceField)
+        (↥(R.selectedSemanticReferenceJoinOverSource L hind))
+      exact R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind
+    exact FiniteCover.canonicalNormalClosure_normal
+      (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+      (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- The concrete selected normal field and its once-canonicalized cover are
+equivalent over the full common coefficient/source field. -/
+noncomputable def selectedSemanticReferenceNormalEquivSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedSemanticReferenceNormalField L hind)) ≃ₐ[
+      ↥R.semanticCommonSourceField]
+      (↥(R.selectedSemanticReferenceSourceCover L hind).field) := by
+  let hJ := R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind
+  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(extendScalars hJ)) := by
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoinOverSource L hind))
+    exact R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind
+  exact FiniteCover.normalClosureOverEquivCanonical hJ
+    (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- The unique canonicalization map selected for the concrete joint normal
+field. -/
+noncomputable def ambientSelectedSemanticReferenceNormalFieldToSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedSemanticReferenceNormalField L hind)) →ₐ[k]
+      (↥(R.selectedSemanticReferenceSourceCover L hind).field) :=
+  (R.selectedSemanticReferenceNormalEquivSourceCover L hind).toAlgHom
+    |>.restrictScalars k
+
+/-- Literal inclusion of the common-base `e` right branch into the concrete
+selected normal field. -/
+noncomputable def seSemanticRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourSemanticRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.1 hz)
+
+/-- Literal inclusion of the common-base `a` right branch. -/
+noncomputable def sAaSemanticRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourSemanticRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.2.1 hz)
+
+/-- Literal inclusion of the common-base `b` right branch. -/
+noncomputable def sbSemanticRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourSemanticRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.2.2.1 hz)
+
+/-- Literal inclusion of the common-base `c` right branch. -/
+noncomputable def sAcSemanticRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourSemanticRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.2.2.2 hz)
+
+/-- Literal inclusion of the original relocated `e` right branch. -/
+noncomputable def seRelocatedRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.se.bCorrespondenceFamilyMember hψ).toPair.branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q := (R.se.bCorrespondenceFamilyMember hψ).toPair
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.1 hz)
+
+/-- Literal inclusion of the original relocated `a` right branch. -/
+noncomputable def sAaRelocatedRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q := (R.sAa.bCorrespondenceFamilyMember hψ).toPair
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.2.1 hz)
+
+/-- Literal inclusion of the original relocated `b` right branch. -/
+noncomputable def sbRelocatedRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sb.bCorrespondenceFamilyMember hψ).toPair.branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q := (R.sb.bCorrespondenceFamilyMember hψ).toPair
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.2.2.1 hz)
+
+/-- Literal inclusion of the original relocated `c` right branch. -/
+noncomputable def sAcRelocatedRightBranchToSelectedNormalRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchOverSource →+*
+      R.selectedSemanticReferenceNormalField L hind :=
+  let Q := (R.sAc.bCorrespondenceFamilyMember hψ).toPair
+  Q.branchOverSourceToIntermediateFieldRingHom
+    (R.selectedSemanticReferenceNormalField L hind)
+    (fun _ hz ↦ R.fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField
+      L hind |>.2.2.2 hz)
+
+/-- Canonicalize the selected semantic `e` branch after its literal ambient
+inclusion. -/
+noncomputable def seSemanticRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.seSemanticRightBranchToSelectedNormalRingHom L hind)
+
+/-- Canonicalize the selected semantic `a` branch. -/
+noncomputable def sAaSemanticRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.sAaSemanticRightBranchToSelectedNormalRingHom L hind)
+
+/-- Canonicalize the selected semantic `b` branch. -/
+noncomputable def sbSemanticRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.sbSemanticRightBranchToSelectedNormalRingHom L hind)
+
+/-- Canonicalize the selected semantic `c` branch. -/
+noncomputable def sAcSemanticRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.sAcSemanticRightBranchToSelectedNormalRingHom L hind)
+
+/-- Canonicalize the original relocated `e` branch after literal inclusion. -/
+noncomputable def seRelocatedRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.seRelocatedRightBranchToSelectedNormalRingHom L hind)
+
+/-- Canonicalize the original relocated `a` branch. -/
+noncomputable def sAaRelocatedRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.sAaRelocatedRightBranchToSelectedNormalRingHom L hind)
+
+/-- Canonicalize the original relocated `b` branch. -/
+noncomputable def sbRelocatedRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.sbRelocatedRightBranchToSelectedNormalRingHom L hind)
+
+/-- Canonicalize the original relocated `c` branch. -/
+noncomputable def sAcRelocatedRightBranchToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
+    (R.sAcRelocatedRightBranchToSelectedNormalRingHom L hind)
+
 /-- A canonical finite normal cover of the semantic source field containing
 the transported normalized reference field. -/
 def transportedReferenceSourceCover
@@ -2554,6 +2752,104 @@ theorem fourBGermCoefficientToCompleteRightBranchRingHom_selected
         (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
         (R.sAc.bCorrespondenceFamilyMember hψ)
         R.sAcMappedSelectedBFamily_ideal_eq R.relocatedBFamily_parameters.2.2.2 d)⟩
+
+/-- The intrinsic selected-`B` coefficient field embedded through the
+original relocated `e` branch into the once-canonicalized selected cover. -/
+noncomputable def seBGermCoefficientToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedSemanticReferenceSourceCover L hind).field :=
+  (R.seRelocatedRightBranchToSelectedSourceRingHom L hind).comp
+    (R.seBGermCoefficientToCompleteRightBranchRingHom L)
+
+/-- The corresponding intrinsic coefficient embedding through the
+relocated `a` branch. -/
+noncomputable def sAaBGermCoefficientToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedSemanticReferenceSourceCover L hind).field :=
+  (R.sAaRelocatedRightBranchToSelectedSourceRingHom L hind).comp
+    (R.sAaBGermCoefficientToCompleteRightBranchRingHom L)
+
+/-- The corresponding intrinsic coefficient embedding through the
+relocated `b` branch. -/
+noncomputable def sbBGermCoefficientToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedSemanticReferenceSourceCover L hind).field :=
+  (R.sbRelocatedRightBranchToSelectedSourceRingHom L hind).comp
+    (R.sbBGermCoefficientToCompleteRightBranchRingHom L)
+
+/-- The corresponding intrinsic coefficient embedding through the
+relocated `c` branch. -/
+noncomputable def sAcBGermCoefficientToSelectedSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedSemanticReferenceSourceCover L hind).field :=
+  (R.sAcRelocatedRightBranchToSelectedSourceRingHom L hind).comp
+    (R.sAcBGermCoefficientToCompleteRightBranchRingHom L)
+
+/-- On every canonical coefficient, the four selected-cover maps are
+exactly the once-canonicalized literal relocated coefficients in their
+complete branches. -/
+theorem fourBGermCoefficientToSelectedSourceRingHom_selected
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (d : Fin 2 →₀ ℕ) :
+    R.seBGermCoefficientToSelectedSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.seRelocatedRightBranchToSelectedSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.se.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.se.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.se.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.se.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.se.bCorrespondenceFamilyMember hψ).parameterField d⟩) ∧
+      R.sAaBGermCoefficientToSelectedSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.sAaRelocatedRightBranchToSelectedSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.sAa.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.sAa.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.sAa.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.sAa.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.sAa.bCorrespondenceFamilyMember hψ).parameterField d⟩) ∧
+      R.sbBGermCoefficientToSelectedSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.sbRelocatedRightBranchToSelectedSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.sb.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.sb.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.sb.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.sb.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.sb.bCorrespondenceFamilyMember hψ).parameterField d⟩) ∧
+      R.sAcBGermCoefficientToSelectedSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.sAcRelocatedRightBranchToSelectedSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.sAc.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.sAc.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.sAc.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.sAc.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.sAc.bCorrespondenceFamilyMember hψ).parameterField d⟩) := by
+  unfold seBGermCoefficientToSelectedSourceRingHom
+    sAaBGermCoefficientToSelectedSourceRingHom
+    sbBGermCoefficientToSelectedSourceRingHom
+    sAcBGermCoefficientToSelectedSourceRingHom
+  simp only [RingHom.comp_apply]
+  obtain ⟨he, ha, hb, hc⟩ :=
+    R.fourBGermCoefficientToCompleteRightBranchRingHom_selected L d
+  exact ⟨congrArg (R.seRelocatedRightBranchToSelectedSourceRingHom L hind) he,
+    congrArg (R.sAaRelocatedRightBranchToSelectedSourceRingHom L hind) ha,
+    congrArg (R.sbRelocatedRightBranchToSelectedSourceRingHom L hind) hb,
+    congrArg (R.sAcRelocatedRightBranchToSelectedSourceRingHom L hind) hc⟩
 
 /-- Simultaneously, all four whole parameter transports factor through the
 intrinsic coefficient fields of their relocated canonical curves. -/
