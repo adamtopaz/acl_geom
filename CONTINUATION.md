@@ -1094,6 +1094,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     parameter field.  The remaining issue-#16 step is now specifically to
     choose the non-induced common middle/target charts whose semantic
     right-arrow restrictions are these already-identified maps.
+79. The non-vacuity condition for the final charts is now a first-class
+    semantic interface rather than prose.  A `FourArrowDiagram.RightRestriction`
+    consists of one literal intrinsic coefficient embedding in the common
+    middle field, its four named images in the common target field, and proofs
+    that all four are restrictions of the corresponding semantic right
+    arrows.  Its `mapC_factorization` theorem descends faithful four-arrow
+    cancellation to that one coefficient field, retaining the inverse `e`
+    arrow in the middle chart.  In particular, four unrelated maps with the
+    right codomain cannot satisfy the interface merely because a source-induced
+    diagram is gauge-trivial.  The remaining issue-#16 construction must now
+    produce this restriction package with `mapE/mapA/mapB/mapC` equal to the
+    four whole-field selected/reference maps from item 78.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

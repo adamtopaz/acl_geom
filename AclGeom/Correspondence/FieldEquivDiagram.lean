@@ -601,6 +601,55 @@ theorem right_cancellation :
     _ = D.rightB (D.rightE.symm (D.rightA (D.leftSA x))) := by rw [hsa]
     _ = D.rightB (D.rightE.symm (D.rightA y)) := by simp [x]
 
+/-- A common coefficient-field embedding in the middle chart together with
+its four images under the semantic right arrows.  Recording all five maps
+in one structure prevents a family of unrelated parameter embeddings from
+being mistaken for a restriction of the four-arrow diagram. -/
+structure RightRestriction (F : Type u) [Field F] where
+  /-- The one coefficient embedding shared by all four right arrows. -/
+  middle : F →+* Y
+  /-- Its image under the right arrow labelled by `e`. -/
+  mapE : F →+* Z
+  /-- Its image under the right arrow labelled by `a`. -/
+  mapA : F →+* Z
+  /-- Its image under the right arrow labelled by `b`. -/
+  mapB : F →+* Z
+  /-- Its image under the right arrow labelled by `c`. -/
+  mapC : F →+* Z
+  /-- The `e` map is the restriction of the semantic `e` arrow. -/
+  rightE : D.rightE.toRingHom.comp middle = mapE
+  /-- The `a` map is the restriction of the semantic `a` arrow. -/
+  rightA : D.rightA.toRingHom.comp middle = mapA
+  /-- The `b` map is the restriction of the semantic `b` arrow. -/
+  rightB : D.rightB.toRingHom.comp middle = mapB
+  /-- The `c` map is the restriction of the semantic `c` arrow. -/
+  rightC : D.rightC.toRingHom.comp middle = mapC
+
+namespace RightRestriction
+
+variable {F : Type u} [Field F] (C : D.RightRestriction F)
+
+/-- Faithful four-arrow cancellation restricted to one common coefficient
+field.  The formula retains the inverse `e` arrow in the middle chart; it is
+therefore the exact field-map factorization that must later be spread to the
+intrinsic germ chart. -/
+theorem mapC_factorization :
+    C.mapC = D.rightB.toRingHom.comp
+      (D.rightE.symm.toRingHom.comp C.mapA) := by
+  apply RingHom.ext
+  intro z
+  calc
+    C.mapC z = D.rightC (C.middle z) :=
+      (DFunLike.congr_fun C.rightC z).symm
+    _ = D.rightB (D.rightE.symm (D.rightA (C.middle z))) :=
+      DFunLike.congr_fun D.right_cancellation (C.middle z)
+    _ = D.rightB (D.rightE.symm (C.mapA z)) := by
+      have hz := DFunLike.congr_fun C.rightA z
+      change D.rightA (C.middle z) = C.mapA z at hz
+      rw [hz]
+
+end RightRestriction
+
 /-- Pointwise form of semantic four-arrow cancellation. -/
 theorem right_cancellation_apply (y : Y) :
     D.rightC y = D.rightB (D.rightE.symm (D.rightA y)) := by

@@ -1229,6 +1229,16 @@ equation `(8.6)` into a literal composition triangle:
 
 {docstring AclGeom.FieldEquiv.FourArrowDiagram.right_cancellation}
 
+To descend that cancellation to an intrinsic parameter chart, the four
+right arrows must act on one literal coefficient embedding in the common
+middle field.  The following interface records that shared embedding and
+its four restrictions; its factorization theorem is the non-gauge target
+for the graph-faithful Ψ charts:
+
+{docstring AclGeom.FieldEquiv.FourArrowDiagram.RightRestriction}
+
+{docstring AclGeom.FieldEquiv.FourArrowDiagram.RightRestriction.mapC_factorization}
+
 {docstring AclGeom.QWitness.psiAFiniteCoverEquiv}
 
 {docstring AclGeom.QWitness.psiBFiniteCoverEquiv}
