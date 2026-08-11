@@ -261,19 +261,97 @@ transport. -/
         (ambientEquiv R V x) := by
   simp [normalCoverEquiv, extensionEquiv]
 
+/-- Correct the raw semilinear normal-cover equivalence by a target deck
+transformation so that it carries the entire literal selected joint edge to
+the literal selected target edge. -/
+noncomputable def basedNormalCoverEquiv [IsAlgClosed K]
+    (hψ : w.Psi) (R V : w.PsiChunkRelationRealization) :
+    FiniteCoverBasedNormalEquiv
+      R.ambientField_le_jointField V.ambientField_le_jointField
+      (extensionEquiv R V) :=
+  finiteCoverBasedNormalEquivOfExtensionEquiv
+    R.ambientField_le_jointField V.ambientField_le_jointField
+    (V.jointExtension_finiteDimensional hψ)
+    (extensionEquiv R V) (normalCoverEquiv hψ R V) (by
+      apply RingHom.ext
+      intro x
+      exact normalCoverEquiv_algebraMap hψ R V x)
+
+/-- The corrected equivalence remains semilinear over the canonical
+positionwise equivalence of the six ambient edge coordinates. -/
+@[simp] theorem basedNormalCoverEquiv_algebraMap [IsAlgClosed K]
+    (hψ : w.Psi) (R V : w.PsiChunkRelationRealization)
+    (x : R.ambientField) :
+    (basedNormalCoverEquiv hψ R V).toRingEquiv
+        (algebraMap (↥R.ambientField)
+          (↥(FiniteCover.normalClosureOver
+            R.ambientField_le_jointField)) x) =
+      algebraMap (↥V.ambientField)
+        (↥(FiniteCover.normalClosureOver
+          V.ambientField_le_jointField))
+        (ambientEquiv R V x) :=
+  DFunLike.congr_fun (basedNormalCoverEquiv hψ R V).commutes x
+
+/-- On the selected full joint edge, the corrected normal-cover
+equivalence is exactly the canonical total-field transport. -/
+@[simp] theorem basedNormalCoverEquiv_selected_apply [IsAlgClosed K]
+    (hψ : w.Psi) (R V : w.PsiChunkRelationRealization)
+    (x : R.jointExtension) :
+    (basedNormalCoverEquiv hψ R V).toRingEquiv
+        (FiniteCover.selectedEmbedding R.ambientField_le_jointField x) =
+      FiniteCover.selectedEmbedding V.ambientField_le_jointField
+        ((extensionEquiv R V).totalEquiv x) :=
+  (basedNormalCoverEquiv hψ R V).map_selected_apply x
+
+/-- Every one of the nine named joint-edge coordinates is transported
+positionwise by the selected-branch-preserving normal-cover equivalence. -/
+@[simp] theorem basedNormalCoverEquiv_selected_coordinate [IsAlgClosed K]
+    (hψ : w.Psi) (R V : w.PsiChunkRelationRealization) (i : Fin 9) :
+    (basedNormalCoverEquiv hψ R V).toRingEquiv
+        (FiniteCover.selectedEmbedding R.ambientField_le_jointField
+          ⟨R.jointTuple i,
+            IntermediateField.subset_adjoin k _ (Set.mem_range_self i)⟩) =
+      FiniteCover.selectedEmbedding V.ambientField_le_jointField
+        ⟨V.jointTuple i,
+          IntermediateField.subset_adjoin k _ (Set.mem_range_self i)⟩ := by
+  rw [basedNormalCoverEquiv_selected_apply]
+  congr 1
+  exact jointEquiv_apply R V i
+
 /-- Equal-locus joint edges have equivariantly equivalent conjugate-branch
 groupoids, based at their literal selected edges. -/
 noncomputable def basedBranchEquiv [IsAlgClosed K]
     (hψ : w.Psi) (R V : w.PsiChunkRelationRealization) :
     FiniteCoverBasedBranchEquiv R.ambientField_le_jointField
       V.ambientField_le_jointField := by
-  apply finiteCoverBasedBranchEquivOfExtensionEquiv
-    R.ambientField_le_jointField V.ambientField_le_jointField
-    (V.jointExtension_finiteDimensional hψ)
-    (extensionEquiv R V) (normalCoverEquiv hψ R V)
-  apply RingHom.ext
-  intro x
-  exact normalCoverEquiv_algebraMap hψ R V x
+  exact (basedNormalCoverEquiv hψ R V).toBasedBranchEquiv
+
+/-- The selected-branch-preserving normal-cover transition from one joint
+edge to another, defined through a single reference edge. -/
+noncomputable def normalCoverTransition [IsAlgClosed K]
+    (hψ : w.Psi) (reference R V : w.PsiChunkRelationRealization) :
+    (↥(FiniteCover.normalClosureOver R.ambientField_le_jointField)) ≃+*
+      (↥(FiniteCover.normalClosureOver V.ambientField_le_jointField)) :=
+  (basedNormalCoverEquiv hψ reference R).toRingEquiv.symm.trans
+    (basedNormalCoverEquiv hψ reference V).toRingEquiv
+
+/-- Normal-cover transitions formed through one reference satisfy the
+strict cocycle identity as field equivalences. -/
+theorem normalCoverTransition_trans [IsAlgClosed K]
+    (hψ : w.Psi) (reference R V U : w.PsiChunkRelationRealization) :
+    (normalCoverTransition hψ reference R V).trans
+        (normalCoverTransition hψ reference V U) =
+      normalCoverTransition hψ reference R U := by
+  ext x
+  simp [normalCoverTransition]
+
+/-- The normal-cover transition from an edge to itself is the identity
+field equivalence. -/
+theorem normalCoverTransition_self [IsAlgClosed K]
+    (hψ : w.Psi) (reference R : w.PsiChunkRelationRealization) :
+    normalCoverTransition hψ reference R R = RingEquiv.refl _ := by
+  ext x
+  simp [normalCoverTransition]
 
 /-- Trivialize one joint-edge branch fiber against a fixed reference
 edge. -/
@@ -407,6 +485,88 @@ theorem fourEdge_branchCycle [IsAlgClosed K] :
   rw [PsiChunkRelationRealization.branchTransition_trans]
   rw [PsiChunkRelationRealization.branchTransition_trans]
   exact PsiChunkRelationRealization.branchTransition_self
+    hψ L.seRealization L.seRealization
+
+/-- The selected-branch-preserving normal-cover trivializations of all four
+joint edges, based at the `s·e=u` edge. -/
+noncomputable def fourEdgeBasedNormalCoverEquivs [IsAlgClosed K] :=
+  (PsiChunkRelationRealization.basedNormalCoverEquiv
+      hψ L.seRealization L.seRealization,
+    PsiChunkRelationRealization.basedNormalCoverEquiv
+      hψ L.seRealization L.sA_aRealization,
+    PsiChunkRelationRealization.basedNormalCoverEquiv
+      hψ L.seRealization L.s_bRealization,
+    PsiChunkRelationRealization.basedNormalCoverEquiv
+      hψ L.seRealization L.sA_cRealization)
+
+/-- The four corrected normal-cover equivalences align the entire selected
+joint branches.  In particular, at coordinate `7` they carry the first
+selected `B/T` scalar branch to the `e`, `a`, `b`, and `c` scalar branches
+used by the four normalized reference projections. -/
+theorem fourEdgeBasedNormalCoverEquivs_selectedBScalar [IsAlgClosed K] :
+    let T := L.fourEdgeBasedNormalCoverEquivs
+    T.1.toRingEquiv
+        (FiniteCover.selectedEmbedding
+          L.seRealization.ambientField_le_jointField
+          ⟨L.se_e, IntermediateField.subset_adjoin k _
+            (Set.mem_range_self (7 : Fin 9))⟩) =
+      FiniteCover.selectedEmbedding
+        L.seRealization.ambientField_le_jointField
+        ⟨L.se_e, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self (7 : Fin 9))⟩ ∧
+    T.2.1.toRingEquiv
+        (FiniteCover.selectedEmbedding
+          L.seRealization.ambientField_le_jointField
+          ⟨L.se_e, IntermediateField.subset_adjoin k _
+            (Set.mem_range_self (7 : Fin 9))⟩) =
+      FiniteCover.selectedEmbedding
+        L.sA_aRealization.ambientField_le_jointField
+        ⟨L.sA_a_a, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self (7 : Fin 9))⟩ ∧
+    T.2.2.1.toRingEquiv
+        (FiniteCover.selectedEmbedding
+          L.seRealization.ambientField_le_jointField
+          ⟨L.se_e, IntermediateField.subset_adjoin k _
+            (Set.mem_range_self (7 : Fin 9))⟩) =
+      FiniteCover.selectedEmbedding
+        L.s_bRealization.ambientField_le_jointField
+        ⟨L.s_b_b, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self (7 : Fin 9))⟩ ∧
+    T.2.2.2.toRingEquiv
+        (FiniteCover.selectedEmbedding
+          L.seRealization.ambientField_le_jointField
+          ⟨L.se_e, IntermediateField.subset_adjoin k _
+            (Set.mem_range_self (7 : Fin 9))⟩) =
+      FiniteCover.selectedEmbedding
+        L.sA_cRealization.ambientField_le_jointField
+        ⟨L.sA_c_c, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self (7 : Fin 9))⟩ := by
+  exact
+    ⟨PsiChunkRelationRealization.basedNormalCoverEquiv_selected_coordinate
+        hψ L.seRealization L.seRealization 7,
+      PsiChunkRelationRealization.basedNormalCoverEquiv_selected_coordinate
+        hψ L.seRealization L.sA_aRealization 7,
+      PsiChunkRelationRealization.basedNormalCoverEquiv_selected_coordinate
+        hψ L.seRealization L.s_bRealization 7,
+      PsiChunkRelationRealization.basedNormalCoverEquiv_selected_coordinate
+        hψ L.seRealization L.sA_cRealization 7⟩
+
+/-- The corresponding selected-branch-preserving field equivalences have
+strictly trivial holonomy around the four lifted edges. -/
+theorem fourEdge_normalCoverCycle [IsAlgClosed K] :
+    (((PsiChunkRelationRealization.normalCoverTransition hψ
+          L.seRealization L.seRealization L.sA_aRealization).trans
+        (PsiChunkRelationRealization.normalCoverTransition hψ
+          L.seRealization L.sA_aRealization L.sA_cRealization)).trans
+      (PsiChunkRelationRealization.normalCoverTransition hψ
+        L.seRealization L.sA_cRealization L.s_bRealization)).trans
+    (PsiChunkRelationRealization.normalCoverTransition hψ
+      L.seRealization L.s_bRealization L.seRealization) =
+      RingEquiv.refl _ := by
+  rw [PsiChunkRelationRealization.normalCoverTransition_trans]
+  rw [PsiChunkRelationRealization.normalCoverTransition_trans]
+  rw [PsiChunkRelationRealization.normalCoverTransition_trans]
+  exact PsiChunkRelationRealization.normalCoverTransition_self
     hψ L.seRealization L.seRealization
 
 end PsiChunkFourArrowEdgeLifts

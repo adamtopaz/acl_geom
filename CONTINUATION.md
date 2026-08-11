@@ -838,6 +838,26 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     isomorphism.  The next local step is to align the remaining finite
     scalar-normal branches in the combined cover and use the resulting
     whole-branch equality to factor the four explicit reference maps.
+62. The deck correction used to base a transported finite normal cover is
+    now retained as an explicit semilinear field equivalence.  The generic
+    `FiniteCoverBasedNormalEquiv` records both its base-field square and an
+    exact whole-selected-branch square, and recovers the existing based
+    branch-groupoid equivalence without making a second choice.  Applied to
+    the complete nine-coordinate joint chunk edges, the corrected normal-
+    cover equivalence sends every selected coordinate positionwise.  Four
+    named equivalences based at the `s·e=u` edge therefore send its selected
+    `B/T` scalar at coordinate `7` exactly to the `e`, `a`, `b`, and `c`
+    scalar branches used by the normalized reference maps.  Their induced
+    reference-based field transitions satisfy a strict cocycle, and the
+    four-edge field-level holonomy is literally the identity.  Thus the
+    scalar alignment is no longer only an equality in an abstract branch
+    groupoid: it is carried by selected-branch-preserving field
+    equivalences with exact coordinate formulas.  The next local step is to
+    base-change these four corrected edge equivalences to the common eight-
+    input/formal-source field and include their selected scalar branches in
+    `referenceSemanticSourceCover`; there they can be compared pointwise
+    with the four promoted `toReference` embeddings and the semantic curve
+    charts from items 58--61.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

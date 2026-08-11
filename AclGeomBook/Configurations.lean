@@ -1067,6 +1067,34 @@ cocyclic, so every reference-based cycle has trivial holonomy:
 
 {docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.fourEdge_branchCycle}
 
+The selected-branch correction is now retained at field level, rather than
+discarded after constructing the branch-groupoid equivalence.  A based
+normal-cover equivalence records its semilinear base square and an exact
+whole-selected-branch square.  For joint edges this sends every one of the
+nine named coordinates positionwise; in particular the four normalized
+`B/T` scalar branches are images of one selected scalar branch under four
+explicit corrected normal-cover equivalences.  Reference-based field
+transitions satisfy a strict cocycle, and the four-edge field-level cycle is
+literally the identity:
+
+{docstring AclGeom.FiniteCoverBasedNormalEquiv}
+
+{docstring AclGeom.FiniteCoverBasedNormalEquiv.map_selected_apply}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.basedNormalCoverEquiv}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.basedNormalCoverEquiv_selected_coordinate}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.normalCoverTransition}
+
+{docstring AclGeom.QWitness.PsiChunkRelationRealization.normalCoverTransition_trans}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.fourEdgeBasedNormalCoverEquivs}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.fourEdgeBasedNormalCoverEquivs_selectedBScalar}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.fourEdge_normalCoverCycle}
+
 The arrows of an action category also carry a direct based chunk.  Since
 categorical composition reverses deck labels, taking the inverse of the
 based difference label turns that chunk into an injective homomorphism to

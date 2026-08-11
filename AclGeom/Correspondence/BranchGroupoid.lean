@@ -774,11 +774,79 @@ theorem finiteCoverBranch_exists_smul_eq [IsAlgClosed Ω]
       (Algebra.IsAlgebraic.of_finite (↥E) (↥(extendScalars h)))
   exact NormalBranchEmbedding.exists_smul_eq f g
 
+/-- A semilinear equivalence of concrete normal-cover fields which preserves
+the literal selected finite-extension branch.  The base and total
+equivalences are retained explicitly so the selected-branch equation can be
+evaluated on named coordinates after transport. -/
+structure FiniteCoverBasedNormalEquiv
+    {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L')
+    (e : FiniteCover.ExtensionEquiv h h') where
+  /-- The selected-branch-preserving equivalence of normal-cover fields. -/
+  toRingEquiv :
+    (↥(FiniteCover.normalClosureOver h)) ≃+*
+      (↥(FiniteCover.normalClosureOver h'))
+  /-- The normal-cover equivalence is semilinear over the displayed base
+  equivalence. -/
+  commutes :
+    toRingEquiv.toRingHom.comp
+        (algebraMap (↥E) (↥(FiniteCover.normalClosureOver h))) =
+      (algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))).comp
+        e.baseEquiv.toRingEquiv.toRingHom
+  /-- The corrected normal-cover equivalence carries the literal selected
+  branch to the literal selected target branch through the total-field
+  equivalence. -/
+  map_selected :
+    toRingEquiv.toRingHom.comp
+        (FiniteCover.selectedEmbedding h).toRingHom =
+      (FiniteCover.selectedEmbedding h').toRingHom.comp
+        e.totalEquiv.toRingEquiv.toRingHom
+
+namespace FiniteCoverBasedNormalEquiv
+
+variable {E' L' : IntermediateField k Ω} {h : E ≤ L} {h' : E' ≤ L'}
+  {e : FiniteCover.ExtensionEquiv h h'}
+
+/-- Pointwise form of the selected-branch preservation equation. -/
+@[simp] theorem map_selected_apply (T : FiniteCoverBasedNormalEquiv h h' e)
+    (x : extendScalars h) :
+    T.toRingEquiv (FiniteCover.selectedEmbedding h x) =
+      FiniteCover.selectedEmbedding h' (e.totalEquiv x) :=
+  DFunLike.congr_fun T.map_selected x
+
+/-- A based normal-cover equivalence induces the corresponding equivalence
+of based conjugate-branch actions, without making any further branch
+choice. -/
+def toBasedBranchEquiv (T : FiniteCoverBasedNormalEquiv h h' e) :
+    FiniteCoverBasedBranchEquiv h h' := by
+  let branchEquiv := finiteCoverBranchEquivOfExtensionEquiv
+    h h' e T.toRingEquiv T.commutes
+  let deckEquiv := finiteCoverDeckEquivOfExtensionEquiv
+    h h' e T.toRingEquiv T.commutes
+  refine
+    { deckEquiv := deckEquiv
+      branchEquiv := branchEquiv
+      map_smul := fun σ b ↦ ?_
+      map_selected := ?_ }
+  · exact finiteCoverBranchEquivOfExtensionEquiv_smul
+      h h' e T.toRingEquiv T.commutes σ b
+  · apply NormalBranchEmbedding.ext
+    apply AlgHom.ext
+    intro y
+    have hy := T.map_selected_apply (e.totalEquiv.symm y)
+    change T.toRingEquiv
+        (FiniteCover.selectedEmbedding h (e.totalEquiv.symm y)) =
+      FiniteCover.selectedEmbedding h' y
+    rw [e.totalEquiv.apply_symm_apply] at hy
+    exact hy
+
+end FiniteCoverBasedNormalEquiv
+
 /-- A transported normal cover can be based at the literal target branch:
 transitivity supplies a target deck transformation correcting the raw
-field-theoretic branch equivalence.  Conjugating the deck-group equivalence
-by the same element retains equivariance. -/
-def finiteCoverBasedBranchEquivOfExtensionEquiv [IsAlgClosed Ω]
+field-theoretic equivalence.  The corrected field equivalence remains
+semilinear over the original base equivalence and now carries the entire
+literal selected branch through the displayed total-field equivalence. -/
+noncomputable def finiteCoverBasedNormalEquivOfExtensionEquiv [IsAlgClosed Ω]
     {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L')
     (hfin' : FiniteDimensional (↥E') (↥(extendScalars h')))
     (e : FiniteCover.ExtensionEquiv h h')
@@ -788,9 +856,8 @@ def finiteCoverBasedBranchEquivOfExtensionEquiv [IsAlgClosed Ω]
         (algebraMap (↥E) (↥(FiniteCover.normalClosureOver h))) =
       (algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))).comp
         e.baseEquiv.toRingEquiv.toRingHom) :
-    FiniteCoverBasedBranchEquiv h h' := by
+    FiniteCoverBasedNormalEquiv h h' e := by
   let rawBranch := finiteCoverBranchEquivOfExtensionEquiv h h' e n hn
-  let rawDeck := finiteCoverDeckEquivOfExtensionEquiv h h' e n hn
   let hex := finiteCoverBranch_exists_smul_eq h' hfin'
     (rawBranch (finiteCoverSelectedBranch h))
     (finiteCoverSelectedBranch h')
@@ -798,15 +865,47 @@ def finiteCoverBasedBranchEquivOfExtensionEquiv [IsAlgClosed Ω]
   have hτ : τ • rawBranch (finiteCoverSelectedBranch h) =
       finiteCoverSelectedBranch h' := Classical.choose_spec hex
   refine
-    { deckEquiv := rawDeck.trans (MulAut.conj τ)
-      branchEquiv := rawBranch.trans (mulActionEquiv τ)
-      map_smul := fun σ b ↦ ?_
+    { toRingEquiv := n.trans τ.toRingEquiv
+      commutes := ?_
       map_selected := ?_ }
-  · change τ • rawBranch (σ • b) =
-      (τ * rawDeck σ * τ⁻¹) • (τ • rawBranch b)
-    rw [finiteCoverBranchEquivOfExtensionEquiv_smul]
-    simp [rawBranch, rawDeck, mul_smul, mul_assoc]
-  · exact hτ
+  · apply RingHom.ext
+    intro x
+    have hx := DFunLike.congr_fun hn x
+    change n (algebraMap (↥E)
+        (↥(FiniteCover.normalClosureOver h)) x) =
+      algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))
+        (e.baseEquiv x) at hx
+    change τ (n (algebraMap (↥E)
+        (↥(FiniteCover.normalClosureOver h)) x)) =
+      algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))
+        (e.baseEquiv x)
+    rw [hx]
+    exact τ.commutes (e.baseEquiv x)
+  · apply RingHom.ext
+    intro x
+    have hx := congrArg (fun f ↦ f.toAlgHom (e.totalEquiv x)) hτ
+    change τ (n (FiniteCover.selectedEmbedding h
+        (e.totalEquiv.symm (e.totalEquiv x)))) =
+      FiniteCover.selectedEmbedding h' (e.totalEquiv x) at hx
+    change τ (n (FiniteCover.selectedEmbedding h x)) =
+      FiniteCover.selectedEmbedding h' (e.totalEquiv x)
+    simpa using hx
+
+/-- Forgetting the corrected field equivalence recovers a selected-branch-
+preserving equivalence of the corresponding conjugate-branch actions. -/
+noncomputable def finiteCoverBasedBranchEquivOfExtensionEquiv [IsAlgClosed Ω]
+    {E' L' : IntermediateField k Ω} (h : E ≤ L) (h' : E' ≤ L')
+    (hfin' : FiniteDimensional (↥E') (↥(extendScalars h')))
+    (e : FiniteCover.ExtensionEquiv h h')
+    (n : (↥(FiniteCover.normalClosureOver h)) ≃+*
+      (↥(FiniteCover.normalClosureOver h')))
+    (hn : n.toRingHom.comp
+        (algebraMap (↥E) (↥(FiniteCover.normalClosureOver h))) =
+      (algebraMap (↥E') (↥(FiniteCover.normalClosureOver h'))).comp
+        e.baseEquiv.toRingEquiv.toRingHom) :
+    FiniteCoverBasedBranchEquiv h h' :=
+  (finiteCoverBasedNormalEquivOfExtensionEquiv
+    h h' hfin' e n hn).toBasedBranchEquiv
 
 namespace FiniteCoverBasedBranchEquiv
 
