@@ -1560,6 +1560,41 @@ now instantiate these coefficient-bearing branch automorphisms:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBBranchAutomorphism}
 
+The alternative source fields are algebraically related to, but not nested
+with, the literal common input field.  The comparison fields are therefore
+renormalized once more over the common coefficient field with the same
+formal source adjoined.  A finite-basis compositum proves finiteness over
+this new base without pretending the two bases are nested; a second normal
+closure supplies a canonical finite normal cover in the exact algebraic
+closure used by the four strict triangles.  The two literal target branches
+embed in that canonical cover.  The three rebased covers are joined to the
+existing simultaneous source cover, and all four composition triangles are
+then rebuilt, still strictly, on the enlarged source:
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.rebasedCanonicalCover}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.firstBranchEmbeddingInRebasedCanonical}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.secondBranchEmbeddingInRebasedCanonical}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSARebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedURebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.branchComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBranchComparisonCoverCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaBranchComparisonCoverCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbBranchComparisonCoverCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBranchComparisonCoverCompositionTriangle}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

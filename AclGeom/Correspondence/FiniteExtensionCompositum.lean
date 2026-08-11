@@ -88,6 +88,18 @@ theorem normal_le_field (hFE : F ≤ E) :
   exact (le_sup_right : adjoin k (Set.range (basisValues F N)) ≤
       field F E N) (subset_adjoin k _ hx)
 
+/-- The finite-basis compositum lies in every ambient field containing both
+the larger base and the adjoined finite extension. -/
+theorem field_le_of_le {G : IntermediateField k K}
+    (hEG : E ≤ G) (hNG : N.restrictScalars k ≤ G) :
+    field F E N ≤ G := by
+  apply sup_le hEG
+  apply adjoin_le_iff.2
+  intro z hz
+  obtain ⟨i, rfl⟩ := hz
+  apply hNG
+  exact (Module.finBasis (↥F) (↥N) i).2
+
 /-- The finite-basis compositum as an extension of `E`. -/
 def over : IntermediateField (↥E) K :=
   extendScalars (le_field F E N)
@@ -448,6 +460,25 @@ theorem firstBranch_le_normalField :
     ((withFirstBranch_le_field F P Q hsource C).trans
       (field_le_normalField_restrictScalars F P Q hsource C))
 
+/-- Any smaller coefficient field contained in the chosen finite
+coefficient extension, together with the literal source coordinate, lies in
+the joint normal field. -/
+theorem coefficientSourceAdjoin_le_normalField
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k) :
+    (adjoin E {P.source}).restrictScalars k ≤
+      (normalField F P Q hsource C).restrictScalars k := by
+  rw [restrictScalars_adjoin_eq_sup]
+  apply sup_le
+  · exact hEC.trans
+      (coefficientExtension_le_normalField F P Q hsource C)
+  · apply adjoin_le_iff.2
+    intro z hz
+    rw [Set.mem_singleton_iff] at hz
+    subst z
+    apply firstBranch_le_normalField F P Q hsource C
+    change P.source ∈ P.branchField
+    exact subset_adjoin (↥F) _ (by simp)
+
 /-- The first selected branch lies in the joint normal field as an
 extension of the common source field. -/
 theorem firstBranch_le_normalField_overSource :
@@ -480,6 +511,79 @@ theorem normalField_finiteDimensional :
     (sourceField_le_field F P Q hsource C)
     (field_finiteDimensional F P Q hsource C)
 
+/-- If the chosen coefficient extension is also finite over a smaller
+coefficient field, then the joint normal field is finite over that smaller
+field with the same literal source adjoined. -/
+theorem normalField_finiteDimensional_over_coefficientSource
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
+    FiniteDimensional
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(extendScalars
+        (coefficientSourceAdjoin_le_normalField
+          F P Q hsource C E hEC))) := by
+  let B : IntermediateField k Ω :=
+    (adjoin E {P.source}).restrictScalars k
+  let CE : IntermediateField (↥E) Ω := extendScalars hEC
+  let D : IntermediateField k Ω :=
+    FiniteExtensionCompositum.field E B CE
+  have hEB : E ≤ B := by
+    change E ≤ (adjoin E {P.source}).restrictScalars k
+    rw [restrictScalars_adjoin_eq_sup]
+    exact le_sup_left
+  letI : FiniteDimensional (↥E) (↥CE) := hfinEC
+  have hBD : B ≤ D :=
+    FiniteExtensionCompositum.le_field E B CE
+  have hCD : C.restrictScalars k ≤ D := by
+    change CE.restrictScalars k ≤ D
+    exact FiniteExtensionCompositum.normal_le_field E B CE hEB
+  have hBN : B ≤
+      (normalField F P Q hsource C).restrictScalars k :=
+    coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC
+  have hDN : D ≤
+      (normalField F P Q hsource C).restrictScalars k := by
+    exact FiniteExtensionCompositum.field_le_of_le E B CE hBN
+      (coefficientExtension_le_normalField F P Q hsource C)
+  have hSD : sourceField F P ≤ D := by
+    change (adjoin F {P.source}).restrictScalars k ≤ D
+    rw [restrictScalars_adjoin_eq_sup]
+    apply sup_le
+    · exact (show F ≤ C.restrictScalars k from fun z hz ↦
+        C.algebraMap_mem ⟨z, hz⟩) |>.trans hCD
+    · apply adjoin_le_iff.2
+      intro z hz
+      rw [Set.mem_singleton_iff] at hz
+      subst z
+      apply hBD
+      change P.source ∈ (adjoin E {P.source}).restrictScalars k
+      rw [restrictScalars_adjoin_eq_sup]
+      exact le_sup_right (subset_adjoin k _ (by simp))
+  have hfinBD : FiniteDimensional (↥B) (↥(extendScalars hBD)) :=
+    FiniteExtensionCompositum.over_finiteDimensional E B CE hEB
+  have hfinSN : FiniteDimensional (↥(sourceField F P))
+      (↥(normalField F P Q hsource C)) :=
+    normalField_finiteDimensional F P Q hsource C
+  have hfinDN : FiniteDimensional (↥D) (↥(extendScalars hDN)) := by
+    letI : Algebra (↥(sourceField F P)) (↥D) :=
+      (IntermediateField.inclusion hSD).toAlgebra
+    letI : Algebra (↥D) (↥(normalField F P Q hsource C)) :=
+      (IntermediateField.inclusion hDN).toAlgebra
+    letI : Algebra (↥(sourceField F P))
+        (↥(normalField F P Q hsource C)) :=
+      (IntermediateField.inclusion (hSD.trans hDN)).toAlgebra
+    letI : IsScalarTower (↥(sourceField F P)) (↥D)
+        (↥(normalField F P Q hsource C)) :=
+      IsScalarTower.of_algebraMap_eq' rfl
+    letI : FiniteDimensional (↥(sourceField F P))
+        (↥(normalField F P Q hsource C)) := hfinSN
+    change FiniteDimensional (↥D)
+      (↥(normalField F P Q hsource C))
+    exact FiniteDimensional.right (↥(sourceField F P)) (↥D)
+      (↥(normalField F P Q hsource C))
+  change FiniteDimensional (↥B) (↥(extendScalars hBN))
+  exact FiniteExtensionCompositum.extendScalars_trans_finiteDimensional
+    hBD hDN hfinBD hfinDN
+
 /-- In the algebraically closed ambient field, the joint normal field is
 normal over the source-coordinate field. -/
 theorem normalField_normal [IsAlgClosed Ω] :
@@ -489,6 +593,161 @@ theorem normalField_normal [IsAlgClosed Ω] :
   exact FiniteCover.normalClosureOver_normal
     (sourceField_le_field F P Q hsource C)
     (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- Renormalize the joint field over a smaller coefficient field with the
+same literal source coordinate.  This extra normal closure is necessary
+because the old and new source bases need not contain one another. -/
+def rebasedNormalField
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k) :
+    IntermediateField
+      (↥((adjoin E {P.source}).restrictScalars k)) Ω :=
+  FiniteCover.normalClosureOver
+    (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+
+/-- The renormalized joint field is finite over the smaller
+coefficient/source field. -/
+theorem rebasedNormalField_finiteDimensional
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
+    FiniteDimensional
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(rebasedNormalField F P Q hsource C E hEC)) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+    (normalField_finiteDimensional_over_coefficientSource
+      F P Q hsource C E hEC hfinEC)
+
+/-- In the algebraically closed ambient field, the renormalized joint field
+is normal over the smaller coefficient/source field. -/
+theorem rebasedNormalField_normal [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
+    Normal
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(rebasedNormalField F P Q hsource C E hEC)) := by
+  letI := normalField_finiteDimensional_over_coefficientSource
+    F P Q hsource C E hEC hfinEC
+  exact FiniteCover.normalClosureOver_normal
+    (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+    (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- The original pairwise normal field lies in its renormalization over the
+smaller coefficient/source field. -/
+theorem normalField_le_rebasedNormalField
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k) :
+    (normalField F P Q hsource C).restrictScalars k ≤
+      (rebasedNormalField F P Q hsource C E hEC).restrictScalars k := by
+  change extendScalars
+      (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC) ≤
+    rebasedNormalField F P Q hsource C E hEC
+  exact FiniteCover.extendScalars_le_normalClosureOver
+    (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+
+/-- The canonical algebraic-closure model of the pairwise field after
+rebasing to the smaller coefficient/source field. -/
+noncomputable def rebasedCanonicalCover
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
+    AlgebraicClosureTransport.FiniteNormalCover
+      (↥((adjoin E {P.source}).restrictScalars k)) where
+  field := FiniteCover.canonicalNormalClosure
+    (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+  finiteDimensional :=
+    FiniteCover.canonicalNormalClosure_finiteDimensional
+      (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+      (normalField_finiteDimensional_over_coefficientSource
+        F P Q hsource C E hEC hfinEC)
+  normal :=
+    FiniteCover.canonicalNormalClosure_normal
+      (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+      (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- The concrete ambient renormalization and its canonical cover are
+equivalent over the smaller coefficient/source field. -/
+noncomputable def rebasedNormalFieldEquivCanonical [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
+    (↥(rebasedNormalField F P Q hsource C E hEC)) ≃ₐ[
+        ↥((adjoin E {P.source}).restrictScalars k)]
+      (↥(rebasedCanonicalCover F P Q hsource C E hEC hfinEC).field) :=
+  FiniteCover.normalClosureOverEquivCanonical
+    (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
+    (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- The first literal target branch, now regarded over the smaller common
+coefficient/source field. -/
+def firstBranchOverRebasedSource
+    (E : IntermediateField k Ω) :
+    IntermediateField
+      (↥((adjoin E {P.source}).restrictScalars k)) Ω :=
+  adjoin (↥((adjoin E {P.source}).restrictScalars k)) {P.target}
+
+/-- The second literal target branch, regarded over the same smaller common
+coefficient/source field. -/
+def secondBranchOverRebasedSource
+    (E : IntermediateField k Ω) :
+    IntermediateField
+      (↥((adjoin E {P.source}).restrictScalars k)) Ω :=
+  adjoin (↥((adjoin E {P.source}).restrictScalars k)) {Q.target}
+
+/-- The first literal branch lies in the ambient renormalization over the
+smaller common source. -/
+theorem firstBranchOverRebasedSource_le_rebasedNormalField
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k) :
+    firstBranchOverRebasedSource F P E ≤
+      rebasedNormalField F P Q hsource C E hEC := by
+  apply adjoin_le_iff.2
+  intro z hz
+  rw [Set.mem_singleton_iff] at hz
+  subst z
+  apply normalField_le_rebasedNormalField F P Q hsource C E hEC
+  apply firstBranch_le_normalField F P Q hsource C
+  change P.target ∈ P.branchField
+  exact subset_adjoin (↥F) _ (by simp)
+
+/-- The second literal branch lies in the same ambient renormalization. -/
+theorem secondBranchOverRebasedSource_le_rebasedNormalField
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k) :
+    secondBranchOverRebasedSource F P Q E ≤
+      rebasedNormalField F P Q hsource C E hEC := by
+  apply adjoin_le_iff.2
+  intro z hz
+  rw [Set.mem_singleton_iff] at hz
+  subst z
+  apply normalField_le_rebasedNormalField F P Q hsource C E hEC
+  apply secondBranch_le_normalField F P Q hsource C
+  change Q.target ∈ Q.branchField
+  exact subset_adjoin (↥F) _ (by simp)
+
+/-- The first literal common-base branch embedded in the canonical rebased
+normal cover. -/
+noncomputable def firstBranchEmbeddingInRebasedCanonical [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
+    NormalBranchEmbedding
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(firstBranchOverRebasedSource F P E))
+      (↥(rebasedCanonicalCover F P Q hsource C E hEC hfinEC).field) :=
+  ⟨(rebasedNormalFieldEquivCanonical
+      F P Q hsource C E hEC hfinEC).toAlgHom.comp
+    (IntermediateField.inclusion
+      (firstBranchOverRebasedSource_le_rebasedNormalField
+        F P Q hsource C E hEC))⟩
+
+/-- The second literal common-base branch embedded in the same canonical
+rebased normal cover. -/
+noncomputable def secondBranchEmbeddingInRebasedCanonical [IsAlgClosed Ω]
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
+    (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
+    NormalBranchEmbedding
+      (↥((adjoin E {P.source}).restrictScalars k))
+      (↥(secondBranchOverRebasedSource F P Q E))
+      (↥(rebasedCanonicalCover F P Q hsource C E hEC hfinEC).field) :=
+  ⟨(rebasedNormalFieldEquivCanonical
+      F P Q hsource C E hEC hfinEC).toAlgHom.comp
+    (IntermediateField.inclusion
+      (secondBranchOverRebasedSource_le_rebasedNormalField
+        F P Q hsource C E hEC))⟩
 
 /-- The second literal branch, transported back along the ideal-induced
 branch equivalence, as an embedding of the first branch into the joint

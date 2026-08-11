@@ -1341,6 +1341,15 @@ theorem commonCoefficientExtendedField_le_normalField :
     R.commonCoefficientOverInput_le_normalField
   simpa [commonCoefficientOverInput] using h
 
+/-- The original common eight-input field lies in the underlying ground
+field of its coefficient normalization. -/
+theorem commonCoefficientField_le_normalField :
+    R.seCommonBaseData.coefficientField ≤
+      R.commonCoefficientNormalField.restrictScalars k := by
+  intro z hz
+  change z ∈ R.commonCoefficientNormalField
+  exact R.commonCoefficientNormalField.algebraMap_mem ⟨z, hz⟩
+
 /-- The alternative `sA` coefficient field is contained in the common
 finite normal coefficient field. -/
 theorem repeatedSAAlternativeInputField_le_normalField :
@@ -1422,6 +1431,57 @@ def commonCoefficientNormalOverRepeatedUB :
   extendScalars
     (R.repeatedUBAlternativeInputField_le_extended.trans
       R.commonCoefficientExtendedField_le_normalField)
+
+/-- The common input field lies in the coefficient normalization viewed
+over the alternative `sA` base. -/
+theorem commonCoefficientField_le_normalOverRepeatedSA :
+    R.seCommonBaseData.coefficientField ≤
+      R.commonCoefficientNormalOverRepeatedSA.restrictScalars k := by
+  simpa [commonCoefficientNormalOverRepeatedSA] using
+    R.commonCoefficientField_le_normalField
+
+/-- The common input field lies in the coefficient normalization viewed
+over the alternative direct-`u` base. -/
+theorem commonCoefficientField_le_normalOverRepeatedU :
+    R.seCommonBaseData.coefficientField ≤
+      R.commonCoefficientNormalOverRepeatedU.restrictScalars k := by
+  simpa [commonCoefficientNormalOverRepeatedU] using
+    R.commonCoefficientField_le_normalField
+
+/-- The common input field lies in the coefficient normalization viewed
+over the alternative direct-`uB` base. -/
+theorem commonCoefficientField_le_normalOverRepeatedUB :
+    R.seCommonBaseData.coefficientField ≤
+      R.commonCoefficientNormalOverRepeatedUB.restrictScalars k := by
+  simpa [commonCoefficientNormalOverRepeatedUB] using
+    R.commonCoefficientField_le_normalField
+
+/-- The alternative-`sA` presentation of the coefficient normalization is
+finite over the literal common input field. -/
+theorem commonCoefficientNormalOverRepeatedSA_overCommon_finiteDimensional :
+    FiniteDimensional (↥R.seCommonBaseData.coefficientField)
+      (↥(extendScalars
+        R.commonCoefficientField_le_normalOverRepeatedSA)) := by
+  simpa [commonCoefficientNormalOverRepeatedSA] using
+    R.commonCoefficientNormalField_finiteDimensional
+
+/-- The alternative direct-`u` presentation of the coefficient
+normalization is finite over the literal common input field. -/
+theorem commonCoefficientNormalOverRepeatedU_overCommon_finiteDimensional :
+    FiniteDimensional (↥R.seCommonBaseData.coefficientField)
+      (↥(extendScalars
+        R.commonCoefficientField_le_normalOverRepeatedU)) := by
+  simpa [commonCoefficientNormalOverRepeatedU] using
+    R.commonCoefficientNormalField_finiteDimensional
+
+/-- The alternative direct-`uB` presentation of the coefficient
+normalization is finite over the literal common input field. -/
+theorem commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional :
+    FiniteDimensional (↥R.seCommonBaseData.coefficientField)
+      (↥(extendScalars
+        R.commonCoefficientField_le_normalOverRepeatedUB)) := by
+  simpa [commonCoefficientNormalOverRepeatedUB] using
+    R.commonCoefficientNormalField_finiteDimensional
 
 /-- The common coefficient normal field is finite over the alternative
 `sA` input field. -/
@@ -2289,6 +2349,66 @@ theorem repeatedUBCoefficientBranchNormalField_contains
       (R.repeatedUBAlternativePair_source_eq hind)
       R.commonCoefficientNormalOverRepeatedUB⟩
 
+/-- The literal common-input source-coordinate field lies in the pairwise
+`sA` coefficient-and-branch normal field. -/
+theorem commonSourceField_le_repeatedSACoefficientBranchNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k ≤
+      (R.repeatedSACoefficientBranchNormalField hind).restrictScalars k := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  change (adjoin R.seCommonBaseData.coefficientField
+      {commonCurveSource (K := K)}).restrictScalars k ≤ _
+  rw [← R.sAa_source]
+  apply FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+    R.repeatedSAAlternativeInputField
+    (R.repeatedSAFirstAlternativePair hind)
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedSA
+  simpa [commonCoefficientNormalOverRepeatedSA] using
+    R.commonCoefficientField_le_normalField
+
+/-- The literal common-input source-coordinate field lies in the pairwise
+direct-`u` coefficient-and-branch normal field. -/
+theorem commonSourceField_le_repeatedUCoefficientBranchNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k ≤
+      (R.repeatedUCoefficientBranchNormalField hind).restrictScalars k := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  change (adjoin R.seCommonBaseData.coefficientField
+      {commonCurveSource (K := K)}).restrictScalars k ≤ _
+  rw [← R.se_source]
+  apply FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+    R.repeatedUAlternativeInputField
+    (R.repeatedUFirstAlternativePair hind)
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedU
+  simpa [commonCoefficientNormalOverRepeatedU] using
+    R.commonCoefficientField_le_normalField
+
+/-- The literal common-input source-coordinate field lies in the pairwise
+direct-`uB` coefficient-and-branch normal field. -/
+theorem commonSourceField_le_repeatedUBCoefficientBranchNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k ≤
+      (R.repeatedUBCoefficientBranchNormalField hind).restrictScalars k := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  change (adjoin R.seCommonBaseData.coefficientField
+      {commonCurveSource (K := K)}).restrictScalars k ≤ _
+  rw [← R.sb_source]
+  apply FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+  simpa [commonCoefficientNormalOverRepeatedUB] using
+    R.commonCoefficientField_le_normalField
+
 /-- A deck transformation of the joint `sA` normal field that carries the
 first literal selected branch to the second. -/
 noncomputable def repeatedSABranchAutomorphism
@@ -2327,6 +2447,102 @@ noncomputable def repeatedUBBranchAutomorphism
     (R.repeatedUBAlternativePair_source_eq hind)
     R.commonCoefficientNormalOverRepeatedUB
     (R.repeatedUBAlternativePair_ideal_eq hind)
+
+/-- The pairwise `sA` comparison field, renormalized and placed in the
+canonical algebraic closure of the literal common source field. -/
+noncomputable def repeatedSARebasedCanonicalCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.FiniteNormalCover
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  let P₀ :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ
+  have hbase : P₀.sourceField.restrictScalars k =
+      (adjoin R.seCommonBaseData.coefficientField
+        {(R.repeatedSAFirstAlternativePair hind).source}).restrictScalars k := by
+    change (adjoin R.seCommonBaseData.coefficientField
+        {commonCurveSource (K := K)}).restrictScalars k =
+      (adjoin R.seCommonBaseData.coefficientField
+        {R.sAa.source}).restrictScalars k
+    rw [R.sAa_source]
+  change AlgebraicClosureTransport.FiniteNormalCover
+    (↥(P₀.sourceField.restrictScalars k))
+  rw [hbase]
+  exact FiniteCoefficientBranchCompositum.rebasedCanonicalCover
+    R.repeatedSAAlternativeInputField
+    (R.repeatedSAFirstAlternativePair hind)
+    (R.repeatedSASecondAlternativePair hind)
+    (R.repeatedSAAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedSA
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedSA
+    R.commonCoefficientNormalOverRepeatedSA_overCommon_finiteDimensional
+
+/-- The pairwise direct-`u` comparison field, renormalized and placed in the
+canonical algebraic closure of the literal common source field. -/
+noncomputable def repeatedURebasedCanonicalCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.FiniteNormalCover
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  let P₀ :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ
+  have hbase : P₀.sourceField.restrictScalars k =
+      (adjoin R.seCommonBaseData.coefficientField
+        {(R.repeatedUFirstAlternativePair hind).source}).restrictScalars k := by
+    change (adjoin R.seCommonBaseData.coefficientField
+        {commonCurveSource (K := K)}).restrictScalars k =
+      (adjoin R.seCommonBaseData.coefficientField
+        {R.se.source}).restrictScalars k
+    rw [R.se_source]
+  change AlgebraicClosureTransport.FiniteNormalCover
+    (↥(P₀.sourceField.restrictScalars k))
+  rw [hbase]
+  exact FiniteCoefficientBranchCompositum.rebasedCanonicalCover
+    R.repeatedUAlternativeInputField
+    (R.repeatedUFirstAlternativePair hind)
+    (R.repeatedUSecondAlternativePair hind)
+    (R.repeatedUAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedU
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedU
+    R.commonCoefficientNormalOverRepeatedU_overCommon_finiteDimensional
+
+/-- The pairwise direct-`uB` comparison field, renormalized and placed in
+the canonical algebraic closure of the literal common source field. -/
+noncomputable def repeatedUBRebasedCanonicalCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.FiniteNormalCover
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  let P₀ :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ
+  have hbase : P₀.sourceField.restrictScalars k =
+      (adjoin R.seCommonBaseData.coefficientField
+        {(R.repeatedUBFirstAlternativePair hind).source}).restrictScalars k := by
+    change (adjoin R.seCommonBaseData.coefficientField
+        {commonCurveSource (K := K)}).restrictScalars k =
+      (adjoin R.seCommonBaseData.coefficientField
+        {R.sb.source}).restrictScalars k
+    rw [R.sb_source]
+  change AlgebraicClosureTransport.FiniteNormalCover
+    (↥(P₀.sourceField.restrictScalars k))
+  rw [hbase]
+  exact FiniteCoefficientBranchCompositum.rebasedCanonicalCover
+    R.repeatedUBAlternativeInputField
+    (R.repeatedUBFirstAlternativePair hind)
+    (R.repeatedUBSecondAlternativePair hind)
+    (R.repeatedUBAlternativePair_source_eq hind)
+    R.commonCoefficientNormalOverRepeatedUB
+    R.seCommonBaseData.coefficientField
+    R.commonCoefficientField_le_normalOverRepeatedUB
+    R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
 
 /-- The coefficient-aware normal-cover comparison for the repeated
 `s` branch.  It retains the displayed `s` parameter and source coordinates;
@@ -2442,6 +2658,68 @@ noncomputable def commonFiniteSourceCover :=
   (((R.seFiniteSourceCover.sup R.sAaFiniteSourceCover).sup
       R.sbFiniteSourceCover).sup R.sAcFiniteSourceCover)
 
+/-- Enlarge the simultaneous four-face source cover by the three pairwise
+coefficient/branch comparison covers after rebasing all of them to the
+literal common source field. -/
+noncomputable def branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (((R.commonFiniteSourceCover.sup
+      (R.repeatedSARebasedCanonicalCover hind)).sup
+        (R.repeatedURebasedCanonicalCover hind)).sup
+      (R.repeatedUBRebasedCanonicalCover hind))
+
+/-- The original simultaneous four-face source cover lies in the enlarged
+branch-comparison source cover. -/
+theorem commonFiniteSourceCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.commonFiniteSourceCover.field ≤
+      (R.branchComparisonSourceCover hind).field := by
+  change R.commonFiniteSourceCover.field ≤
+    ((R.commonFiniteSourceCover.field ⊔
+      (R.repeatedSARebasedCanonicalCover hind).field) ⊔
+        (R.repeatedURebasedCanonicalCover hind).field) ⊔
+      (R.repeatedUBRebasedCanonicalCover hind).field
+  exact (le_sup_left.trans le_sup_left).trans le_sup_left
+
+/-- The rebased pairwise `sA` comparison cover lies in the enlarged common
+source cover. -/
+theorem repeatedSARebasedCanonicalCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedSARebasedCanonicalCover hind).field ≤
+      (R.branchComparisonSourceCover hind).field := by
+  change (R.repeatedSARebasedCanonicalCover hind).field ≤
+    ((R.commonFiniteSourceCover.field ⊔
+      (R.repeatedSARebasedCanonicalCover hind).field) ⊔
+        (R.repeatedURebasedCanonicalCover hind).field) ⊔
+      (R.repeatedUBRebasedCanonicalCover hind).field
+  exact (le_sup_right.trans le_sup_left).trans le_sup_left
+
+/-- The rebased pairwise direct-`u` comparison cover lies in the enlarged
+common source cover. -/
+theorem repeatedURebasedCanonicalCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedURebasedCanonicalCover hind).field ≤
+      (R.branchComparisonSourceCover hind).field := by
+  change (R.repeatedURebasedCanonicalCover hind).field ≤
+    ((R.commonFiniteSourceCover.field ⊔
+      (R.repeatedSARebasedCanonicalCover hind).field) ⊔
+        (R.repeatedURebasedCanonicalCover hind).field) ⊔
+      (R.repeatedUBRebasedCanonicalCover hind).field
+  exact le_sup_right.trans le_sup_left
+
+/-- The rebased pairwise direct-`uB` comparison cover lies in the enlarged
+common source cover. -/
+theorem repeatedUBRebasedCanonicalCover_le_branchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.repeatedUBRebasedCanonicalCover hind).field ≤
+      (R.branchComparisonSourceCover hind).field := by
+  change (R.repeatedUBRebasedCanonicalCover hind).field ≤
+    ((R.commonFiniteSourceCover.field ⊔
+      (R.repeatedSARebasedCanonicalCover hind).field) ⊔
+        (R.repeatedURebasedCanonicalCover hind).field) ⊔
+      (R.repeatedUBRebasedCanonicalCover hind).field
+  exact le_sup_right
+
 /-- The `s·e=u` source normalization lies in the simultaneous source
 compositum. -/
 theorem seFiniteSourceCover_le_common :
@@ -2525,6 +2803,58 @@ noncomputable def sAcCommonCoverCompositionTriangle :=
     (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
       (R := R.sAc) R.sAcCommonBaseData hψ)
     R.commonFiniteSourceCover
+
+/-- The strict `s·e=u` action on the enlarged source cover which also
+contains all three rebased branch-comparison covers. -/
+noncomputable def seBranchComparisonCoverCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.se) R.seCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+
+/-- The strict `sA·a=u` action on the same enlarged branch-comparison
+source cover. -/
+noncomputable def sAaBranchComparisonCoverCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+
+/-- The strict `s·b=uB` action on the same enlarged branch-comparison
+source cover. -/
+noncomputable def sbBranchComparisonCoverCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
+
+/-- The strict `sA·c=uB` action on the same enlarged branch-comparison
+source cover. -/
+noncomputable def sAcBranchComparisonCoverCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (R.branchComparisonSourceCover hind)
 
 end PsiCurveFourArrowCommonSourceRealizations
 
