@@ -85,6 +85,17 @@ def ofEq (hE : E = E') (hL : L = L') : ExtensionEquiv h h' := by
   subst L'
   exact refl h
 
+/-- The base equivalence of an equality-induced extension equivalence is
+the canonical equality-induced equivalence. -/
+@[simp] theorem ofEq_baseEquiv (hE : E = E') (hL : L = L') :
+    (ofEq (h := h) (h' := h') hE hL).baseEquiv =
+      IntermediateField.equivOfEq hE := by
+  subst E'
+  subst L'
+  have hh : h' = h := Subsingleton.elim _ _
+  subst h'
+  rfl
+
 /-- Reverse an equivalence of nested extensions. -/
 def symm (e : ExtensionEquiv h h') : ExtensionEquiv h' h where
   baseEquiv := e.baseEquiv.symm

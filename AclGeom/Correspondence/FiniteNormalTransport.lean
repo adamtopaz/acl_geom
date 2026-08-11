@@ -374,6 +374,109 @@ end FiniteNormalCover
 
 end AlgebraicClosureTransport
 
+namespace FiniteCover.NormalExtensionEquiv
+
+variable {k Ω E'' : Type*} [Field k] [Field Ω] [Algebra k Ω]
+  [Field E'']
+  {E L E' L' : IntermediateField k Ω}
+  {h : E ≤ L} {h' : E' ≤ L'}
+
+/-- Follow an equivalence of canonical normal closures by transport of the
+target closure along a semilinear algebraic-closure equivalence. -/
+noncomputable def mappedNormalEquiv
+    (e : FiniteCover.NormalExtensionEquiv h h')
+    (T : AlgebraicClosureTransport (↥E') E'') :
+    (↥(FiniteCover.canonicalNormalClosure h)) ≃+*
+      (↥(T.mapField (FiniteCover.canonicalNormalClosure h'))) :=
+  e.normalEquiv.trans
+    (T.mapFieldEquiv (FiniteCover.canonicalNormalClosure h'))
+
+/-- The transported normal-closure equivalence extends the composite of
+the extension's base equivalence and the algebraic-closure transport's base
+equivalence. -/
+@[simp] theorem mappedNormalEquiv_algebraMap
+    (e : FiniteCover.NormalExtensionEquiv h h')
+    (T : AlgebraicClosureTransport (↥E') E'') (x : E) :
+    mappedNormalEquiv e T
+        (algebraMap (↥E) (↥(FiniteCover.canonicalNormalClosure h)) x) =
+      algebraMap E''
+        (↥(T.mapField (FiniteCover.canonicalNormalClosure h')))
+        (T.baseEquiv (e.baseEquiv x)) := by
+  change T.mapFieldEquiv (FiniteCover.canonicalNormalClosure h')
+      (e.normalEquiv
+        (algebraMap (↥E) (↥(FiniteCover.canonicalNormalClosure h)) x)) = _
+  rw [FiniteCover.NormalExtensionEquiv.normal_commutes_apply]
+  exact (DFunLike.congr_fun
+    (T.mapFieldEquiv_commutes (FiniteCover.canonicalNormalClosure h'))
+    (e.baseEquiv x)).symm
+
+/-- When the composite base equivalence is the identity, the mapped
+normal-closure equivalence is an algebra equivalence over that common base. -/
+noncomputable def mappedNormalAlgEquiv
+    (e : FiniteCover.NormalExtensionEquiv h h')
+    (T : AlgebraicClosureTransport (↥E') (↥E))
+    (hbase : ∀ x : E, T.baseEquiv (e.baseEquiv x) = x) :
+    (↥(FiniteCover.canonicalNormalClosure h)) ≃ₐ[↥E]
+      (↥(T.mapField (FiniteCover.canonicalNormalClosure h'))) := by
+  apply AlgEquiv.ofRingEquiv (f := e.mappedNormalEquiv T)
+  intro x
+  rw [mappedNormalEquiv_algebraMap, hbase]
+
+end FiniteCover.NormalExtensionEquiv
+
+namespace FiniteCover.ExtensionEquiv
+
+variable {k Ω E'' : Type*} [Field k] [Field Ω] [Algebra k Ω]
+  [Field E'']
+  {E L E' L' : IntermediateField k Ω}
+  {h : E ≤ L} {h' : E' ≤ L'}
+
+/-- The mapped canonical-normal-closure equivalence obtained directly from
+an equivalence of the underlying finite extensions. -/
+noncomputable def mappedNormalEquiv
+    (e : FiniteCover.ExtensionEquiv h h')
+    (T : AlgebraicClosureTransport (↥E') E'') :
+    (↥(FiniteCover.canonicalNormalClosure h)) ≃+*
+      (↥(T.mapField (FiniteCover.canonicalNormalClosure h'))) :=
+  e.normalLift.mappedNormalEquiv T
+
+/-- If the two source changes cancel, the direct mapped normal lift is an
+algebra equivalence over the common source. -/
+noncomputable def mappedNormalAlgEquiv
+    (e : FiniteCover.ExtensionEquiv h h')
+    (T : AlgebraicClosureTransport (↥E') (↥E))
+    (hbase : ∀ x : E, T.baseEquiv (e.baseEquiv x) = x) :
+    (↥(FiniteCover.canonicalNormalClosure h)) ≃ₐ[↥E]
+      (↥(T.mapField (FiniteCover.canonicalNormalClosure h'))) :=
+  e.normalLift.mappedNormalAlgEquiv T hbase
+
+/-- Transport the distinguished copy of an entire finite extension into
+the mapped canonical normal closure, retaining its common-base algebra map. -/
+noncomputable def mappedCanonicalSelectedEmbedding [IsAlgClosed Ω]
+    (e : FiniteCover.ExtensionEquiv h h')
+    (T : AlgebraicClosureTransport (↥E') (↥E))
+    (hbase : ∀ x : E, T.baseEquiv (e.baseEquiv x) = x)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) :
+    (↥(extendScalars h)) →ₐ[↥E]
+      (↥(T.mapField (FiniteCover.canonicalNormalClosure h'))) :=
+  (e.mappedNormalAlgEquiv T hbase).toAlgHom.comp
+    (FiniteCover.canonicalSelectedEmbedding h halg)
+
+/-- The transported selected whole-extension embedding still extends the
+identity algebra map of the common base. -/
+@[simp] theorem mappedCanonicalSelectedEmbedding_algebraMap [IsAlgClosed Ω]
+    (e : FiniteCover.ExtensionEquiv h h')
+    (T : AlgebraicClosureTransport (↥E') (↥E))
+    (hbase : ∀ x : E, T.baseEquiv (e.baseEquiv x) = x)
+    (halg : Algebra.IsAlgebraic (↥E) (↥(extendScalars h))) (x : E) :
+    e.mappedCanonicalSelectedEmbedding T hbase halg
+        (algebraMap (↥E) (↥(extendScalars h)) x) =
+      algebraMap (↥E)
+        (↥(T.mapField (FiniteCover.canonicalNormalClosure h'))) x := by
+  simp [mappedCanonicalSelectedEmbedding]
+
+end FiniteCover.ExtensionEquiv
+
 namespace FiniteCorrespondencePair
 
 variable {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]

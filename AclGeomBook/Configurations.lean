@@ -1849,6 +1849,58 @@ which is already a subcover of the simultaneous source compositum:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonCanonicalCoverEquivRebased}
 
+The bridge also remembers its base algebra map.  Equality-induced extension
+equivalences compute to the canonical equality transport; composing that
+map with the inverse raw-to-common source transport is literally the
+identity.  The mapped normal-lift interface packages this cancellation as an
+algebra equivalence and then transports the distinguished embedding of the
+entire finite extension:
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.ofEq_baseEquiv}
+
+{docstring AclGeom.FiniteCover.NormalExtensionEquiv.mappedNormalEquiv}
+
+{docstring AclGeom.FiniteCover.NormalExtensionEquiv.mappedNormalEquiv_algebraMap}
+
+{docstring AclGeom.FiniteCover.NormalExtensionEquiv.mappedNormalAlgEquiv}
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.mappedNormalEquiv}
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.mappedNormalAlgEquiv}
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.mappedCanonicalSelectedEmbedding}
+
+{docstring AclGeom.FiniteCover.ExtensionEquiv.mappedCanonicalSelectedEmbedding_algebraMap}
+
+For the three alternative coefficient presentations, the two source changes
+cancel explicitly.  The resulting algebra charts transport the selected
+whole-total-field branches first into their rebased canonical covers and
+then into the one enlarged comparison source cover:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonRawBaseRoundtrip}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonRawBaseRoundtrip}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonRawBaseRoundtrip}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonCanonicalCoverAlgEquivRebased}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonCanonicalCoverAlgEquivRebased}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonCanonicalCoverAlgEquivRebased}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSelectedTotalEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonSelectedTotalEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSelectedTotalEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSelectedTotalEmbeddingInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonSelectedTotalEmbeddingInComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSelectedTotalEmbeddingInComparisonSourceCover}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

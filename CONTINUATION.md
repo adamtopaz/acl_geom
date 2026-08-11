@@ -715,6 +715,21 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     these three bridges, transport the selected whole-total-field branches
     through them, and include those embeddings into
     `branchComparisonSourceCover`.
+55. The three concrete-to-canonical bridges are now algebra equivalences
+    over the literal common source.  Equality-induced extension
+    equivalences expose their canonical base map, and a reusable mapped
+    normal-lift API proves that composing this base map with the chosen
+    raw-to-common algebraic-closure transport is the identity.  This upgrades
+    the `sA`, direct-`u`, and direct-`uB` canonical-cover ring equivalences to
+    common-base algebra equivalences.  Each upgrade carries the canonical
+    selected embedding of the entire pairwise total field into the named
+    rebased cover and then, through the established containment, into
+    `branchComparisonSourceCover`.  A generic algebra-map equation records
+    that these whole-total-field embeddings fix the common source exactly.
+    The next local step is to use these three coefficient-faithful total-field
+    embeddings with the semilinear source-image charts and the four existing
+    face-to-copy alignment equations to induce compatible middle and target
+    reference charts.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
