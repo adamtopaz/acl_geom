@@ -127,6 +127,19 @@ def trans (e : ExtensionEquiv h h') (e' : ExtensionEquiv h' h'') :
 
 end ExtensionEquiv
 
+/-- Finite-dimensionality is insensitive to equality-based changes of the
+displayed base and total intermediate fields.  Packaging the dependent
+transport here avoids rewriting through the inclusion proof in
+`extendScalars`. -/
+theorem finiteDimensional_of_eq
+    {E L E' L' : IntermediateField k Ω}
+    (h : E ≤ L) (h' : E' ≤ L') (hE : E = E') (hL : L = L')
+    (hfin : FiniteDimensional (↥E') (↥(extendScalars h'))) :
+    FiniteDimensional (↥E) (↥(extendScalars h)) := by
+  subst E'
+  subst L'
+  exact hfin
+
 /-- Normal closure is invariant under equivalences of both the original
 extension and the ambient algebraically closed field, when the base is
 fixed.  This is the functorial form of the `iSup`-of-field-ranges

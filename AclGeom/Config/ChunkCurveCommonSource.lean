@@ -2480,7 +2480,12 @@ theorem commonSourceField_le_repeatedUBCoefficientBranchNormalField
 /-- A deck transformation of the joint `sA` normal field that carries the
 first literal selected branch to the second. -/
 noncomputable def repeatedSABranchAutomorphism
-    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.repeatedSACoefficientBranchNormalField hind)) ≃ₐ[
+      ↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedSAAlternativeInputField
+        (R.repeatedSAFirstAlternativePair hind))]
+      (↥(R.repeatedSACoefficientBranchNormalField hind)) := by
   letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
   exact FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq
     R.repeatedSAAlternativeInputField
@@ -2493,7 +2498,12 @@ noncomputable def repeatedSABranchAutomorphism
 /-- A deck transformation of the joint direct-`u` normal field that carries
 the first literal selected branch to the second. -/
 noncomputable def repeatedUBranchAutomorphism
-    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.repeatedUCoefficientBranchNormalField hind)) ≃ₐ[
+      ↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedUAlternativeInputField
+        (R.repeatedUFirstAlternativePair hind))]
+      (↥(R.repeatedUCoefficientBranchNormalField hind)) := by
   letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
   exact FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq
     R.repeatedUAlternativeInputField
@@ -2506,7 +2516,12 @@ noncomputable def repeatedUBranchAutomorphism
 /-- A deck transformation of the joint direct-`uB` normal field that carries
 the first literal selected branch to the second. -/
 noncomputable def repeatedUBBranchAutomorphism
-    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.repeatedUBCoefficientBranchNormalField hind)) ≃ₐ[
+      ↥(FiniteCoefficientBranchCompositum.sourceField
+        R.repeatedUBAlternativeInputField
+        (R.repeatedUBFirstAlternativePair hind))]
+      (↥(R.repeatedUBCoefficientBranchNormalField hind)) := by
   letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
   exact FiniteCoefficientBranchCompositum.branchAutomorphismOfIdealEq
     R.repeatedUBAlternativeInputField
@@ -2617,13 +2632,27 @@ theorem repeatedSACommonSourceImageEquiv_generator
       R.commonSourceGenerator : R.repeatedSACommonSourceImage hind) :
         R.repeatedSACoefficientBranchNormalField hind) =
       R.repeatedSACommonSourceEmbedding hind R.commonSourceGenerator := by
-  apply IntermediateField.equivImageUnderAutomorphism_eq_of_eq_algebraMap
-    (y := ⟨commonCurveSource (K := K), by
+  unfold repeatedSACommonSourceImageEquiv
+  rw [IntermediateField.equivImageUnderAutomorphism_apply]
+  change (R.repeatedSABranchAutomorphism hind)
+      (R.repeatedSACommonSourceEmbedding hind R.commonSourceGenerator) =
+    R.repeatedSACommonSourceEmbedding hind R.commonSourceGenerator
+  let y : FiniteCoefficientBranchCompositum.sourceField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind) :=
+    ⟨commonCurveSource (K := K), by
       change commonCurveSource (K := K) ∈
-        (R.repeatedSAFirstAlternativePair hind).sourceField
-      exact subset_adjoin _ _ (by simpa using R.sAa_source.symm)⟩)
-  ext
-  rfl
+        adjoin R.repeatedSAAlternativeInputField
+          {(R.repeatedSAFirstAlternativePair hind).source}
+      apply subset_adjoin
+      change commonCurveSource (K := K) = R.sAa.source
+      exact R.sAa_source.symm⟩
+  have hy : R.repeatedSACommonSourceEmbedding hind R.commonSourceGenerator =
+      algebraMap _ (↥(R.repeatedSACoefficientBranchNormalField hind)) y := by
+    ext
+    rfl
+  rw [hy]
+  exact (R.repeatedSABranchAutomorphism hind).commutes y
 
 /-- The semilinear direct-`u` source chart fixes the formal curve coordinate
 while retaining its potentially moved coefficient presentation. -/
@@ -2633,13 +2662,27 @@ theorem repeatedUCommonSourceImageEquiv_generator
       R.commonSourceGenerator : R.repeatedUCommonSourceImage hind) :
         R.repeatedUCoefficientBranchNormalField hind) =
       R.repeatedUCommonSourceEmbedding hind R.commonSourceGenerator := by
-  apply IntermediateField.equivImageUnderAutomorphism_eq_of_eq_algebraMap
-    (y := ⟨commonCurveSource (K := K), by
+  unfold repeatedUCommonSourceImageEquiv
+  rw [IntermediateField.equivImageUnderAutomorphism_apply]
+  change (R.repeatedUBranchAutomorphism hind)
+      (R.repeatedUCommonSourceEmbedding hind R.commonSourceGenerator) =
+    R.repeatedUCommonSourceEmbedding hind R.commonSourceGenerator
+  let y : FiniteCoefficientBranchCompositum.sourceField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind) :=
+    ⟨commonCurveSource (K := K), by
       change commonCurveSource (K := K) ∈
-        (R.repeatedUFirstAlternativePair hind).sourceField
-      exact subset_adjoin _ _ (by simpa using R.se_source.symm)⟩)
-  ext
-  rfl
+        adjoin R.repeatedUAlternativeInputField
+          {(R.repeatedUFirstAlternativePair hind).source}
+      apply subset_adjoin
+      change commonCurveSource (K := K) = R.se.source
+      exact R.se_source.symm⟩
+  have hy : R.repeatedUCommonSourceEmbedding hind R.commonSourceGenerator =
+      algebraMap _ (↥(R.repeatedUCoefficientBranchNormalField hind)) y := by
+    ext
+    rfl
+  rw [hy]
+  exact (R.repeatedUBranchAutomorphism hind).commutes y
 
 /-- The semilinear direct-`uB` source chart fixes the formal curve coordinate
 while retaining its potentially moved coefficient presentation. -/
@@ -2649,13 +2692,27 @@ theorem repeatedUBCommonSourceImageEquiv_generator
       R.commonSourceGenerator : R.repeatedUBCommonSourceImage hind) :
         R.repeatedUBCoefficientBranchNormalField hind) =
       R.repeatedUBCommonSourceEmbedding hind R.commonSourceGenerator := by
-  apply IntermediateField.equivImageUnderAutomorphism_eq_of_eq_algebraMap
-    (y := ⟨commonCurveSource (K := K), by
+  unfold repeatedUBCommonSourceImageEquiv
+  rw [IntermediateField.equivImageUnderAutomorphism_apply]
+  change (R.repeatedUBBranchAutomorphism hind)
+      (R.repeatedUBCommonSourceEmbedding hind R.commonSourceGenerator) =
+    R.repeatedUBCommonSourceEmbedding hind R.commonSourceGenerator
+  let y : FiniteCoefficientBranchCompositum.sourceField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind) :=
+    ⟨commonCurveSource (K := K), by
       change commonCurveSource (K := K) ∈
-        (R.repeatedUBFirstAlternativePair hind).sourceField
-      exact subset_adjoin _ _ (by simpa using R.sb_source.symm)⟩)
-  ext
-  rfl
+        adjoin R.repeatedUBAlternativeInputField
+          {(R.repeatedUBFirstAlternativePair hind).source}
+      apply subset_adjoin
+      change commonCurveSource (K := K) = R.sb.source
+      exact R.sb_source.symm⟩
+  have hy : R.repeatedUBCommonSourceEmbedding hind R.commonSourceGenerator =
+      algebraMap _ (↥(R.repeatedUBCoefficientBranchNormalField hind)) y := by
+    ext
+    rfl
+  rw [hy]
+  exact (R.repeatedUBBranchAutomorphism hind).commutes y
 
 /-- Extend the semilinear `sA` source chart to the chosen algebraic
 closures.  Its restriction to any finite common-source cover will provide
@@ -2787,16 +2844,28 @@ theorem repeatedSACoefficientBranchNormalField_finiteDimensional_overCommonSourc
       (↥(extendScalars
         (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind))) := by
   letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
-  rw [R.repeatedSARebasedSourceField_eq hind]
-  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
-    R.repeatedSAAlternativeInputField
-    (R.repeatedSAFirstAlternativePair hind)
-    (R.repeatedSASecondAlternativePair hind)
-    (R.repeatedSAAlternativePair_source_eq hind)
-    R.commonCoefficientNormalOverRepeatedSA
-    R.seCommonBaseData.coefficientField
-    R.commonCoefficientField_le_normalOverRepeatedSA
-    R.commonCoefficientNormalOverRepeatedSA_overCommon_finiteDimensional
+  refine FiniteCover.finiteDimensional_of_eq
+    (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)
+    (FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedSA)
+    (R.repeatedSARebasedSourceField_eq hind) ?_ ?_
+  · unfold repeatedSACoefficientBranchNormalField
+    rfl
+  · exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedSA
+      R.commonCoefficientNormalOverRepeatedSA_overCommon_finiteDimensional
 
 /-- The identity-on-ambient-values equivalence from the rebased `sA`
 source presentation to the literal common source presentation. -/
@@ -3100,16 +3169,28 @@ theorem repeatedUCoefficientBranchNormalField_finiteDimensional_overCommonSource
       (↥(extendScalars
         (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind))) := by
   letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
-  rw [R.repeatedURebasedSourceField_eq hind]
-  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
-    R.repeatedUAlternativeInputField
-    (R.repeatedUFirstAlternativePair hind)
-    (R.repeatedUSecondAlternativePair hind)
-    (R.repeatedUAlternativePair_source_eq hind)
-    R.commonCoefficientNormalOverRepeatedU
-    R.seCommonBaseData.coefficientField
-    R.commonCoefficientField_le_normalOverRepeatedU
-    R.commonCoefficientNormalOverRepeatedU_overCommon_finiteDimensional
+  refine FiniteCover.finiteDimensional_of_eq
+    (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)
+    (FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedU)
+    (R.repeatedURebasedSourceField_eq hind) ?_ ?_
+  · unfold repeatedUCoefficientBranchNormalField
+    rfl
+  · exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedU
+      R.commonCoefficientNormalOverRepeatedU_overCommon_finiteDimensional
 
 /-- The identity-on-ambient-values equivalence from the raw direct-`u`
 source presentation to the literal common source. -/
@@ -3316,16 +3397,28 @@ theorem repeatedUBCoefficientBranchNormalField_finiteDimensional_overCommonSourc
       (↥(extendScalars
         (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind))) := by
   letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
-  rw [R.repeatedUBRebasedSourceField_eq hind]
-  exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
-    R.repeatedUBAlternativeInputField
-    (R.repeatedUBFirstAlternativePair hind)
-    (R.repeatedUBSecondAlternativePair hind)
-    (R.repeatedUBAlternativePair_source_eq hind)
-    R.commonCoefficientNormalOverRepeatedUB
-    R.seCommonBaseData.coefficientField
-    R.commonCoefficientField_le_normalOverRepeatedUB
-    R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
+  refine FiniteCover.finiteDimensional_of_eq
+    (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)
+    (FiniteCoefficientBranchCompositum.coefficientSourceAdjoin_le_normalField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedUB)
+    (R.repeatedUBRebasedSourceField_eq hind) ?_ ?_
+  · unfold repeatedUBCoefficientBranchNormalField
+    rfl
+  · exact FiniteCoefficientBranchCompositum.normalField_finiteDimensional_over_coefficientSource
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedUB
+      R.commonCoefficientNormalOverRepeatedUB_overCommon_finiteDimensional
 
 /-- The deck-corrected semilinear `sA` normal-cover comparison preserves
 the literal selected copy of the entire pairwise total field. -/
@@ -3756,16 +3849,20 @@ the algebra map induced by the semilinear source-image equivalence. -/
 theorem repeatedSAImageSourceChart_commonSourceGenerator
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     R.repeatedSAImageSourceChart hind
-        (algebraMap
+        ⟨algebraMap
           (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
             (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
-          (↥(R.branchComparisonSourceCover hind).field)
-          R.commonSourceGenerator) =
-      algebraMap (↥(R.repeatedSACommonSourceImage hind))
-        (↥(R.repeatedSAImageBranchComparisonSourceCover hind).field)
-        (R.repeatedSACommonSourceImageEquiv hind R.commonSourceGenerator) := by
-  exact (R.branchComparisonSourceCover hind).mapEquiv_algebraMap
-    (R.repeatedSACommonSourceImageClosureTransport hind)
+          (AlgebraicClosure
+            (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)))
+          R.commonSourceGenerator,
+          (R.branchComparisonSourceCover hind).field.algebraMap_mem _⟩ =
+      ⟨algebraMap (↥(R.repeatedSACommonSourceImage hind))
+          (AlgebraicClosure (↥(R.repeatedSACommonSourceImage hind)))
+          (R.repeatedSACommonSourceImageEquiv hind R.commonSourceGenerator),
+        (R.repeatedSAImageBranchComparisonSourceCover hind).field.algebraMap_mem _⟩ := by
+  apply Subtype.ext
+  exact (R.repeatedSACommonSourceImageClosureTransport hind).commutes_apply
     R.commonSourceGenerator
 
 /-- On the formal curve generator, the finite-cover direct-`u` chart is the
@@ -3773,16 +3870,20 @@ algebra map induced by its semilinear source-image equivalence. -/
 theorem repeatedUImageSourceChart_commonSourceGenerator
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     R.repeatedUImageSourceChart hind
-        (algebraMap
+        ⟨algebraMap
           (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
             (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
-          (↥(R.branchComparisonSourceCover hind).field)
-          R.commonSourceGenerator) =
-      algebraMap (↥(R.repeatedUCommonSourceImage hind))
-        (↥(R.repeatedUImageBranchComparisonSourceCover hind).field)
-        (R.repeatedUCommonSourceImageEquiv hind R.commonSourceGenerator) := by
-  exact (R.branchComparisonSourceCover hind).mapEquiv_algebraMap
-    (R.repeatedUCommonSourceImageClosureTransport hind)
+          (AlgebraicClosure
+            (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)))
+          R.commonSourceGenerator,
+          (R.branchComparisonSourceCover hind).field.algebraMap_mem _⟩ =
+      ⟨algebraMap (↥(R.repeatedUCommonSourceImage hind))
+          (AlgebraicClosure (↥(R.repeatedUCommonSourceImage hind)))
+          (R.repeatedUCommonSourceImageEquiv hind R.commonSourceGenerator),
+        (R.repeatedUImageBranchComparisonSourceCover hind).field.algebraMap_mem _⟩ := by
+  apply Subtype.ext
+  exact (R.repeatedUCommonSourceImageClosureTransport hind).commutes_apply
     R.commonSourceGenerator
 
 /-- On the formal curve generator, the finite-cover direct-`uB` chart is the
@@ -3790,16 +3891,20 @@ algebra map induced by its semilinear source-image equivalence. -/
 theorem repeatedUBImageSourceChart_commonSourceGenerator
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     R.repeatedUBImageSourceChart hind
-        (algebraMap
+        ⟨algebraMap
           (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
             (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
-          (↥(R.branchComparisonSourceCover hind).field)
-          R.commonSourceGenerator) =
-      algebraMap (↥(R.repeatedUBCommonSourceImage hind))
-        (↥(R.repeatedUBImageBranchComparisonSourceCover hind).field)
-        (R.repeatedUBCommonSourceImageEquiv hind R.commonSourceGenerator) := by
-  exact (R.branchComparisonSourceCover hind).mapEquiv_algebraMap
-    (R.repeatedUBCommonSourceImageClosureTransport hind)
+          (AlgebraicClosure
+            (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+              (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)))
+          R.commonSourceGenerator,
+          (R.branchComparisonSourceCover hind).field.algebraMap_mem _⟩ =
+      ⟨algebraMap (↥(R.repeatedUBCommonSourceImage hind))
+          (AlgebraicClosure (↥(R.repeatedUBCommonSourceImage hind)))
+          (R.repeatedUBCommonSourceImageEquiv hind R.commonSourceGenerator),
+        (R.repeatedUBImageBranchComparisonSourceCover hind).field.algebraMap_mem _⟩ := by
+  apply Subtype.ext
+  exact (R.repeatedUBCommonSourceImageClosureTransport hind).commutes_apply
     R.commonSourceGenerator
 
 /-- The original simultaneous four-face source cover lies in the enlarged

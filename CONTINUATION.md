@@ -686,6 +686,21 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     corrected concrete normal covers with the already embedded canonical
     rebased comparison covers, include the corrected charts in
     `branchComparisonSourceCover`, and induce the middle/target charts.
+53. The source-chart layer has also been re-elaborated from source rather
+    than accepted from replayed build hashes.  This exposed and repaired
+    three presentation-level defects in items 50--52: inferred automorphism
+    types did not retain the named normal-field algebra structures,
+    dependent rewriting through `extendScalars` was unstable, and the
+    finite-cover generator statements asked typeclass search to reconstruct
+    an ambiguous scalar presentation.  The branch automorphisms now have
+    explicit named-field types, equality-based finite-dimensional transport
+    is packaged by `FiniteCover.finiteDimensional_of_eq`, and the generator
+    equations use their literal algebraic-closure representatives.  A
+    direct compilation of `ChunkCurveCommonSource.lean`, the full build,
+    and the book generator all pass.  Keep direct compilation of a changed
+    leaf module in the validation loop whenever only `.olean.hash` artifacts
+    are initially present.  The mathematical next step remains the
+    corrected concrete-to-canonical cover comparison from item 52.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -697,8 +712,9 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--52 supply selected-branch-preserving comparisons and equality of
-the curve relations after the honest independent scalar extensions.  The
+items 36--53 supply selected-branch-preserving comparisons, equality of the
+curve relations, and source-level re-elaboration integrity after the honest
+independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field, and
 the repeated `sA`, direct `u`, and direct `uB` comparisons have now been
 transported explicitly into that base.  Each alternative comparison has a
