@@ -1692,6 +1692,29 @@ branches over the full common coefficient/source field:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSASecondClosureAlignmentAut_smul}
 
+The identical construction for the repeated direct output `u` uses the
+strict composite pairs of the first two faces.  A carrier-invariance lemma
+for adjoining one ambient generator identifies the raw branches with the
+literal selected direct branches.  The source and closure equivalences then
+transport both branches together, and two further deck transformations give
+their exact alignment equations in the common cover:
+
+{docstring IntermediateField.adjoin_singleton_carrier_eq_of_carrier_eq}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedURebasedSourceEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedURebasedClosureTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedURawRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUFirstBranchEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUSecondBranchEmbeddingInRebasedCanonicalCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUFirstClosureAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUSecondClosureAlignmentAut_smul}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

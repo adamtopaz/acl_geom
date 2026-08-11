@@ -52,6 +52,36 @@ def ringEquivOfCarrierEq
     ((ringEquivOfCarrierEq S T h x : T) : Ω) = x :=
   rfl
 
+/-- Adjoining equal ambient elements to intermediate fields with the same
+ambient carrier gives one field carrier, even when the displayed scalar
+fields differ. -/
+theorem adjoin_singleton_carrier_eq_of_carrier_eq
+    {F F' Ω : Type*} [Field F] [Field F'] [Field Ω]
+    [Algebra F Ω] [Algebra F' Ω]
+    (S : IntermediateField F Ω) (T : IntermediateField F' Ω)
+    (hbase : (S : Set Ω) = (T : Set Ω))
+    {x y : Ω} (hxy : x = y) :
+    ((adjoin (↥S) {x}) : Set Ω) =
+      ((adjoin (↥T) {y}) : Set Ω) := by
+  have hrange : Set.range (algebraMap (↥S) Ω) =
+      Set.range (algebraMap (↥T) Ω) := by
+    ext z
+    constructor
+    · rintro ⟨a, rfl⟩
+      refine ⟨⟨a, ?_⟩, rfl⟩
+      change (a : Ω) ∈ (T : Set Ω)
+      rw [← hbase]
+      exact a.2
+    · rintro ⟨a, rfl⟩
+      refine ⟨⟨a, ?_⟩, rfl⟩
+      change (a : Ω) ∈ (S : Set Ω)
+      rw [hbase]
+      exact a.2
+  have hfield : (adjoin (↥S) {x}).toSubfield =
+      (adjoin (↥T) {y}).toSubfield := by
+    rw [adjoin_toSubfield, adjoin_toSubfield, hrange, hxy]
+  exact congrArg (fun U : Subfield Ω ↦ U.carrier) hfield
+
 end IntermediateField
 
 namespace AclGeom

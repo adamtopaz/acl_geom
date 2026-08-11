@@ -617,6 +617,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     Thus the closure choices for both occurrences of `sA` are aligned while
     retaining the algebraic coefficient transport.  The analogous explicit
     transports for the repeated direct `u` and `uB` branches remain next.
+48. The repeated direct `u` comparison now has the same explicit semilinear
+    transport and selected-branch alignment.  The strict composite pairs of
+    the `s·e=u` and `sA·a=u` faces name the two literal direct branches.  A
+    reusable carrier lemma shows that adjoining an equal ambient generator
+    to equal intermediate-field carriers produces the same field carrier;
+    this identifies both raw comparison branches with those strict direct
+    branch fields.  The raw common-source equivalence and its algebraic-
+    closure lift transport both embeddings into the named rebased cover and
+    then into `branchComparisonSourceCover`.  Two chosen deck transformations
+    carry the actual selected direct face embeddings to the transported
+    comparison copies, with exact `smul` equations.  Thus `s`, `sA`, and `u`
+    are now coefficient-faithfully aligned in the common source cover; only
+    the symmetric direct `uB` transport remains before constructing the
+    coefficient-compatible reference charts.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -628,13 +642,13 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-    items 36--47 supply selected-branch-preserving comparisons and equality of
+items 36--48 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field, and
-the repeated `sA` comparison has now been transported explicitly into that
-base.  The two remaining alternative fields and their selected comparisons
-now
-lie in one coefficient field finite over every relevant base and normal
+the repeated `sA` and direct `u` comparisons have now been transported
+explicitly into that base.  The remaining `uB` alternative field and its
+selected comparison now lie in one coefficient field finite over every
+relevant base and normal
 over the original common field, and each alternative comparison now has a
 finite pairwise normal source extension containing both literal branches,
 together with an automorphism that carries the first branch to the second.
