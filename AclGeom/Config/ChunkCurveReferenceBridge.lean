@@ -198,6 +198,581 @@ theorem referenceSemanticJoinOverSource_finiteDimensional
     (R.mappedReferenceNormalOverInput L)
     (R.mappedReferenceInputField_le_semanticCommonSourceField L)
 
+/-- The two algebraic output parameters and four selected semantic
+right-branch endpoint pairs. -/
+def selectedSemanticReferenceTuple
+    (_L : w.PsiChunkFourArrowEdgeLifts hψ D) :
+    Fin 10 → CommonCurveAmbient K :=
+  ![commonCurveEmbedding (k := k) (K := K) (D.c 0),
+    commonCurveEmbedding (k := k) (K := K) (D.c 1),
+    R.se.middle, R.se.target,
+    R.sAa.middle, R.sAa.target,
+    R.sb.middle, R.sb.target,
+    R.sAc.middle, R.sAc.target]
+
+private theorem c_isAlgebraic_over_semanticCommonSourceField (i : Fin 2) :
+    IsAlgebraic (↥R.semanticCommonSourceField)
+      (commonCurveEmbedding (k := k) (K := K) (D.c i)) := by
+  let A := R.seCommonBaseData.coefficientField
+  have hcA : IsAlgebraic (↥A)
+      (commonCurveEmbedding (k := k) (K := K) (D.c i)) := by
+    change IsAlgebraic
+      (↥(adjoin k (Set.range R.commonInputTuple)))
+      (commonCurveEmbedding (k := k) (K := K) (D.c i))
+    exact (mem_racl_iff k).1 (R.c_mem_commonInput_racl i)
+  have hAS : A ≤ R.semanticCommonSourceField := by
+    intro z hz
+    change z ∈
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField
+    exact
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.algebraMap_mem ⟨z, hz⟩
+  letI : Algebra (↥A) (↥R.semanticCommonSourceField) :=
+    (IntermediateField.inclusion hAS).toAlgebra
+  letI : IsScalarTower (↥A) (↥R.semanticCommonSourceField)
+      (CommonCurveAmbient K) := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  exact IsAlgebraic.tower_top (L := ↥R.semanticCommonSourceField) hcA
+
+private theorem se_middle_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.se.middle := by
+  exact (mem_racl_iff (↥R.seCommonBaseData.coefficientField)).1
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).target_mem_source
+
+private theorem se_target_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.se.target := by
+  have ht :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).target_mem_source
+  have hm :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).target_mem_source
+  exact (mem_racl_iff (↥R.seCommonBaseData.coefficientField)).1
+    (mem_racl_trans (w := R.se.middle) ht hm)
+
+private theorem sAa_middle_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.sAa.middle := by
+  exact (mem_racl_iff (↥R.sAaCommonBaseData.coefficientField)).1
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).target_mem_source
+
+private theorem sAa_target_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.sAa.target := by
+  have ht :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).target_mem_source
+  have hm :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).target_mem_source
+  exact (mem_racl_iff (↥R.sAaCommonBaseData.coefficientField)).1
+    (mem_racl_trans (w := R.sAa.middle) ht hm)
+
+private theorem sb_middle_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.sb.middle := by
+  exact (mem_racl_iff (↥R.sbCommonBaseData.coefficientField)).1
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).target_mem_source
+
+private theorem sb_target_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.sb.target := by
+  have ht :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).target_mem_source
+  have hm :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).target_mem_source
+  exact (mem_racl_iff (↥R.sbCommonBaseData.coefficientField)).1
+    (mem_racl_trans (w := R.sb.middle) ht hm)
+
+private theorem sAc_middle_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.sAc.middle := by
+  exact (mem_racl_iff (↥R.sAcCommonBaseData.coefficientField)).1
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).target_mem_source
+
+private theorem sAc_target_isAlgebraic_over_semanticCommonSourceField :
+    IsAlgebraic (↥R.semanticCommonSourceField) R.sAc.target := by
+  have ht :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).target_mem_source
+  have hm :=
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).target_mem_source
+  exact (mem_racl_iff (↥R.sAcCommonBaseData.coefficientField)).1
+    (mem_racl_trans (w := R.sAc.middle) ht hm)
+
+/-- The selected semantic coordinates as one finite extension of the
+literal common source field. -/
+def selectedSemanticBranchExtension :
+    IntermediateField (↥R.semanticCommonSourceField) (CommonCurveAmbient K) :=
+  adjoin (↥R.semanticCommonSourceField)
+    (Set.range (R.selectedSemanticReferenceTuple L))
+
+/-- Adjoining the selected semantic coordinates and the two `c` parameters
+is finite over the literal common source field. -/
+theorem selectedSemanticBranchExtension_finiteDimensional :
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticBranchExtension L)) := by
+  unfold selectedSemanticBranchExtension
+  exact finiteDimensional_adjoin fun z hz ↦ by
+    obtain ⟨i, rfl⟩ := hz
+    fin_cases i
+    · exact (R.c_isAlgebraic_over_semanticCommonSourceField 0).isIntegral
+    · exact (R.c_isAlgebraic_over_semanticCommonSourceField 1).isIntegral
+    · exact R.se_middle_isAlgebraic_over_semanticCommonSourceField.isIntegral
+    · exact R.se_target_isAlgebraic_over_semanticCommonSourceField.isIntegral
+    · exact R.sAa_middle_isAlgebraic_over_semanticCommonSourceField.isIntegral
+    · exact R.sAa_target_isAlgebraic_over_semanticCommonSourceField.isIntegral
+    · exact R.sb_middle_isAlgebraic_over_semanticCommonSourceField.isIntegral
+    · exact R.sb_target_isAlgebraic_over_semanticCommonSourceField.isIntegral
+    · exact R.sAc_middle_isAlgebraic_over_semanticCommonSourceField.isIntegral
+    · exact R.sAc_target_isAlgebraic_over_semanticCommonSourceField.isIntegral
+
+/-- The transported reference compositum with the four concrete semantic
+right branches adjoined before any normal-closure canonicalization. -/
+def selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    IntermediateField k (CommonCurveAmbient K) := by
+  letI := R.selectedSemanticBranchExtension_finiteDimensional L
+  exact FiniteExtensionCompositum.field
+    R.semanticCommonSourceField (R.referenceSemanticJoin L hind)
+      (R.selectedSemanticBranchExtension L)
+
+/-- The original transported reference compositum lies in the enlarged
+selected semantic/reference joint field. -/
+theorem referenceSemanticJoin_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.referenceSemanticJoin L hind ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  letI := R.selectedSemanticBranchExtension_finiteDimensional L
+  exact FiniteExtensionCompositum.le_field
+    R.semanticCommonSourceField (R.referenceSemanticJoin L hind)
+      (R.selectedSemanticBranchExtension L)
+
+/-- The finite extension generated by the selected semantic coordinates
+lies in the enlarged joint field. -/
+theorem selectedSemanticBranchExtension_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedSemanticBranchExtension L).restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  letI := R.selectedSemanticBranchExtension_finiteDimensional L
+  exact FiniteExtensionCompositum.normal_le_field
+    R.semanticCommonSourceField (R.referenceSemanticJoin L hind)
+      (R.selectedSemanticBranchExtension L)
+      (R.semanticCommonSourceField_le_referenceSemanticJoin L hind)
+
+/-- Every explicitly adjoined coordinate belongs to the concrete selected
+semantic/reference joint field. -/
+theorem selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (i : Fin 10) :
+    R.selectedSemanticReferenceTuple L i ∈
+      R.selectedSemanticReferenceJoin L hind := by
+  apply R.selectedSemanticBranchExtension_le_selectedSemanticReferenceJoin L hind
+  exact subset_adjoin (↥R.semanticCommonSourceField) _
+    (Set.mem_range_self i)
+
+/-- The literal common coefficient/source field lies in the selected joint
+field. -/
+theorem semanticCommonSourceField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.semanticCommonSourceField ≤ R.selectedSemanticReferenceJoin L hind :=
+  (R.semanticCommonSourceField_le_referenceSemanticJoin L hind).trans
+    (R.referenceSemanticJoin_le_selectedSemanticReferenceJoin L hind)
+
+/-- The common eight-input coefficient field lies in the selected joint
+field. -/
+theorem commonCoefficientField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.seCommonBaseData.coefficientField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  rw [← R.mappedReferenceInputField_eq_commonCoefficientField L]
+  exact (R.mappedReferenceInputField_le_semanticCommonSourceField L).trans
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+
+/-- The complete common-base semantic right branch on the `s·e=u` face lies
+literally in the selected joint field. -/
+theorem seSemanticRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ
+  let hA := R.commonCoefficientField_le_selectedSemanticReferenceJoin L hind
+  have hQ : Q.branchField ≤ extendScalars hA := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 2
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 3
+  intro z hz
+  apply hQ
+  exact hz
+
+/-- The complete common-base semantic right branch on the `sA·a=u` face
+lies literally in the selected joint field. -/
+theorem sAaSemanticRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ
+  let hA := R.commonCoefficientField_le_selectedSemanticReferenceJoin L hind
+  have hQ : Q.branchField ≤ extendScalars hA := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 4
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 5
+  intro z hz
+  apply hQ
+  exact hz
+
+/-- The complete common-base semantic right branch on the `s·b=uB` face
+lies literally in the selected joint field. -/
+theorem sbSemanticRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ
+  let hA := R.commonCoefficientField_le_selectedSemanticReferenceJoin L hind
+  have hQ : Q.branchField ≤ extendScalars hA := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 6
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 7
+  intro z hz
+  apply hQ
+  exact hz
+
+/-- The complete common-base semantic right branch on the `sA·c=uB` face
+lies literally in the selected joint field. -/
+theorem sAcSemanticRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let Q :=
+    PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ
+  let hA := R.commonCoefficientField_le_selectedSemanticReferenceJoin L hind
+  have hQ : Q.branchField ≤ extendScalars hA := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 8
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 9
+  intro z hz
+  apply hQ
+  exact hz
+
+/-- The original relocated `e` parameter field lies in the selected joint
+field through the common eight-input coefficient field. -/
+theorem seRelocatedParameterField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.se.bCorrespondenceFamilyMember hψ).parameterField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  unfold FiniteCorrespondenceFamilyMember.parameterField
+  apply adjoin_le_iff.2
+  rintro _ ⟨i, rfl⟩
+  apply R.commonCoefficientField_le_selectedSemanticReferenceJoin L hind
+  change commonCurveEmbedding (k := k) (K := K) (e i) ∈
+    adjoin k (Set.range R.commonInputTuple)
+  fin_cases i
+  · exact subset_adjoin k _ ⟨2, rfl⟩
+  · exact subset_adjoin k _ ⟨3, rfl⟩
+
+/-- The original relocated `a` parameter field lies in the selected joint
+field through the common eight-input coefficient field. -/
+theorem sAaRelocatedParameterField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAa.bCorrespondenceFamilyMember hψ).parameterField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  unfold FiniteCorrespondenceFamilyMember.parameterField
+  apply adjoin_le_iff.2
+  rintro _ ⟨i, rfl⟩
+  apply R.commonCoefficientField_le_selectedSemanticReferenceJoin L hind
+  change commonCurveEmbedding (k := k) (K := K) (a i) ∈
+    adjoin k (Set.range R.commonInputTuple)
+  fin_cases i
+  · exact subset_adjoin k _ ⟨4, rfl⟩
+  · exact subset_adjoin k _ ⟨5, rfl⟩
+
+/-- The original relocated `b` parameter field lies in the selected joint
+field through the common eight-input coefficient field. -/
+theorem sbRelocatedParameterField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sb.bCorrespondenceFamilyMember hψ).parameterField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  unfold FiniteCorrespondenceFamilyMember.parameterField
+  apply adjoin_le_iff.2
+  rintro _ ⟨i, rfl⟩
+  apply R.commonCoefficientField_le_selectedSemanticReferenceJoin L hind
+  change commonCurveEmbedding (k := k) (K := K) (b i) ∈
+    adjoin k (Set.range R.commonInputTuple)
+  fin_cases i
+  · exact subset_adjoin k _ ⟨6, rfl⟩
+  · exact subset_adjoin k _ ⟨7, rfl⟩
+
+/-- The algebraic relocated `c` parameter field lies in the selected joint
+field because its two coordinates were adjoined explicitly. -/
+theorem sAcRelocatedParameterField_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAc.bCorrespondenceFamilyMember hψ).parameterField ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  unfold FiniteCorrespondenceFamilyMember.parameterField
+  apply adjoin_le_iff.2
+  rintro _ ⟨i, rfl⟩
+  fin_cases i
+  · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+      L hind 0
+  · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+      L hind 1
+
+/-- The original complete relocated `e` right branch lies literally in the
+same selected joint field as its common-base semantic branch. -/
+theorem seRelocatedRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.se.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.se.bCorrespondenceFamilyMember hψ
+  let hP := R.seRelocatedParameterField_le_selectedSemanticReferenceJoin L hind
+  have hG : G.toPair.branchField ≤ extendScalars hP := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 2
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 3
+  intro z hz
+  apply hG
+  exact hz
+
+/-- The original complete relocated `a` right branch lies literally in the
+same selected joint field as its common-base semantic branch. -/
+theorem sAaRelocatedRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.sAa.bCorrespondenceFamilyMember hψ
+  let hP := R.sAaRelocatedParameterField_le_selectedSemanticReferenceJoin L hind
+  have hG : G.toPair.branchField ≤ extendScalars hP := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 4
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 5
+  intro z hz
+  apply hG
+  exact hz
+
+/-- The original complete relocated `b` right branch lies literally in the
+same selected joint field as its common-base semantic branch. -/
+theorem sbRelocatedRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sb.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.sb.bCorrespondenceFamilyMember hψ
+  let hP := R.sbRelocatedParameterField_le_selectedSemanticReferenceJoin L hind
+  have hG : G.toPair.branchField ≤ extendScalars hP := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 6
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 7
+  intro z hz
+  apply hG
+  exact hz
+
+/-- The original complete relocated `c` right branch lies literally in the
+same selected joint field as its common-base semantic branch. -/
+theorem sAcRelocatedRightBranch_le_selectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+      R.selectedSemanticReferenceJoin L hind := by
+  let G := R.sAc.bCorrespondenceFamilyMember hψ
+  let hP := R.sAcRelocatedParameterField_le_selectedSemanticReferenceJoin L hind
+  have hG : G.toPair.branchField ≤ extendScalars hP := by
+    unfold FiniteCorrespondencePair.branchField
+    apply adjoin_le_iff.2
+    intro z hz
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
+    change z ∈ R.selectedSemanticReferenceJoin L hind
+    rcases hz with rfl | rfl
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 8
+    · exact R.selectedSemanticReferenceTuple_mem_selectedSemanticReferenceJoin
+        L hind 9
+  intro z hz
+  apply hG
+  exact hz
+
+/-- The concrete joint field displayed as an extension of the literal
+common coefficient/source field. -/
+def selectedSemanticReferenceJoinOverSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    IntermediateField (↥R.semanticCommonSourceField)
+      (CommonCurveAmbient K) :=
+  extendScalars
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+
+/-- The concrete semantic/reference joint field is finite over the literal
+common coefficient/source field. -/
+theorem selectedSemanticReferenceJoinOverSource_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoinOverSource L hind)) := by
+  letI := R.selectedSemanticBranchExtension_finiteDimensional L
+  exact FiniteExtensionCompositum.extendScalars_trans_finiteDimensional
+    (R.semanticCommonSourceField_le_referenceSemanticJoin L hind)
+    (R.referenceSemanticJoin_le_selectedSemanticReferenceJoin L hind)
+    (R.referenceSemanticJoinOverSource_finiteDimensional L hind)
+    (FiniteExtensionCompositum.over_finiteDimensional
+      R.semanticCommonSourceField (R.referenceSemanticJoin L hind)
+        (R.selectedSemanticBranchExtension L)
+        (R.semanticCommonSourceField_le_referenceSemanticJoin L hind))
+
+/-- One concrete normal closure, before canonicalization, of the
+transported reference cover and all four selected semantic right branches. -/
+def selectedSemanticReferenceNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    IntermediateField (↥R.semanticCommonSourceField)
+      (CommonCurveAmbient K) :=
+  FiniteCover.normalClosureOver
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+
+/-- The single concrete selected semantic/reference normal closure is
+finite over the common source field. -/
+theorem selectedSemanticReferenceNormalField_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceNormalField L hind)) :=
+  FiniteCover.normalClosureOver_finiteDimensional
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+    (R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind)
+
+/-- The single concrete selected semantic/reference normal closure is
+normal over the common source field. -/
+theorem selectedSemanticReferenceNormalField_normal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    Normal (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceNormalField L hind)) := by
+  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(extendScalars
+        (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin
+          L hind))) := by
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoinOverSource L hind))
+    exact R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind
+  exact FiniteCover.normalClosureOver_normal
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+    (Algebra.IsAlgebraic.of_finite _ _)
+
+/-- The entire selected joint field embeds in its concrete normal closure
+after restriction to the ground field. -/
+theorem selectedSemanticReferenceJoin_le_normalField_restrictScalars
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.selectedSemanticReferenceJoin L hind ≤
+      (R.selectedSemanticReferenceNormalField L hind).restrictScalars k := by
+  change extendScalars
+      (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind) ≤
+    R.selectedSemanticReferenceNormalField L hind
+  exact FiniteCover.extendScalars_le_normalClosureOver
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+
+/-- The transported normalized reference field lies in the same concrete
+normal closure as all selected semantic and relocated branches. -/
+theorem mappedReferenceNormalField_le_selectedSemanticReferenceNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.mappedReferenceNormalField L ≤
+      (R.selectedSemanticReferenceNormalField L hind).restrictScalars k :=
+  (R.mappedReferenceNormalField_le_referenceSemanticJoin L hind).trans
+    ((R.referenceSemanticJoin_le_selectedSemanticReferenceJoin L hind).trans
+      (R.selectedSemanticReferenceJoin_le_normalField_restrictScalars L hind))
+
+/-- All four complete common-base semantic right branches lie in the one
+selected semantic/reference normal closure. -/
+theorem fourSemanticRightBranches_le_selectedSemanticReferenceNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k ∧
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAa) R.sAaCommonBaseData hψ).branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k ∧
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ).branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k ∧
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+        (R := R.sAc) R.sAcCommonBaseData hψ).branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k := by
+  let hJ := R.selectedSemanticReferenceJoin_le_normalField_restrictScalars L hind
+  exact ⟨(R.seSemanticRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ,
+    (R.sAaSemanticRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ,
+    (R.sbSemanticRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ,
+    (R.sAcSemanticRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ⟩
+
+/-- All four original complete relocated right branches lie in the same
+selected semantic/reference normal closure. -/
+theorem fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.se.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k ∧
+      (R.sAa.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k ∧
+      (R.sb.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k ∧
+      (R.sAc.bCorrespondenceFamilyMember hψ).toPair.branchField.restrictScalars k ≤
+        (R.selectedSemanticReferenceNormalField L hind).restrictScalars k := by
+  let hJ := R.selectedSemanticReferenceJoin_le_normalField_restrictScalars L hind
+  exact ⟨(R.seRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ,
+    (R.sAaRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ,
+    (R.sbRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ,
+    (R.sAcRelocatedRightBranch_le_selectedSemanticReferenceJoin L hind).trans hJ⟩
+
 /-- A canonical finite normal cover of the semantic source field containing
 the transported normalized reference field. -/
 def transportedReferenceSourceCover

@@ -2109,6 +2109,36 @@ four-arrow action:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.mappedReferenceNormalOverInput_finiteDimensional}
 
+To retain the selected graph copies before canonicalization, a second,
+concrete compositum adjoins the two algebraic `c` parameters and the four
+right-branch endpoint pairs directly to the transported reference
+compositum.  These ten elements are algebraic over the literal common
+source, so the joint field is finite there and admits one concrete normal
+closure.  Both the four common-base semantic branches and the four original
+relocated complete branches are literal subfields of that same closure; in
+particular, the algebraic `c` presentation is included without pretending
+that it lies in the original eight-input field:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceTuple}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticBranchExtension_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceJoin}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceJoinOverSource_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceNormalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceNormalField_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceNormalField_normal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.mappedReferenceNormalField_le_selectedSemanticReferenceNormalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSemanticRightBranches_le_selectedSemanticReferenceNormalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRelocatedRightBranches_le_selectedSemanticReferenceNormalField}
+
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceSemanticSourceCover}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceNormalCoverToReferenceSemanticSourceCover_algebraMap}

@@ -1001,6 +1001,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     comparison that places them beside the common-base semantic branches
     without assuming, especially for `c`, that the full relocated parameter
     field lies in the eight-input coefficient field.
+72. The selected semantic/reference comparison now has a concrete joint
+    field before canonicalization.  Starting from the transported reference
+    compositum over the literal common curve source, it adjoins the two
+    algebraic `c` coordinates and the source/target pair of each of the four
+    selected semantic right branches.  All ten generators are proved
+    algebraic over the common source, so the joint field is finite there and
+    one ambient normal closure is both finite and normal.  Literal containment
+    theorems place the transported normalized reference field, all four
+    common-base semantic right branches, and all four original relocated
+    complete right branches in that same normal field.  In particular, the
+    `c` parameter presentation is handled by honest finite adjunction rather
+    than a false inclusion in the original eight-input field.  This completes
+    the concrete-joint-field and single-normal-closure tasks of issue #16.
+    The next issue-#16 checkpoint is to expose selected whole-branch embeddings
+    into this normal field, canonicalize it once, and prove that the resulting
+    comparison maps preserve the four intrinsic coefficient embeddings.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
