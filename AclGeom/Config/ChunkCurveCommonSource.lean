@@ -4201,6 +4201,188 @@ noncomputable def repeatedUBCommonSelectedTotalEmbeddingInComparisonSourceCover
     (R.repeatedUBRebasedCanonicalCover_le_branchComparisonSourceCover hind)).comp
       (R.repeatedUBCommonSelectedTotalEmbeddingInRebasedCanonicalCover hind)
 
+/-- The selected `sA` branch of the `sA·a=u` face lies in the pairwise
+common-source total field whose whole embedding was transported above. -/
+theorem sAaSelectedLeftBranch_le_repeatedSACommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).branchOverSource ≤
+      extendScalars
+        (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact IntermediateField.le_of_carrier_eq_pair
+    (R.repeatedSAFirstRebasedBranch_carrier_eq hind).symm
+    (by rfl)
+    (FiniteCoefficientBranchCompositum.firstBranchOverRebasedSource_le_normalField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedSA)
+
+/-- The selected `sA` branch of the `sA·c=uB` face lies in the same
+pairwise common-source total field. -/
+theorem sAcSelectedLeftBranch_le_repeatedSACommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource ≤
+      extendScalars
+        (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind) := by
+  letI := R.commonCoefficientNormalOverRepeatedSA_finiteDimensional
+  exact IntermediateField.le_of_carrier_eq_pair
+    (R.repeatedSASecondRebasedBranch_carrier_eq hind).symm
+    (by rfl)
+    (FiniteCoefficientBranchCompositum.secondBranchOverRebasedSource_le_normalField
+      R.repeatedSAAlternativeInputField
+      (R.repeatedSAFirstAlternativePair hind)
+      (R.repeatedSASecondAlternativePair hind)
+      (R.repeatedSAAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedSA
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedSA)
+
+/-- Restrict the coherent whole-`sA` total-field embedding to the first
+literal selected branch. -/
+noncomputable def sAaSelectedLeftBranchEmbeddingViaRepeatedSACommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI :=
+    R.repeatedSACoefficientBranchNormalField_finiteDimensional_overCommonSource hind
+  exact (R.repeatedSACommonSelectedTotalEmbeddingInComparisonSourceCover hind).comp
+    (IntermediateField.inclusion
+      (R.sAaSelectedLeftBranch_le_repeatedSACommonTotal hind))
+
+/-- Restrict the same coherent whole-total-field embedding to the second
+literal selected `sA` branch. -/
+noncomputable def sAcSelectedLeftBranchEmbeddingViaRepeatedSACommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI :=
+    R.repeatedSACoefficientBranchNormalField_finiteDimensional_overCommonSource hind
+  exact (R.repeatedSACommonSelectedTotalEmbeddingInComparisonSourceCover hind).comp
+    (IntermediateField.inclusion
+      (R.sAcSelectedLeftBranch_le_repeatedSACommonTotal hind))
+
+/-- The selected direct-`u` branch of the `s·e=u` face lies in the
+pairwise common-source direct-`u` total field. -/
+theorem seSelectedDirectBranch_le_repeatedUCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.seCommonDirectPair.branchOverSource ≤
+      extendScalars
+        (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact IntermediateField.le_of_carrier_eq_pair
+    (R.repeatedUFirstRebasedBranch_carrier_eq hind).symm
+    (by rfl)
+    (FiniteCoefficientBranchCompositum.firstBranchOverRebasedSource_le_normalField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedU)
+
+/-- The selected direct-`u` branch of the `sA·a=u` face lies in the same
+pairwise common-source total field. -/
+theorem sAaSelectedDirectBranch_le_repeatedUCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAaCommonDirectPair.branchOverSource ≤
+      extendScalars
+        (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind) := by
+  letI := R.commonCoefficientNormalOverRepeatedU_finiteDimensional
+  exact IntermediateField.le_of_carrier_eq_pair
+    (R.repeatedUSecondRebasedBranch_carrier_eq hind).symm
+    (by rfl)
+    (FiniteCoefficientBranchCompositum.secondBranchOverRebasedSource_le_normalField
+      R.repeatedUAlternativeInputField
+      (R.repeatedUFirstAlternativePair hind)
+      (R.repeatedUSecondAlternativePair hind)
+      (R.repeatedUAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedU
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedU)
+
+/-- Restrict the coherent whole direct-`u` total-field embedding to its
+first literal selected branch. -/
+noncomputable def seSelectedDirectBranchEmbeddingViaRepeatedUCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI :=
+    R.repeatedUCoefficientBranchNormalField_finiteDimensional_overCommonSource hind
+  exact (R.repeatedUCommonSelectedTotalEmbeddingInComparisonSourceCover hind).comp
+    (IntermediateField.inclusion
+      (R.seSelectedDirectBranch_le_repeatedUCommonTotal hind))
+
+/-- Restrict the coherent whole direct-`u` total-field embedding to its
+second literal selected branch. -/
+noncomputable def sAaSelectedDirectBranchEmbeddingViaRepeatedUCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI :=
+    R.repeatedUCoefficientBranchNormalField_finiteDimensional_overCommonSource hind
+  exact (R.repeatedUCommonSelectedTotalEmbeddingInComparisonSourceCover hind).comp
+    (IntermediateField.inclusion
+      (R.sAaSelectedDirectBranch_le_repeatedUCommonTotal hind))
+
+/-- The selected direct-`uB` branch of the `s·b=uB` face lies in the
+pairwise common-source direct-`uB` total field. -/
+theorem sbSelectedDirectBranch_le_repeatedUBCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sbCommonDirectPair.branchOverSource ≤
+      extendScalars
+        (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact IntermediateField.le_of_carrier_eq_pair
+    (R.repeatedUBFirstRebasedBranch_carrier_eq hind).symm
+    (by rfl)
+    (FiniteCoefficientBranchCompositum.firstBranchOverRebasedSource_le_normalField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedUB)
+
+/-- The selected direct-`uB` branch of the `sA·c=uB` face lies in the same
+pairwise common-source total field. -/
+theorem sAcSelectedDirectBranch_le_repeatedUBCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAcCommonDirectPair.branchOverSource ≤
+      extendScalars
+        (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind) := by
+  letI := R.commonCoefficientNormalOverRepeatedUB_finiteDimensional
+  exact IntermediateField.le_of_carrier_eq_pair
+    (R.repeatedUBSecondRebasedBranch_carrier_eq hind).symm
+    (by rfl)
+    (FiniteCoefficientBranchCompositum.secondBranchOverRebasedSource_le_normalField
+      R.repeatedUBAlternativeInputField
+      (R.repeatedUBFirstAlternativePair hind)
+      (R.repeatedUBSecondAlternativePair hind)
+      (R.repeatedUBAlternativePair_source_eq hind)
+      R.commonCoefficientNormalOverRepeatedUB
+      R.seCommonBaseData.coefficientField
+      R.commonCoefficientField_le_normalOverRepeatedUB)
+
+/-- Restrict the coherent whole direct-`uB` total-field embedding to its
+first literal selected branch. -/
+noncomputable def sbSelectedDirectBranchEmbeddingViaRepeatedUBCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI :=
+    R.repeatedUBCoefficientBranchNormalField_finiteDimensional_overCommonSource hind
+  exact (R.repeatedUBCommonSelectedTotalEmbeddingInComparisonSourceCover hind).comp
+    (IntermediateField.inclusion
+      (R.sbSelectedDirectBranch_le_repeatedUBCommonTotal hind))
+
+/-- Restrict the coherent whole direct-`uB` total-field embedding to its
+second literal selected branch. -/
+noncomputable def sAcSelectedDirectBranchEmbeddingViaRepeatedUBCommonTotal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) := by
+  letI :=
+    R.repeatedUBCoefficientBranchNormalField_finiteDimensional_overCommonSource hind
+  exact (R.repeatedUBCommonSelectedTotalEmbeddingInComparisonSourceCover hind).comp
+    (IntermediateField.inclusion
+      (R.sAcSelectedDirectBranch_le_repeatedUBCommonTotal hind))
+
 /-- The `s·e=u` source normalization lies in the simultaneous source
 compositum. -/
 theorem seFiniteSourceCover_le_common :
@@ -4585,6 +4767,293 @@ noncomputable def sAcSelectedLeftBranchRebasedInComparisonSourceCover
         (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource)
       (↥(R.branchComparisonSourceCover hind).field) := by
   exact R.sAcSelectedLeftBranchInComparisonSourceCover hind
+
+/-- The first selected `sA` branch, anchored by restriction of the coherent
+whole pairwise total-field embedding. -/
+noncomputable def sAaSelectedLeftBranchViaRepeatedSATotalInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sAa) R.sAaCommonBaseData hψ).branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨R.sAaSelectedLeftBranchEmbeddingViaRepeatedSACommonTotal hind⟩
+
+/-- The second selected `sA` branch, anchored by the same whole pairwise
+total-field embedding. -/
+noncomputable def sAcSelectedLeftBranchViaRepeatedSATotalInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨R.sAcSelectedLeftBranchEmbeddingViaRepeatedSACommonTotal hind⟩
+
+/-- A common-source deck transformation aligns the actual first selected
+`sA` branch with its coherent whole-total-field anchor. -/
+noncomputable def sAaRepeatedSATotalAnchorAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.sAaSelectedLeftBranchRebasedInComparisonSourceCover hind)
+    (R.sAaSelectedLeftBranchViaRepeatedSATotalInComparisonSourceCover hind)
+
+/-- The first coherent `sA` anchor alignment has the prescribed action on
+the entire selected branch. -/
+theorem sAaRepeatedSATotalAnchorAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAaRepeatedSATotalAnchorAlignmentAut hind •
+        R.sAaSelectedLeftBranchRebasedInComparisonSourceCover hind =
+      R.sAaSelectedLeftBranchViaRepeatedSATotalInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
+
+/-- A common-source deck transformation aligns the actual second selected
+`sA` branch with its coherent whole-total-field anchor. -/
+noncomputable def sAcRepeatedSATotalAnchorAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.sAcSelectedLeftBranchRebasedInComparisonSourceCover hind)
+    (R.sAcSelectedLeftBranchViaRepeatedSATotalInComparisonSourceCover hind)
+
+/-- The second coherent `sA` anchor alignment has the prescribed action on
+the entire selected branch. -/
+theorem sAcRepeatedSATotalAnchorAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAcRepeatedSATotalAnchorAlignmentAut hind •
+        R.sAcSelectedLeftBranchRebasedInComparisonSourceCover hind =
+      R.sAcSelectedLeftBranchViaRepeatedSATotalInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
+
+/-- Regard the selected direct-`u` branch of `sA·a=u` over the canonical
+common source presentation. -/
+noncomputable def sAaSelectedDirectBranchOverCommonSourceInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sAaCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  exact R.sAaSelectedDirectBranchInComparisonSourceCover hind
+
+/-- Regard the selected direct-`uB` branch of `s·b=uB` over the canonical
+common source presentation. -/
+noncomputable def sbSelectedDirectBranchOverCommonSourceInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sbCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  exact R.sbSelectedDirectBranchInComparisonSourceCover hind
+
+/-- Regard the selected direct-`uB` branch of `sA·c=uB` over the canonical
+common source presentation. -/
+noncomputable def sAcSelectedDirectBranchOverCommonSourceInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sAcCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  exact R.sAcSelectedDirectBranchInComparisonSourceCover hind
+
+/-- The first selected direct-`u` branch anchored by restriction of the
+coherent whole direct-`u` total-field embedding. -/
+noncomputable def seSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.seCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨R.seSelectedDirectBranchEmbeddingViaRepeatedUCommonTotal hind⟩
+
+/-- The second selected direct-`u` branch anchored by the same coherent
+whole total-field embedding. -/
+noncomputable def sAaSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sAaCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨R.sAaSelectedDirectBranchEmbeddingViaRepeatedUCommonTotal hind⟩
+
+/-- Align the actual direct-`u` branch of the `s·e=u` face with its
+coherent whole-total-field anchor. -/
+noncomputable def seRepeatedUTotalAnchorAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.seSelectedDirectBranchInComparisonSourceCover hind)
+    (R.seSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover hind)
+
+/-- The first coherent direct-`u` anchor alignment has the prescribed
+action on the entire selected branch. -/
+theorem seRepeatedUTotalAnchorAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.seRepeatedUTotalAnchorAlignmentAut hind •
+        R.seSelectedDirectBranchInComparisonSourceCover hind =
+      R.seSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
+
+/-- Align the actual direct-`u` branch of the `sA·a=u` face with the
+second coherent whole-total-field anchor. -/
+noncomputable def sAaRepeatedUTotalAnchorAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.sAaSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind)
+    (R.sAaSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover hind)
+
+/-- The second coherent direct-`u` anchor alignment has the prescribed
+action on the entire selected branch. -/
+theorem sAaRepeatedUTotalAnchorAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAaRepeatedUTotalAnchorAlignmentAut hind •
+        R.sAaSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind =
+      R.sAaSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
+
+/-- The first selected direct-`uB` branch anchored by restriction of the
+coherent whole direct-`uB` total-field embedding. -/
+noncomputable def sbSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sbCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨R.sbSelectedDirectBranchEmbeddingViaRepeatedUBCommonTotal hind⟩
+
+/-- The second selected direct-`uB` branch anchored by the same coherent
+whole total-field embedding. -/
+noncomputable def sAcSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    NormalBranchEmbedding
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥R.sAcCommonDirectPair.branchOverSource)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  ⟨R.sAcSelectedDirectBranchEmbeddingViaRepeatedUBCommonTotal hind⟩
+
+/-- Align the actual direct-`uB` branch of the `s·b=uB` face with its
+coherent whole-total-field anchor. -/
+noncomputable def sbRepeatedUBTotalAnchorAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.sbSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind)
+    (R.sbSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover hind)
+
+/-- The first coherent direct-`uB` anchor alignment has the prescribed
+action on the entire selected branch. -/
+theorem sbRepeatedUBTotalAnchorAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sbRepeatedUBTotalAnchorAlignmentAut hind •
+        R.sbSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind =
+      R.sbSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
+
+/-- Align the actual direct-`uB` branch of the `sA·c=uB` face with the
+second coherent whole-total-field anchor. -/
+noncomputable def sAcRepeatedUBTotalAnchorAlignmentAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.branchComparisonSourceCover hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut
+    (R.sAcSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind)
+    (R.sAcSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover hind)
+
+/-- The second coherent direct-`uB` anchor alignment has the prescribed
+action on the entire selected branch. -/
+theorem sAcRepeatedUBTotalAnchorAlignmentAut_smul
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.sAcRepeatedUBTotalAnchorAlignmentAut hind •
+        R.sAcSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind =
+      R.sAcSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover hind := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.branchComparisonSourceCover hind).field) :=
+    (R.branchComparisonSourceCover hind).normal
+  exact NormalBranchEmbedding.alignmentAut_smul _ _
 
 /-- A common-base deck transformation removes the normal-closure choice
 between the `sA·a=u` face branch and its first coefficient-comparison copy. -/

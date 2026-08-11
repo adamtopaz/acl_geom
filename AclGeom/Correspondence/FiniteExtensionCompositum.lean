@@ -52,6 +52,20 @@ def ringEquivOfCarrierEq
     ((ringEquivOfCarrierEq S T h x : T) : Ω) = x :=
   rfl
 
+/-- Transport an intermediate-field containment across carrier equalities
+on both its source and target, allowing the displayed scalar fields to
+change. -/
+theorem le_of_carrier_eq_pair
+    {F F' Ω : Type*} [Field F] [Field F'] [Field Ω]
+    [Algebra F Ω] [Algebra F' Ω]
+    {S U : IntermediateField F Ω} {T V : IntermediateField F' Ω}
+    (hST : (S : Set Ω) = (T : Set Ω))
+    (hUV : (U : Set Ω) = (V : Set Ω)) (hTV : T ≤ V) : S ≤ U := by
+  intro z hz
+  have hzT : z ∈ T := (Set.ext_iff.mp hST z).mp hz
+  have hzV : z ∈ V := hTV hzT
+  exact (Set.ext_iff.mp hUV z).mpr hzV
+
 /-- Adjoining equal ambient elements to intermediate fields with the same
 ambient carrier gives one field carrier, even when the displayed scalar
 fields differ. -/
@@ -994,6 +1008,36 @@ def secondBranchOverRebasedSource
     IntermediateField
       (↥((adjoin E {P.source}).restrictScalars k)) Ω :=
   adjoin (↥((adjoin E {P.source}).restrictScalars k)) {Q.target}
+
+/-- The first branch over a smaller coefficient/source field already lies
+in the original pairwise normal field, viewed over that smaller source. -/
+theorem firstBranchOverRebasedSource_le_normalField
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k) :
+    firstBranchOverRebasedSource F P E ≤
+      extendScalars
+        (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC) := by
+  apply adjoin_le_iff.2
+  intro z hz
+  rw [Set.mem_singleton_iff] at hz
+  subst z
+  change P.target ∈ normalField F P Q hsource C
+  exact firstBranch_le_normalField F P Q hsource C
+    (subset_adjoin (↥F) _ (by simp))
+
+/-- The second branch over the same smaller coefficient/source field also
+lies in the original pairwise normal field. -/
+theorem secondBranchOverRebasedSource_le_normalField
+    (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k) :
+    secondBranchOverRebasedSource F P Q E ≤
+      extendScalars
+        (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC) := by
+  apply adjoin_le_iff.2
+  intro z hz
+  rw [Set.mem_singleton_iff] at hz
+  subst z
+  change Q.target ∈ normalField F P Q hsource C
+  exact secondBranch_le_normalField F P Q hsource C
+    (subset_adjoin (↥F) _ (by simp))
 
 /-- The first literal branch lies in the ambient renormalization over the
 smaller common source. -/

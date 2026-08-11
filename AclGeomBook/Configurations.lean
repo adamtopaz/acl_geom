@@ -1901,6 +1901,60 @@ then into the one enlarged comparison source cover:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSelectedTotalEmbeddingInComparisonSourceCover}
 
+The whole-total-field maps have coherent restrictions to both literal
+branches of each repeated relation.  Carrier equality transports the
+branch containments across their scalar presentations, so the two `sA`
+branches, the two direct `u` branches, and the two direct `uB` branches are
+all anchored by three shared total-field embeddings.  Normality of the
+simultaneous cover then supplies deck transformations carrying every actual
+selected face branch to its coherent anchor, with exact action equations:
+
+{docstring IntermediateField.le_of_carrier_eq_pair}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.firstBranchOverRebasedSource_le_normalField}
+
+{docstring AclGeom.FiniteCoefficientBranchCompositum.secondBranchOverRebasedSource_le_normalField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedLeftBranchEmbeddingViaRepeatedSACommonTotal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedLeftBranchEmbeddingViaRepeatedSACommonTotal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedDirectBranchEmbeddingViaRepeatedUCommonTotal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedDirectBranchEmbeddingViaRepeatedUCommonTotal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedDirectBranchEmbeddingViaRepeatedUBCommonTotal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedDirectBranchEmbeddingViaRepeatedUBCommonTotal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRepeatedSATotalAnchorAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRepeatedSATotalAnchorAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seRepeatedUTotalAnchorAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRepeatedUTotalAnchorAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbRepeatedUBTotalAnchorAlignmentAut_smul}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRepeatedUBTotalAnchorAlignmentAut_smul}
+
+Once a source-cover chart has been chosen, the strict triangle itself
+induces its middle and target charts.  Conjugating by these induced charts
+makes the left and direct arrows identities; four chosen source charts thus
+give the exact reference-diagram interface needed by semantic
+cancellation:
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.inducedMiddleChart}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.inducedTargetChart}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.conjugate_induced_left}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.conjugate_induced_direct}
+
+{docstring AclGeom.FieldEquiv.FourTriangleReference.ofSourceCharts}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

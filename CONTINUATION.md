@@ -730,6 +730,24 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     embeddings with the semilinear source-image charts and the four existing
     face-to-copy alignment equations to induce compatible middle and target
     reference charts.
+56. The coefficient-faithful whole-total-field embeddings now supply
+    coherent anchors for all six alternative selected face branches.  A
+    carrier-transport lemma moves containments across two changes of scalar
+    presentation, and the rebased first and second branches are proved to
+    lie already in their original pairwise normal total field.  Restricting
+    each of the three whole-total-field embeddings therefore places both
+    occurrences of `sA`, both direct occurrences of `u`, and both direct
+    occurrences of `uB` in `branchComparisonSourceCover` through one shared
+    embedding for each repeated label.  Six chosen common-source deck
+    transformations carry the actual selected face branches to these
+    coherent anchors, with exact whole-branch `smul` equations.  Separately,
+    a strict composition triangle now exposes the canonical middle and
+    target charts induced by any source chart, and four source charts package
+    into a literal four-triangle reference.  The next local step is to choose
+    the four source charts so that the two anchor corrections attached to
+    each face are jointly compatible; their induced middle and target charts
+    can then be proved coefficient-faithful and fed to four-arrow
+    cancellation.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

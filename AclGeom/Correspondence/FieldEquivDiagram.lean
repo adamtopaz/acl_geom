@@ -126,6 +126,32 @@ def conjugate (eX : X ≃+* X') (eY : Y ≃+* Y')
   composition := by
     rw [FieldEquiv.conjugate_trans, T.composition]
 
+/-- A source chart canonically induces a middle chart by transporting
+backwards through the left arrow. -/
+def inducedMiddleChart (eX : X ≃+* X') : Y ≃+* X' :=
+  T.left.symm.trans eX
+
+/-- A source chart canonically induces a target chart by transporting
+backwards through the direct arrow. -/
+def inducedTargetChart (eX : X ≃+* X') : Z ≃+* X' :=
+  T.direct.symm.trans eX
+
+/-- With the induced middle chart, the conjugated left arrow is the
+identity on the reference source. -/
+@[simp] theorem conjugate_induced_left (eX : X ≃+* X') :
+    (T.conjugate eX (T.inducedMiddleChart eX)
+      (T.inducedTargetChart eX)).left = RingEquiv.refl X' := by
+  ext x
+  simp [conjugate, inducedMiddleChart]
+
+/-- With the induced target chart, the conjugated direct arrow is the
+identity on the reference source. -/
+@[simp] theorem conjugate_induced_direct (eX : X ≃+* X') :
+    (T.conjugate eX (T.inducedMiddleChart eX)
+      (T.inducedTargetChart eX)).direct = RingEquiv.refl X' := by
+  ext x
+  simp [conjugate, inducedTargetChart]
+
 end CompositionTriangle
 
 /-- Four composition triangles together with compatible identifications of
@@ -219,6 +245,45 @@ structure FourArrowDiagram (X Y Z : Type u)
   sA_c_uB : leftSA.trans rightC = compositeUB
 
 namespace FourTriangleReference
+
+variable {Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc : Type u}
+  [Field Xse] [Field Yse] [Field Zse]
+  [Field Xsa] [Field Ysa] [Field Zsa]
+  [Field Xsb] [Field Ysb] [Field Zsb]
+  [Field Xsc] [Field Ysc] [Field Zsc]
+
+/-- Four composition triangles with chosen charts to one reference source
+acquire canonical middle and target charts.  All repeated left and direct
+arrows then agree because their conjugates are identities. -/
+def ofSourceCharts
+    (se : CompositionTriangle Xse Yse Zse)
+    (sAa : CompositionTriangle Xsa Ysa Zsa)
+    (sb : CompositionTriangle Xsb Ysb Zsb)
+    (sAc : CompositionTriangle Xsc Ysc Zsc)
+    (seX : Xse ≃+* X) (sAaX : Xsa ≃+* X)
+    (sbX : Xsb ≃+* X) (sAcX : Xsc ≃+* X) :
+    FourTriangleReference X X X
+      Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc where
+  se := se
+  sAa := sAa
+  sb := sb
+  sAc := sAc
+  seX := seX
+  seY := se.inducedMiddleChart seX
+  seZ := se.inducedTargetChart seX
+  sAaX := sAaX
+  sAaY := sAa.inducedMiddleChart sAaX
+  sAaZ := sAa.inducedTargetChart sAaX
+  sbX := sbX
+  sbY := sb.inducedMiddleChart sbX
+  sbZ := sb.inducedTargetChart sbX
+  sAcX := sAcX
+  sAcY := sAc.inducedMiddleChart sAcX
+  sAcZ := sAc.inducedTargetChart sAcX
+  leftS := by simp
+  leftSA := by simp
+  compositeU := by simp
+  compositeUB := by simp
 
 variable {Xse Yse Zse Xsa Ysa Zsa Xsb Ysb Zsb Xsc Ysc Zsc : Type u}
   [Field Xse] [Field Yse] [Field Zse]
