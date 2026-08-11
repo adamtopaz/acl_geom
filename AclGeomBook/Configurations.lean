@@ -2111,6 +2111,29 @@ four-arrow action:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceNormalCoverToReferenceSemanticSourceCover_algebraMap}
 
+Before adjoining the formal source, every complete nine-coordinate edge is
+also base-changed from its own six-coordinate ambient field to the common
+sixteen-coordinate four-arrow field.  These four finite scalar extensions
+remain literal subfields of the selected twenty-eight-coordinate component
+and hence of the final reference normal cover.  Their inclusions in the
+combined semantic/reference source preserve all nine selected coordinates;
+in particular the four `B/T` scalars are now named elements of one common
+formal-source normal cover without a new branch choice:
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.overTotal_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.field_le_jointField}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.jointField_le_referenceNormalCover}
+
+{docstring AclGeom.QWitness.PsiChunkFourArrowEdgeLifts.fourTotalBaseChangedEdges_selectedBScalar}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourTotalBaseChangedEdges_selectedBScalar_inReferenceSemanticSource}
+
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceEInSemanticSourceRingHom}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceAInSemanticSourceRingHom}

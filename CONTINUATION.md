@@ -858,6 +858,25 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     `referenceSemanticSourceCover`; there they can be compared pointwise
     with the four promoted `toReference` embeddings and the semantic curve
     charts from items 58--61.
+63. The four complete selected edges have now been scalar-extended from
+    their different six-coordinate ambient fields to the single
+    sixteen-coordinate coefficient field of the four-arrow diagram.  A
+    reusable `TotalBaseChangedEdge` records the literal ambient and selected
+    inclusions.  Its finite-basis compositum is finite over the common
+    coefficient field, contains the full selected nine-coordinate edge, and
+    remains a subfield of the twenty-eight-coordinate joint field.  Hence
+    all four such fields embed literally in `referenceNormalCover`, and
+    their selected coordinate `7` elements are exactly the `e`, `a`, `b`,
+    and `c` scalar branches already used by the explicit normalized
+    projections.  Composing these inclusions with the canonical transport
+    to `referenceSemanticSourceCover` places all nine coordinates of all
+    four scalar-extended edges in the common formal-source normal cover and
+    preserves them exactly.  No additional scalar branch has been chosen.
+    The remaining half of the base-change step is to extend the four
+    corrected complete-edge normal-cover equivalences across this common
+    coefficient field and the formal source, using the coefficient-
+    semilinear source charts.  Their coordinate-`7` formulas can then be
+    compared pointwise with the promoted `toReferenceE/A/B/C` maps.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -892,9 +911,13 @@ as the semantic action, their eight-input coefficient square commutes, and
 their restrictions to the intrinsic `B` germ coefficient field are the
 canonical transports to the four displayed parameter fields.  Those
 transports are now proved to be exactly the coefficients of the four
-relocated right-branch curve equations.  Align the remaining finite scalar
-branches in the common normal cover and use that whole-branch equality to
-prove that
+relocated right-branch curve equations.  The four complete selected edges
+have also been scalar-extended to the common sixteen-coordinate field and
+embedded, coordinate-for-coordinate, into the common formal-source cover.
+Extend the selected-branch-preserving normal-cover equivalences across this
+common coefficient/formal-source base, compare their coordinate-`7` maps
+with the four promoted reference embeddings, and use that whole-branch
+equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not

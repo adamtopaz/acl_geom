@@ -6,6 +6,7 @@ Authors: Adam Topaz, Codex
 import AclGeom.Config.ChunkCurveCommonSource
 import AclGeom.Config.ChunkFourArrowReference
 import AclGeom.Config.ChunkGermCoordinates
+import AclGeom.Config.ChunkRelationScalarExtension
 
 /-!
 # A common field for the curve action and the normalized reference chart
@@ -417,6 +418,74 @@ theorem referenceNormalCoverToReferenceSemanticSourceCover_algebraMap
       L hind (R.referenceInputToSemanticSource L z)
   rw [hcanonical]
   rfl
+
+/-- Embed one complete edge after scalar extension to the common
+sixteen-coordinate coefficient field into the common formal-source cover.
+The map factors through the literal final reference normal cover, so it
+retains the selected edge rather than making a new branch choice. -/
+def totalBaseChangedEdgeToReferenceSemanticSourceCover
+    (E : L.TotalBaseChangedEdge)
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥E.field) →ₐ[k]
+      (↥(R.referenceSemanticSourceCover L hind).field) :=
+  (R.referenceNormalCoverToReferenceSemanticSourceCover L hind).comp
+    (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.toReferenceNormalCover
+      L E)
+
+/-- The scalar-extended edge embedding sends every selected coordinate to
+the transported image of the same literal coordinate in the reference
+normal cover. -/
+@[simp] theorem totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+    (E : L.TotalBaseChangedEdge)
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (i : Fin 9) :
+    R.totalBaseChangedEdgeToReferenceSemanticSourceCover L E hind
+        (E.selectedCoordinate i) =
+      R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L E i) := by
+  unfold totalBaseChangedEdgeToReferenceSemanticSourceCover
+  rw [AlgHom.comp_apply]
+  rw [PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.toReferenceNormalCover_selectedCoordinate]
+
+/-- The four selected `B/T` scalar branches now occur in one common
+formal-source normal cover through coefficient-compatible embeddings of
+their complete scalar-extended edges. -/
+theorem fourTotalBaseChangedEdges_selectedBScalar_inReferenceSemanticSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.seTotalBaseChangedEdge hind
+        (L.seTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.seTotalBaseChangedEdge 7) ∧
+    R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.sA_aTotalBaseChangedEdge hind
+        (L.sA_aTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.sA_aTotalBaseChangedEdge 7) ∧
+    R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.s_bTotalBaseChangedEdge hind
+        (L.s_bTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.s_bTotalBaseChangedEdge 7) ∧
+    R.totalBaseChangedEdgeToReferenceSemanticSourceCover L
+        L.sA_cTotalBaseChangedEdge hind
+        (L.sA_cTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.sA_cTotalBaseChangedEdge 7) := by
+  exact
+    ⟨R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+        L L.seTotalBaseChangedEdge hind 7,
+      R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+        L L.sA_aTotalBaseChangedEdge hind 7,
+      R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+        L L.s_bTotalBaseChangedEdge hind 7,
+      R.totalBaseChangedEdgeToReferenceSemanticSourceCover_selectedCoordinate
+        L L.sA_cTotalBaseChangedEdge hind 7⟩
 
 /-- The generic-point identification between the full normalized reference
 chart and its ambient normal cover. -/
