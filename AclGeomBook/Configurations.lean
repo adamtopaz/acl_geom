@@ -2502,6 +2502,40 @@ step:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedGraphCompositionTriangle}
 
+The complete normalized reference edges now use that same selected graph
+source as well.  Their transport first enters the concrete selected normal
+field and then passes through its single chosen canonicalization, so it does
+not introduce a parallel algebraic-closure model.  Every selected edge
+coordinate is preserved.  More importantly, the promoted reference map and
+the literal complete-edge route agree on the entire selected nonnormal
+`B/T` branch for all four faces.  Restricting those equalities along the
+intrinsic germ-field inclusion gives whole-field coefficient restrictions,
+including the algebraic output `c` edge:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceNormalCoverToSelectedNormal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.referenceNormalCoverToSelectedGraphSource}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.totalBaseChangedEdgeToSelectedGraphSource}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.totalBaseChangedEdgeToSelectedGraphSource_selectedCoordinate}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourTotalBaseChangedEdges_selectedBScalar_inSelectedGraphSource}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.bGermCoefficientToSelectedBScalarExtensionAlgHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBScalarExtensionToReferenceEInSelectedGraphRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBScalarExtensionToSeEdgeInSelectedGraphRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourReferenceEdgesOnSelectedBScalarExtensionInSelectedGraph}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBGermCoefficientToReferenceInSelectedGraphRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBGermCoefficientToReferenceInSelectedGraphRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourReferenceEdgesOnBGermCoefficientInSelectedGraph}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

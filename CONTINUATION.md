@@ -1069,6 +1069,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     chart: the remaining step is to select compatible common middle and
     target charts and prove that their right arrows restrict to the named
     intrinsic `e`, `a`, `b`, and `c` coefficient embeddings.
+77. The four complete normalized reference edges now enter
+    `selectedGraphSourceCover` through the same transported concrete normal
+    field and the same single canonicalization as the selected semantic and
+    relocated branches.  Every one of their nine selected coordinates has an
+    exact preservation formula in that codomain.  More strongly, the four
+    promoted reference maps agree with their literal complete-edge routes on
+    the entire selected nonnormal `B/T` scalar branch; composing with the
+    intrinsic germ-field inclusion gives four equalities on the whole
+    selected-`B` coefficient field, including the algebraic output `c` edge.
+    The remaining issue-#16 comparison is therefore internal to one selected
+    graph cover: identify these whole-field reference restrictions with the
+    charted semantic right arrows while choosing common middle/target charts
+    compatible with the already lifted source charts.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

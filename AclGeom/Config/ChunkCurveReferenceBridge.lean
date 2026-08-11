@@ -1500,6 +1500,107 @@ theorem referenceNormalCoverToReferenceSemanticSourceCover_algebraMap
   rw [hcanonical]
   rfl
 
+/-- Embed the transported reference normal cover in the concrete selected
+semantic/reference normal field.  This is the literal transported-image
+inclusion, before the single canonicalization chosen for the selected
+cover. -/
+noncomputable def referenceNormalCoverToSelectedNormal
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥L.referenceNormalCover) →ₐ[k]
+      (↥(R.selectedSemanticReferenceNormalField L hind)) :=
+  (IntermediateField.algHomIntoOfLeRestrictScalars
+    (R.mappedReferenceNormalField L)
+    (R.selectedSemanticReferenceNormalField L hind)
+    (R.mappedReferenceNormalField_le_selectedSemanticReferenceNormalField
+      L hind)).comp
+    (R.referenceNormalCoverToMappedReference L)
+
+/-- Pass the transported reference normal cover through the same single
+canonicalization as all selected semantic and relocated branches. -/
+noncomputable def referenceNormalCoverToSelectedSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥L.referenceNormalCover) →ₐ[k]
+      (↥(R.selectedSemanticReferenceSourceCover L hind).field) :=
+  (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).comp
+    (R.referenceNormalCoverToSelectedNormal L hind)
+
+/-- The transported reference normal cover in the final selected graph
+source.  Its image now shares a literal codomain with the four lifted
+semantic source charts and all eight selected branch embeddings. -/
+noncomputable def referenceNormalCoverToSelectedGraphSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥L.referenceNormalCover) →ₐ[k]
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+    L hind).comp
+    (R.referenceNormalCoverToSelectedSource L hind)
+
+/-- Embed one complete scalar-extended reference edge in the selected graph
+source through the same transported normal cover and canonicalization. -/
+noncomputable def totalBaseChangedEdgeToSelectedGraphSource
+    (E : L.TotalBaseChangedEdge)
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥E.field) →ₐ[k]
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+  (R.referenceNormalCoverToSelectedGraphSource L hind).comp
+    (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.toReferenceNormalCover
+      L E)
+
+/-- The selected-graph embedding of a complete edge preserves every one of
+its nine selected coordinates, via the corresponding literal coordinate
+of the transported reference normal cover. -/
+@[simp] theorem totalBaseChangedEdgeToSelectedGraphSource_selectedCoordinate
+    (E : L.TotalBaseChangedEdge)
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (i : Fin 9) :
+    R.totalBaseChangedEdgeToSelectedGraphSource L E hind
+        (E.selectedCoordinate i) =
+      R.referenceNormalCoverToSelectedGraphSource L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L E i) := by
+  unfold totalBaseChangedEdgeToSelectedGraphSource
+  rw [AlgHom.comp_apply]
+  rw [PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.toReferenceNormalCover_selectedCoordinate]
+
+/-- All four complete normalized reference edges now lie in the selected
+graph source, and their selected `B/T` scalars retain their literal
+same-edge coordinates there. -/
+theorem fourTotalBaseChangedEdges_selectedBScalar_inSelectedGraphSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.totalBaseChangedEdgeToSelectedGraphSource L
+        L.seTotalBaseChangedEdge hind
+        (L.seTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToSelectedGraphSource L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.seTotalBaseChangedEdge 7) ∧
+    R.totalBaseChangedEdgeToSelectedGraphSource L
+        L.sA_aTotalBaseChangedEdge hind
+        (L.sA_aTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToSelectedGraphSource L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.sA_aTotalBaseChangedEdge 7) ∧
+    R.totalBaseChangedEdgeToSelectedGraphSource L
+        L.s_bTotalBaseChangedEdge hind
+        (L.s_bTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToSelectedGraphSource L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.s_bTotalBaseChangedEdge 7) ∧
+    R.totalBaseChangedEdgeToSelectedGraphSource L
+        L.sA_cTotalBaseChangedEdge hind
+        (L.sA_cTotalBaseChangedEdge.selectedCoordinate 7) =
+      R.referenceNormalCoverToSelectedGraphSource L hind
+        (QWitness.PsiChunkFourArrowEdgeLifts.TotalBaseChangedEdge.referenceCoordinate
+          L L.sA_cTotalBaseChangedEdge 7) := by
+  exact
+    ⟨R.totalBaseChangedEdgeToSelectedGraphSource_selectedCoordinate
+        L L.seTotalBaseChangedEdge hind 7,
+      R.totalBaseChangedEdgeToSelectedGraphSource_selectedCoordinate
+        L L.sA_aTotalBaseChangedEdge hind 7,
+      R.totalBaseChangedEdgeToSelectedGraphSource_selectedCoordinate
+        L L.s_bTotalBaseChangedEdge hind 7,
+      R.totalBaseChangedEdgeToSelectedGraphSource_selectedCoordinate
+        L L.sA_cTotalBaseChangedEdge hind 7⟩
+
 /-- Embed one complete edge after scalar extension to the common
 sixteen-coordinate coefficient field into the common formal-source cover.
 The map factors through the literal final reference normal cover, so it
@@ -1634,6 +1735,17 @@ def bGermCoefficientToSelectedBParameterAlgHom :
   map_zero' := rfl
   map_add' _ _ := rfl
   commutes' _ := rfl
+
+/-- Include the intrinsic selected-`B` coefficient field in the whole
+selected nonnormal `B/T` scalar branch.  This is the common domain on which
+the four complete-edge restrictions will be compared. -/
+def bGermCoefficientToSelectedBScalarExtensionAlgHom :
+    (↥(w.bGermCoefficientField hψ)) →ₐ[k]
+      (rankTwoScalarExtension (k := k) w.bReps w.T.rep) :=
+  (IntermediateField.inclusion
+    (rankTwoParameterField_le_rankTwoScalarField
+      (k := k) w.bReps w.T.rep)).comp
+    (bGermCoefficientToSelectedBParameterAlgHom (w := w) (hψ := hψ))
 
 /-- Literal inclusion of the intrinsic selected-`B` germ coefficient field
 in the selected normalized `B/T` cover. -/
@@ -3975,6 +4087,223 @@ theorem fourReferenceEmbeddingsOnSelectedBScalarExtension
   · apply RingHom.ext
     intro z
     exact R.toReferenceCOnSelectedBScalarExtensionRingHom_apply L hind z
+
+/-- Transport the whole selected nonnormal `B/T` branch to the first
+reference edge and then into the selected graph source. -/
+noncomputable def selectedBScalarExtensionToReferenceEInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.referenceNormalCoverToSelectedGraphSource L hind).toRingHom.comp
+    (L.seRightScalarExtensionToReferenceNormalCover.toRingHom.comp
+      (rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.eProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom)
+
+/-- The same whole branch carried through the literal first complete edge. -/
+noncomputable def selectedBScalarExtensionToSeEdgeInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToSelectedGraphSource L
+      L.seTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSeEdgeRingHom (w := w) L)
+
+/-- Transport the whole selected `B/T` branch to the inverse-input
+reference edge in the selected graph source. -/
+noncomputable def selectedBScalarExtensionToReferenceAInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.referenceNormalCoverToSelectedGraphSource L hind).toRingHom.comp
+    (L.sA_aRightScalarExtensionToReferenceNormalCover.toRingHom.comp
+      (rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.aProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom)
+
+/-- The same whole branch carried through the literal inverse-input edge. -/
+noncomputable def selectedBScalarExtensionToSAaEdgeInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToSelectedGraphSource L
+      L.sA_aTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSAaEdgeRingHom (w := w) L)
+
+/-- Transport the whole selected `B/T` branch to the second-input
+reference edge in the selected graph source. -/
+noncomputable def selectedBScalarExtensionToReferenceBInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.referenceNormalCoverToSelectedGraphSource L hind).toRingHom.comp
+    (L.s_bRightScalarExtensionToReferenceNormalCover.toRingHom.comp
+      (rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.bProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom)
+
+/-- The same whole branch carried through the literal second-input edge. -/
+noncomputable def selectedBScalarExtensionToSbEdgeInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToSelectedGraphSource L
+      L.s_bTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSbEdgeRingHom (w := w) L)
+
+/-- Transport the whole selected `B/T` branch to the algebraic output
+reference edge in the selected graph source. -/
+noncomputable def selectedBScalarExtensionToReferenceCInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.referenceNormalCoverToSelectedGraphSource L hind).toRingHom.comp
+    (L.sA_cRightScalarExtensionToReferenceNormalCover.toRingHom.comp
+      (rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.cProjectionRelation.symm).totalEquiv.toRingEquiv.toRingHom)
+
+/-- The same whole branch carried through the literal output edge. -/
+noncomputable def selectedBScalarExtensionToSAcEdgeInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (rankTwoScalarExtension (k := k) w.bReps w.T.rep) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.totalBaseChangedEdgeToSelectedGraphSource L
+      L.sA_cTotalBaseChangedEdge hind).toRingHom.comp
+    (selectedBScalarExtensionToSAcEdgeRingHom (w := w) L)
+
+/-- In the selected graph source, each promoted normalized reference map
+agrees on the entire selected nonnormal branch with transport through its
+literal complete edge.  In particular this comparison includes the
+algebraic output edge, not only its selected scalar generator. -/
+theorem fourReferenceEdgesOnSelectedBScalarExtensionInSelectedGraph
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.selectedBScalarExtensionToReferenceEInSelectedGraphRingHom L hind =
+        R.selectedBScalarExtensionToSeEdgeInSelectedGraphRingHom L hind ∧
+      R.selectedBScalarExtensionToReferenceAInSelectedGraphRingHom L hind =
+        R.selectedBScalarExtensionToSAaEdgeInSelectedGraphRingHom L hind ∧
+      R.selectedBScalarExtensionToReferenceBInSelectedGraphRingHom L hind =
+        R.selectedBScalarExtensionToSbEdgeInSelectedGraphRingHom L hind ∧
+      R.selectedBScalarExtensionToReferenceCInSelectedGraphRingHom L hind =
+        R.selectedBScalarExtensionToSAcEdgeInSelectedGraphRingHom L hind := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · apply RingHom.ext
+    intro z
+    unfold selectedBScalarExtensionToReferenceEInSelectedGraphRingHom
+      selectedBScalarExtensionToSeEdgeInSelectedGraphRingHom
+      selectedBScalarExtensionToSeEdgeRingHom
+      totalBaseChangedEdgeToSelectedGraphSource
+    simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe]
+    apply congrArg
+    exact L.seRightScalarExtensionToReferenceNormalCover_eq
+      ((rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.eProjectionRelation.symm).totalEquiv z)
+  · apply RingHom.ext
+    intro z
+    unfold selectedBScalarExtensionToReferenceAInSelectedGraphRingHom
+      selectedBScalarExtensionToSAaEdgeInSelectedGraphRingHom
+      selectedBScalarExtensionToSAaEdgeRingHom
+      totalBaseChangedEdgeToSelectedGraphSource
+    simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe]
+    apply congrArg
+    exact L.sA_aRightScalarExtensionToReferenceNormalCover_eq
+      ((rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.aProjectionRelation.symm).totalEquiv z)
+  · apply RingHom.ext
+    intro z
+    unfold selectedBScalarExtensionToReferenceBInSelectedGraphRingHom
+      selectedBScalarExtensionToSbEdgeInSelectedGraphRingHom
+      selectedBScalarExtensionToSbEdgeRingHom
+      totalBaseChangedEdgeToSelectedGraphSource
+    simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe]
+    apply congrArg
+    exact L.s_bRightScalarExtensionToReferenceNormalCover_eq
+      ((rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.bProjectionRelation.symm).totalEquiv z)
+  · apply RingHom.ext
+    intro z
+    unfold selectedBScalarExtensionToReferenceCInSelectedGraphRingHom
+      selectedBScalarExtensionToSAcEdgeInSelectedGraphRingHom
+      selectedBScalarExtensionToSAcEdgeRingHom
+      totalBaseChangedEdgeToSelectedGraphSource
+    simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe]
+    apply congrArg
+    exact L.sA_cRightScalarExtensionToReferenceNormalCover_eq
+      ((rankTwoScalarExtensionEquivOfIdealEq
+        (k := k) L.cProjectionRelation.symm).totalEquiv z)
+
+/-- Restrict the first selected-graph reference edge map to the whole
+intrinsic selected-`B` germ coefficient field. -/
+noncomputable def seBGermCoefficientToReferenceInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedBScalarExtensionToReferenceEInSelectedGraphRingHom L hind).comp
+    (bGermCoefficientToSelectedBScalarExtensionAlgHom
+      (w := w) (hψ := hψ)).toRingHom
+
+/-- The analogous whole intrinsic-field restriction for the inverse-input
+reference edge. -/
+noncomputable def sAaBGermCoefficientToReferenceInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedBScalarExtensionToReferenceAInSelectedGraphRingHom L hind).comp
+    (bGermCoefficientToSelectedBScalarExtensionAlgHom
+      (w := w) (hψ := hψ)).toRingHom
+
+/-- The analogous whole intrinsic-field restriction for the second-input
+reference edge. -/
+noncomputable def sbBGermCoefficientToReferenceInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedBScalarExtensionToReferenceBInSelectedGraphRingHom L hind).comp
+    (bGermCoefficientToSelectedBScalarExtensionAlgHom
+      (w := w) (hψ := hψ)).toRingHom
+
+/-- The analogous whole intrinsic-field restriction for the algebraic
+output reference edge. -/
+noncomputable def sAcBGermCoefficientToReferenceInSelectedGraphRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedBScalarExtensionToReferenceCInSelectedGraphRingHom L hind).comp
+    (bGermCoefficientToSelectedBScalarExtensionAlgHom
+      (w := w) (hψ := hψ)).toRingHom
+
+/-- All four selected-graph reference maps restrict on the whole intrinsic
+coefficient field through their literal complete edges.  These are the
+non-coordinatewise edge restrictions needed before identifying the
+semantic right-arrow charts. -/
+theorem fourReferenceEdgesOnBGermCoefficientInSelectedGraph
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.seBGermCoefficientToReferenceInSelectedGraphRingHom L hind =
+        (R.selectedBScalarExtensionToSeEdgeInSelectedGraphRingHom L hind).comp
+          (bGermCoefficientToSelectedBScalarExtensionAlgHom
+            (w := w) (hψ := hψ)).toRingHom ∧
+      R.sAaBGermCoefficientToReferenceInSelectedGraphRingHom L hind =
+        (R.selectedBScalarExtensionToSAaEdgeInSelectedGraphRingHom L hind).comp
+          (bGermCoefficientToSelectedBScalarExtensionAlgHom
+            (w := w) (hψ := hψ)).toRingHom ∧
+      R.sbBGermCoefficientToReferenceInSelectedGraphRingHom L hind =
+        (R.selectedBScalarExtensionToSbEdgeInSelectedGraphRingHom L hind).comp
+          (bGermCoefficientToSelectedBScalarExtensionAlgHom
+            (w := w) (hψ := hψ)).toRingHom ∧
+      R.sAcBGermCoefficientToReferenceInSelectedGraphRingHom L hind =
+        (R.selectedBScalarExtensionToSAcEdgeInSelectedGraphRingHom L hind).comp
+          (bGermCoefficientToSelectedBScalarExtensionAlgHom
+            (w := w) (hψ := hψ)).toRingHom := by
+  obtain ⟨he, ha, hb, hc⟩ :=
+    R.fourReferenceEdgesOnSelectedBScalarExtensionInSelectedGraph L hind
+  exact ⟨congrArg (fun f ↦ f.comp
+      (bGermCoefficientToSelectedBScalarExtensionAlgHom
+        (w := w) (hψ := hψ)).toRingHom) he,
+    congrArg (fun f ↦ f.comp
+      (bGermCoefficientToSelectedBScalarExtensionAlgHom
+        (w := w) (hψ := hψ)).toRingHom) ha,
+    congrArg (fun f ↦ f.comp
+      (bGermCoefficientToSelectedBScalarExtensionAlgHom
+        (w := w) (hψ := hψ)).toRingHom) hb,
+    congrArg (fun f ↦ f.comp
+      (bGermCoefficientToSelectedBScalarExtensionAlgHom
+        (w := w) (hψ := hψ)).toRingHom) hc⟩
 
 /-- The first-input reference embedding and the literal base-changed
 complete edge agree on the selected scalar generator. -/
