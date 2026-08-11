@@ -268,6 +268,25 @@ ambient field. -/
     ((P.branchOverSourceToIntermediateFieldRingHom N h x : N) : Ω) = x :=
   rfl
 
+/-- Cross-base branch inclusion is transitive through nested intermediate
+fields.  This keeps a whole selected branch on one literal ambient route
+when a later construction inserts an intermediate compositum before its
+normal closure. -/
+theorem FiniteCorrespondencePair.branchOverSourceToIntermediateFieldRingHom_trans
+    {F E Ω : Type*} [Field F] [Field E] [Field Ω]
+    [Algebra F Ω] [Algebra E Ω]
+    (P : FiniteCorrespondencePair F Ω)
+    (M N : IntermediateField E Ω) (hMN : M ≤ N)
+    (hM : ∀ z : Ω, z ∈ P.branchField → z ∈ M)
+    (hN : ∀ z : Ω, z ∈ P.branchField → z ∈ N) :
+    P.branchOverSourceToIntermediateFieldRingHom N hN =
+      (IntermediateField.inclusion hMN).toRingHom.comp
+        (P.branchOverSourceToIntermediateFieldRingHom M hM) := by
+  apply RingHom.ext
+  intro x
+  apply Subtype.ext
+  rfl
+
 namespace FiniteCover
 
 variable {k F Ω : Type*} [Field k] [Field F] [Field Ω]
