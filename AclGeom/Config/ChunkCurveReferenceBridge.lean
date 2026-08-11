@@ -3495,6 +3495,107 @@ theorem fourSelectedBCompleteBranchRingEquiv_parameter :
         ((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
           (commonCurveEmbedding (k := k) (K := K)) z))
 
+/-- The selected-branch-corrected normal-cover equivalence from the mapped
+selected `B` family to the relocated `e` family. -/
+noncomputable def seSelectedBNormalCoverRingEquiv :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) ≃+*
+      (↥(FiniteCover.normalClosureOver
+        (R.se.bCorrespondenceFamilyMember hψ
+          |>.parameterSourceField_le_familyField))) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ)
+    |>.basedNormalEquivOfIdealEq
+      (R.se.bCorrespondenceFamilyMember hψ)
+      R.seMappedSelectedBFamily_ideal_eq).toRingEquiv
+
+/-- The corresponding corrected normal-cover equivalence for the relocated
+`a` family. -/
+noncomputable def sAaSelectedBNormalCoverRingEquiv :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) ≃+*
+      (↥(FiniteCover.normalClosureOver
+        (R.sAa.bCorrespondenceFamilyMember hψ
+          |>.parameterSourceField_le_familyField))) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ)
+    |>.basedNormalEquivOfIdealEq
+      (R.sAa.bCorrespondenceFamilyMember hψ)
+      R.sAaMappedSelectedBFamily_ideal_eq).toRingEquiv
+
+/-- The corresponding corrected normal-cover equivalence for the relocated
+`b` family. -/
+noncomputable def sbSelectedBNormalCoverRingEquiv :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) ≃+*
+      (↥(FiniteCover.normalClosureOver
+        (R.sb.bCorrespondenceFamilyMember hψ
+          |>.parameterSourceField_le_familyField))) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ)
+    |>.basedNormalEquivOfIdealEq
+      (R.sb.bCorrespondenceFamilyMember hψ)
+      R.sbMappedSelectedBFamily_ideal_eq).toRingEquiv
+
+/-- The corresponding corrected normal-cover equivalence for the algebraic
+relocated `c` family. -/
+noncomputable def sAcSelectedBNormalCoverRingEquiv :
+    (↥(FiniteCover.normalClosureOver
+      (mappedSelectedBFamily (w := w) (hψ := hψ)
+        |>.parameterSourceField_le_familyField))) ≃+*
+      (↥(FiniteCover.normalClosureOver
+        (R.sAc.bCorrespondenceFamilyMember hψ
+          |>.parameterSourceField_le_familyField))) :=
+  (mappedSelectedBFamily (w := w) (hψ := hψ)
+    |>.basedNormalEquivOfIdealEq
+      (R.sAc.bCorrespondenceFamilyMember hψ)
+      R.sAcMappedSelectedBFamily_ideal_eq).toRingEquiv
+
+/-- Simultaneously, the four corrected normal-cover equivalences extend the
+four full complete-branch equivalences.  This is the normal middle-cover
+transport required before the four target covers are joined. -/
+theorem fourSelectedBNormalCoverRingEquiv_completeBranch :
+    R.seSelectedBNormalCoverRingEquiv.toRingHom.comp
+        (mappedSelectedBFamily (w := w) (hψ := hψ)
+          |>.completeBranchToNormalCoverRingHom) =
+      (R.se.bCorrespondenceFamilyMember hψ
+        |>.completeBranchToNormalCoverRingHom).comp
+          R.seSelectedBCompleteBranchRingEquiv.toRingHom ∧
+    R.sAaSelectedBNormalCoverRingEquiv.toRingHom.comp
+        (mappedSelectedBFamily (w := w) (hψ := hψ)
+          |>.completeBranchToNormalCoverRingHom) =
+      (R.sAa.bCorrespondenceFamilyMember hψ
+        |>.completeBranchToNormalCoverRingHom).comp
+          R.sAaSelectedBCompleteBranchRingEquiv.toRingHom ∧
+    R.sbSelectedBNormalCoverRingEquiv.toRingHom.comp
+        (mappedSelectedBFamily (w := w) (hψ := hψ)
+          |>.completeBranchToNormalCoverRingHom) =
+      (R.sb.bCorrespondenceFamilyMember hψ
+        |>.completeBranchToNormalCoverRingHom).comp
+          R.sbSelectedBCompleteBranchRingEquiv.toRingHom ∧
+    R.sAcSelectedBNormalCoverRingEquiv.toRingHom.comp
+        (mappedSelectedBFamily (w := w) (hψ := hψ)
+          |>.completeBranchToNormalCoverRingHom) =
+      (R.sAc.bCorrespondenceFamilyMember hψ
+        |>.completeBranchToNormalCoverRingHom).comp
+          R.sAcSelectedBCompleteBranchRingEquiv.toRingHom := by
+  exact ⟨mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.basedNormalEquivOfIdealEq_completeBranch
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.seMappedSelectedBFamily_ideal_eq,
+    mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.basedNormalEquivOfIdealEq_completeBranch
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.sAaMappedSelectedBFamily_ideal_eq,
+    mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.basedNormalEquivOfIdealEq_completeBranch
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.sbMappedSelectedBFamily_ideal_eq,
+    mappedSelectedBFamily (w := w) (hψ := hψ)
+      |>.basedNormalEquivOfIdealEq_completeBranch
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.sAcMappedSelectedBFamily_ideal_eq⟩
+
 /-- The four relocated right-family members display the four mapped
 normalized parameter tuples literally. -/
 theorem relocatedBFamily_parameters :

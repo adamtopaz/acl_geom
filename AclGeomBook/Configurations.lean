@@ -2616,6 +2616,26 @@ equivalences to normal middle and target covers:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientCompleteBranch_factor_selectedB}
 
+The same comparison now persists after normalizing the four family
+extensions.  The family-cover API retains the selected-branch-corrected
+normal-field equivalence itself, rather than forgetting immediately to the
+deck-action groupoid, and proves its restriction on the entire actual
+complete branch.  Consequently one mapped selected-`B` normal cover maps to
+each relocated normal cover, and all four maps extend the full branch
+equivalences above.  These are still four separately based normal covers;
+their scalar extension and joint transport into the semantic triangle
+middle/target covers is the remaining chart step:
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.completeBranchToNormalCoverRingHom}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.basedNormalEquivOfIdealEq}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.basedNormalEquivOfIdealEq_completeBranch}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedBNormalCoverRingEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSelectedBNormalCoverRingEquiv_completeBranch}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

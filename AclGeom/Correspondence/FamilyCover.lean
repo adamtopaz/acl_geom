@@ -857,6 +857,17 @@ noncomputable def familyFieldEquivPairBranch :
   (IntermediateField.equivOfEq
     F.familyField_eq_toPair_branchField).toRingEquiv
 
+/-- Regard the complete family field as the same carrier equipped with the
+parameter/source field as its scalar field. -/
+noncomputable def familyFieldEquivFamilyOverParameterSource :
+    (↥F.familyField) ≃+* (↥F.familyOverParameterSource) where
+  toFun z := ⟨z.1, z.2⟩
+  invFun z := ⟨z.1, z.2⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+  map_mul' _ _ := rfl
+
 /-- The family/branch identification does not change ambient values. -/
 @[simp] theorem familyFieldEquivPairBranch_val (z : F.familyField) :
     ((F.familyFieldEquivPairBranch z : F.toPair.branchOverSource) : Ω) = z :=
@@ -944,6 +955,28 @@ noncomputable def completeBranchRingEquivOfIdealEq
   F.familyFieldEquivPairBranch.symm.trans
     ((F.extensionEquivOfIdealEq G h).totalEquiv.toRingEquiv.trans
       G.familyFieldEquivPairBranch)
+
+/-- Embed the actual complete branch of a family member as the literal
+selected branch in the concrete normal closure of its family extension. -/
+noncomputable def completeBranchToNormalCoverRingHom [IsAlgClosed Ω] :
+    (↥F.toPair.branchOverSource) →+*
+      (↥(FiniteCover.normalClosureOver
+        F.parameterSourceField_le_familyField)) :=
+  (FiniteCover.selectedEmbedding
+    F.parameterSourceField_le_familyField).toRingHom.comp
+      (F.familyFieldEquivFamilyOverParameterSource.toRingHom.comp
+        F.familyFieldEquivPairBranch.symm.toRingHom)
+
+/-- Pointwise form of the selected complete-branch embedding in the normal
+cover. -/
+@[simp] theorem completeBranchToNormalCoverRingHom_apply [IsAlgClosed Ω]
+    (z : F.toPair.branchOverSource) :
+    F.completeBranchToNormalCoverRingHom z =
+      FiniteCover.selectedEmbedding
+        F.parameterSourceField_le_familyField
+        (F.familyFieldEquivFamilyOverParameterSource
+          (F.familyFieldEquivPairBranch.symm z)) :=
+  rfl
 
 /-- On the displayed parameter field, the complete-branch equivalence is
 the canonical parameter transport induced by equality of family loci. -/
@@ -1054,15 +1087,17 @@ parameter/source-field comparison. -/
     extensionEquivOfIdealEq]
 
 /-- Correct the raw normal-cover comparison by a target deck
-transformation so that it preserves the literal selected family branch,
-while retaining equivariance for the deck actions. -/
-noncomputable def basedBranchEquivOfIdealEq [IsAlgClosed Ω]
+transformation so that it carries the entire literal selected family branch
+through the complete family-field equivalence.  Keeping the corrected field
+equivalence explicit is essential when the comparison is used as a chart. -/
+noncomputable def basedNormalEquivOfIdealEq [IsAlgClosed Ω]
     (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
     (h : F.ideal = G.ideal) :
-    FiniteCoverBasedBranchEquiv
+    FiniteCoverBasedNormalEquiv
       F.parameterSourceField_le_familyField
-      G.parameterSourceField_le_familyField := by
-  apply finiteCoverBasedBranchEquivOfExtensionEquiv
+      G.parameterSourceField_le_familyField
+      (F.extensionEquivOfIdealEq G h) := by
+  apply finiteCoverBasedNormalEquivOfExtensionEquiv
     F.parameterSourceField_le_familyField
     G.parameterSourceField_le_familyField
     G.familyOverParameterSource_finiteDimensional
@@ -1071,6 +1106,63 @@ noncomputable def basedBranchEquivOfIdealEq [IsAlgClosed Ω]
   apply RingHom.ext
   intro z
   exact F.normalCoverEquivOfIdealEq_algebraMap G h z
+
+/-- Pointwise, the based normal-cover comparison preserves every element
+of the complete selected family branch, not merely its distinguished target
+coordinate. -/
+@[simp] theorem basedNormalEquivOfIdealEq_selected_apply [IsAlgClosed Ω]
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal)
+    (z : extendScalars F.parameterSourceField_le_familyField) :
+    (F.basedNormalEquivOfIdealEq G h).toRingEquiv
+        (FiniteCover.selectedEmbedding
+          F.parameterSourceField_le_familyField z) =
+      FiniteCover.selectedEmbedding
+        G.parameterSourceField_le_familyField
+        ((F.extensionEquivOfIdealEq G h).totalEquiv z) :=
+  (F.basedNormalEquivOfIdealEq G h).map_selected_apply z
+
+/-- On the entire actual complete branch, the corrected normal-cover
+equivalence is the complete-branch equivalence induced by equality of the
+family loci, followed by the selected target-branch embedding. -/
+theorem basedNormalEquivOfIdealEq_completeBranch [IsAlgClosed Ω]
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) :
+    (F.basedNormalEquivOfIdealEq G h).toRingEquiv.toRingHom.comp
+        F.completeBranchToNormalCoverRingHom =
+      G.completeBranchToNormalCoverRingHom.comp
+        (F.completeBranchRingEquivOfIdealEq G h).toRingHom := by
+  apply RingHom.ext
+  intro z
+  let zF : F.familyField := F.familyFieldEquivPairBranch.symm z
+  let z' : extendScalars F.parameterSourceField_le_familyField :=
+    ⟨zF.1, zF.2⟩
+  have hz := (F.basedNormalEquivOfIdealEq G h).map_selected_apply z'
+  calc
+    ((F.basedNormalEquivOfIdealEq G h).toRingEquiv.toRingHom.comp
+        F.completeBranchToNormalCoverRingHom) z =
+      (F.basedNormalEquivOfIdealEq G h).toRingEquiv
+        (FiniteCover.selectedEmbedding
+          F.parameterSourceField_le_familyField z') := by rfl
+    _ = FiniteCover.selectedEmbedding
+        G.parameterSourceField_le_familyField
+        ((F.extensionEquivOfIdealEq G h).totalEquiv z') := hz
+    _ = (G.completeBranchToNormalCoverRingHom.comp
+        (F.completeBranchRingEquivOfIdealEq G h).toRingHom) z := by
+      apply congrArg (FiniteCover.selectedEmbedding
+        G.parameterSourceField_le_familyField)
+      apply Subtype.ext
+      rfl
+
+/-- Forgetting the corrected normal-cover field equivalence retains the
+selected-branch-preserving equivalence of deck actions. -/
+noncomputable def basedBranchEquivOfIdealEq [IsAlgClosed Ω]
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) :
+    FiniteCoverBasedBranchEquiv
+      F.parameterSourceField_le_familyField
+      G.parameterSourceField_le_familyField :=
+  (F.basedNormalEquivOfIdealEq G h).toBasedBranchEquiv
 
 /-- The based comparison really sends the literal selected source branch
 to the literal selected target branch. -/

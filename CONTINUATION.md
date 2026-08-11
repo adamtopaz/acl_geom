@@ -1132,6 +1132,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     normal middle/target covers, join them with the selected graph source,
     and package the resulting four restrictions as item 79's
     `RightRestriction`.
+82. The common complete-branch comparison now survives canonical normal
+    closure without losing its selected branch.  The family-locus API
+    exposes the deck-corrected `FiniteCoverBasedNormalEquiv`, embeds the
+    actual `toPair.branchOverSource` as the literal selected branch of that
+    normal cover, and proves that the corrected normal equivalence restricts
+    on the whole branch to `completeBranchRingEquivOfIdealEq`.  Specializing
+    this once gives four normal-cover equivalences from one mapped
+    selected-`B` normal cover to the relocated `e`, `a`, `b`, and `c` normal
+    covers, with one simultaneous full-branch restriction theorem.  These
+    covers still have their separate parameter/source bases.  The remaining
+    issue-#16 step is their honest scalar extension into compatible common
+    semantic middle/target covers, followed by the selected-graph join and
+    item 79's `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -1183,9 +1196,11 @@ embeddings and their whole intrinsic-field reference identifications are now
 established, and the four semantic branches factor through one coherent
 whole-face anchor.  The mapped selected `B` family is also now one common
 complete middle branch whose four full branch equivalences recover the
-relocated `e/a/b/c` intrinsic maps exactly.  Extend those equivalences to
-compatible common finite normal middle and target covers, join them to the
-selected graph source, construct the resulting `RightRestriction`, and use its faithful
+relocated `e/a/b/c` intrinsic maps exactly.  Its one canonical normal cover
+now has four selected-branch-preserving equivalences to the relocated normal
+covers.  Scalar-extend these separately based covers into compatible common
+semantic middle and target covers, join them to the selected graph source,
+construct the resulting `RightRestriction`, and use its faithful
 cancellation theorem to prove that `toReferenceC` factors through
 `toReferenceE`, `toReferenceA`, and `toReferenceB`.  This is the precise
 auxiliary-`s` independence statement: the factorization must descend to the
