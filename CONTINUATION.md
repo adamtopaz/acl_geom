@@ -1057,6 +1057,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     non-induced charts in this one source whose charted semantic maps agree
     with the named selected graph embeddings (first on canonical
     coefficients, then on the whole intrinsic field).
+76. A reusable normal-cover extension operation now promotes any prescribed
+    automorphism of an embedded finite subcover to an automorphism of the
+    ambient normal cover, with an exact restriction formula on the whole
+    embedded field.  It extends each of the four established semantic source
+    charts to `selectedGraphSourceCover`; the new charts agree there with the
+    old `se`, `sAa`, `sb`, and `sAc` charts on all of
+    `branchComparisonSourceCover`.  Four strict composition triangles now act
+    on this one unified source.  This completes the source-chart half of the
+    final issue-#16 construction without imposing any gauge-trivial target
+    chart: the remaining step is to select compatible common middle and
+    target charts and prove that their right arrows restrict to the named
+    intrinsic `e`, `a`, `b`, and `c` coefficient embeddings.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

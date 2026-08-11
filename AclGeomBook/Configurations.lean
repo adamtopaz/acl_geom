@@ -2461,6 +2461,47 @@ comparison of unrelated algebraic-closure models:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients}
 
+The established source charts also extend from the coherent semantic
+subcover to this unified selected source.  The generic extension operation
+uses normality of the larger cover and has an exact restriction formula on
+the whole embedded subfield.  Applied to the four faces, it gives four
+automorphisms of the same selected graph source and hence four strict
+composition triangles there.  This is the source-chart half of the
+graph-faithful comparison: it retains all previous repeated-branch
+alignments, while leaving the independently selected middle and target
+charts—and therefore the nontrivial right-arrow restrictions—to the next
+step:
+
+{docstring AclGeom.NormalBranchEmbedding.extendAlong}
+
+{docstring AclGeom.NormalBranchEmbedding.extendAlong_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedGraphSourceChartAut}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedGraphSourceChartAut}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedGraphSourceChartAut}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedGraphSourceChartAut}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedGraphSourceChartAut_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedGraphSourceChartAut_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedGraphSourceChartAut_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedGraphSourceChartAut_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedGraphCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedGraphCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedGraphCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedGraphCompositionTriangle}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

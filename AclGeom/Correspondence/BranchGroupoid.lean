@@ -330,6 +330,24 @@ theorem alignmentAut_smul [Normal E N]
     IsScalarTower.of_algebraMap_eq fun x ↦ f.toAlgHom.commutes x |>.symm
   exact g.extendToAut_smul_canonical
 
+/-- Extend a prescribed automorphism of an embedded finite branch field to
+an automorphism of the ambient normal cover.  This is the subcover-chart
+operation: `f` fixes the chosen copy of the smaller cover and `e` prescribes
+the chart on that copy. -/
+noncomputable def extendAlong [Normal E N]
+    (f : M →ₐ[E] N) (e : M ≃ₐ[E] M) : N ≃ₐ[E] N :=
+  alignmentAut ⟨f⟩ ⟨f.comp e.toAlgHom⟩
+
+/-- The extended normal-cover chart has exactly the prescribed action on
+the embedded branch field. -/
+@[simp] theorem extendAlong_apply [Normal E N]
+    (f : M →ₐ[E] N) (e : M ≃ₐ[E] M) (x : M) :
+    extendAlong f e (f x) = f (e x) := by
+  have h := congrArg (fun b : NormalBranchEmbedding E M N ↦ b.toAlgHom x)
+    (alignmentAut_smul (⟨f⟩ : NormalBranchEmbedding E M N)
+      ⟨f.comp e.toAlgHom⟩)
+  exact h
+
 /-- After identifying two branch domains over the common base, the
 distinguished deck transformation carries the first embedding to the
 reparametrized second embedding. -/

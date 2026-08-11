@@ -1007,6 +1007,202 @@ noncomputable def branchComparisonSourceCoverToSelectedGraphSourceCover
     (R.branchComparisonSourceCover_le_selectedGraphSourceCover L hind))
       |>.restrictScalars k
 
+/-- The same literal subcover inclusion, retaining its algebra structure
+over the full common curve source. -/
+noncomputable def branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) →ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+  IntermediateField.inclusion
+    (R.branchComparisonSourceCover_le_selectedGraphSourceCover L hind)
+
+/-- Extend the `s·e=u` coefficient/source chart from the coherent semantic
+subcover to the entire selected graph source. -/
+noncomputable def seSelectedGraphSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphSourceCover L hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.selectedGraphSourceCover L hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong
+    (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource L hind)
+    (R.seRepeatedUTotalAnchorAlignmentAut hind)
+
+/-- Extend the `sA·a=u` coefficient/source chart to the selected graph
+source. -/
+noncomputable def sAaSelectedGraphSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphSourceCover L hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.selectedGraphSourceCover L hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong
+    (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource L hind)
+    (R.sAaRepeatedUTotalAnchorAlignmentAut hind)
+
+/-- Extend the `s·b=uB` coefficient/source chart to the selected graph
+source. -/
+noncomputable def sbSelectedGraphSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphSourceCover L hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.selectedGraphSourceCover L hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong
+    (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource L hind)
+    (R.sbRepeatedUBTotalAnchorAlignmentAut hind)
+
+/-- Extend the `sA·c=uB` coefficient/source chart to the selected graph
+source. -/
+noncomputable def sAcSelectedGraphSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphSourceCover L hind).field) ≃ₐ[
+      ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField]
+      (↥(R.selectedGraphSourceCover L hind).field) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong
+    (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource L hind)
+    (R.sAcRepeatedUBTotalAnchorAlignmentAut hind)
+
+/-- The enlarged `e` source chart restricts exactly to the established
+semantic source chart on the whole branch-comparison subcover. -/
+@[simp] theorem seSelectedGraphSourceChartAut_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.branchComparisonSourceCover hind).field) :
+    R.seSelectedGraphSourceChartAut L hind
+        (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+          L hind x) =
+      R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+        L hind (R.seRepeatedUTotalAnchorAlignmentAut hind x) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong_apply _ _ _
+
+/-- The enlarged `a` source chart restricts to its established semantic
+source chart. -/
+@[simp] theorem sAaSelectedGraphSourceChartAut_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.branchComparisonSourceCover hind).field) :
+    R.sAaSelectedGraphSourceChartAut L hind
+        (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+          L hind x) =
+      R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+        L hind (R.sAaRepeatedUTotalAnchorAlignmentAut hind x) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong_apply _ _ _
+
+/-- The enlarged `b` source chart restricts to its established semantic
+source chart. -/
+@[simp] theorem sbSelectedGraphSourceChartAut_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.branchComparisonSourceCover hind).field) :
+    R.sbSelectedGraphSourceChartAut L hind
+        (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+          L hind x) =
+      R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+        L hind (R.sbRepeatedUBTotalAnchorAlignmentAut hind x) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong_apply _ _ _
+
+/-- The enlarged `c` source chart restricts to its established semantic
+source chart. -/
+@[simp] theorem sAcSelectedGraphSourceChartAut_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.branchComparisonSourceCover hind).field) :
+    R.sAcSelectedGraphSourceChartAut L hind
+        (R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+          L hind x) =
+      R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
+        L hind (R.sAcRepeatedUBTotalAnchorAlignmentAut hind x) := by
+  letI : Normal
+      (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField)
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+    (R.selectedGraphSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong_apply _ _ _
+
+/-- The strict `s·e=u` composition triangle acting on the unified selected
+graph source. -/
+noncomputable def seSelectedGraphCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.se) R.seCommonBaseData hψ)
+    (R.selectedGraphSourceCover L hind)
+
+/-- The strict `sA·a=u` composition triangle on the same unified source. -/
+noncomputable def sAaSelectedGraphCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (R.selectedGraphSourceCover L hind)
+
+/-- The strict `s·b=uB` composition triangle on the unified source. -/
+noncomputable def sbSelectedGraphCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.selectedGraphSourceCover L hind)
+
+/-- The strict `sA·c=uB` composition triangle on the unified source. -/
+noncomputable def sAcSelectedGraphCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (R.selectedGraphSourceCover L hind)
+
 /-- Literal inclusion of the once-canonicalized selected cover into the
 selected graph source. -/
 noncomputable def selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
