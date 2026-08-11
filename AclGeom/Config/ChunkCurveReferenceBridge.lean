@@ -923,6 +923,344 @@ theorem toReferenceOnBGermCoefficientRingHom_apply_parameterTransport
       L hind D.c L.sA_c_c L.cProjectionRelation
         L.cNormalField_le_normalizedField z⟩
 
+private abbrev mappedSelectedBFamily :
+    FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2 :=
+  (w.yzCorrespondenceFamilyMember hψ).map
+    (commonCurveEmbedding (k := k) (K := K))
+
+/-- The original selected `B` parameter field is canonically identified
+with the parameter field of any relocated mapped `B` family member on the
+same complete family locus. -/
+noncomputable def selectedBToRelocatedBParameterEquiv
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal) :
+    (↥w.bField) ≃ₐ[k] (↥G.parameterField) :=
+  ((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
+      (commonCurveEmbedding (k := k) (K := K))).trans
+    ((mappedSelectedBFamily (w := w) (hψ := hψ)).parameterEquivOfIdealEq
+      G h)
+
+/-- The selected-to-relocated parameter equivalence sends every original
+`B` parameter coordinate to the corresponding relocated coordinate. -/
+@[simp] theorem selectedBToRelocatedBParameterEquiv_apply
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (i : Fin 2) :
+    selectedBToRelocatedBParameterEquiv
+        (w := w) (hψ := hψ) G h
+        ⟨w.bReps i, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self i)⟩ =
+      ⟨G.parameter i, IntermediateField.subset_adjoin k _
+        (Set.mem_range_self i)⟩ := by
+  change (((w.yzCorrespondenceFamilyMember hψ).parameterMapEquiv
+      (commonCurveEmbedding (k := k) (K := K))).trans
+        ((mappedSelectedBFamily (w := w) (hψ := hψ)).parameterEquivOfIdealEq
+          G h))
+      ⟨(w.yzCorrespondenceFamilyMember hψ).parameter i,
+        IntermediateField.subset_adjoin k _ (Set.mem_range_self i)⟩ = _
+  rw [AlgEquiv.trans_apply]
+  rw [FiniteCorrespondenceFamilyMember.parameterMapEquiv_apply]
+  rw [FiniteCorrespondenceFamilyMember.parameterEquivOfIdealEq_apply]
+
+/-- Under the preceding parameter equivalence, the selected canonical `B`
+curve equation is exactly the canonical equation of the relocated branch. -/
+theorem selectedBCurveEquation_map_relocated
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal) :
+    MvPolynomial.map
+        (selectedBToRelocatedBParameterEquiv
+          (w := w) (hψ := hψ) G h).toRingHom
+        (w.yzCorrespondencePairOverB hψ).curveEquation =
+      G.toPair.curveEquation := by
+  let F := w.yzCorrespondenceFamilyMember hψ
+  let ι := commonCurveEmbedding (k := k) (K := K)
+  let e₁ := F.parameterMapEquiv ι
+  let e₂ := (F.map ι).parameterEquivOfIdealEq G h
+  change MvPolynomial.map (e₁.trans e₂).toRingHom
+      F.toPair.curveEquation = G.toPair.curveEquation
+  calc
+    MvPolynomial.map (e₁.trans e₂).toRingHom
+        F.toPair.curveEquation =
+        MvPolynomial.map e₂.toRingHom
+          (MvPolynomial.map e₁.toRingHom F.toPair.curveEquation) := by
+      rw [MvPolynomial.map_map]
+      rfl
+    _ = MvPolynomial.map e₂.toRingHom
+        (F.map ι).toPair.curveEquation := by
+      rw [F.curveEquation_map_parameterMapEquiv ι]
+    _ = G.toPair.curveEquation :=
+      (F.map ι).curveEquation_map_parameterEquivOfIdealEq G h
+
+/-- Mapping a displayed rank-two parameter tuple into the common curve
+ambient field gives a canonical equivalence of its parameter fields. -/
+noncomputable def rankTwoParameterCurveEquiv (p : Fin 2 → K) :
+    (↥(rankTwoParameterField (k := k) p)) ≃ₐ[k]
+      (↥(rankTwoParameterField (k := k)
+        (commonCurveEmbedding (k := k) (K := K) ∘ p))) :=
+  ((rankTwoParameterField (k := k) p).equivMap
+      (commonCurveEmbedding (k := k) (K := K))).trans
+    (IntermediateField.equivOfEq (by
+      rw [rankTwoParameterField, IntermediateField.adjoin_map]
+      congr 1
+      ext z
+      simp))
+
+/-- The mapped parameter equivalence sends every displayed coordinate to
+its literal image in the common curve ambient field. -/
+@[simp] theorem rankTwoParameterCurveEquiv_apply
+    (p : Fin 2 → K) (i : Fin 2) :
+    rankTwoParameterCurveEquiv (k := k) (K := K) p
+        ⟨p i, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self i)⟩ =
+      ⟨commonCurveEmbedding (k := k) (K := K) (p i),
+        IntermediateField.subset_adjoin k _
+          (Set.mem_range_self i)⟩ := by
+  apply Subtype.ext
+  rfl
+
+/-- If a relocated family displays the mapped tuple `p`, the preceding
+equivalence lands in that family's literal parameter field. -/
+noncomputable def rankTwoParameterCurveEquivToFamily
+    (p : Fin 2 → K)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    (↥(rankTwoParameterField (k := k) p)) ≃ₐ[k]
+      (↥G.parameterField) :=
+  (rankTwoParameterCurveEquiv (k := k) (K := K) p).trans
+    (IntermediateField.equivOfEq (by
+      rw [FiniteCorrespondenceFamilyMember.parameterField, hG]
+      rfl))
+
+/-- The parameter-field equivalence into a relocated family sends each
+displayed coordinate to that family's corresponding parameter. -/
+@[simp] theorem rankTwoParameterCurveEquivToFamily_apply
+    (p : Fin 2 → K)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p)
+    (i : Fin 2) :
+    rankTwoParameterCurveEquivToFamily
+        (k := k) (K := K) p G hG
+        ⟨p i, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self i)⟩ =
+      ⟨G.parameter i, IntermediateField.subset_adjoin k _
+        (Set.mem_range_self i)⟩ := by
+  apply Subtype.ext
+  simp [rankTwoParameterCurveEquivToFamily, hG]
+
+/-- Equality of the full mapped family locus and equality of the normalized
+`B/T` scalar locus induce the same parameter-field transport. -/
+theorem selectedBToRelocatedBParameterEquiv_eq_projection
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    selectedBToRelocatedBParameterEquiv
+        (w := w) (hψ := hψ) G h =
+      (locusFunctionFieldEquivOfIdealEq
+        (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hp.symm)).trans
+      (rankTwoParameterCurveEquivToFamily
+          (k := k) (K := K) p G hG) := by
+  apply AlgEquiv.coe_toAlgHom_injective
+  unfold QWitness.bField
+  apply IntermediateField.adjoin_algHom_ext k
+  rintro _ ⟨i, rfl⟩
+  change ↑(selectedBToRelocatedBParameterEquiv
+        (w := w) (hψ := hψ) G h
+        ⟨w.bReps i, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self i)⟩) =
+    ↑(((locusFunctionFieldEquivOfIdealEq
+          (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hp.symm)).trans
+        (rankTwoParameterCurveEquivToFamily
+          (k := k) (K := K) p G hG))
+        ⟨w.bReps i, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self i)⟩)
+  apply Subtype.ext
+  calc
+    _ = G.parameter i := by
+      exact congrArg Subtype.val
+        (selectedBToRelocatedBParameterEquiv_apply
+          (w := w) (hψ := hψ) G h i)
+    _ = ↑(((locusFunctionFieldEquivOfIdealEq
+          (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hp.symm)).trans
+        (rankTwoParameterCurveEquivToFamily
+          (k := k) (K := K) p G hG))
+        ⟨w.bReps i, IntermediateField.subset_adjoin k _
+          (Set.mem_range_self i)⟩) := by
+      rw [AlgEquiv.trans_apply]
+      rw [locusFunctionFieldEquivOfIdealEq_apply]
+      exact (congrArg Subtype.val
+        (rankTwoParameterCurveEquivToFamily_apply
+          (k := k) (K := K) p G hG i)).symm
+
+/-- The intrinsic coordinate represented by one coefficient of the selected
+canonical `B` curve equation. -/
+noncomputable def selectedBCurveCoefficient
+    (d : Fin 2 →₀ ℕ) : w.bGermCoefficientField hψ :=
+  (w.yzCorrespondencePairOverB hψ).curveCoefficientCoordinates
+    k w.bField
+    ⟨(((w.yzCorrespondencePairOverB hψ).curveEquation.coeff d :
+        w.bField) : K), ⟨d, rfl⟩⟩
+
+/-- Including an intrinsic coefficient coordinate into the selected
+parameter field recovers the corresponding literal polynomial coefficient. -/
+@[simp] theorem bGermCoefficientToSelectedBParameterAlgHom_selectedBCurveCoefficient
+    (d : Fin 2 →₀ ℕ) :
+    bGermCoefficientToSelectedBParameterAlgHom
+        (w := w) (hψ := hψ)
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+      (w.yzCorrespondencePairOverB hψ).curveEquation.coeff d :=
+  by
+    apply Subtype.ext
+    rfl
+
+/-- Canonical normalized parameter transport carries every intrinsic
+selected-`B` curve coefficient to the corresponding coefficient of the
+relocated canonical curve equation. -/
+theorem projectionParameterTransport_selectedBCurveCoefficient
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p)
+    (d : Fin 2 →₀ ℕ) :
+    rankTwoParameterCurveEquivToFamily
+        (k := k) (K := K) p G hG
+        (bGermCoefficientToProjectionParameterAlgHom
+          (w := w) (hψ := hψ) hp
+          (selectedBCurveCoefficient (w := w) (hψ := hψ) d)) =
+      G.toPair.curveEquation.coeff d := by
+  have hcurve := selectedBCurveEquation_map_relocated
+    (w := w) (hψ := hψ) G h
+  have hcoeff := congrArg (fun f => f.coeff d) hcurve
+  rw [MvPolynomial.coeff_map] at hcoeff
+  rw [selectedBToRelocatedBParameterEquiv_eq_projection
+    (w := w) (hψ := hψ) p x hp G h hG] at hcoeff
+  change rankTwoParameterCurveEquivToFamily
+      (k := k) (K := K) p G hG
+      (locusFunctionFieldEquivOfIdealEq
+        (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hp.symm)
+        (bGermCoefficientToSelectedBParameterAlgHom
+          (w := w) (hψ := hψ)
+          (selectedBCurveCoefficient (w := w) (hψ := hψ) d))) = _
+  rw [bGermCoefficientToSelectedBParameterAlgHom_selectedBCurveCoefficient]
+  change rankTwoParameterCurveEquivToFamily
+      (k := k) (K := K) p G hG
+      (locusFunctionFieldEquivOfIdealEq
+        (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hp.symm)
+        ((w.yzCorrespondencePairOverB hψ).curveEquation.coeff d)) = _
+    at hcoeff
+  exact hcoeff
+
+/-- The mapped selected `B` family locus equals the relocated right-family
+locus in the `s·e=u` face. -/
+theorem seMappedSelectedBFamily_ideal_eq :
+    (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal =
+      (R.se.bCorrespondenceFamilyMember hψ).ideal := by
+  exact (R.se.bFamilyLocus hψ).symm
+
+/-- The mapped selected `B` family locus equals the relocated right-family
+locus in the `sA·a=u` face. -/
+theorem sAaMappedSelectedBFamily_ideal_eq :
+    (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal =
+      (R.sAa.bCorrespondenceFamilyMember hψ).ideal := by
+  exact (R.sAa.bFamilyLocus hψ).symm
+
+/-- The mapped selected `B` family locus equals the relocated right-family
+locus in the `s·b=uB` face. -/
+theorem sbMappedSelectedBFamily_ideal_eq :
+    (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal =
+      (R.sb.bCorrespondenceFamilyMember hψ).ideal := by
+  exact (R.sb.bFamilyLocus hψ).symm
+
+/-- The mapped selected `B` family locus equals the relocated right-family
+locus in the `sA·c=uB` face. -/
+theorem sAcMappedSelectedBFamily_ideal_eq :
+    (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal =
+      (R.sAc.bCorrespondenceFamilyMember hψ).ideal := by
+  exact (R.sAc.bFamilyLocus hψ).symm
+
+/-- The four relocated right-family members display the four mapped
+normalized parameter tuples literally. -/
+theorem relocatedBFamily_parameters :
+    (R.se.bCorrespondenceFamilyMember hψ).parameter =
+        commonCurveEmbedding (k := k) (K := K) ∘ e ∧
+      (R.sAa.bCorrespondenceFamilyMember hψ).parameter =
+        commonCurveEmbedding (k := k) (K := K) ∘ a ∧
+      (R.sb.bCorrespondenceFamilyMember hψ).parameter =
+        commonCurveEmbedding (k := k) (K := K) ∘ b ∧
+      (R.sAc.bCorrespondenceFamilyMember hψ).parameter =
+        commonCurveEmbedding (k := k) (K := K) ∘ D.c := by
+  exact ⟨rfl, rfl, rfl, rfl⟩
+
+/-- All four normalized parameter transports carry each intrinsic selected
+`B` coefficient to the coefficient with the same monomial index in the
+corresponding relocated right-branch equation. -/
+theorem fourProjectionParameterTransports_selectedBCurveCoefficient
+    (d : Fin 2 →₀ ℕ) :
+    rankTwoParameterCurveEquivToFamily
+        (k := k) (K := K) e
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.1
+        (bGermCoefficientToProjectionParameterAlgHom
+          (w := w) (hψ := hψ) L.eProjectionRelation
+          (selectedBCurveCoefficient (w := w) (hψ := hψ) d)) =
+        (R.se.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d ∧
+      rankTwoParameterCurveEquivToFamily
+        (k := k) (K := K) a
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.2.1
+        (bGermCoefficientToProjectionParameterAlgHom
+          (w := w) (hψ := hψ) L.aProjectionRelation
+          (selectedBCurveCoefficient (w := w) (hψ := hψ) d)) =
+        (R.sAa.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d ∧
+      rankTwoParameterCurveEquivToFamily
+        (k := k) (K := K) b
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.2.2.1
+        (bGermCoefficientToProjectionParameterAlgHom
+          (w := w) (hψ := hψ) L.bProjectionRelation
+          (selectedBCurveCoefficient (w := w) (hψ := hψ) d)) =
+        (R.sb.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d ∧
+      rankTwoParameterCurveEquivToFamily
+        (k := k) (K := K) D.c
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.2.2.2
+        (bGermCoefficientToProjectionParameterAlgHom
+          (w := w) (hψ := hψ) L.cProjectionRelation
+          (selectedBCurveCoefficient (w := w) (hψ := hψ) d)) =
+        (R.sAc.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d := by
+  exact ⟨projectionParameterTransport_selectedBCurveCoefficient
+      (w := w) (hψ := hψ) e L.se_e L.eProjectionRelation
+      (R.se.bCorrespondenceFamilyMember hψ)
+      R.seMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.1 d,
+    projectionParameterTransport_selectedBCurveCoefficient
+      (w := w) (hψ := hψ) a L.sA_a_a L.aProjectionRelation
+      (R.sAa.bCorrespondenceFamilyMember hψ)
+      R.sAaMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.2.1 d,
+    projectionParameterTransport_selectedBCurveCoefficient
+      (w := w) (hψ := hψ) b L.s_b_b L.bProjectionRelation
+      (R.sb.bCorrespondenceFamilyMember hψ)
+      R.sbMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.2.2.1 d,
+    projectionParameterTransport_selectedBCurveCoefficient
+      (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
+      (R.sAc.bCorrespondenceFamilyMember hψ)
+      R.sAcMappedSelectedBFamily_ideal_eq
+      R.relocatedBFamily_parameters.2.2.2 d⟩
+
 /-- The first-input `toReferenceE` embedding, now with the same literal
 codomain as the semantic four-arrow action. -/
 noncomputable def toReferenceEInSemanticSourceRingHom [IsAlgClosed K]

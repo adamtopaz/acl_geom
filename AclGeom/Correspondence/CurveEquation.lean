@@ -98,9 +98,10 @@ theorem aeval_curveEquation :
   rw [P.ideal_eq_span_curveEquation]
   exact Ideal.subset_span (Set.mem_singleton P.curveEquation)
 
-/-- Two monic multivariate polynomials over a field which are associated are
-equal. -/
-private theorem eq_of_monic_of_associated
+/-- Two lexicographically monic equations which generate the same principal
+ideal are literally equal.  This public form is useful when a coefficient-
+field equivalence transports one canonical curve equation to another. -/
+theorem eq_of_monic_of_associated
     {f g : MvPolynomial (Fin 2) k}
     (hf : MonomialOrder.lex.Monic f) (hg : MonomialOrder.lex.Monic g)
     (hfg : Associated f g) : f = g := by

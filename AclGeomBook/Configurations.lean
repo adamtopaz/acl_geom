@@ -2115,6 +2115,33 @@ restrictions are named and packaged in one simultaneous formula:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.toReferenceOnBGermCoefficientRingHom_apply_parameterTransport}
 
+The coefficient values in that formula are now identified with the actual
+canonical equations on the four semantic right branches.  At the reusable
+correspondence level, ambient embeddings and equality of complete family
+loci transport endpoint ideals and their lexicographically monic generators
+coefficientwise:
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.parameterMapEquiv}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.curveEquation_map_parameterMapEquiv}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.parameterEquivOfIdealEq}
+
+{docstring AclGeom.FiniteCorrespondenceFamilyMember.curveEquation_map_parameterEquivOfIdealEq}
+
+For the selected `B` family, the full-family parameter equivalence is the
+same map as the normalized `B/T` scalar-locus equivalence.  Hence every
+monomial coefficient is transported to the coefficient with the same index
+in each relocated `e`, `a`, `b`, and `c` equation:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBToRelocatedBParameterEquiv_eq_projection}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedBCurveCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.projectionParameterTransport_selectedBCurveCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourProjectionParameterTransports_selectedBCurveCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

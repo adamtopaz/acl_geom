@@ -819,6 +819,25 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     is to identify these canonical parameter transports with the
     coefficients of the four relocated right-branch curve equations, then
     align the remaining finite scalar-normal branches.
+61. Canonical curve equations now transport coefficientwise across both
+    operations used in the four-face comparison.  Ambiently embedding a
+    family maps its parameter field, endpoint ideal, and lexicographically
+    monic curve equation exactly; equality of two complete family loci then
+    maps the endpoint ideal and canonical equation through the induced
+    parameter-field equivalence.  These reusable results identify the
+    selected `B` equation with every relocated right-branch equation.  The
+    parameter equivalence obtained from each full relocated family locus is
+    proved generator-by-generator to equal the normalized equivalence
+    obtained from its `B/T` scalar locus.  Consequently, for every monomial
+    index, all four canonical transports from item 60 send the corresponding
+    intrinsic selected-`B` coefficient to the coefficient with that same
+    index in the relocated `e`, `a`, `b`, or `c` right-branch equation.  The
+    four formulas are packaged simultaneously.  Thus the coefficient layer
+    of the normalized reference charts is now identified with the semantic
+    curve layer without any choice of equation generator or parameter-field
+    isomorphism.  The next local step is to align the remaining finite
+    scalar-normal branches in the combined cover and use the resulting
+    whole-branch equality to factor the four explicit reference maps.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -851,11 +870,11 @@ source algebraic closure and joined with the semantic branch cover; the four
 explicit `toReference` field maps therefore have the same literal codomain
 as the semantic action, their eight-input coefficient square commutes, and
 their restrictions to the intrinsic `B` germ coefficient field are the
-canonical transports to the four displayed parameter fields.  Identify
-those transported coefficients with the coefficients of the four relocated
-right-branch curve equations, then align the remaining finite scalar
-branches in the common normal cover.  Use that equality
-to prove that
+canonical transports to the four displayed parameter fields.  Those
+transports are now proved to be exactly the coefficients of the four
+relocated right-branch curve equations.  Align the remaining finite scalar
+branches in the common normal cover and use that whole-branch equality to
+prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not

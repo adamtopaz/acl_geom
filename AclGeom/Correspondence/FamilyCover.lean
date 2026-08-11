@@ -726,6 +726,47 @@ theorem parameterSource_ideal_eq_of_ideal_eq
     (Fin.castSucc : Fin (d + 1) → Fin (d + 2))
   simpa [tuple] using hprefix
 
+/-- Equality of complete family loci restricts to equality of their
+parameter loci. -/
+theorem parameter_ideal_eq_of_ideal_eq
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) :
+    idealOf k F.parameter = idealOf k G.parameter := by
+  change idealOf k F.tuple = idealOf k G.tuple at h
+  have hprefix := idealOf_comp_eq_of_idealOf_eq h
+    (fun i : Fin d => i.castSucc.castSucc)
+  have hF : F.tuple ∘ (fun i : Fin d => i.castSucc.castSucc) =
+      F.parameter := by
+    funext i
+    simp [tuple, parameterSource]
+  have hG : G.tuple ∘ (fun i : Fin d => i.castSucc.castSucc) =
+      G.parameter := by
+    funext i
+    simp [tuple, parameterSource]
+  simpa only [hF, hG] using hprefix
+
+/-- Equal complete family loci canonically identify their parameter
+function fields. -/
+noncomputable def parameterEquivOfIdealEq
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) :
+    (↥F.parameterField) ≃ₐ[k] (↥G.parameterField) :=
+  locusFunctionFieldEquivOfIdealEq
+    (F.parameter_ideal_eq_of_ideal_eq G h)
+
+/-- The parameter-field comparison sends each displayed parameter to its
+counterpart. -/
+@[simp] theorem parameterEquivOfIdealEq_apply
+    (G : FiniteCorrespondenceFamilyMember (k := k) (Ω := Ω) d)
+    (h : F.ideal = G.ideal) (i : Fin d) :
+    F.parameterEquivOfIdealEq G h
+        ⟨F.parameter i,
+          subset_adjoin k _ (Set.mem_range_self i)⟩ =
+      ⟨G.parameter i,
+        subset_adjoin k _ (Set.mem_range_self i)⟩ :=
+  locusFunctionFieldEquivOfIdealEq_apply
+    (F.parameter_ideal_eq_of_ideal_eq G h) i
+
 /-- Equal complete family loci canonically identify the finite extensions
 from their parameter/source fields to their full family fields.  Both
 equivalences send every displayed coordinate to its matching coordinate. -/
