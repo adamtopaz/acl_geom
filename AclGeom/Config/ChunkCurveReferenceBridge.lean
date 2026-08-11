@@ -1412,6 +1412,23 @@ parameter field recovers the corresponding literal polynomial coefficient. -/
     apply Subtype.ext
     rfl
 
+/-- Two coefficient-linear maps out of the intrinsic selected-`B` germ
+field are equal as soon as they agree on every canonical curve
+coefficient.  This is the extensionality principle used to descend the
+four-arrow comparison from relocated equations to the intrinsic chart. -/
+theorem bGermCoefficientAlgHom_ext
+    {F : Type u} [Field F] [Algebra k F]
+    {f g : (↥(w.bGermCoefficientField hψ)) →ₐ[k] F}
+    (h : ∀ d : Fin 2 →₀ ℕ,
+      f (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        g (selectedBCurveCoefficient (w := w) (hψ := hψ) d)) :
+    f = g := by
+  unfold QWitness.bGermCoefficientField
+    FiniteCorrespondencePair.curveCoefficientField
+  apply IntermediateField.adjoin_algHom_ext k
+  rintro _ ⟨d, rfl⟩
+  exact h d
+
 /-- Canonical normalized parameter transport carries every intrinsic
 selected-`B` curve coefficient to the corresponding coefficient of the
 relocated canonical curve equation. -/
@@ -1450,6 +1467,39 @@ theorem projectionParameterTransport_selectedBCurveCoefficient
         ((w.yzCorrespondencePairOverB hψ).curveEquation.coeff d)) = _
     at hcoeff
   exact hcoeff
+
+/-- The canonical transport of intrinsic selected-`B` coefficients to a
+relocated family is a map on the whole intrinsic coefficient field, not
+merely a list of coordinate formulas. -/
+noncomputable def bGermCoefficientToRelocatedBParameterAlgHom
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    (↥(w.bGermCoefficientField hψ)) →ₐ[k] (↥G.parameterField) :=
+  (rankTwoParameterCurveEquivToFamily
+      (k := k) (K := K) p G hG).toAlgHom.comp
+    (bGermCoefficientToProjectionParameterAlgHom
+      (w := w) (hψ := hψ) hp)
+
+/-- On every canonical generator, the whole-field relocated parameter map
+recovers the matching coefficient of the relocated curve equation. -/
+@[simp] theorem
+    bGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (h : (mappedSelectedBFamily (w := w) (hψ := hψ)).ideal = G.ideal)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p)
+    (d : Fin 2 →₀ ℕ) :
+    bGermCoefficientToRelocatedBParameterAlgHom
+        (w := w) (hψ := hψ) p x hp G hG
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+      G.toPair.curveEquation.coeff d := by
+  exact projectionParameterTransport_selectedBCurveCoefficient
+    (w := w) (hψ := hψ) p x hp G h hG d
 
 /-- The mapped selected `B` family locus equals the relocated right-family
 locus in the `s·e=u` face. -/
@@ -1549,6 +1599,177 @@ theorem fourProjectionParameterTransports_selectedBCurveCoefficient
       (R.sAc.bCorrespondenceFamilyMember hψ)
       R.sAcMappedSelectedBFamily_ideal_eq
       R.relocatedBFamily_parameters.2.2.2 d⟩
+
+/-- The whole intrinsic selected-`B` coefficient field transported to the
+relocated right-family parameter field on the `s·e=u` face. -/
+noncomputable def seBGermCoefficientToRelocatedBParameterAlgHom :
+    (↥(w.bGermCoefficientField hψ)) →ₐ[k]
+      (↥(R.se.bCorrespondenceFamilyMember hψ).parameterField) :=
+  bGermCoefficientToRelocatedBParameterAlgHom
+    (w := w) (hψ := hψ) e L.se_e L.eProjectionRelation
+    (R.se.bCorrespondenceFamilyMember hψ)
+    R.relocatedBFamily_parameters.1
+
+/-- The corresponding whole-field transport on the `sA·a=u` face. -/
+noncomputable def sAaBGermCoefficientToRelocatedBParameterAlgHom :
+    (↥(w.bGermCoefficientField hψ)) →ₐ[k]
+      (↥(R.sAa.bCorrespondenceFamilyMember hψ).parameterField) :=
+  bGermCoefficientToRelocatedBParameterAlgHom
+    (w := w) (hψ := hψ) a L.sA_a_a L.aProjectionRelation
+    (R.sAa.bCorrespondenceFamilyMember hψ)
+    R.relocatedBFamily_parameters.2.1
+
+/-- The corresponding whole-field transport on the `s·b=uB` face. -/
+noncomputable def sbBGermCoefficientToRelocatedBParameterAlgHom :
+    (↥(w.bGermCoefficientField hψ)) →ₐ[k]
+      (↥(R.sb.bCorrespondenceFamilyMember hψ).parameterField) :=
+  bGermCoefficientToRelocatedBParameterAlgHom
+    (w := w) (hψ := hψ) b L.s_b_b L.bProjectionRelation
+    (R.sb.bCorrespondenceFamilyMember hψ)
+    R.relocatedBFamily_parameters.2.2.1
+
+/-- The corresponding whole-field transport on the `sA·c=uB` face. -/
+noncomputable def sAcBGermCoefficientToRelocatedBParameterAlgHom :
+    (↥(w.bGermCoefficientField hψ)) →ₐ[k]
+      (↥(R.sAc.bCorrespondenceFamilyMember hψ).parameterField) :=
+  bGermCoefficientToRelocatedBParameterAlgHom
+    (w := w) (hψ := hψ) D.c L.sA_c_c L.cProjectionRelation
+    (R.sAc.bCorrespondenceFamilyMember hψ)
+    R.relocatedBFamily_parameters.2.2.2
+
+/-- Simultaneously, the four whole-field maps recover the coefficient with
+the same monomial index in each relocated right-family equation. -/
+theorem
+    fourBGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient
+    (d : Fin 2 →₀ ℕ) :
+    R.seBGermCoefficientToRelocatedBParameterAlgHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        (R.se.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d ∧
+      R.sAaBGermCoefficientToRelocatedBParameterAlgHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        (R.sAa.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d ∧
+      R.sbBGermCoefficientToRelocatedBParameterAlgHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        (R.sb.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d ∧
+      R.sAcBGermCoefficientToRelocatedBParameterAlgHom L
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        (R.sAc.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d := by
+  exact R.fourProjectionParameterTransports_selectedBCurveCoefficient L d
+
+/-- Include a relocated right-family parameter field in the final
+semantic/reference source by returning through its displayed rank-two
+parameter chart and then using the normalized scalar-cover embedding. -/
+noncomputable def relocatedBParameterToReferenceSemanticSourceRingHom
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (p : Fin 2 → K) (x : K)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    (↥G.parameterField) →+*
+      (↥(R.referenceSemanticSourceCover L hind).field) :=
+  (R.referenceNormalCoverToReferenceSemanticSourceCover L hind).toRingHom.comp
+    ((L.scalarNormalFieldToReferenceNormalCover p x hfield).toRingHom.comp
+      ((algebraMap (↥(rankTwoParameterField (k := k) p))
+          (rankTwoScalarNormalField (k := k) p x)).comp
+        (rankTwoParameterCurveEquivToFamily
+          (k := k) (K := K) p G hG).symm.toRingEquiv.toRingHom))
+
+/-- The promoted intrinsic reference map factors on the entire germ
+coefficient field through the corresponding relocated family parameter
+field. -/
+theorem
+    projectionToReferenceOnBGermCoefficientRingHom_eq_viaRelocatedParameter
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (p : Fin 2 → K) (x : K) (hp : w.psiBProjectionRelation p x)
+    (hfield : (FiniteCover.normalClosureOver
+      (rankTwoParameterField_le_rankTwoScalarField
+        (k := k) p x)).restrictScalars k ≤ L.normalizedField)
+    (G : FiniteCorrespondenceFamilyMember
+      (k := k) (Ω := CommonCurveAmbient K) 2)
+    (hG : G.parameter =
+      commonCurveEmbedding (k := k) (K := K) ∘ p) :
+    R.projectionToReferenceOnBGermCoefficientRingHom
+        L hind p x hp hfield =
+      (R.relocatedBParameterToReferenceSemanticSourceRingHom
+        L hind p x hfield G hG).comp
+      (bGermCoefficientToRelocatedBParameterAlgHom
+        (w := w) (hψ := hψ) p x hp G hG).toRingHom := by
+  apply RingHom.ext
+  intro z
+  rw [R.projectionToReferenceOnBGermCoefficientRingHom_apply_parameterTransport
+    L hind p x hp hfield z]
+  unfold relocatedBParameterToReferenceSemanticSourceRingHom
+    bGermCoefficientToRelocatedBParameterAlgHom
+  simp only [RingHom.comp_apply]
+  let ep := rankTwoParameterCurveEquivToFamily
+    (k := k) (K := K) p G hG
+  change _ = R.referenceNormalCoverToReferenceSemanticSourceCover L hind
+    (L.scalarNormalFieldToReferenceNormalCover p x hfield
+      (algebraMap (↥(rankTwoParameterField (k := k) p))
+        (rankTwoScalarNormalField (k := k) p x)
+        (ep.symm (ep
+          (bGermCoefficientToProjectionParameterAlgHom
+            (w := w) (hψ := hψ) hp z)))))
+  rw [ep.symm_apply_apply]
+
+/-- All four explicit intrinsic reference maps factor through their full
+relocated right-family parameter fields.  Together with the preceding
+generator formulas, this reduces the remaining semantic comparison to an
+equality on canonical curve coefficients. -/
+theorem fourToReferenceOnBGermCoefficientRingHom_eq_viaRelocatedParameter
+    [IsAlgClosed K]
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.toReferenceEOnBGermCoefficientRingHom L hind =
+        (R.relocatedBParameterToReferenceSemanticSourceRingHom L hind
+          e L.se_e L.eNormalField_le_normalizedField
+          (R.se.bCorrespondenceFamilyMember hψ)
+          R.relocatedBFamily_parameters.1).comp
+          (R.seBGermCoefficientToRelocatedBParameterAlgHom L).toRingHom ∧
+      R.toReferenceAOnBGermCoefficientRingHom L hind =
+        (R.relocatedBParameterToReferenceSemanticSourceRingHom L hind
+          a L.sA_a_a L.aNormalField_le_normalizedField
+          (R.sAa.bCorrespondenceFamilyMember hψ)
+          R.relocatedBFamily_parameters.2.1).comp
+          (R.sAaBGermCoefficientToRelocatedBParameterAlgHom L).toRingHom ∧
+      R.toReferenceBOnBGermCoefficientRingHom L hind =
+        (R.relocatedBParameterToReferenceSemanticSourceRingHom L hind
+          b L.s_b_b L.bNormalField_le_normalizedField
+          (R.sb.bCorrespondenceFamilyMember hψ)
+          R.relocatedBFamily_parameters.2.2.1).comp
+          (R.sbBGermCoefficientToRelocatedBParameterAlgHom L).toRingHom ∧
+      R.toReferenceCOnBGermCoefficientRingHom L hind =
+        (R.relocatedBParameterToReferenceSemanticSourceRingHom L hind
+          D.c L.sA_c_c L.cNormalField_le_normalizedField
+          (R.sAc.bCorrespondenceFamilyMember hψ)
+          R.relocatedBFamily_parameters.2.2.2).comp
+          (R.sAcBGermCoefficientToRelocatedBParameterAlgHom L).toRingHom := by
+  exact
+    ⟨R.projectionToReferenceOnBGermCoefficientRingHom_eq_viaRelocatedParameter
+        L hind e L.se_e L.eProjectionRelation
+        L.eNormalField_le_normalizedField
+        (R.se.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.1,
+      R.projectionToReferenceOnBGermCoefficientRingHom_eq_viaRelocatedParameter
+        L hind a L.sA_a_a L.aProjectionRelation
+        L.aNormalField_le_normalizedField
+        (R.sAa.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.2.1,
+      R.projectionToReferenceOnBGermCoefficientRingHom_eq_viaRelocatedParameter
+        L hind b L.s_b_b L.bProjectionRelation
+        L.bNormalField_le_normalizedField
+        (R.sb.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.2.2.1,
+      R.projectionToReferenceOnBGermCoefficientRingHom_eq_viaRelocatedParameter
+        L hind D.c L.sA_c_c L.cProjectionRelation
+        L.cNormalField_le_normalizedField
+        (R.sAc.bCorrespondenceFamilyMember hψ)
+        R.relocatedBFamily_parameters.2.2.2⟩
 
 /-- The first-input `toReferenceE` embedding, now with the same literal
 codomain as the semantic four-arrow action. -/

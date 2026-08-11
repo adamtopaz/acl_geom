@@ -939,6 +939,26 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     between named maps with a common codomain: prove that their intrinsic
     parameter restrictions are the four whole normalized maps from item 66,
     then descend four-arrow cancellation to the `B` germ chart.
+68. The coordinatewise comparison with the relocated right-branch equations
+    is now promoted to maps on the whole intrinsic selected-`B` coefficient
+    field.  A reusable extensionality theorem says that two coefficient-linear
+    maps out of this field agree once they agree on every canonical curve
+    coefficient.  Four named algebra homomorphisms land in the complete
+    relocated `e`, `a`, `b`, and `c` family parameter fields and send each
+    canonical generator to the coefficient with the same monomial index.
+    The codomains are deliberately kept separate: in particular, the
+    relocated `c` parameter field is algebraic over, not a literal subfield
+    of, the common eight-input coefficient field.  Each promoted intrinsic
+    `toReferenceE/A/B/C` map is proved on the entire field to factor through
+    the corresponding relocated parameter map and then the normalized
+    scalar-cover inclusion.  Thus the remaining equality with the complete
+    semantic branch maps is reduced rigorously to their action on the named
+    canonical coefficients; no invalid inclusion of the output parameter
+    field into the common coefficient base is required.  The next local step
+    is to construct those four coefficient embeddings into the complete
+    right branches, identify their charted semantic images generator by
+    generator with the factorizations above, and apply intrinsic-field
+    extensionality before four-arrow cancellation.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -982,9 +1002,13 @@ complete-edge inclusions on every element of all four selected nonnormal
 named coefficient transports.  Their action on the entire selected
 normalized function field is also exactly the based ambient normal-cover
 transport.  The complete semantic curve-branch maps have now been named in
-the same final cover with exact charted-arrow formulas.  Identify their
-intrinsic parameter restrictions with those four whole normalized maps and
-use that equality to prove that
+the same final cover with exact charted-arrow formulas.  The intrinsic germ
+maps into all four relocated parameter fields are also defined on the whole
+field, are characterized by canonical curve coefficients, and factor the
+four normalized reference restrictions.  Construct their corresponding
+embeddings in the complete right branches, identify the charted semantic
+images on the canonical generators, and use intrinsic-field extensionality
+to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:
 the factorization must descend to the intrinsic two-input germ chart, not

@@ -2286,6 +2286,26 @@ in each relocated `e`, `a`, `b`, and `c` equation:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourProjectionParameterTransports_selectedBCurveCoefficient}
 
+These generator formulas now assemble into maps on the entire intrinsic
+coefficient field.  The four codomains remain the four relocated family
+parameter fields—this is essential for the output `c` field, which is
+algebraic over rather than literally contained in the common eight-input
+field.  Agreement on all canonical coefficients is an extensionality
+principle for maps out of the intrinsic germ field.  Finally, each promoted
+reference restriction factors through its whole relocated parameter-field
+map, so the remaining semantic comparison has been reduced to those
+canonical generators without discarding any algebraic coefficient value:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.bGermCoefficientAlgHom_ext}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.bGermCoefficientToRelocatedBParameterAlgHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToRelocatedBParameterAlgHom_selectedBCurveCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.relocatedBParameterToReferenceSemanticSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourToReferenceOnBGermCoefficientRingHom_eq_viaRelocatedParameter}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
