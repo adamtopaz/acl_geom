@@ -2427,6 +2427,38 @@ the parameter-dependent coefficient presentations:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToSelectedSourceRingHom_selected}
 
+The once-canonicalized selected cover and the established coherent semantic
+branch-comparison cover are finally placed in one literal finite normal
+source.  The two inclusions are not new canonicalization choices: they are
+the two legs of a single supremum.  Consequently the eight selected whole
+branches, the four intrinsic coefficient maps, and the four charted semantic
+right-branch maps now have the same codomain.  The intrinsic generator
+formulas survive this last inclusion verbatim; the remaining chart problem
+is therefore an equality between explicitly named maps, rather than a
+comparison of unrelated algebraic-closure models:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.branchComparisonSourceCoverToSelectedGraphSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSemanticRightBranchToSelectedGraphSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seRelocatedRightBranchToSelectedGraphSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBGermCoefficientToSelectedGraphSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToSelectedGraphSourceRingHom_selected}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seChartedSemanticRightBranchToSelectedGraphSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaChartedSemanticRightBranchToSelectedGraphSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbChartedSemanticRightBranchToSelectedGraphSourceRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcChartedSemanticRightBranchToSelectedGraphSourceRingHom}
+
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourBGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients}
 
 The exact cross-edge coherence interface is separated from the construction

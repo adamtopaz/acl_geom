@@ -971,6 +971,108 @@ noncomputable def sAcRelocatedRightBranchToSelectedSourceRingHom
   (R.ambientSelectedSemanticReferenceNormalFieldToSourceCover L hind).toRingHom.comp
     (R.sAcRelocatedRightBranchToSelectedNormalRingHom L hind)
 
+/-- One literal normal source containing both the established coherent
+semantic branch-comparison cover and the once-canonicalized selected
+semantic/reference cover.  This is the comparison field in which the old
+four-face branch anchors and the new intrinsic coefficient embeddings can
+be related without another independent canonicalization. -/
+noncomputable def selectedGraphSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.branchComparisonSourceCover hind).sup
+    (R.selectedSemanticReferenceSourceCover L hind)
+
+/-- The coherent semantic branch-comparison cover is a literal subcover of
+the selected graph source. -/
+theorem branchComparisonSourceCover_le_selectedGraphSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.branchComparisonSourceCover hind).field ≤
+      (R.selectedGraphSourceCover L hind).field :=
+  le_sup_left
+
+/-- The selected semantic/reference cover is a literal subcover of the
+same graph source. -/
+theorem selectedSemanticReferenceSourceCover_le_selectedGraphSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedSemanticReferenceSourceCover L hind).field ≤
+      (R.selectedGraphSourceCover L hind).field :=
+  le_sup_right
+
+/-- Literal inclusion of the coherent semantic comparison cover into the
+selected graph source. -/
+noncomputable def branchComparisonSourceCoverToSelectedGraphSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.branchComparisonSourceCover hind).field →ₐ[k]
+      (R.selectedGraphSourceCover L hind).field :=
+  (IntermediateField.inclusion
+    (R.branchComparisonSourceCover_le_selectedGraphSourceCover L hind))
+      |>.restrictScalars k
+
+/-- Literal inclusion of the once-canonicalized selected cover into the
+selected graph source. -/
+noncomputable def selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedSemanticReferenceSourceCover L hind).field →ₐ[k]
+      (R.selectedGraphSourceCover L hind).field :=
+  (IntermediateField.inclusion
+    (R.selectedSemanticReferenceSourceCover_le_selectedGraphSourceCover
+      L hind)).restrictScalars k
+
+/-- The selected common-base semantic `e` branch in the graph source. -/
+noncomputable def seSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.seSemanticRightBranchToSelectedSourceRingHom L hind)
+
+/-- The selected common-base semantic `a` branch in the graph source. -/
+noncomputable def sAaSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sAaSemanticRightBranchToSelectedSourceRingHom L hind)
+
+/-- The selected common-base semantic `b` branch in the graph source. -/
+noncomputable def sbSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sbSemanticRightBranchToSelectedSourceRingHom L hind)
+
+/-- The selected common-base semantic `c` branch in the graph source. -/
+noncomputable def sAcSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sAcSemanticRightBranchToSelectedSourceRingHom L hind)
+
+/-- The original relocated `e` branch in the same graph source. -/
+noncomputable def seRelocatedRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.seRelocatedRightBranchToSelectedSourceRingHom L hind)
+
+/-- The original relocated `a` branch in the same graph source. -/
+noncomputable def sAaRelocatedRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sAaRelocatedRightBranchToSelectedSourceRingHom L hind)
+
+/-- The original relocated `b` branch in the same graph source. -/
+noncomputable def sbRelocatedRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sbRelocatedRightBranchToSelectedSourceRingHom L hind)
+
+/-- The original relocated `c` branch in the same graph source. -/
+noncomputable def sAcRelocatedRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sAcRelocatedRightBranchToSelectedSourceRingHom L hind)
+
 /-- A canonical finite normal cover of the semantic source field containing
 the transported normalized reference field. -/
 def transportedReferenceSourceCover
@@ -2851,6 +2953,121 @@ theorem fourBGermCoefficientToSelectedSourceRingHom_selected
     congrArg (R.sbRelocatedRightBranchToSelectedSourceRingHom L hind) hb,
     congrArg (R.sAcRelocatedRightBranchToSelectedSourceRingHom L hind) hc⟩
 
+/-- The intrinsic selected-`B` coefficient field on the `e` face, now in
+the graph source that also contains the coherent semantic cover. -/
+noncomputable def seBGermCoefficientToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.seBGermCoefficientToSelectedSourceRingHom L hind)
+
+/-- The intrinsic coefficient embedding on the `a` face in the same graph
+source. -/
+noncomputable def sAaBGermCoefficientToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sAaBGermCoefficientToSelectedSourceRingHom L hind)
+
+/-- The intrinsic coefficient embedding on the `b` face in the same graph
+source. -/
+noncomputable def sbBGermCoefficientToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sbBGermCoefficientToSelectedSourceRingHom L hind)
+
+/-- The intrinsic coefficient embedding on the `c` face in the same graph
+source. -/
+noncomputable def sAcBGermCoefficientToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(w.bGermCoefficientField hψ)) →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    (R.sAcBGermCoefficientToSelectedSourceRingHom L hind)
+
+/-- Passing to the enlarged graph source preserves all four exact
+same-index coefficient formulas. -/
+theorem fourBGermCoefficientToSelectedGraphSourceRingHom_selected
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (d : Fin 2 →₀ ℕ) :
+    R.seBGermCoefficientToSelectedGraphSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.seRelocatedRightBranchToSelectedGraphSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.se.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.se.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.se.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.se.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.se.bCorrespondenceFamilyMember hψ).parameterField d⟩) ∧
+      R.sAaBGermCoefficientToSelectedGraphSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.sAaRelocatedRightBranchToSelectedGraphSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.sAa.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.sAa.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.sAa.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.sAa.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.sAa.bCorrespondenceFamilyMember hψ).parameterField d⟩) ∧
+      R.sbBGermCoefficientToSelectedGraphSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.sbRelocatedRightBranchToSelectedGraphSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.sb.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.sb.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.sb.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.sb.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.sb.bCorrespondenceFamilyMember hψ).parameterField d⟩) ∧
+      R.sAcBGermCoefficientToSelectedGraphSourceRingHom L hind
+        (selectedBCurveCoefficient (w := w) (hψ := hψ) d) =
+        R.sAcRelocatedRightBranchToSelectedGraphSourceRingHom L hind
+          (relocatedBCoefficientToCompleteRightBranchRingHom
+            (R.sAc.bCorrespondenceFamilyMember hψ)
+            ⟨(((R.sAc.bCorrespondenceFamilyMember hψ).toPair.curveEquation.coeff d :
+                (R.sAc.bCorrespondenceFamilyMember hψ).parameterField) :
+                CommonCurveAmbient K),
+              (R.sAc.bCorrespondenceFamilyMember hψ).toPair
+                |>.coeff_mem_curveCoefficientField k
+                  (R.sAc.bCorrespondenceFamilyMember hψ).parameterField d⟩) := by
+  let ι :=
+    R.selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover L hind
+  constructor
+  · have he :=
+      (R.fourBGermCoefficientToSelectedSourceRingHom_selected L hind d).1
+    simpa [seBGermCoefficientToSelectedGraphSourceRingHom,
+      seRelocatedRightBranchToSelectedGraphSourceRingHom, ι] using
+        congrArg ι he
+  constructor
+  · have ha :=
+      (R.fourBGermCoefficientToSelectedSourceRingHom_selected L hind d).2.1
+    simpa [sAaBGermCoefficientToSelectedGraphSourceRingHom,
+      sAaRelocatedRightBranchToSelectedGraphSourceRingHom, ι] using
+        congrArg ι ha
+  constructor
+  · have hb :=
+      (R.fourBGermCoefficientToSelectedSourceRingHom_selected L hind d).2.2.1
+    simpa [sbBGermCoefficientToSelectedGraphSourceRingHom,
+      sbRelocatedRightBranchToSelectedGraphSourceRingHom, ι] using
+        congrArg ι hb
+  · have hc :=
+      (R.fourBGermCoefficientToSelectedSourceRingHom_selected L hind d).2.2.2
+    simpa [sAcBGermCoefficientToSelectedGraphSourceRingHom,
+      sAcRelocatedRightBranchToSelectedGraphSourceRingHom, ι] using
+        congrArg ι hc
+
 /-- Simultaneously, all four whole parameter transports factor through the
 intrinsic coefficient fields of their relocated canonical curves. -/
 theorem fourBGermCoefficientToRelocatedBParameterAlgHom_factor_coefficients :
@@ -3272,6 +3489,60 @@ theorem sAcSemanticRightCurveBranchToReferenceSourceRingHom_apply
             ((R.sAcSelectedRightBranchInComparisonMiddleCover
               hind).toAlgHom z))) :=
   rfl
+
+/-- The charted semantic `e` branch in the selected graph source.  Its
+codomain now also contains the once-canonicalized relocated branch and its
+intrinsic coefficient embedding. -/
+noncomputable def seChartedSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).branchOverSource →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightE.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).seY.toRingHom.comp
+        (R.seSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
+
+/-- The charted semantic `a` branch in the same selected graph source. -/
+noncomputable def sAaChartedSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ).branchOverSource →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightA.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).sAaY.toRingHom.comp
+        (R.sAaSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
+
+/-- The charted semantic `b` branch in the same selected graph source. -/
+noncomputable def sbChartedSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ).branchOverSource →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightB.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).sbY.toRingHom.comp
+        (R.sbSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
+
+/-- The charted semantic `c` branch in the same selected graph source. -/
+noncomputable def sAcChartedSemanticRightBranchToSelectedGraphSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource →+*
+      (R.selectedGraphSourceCover L hind).field :=
+  (R.branchComparisonSourceCoverToSelectedGraphSourceCover
+      L hind).toRingHom.comp
+    ((R.coefficientFourArrowDiagram hind).rightC.toRingHom.comp
+      ((R.coefficientFourTriangleReference hind).sAcY.toRingHom.comp
+        (R.sAcSelectedRightBranchInComparisonMiddleCover
+          hind).toAlgHom.toRingHom))
 
 /-- Transport the selected nonnormal `B/T` branch to the first complete
 edge and include it in that scalar-extended edge. -/

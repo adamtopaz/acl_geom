@@ -1045,6 +1045,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     arrows from the selected semantic/reference normal model of items 72--73
     and prove that the resulting graph restrictions recover the four named
     intrinsic coefficient embeddings.
+75. The coherent semantic branch cover and the once-canonicalized selected
+    semantic/reference cover now sit in one literal finite normal source,
+    `selectedGraphSourceCover`, formed by a single supremum over their common
+    source field.  Literal inclusions put all eight selected semantic and
+    relocated whole-branch maps in this source, and the four intrinsic germ
+    coefficient maps retain their exact same-index generator formulas there.
+    The four charted semantic right-branch maps have also been duplicated
+    with this precise codomain.  Thus the final issue-#16 chart step no longer
+    involves incomparable canonical closures: it is the construction of
+    non-induced charts in this one source whose charted semantic maps agree
+    with the named selected graph embeddings (first on canonical
+    coefficients, then on the whole intrinsic field).
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
