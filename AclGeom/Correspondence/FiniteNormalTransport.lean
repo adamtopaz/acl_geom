@@ -251,6 +251,14 @@ theorem mapEquiv_commutes (T : AlgebraicClosureTransport E E') :
       (N.mapEquiv T).toRingHom.comp (algebraMap E (↥N.field)) :=
   T.mapFieldEquiv_commutes N.field
 
+/-- Pointwise, the transported finite-cover chart extends its displayed
+base-field equivalence. -/
+@[simp] theorem mapEquiv_algebraMap (T : AlgebraicClosureTransport E E')
+    (x : E) :
+    N.mapEquiv T (algebraMap E (↥N.field) x) =
+      algebraMap E' (↥(N.map T).field) (T.baseEquiv x) := by
+  exact (DFunLike.congr_fun (N.mapEquiv_commutes T) x).symm
+
 /-- Mapping a finite normal cover along two transports agrees at the field
 level with mapping it along their composite. -/
 theorem map_trans_field (T : AlgebraicClosureTransport E E')

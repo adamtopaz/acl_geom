@@ -140,6 +140,62 @@ theorem equivImageUnderAutomorphism_eq_of_eq_algebraMap
   change sigma (algebraMap F L y) = algebraMap F L y
   exact sigma.commutes y
 
+/-- View the semilinear image field back in the original ambient field
+rather than only inside the chosen normal intermediate field. -/
+def ambientImageUnderAutomorphism
+    {k F Ω : Type*} [Field k] [Field F] [Field Ω]
+    [Algebra k F] [Algebra k Ω] [Algebra F Ω] [IsScalarTower k F Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N)) :
+    IntermediateField k Ω :=
+  (imageUnderAutomorphism (algHomIntoOfLeRestrictScalars E N h) sigma).map
+    (N.restrictScalars k).val
+
+/-- The original field is semilinearly equivalent to its image in the
+original ambient field. -/
+noncomputable def equivAmbientImageUnderAutomorphism
+    {k F Ω : Type*} [Field k] [Field F] [Field Ω]
+    [Algebra k F] [Algebra k Ω] [Algebra F Ω] [IsScalarTower k F Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N)) :
+    (↥E) ≃ₐ[k] (↥(ambientImageUnderAutomorphism E N h sigma)) :=
+  (equivImageUnderAutomorphism
+      (algHomIntoOfLeRestrictScalars E N h) sigma).trans
+    ((imageUnderAutomorphism
+      (algHomIntoOfLeRestrictScalars E N h) sigma).equivMap
+        (N.restrictScalars k).val)
+
+/-- The ambient semilinear image remains inside the same total
+intermediate field. -/
+theorem ambientImageUnderAutomorphism_le
+    {k F Ω : Type*} [Field k] [Field F] [Field Ω]
+    [Algebra k F] [Algebra k Ω] [Algebra F Ω] [IsScalarTower k F Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N)) :
+    ambientImageUnderAutomorphism E N h sigma ≤ N.restrictScalars k := by
+  intro z hz
+  rw [ambientImageUnderAutomorphism, mem_map] at hz
+  obtain ⟨x, _, rfl⟩ := hz
+  change ((x : ↥N) : Ω) ∈ N
+  exact (x : ↥N).2
+
+/-- A semilinear automorphism of a total field gives an equivalence between
+the original nested extension and the same total field displayed over the
+moved ambient image of its base. -/
+noncomputable def extensionEquivUnderAutomorphism
+    {k F Ω : Type*} [Field k] [Field F] [Field Ω]
+    [Algebra k F] [Algebra k Ω] [Algebra F Ω] [IsScalarTower k F Ω]
+    (E : IntermediateField k Ω) (N : IntermediateField F Ω)
+    (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N)) :
+    AclGeom.FiniteCover.ExtensionEquiv h
+      (ambientImageUnderAutomorphism_le E N h sigma) where
+  baseEquiv := equivAmbientImageUnderAutomorphism E N h sigma
+  totalEquiv := sigma
+  commutes := by
+    apply AlgHom.ext
+    intro x
+    rfl
+
 end IntermediateField
 
 namespace AclGeom

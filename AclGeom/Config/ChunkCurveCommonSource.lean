@@ -2657,6 +2657,112 @@ theorem repeatedUBCommonSourceImageEquiv_generator
   ext
   rfl
 
+/-- Extend the semilinear `sA` source chart to the chosen algebraic
+closures.  Its restriction to any finite common-source cover will provide
+the corresponding coefficient-faithful source chart. -/
+noncomputable def repeatedSACommonSourceImageClosureTransport
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  AlgebraicClosureTransport.lift
+    (R.repeatedSACommonSourceImageEquiv hind).toRingEquiv
+
+/-- Extend the semilinear direct-`u` source chart to the chosen algebraic
+closures. -/
+noncomputable def repeatedUCommonSourceImageClosureTransport
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  AlgebraicClosureTransport.lift
+    (R.repeatedUCommonSourceImageEquiv hind).toRingEquiv
+
+/-- Extend the semilinear direct-`uB` source chart to the chosen algebraic
+closures. -/
+noncomputable def repeatedUBCommonSourceImageClosureTransport
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  AlgebraicClosureTransport.lift
+    (R.repeatedUBCommonSourceImageEquiv hind).toRingEquiv
+
+/-- The semilinear `sA` source image, now viewed back in the common curve
+ambient field alongside the original pairwise normal field. -/
+def repeatedSACommonSourceAmbientImage
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.ambientImageUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedSACoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)
+    ((R.repeatedSABranchAutomorphism hind).restrictScalars k)
+
+/-- The semilinear direct-`u` source image in the common curve ambient. -/
+def repeatedUCommonSourceAmbientImage
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.ambientImageUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedUCoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)
+    ((R.repeatedUBranchAutomorphism hind).restrictScalars k)
+
+/-- The semilinear direct-`uB` source image in the common curve ambient. -/
+def repeatedUBCommonSourceAmbientImage
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.ambientImageUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedUBCoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)
+    ((R.repeatedUBBranchAutomorphism hind).restrictScalars k)
+
+/-- The nested-extension equivalence coupling the moved `sA` common-source
+presentation to the actual alternative-base branch automorphism on the
+entire pairwise normal field. -/
+noncomputable def repeatedSACommonSourceExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.extensionEquivUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedSACoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedSACoefficientBranchNormalField hind)
+    ((R.repeatedSABranchAutomorphism hind).restrictScalars k)
+
+/-- The nested-extension equivalence coupling the moved direct-`u` source
+presentation to its actual branch automorphism. -/
+noncomputable def repeatedUCommonSourceExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.extensionEquivUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedUCoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedUCoefficientBranchNormalField hind)
+    ((R.repeatedUBranchAutomorphism hind).restrictScalars k)
+
+/-- The nested-extension equivalence coupling the moved direct-`uB` source
+presentation to its actual branch automorphism. -/
+noncomputable def repeatedUBCommonSourceExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  IntermediateField.extensionEquivUnderAutomorphism
+    ((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)
+    (R.repeatedUBCoefficientBranchNormalField hind)
+    (R.commonSourceField_le_repeatedUBCoefficientBranchNormalField hind)
+    ((R.repeatedUBBranchAutomorphism hind).restrictScalars k)
+
+/-- Lift the full `sA` nested-extension comparison to its two canonical
+normal closures.  Unlike a lift of the source equivalence alone, this datum
+retains the branch automorphism on the total pairwise normal field. -/
+noncomputable def repeatedSACommonSourceNormalExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.repeatedSACommonSourceExtensionEquiv hind).normalLift
+
+/-- Lift the full direct-`u` nested-extension comparison to canonical normal
+closures. -/
+noncomputable def repeatedUCommonSourceNormalExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.repeatedUCommonSourceExtensionEquiv hind).normalLift
+
+/-- Lift the full direct-`uB` nested-extension comparison to canonical normal
+closures. -/
+noncomputable def repeatedUBCommonSourceNormalExtensionEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.repeatedUBCommonSourceExtensionEquiv hind).normalLift
+
 /-- The rebased `sA` source field and the literal common source field have
 the same underlying intermediate field in the common curve ambient. -/
 theorem repeatedSARebasedSourceField_eq
@@ -3462,6 +3568,99 @@ noncomputable def branchComparisonSourceCover
       (R.repeatedSARebasedCanonicalCover hind)).sup
         (R.repeatedURebasedCanonicalCover hind)).sup
       (R.repeatedUBRebasedCanonicalCover hind))
+
+/-- The enlarged common source cover transported along the semilinear `sA`
+source chart. -/
+noncomputable def repeatedSAImageBranchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.branchComparisonSourceCover hind).map
+    (R.repeatedSACommonSourceImageClosureTransport hind)
+
+/-- The enlarged common source cover transported along the semilinear
+direct-`u` source chart. -/
+noncomputable def repeatedUImageBranchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.branchComparisonSourceCover hind).map
+    (R.repeatedUCommonSourceImageClosureTransport hind)
+
+/-- The enlarged common source cover transported along the semilinear
+direct-`uB` source chart. -/
+noncomputable def repeatedUBImageBranchComparisonSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.branchComparisonSourceCover hind).map
+    (R.repeatedUBCommonSourceImageClosureTransport hind)
+
+/-- The finite-cover source chart induced by the alternative-base `sA`
+comparison. -/
+noncomputable def repeatedSAImageSourceChart
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.branchComparisonSourceCover hind).mapEquiv
+    (R.repeatedSACommonSourceImageClosureTransport hind)
+
+/-- The finite-cover source chart induced by the alternative-base direct-`u`
+comparison. -/
+noncomputable def repeatedUImageSourceChart
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.branchComparisonSourceCover hind).mapEquiv
+    (R.repeatedUCommonSourceImageClosureTransport hind)
+
+/-- The finite-cover source chart induced by the alternative-base
+direct-`uB` comparison. -/
+noncomputable def repeatedUBImageSourceChart
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.branchComparisonSourceCover hind).mapEquiv
+    (R.repeatedUBCommonSourceImageClosureTransport hind)
+
+/-- On the formal curve generator, the finite-cover `sA` chart is exactly
+the algebra map induced by the semilinear source-image equivalence. -/
+theorem repeatedSAImageSourceChart_commonSourceGenerator
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedSAImageSourceChart hind
+        (algebraMap
+          (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+            (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
+          (↥(R.branchComparisonSourceCover hind).field)
+          R.commonSourceGenerator) =
+      algebraMap (↥(R.repeatedSACommonSourceImage hind))
+        (↥(R.repeatedSAImageBranchComparisonSourceCover hind).field)
+        (R.repeatedSACommonSourceImageEquiv hind R.commonSourceGenerator) := by
+  exact (R.branchComparisonSourceCover hind).mapEquiv_algebraMap
+    (R.repeatedSACommonSourceImageClosureTransport hind)
+    R.commonSourceGenerator
+
+/-- On the formal curve generator, the finite-cover direct-`u` chart is the
+algebra map induced by its semilinear source-image equivalence. -/
+theorem repeatedUImageSourceChart_commonSourceGenerator
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedUImageSourceChart hind
+        (algebraMap
+          (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+            (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
+          (↥(R.branchComparisonSourceCover hind).field)
+          R.commonSourceGenerator) =
+      algebraMap (↥(R.repeatedUCommonSourceImage hind))
+        (↥(R.repeatedUImageBranchComparisonSourceCover hind).field)
+        (R.repeatedUCommonSourceImageEquiv hind R.commonSourceGenerator) := by
+  exact (R.branchComparisonSourceCover hind).mapEquiv_algebraMap
+    (R.repeatedUCommonSourceImageClosureTransport hind)
+    R.commonSourceGenerator
+
+/-- On the formal curve generator, the finite-cover direct-`uB` chart is the
+algebra map induced by its semilinear source-image equivalence. -/
+theorem repeatedUBImageSourceChart_commonSourceGenerator
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.repeatedUBImageSourceChart hind
+        (algebraMap
+          (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+            (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k))
+          (↥(R.branchComparisonSourceCover hind).field)
+          R.commonSourceGenerator) =
+      algebraMap (↥(R.repeatedUBCommonSourceImage hind))
+        (↥(R.repeatedUBImageBranchComparisonSourceCover hind).field)
+        (R.repeatedUBCommonSourceImageEquiv hind R.commonSourceGenerator) := by
+  exact (R.branchComparisonSourceCover hind).mapEquiv_algebraMap
+    (R.repeatedUBCommonSourceImageClosureTransport hind)
+    R.commonSourceGenerator
 
 /-- The original simultaneous four-face source cover lies in the enlarged
 branch-comparison source cover. -/

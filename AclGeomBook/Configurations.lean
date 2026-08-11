@@ -1767,6 +1767,40 @@ coordinate pointwise; only its coefficient presentation is allowed to move:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSourceImageEquiv_generator}
 
+These source equivalences extend to the chosen algebraic closures and hence
+restrict to semilinear charts on the entire enlarged common source cover.
+The restriction square is explicit on every base-field element, so the three
+formal-generator equations survive unchanged at finite-cover level:
+
+{docstring AclGeom.AlgebraicClosureTransport.FiniteNormalCover.mapEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSourceImageClosureTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAImageBranchComparisonSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAImageSourceChart}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSAImageSourceChart_commonSourceGenerator}
+
+The branch-faithful lift retains more data than the source square alone.
+Each image source is mapped back into the original curve ambient, where it
+and the original source both lie in the same pairwise normal field.  The
+base equivalence and the actual alternative-base automorphism of that whole
+field form one equivalence of nested extensions.  Its normal-closure lift
+therefore retains the total-field comparison as well as the moved base:
+
+{docstring IntermediateField.ambientImageUnderAutomorphism}
+
+{docstring IntermediateField.extensionEquivUnderAutomorphism}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSourceExtensionEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUCommonSourceExtensionEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBCommonSourceExtensionEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonSourceNormalExtensionEquiv}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

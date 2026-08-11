@@ -657,6 +657,21 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     recording the potentially moved coefficient presentation.  Thus the
     next middle/target charts can be induced from genuine semilinear source
     charts; no false common-base deck-transformation assertion is needed.
+51. The semilinear source charts have now been lifted to the chosen
+    algebraic closures and restricted to the full enlarged common finite
+    source cover.  Their restriction squares are explicit pointwise, and
+    the formal curve generator is still carried by the corresponding
+    source-image algebra map.  For branch faithfulness, each moved source
+    field is also mapped back into the original common curve ambient.  It
+    and the original source then form two bases of the same pairwise normal
+    total field, and the actual alternative-base branch automorphism gives
+    an equivalence of those nested extensions.  Lifting this complete
+    extension equivalence to canonical normal closures retains both the
+    source movement and the total-field automorphism; it does not replace
+    the latter by an unrelated lift of the source equivalence.  The next
+    local step is the target deck correction which makes this semilinear
+    normal-closure equivalence preserve the literal selected total branch,
+    followed by its inclusion in the simultaneous source cover.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -668,7 +683,7 @@ Items 29--40 give four strict finite-normal-cover curve triangles, the exact
 semantic target for aligning them, and one formal curve source shared by all
 four embedded loci over one eight-input coefficient field; item 35 also
 places all four actions on one literal finite normal source compositum, and
-items 36--50 supply selected-branch-preserving comparisons and equality of
+items 36--51 supply selected-branch-preserving comparisons and equality of
 the curve relations after the honest independent scalar extensions.  The
 repeated `s` relation already lives over the literal common input field, and
 the repeated `sA`, direct `u`, and direct `uB` comparisons have now been
