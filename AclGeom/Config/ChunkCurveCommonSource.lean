@@ -5055,6 +5055,267 @@ theorem sAcRepeatedUBTotalAnchorAlignmentAut_smul
     (R.branchComparisonSourceCover hind).normal
   exact NormalBranchEmbedding.alignmentAut_smul _ _
 
+/-- The source chart for the `s·e=u` face.  It fixes the literal common
+coefficient/source field and sends the selected direct `u` branch to the
+first coherent whole-total-field anchor. -/
+noncomputable def seCoefficientSourceChart
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃+*
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  (R.seRepeatedUTotalAnchorAlignmentAut hind).toRingEquiv
+
+/-- The source chart for the `sA·a=u` face, using the second coherent
+direct-`u` anchor. -/
+noncomputable def sAaCoefficientSourceChart
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃+*
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  (R.sAaRepeatedUTotalAnchorAlignmentAut hind).toRingEquiv
+
+/-- The source chart for the `s·b=uB` face, using the first coherent
+direct-`uB` anchor. -/
+noncomputable def sbCoefficientSourceChart
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃+*
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  (R.sbRepeatedUBTotalAnchorAlignmentAut hind).toRingEquiv
+
+/-- The source chart for the `sA·c=uB` face, using the second coherent
+direct-`uB` anchor. -/
+noncomputable def sAcCoefficientSourceChart
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.branchComparisonSourceCover hind).field) ≃+*
+      (↥(R.branchComparisonSourceCover hind).field) :=
+  (R.sAcRepeatedUBTotalAnchorAlignmentAut hind).toRingEquiv
+
+/-- All four source charts fix the literal common coefficient/source field.
+This is the coefficient-faithfulness condition needed when their induced
+middle charts select a different conjugate of a left branch. -/
+theorem coefficientSourceCharts_commute
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (∀ x :
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ).sourceField,
+      R.seCoefficientSourceChart hind
+          (algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) =
+        algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) ∧
+    (∀ x :
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ).sourceField,
+      R.sAaCoefficientSourceChart hind
+          (algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) =
+        algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) ∧
+    (∀ x :
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ).sourceField,
+      R.sbCoefficientSourceChart hind
+          (algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) =
+        algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) ∧
+    (∀ x :
+        (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+          (R := R.se) R.seCommonBaseData hψ).sourceField,
+      R.sAcCoefficientSourceChart hind
+          (algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) =
+        algebraMap _ (↥(R.branchComparisonSourceCover hind).field) x) := by
+  exact ⟨fun x ↦ (R.seRepeatedUTotalAnchorAlignmentAut hind).commutes x,
+    fun x ↦ (R.sAaRepeatedUTotalAnchorAlignmentAut hind).commutes x,
+    fun x ↦ (R.sbRepeatedUBTotalAnchorAlignmentAut hind).commutes x,
+    fun x ↦ (R.sAcRepeatedUBTotalAnchorAlignmentAut hind).commutes x⟩
+
+/-- The four enlarged strict triangles, charted against their literal
+common source cover.  Middle and target charts are induced from the four
+coefficient-fixing source charts above, so all four compatibility equations
+are literal equalities while the selected direct branches retain the
+coherent `u` and `uB` anchors. -/
+noncomputable def coefficientFourTriangleReference
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FieldEquiv.FourTriangleReference.ofSourceCharts
+    (R.seBranchComparisonCoverCompositionTriangle hind)
+    (R.sAaBranchComparisonCoverCompositionTriangle hind)
+    (R.sbBranchComparisonCoverCompositionTriangle hind)
+    (R.sAcBranchComparisonCoverCompositionTriangle hind)
+    (R.seCoefficientSourceChart hind)
+    (R.sAaCoefficientSourceChart hind)
+    (R.sbCoefficientSourceChart hind)
+    (R.sAcCoefficientSourceChart hind)
+
+/-- The faithful semantic four-arrow diagram obtained from the four
+coefficient/source charts on the enlarged common normal cover. -/
+noncomputable def coefficientFourArrowDiagram
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.coefficientFourTriangleReference hind).toFourArrowDiagram
+
+/-- On the first face, the induced middle chart is exactly the
+coefficient-fixing source chart on the selected left branch. -/
+theorem seCoefficientMiddleChart_selectedLeft
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).branchOverSource) :
+    (R.coefficientFourTriangleReference hind).seY
+        ((R.seBranchComparisonCoverCompositionTriangle hind).left
+          ((R.seSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x)) =
+      R.seCoefficientSourceChart hind
+        ((R.seSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x) := by
+  change
+    (R.seBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+        (R.seCoefficientSourceChart hind)
+        ((R.seBranchComparisonCoverCompositionTriangle hind).left
+          ((R.seSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x)) = _
+  exact (R.seBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_left_apply (R.seCoefficientSourceChart hind)
+      ((R.seSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x)
+
+/-- On the second face, the induced middle chart is the corresponding
+coefficient-fixing source chart on the selected `sA` branch. -/
+theorem sAaCoefficientMiddleChart_selectedLeft
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sAa) R.sAaCommonBaseData hψ).branchOverSource) :
+    (R.coefficientFourTriangleReference hind).sAaY
+        ((R.sAaBranchComparisonCoverCompositionTriangle hind).left
+          ((R.sAaSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x)) =
+      R.sAaCoefficientSourceChart hind
+        ((R.sAaSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x) := by
+  change
+    (R.sAaBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+        (R.sAaCoefficientSourceChart hind)
+        ((R.sAaBranchComparisonCoverCompositionTriangle hind).left
+          ((R.sAaSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x)) = _
+  exact (R.sAaBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_left_apply (R.sAaCoefficientSourceChart hind)
+      ((R.sAaSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x)
+
+/-- On the third face, the induced middle chart is the coefficient-fixing
+source chart on the selected `s` branch. -/
+theorem sbCoefficientMiddleChart_selectedLeft
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sb) R.sbCommonBaseData hψ).branchOverSource) :
+    (R.coefficientFourTriangleReference hind).sbY
+        ((R.sbBranchComparisonCoverCompositionTriangle hind).left
+          ((R.sbSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x)) =
+      R.sbCoefficientSourceChart hind
+        ((R.sbSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x) := by
+  change
+    (R.sbBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+        (R.sbCoefficientSourceChart hind)
+        ((R.sbBranchComparisonCoverCompositionTriangle hind).left
+          ((R.sbSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x)) = _
+  exact (R.sbBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_left_apply (R.sbCoefficientSourceChart hind)
+      ((R.sbSelectedLeftBranchInComparisonSourceCover hind).toAlgHom x)
+
+/-- On the fourth face, the induced middle chart is the coefficient-fixing
+source chart on the selected `sA` branch. -/
+theorem sAcCoefficientMiddleChart_selectedLeft
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x :
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.sAc) R.sAcCommonBaseData hψ).branchOverSource) :
+    (R.coefficientFourTriangleReference hind).sAcY
+        ((R.sAcBranchComparisonCoverCompositionTriangle hind).left
+          ((R.sAcSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x)) =
+      R.sAcCoefficientSourceChart hind
+        ((R.sAcSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x) := by
+  change
+    (R.sAcBranchComparisonCoverCompositionTriangle hind).inducedMiddleChart
+        (R.sAcCoefficientSourceChart hind)
+        ((R.sAcBranchComparisonCoverCompositionTriangle hind).left
+          ((R.sAcSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x)) = _
+  exact (R.sAcBranchComparisonCoverCompositionTriangle hind)
+    |>.inducedMiddleChart_left_apply (R.sAcCoefficientSourceChart hind)
+      ((R.sAcSelectedLeftBranchRebasedInComparisonSourceCover hind).toAlgHom x)
+
+/-- The induced target chart of the first face carries its selected direct
+branch to the first coherent `u` anchor, pointwise on the entire branch
+field. -/
+theorem seCoefficientTargetChart_selectedDirect
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.seCommonDirectPair.branchOverSource) :
+    (R.coefficientFourTriangleReference hind).seZ
+        ((R.seBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.seSelectedDirectBranchInComparisonSourceCover hind).toAlgHom x)) =
+      (R.seSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover hind).toAlgHom x := by
+  change
+    (R.seBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+        (R.seCoefficientSourceChart hind)
+        ((R.seBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.seSelectedDirectBranchInComparisonSourceCover hind).toAlgHom x)) = _
+  rw [FieldEquiv.CompositionTriangle.inducedTargetChart_direct_apply]
+  have hmap := congrArg (fun f ↦ f.toAlgHom x)
+    (R.seRepeatedUTotalAnchorAlignmentAut_smul hind)
+  exact hmap
+
+/-- The induced target chart of the second face carries its selected direct
+branch to the second coherent `u` anchor. -/
+theorem sAaCoefficientTargetChart_selectedDirect
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.sAaCommonDirectPair.branchOverSource) :
+    (R.coefficientFourTriangleReference hind).sAaZ
+        ((R.sAaBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.sAaSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind).toAlgHom x)) =
+      (R.sAaSelectedDirectBranchViaRepeatedUTotalInComparisonSourceCover hind).toAlgHom x := by
+  change
+    (R.sAaBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+        (R.sAaCoefficientSourceChart hind)
+        ((R.sAaBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.sAaSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind).toAlgHom x)) = _
+  rw [FieldEquiv.CompositionTriangle.inducedTargetChart_direct_apply]
+  have hmap := congrArg (fun f ↦ f.toAlgHom x)
+    (R.sAaRepeatedUTotalAnchorAlignmentAut_smul hind)
+  exact hmap
+
+/-- The induced target chart of the third face carries its selected direct
+branch to the first coherent `uB` anchor. -/
+theorem sbCoefficientTargetChart_selectedDirect
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.sbCommonDirectPair.branchOverSource) :
+    (R.coefficientFourTriangleReference hind).sbZ
+        ((R.sbBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.sbSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind).toAlgHom x)) =
+      (R.sbSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover hind).toAlgHom x := by
+  change
+    (R.sbBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+        (R.sbCoefficientSourceChart hind)
+        ((R.sbBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.sbSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind).toAlgHom x)) = _
+  rw [FieldEquiv.CompositionTriangle.inducedTargetChart_direct_apply]
+  have hmap := congrArg (fun f ↦ f.toAlgHom x)
+    (R.sbRepeatedUBTotalAnchorAlignmentAut_smul hind)
+  exact hmap
+
+/-- The induced target chart of the fourth face carries its selected direct
+branch to the second coherent `uB` anchor. -/
+theorem sAcCoefficientTargetChart_selectedDirect
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.sAcCommonDirectPair.branchOverSource) :
+    (R.coefficientFourTriangleReference hind).sAcZ
+        ((R.sAcBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.sAcSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind).toAlgHom x)) =
+      (R.sAcSelectedDirectBranchViaRepeatedUBTotalInComparisonSourceCover hind).toAlgHom x := by
+  change
+    (R.sAcBranchComparisonCoverCompositionTriangle hind).inducedTargetChart
+        (R.sAcCoefficientSourceChart hind)
+        ((R.sAcBranchComparisonCoverCompositionTriangle hind).direct
+          ((R.sAcSelectedDirectBranchOverCommonSourceInComparisonSourceCover hind).toAlgHom x)) = _
+  rw [FieldEquiv.CompositionTriangle.inducedTargetChart_direct_apply]
+  have hmap := congrArg (fun f ↦ f.toAlgHom x)
+    (R.sAcRepeatedUBTotalAnchorAlignmentAut_smul hind)
+  exact hmap
+
+/-- Literal four-arrow cancellation on the coefficient-charted common
+normal cover. -/
+theorem coefficientFourArrow_right_cancellation
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.coefficientFourArrowDiagram hind).rightC =
+      ((R.coefficientFourArrowDiagram hind).rightA.trans
+        (R.coefficientFourArrowDiagram hind).rightE.symm).trans
+          (R.coefficientFourArrowDiagram hind).rightB :=
+  (R.coefficientFourArrowDiagram hind).right_cancellation
+
 /-- A common-base deck transformation removes the normal-closure choice
 between the `sA·a=u` face branch and its first coefficient-comparison copy. -/
 noncomputable def repeatedSAFirstClosureAlignmentAut

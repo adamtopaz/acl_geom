@@ -748,6 +748,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     each face are jointly compatible; their induced middle and target charts
     can then be proved coefficient-faithful and fed to four-arrow
     cancellation.
+57. The four coefficient/source charts are now chosen and the enlarged
+    strict triangles have been assembled into an actual semantic
+    four-triangle reference.  On the two `u` faces the source charts are the
+    two coherent direct-`u` anchor corrections; on the two `uB` faces they
+    are the corresponding direct-`uB` corrections.  All four are algebra
+    automorphisms over the literal common coefficient/source field, so they
+    fix every canonical curve coefficient even when they move a selected
+    left branch to another conjugate.  The induced middle-chart restriction
+    formula is proved on the entire selected `s` or `sA` branch, and the
+    induced target chart is proved pointwise to recover the appropriate
+    shared whole-total-field `u` or `uB` anchor.  These charts instantiate
+    `FourTriangleReference.ofSourceCharts`, produce a literal semantic
+    four-arrow diagram, and satisfy exact right-arrow cancellation.  The
+    next local step is to apply canonical-curve-equation faithfulness to
+    these restriction formulas and identify the four displayed parameter
+    field embeddings occurring in the normalized reference projections.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
@@ -768,15 +784,11 @@ transported explicitly into that base.  Each alternative comparison has a
 finite pairwise normal source extension containing both literal branches;
 all three comparison covers have been rebased and adjoined to the common
 source cover, and their actual selected branches have been aligned there.
-Use the three explicit semilinear source-image equivalences to induce
-middle/target charts on the transported comparison branches, combine those
-charts with the four exact face-to-copy alignment equations, and then use
-canonical-curve-coefficient faithfulness to identify the resulting middle
-and target covers coefficient-compatibly.  This constructs the Ψ-specific
-`ReferenceAlignment` with
-coefficient-compatible equivalences to three reference fields.  Then apply
-its literal cancellation theorem
-and canonical-curve-coefficient faithfulness to identify the four displayed
+The four direct-anchor corrections now provide the coefficient/source
+charts, the induced middle and target charts have exact selected-branch
+restriction formulas, and the resulting common-cover reference already
+carries literal semantic cancellation.  Apply canonical-curve-coefficient
+faithfulness to those restriction formulas to identify the four displayed
 parameter field embeddings.  Use that equality to prove that
 `toReferenceC` factors through `toReferenceE`, `toReferenceA`, and
 `toReferenceB`.  This is the precise auxiliary-`s` independence statement:

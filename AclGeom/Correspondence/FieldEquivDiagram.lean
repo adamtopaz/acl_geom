@@ -136,6 +136,20 @@ backwards through the direct arrow. -/
 def inducedTargetChart (eX : X ≃+* X') : Z ≃+* X' :=
   T.direct.symm.trans eX
 
+/-- The middle chart induced from a source chart returns the source-chart
+value on every point transported through the left arrow.  This is the
+restriction formula used to retain a distinguished branch while changing
+the ambient normal-cover chart. -/
+@[simp] theorem inducedMiddleChart_left_apply (eX : X ≃+* X') (x : X) :
+    T.inducedMiddleChart eX (T.left x) = eX x := by
+  simp [inducedMiddleChart]
+
+/-- The target chart induced from a source chart returns the source-chart
+value on every point transported through the direct arrow. -/
+@[simp] theorem inducedTargetChart_direct_apply (eX : X ≃+* X') (x : X) :
+    T.inducedTargetChart eX (T.direct x) = eX x := by
+  simp [inducedTargetChart]
+
 /-- With the induced middle chart, the conjugated left arrow is the
 identity on the reference source. -/
 @[simp] theorem conjugate_induced_left (eX : X ≃+* X') :

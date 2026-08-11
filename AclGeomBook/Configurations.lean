@@ -1949,11 +1949,58 @@ cancellation:
 
 {docstring AclGeom.FieldEquiv.CompositionTriangle.inducedTargetChart}
 
+{docstring AclGeom.FieldEquiv.CompositionTriangle.inducedMiddleChart_left_apply}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.inducedTargetChart_direct_apply}
+
 {docstring AclGeom.FieldEquiv.CompositionTriangle.conjugate_induced_left}
 
 {docstring AclGeom.FieldEquiv.CompositionTriangle.conjugate_induced_direct}
 
 {docstring AclGeom.FieldEquiv.FourTriangleReference.ofSourceCharts}
+
+For the actual enlarged four-face cover, choose the two `u` anchor
+corrections on the first pair of faces and the two `uB` corrections on the
+second pair as the four source charts.  Every one of these charts is an
+algebra automorphism over the literal common coefficient/source field.
+Consequently its induced middle chart may select another conjugate of the
+`s` or `sA` branch, but it fixes all coefficients of that branch's canonical
+equation.  On the direct branches the induced target charts recover the
+shared whole-total-field anchors pointwise.  This gives an instantiated
+four-triangle reference and literal semantic cancellation on the common
+cover:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCoefficientSourceChart}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaCoefficientSourceChart}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCoefficientSourceChart}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCoefficientSourceChart}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientSourceCharts_commute}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientFourTriangleReference}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCoefficientMiddleChart_selectedLeft}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaCoefficientMiddleChart_selectedLeft}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCoefficientMiddleChart_selectedLeft}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCoefficientMiddleChart_selectedLeft}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seCoefficientTargetChart_selectedDirect}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaCoefficientTargetChart_selectedDirect}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbCoefficientTargetChart_selectedDirect}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcCoefficientTargetChart_selectedDirect}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientFourArrowDiagram}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.coefficientFourArrow_right_cancellation}
 
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
