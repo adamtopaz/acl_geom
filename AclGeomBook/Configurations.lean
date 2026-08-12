@@ -2659,6 +2659,30 @@ containment in the original eight-input field:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedBNormalToFourRebasedCoverRingHom}
 
+The base mismatch has also been removed.  Finiteness of the selected joint
+field over the literal semantic source makes the algebraic closure of the
+joint field an algebraic closure of the smaller source as well.  A chosen
+source-linear equivalence transports the common right field into the
+algebraic closure of that smaller source; its finite degree is proved by
+the joint-field tower, and taking its normal closure gives a genuine finite
+normal source cover.  Joining this with the established graph source yields
+one cover containing both all repeated-coordinate coherence and all four
+right-family normal covers.  The four existing source charts extend across
+this join, while the complete-branch and whole-normal-cover maps now land
+in the same enlarged graph source:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedJointAlgebraicClosureRingEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRelocatedRightTransportedField_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRelocatedRightSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceChartAut}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedBCompleteBranchToSelectedGraphRightRingHom}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

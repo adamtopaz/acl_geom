@@ -43,6 +43,14 @@ variable {k K : Type u} [Field k] [Field K] [Algebra k K]
 private abbrev curveEmbedding : K →ₐ[k] CommonCurveAmbient K :=
   commonCurveEmbedding (k := k) (K := K)
 
+/-- The raw common curve-source type before restricting its displayed
+coefficient field to `k`.  This short private name keeps later chart types
+readable while preserving the exact algebra instance used by the covers. -/
+private abbrev semanticCommonSourceType
+    (R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :=
+  ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+    (R := R.se) R.seCommonBaseData hψ).sourceField
+
 /-- The eight-input field of the normalized reference construction,
 transported into the common curve ambient field. -/
 def mappedReferenceInputField
@@ -3906,6 +3914,439 @@ noncomputable def sAcSelectedBNormalToFourRebasedCoverRingHom
       L hind)
     (R.sAcRelocatedRightRebasedCover_le_four L hind)).comp
       R.sAcSelectedBNormalCoverRingEquiv.toRingHom
+
+/-- The literal common semantic source included in the selected joint
+field.  Naming this map lets the algebraic-closure transport expose its
+coefficient square without installing a global scalar-tower instance. -/
+def semanticSourceToSelectedSemanticReferenceJoin
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥R.semanticCommonSourceField) →ₐ[k]
+      (↥(R.selectedSemanticReferenceJoin L hind)) :=
+  IntermediateField.inclusion
+    (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
+
+/-- A chosen equivalence from the algebraic closure of the finite selected
+joint field to the algebraic closure of the literal common semantic source.
+It is linear over the smaller source field internally, but is exposed as a
+ring equivalence so its type does not retain a locally installed tower. -/
+noncomputable def selectedJointAlgebraicClosureRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)) ≃+*
+      AlgebraicClosure (↥R.semanticCommonSourceField) := by
+  let hSJ :=
+    R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind
+  letI : Algebra (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind)) :=
+    (IntermediateField.inclusion hSJ).toAlgebra
+  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind)) := by
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoinOverSource L hind))
+    exact R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind
+  exact (IsAlgClosure.equivOfAlgebraic
+    (↥R.semanticCommonSourceField)
+    (↥(R.selectedSemanticReferenceJoin L hind))
+    (AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)))
+    (AlgebraicClosure (↥R.semanticCommonSourceField))).toRingEquiv
+
+/-- The chosen algebraic-closure equivalence carries the embedded literal
+semantic source to its canonical copy in the target algebraic closure. -/
+@[simp] theorem selectedJointAlgebraicClosureRingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.semanticCommonSourceField) :
+    R.selectedJointAlgebraicClosureRingEquiv L hind
+        (algebraMap (↥(R.selectedSemanticReferenceJoin L hind))
+          (AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)))
+          (R.semanticSourceToSelectedSemanticReferenceJoin L hind x)) =
+      algebraMap (↥R.semanticCommonSourceField)
+        (AlgebraicClosure (↥R.semanticCommonSourceField)) x := by
+  let hSJ :=
+    R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind
+  letI : Algebra (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind)) :=
+    (IntermediateField.inclusion hSJ).toAlgebra
+  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind)) := by
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoinOverSource L hind))
+    exact R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind
+  change (IsAlgClosure.equivOfAlgebraic
+      (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind))
+      (AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)))
+      (AlgebraicClosure (↥R.semanticCommonSourceField)))
+        (algebraMap (↥(R.selectedSemanticReferenceJoin L hind))
+          (AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)))
+          (algebraMap (↥R.semanticCommonSourceField)
+            (↥(R.selectedSemanticReferenceJoin L hind)) x)) = _
+  rw [← IsScalarTower.algebraMap_apply
+    (↥R.semanticCommonSourceField)
+    (↥(R.selectedSemanticReferenceJoin L hind))
+    (AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)))]
+  exact (IsAlgClosure.equivOfAlgebraic
+    (↥R.semanticCommonSourceField)
+    (↥(R.selectedSemanticReferenceJoin L hind))
+    (AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)))
+    (AlgebraicClosure (↥R.semanticCommonSourceField))).commutes x
+
+/-- The image of the common four-face right cover in the algebraic closure
+of the literal semantic source.  It is finite over that smaller source,
+although it need not yet be normal there. -/
+def fourRelocatedRightTransportedField
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    IntermediateField (↥R.semanticCommonSourceField)
+      (AlgebraicClosure (↥R.semanticCommonSourceField)) where
+  carrier := R.selectedJointAlgebraicClosureRingEquiv L hind ''
+    (R.fourRelocatedRightRebasedCover L hind).field
+  zero_mem' := ⟨0,
+    (R.fourRelocatedRightRebasedCover L hind).field.zero_mem, by simp⟩
+  one_mem' := ⟨1,
+    (R.fourRelocatedRightRebasedCover L hind).field.one_mem, by simp⟩
+  add_mem' := by
+    rintro _ _ ⟨x, hx, rfl⟩ ⟨y, hy, rfl⟩
+    exact ⟨x + y,
+      (R.fourRelocatedRightRebasedCover L hind).field.add_mem hx hy,
+      by simp⟩
+  mul_mem' := by
+    rintro _ _ ⟨x, hx, rfl⟩ ⟨y, hy, rfl⟩
+    exact ⟨x * y,
+      (R.fourRelocatedRightRebasedCover L hind).field.mul_mem hx hy,
+      by simp⟩
+  algebraMap_mem' := fun x ↦
+    ⟨algebraMap (↥(R.selectedSemanticReferenceJoin L hind))
+        (AlgebraicClosure (↥(R.selectedSemanticReferenceJoin L hind)))
+        (R.semanticSourceToSelectedSemanticReferenceJoin L hind x),
+      (R.fourRelocatedRightRebasedCover L hind).field.algebraMap_mem _,
+      R.selectedJointAlgebraicClosureRingEquiv_algebraMap L hind x⟩
+  inv_mem' := by
+    rintro _ ⟨x, hx, rfl⟩
+    exact ⟨x⁻¹,
+      (R.fourRelocatedRightRebasedCover L hind).field.inv_mem hx,
+      by simp⟩
+
+/-- Restriction of the chosen algebraic-closure equivalence identifies the
+four-face right cover with its transported image. -/
+def fourRelocatedRightTransportedFieldRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.fourRelocatedRightRebasedCover L hind).field) ≃+*
+      (↥(R.fourRelocatedRightTransportedField L hind)) where
+  toFun x := ⟨R.selectedJointAlgebraicClosureRingEquiv L hind x,
+    ⟨x, x.2, rfl⟩⟩
+  invFun y :=
+    ⟨(R.selectedJointAlgebraicClosureRingEquiv L hind).symm y, by
+      obtain ⟨x, hx, hxy⟩ := y.2
+      have : (R.selectedJointAlgebraicClosureRingEquiv L hind).symm y = x := by
+        rw [← hxy]
+        simp
+      exact this ▸ hx⟩
+  left_inv x := by
+    apply Subtype.ext
+    simp
+  right_inv y := by
+    apply Subtype.ext
+    simp
+  map_add' x y := by
+    apply Subtype.ext
+    simp
+  map_mul' x y := by
+    apply Subtype.ext
+    simp
+
+/-- On the literal common source, the restricted field equivalence is the
+canonical algebra map. -/
+@[simp] theorem fourRelocatedRightTransportedFieldRingEquiv_source
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.semanticCommonSourceField) :
+    R.fourRelocatedRightTransportedFieldRingEquiv L hind
+        (algebraMap (↥(R.selectedSemanticReferenceJoin L hind))
+          (↥(R.fourRelocatedRightRebasedCover L hind).field)
+          (R.semanticSourceToSelectedSemanticReferenceJoin L hind x)) =
+      algebraMap (↥R.semanticCommonSourceField)
+        (↥(R.fourRelocatedRightTransportedField L hind)) x := by
+  apply Subtype.ext
+  exact R.selectedJointAlgebraicClosureRingEquiv_algebraMap L hind x
+
+/-- The transported four-face field is finite over the literal semantic
+source: first use finiteness of the selected joint field, then finiteness of
+the four-face cover, and finally the restricted field equivalence. -/
+theorem fourRelocatedRightTransportedField_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.fourRelocatedRightTransportedField L hind)) := by
+  let hSJ :=
+    R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind
+  letI : Algebra (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind)) :=
+    (IntermediateField.inclusion hSJ).toAlgebra
+  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind)) := by
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoinOverSource L hind))
+    exact R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind
+  letI : FiniteDimensional (↥(R.selectedSemanticReferenceJoin L hind))
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+    (R.fourRelocatedRightRebasedCover L hind).finiteDimensional
+  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
+    FiniteDimensional.trans
+      (↥R.semanticCommonSourceField)
+      (↥(R.selectedSemanticReferenceJoin L hind))
+      (↥(R.fourRelocatedRightRebasedCover L hind).field)
+  apply Module.Finite.of_equiv_equiv
+    (RingEquiv.refl (↥R.semanticCommonSourceField))
+    (R.fourRelocatedRightTransportedFieldRingEquiv L hind)
+  apply RingHom.ext
+  intro x
+  exact
+    (R.fourRelocatedRightTransportedFieldRingEquiv_source L hind x).symm
+
+/-- Normal closure of the transported four-face right field over the
+literal common semantic source. -/
+def fourRelocatedRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.FiniteNormalCover
+      (↥R.semanticCommonSourceField) where
+  field := normalClosure (↥R.semanticCommonSourceField)
+    (↥(R.fourRelocatedRightTransportedField L hind))
+    (AlgebraicClosure (↥R.semanticCommonSourceField))
+  finiteDimensional := by
+    letI : FiniteDimensional (↥R.semanticCommonSourceField)
+        (↥(R.fourRelocatedRightTransportedField L hind)) :=
+      R.fourRelocatedRightTransportedField_finiteDimensional L hind
+    exact normalClosure.is_finiteDimensional
+      (↥R.semanticCommonSourceField)
+      (↥(R.fourRelocatedRightTransportedField L hind))
+      (AlgebraicClosure (↥R.semanticCommonSourceField))
+  normal := by
+    letI : FiniteDimensional (↥R.semanticCommonSourceField)
+        (↥(R.fourRelocatedRightTransportedField L hind)) :=
+      R.fourRelocatedRightTransportedField_finiteDimensional L hind
+    letI : Algebra.IsAlgebraic (↥R.semanticCommonSourceField)
+        (↥(R.fourRelocatedRightTransportedField L hind)) :=
+      Algebra.IsAlgebraic.of_finite _ _
+    exact
+      (Algebra.IsAlgebraic.isNormalClosure_normalClosure
+        (F := ↥R.semanticCommonSourceField)
+        (K := ↥(R.fourRelocatedRightTransportedField L hind))
+        (L := AlgebraicClosure (↥R.semanticCommonSourceField))
+        (fun _ ↦ IsAlgClosed.splits _)).normal
+
+/-- The transported four-face field lies literally in its normal closure
+over the common semantic source. -/
+theorem fourRelocatedRightTransportedField_le_sourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    R.fourRelocatedRightTransportedField L hind ≤
+      (R.fourRelocatedRightSourceCover L hind).field :=
+  le_normalClosure _
+
+/-- One final source cover containing both all established graph/source
+coherence and the transported common four-face right cover. -/
+noncomputable def selectedGraphRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedGraphSourceCover L hind).sup
+    (R.fourRelocatedRightSourceCover L hind)
+
+/-- The established selected graph source is a literal subcover of the
+right-enlarged graph source. -/
+theorem selectedGraphSourceCover_le_selectedGraphRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedGraphSourceCover L hind).field ≤
+      (R.selectedGraphRightSourceCover L hind).field :=
+  le_sup_left
+
+/-- The transported common four-face right cover is a literal subcover of
+the right-enlarged graph source. -/
+theorem fourRelocatedRightSourceCover_le_selectedGraphRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.fourRelocatedRightSourceCover L hind).field ≤
+      (R.selectedGraphRightSourceCover L hind).field :=
+  le_sup_right
+
+/-- Carry the four-face right cover from its joint-field model into the
+right-enlarged graph source over the literal semantic source. -/
+noncomputable def fourRelocatedRightToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.fourRelocatedRightRebasedCover L hind).field) →+*
+      (↥(R.selectedGraphRightSourceCover L hind).field) :=
+  (IntermediateField.inclusion
+      (R.fourRelocatedRightSourceCover_le_selectedGraphRightSourceCover
+        L hind)).toRingHom.comp
+    ((IntermediateField.inclusion
+      (R.fourRelocatedRightTransportedField_le_sourceCover
+        L hind)).toRingHom.comp
+        (R.fourRelocatedRightTransportedFieldRingEquiv L hind).toRingHom)
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested two-stage source-cover definitions need a larger synthesis budget.
+/-- Literal inclusion of the established selected graph source into the
+right-enlarged source, retaining linearity over the full curve source. -/
+noncomputable def selectedGraphSourceCoverToSelectedGraphRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphSourceCover L hind).field) →ₐ[R.semanticCommonSourceType]
+      (↥(R.selectedGraphRightSourceCover L hind).field) :=
+  IntermediateField.inclusion
+    (R.selectedGraphSourceCover_le_selectedGraphRightSourceCover L hind)
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The normal-cover algebra tower is hidden behind two named sup constructions.
+/-- Extend any established selected-graph source chart across the common
+right-cover enlargement. -/
+noncomputable def selectedGraphRightSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (σ : (↥(R.selectedGraphSourceCover L hind).field) ≃ₐ[R.semanticCommonSourceType]
+      (↥(R.selectedGraphSourceCover L hind).field)) :
+    (↥(R.selectedGraphRightSourceCover L hind).field) ≃ₐ[R.semanticCommonSourceType]
+      (↥(R.selectedGraphRightSourceCover L hind).field) := by
+  letI : Normal R.semanticCommonSourceType
+      (↥(R.selectedGraphRightSourceCover L hind).field) :=
+    (R.selectedGraphRightSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong
+    (R.selectedGraphSourceCoverToSelectedGraphRightSourceCover L hind) σ
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The restriction theorem elaborates the same hidden normal-cover algebra tower.
+/-- The extended source chart restricts to the prescribed chart on the
+entire established selected graph source. -/
+@[simp] theorem selectedGraphRightSourceChartAut_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (σ : (↥(R.selectedGraphSourceCover L hind).field) ≃ₐ[R.semanticCommonSourceType]
+      (↥(R.selectedGraphSourceCover L hind).field))
+    (x : (R.selectedGraphSourceCover L hind).field) :
+    R.selectedGraphRightSourceChartAut L hind σ
+        (R.selectedGraphSourceCoverToSelectedGraphRightSourceCover L hind x) =
+      R.selectedGraphSourceCoverToSelectedGraphRightSourceCover L hind
+        (σ x) := by
+  letI : Normal R.semanticCommonSourceType
+      (↥(R.selectedGraphRightSourceCover L hind).field) :=
+    (R.selectedGraphRightSourceCover L hind).normal
+  exact NormalBranchEmbedding.extendAlong_apply _ _ _
+
+/-- The `s·e=u` source chart on the right-enlarged graph source. -/
+noncomputable def seSelectedGraphRightSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.selectedGraphRightSourceChartAut L hind
+    (R.seSelectedGraphSourceChartAut L hind)
+
+/-- The `sA·a=u` source chart on the right-enlarged graph source. -/
+noncomputable def sAaSelectedGraphRightSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.selectedGraphRightSourceChartAut L hind
+    (R.sAaSelectedGraphSourceChartAut L hind)
+
+/-- The `s·b=uB` source chart on the right-enlarged graph source. -/
+noncomputable def sbSelectedGraphRightSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.selectedGraphRightSourceChartAut L hind
+    (R.sbSelectedGraphSourceChartAut L hind)
+
+/-- The `sA·c=uB` source chart on the right-enlarged graph source. -/
+noncomputable def sAcSelectedGraphRightSourceChartAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  R.selectedGraphRightSourceChartAut L hind
+    (R.sAcSelectedGraphSourceChartAut L hind)
+
+/-- The strict `s·e=u` composition triangle on the right-enlarged graph
+source. -/
+noncomputable def seSelectedGraphRightCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.se) R.seCommonBaseData hψ)
+    (R.selectedGraphRightSourceCover L hind)
+
+/-- The strict `sA·a=u` composition triangle on the same right-enlarged
+graph source. -/
+noncomputable def sAaSelectedGraphRightCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAa) R.sAaCommonBaseData hψ)
+    (R.selectedGraphRightSourceCover L hind)
+
+/-- The strict `s·b=uB` composition triangle on the same right-enlarged
+graph source. -/
+noncomputable def sbSelectedGraphRightCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sb) R.sbCommonBaseData hψ)
+    (R.selectedGraphRightSourceCover L hind)
+
+/-- The strict `sA·c=uB` composition triangle on the same right-enlarged
+graph source. -/
+noncomputable def sAcSelectedGraphRightCompositionTriangle
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  FiniteCorrespondencePair.FiniteCoverTriangle.OnSourceCover.compositionTriangle
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.bCorrespondencePair
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aPair_target_eq_bPair_source
+      (R := R.sAc) R.sAcCommonBaseData hψ)
+    (R.selectedGraphRightSourceCover L hind)
+
+/-- The common selected-`B` complete branch mapped to the `e` image in the
+right-enlarged graph source. -/
+noncomputable def seSelectedBCompleteBranchToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.seSelectedBCompleteBranchToFourRebasedCoverRingHom L hind)
+
+/-- The corresponding complete-branch map to the `a` image. -/
+noncomputable def sAaSelectedBCompleteBranchToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.sAaSelectedBCompleteBranchToFourRebasedCoverRingHom L hind)
+
+/-- The corresponding complete-branch map to the `b` image. -/
+noncomputable def sbSelectedBCompleteBranchToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.sbSelectedBCompleteBranchToFourRebasedCoverRingHom L hind)
+
+/-- The corresponding complete-branch map to the algebraic `c` image. -/
+noncomputable def sAcSelectedBCompleteBranchToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.sAcSelectedBCompleteBranchToFourRebasedCoverRingHom L hind)
+
+/-- Carry the selected native normal cover through its `e` comparison and
+into the right-enlarged graph source. -/
+noncomputable def seSelectedBNormalToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.seSelectedBNormalToFourRebasedCoverRingHom L hind)
+
+/-- Carry the selected native normal cover through its `a` comparison. -/
+noncomputable def sAaSelectedBNormalToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.sAaSelectedBNormalToFourRebasedCoverRingHom L hind)
+
+/-- Carry the selected native normal cover through its `b` comparison. -/
+noncomputable def sbSelectedBNormalToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.sbSelectedBNormalToFourRebasedCoverRingHom L hind)
+
+/-- Carry the selected native normal cover through its algebraic `c`
+comparison. -/
+noncomputable def sAcSelectedBNormalToSelectedGraphRightRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.fourRelocatedRightToSelectedGraphRightRingHom L hind).comp
+    (R.sAcSelectedBNormalToFourRebasedCoverRingHom L hind)
 
 /-- The four relocated right-family members display the four mapped
 normalized parameter tuples literally. -/

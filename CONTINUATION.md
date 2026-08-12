@@ -1171,6 +1171,21 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     literal semantic common source (using algebraicity of the joint field),
     adjoin it to the selected graph source, and extend the four maps to the
     independent common middle/target charts required by `RightRestriction`.
+85. The common four-face right cover has now been transported from the
+    finite selected joint base back to the literal semantic common source.
+    The chosen algebraic-closure equivalence is proved to preserve that
+    smaller source, the transported field is finite by the two-stage
+    source/joint/right-cover tower, and its normal closure is joined with
+    `selectedGraphSourceCover` to form `selectedGraphRightSourceCover`.
+    Consequently one finite normal source now contains both all established
+    repeated-coordinate graph coherence and all four selected right-family
+    normal covers.  The four established source-chart automorphisms extend
+    across the enlargement, the four strict composition triangles are
+    available on it, and the selected complete-branch and native-normal
+    maps all land in it.  The next issue-#16 step is to turn those four
+    right embeddings into independent common middle/target charts whose
+    restrictions are the semantic right arrows, then package the resulting
+    non-vacuous `RightRestriction` for issue #14.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
