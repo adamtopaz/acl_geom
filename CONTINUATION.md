@@ -1344,6 +1344,16 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     `FourArrowDiagram.RightRestriction` automatically.  Thus the remaining
     issue-#16 work is reduced to six named whole-field source squares, with no
     possibility of closing the obligation by a source-induced identity gauge.
+97. The four inverse-oriented semantic triangles now extend across finite
+    pullbacks of one prescribed common source.  The `e` pullback supplies the
+    literal finite common field; the `a`, `b`, and genuine `c` sources are
+    pulled back through their inverse semilinear charts before the strict
+    triangles are extended.  The resulting four restricted charts have that
+    one literal codomain and carry the entire intrinsic germ to one shared
+    embedding there.  Thus the source side of the final reference diagram is
+    finite and literally common, rather than only semilinearly identified.
+    Issue #16 is now confined to compatible common middle/target charts and
+    the six whole-field squares required by item 96.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

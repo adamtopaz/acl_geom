@@ -2978,6 +2978,31 @@ source, including across the different base field of the `c` face:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRightSemilinearSourceCharts_comp_bGermCoefficient}
 
+The inverse-oriented triangles can now be enlarged without losing that
+whole-germ equality.  A prescribed finite common source is pulled back
+through each source chart, each strict triangle is extended across the
+pullback, and the restricted charts all land in the same literal finite
+field.  Thus this is no longer only an equality between four differently
+typed source presentations: the four enlarged triangles have compatible
+finite source charts, and the intrinsic germ has one shared embedding there.
+The remaining comparison is now confined to their middle and target fields.
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.commonSourcePullbackField}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionAlongChart}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.commonSourcePullbackChart_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSemilinearCommonSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRightSemilinearCommonCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbRightSemilinearCommonCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRightSemilinearCommonCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRightSemilinearCommonSourceCharts_comp_bGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
