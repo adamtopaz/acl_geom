@@ -248,6 +248,26 @@ conjugated right edge is their quotient rather than an identity. -/
   rw [hcomp]
   simp
 
+/-- A restriction square for the left arrow followed by one for the right
+arrow gives the corresponding restriction square for the strict direct
+arrow.  Keeping this argument generic prevents concrete finite-cover types
+from being unfolded merely to reassociate the triangle identity. -/
+theorem direct_comp_of_left_right
+    {F : Type u} [Semiring F]
+    (source : F →+* X) (middle : F →+* Y) (target : F →+* Z)
+    (hleft : T.left.toRingHom.comp source = middle)
+    (hright : T.right.toRingHom.comp middle = target) :
+    T.direct.toRingHom.comp source = target := by
+  apply RingHom.ext
+  intro x
+  have hcomp := DFunLike.congr_fun T.composition (source x)
+  have hl := DFunLike.congr_fun hleft x
+  have hr := DFunLike.congr_fun hright x
+  change T.right (T.left (source x)) = T.direct (source x) at hcomp
+  change T.left (source x) = middle x at hl
+  change T.right (middle x) = target x at hr
+  exact hcomp.symm.trans ((congrArg T.right hl).trans hr)
+
 end CompositionTriangle
 
 /-- Four composition triangles together with compatible identifications of

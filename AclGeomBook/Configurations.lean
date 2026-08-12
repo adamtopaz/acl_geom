@@ -3022,6 +3022,23 @@ identify these named embeddings, not merely agree on displayed generators.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSemilinearCommon_right_comp_selectedRightBranch}
 
+The based `e` face now supplies the first complete intrinsic-field
+restriction package.  Its germ is written in the common coefficient field,
+then carried through the finite source, preserved middle branch, and target.
+The left, right, and strict direct arrows form exact squares on the whole
+intrinsic field; the generic composition lemma obtains the direct square
+from the adjacent two without unfolding the nested finite covers.
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.direct_comp_of_left_right}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBGermCoefficientToCommonCoefficientRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSemilinearCommon_left_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSemilinearCommon_right_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSemilinearCommon_direct_comp_bGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

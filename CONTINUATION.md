@@ -1362,6 +1362,17 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     the preservation conditions for the independent common middle and target
     charts; issue #16 still requires constructing those charts, identifying
     the repeated `s/sA/u/uB` arrows, and discharging the six source squares.
+99. The based `e` face now exposes a complete intrinsic-germ restriction
+    through its inverse-oriented common-source triangle.  The relocated `e`
+    parameter field is included in the common eight-input coefficient field,
+    and the resulting germ maps in the finite source, selected middle branch,
+    and selected target are named explicitly.  Exact left, right, and strict
+    direct squares are proved on the whole intrinsic field.  A reusable
+    `CompositionTriangle.direct_comp_of_left_right` derives the direct square
+    from the adjacent two without unfolding deeply nested cover types.  This
+    supplies the prototype for the remaining `a/b/c` face squares; those must
+    retain inverse semilinear source charts before repeated `s/sA/u/uB`
+    middle/target maps can be identified.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

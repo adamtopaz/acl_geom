@@ -133,6 +133,26 @@ original left equivalence. -/
   exact (DFunLike.congr_fun
     (T.sourceExtensionLeftTransport.mapFieldEquiv_commutes L) x).symm
 
+/-- Any restriction square for the old left arrow extends across a source
+field.  This factored form keeps concrete nested finite-cover types out of
+the resulting proof term. -/
+theorem sourceExtension_left_comp_of_left_comp
+    {W : Type u} [Semiring W]
+    (L : IntermediateField X (AlgebraicClosure X))
+    (source : W →+* X) (middle : W →+* Y)
+    (h : T.left.toRingHom.comp source = middle) :
+    (T.sourceExtension L).left.toRingHom.comp
+        ((algebraMap X (↥L)).comp source) =
+      (T.sourceExtensionMiddleRingHom L).comp middle := by
+  apply RingHom.ext
+  intro x
+  change T.sourceExtensionLeftEquiv L
+      (algebraMap X (↥L) (source x)) =
+    algebraMap Y (↥(T.sourceExtensionMiddleField L)) (middle x)
+  rw [T.sourceExtensionLeftEquiv_algebraMap]
+  exact congrArg (algebraMap Y (↥(T.sourceExtensionMiddleField L)))
+    (DFunLike.congr_fun h x)
+
 /-- On the original middle field, the enlarged right arrow is exactly the
 original right equivalence. -/
 @[simp] theorem sourceExtensionRightEquiv_algebraMap
