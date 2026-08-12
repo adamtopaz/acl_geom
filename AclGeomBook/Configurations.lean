@@ -1237,6 +1237,8 @@ for the graph-faithful Ψ charts:
 
 {docstring AclGeom.FieldEquiv.FourArrowDiagram.RightRestriction}
 
+{docstring AclGeom.FieldEquiv.FourArrowDiagram.RightRestriction.ofSourceRestrictions}
+
 {docstring AclGeom.FieldEquiv.FourArrowDiagram.RightRestriction.mapC_factorization}
 
 {docstring AclGeom.QWitness.psiAFiniteCoverEquiv}

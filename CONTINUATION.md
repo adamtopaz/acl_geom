@@ -1335,6 +1335,15 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     repeated-left chart.  The next step is to extend these inverse-oriented
     triangles to compatible finite common middle/target covers, preserve the
     complete-branch squares of item 94, and construct `RightRestriction`.
+96. A reusable source-square constructor now isolates the exact data needed
+    for the final non-vacuous restriction.  Two coefficient embeddings in the
+    common source chart—one for the repeated `s` faces and one for the repeated
+    `sA` faces—must have one literal image in the common middle chart, while
+    the repeated `u` and `uB` composites must carry them to the four prescribed
+    target embeddings.  The four semantic face identities then produce a
+    `FourArrowDiagram.RightRestriction` automatically.  Thus the remaining
+    issue-#16 work is reduced to six named whole-field source squares, with no
+    possibility of closing the obligation by a source-induced identity gauge.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

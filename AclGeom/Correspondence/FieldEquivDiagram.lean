@@ -629,6 +629,76 @@ namespace RightRestriction
 
 variable {F : Type u} [Field F] (C : D.RightRestriction F)
 
+/-- Build a common right-arrow restriction from two coefficient embeddings in
+the source chart.  The first source embedding is used by the repeated `s`
+faces and the second by the repeated `sA` faces.  Requiring both left images
+to be the same `middle` map is exactly the compatibility needed for all four
+right-arrow restrictions to have one literal domain in the middle chart. -/
+def ofSourceRestrictions
+    (middle : F →+* Y)
+    (sourceS sourceSA : F →+* X)
+    (mapE mapA mapB mapC : F →+* Z)
+    (leftS : D.leftS.toRingHom.comp sourceS = middle)
+    (leftSA : D.leftSA.toRingHom.comp sourceSA = middle)
+    (directUE : D.compositeU.toRingHom.comp sourceS = mapE)
+    (directUA : D.compositeU.toRingHom.comp sourceSA = mapA)
+    (directUBB : D.compositeUB.toRingHom.comp sourceS = mapB)
+    (directUBC : D.compositeUB.toRingHom.comp sourceSA = mapC) :
+    D.RightRestriction F where
+  middle := middle
+  mapE := mapE
+  mapA := mapA
+  mapB := mapB
+  mapC := mapC
+  rightE := by
+    apply RingHom.ext
+    intro z
+    have hleft := DFunLike.congr_fun leftS z
+    have hdirect := DFunLike.congr_fun directUE z
+    have hface := DFunLike.congr_fun D.se_u (sourceS z)
+    change D.leftS (sourceS z) = middle z at hleft
+    change D.compositeU (sourceS z) = mapE z at hdirect
+    change D.rightE (D.leftS (sourceS z)) =
+      D.compositeU (sourceS z) at hface
+    change D.rightE (middle z) = mapE z
+    rw [← hleft, hface, hdirect]
+  rightA := by
+    apply RingHom.ext
+    intro z
+    have hleft := DFunLike.congr_fun leftSA z
+    have hdirect := DFunLike.congr_fun directUA z
+    have hface := DFunLike.congr_fun D.sA_a_u (sourceSA z)
+    change D.leftSA (sourceSA z) = middle z at hleft
+    change D.compositeU (sourceSA z) = mapA z at hdirect
+    change D.rightA (D.leftSA (sourceSA z)) =
+      D.compositeU (sourceSA z) at hface
+    change D.rightA (middle z) = mapA z
+    rw [← hleft, hface, hdirect]
+  rightB := by
+    apply RingHom.ext
+    intro z
+    have hleft := DFunLike.congr_fun leftS z
+    have hdirect := DFunLike.congr_fun directUBB z
+    have hface := DFunLike.congr_fun D.s_b_uB (sourceS z)
+    change D.leftS (sourceS z) = middle z at hleft
+    change D.compositeUB (sourceS z) = mapB z at hdirect
+    change D.rightB (D.leftS (sourceS z)) =
+      D.compositeUB (sourceS z) at hface
+    change D.rightB (middle z) = mapB z
+    rw [← hleft, hface, hdirect]
+  rightC := by
+    apply RingHom.ext
+    intro z
+    have hleft := DFunLike.congr_fun leftSA z
+    have hdirect := DFunLike.congr_fun directUBC z
+    have hface := DFunLike.congr_fun D.sA_c_uB (sourceSA z)
+    change D.leftSA (sourceSA z) = middle z at hleft
+    change D.compositeUB (sourceSA z) = mapC z at hdirect
+    change D.rightC (D.leftSA (sourceSA z)) =
+      D.compositeUB (sourceSA z) at hface
+    change D.rightC (middle z) = mapC z
+    rw [← hleft, hface, hdirect]
+
 /-- Faithful four-arrow cancellation restricted to one common coefficient
 field.  The formula retains the inverse `e` arrow in the middle chart; it is
 therefore the exact field-map factorization that must later be spread to the
