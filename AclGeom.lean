@@ -100,6 +100,7 @@ import AclGeom.Config.ChunkCurveSemilinearTriangle
 import AclGeom.Config.ChunkCurveSemilinearCommonSource
 import AclGeom.Config.ChunkCurveSemilinearCommonSourceBranch
 import AclGeom.Config.ChunkCurveSemilinearCommonMiddleE
+import AclGeom.Config.ChunkCurveSemilinearCommonMiddleC
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

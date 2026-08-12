@@ -1373,6 +1373,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     supplies the prototype for the remaining `a/b/c` face squares; those must
     retain inverse semilinear source charts before repeated `s/sA/u/uB`
     middle/target maps can be identified.
+100. The inverse-oriented `a`, direct `b`, and inverse-oriented `c` faces now
+    carry the same complete intrinsic-germ restriction package as the based
+    `e` face.  In each case the source chart returns the intrinsic germ to the
+    selected `e` source embedding, the finite left arrow sends it to a named
+    common-coefficient anchor in that face's middle cover, and source
+    extension preserves exact left, right, and strict direct squares.  A
+    reusable finite-cover lemma records that every left arrow fixes an
+    arbitrary map into its coefficient field.  The four middle anchors are
+    still separately typed and are intentionally not equated with the four
+    preserved selected branches: compatible common middle/target charts must
+    identify both embeddings, after which the repeated `s/sA/u/uB` maps and
+    the non-vacuous `RightRestriction` can be assembled.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

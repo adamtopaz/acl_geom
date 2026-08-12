@@ -3039,6 +3039,35 @@ from the adjacent two without unfolding the nested finite covers.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSemilinearCommon_direct_comp_bGermCoefficient}
 
+The other three faces now carry the same whole-field package through their
+inverse-oriented source charts.  Their intrinsic germs all return to the
+based `e` embedding before entering separately typed middle covers, where
+the common coefficient field supplies a canonical anchor.  Extending those
+anchors gives exact left, right, and direct squares for all four faces.  The
+middle anchors are deliberately not identified with the preserved selected
+branches yet: that equality is precisely the remaining common-middle chart
+obligation.
+
+{docstring AclGeom.finiteCoverTriangle_left_comp_algebraMap_comp}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSemilinearCommon_left_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSemilinearCommon_right_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSemilinearCommon_direct_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSemilinearCommon_left_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSemilinearCommon_right_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSemilinearCommon_direct_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSemilinearCommon_left_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSemilinearCommon_right_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSemilinearCommon_direct_comp_bGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
