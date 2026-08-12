@@ -139,6 +139,95 @@ abbrev semanticCommonSourceField :
   (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
     (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k
 
+/-- The literal compositum of the original semantic source and the
+genuinely different algebraic-output source presentation.  Unlike the
+earlier source automorphisms, this construction does not identify the two
+fields: it retains both selected embeddings in one ambient field. -/
+def rightSourceJointField :
+    IntermediateField k (CommonCurveAmbient K) :=
+  R.semanticCommonSourceField ⊔ R.rightCSourceField
+
+/-- The original semantic source is a literal subfield of the joint source
+model. -/
+theorem semanticCommonSourceField_le_rightSourceJointField :
+    R.semanticCommonSourceField ≤ R.rightSourceJointField :=
+  le_sup_left
+
+/-- The algebraic-output source is the other literal subfield of the joint
+source model. -/
+theorem rightCSourceField_le_rightSourceJointField :
+    R.rightCSourceField ≤ R.rightSourceJointField :=
+  le_sup_right
+
+/-- The joint source displayed as an extension of the original semantic
+source. -/
+def rightSourceJointOverSemantic :
+    IntermediateField (↥R.semanticCommonSourceField)
+      (CommonCurveAmbient K) :=
+  extendScalars R.semanticCommonSourceField_le_rightSourceJointField
+
+/-- The same joint source displayed as an extension of the algebraic-output
+source. -/
+def rightSourceJointOverC :
+    IntermediateField (↥R.rightCSourceField) (CommonCurveAmbient K) :=
+  extendScalars R.rightCSourceField_le_rightSourceJointField
+
+/-- The joint source is finite over the original semantic presentation.
+This uses the literal four-arrow interalgebraicity chain, rather than the
+abstract `e→c` function-field equivalence. -/
+theorem rightSourceJointOverSemantic_finiteDimensional :
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointOverSemantic) := by
+  have key : R.rightSourceJointOverSemantic =
+      adjoin (↥R.semanticCommonSourceField)
+        (Set.range R.rightCSourceTuple) := by
+    refine restrictScalars_injective k ?_
+    unfold rightSourceJointOverSemantic rightSourceJointField
+    rw [extendScalars_restrictScalars, restrictScalars_adjoin_eq_sup]
+    rfl
+  rw [key]
+  letI : Fintype (Set.range R.rightCSourceTuple) :=
+    Set.Finite.fintype (Set.finite_range R.rightCSourceTuple)
+  exact finiteDimensional_adjoin fun z hz ↦ by
+    have hzr : z ∈ racl k (Set.range R.rightESourceTuple) := by
+      rw [R.rightESource_racl_eq_rightCSource]
+      exact subset_racl k _ hz
+    have hzAlg : IsAlgebraic (↥R.rightESourceField) z :=
+      (mem_racl_iff k).1 hzr
+    rw [R.rightESourceField_eq_commonSourceField] at hzAlg
+    exact hzAlg.isIntegral
+
+/-- Symmetrically, the same joint source is finite over the genuine `c`
+presentation.  Both legs may therefore be normalized without erasing the
+semilinear base change. -/
+theorem rightSourceJointOverC_finiteDimensional :
+    FiniteDimensional (↥R.rightCSourceField)
+      (↥R.rightSourceJointOverC) := by
+  have key : R.rightSourceJointOverC =
+      adjoin (↥R.rightCSourceField)
+        (Set.range R.rightESourceTuple) := by
+    refine restrictScalars_injective k ?_
+    unfold rightSourceJointOverC rightSourceJointField
+    rw [extendScalars_restrictScalars, restrictScalars_adjoin_eq_sup]
+    change R.semanticCommonSourceField ⊔ R.rightCSourceField =
+      R.rightCSourceField ⊔ R.rightESourceField
+    calc
+      R.semanticCommonSourceField ⊔ R.rightCSourceField =
+          R.rightCSourceField ⊔ R.semanticCommonSourceField :=
+        sup_comm _ _
+      _ = R.rightCSourceField ⊔ R.rightESourceField :=
+        congrArg (fun F : IntermediateField k (CommonCurveAmbient K) ↦
+          R.rightCSourceField ⊔ F)
+          R.rightESourceField_eq_commonSourceField.symm
+  rw [key]
+  letI : Fintype (Set.range R.rightESourceTuple) :=
+    Set.Finite.fintype (Set.finite_range R.rightESourceTuple)
+  exact finiteDimensional_adjoin fun z hz ↦ by
+    have hzr : z ∈ racl k (Set.range R.rightCSourceTuple) := by
+      rw [← R.rightESource_racl_eq_rightCSource]
+      exact subset_racl k _ hz
+    exact ((mem_racl_iff k).1 hzr).isIntegral
+
 /-- The transported eight-input field embeds in the semantic source field;
 the additional generator of the latter is the formal curve coordinate. -/
 theorem mappedReferenceInputField_le_semanticCommonSourceField :
@@ -4163,6 +4252,15 @@ noncomputable def rightBCommonSourceClosureTransport
   AlgebraicClosureTransport.lift
     (R.commonSourceRightBAut hind).toRingEquiv
 
+/-- Lift the genuine `e→c` equivalence from the semantic common source to
+the independent algebraic-output source field. -/
+noncomputable def rightCSourceClosureTransport
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport (↥R.semanticCommonSourceField)
+      (↥R.rightCSourceField) :=
+  AlgebraicClosureTransport.lift
+    (R.commonSourceToRightCSourceEquiv hind).toRingEquiv
+
 /-- The lifted `a` transport still carries every displayed rational-source
 coordinate to the same-position coordinate in the `a` presentation. -/
 @[simp] theorem rightACommonSourceClosureTransport_algebraMap
@@ -4196,6 +4294,24 @@ coordinate to the same-position coordinate in the `a` presentation. -/
       (AlgebraicClosure (↥R.semanticCommonSourceField)))
     (R.commonSourceRightBAut_apply hind i)
 
+/-- The lifted `c` transport retains the exact coordinatewise source
+formula, including the distinguished block whose value is the selected
+algebraic output `c`. -/
+@[simp] theorem rightCSourceClosureTransport_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    (R.rightCSourceClosureTransport hind).closureEquiv
+        (algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField))
+          (R.rightESemanticSourceCoordinate i)) =
+      algebraMap (↥R.rightCSourceField)
+        (AlgebraicClosure (↥R.rightCSourceField))
+        (R.rightCSourceCoordinate i) := by
+  rw [AlgebraicClosureTransport.commutes_apply]
+  exact congrArg
+    (algebraMap (↥R.rightCSourceField)
+      (AlgebraicClosure (↥R.rightCSourceField)))
+    (R.commonSourceToRightCSourceEquiv_apply hind i)
+
 /-- The selected graph/right source cover transported through the genuine
 semilinear `e→a` base automorphism. -/
 noncomputable def rightASelectedGraphRightSourceCover
@@ -4208,6 +4324,13 @@ noncomputable def rightBSelectedGraphRightSourceCover
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
   (R.selectedGraphRightSourceCover L hind).map
     (R.rightBCommonSourceClosureTransport hind)
+
+/-- The selected graph/right source transported to a finite normal cover
+over the genuinely different `c` source field. -/
+noncomputable def rightCSelectedGraphRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedGraphRightSourceCover L hind).map
+    (R.rightCSourceClosureTransport hind)
 
 /-- Restriction of the lifted `a` algebraic-closure transport to the finite
 selected graph/right source cover. -/
@@ -4226,6 +4349,15 @@ noncomputable def selectedGraphRightSourceToRightBRingEquiv
       (↥(R.rightBSelectedGraphRightSourceCover L hind).field) :=
   (R.selectedGraphRightSourceCover L hind).mapEquiv
     (R.rightBCommonSourceClosureTransport hind)
+
+/-- Restriction of the lifted `c` base change to the finite selected
+graph/right source cover. -/
+noncomputable def selectedGraphRightSourceToRightCRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphRightSourceCover L hind).field) ≃+*
+      (↥(R.rightCSelectedGraphRightSourceCover L hind).field) :=
+  (R.selectedGraphRightSourceCover L hind).mapEquiv
+    (R.rightCSourceClosureTransport hind)
 
 set_option synthInstance.maxHeartbeats 100000 in
 -- The nested source-cover algebra tower is hidden behind named sup constructions.
@@ -4261,6 +4393,23 @@ set_option synthInstance.maxHeartbeats 100000 in
         (R.rightBSelectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ := by
   apply Subtype.ext
   exact R.rightBCommonSourceClosureTransport_algebraMap hind i
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested source-cover algebra tower is hidden behind named sup constructions.
+/-- Finite-cover coordinate formula for the genuine `c` base change. -/
+@[simp] theorem selectedGraphRightSourceToRightCRingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.selectedGraphRightSourceToRightCRingEquiv L hind
+        ⟨algebraMap (↥R.semanticCommonSourceField)
+            (AlgebraicClosure (↥R.semanticCommonSourceField))
+            (R.rightESemanticSourceCoordinate i),
+          (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ =
+      ⟨algebraMap (↥R.rightCSourceField)
+          (AlgebraicClosure (↥R.rightCSourceField))
+          (R.rightCSourceCoordinate i),
+        (R.rightCSelectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ := by
+  apply Subtype.ext
+  exact R.rightCSourceClosureTransport_algebraMap hind i
 
 /-- The established selected graph source is a literal subcover of the
 right-enlarged graph source. -/

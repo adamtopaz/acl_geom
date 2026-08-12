@@ -1217,6 +1217,23 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     selected semantic/reference finite field and normalized over a compatible
     common base before the middle/target charts and `RightRestriction` are
     assembled.
+88. The genuine algebraic-output source has now been lifted without making
+    that false identification.  Composing the four interalgebraicity faces
+    gives the explicit closure equality
+    `racl(s,e,a,b) = racl(s,sA,a,c)`; after embedding and adjoining the
+    common formal curve coordinate, the two concrete nine-coordinate source
+    presentations still have equal relative algebraic closures.  The exact
+    `e→c` source equivalence consequently lifts to algebraic closures, maps
+    `selectedGraphRightSourceCover` to a finite normal cover over the literal
+    `c` source, and retains its same-position coordinate formula on the
+    restricted finite cover.  For the compatibility step the two embedded
+    sources are retained in the literal compositum
+    `rightSourceJointField = S ⊔ Sc`; both inclusions are named, and the
+    compositum is proved finite over both `S` and `Sc`.  The next issue-#16
+    step is to normalize the selected graph covers over this joint source,
+    select the common semilinear middle/target charts, and prove their four
+    whole-field normalized coefficient restrictions before constructing
+    `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

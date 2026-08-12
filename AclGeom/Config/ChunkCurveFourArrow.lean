@@ -74,6 +74,25 @@ theorem s_sA_a_c_independent
   rw [rankTwoFourTuple_range, rankTwoFourTuple_range] at h ⊢
   simpa only [Set.union_assoc, Set.union_left_comm, Set.union_comm] using h.symm
 
+/-- The original independent inputs and the algebraic-output presentation
+have the same relative algebraic closure.  This records the whole
+four-arrow interalgebraicity chain, not only the independence consequence
+used above. -/
+theorem racl_s_e_a_b_eq_s_sA_a_c :
+    racl k (Set.range (rankTwoFourTuple s e a b)) =
+      racl k (Set.range (rankTwoFourTuple s D.sA a D.c)) := by
+  have hlast := D.sA_c_uB.racl_four_firstRight_eq_firstOutput s a
+  rw [rankTwoFourTuple_range, rankTwoFourTuple_range] at hlast
+  have hlast' :
+      racl k (Set.range (rankTwoFourTuple s D.sA a D.uB)) =
+        racl k (Set.range (rankTwoFourTuple s D.sA a D.c)) := by
+    rw [rankTwoFourTuple_range, rankTwoFourTuple_range]
+    simpa only [Set.union_assoc, Set.union_left_comm, Set.union_comm]
+      using hlast.symm
+  exact (D.se_u.racl_four_leftRight_eq_leftOutput a b).trans
+    ((D.sA_a_u.racl_four_outputRight_eq_leftRight s b).trans
+      ((D.s_b_uB.racl_four_firstRight_eq_firstOutput D.sA a).trans hlast'))
+
 end RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram
 
 namespace QWitness

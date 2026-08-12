@@ -1204,6 +1204,45 @@ theorem rightCSourceTuple_independent
     mappedTuple_snoc_commonCurveSource_independent
       (k := k) (K := K) h
 
+/-- The original and algebraic-output coefficient presentations have the
+same relative algebraic closure after passing to the common curve ambient
+field.  The reordered `c` tuple is therefore an honest embedded algebraic
+presentation of the original eight inputs, not merely an abstract copy. -/
+theorem rightEInput_racl_eq_rightCInput :
+    racl k (Set.range R.rightEInputTuple) =
+      racl k (Set.range R.rightCInputTuple) := by
+  let f : Fin 8 → Fin 8 := ![0, 1, 6, 7, 4, 5, 2, 3]
+  have hf : Function.Surjective f := by decide
+  have h := algHom_racl_image_eq_of_racl_eq
+    (commonCurveEmbedding (k := k) (K := K))
+    D.racl_s_e_a_b_eq_s_sA_a_c
+  have hrange :
+      Set.range (rankTwoFourTuple s D.sA a D.c ∘ f) =
+        Set.range (rankTwoFourTuple s D.sA a D.c) :=
+    hf.range_comp _
+  simpa [rightEInputTuple, rightCInputTuple, f, hrange,
+    Set.range_comp] using h
+
+/-- Adjoining the common formal curve coordinate preserves that closure
+equality.  Thus the two concrete nine-coordinate source fields are
+mutually algebraic inside the same ambient field, even though they are not
+equal as intermediate fields. -/
+theorem rightESource_racl_eq_rightCSource :
+    racl k (Set.range R.rightESourceTuple) =
+      racl k (Set.range R.rightCSourceTuple) := by
+  simp only [rightESourceTuple, rightCSourceTuple, Fin.range_snoc]
+  apply racl_congr_of_subset_racl
+  · rintro z (rfl | hz)
+    · exact subset_racl k _ (Set.mem_insert _ _)
+    · apply racl_mono (Set.subset_insert _ _)
+      rw [← R.rightEInput_racl_eq_rightCInput]
+      exact subset_racl k _ hz
+  · rintro z (rfl | hz)
+    · exact subset_racl k _ (Set.mem_insert _ _)
+    · apply racl_mono (Set.subset_insert _ _)
+      rw [R.rightEInput_racl_eq_rightCInput]
+      exact subset_racl k _ hz
+
 /-- The rational coefficient/source field displayed by the first right
 arrow. -/
 def rightESourceField : IntermediateField k (CommonCurveAmbient K) :=
@@ -1479,6 +1518,12 @@ def rightBSemanticSourceCoordinate (i : Fin 9) :
   ⟨R.rightBSourceTuple i,
     R.rightBSourceField_eq_commonSourceField ▸
       subset_adjoin k _ (Set.mem_range_self i)⟩
+
+/-- A displayed coordinate of the genuinely different algebraic-output
+source field. -/
+def rightCSourceCoordinate (i : Fin 9) : ↥R.rightCSourceField :=
+  ⟨R.rightCSourceTuple i,
+    subset_adjoin k _ (Set.mem_range_self i)⟩
 
 /-- The semantic common source therefore has a coefficient-moving chart
 whose distinguished right-parameter block is sent from `e` to `a`. -/

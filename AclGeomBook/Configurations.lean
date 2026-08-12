@@ -2750,6 +2750,36 @@ deck transformation:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightBRingEquiv_algebraMap}
 
+The algebraic-output face is lifted without pretending that its displayed
+source is the original semantic field.  The four interalgebraicity faces
+first give an explicit equality between the relative algebraic closures of
+the original `(s,e,a,b)` inputs and the `(s,sA,a,c)` presentation.  This
+equality persists after embedding and adjoining the common formal curve
+source.  The exact `e→c` equivalence therefore lifts to algebraic closures
+and restricts to an exact equivalence of finite selected graph covers.
+
+For compatibility, the two literal embedded source fields are retained in
+their compositum rather than identified.  The closure equality proves that
+this joint source is finite over both the original semantic source and the
+genuine `c` source.  It is consequently a valid common base for the later
+normal middle/target charts while preserving both semilinear source legs:
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.racl_s_e_a_b_eq_s_sA_a_c}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightESource_racl_eq_rightCSource}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCSourceClosureTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCSelectedGraphRightSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightCRingEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSourceJointField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSourceJointOverSemantic_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSourceJointOverC_finiteDimensional}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
