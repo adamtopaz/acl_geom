@@ -39,6 +39,87 @@ namespace AlgebraicClosureTransport
 
 variable {E E' E'' : Type*} [Field E] [Field E'] [Field E'']
 
+/-! ### Algebraic closures across an algebraic field extension -/
+
+/-- An algebraic field extension and its base have equivalent algebraic
+closures.  The chosen equivalence is oriented from the algebraic closure of
+the base to that of the extension and extends the installed algebra map. -/
+noncomputable def algebraicExtensionClosureRingEquiv
+    [Algebra E E'] [Algebra.IsAlgebraic E E'] :
+    AlgebraicClosure E ≃+* AlgebraicClosure E' :=
+  (IsAlgClosure.equivOfAlgebraic E E'
+    (AlgebraicClosure E') (AlgebraicClosure E)).symm.toRingEquiv
+
+/-- The chosen equivalence for an algebraic extension preserves the base
+embedding pointwise. -/
+@[simp] theorem algebraicExtensionClosureRingEquiv_algebraMap
+    [Algebra E E'] [Algebra.IsAlgebraic E E'] (x : E) :
+    algebraicExtensionClosureRingEquiv (E := E) (E' := E')
+        (algebraMap E (AlgebraicClosure E) x) =
+      algebraMap E' (AlgebraicClosure E') (algebraMap E E' x) := by
+  let phi := IsAlgClosure.equivOfAlgebraic E E'
+    (AlgebraicClosure E') (AlgebraicClosure E)
+  change phi.symm (algebraMap E (AlgebraicClosure E) x) = _
+  apply phi.injective
+  rw [phi.apply_symm_apply]
+  rw [← IsScalarTower.algebraMap_apply E E' (AlgebraicClosure E')]
+  exact (phi.commutes x).symm
+
+/-- A finite field extension and its base have equivalent algebraic
+closures.  The chosen equivalence is oriented from the algebraic closure of
+the base to that of the extension and extends the installed algebra map.
+
+This is the embedded-extension analogue of `AlgebraicClosureTransport.lift`:
+the latter starts from a base-field equivalence, while here the two base
+fields are related by an actual finite inclusion. -/
+noncomputable def finiteExtensionClosureRingEquiv
+    [Algebra E E'] [FiniteDimensional E E'] :
+    AlgebraicClosure E ≃+* AlgebraicClosure E' :=
+  algebraicExtensionClosureRingEquiv
+
+/-- The algebraic-closure equivalence attached to a finite extension sends
+every base element to its image under the installed algebra map. -/
+@[simp] theorem finiteExtensionClosureRingEquiv_algebraMap
+    [Algebra E E'] [FiniteDimensional E E'] (x : E) :
+    finiteExtensionClosureRingEquiv (E := E) (E' := E')
+        (algebraMap E (AlgebraicClosure E) x) =
+      algebraMap E' (AlgebraicClosure E') (algebraMap E E' x) := by
+  exact algebraicExtensionClosureRingEquiv_algebraMap x
+
+/-- An equivalence of algebraic closures extending a specified field
+embedding.  Keeping the restriction square in the data makes the result
+independent of the local `Algebra` instance used to prove finiteness. -/
+structure EmbeddingClosureEquiv (f : E →+* E') where
+  /-- The chosen equivalence of algebraic closures. -/
+  closureEquiv : AlgebraicClosure E ≃+* AlgebraicClosure E'
+  /-- The chosen equivalence extends the specified embedding on every
+  element of the source field. -/
+  commutes : ∀ x : E,
+    closureEquiv (algebraMap E (AlgebraicClosure E) x) =
+      algebraMap E' (AlgebraicClosure E') (f x)
+
+namespace EmbeddingClosureEquiv
+
+/-- Package the closure equivalence of an algebraic extension as an
+extension of the explicitly named embedding supplying its algebra
+structure. -/
+noncomputable def ofAlgebraic (f : E →+* E')
+    [Algebra E E'] [Algebra.IsAlgebraic E E']
+    (hf : algebraMap E E' = f) : EmbeddingClosureEquiv f where
+  closureEquiv := algebraicExtensionClosureRingEquiv
+  commutes x := by
+    rw [algebraicExtensionClosureRingEquiv_algebraMap, hf]
+
+/-- Package the algebraic-closure equivalence of a finite extension as an
+extension of the explicitly named embedding that supplies its algebra
+structure. -/
+noncomputable def ofFinite (f : E →+* E')
+    [Algebra E E'] [FiniteDimensional E E']
+    (hf : algebraMap E E' = f) : EmbeddingClosureEquiv f :=
+  ofAlgebraic f hf
+
+end EmbeddingClosureEquiv
+
 /-- Changing an intermediate-field subtype along an equality does not
 change its value in the ambient field. -/
 @[simp] theorem equivOfEq_val

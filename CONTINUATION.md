@@ -1250,6 +1250,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     common middle/target equivalences, prove the repeated-arrow equations and
     whole intrinsic coefficient restrictions, and package the resulting
     non-vacuous `RightRestriction`.
+90. The four selected embeddings into `fourSelectedGraphJointCover` now
+    agree with their coefficient-moving base maps on the entire semantic
+    source field, not only on its nine displayed generators.  Twisting the
+    source algebra structure by the `a` and `b` automorphisms, and by the
+    genuine `S ≃ Sc` chart for `c`, preserves finiteness of the joint source.
+    Since the joint cover is finite over that source, each selected embedding
+    makes its target algebraic over the original selected graph/right source.
+    A reusable `EmbeddingClosureEquiv` API extends such an embedding to an
+    equivalence of algebraic closures while retaining its exact restriction;
+    all four `e/a/b/c` extensions are instantiated.  These closure
+    equivalences are comparison data, not finite-cover charts themselves.
+    The next step must use them to construct a finite common chart stable
+    under the necessary comparisons, then prove the repeated arrows and the
+    whole intrinsic coefficient-field `RightRestriction` on that chart.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

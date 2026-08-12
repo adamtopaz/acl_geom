@@ -4719,6 +4719,517 @@ noncomputable def selectedGraphRightSourceToRightCJointRingHom
         R.rightCSourceToRightSourceJointClosureRingEquiv_algebraMap).comp
           (R.selectedGraphRightSourceToRightCRingEquiv L hind).toRingHom)
 
+/-- The base map underlying the selected `e` embedding into the joint
+cover. -/
+def rightEToJointBaseRingHom :
+    (↥R.semanticCommonSourceField) →+* (↥R.rightSourceJointField) :=
+  R.semanticSourceToRightSourceJoint.toRingHom
+
+/-- The base map underlying the selected `a` embedding: first move the
+semantic source presentation from `e` to `a`, then use its literal
+inclusion in the joint source. -/
+noncomputable def rightAToJointBaseRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥R.semanticCommonSourceField) →+* (↥R.rightSourceJointField) :=
+  R.semanticSourceToRightSourceJoint.toRingHom.comp
+    (R.commonSourceRightAAut hind).toRingEquiv.toRingHom
+
+/-- The analogous full semantic-source map for the `b` presentation. -/
+noncomputable def rightBToJointBaseRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥R.semanticCommonSourceField) →+* (↥R.rightSourceJointField) :=
+  R.semanticSourceToRightSourceJoint.toRingHom.comp
+    (R.commonSourceRightBAut hind).toRingEquiv.toRingHom
+
+/-- The full base map for the genuine `c` presentation, through its
+distinct source field and then the literal `Sc → S ⊔ Sc` inclusion. -/
+noncomputable def rightCToJointBaseRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥R.semanticCommonSourceField) →+* (↥R.rightSourceJointField) :=
+  R.rightCSourceToRightSourceJoint.toRingHom.comp
+    (R.commonSourceToRightCSourceEquiv hind).toRingEquiv.toRingHom
+
+/-- The joint source remains finite when its semantic-base algebra
+structure is twisted by the `e → a` source automorphism. -/
+theorem rightSourceJointOverA_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    letI : Algebra (↥R.semanticCommonSourceField)
+        (↥R.rightSourceJointField) :=
+      (R.rightAToJointBaseRingHom hind).toAlgebra
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointField) := by
+  let S := ↥R.semanticCommonSourceField
+  let J := ↥R.rightSourceJointField
+  let oldAlgebra : Algebra S J :=
+    R.semanticSourceToRightSourceJoint.toAlgebra
+  let newAlgebra : Algebra S J :=
+    (R.rightAToJointBaseRingHom hind).toAlgebra
+  let oldModule : Module S J := oldAlgebra.toModule
+  let oldFinite : @Module.Finite S J _ _ oldModule := by
+    letI : Algebra S J := oldAlgebra
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointOverSemantic)
+    exact R.rightSourceJointOverSemantic_finiteDimensional
+  letI : Algebra S J := newAlgebra
+  exact @Module.Finite.of_equiv_equiv S J S J _ _ _ _
+    oldAlgebra newAlgebra
+    (R.commonSourceRightAAut hind).symm.toRingEquiv
+    (RingEquiv.refl J) (by
+      apply RingHom.ext
+      intro x
+      change R.rightAToJointBaseRingHom hind
+          ((R.commonSourceRightAAut hind).symm x) =
+        R.semanticSourceToRightSourceJoint x
+      simp [rightAToJointBaseRingHom]) oldFinite
+
+/-- The same finite-extension transport for the `e → b` source
+automorphism. -/
+theorem rightSourceJointOverB_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    letI : Algebra (↥R.semanticCommonSourceField)
+        (↥R.rightSourceJointField) :=
+      (R.rightBToJointBaseRingHom hind).toAlgebra
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointField) := by
+  let S := ↥R.semanticCommonSourceField
+  let J := ↥R.rightSourceJointField
+  let oldAlgebra : Algebra S J :=
+    R.semanticSourceToRightSourceJoint.toAlgebra
+  let newAlgebra : Algebra S J :=
+    (R.rightBToJointBaseRingHom hind).toAlgebra
+  let oldModule : Module S J := oldAlgebra.toModule
+  let oldFinite : @Module.Finite S J _ _ oldModule := by
+    letI : Algebra S J := oldAlgebra
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointOverSemantic)
+    exact R.rightSourceJointOverSemantic_finiteDimensional
+  letI : Algebra S J := newAlgebra
+  exact @Module.Finite.of_equiv_equiv S J S J _ _ _ _
+    oldAlgebra newAlgebra
+    (R.commonSourceRightBAut hind).symm.toRingEquiv
+    (RingEquiv.refl J) (by
+      apply RingHom.ext
+      intro x
+      change R.rightBToJointBaseRingHom hind
+          ((R.commonSourceRightBAut hind).symm x) =
+        R.semanticSourceToRightSourceJoint x
+      simp [rightBToJointBaseRingHom]) oldFinite
+
+/-- The joint source is finite over the common semantic source through the
+genuine `S ≃ Sc` chart used by the `c` leg. -/
+theorem rightSourceJointOverCChart_finiteDimensional
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    letI : Algebra (↥R.semanticCommonSourceField)
+        (↥R.rightSourceJointField) :=
+      (R.rightCToJointBaseRingHom hind).toAlgebra
+    FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointField) := by
+  let S := ↥R.semanticCommonSourceField
+  let Sc := ↥R.rightCSourceField
+  let J := ↥R.rightSourceJointField
+  let oldAlgebra : Algebra Sc J :=
+    R.rightCSourceToRightSourceJoint.toAlgebra
+  let newAlgebra : Algebra S J :=
+    (R.rightCToJointBaseRingHom hind).toAlgebra
+  let oldModule : Module Sc J := oldAlgebra.toModule
+  let oldFinite : @Module.Finite Sc J _ _ oldModule := by
+    letI : Algebra Sc J := oldAlgebra
+    change FiniteDimensional (↥R.rightCSourceField)
+      (↥R.rightSourceJointOverC)
+    exact R.rightSourceJointOverC_finiteDimensional
+  letI : Algebra S J := newAlgebra
+  exact @Module.Finite.of_equiv_equiv Sc J S J _ _ _ _
+    oldAlgebra newAlgebra
+    (R.commonSourceToRightCSourceEquiv hind).symm.toRingEquiv
+    (RingEquiv.refl J) (by
+      apply RingHom.ext
+      intro x
+      change R.rightCToJointBaseRingHom hind
+          ((R.commonSourceToRightCSourceEquiv hind).symm x) =
+        R.rightCSourceToRightSourceJoint x
+      simp [rightCToJointBaseRingHom]) oldFinite
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested selected source algebra map needs additional instance search.
+set_option maxHeartbeats 800000 in
+-- The selected map unfolds through a finite-basis rebase and a three-level supremum.
+/-- On the entire semantic source field, not only on its nine displayed
+generators, the selected `e` embedding extends the literal joint-source
+inclusion. -/
+@[simp] theorem selectedGraphRightSourceToRightEJointRingHom_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.semanticCommonSourceField) :
+    R.selectedGraphRightSourceToRightEJointRingHom L hind
+        ⟨algebraMap (↥R.semanticCommonSourceField)
+            (AlgebraicClosure (↥R.semanticCommonSourceField)) x,
+          (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ =
+      algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)
+        (R.rightEToJointBaseRingHom x) := by
+  letI : Algebra (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointField) :=
+    R.semanticSourceToRightSourceJoint.toAlgebra
+  apply Subtype.ext
+  exact R.semanticSourceToRightSourceJointClosureRingEquiv_algebraMap x
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested selected source algebra map needs additional instance search.
+set_option maxHeartbeats 800000 in
+-- The selected map unfolds through semilinear transport and finite-basis rebase.
+/-- The selected `a` embedding extends its full coefficient-moving base
+map into the joint source. -/
+@[simp] theorem selectedGraphRightSourceToRightAJointRingHom_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.semanticCommonSourceField) :
+    R.selectedGraphRightSourceToRightAJointRingHom L hind
+        ⟨algebraMap (↥R.semanticCommonSourceField)
+            (AlgebraicClosure (↥R.semanticCommonSourceField)) x,
+          (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ =
+      algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)
+        (R.rightAToJointBaseRingHom hind x) := by
+  letI : Algebra (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointField) :=
+    R.semanticSourceToRightSourceJoint.toAlgebra
+  apply Subtype.ext
+  change R.semanticSourceToRightSourceJointClosureRingEquiv
+      ((R.rightACommonSourceClosureTransport hind).closureEquiv
+        (algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField)) x)) = _
+  rw [AlgebraicClosureTransport.commutes_apply]
+  exact R.semanticSourceToRightSourceJointClosureRingEquiv_algebraMap _
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested selected source algebra map needs additional instance search.
+set_option maxHeartbeats 800000 in
+-- The selected map unfolds through semilinear transport and finite-basis rebase.
+/-- The selected `b` embedding likewise extends its full source map. -/
+@[simp] theorem selectedGraphRightSourceToRightBJointRingHom_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.semanticCommonSourceField) :
+    R.selectedGraphRightSourceToRightBJointRingHom L hind
+        ⟨algebraMap (↥R.semanticCommonSourceField)
+            (AlgebraicClosure (↥R.semanticCommonSourceField)) x,
+          (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ =
+      algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)
+        (R.rightBToJointBaseRingHom hind x) := by
+  letI : Algebra (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointField) :=
+    R.semanticSourceToRightSourceJoint.toAlgebra
+  apply Subtype.ext
+  change R.semanticSourceToRightSourceJointClosureRingEquiv
+      ((R.rightBCommonSourceClosureTransport hind).closureEquiv
+        (algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField)) x)) = _
+  rw [AlgebraicClosureTransport.commutes_apply]
+  exact R.semanticSourceToRightSourceJointClosureRingEquiv_algebraMap _
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested selected source algebra map needs additional instance search.
+set_option maxHeartbeats 800000 in
+-- The genuine c map passes through two different source algebraic closures.
+/-- The selected `c` embedding extends the full `S → Sc → S ⊔ Sc` base
+map. -/
+@[simp] theorem selectedGraphRightSourceToRightCJointRingHom_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : R.semanticCommonSourceField) :
+    R.selectedGraphRightSourceToRightCJointRingHom L hind
+        ⟨algebraMap (↥R.semanticCommonSourceField)
+            (AlgebraicClosure (↥R.semanticCommonSourceField)) x,
+          (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ =
+      algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)
+        (R.rightCToJointBaseRingHom hind x) := by
+  letI : Algebra (↥R.rightCSourceField) (↥R.rightSourceJointField) :=
+    R.rightCSourceToRightSourceJoint.toAlgebra
+  apply Subtype.ext
+  change R.rightCSourceToRightSourceJointClosureRingEquiv
+      ((R.rightCSourceClosureTransport hind).closureEquiv
+        (algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField)) x)) = _
+  rw [AlgebraicClosureTransport.commutes_apply]
+  exact R.rightCSourceToRightSourceJointClosureRingEquiv_algebraMap _
+
+/-- The literal semantic base embedding in the selected graph/right source
+cover, exposed as a ring hom so it can be compared with all four joint
+embeddings without relying on a synthesized scalar tower. -/
+def semanticSourceToSelectedGraphRightSourceRingHom
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥R.semanticCommonSourceField) →+*
+      (↥(R.selectedGraphRightSourceCover L hind).field) where
+  toFun x :=
+    ⟨algebraMap (↥R.semanticCommonSourceField)
+        (AlgebraicClosure (↥R.semanticCommonSourceField)) x,
+      (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩
+  map_one' := by
+    apply Subtype.ext
+    exact map_one _
+  map_mul' x y := by
+    apply Subtype.ext
+    exact map_mul _ x y
+  map_zero' := by
+    apply Subtype.ext
+    exact map_zero _
+  map_add' x y := by
+    apply Subtype.ext
+    exact map_add _ x y
+
+/-- The first selected joint embedding extends its displayed semantic-base
+map as an equality of ring homomorphisms. -/
+theorem selectedGraphRightSourceToRightEJointRingHom_comp_source
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedGraphRightSourceToRightEJointRingHom L hind).comp
+        (R.semanticSourceToSelectedGraphRightSourceRingHom L hind) =
+      (algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)).comp
+          R.rightEToJointBaseRingHom := by
+  apply RingHom.ext
+  intro x
+  exact R.selectedGraphRightSourceToRightEJointRingHom_algebraMap L hind x
+
+/-- The selected `a` joint embedding has the coefficient-moving `a` base
+map as its exact restriction. -/
+theorem selectedGraphRightSourceToRightAJointRingHom_comp_source
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedGraphRightSourceToRightAJointRingHom L hind).comp
+        (R.semanticSourceToSelectedGraphRightSourceRingHom L hind) =
+      (algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)).comp
+          (R.rightAToJointBaseRingHom hind) := by
+  apply RingHom.ext
+  intro x
+  exact R.selectedGraphRightSourceToRightAJointRingHom_algebraMap L hind x
+
+/-- The analogous full restriction square for the selected `b` joint
+embedding. -/
+theorem selectedGraphRightSourceToRightBJointRingHom_comp_source
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedGraphRightSourceToRightBJointRingHom L hind).comp
+        (R.semanticSourceToSelectedGraphRightSourceRingHom L hind) =
+      (algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)).comp
+          (R.rightBToJointBaseRingHom hind) := by
+  apply RingHom.ext
+  intro x
+  exact R.selectedGraphRightSourceToRightBJointRingHom_algebraMap L hind x
+
+/-- The genuine `c` joint embedding restricts to the composite base chart
+through the independent `c` source field. -/
+theorem selectedGraphRightSourceToRightCJointRingHom_comp_source
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.selectedGraphRightSourceToRightCJointRingHom L hind).comp
+        (R.semanticSourceToSelectedGraphRightSourceRingHom L hind) =
+      (algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)).comp
+          (R.rightCToJointBaseRingHom hind) := by
+  apply RingHom.ext
+  intro x
+  exact R.selectedGraphRightSourceToRightCJointRingHom_algebraMap L hind x
+
+/-- Common tower argument extending any one of the four selected embeddings
+to algebraic closures once its semantic-base square and the finiteness of
+the corresponding twisted joint-source algebra are known. -/
+private noncomputable def selectedGraphRightSourceToJointClosureExtension
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (f : (↥(R.selectedGraphRightSourceCover L hind).field) →+*
+      (↥(R.fourSelectedGraphJointCover L hind).field))
+    (g : (↥R.semanticCommonSourceField) →+*
+      (↥R.rightSourceJointField))
+    (hfin : @Module.Finite (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointField) _ _ g.toAlgebra.toModule)
+    (hcomp : f.comp
+        (R.semanticSourceToSelectedGraphRightSourceRingHom L hind) =
+      (algebraMap (↥R.rightSourceJointField)
+        (↥(R.fourSelectedGraphJointCover L hind).field)).comp g) :
+    AlgebraicClosureTransport.EmbeddingClosureEquiv f := by
+  let S := ↥R.semanticCommonSourceField
+  let N := ↥(R.selectedGraphRightSourceCover L hind).field
+  let J := ↥R.rightSourceJointField
+  let P := ↥(R.fourSelectedGraphJointCover L hind).field
+  let iSN : S →+* N :=
+    R.semanticSourceToSelectedGraphRightSourceRingHom L hind
+  letI : Algebra S N := iSN.toAlgebra
+  letI : Algebra N P := f.toAlgebra
+  letI : Algebra S J := g.toAlgebra
+  let algSJP : Algebra S P := ((algebraMap J P).comp g).toAlgebra
+  letI : Algebra S P := algSJP
+  let towerSJP : IsScalarTower S J P :=
+    IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  letI : IsScalarTower S J P := towerSJP
+  letI : FiniteDimensional S J := hfin
+  letI : FiniteDimensional J P :=
+    (R.fourSelectedGraphJointCover L hind).finiteDimensional
+  letI : Algebra.IsAlgebraic S J := Algebra.IsAlgebraic.of_finite S J
+  letI : Algebra.IsAlgebraic J P := Algebra.IsAlgebraic.of_finite J P
+  letI : Algebra.IsAlgebraic S P := by
+    exact Algebra.IsAlgebraic.trans S J P
+  letI : IsScalarTower S N P :=
+    IsScalarTower.of_algebraMap_eq fun x ↦
+      (DFunLike.congr_fun hcomp x).symm
+  letI : Algebra.IsAlgebraic N P :=
+    Algebra.IsAlgebraic.tower_top (K := S) (A := P) N
+  exact AlgebraicClosureTransport.EmbeddingClosureEquiv.ofAlgebraic f rfl
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The finite algebraic towers use selected, noncanonical algebra maps.
+set_option maxHeartbeats 800000 in
+-- The finite towers are installed locally because their algebra maps are selected data.
+/-- Extend the selected `e` embedding of the whole graph/right source to an
+equivalence of algebraic closures of the source cover and the joint cover,
+retaining its exact restriction square as data.  The joint cover is finite
+over the selected source image: it is already finite over the joint base,
+which is finite over the semantic source. -/
+noncomputable def selectedGraphRightSourceToRightEJointClosureExtension
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.EmbeddingClosureEquiv
+      (R.selectedGraphRightSourceToRightEJointRingHom L hind) :=
+  selectedGraphRightSourceToJointClosureExtension R L hind
+    (R.selectedGraphRightSourceToRightEJointRingHom L hind)
+    R.rightEToJointBaseRingHom (by
+    change FiniteDimensional (↥R.semanticCommonSourceField)
+      (↥R.rightSourceJointOverSemantic)
+    exact R.rightSourceJointOverSemantic_finiteDimensional)
+    (R.selectedGraphRightSourceToRightEJointRingHom_comp_source L hind)
+
+/-- Extend the selected `a` embedding to algebraic closures while retaining
+its exact coefficient-moving restriction. -/
+noncomputable def selectedGraphRightSourceToRightAJointClosureExtension
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.EmbeddingClosureEquiv
+      (R.selectedGraphRightSourceToRightAJointRingHom L hind) :=
+  selectedGraphRightSourceToJointClosureExtension R L hind
+    (R.selectedGraphRightSourceToRightAJointRingHom L hind)
+    (R.rightAToJointBaseRingHom hind)
+    (R.rightSourceJointOverA_finiteDimensional hind)
+    (R.selectedGraphRightSourceToRightAJointRingHom_comp_source L hind)
+
+/-- Extend the selected `b` embedding through the same common joint cover. -/
+noncomputable def selectedGraphRightSourceToRightBJointClosureExtension
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.EmbeddingClosureEquiv
+      (R.selectedGraphRightSourceToRightBJointRingHom L hind) :=
+  selectedGraphRightSourceToJointClosureExtension R L hind
+    (R.selectedGraphRightSourceToRightBJointRingHom L hind)
+    (R.rightBToJointBaseRingHom hind)
+    (R.rightSourceJointOverB_finiteDimensional hind)
+    (R.selectedGraphRightSourceToRightBJointRingHom_comp_source L hind)
+
+/-- Extend the genuine `c` embedding, including its passage through the
+independent `c` source presentation, to the common algebraic closure. -/
+noncomputable def selectedGraphRightSourceToRightCJointClosureExtension
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport.EmbeddingClosureEquiv
+      (R.selectedGraphRightSourceToRightCJointRingHom L hind) :=
+  selectedGraphRightSourceToJointClosureExtension R L hind
+    (R.selectedGraphRightSourceToRightCJointRingHom L hind)
+    (R.rightCToJointBaseRingHom hind)
+    (R.rightSourceJointOverCChart_finiteDimensional hind)
+    (R.selectedGraphRightSourceToRightCJointRingHom_comp_source L hind)
+
+/-- The underlying common algebraic-closure chart for the `e` leg. -/
+noncomputable def selectedGraphRightSourceToRightEJointClosureRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosure (↥(R.selectedGraphRightSourceCover L hind).field) ≃+*
+      AlgebraicClosure (↥(R.fourSelectedGraphJointCover L hind).field) :=
+  (R.selectedGraphRightSourceToRightEJointClosureExtension L hind).closureEquiv
+
+/-- The underlying algebraic-closure chart for the selected `a` leg. -/
+noncomputable def selectedGraphRightSourceToRightAJointClosureRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosure (↥(R.selectedGraphRightSourceCover L hind).field) ≃+*
+      AlgebraicClosure (↥(R.fourSelectedGraphJointCover L hind).field) :=
+  (R.selectedGraphRightSourceToRightAJointClosureExtension L hind).closureEquiv
+
+/-- The underlying algebraic-closure chart for the selected `b` leg. -/
+noncomputable def selectedGraphRightSourceToRightBJointClosureRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosure (↥(R.selectedGraphRightSourceCover L hind).field) ≃+*
+      AlgebraicClosure (↥(R.fourSelectedGraphJointCover L hind).field) :=
+  (R.selectedGraphRightSourceToRightBJointClosureExtension L hind).closureEquiv
+
+/-- The underlying algebraic-closure chart for the selected `c` leg. -/
+noncomputable def selectedGraphRightSourceToRightCJointClosureRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosure (↥(R.selectedGraphRightSourceCover L hind).field) ≃+*
+      AlgebraicClosure (↥(R.fourSelectedGraphJointCover L hind).field) :=
+  (R.selectedGraphRightSourceToRightCJointClosureExtension L hind).closureEquiv
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- Unfolding the selected algebraic-closure extension recreates its tower.
+set_option maxHeartbeats 800000 in
+-- This replays the same selected finite tower used in the definition above.
+/-- The common algebraic-closure equivalence restricts on every element of
+the old graph/right source to the originally selected `e` embedding. -/
+@[simp] theorem selectedGraphRightSourceToRightEJointClosureRingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.selectedGraphRightSourceCover L hind).field) :
+    R.selectedGraphRightSourceToRightEJointClosureRingEquiv L hind
+        (algebraMap (↥(R.selectedGraphRightSourceCover L hind).field)
+          (AlgebraicClosure
+            (↥(R.selectedGraphRightSourceCover L hind).field)) x) =
+      algebraMap (↥(R.fourSelectedGraphJointCover L hind).field)
+        (AlgebraicClosure
+          (↥(R.fourSelectedGraphJointCover L hind).field))
+        (R.selectedGraphRightSourceToRightEJointRingHom L hind x) := by
+  exact (R.selectedGraphRightSourceToRightEJointClosureExtension L hind).commutes x
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- Unfolding the selected algebraic-closure extension recreates its tower.
+set_option maxHeartbeats 800000 in
+-- This replays the twisted finite tower used for the a chart.
+/-- The `a` closure chart restricts exactly to the selected `a` embedding
+on the whole old source-cover field. -/
+@[simp] theorem selectedGraphRightSourceToRightAJointClosureRingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.selectedGraphRightSourceCover L hind).field) :
+    R.selectedGraphRightSourceToRightAJointClosureRingEquiv L hind
+        (algebraMap (↥(R.selectedGraphRightSourceCover L hind).field)
+          (AlgebraicClosure
+            (↥(R.selectedGraphRightSourceCover L hind).field)) x) =
+      algebraMap (↥(R.fourSelectedGraphJointCover L hind).field)
+        (AlgebraicClosure
+          (↥(R.fourSelectedGraphJointCover L hind).field))
+        (R.selectedGraphRightSourceToRightAJointRingHom L hind x) := by
+  exact (R.selectedGraphRightSourceToRightAJointClosureExtension L hind).commutes x
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- Unfolding the selected algebraic-closure extension recreates its tower.
+set_option maxHeartbeats 800000 in
+-- This replays the twisted finite tower used for the b chart.
+/-- The `b` closure chart restricts exactly to the selected `b` embedding. -/
+@[simp] theorem selectedGraphRightSourceToRightBJointClosureRingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.selectedGraphRightSourceCover L hind).field) :
+    R.selectedGraphRightSourceToRightBJointClosureRingEquiv L hind
+        (algebraMap (↥(R.selectedGraphRightSourceCover L hind).field)
+          (AlgebraicClosure
+            (↥(R.selectedGraphRightSourceCover L hind).field)) x) =
+      algebraMap (↥(R.fourSelectedGraphJointCover L hind).field)
+        (AlgebraicClosure
+          (↥(R.fourSelectedGraphJointCover L hind).field))
+        (R.selectedGraphRightSourceToRightBJointRingHom L hind x) := by
+  exact (R.selectedGraphRightSourceToRightBJointClosureExtension L hind).commutes x
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- Unfolding the selected algebraic-closure extension recreates its tower.
+set_option maxHeartbeats 800000 in
+-- This replays the finite tower through the independent c source chart.
+/-- The `c` closure chart restricts exactly to the genuine selected `c`
+embedding on the whole old source-cover field. -/
+@[simp] theorem selectedGraphRightSourceToRightCJointClosureRingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : (R.selectedGraphRightSourceCover L hind).field) :
+    R.selectedGraphRightSourceToRightCJointClosureRingEquiv L hind
+        (algebraMap (↥(R.selectedGraphRightSourceCover L hind).field)
+          (AlgebraicClosure
+            (↥(R.selectedGraphRightSourceCover L hind).field)) x) =
+      algebraMap (↥(R.fourSelectedGraphJointCover L hind).field)
+        (AlgebraicClosure
+          (↥(R.fourSelectedGraphJointCover L hind).field))
+        (R.selectedGraphRightSourceToRightCJointRingHom L hind x) := by
+  exact (R.selectedGraphRightSourceToRightCJointClosureExtension L hind).commutes x
+
 set_option maxHeartbeats 800000 in
 -- The exact coordinate statement unfolds the nested common cover.
 /-- The `e` leg lands on the literal `e` source coordinate in the joint

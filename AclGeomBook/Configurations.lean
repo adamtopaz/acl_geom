@@ -2813,6 +2813,34 @@ distinct `Sc → S ⊔ Sc` leg rather than an equality cast or deck action:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightCJointRingHom_coordinate}
 
+The coordinate formulas in fact extend to the whole semantic source field.
+After twisting the joint-source algebra structure by the `a`, `b`, and
+genuine `c` source charts, finiteness is preserved.  The resulting algebraic
+towers extend all four selected embeddings to equivalences of algebraic
+closures, with their restriction squares retained as data.  These are the
+comparison maps from which a finite stable common chart will be extracted;
+they are not themselves substituted for the required finite chart:
+
+{docstring AclGeom.AlgebraicClosureTransport.EmbeddingClosureEquiv}
+
+{docstring AclGeom.AlgebraicClosureTransport.EmbeddingClosureEquiv.ofAlgebraic}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightEJointRingHom_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightAJointRingHom_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightBJointRingHom_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightCJointRingHom_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightEJointClosureRingEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightAJointClosureRingEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightBJointClosureRingEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightCJointClosureRingEquiv_algebraMap}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
