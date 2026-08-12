@@ -90,6 +90,8 @@ import AclGeom.Config.ChunkCurveFourArrow
 import AclGeom.Config.ChunkCurveCommonSource
 import AclGeom.Config.ChunkCurveReferenceBridge
 import AclGeom.Config.ChunkCurveIntrinsicSourceRestriction
+import AclGeom.Config.ChunkCurveFiniteCommonChart
+import AclGeom.Config.ChunkCurveFiniteCommonChartGerm
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

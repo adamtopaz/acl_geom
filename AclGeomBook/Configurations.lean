@@ -2874,6 +2874,37 @@ source boundary for the finite four-arrow descent:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceToRightCSourceEquiv_comp_seBGermCoefficient}
 
+The closure comparisons now descend to honest finite charts.  For any
+chosen target intermediate field, its inverse image under an embedding-
+preserving closure equivalence is a field equivalent to that target; a
+finite embedded base change makes the pullback finite as well.  Applying
+this to the joint cover itself produces four finite source fields and four
+field equivalences onto one literal finite target.  Each equivalence agrees
+with the selected `e`, `a`, `b`, or genuine `c` embedding on the entire old
+graph/right source, and its restriction to the whole intrinsic germ is the
+corresponding normalized target map.  This is finite comparison data rather
+than the earlier identity-valued source gauge:
+
+{docstring AclGeom.AlgebraicClosureTransport.EmbeddingClosureEquiv.pullbackField}
+
+{docstring AclGeom.AlgebraicClosureTransport.EmbeddingClosureEquiv.pullbackEquiv}
+
+{docstring AclGeom.AlgebraicClosureTransport.EmbeddingClosureEquiv.pullbackField_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightEFiniteCommonChartSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightEFiniteCommonChartSourceField_finiteDimensional}
+
+{docstring AclGeom.AlgebraicClosureTransport.EmbeddingClosureEquiv.pullbackBaseEquiv_pullbackBaseRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightEFiniteCommonChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightAFiniteCommonChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightBFiniteCommonChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCFiniteCommonChart_comp_bGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

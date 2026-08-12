@@ -1277,6 +1277,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     source identities under a finite stable common chart, prove the repeated
     middle/target-arrow equations there, and expose the resulting non-vacuous
     four-arrow `RightRestriction` required by issues #16 and #14.
+92. The four chosen algebraic-closure comparisons now restrict to honest
+    finite charts with one literal codomain.  A reusable pullback construction
+    takes the inverse image of any target intermediate field under an
+    embedding-preserving closure equivalence, restricts the equivalence to
+    that inverse image, and proves finiteness after a finite embedded base
+    change.  Pulling back the base field of `fourSelectedGraphJointCover`
+    along the `e/a/b/c` extensions gives four finite source fields, each
+    finite over `selectedGraphRightSourceCover`, and four field equivalences
+    onto the same joint cover.  On the entire old source cover each chart is
+    exactly its originally selected embedding; on the whole intrinsic germ
+    field the four charts give the normalized `e`, `a`, `b`, and genuine `c`
+    target maps.  Thus the comparison data are no longer merely equivalences
+    of infinite algebraic closures.  It remains to transport the four strict
+    composition triangles to these finite pullback sources, choose compatible
+    common middle and target charts, prove the repeated `s/sA/u/uB` equations,
+    and package the resulting non-vacuous `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
