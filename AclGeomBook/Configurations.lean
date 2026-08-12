@@ -2923,9 +2923,34 @@ four selected whole-source embeddings into the joint cover:
 
 {docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionDirectEquiv_algebraMap}
 
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionMiddleRingHom}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionTargetRingHom}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionRightEquiv_comp_middleRingHom}
+
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seFiniteCommonCompositionTriangle}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seFiniteCommonSourceChart_on_oldSource}
+
+The selected complete right branches also survive this enlargement as
+whole-field maps, rather than only as displayed coefficients.  Each old
+middle field embeds literally in its extended middle field, each old target
+does the same, and the extended semantic right arrow forms an exact square
+with those embeddings.  The four configurations instantiate that square on
+their selected complete `e/a/b/c` branches.  These are the concrete branch
+anchors that the remaining independent common middle and target charts must
+identify:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedRightBranchToFiniteCommonMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seFiniteCommon_right_comp_selectedRightBranch}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaFiniteCommon_right_comp_selectedRightBranch}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbFiniteCommon_right_comp_selectedRightBranch}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcFiniteCommon_right_comp_selectedRightBranch}
 
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a

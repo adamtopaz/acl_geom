@@ -1307,6 +1307,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     independent common middle and target charts that identify the repeated
     `s/sA/u/uB` branches and whose four right arrows have the whole intrinsic
     germ restrictions required by `RightRestriction`.
+94. The four selected complete right branches now enter the middle and target
+    fields of those finite extended triangles with exact whole-field
+    commuting squares.  Generically, the old middle and target fields embed
+    literally into a source-extended triangle, and its new right equivalence
+    composed with the old-middle embedding equals the old right equivalence
+    followed by the old-target embedding.  Applying this to the selected
+    `e/a/b/c` complete branches gives named middle maps, named target maps,
+    and four exact restriction theorems.  This is stronger than a coordinate
+    or curve-generator calculation and fixes the concrete anchors that the
+    remaining common middle/target equivalences must preserve.  Issue #16 is
+    still open: those four middle embeddings must be identified with one
+    common intrinsic embedding, the repeated `s/sA/u/uB` arrows must be made
+    literal, and the normalized whole-germ target restrictions must be
+    packaged as the non-vacuous `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

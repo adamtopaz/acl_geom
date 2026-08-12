@@ -87,6 +87,20 @@ noncomputable def sourceExtensionDirectEquiv
   ((T.sourceExtensionLeftTransport).trans
     T.sourceExtensionRightTransport).mapFieldEquiv L
 
+/-- The original middle field embeds literally in the middle field of the
+extended triangle. -/
+noncomputable def sourceExtensionMiddleRingHom
+    (L : IntermediateField X (AlgebraicClosure X)) :
+    Y →+* (↥(T.sourceExtensionMiddleField L)) :=
+  algebraMap Y (↥(T.sourceExtensionMiddleField L))
+
+/-- The original target field embeds literally in the target field of the
+extended triangle. -/
+noncomputable def sourceExtensionTargetRingHom
+    (L : IntermediateField X (AlgebraicClosure X)) :
+    Z →+* (↥(T.sourceExtensionTargetField L)) :=
+  algebraMap Z (↥(T.sourceExtensionTargetField L))
+
 /-- Restriction of the lifted arrows preserves literal composition. -/
 theorem sourceExtension_left_trans_right
     (L : IntermediateField X (AlgebraicClosure X)) :
@@ -131,6 +145,17 @@ original right equivalence. -/
       (algebraMap Y (AlgebraicClosure Y) y) =
     algebraMap Z (AlgebraicClosure Z) (T.right y)
   exact T.sourceExtensionRightTransport.commutes_apply y
+
+/-- The extended right arrow forms an exact square with the original right
+arrow and the two literal old-field embeddings. -/
+theorem sourceExtensionRightEquiv_comp_middleRingHom
+    (L : IntermediateField X (AlgebraicClosure X)) :
+    (T.sourceExtensionRightEquiv L).toRingHom.comp
+        (T.sourceExtensionMiddleRingHom L) =
+      (T.sourceExtensionTargetRingHom L).comp T.right.toRingHom := by
+  ext y
+  exact congrArg Subtype.val
+    (T.sourceExtensionRightEquiv_algebraMap L y)
 
 /-- On the original source field, the enlarged direct arrow is the
 original strict composite. -/
