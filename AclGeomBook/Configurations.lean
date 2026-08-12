@@ -3068,6 +3068,26 @@ obligation.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSemilinearCommon_direct_comp_bGermCoefficient}
 
+The common-coefficient anchors are compatible with the other half of the
+construction: every one factors through its already preserved complete
+right branch, both before and after source extension.  The elementwise
+extended statements express equality on the entire intrinsic germ while
+avoiding pathological normalization of the deeply nested cover types.
+Thus a future common chart must retain one concrete embedding, rather than
+choose between a coefficient anchor and a selected-branch anchor.
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedRightBranchToSemilinearCommonMiddle_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedRightBranchMiddle_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedRightBranchToSemilinearCommonMiddle_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedRightBranchToSemilinearCommonMiddle_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedRightBranchToSemilinearCommonMiddle_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedRightBranchToSemilinearCommonTarget_bGermCoefficient_apply}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

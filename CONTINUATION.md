@@ -1385,6 +1385,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     preserved selected branches: compatible common middle/target charts must
     identify both embeddings, after which the repeated `s/sA/u/uB` maps and
     the non-vacuous `RightRestriction` can be assembled.
+101. The common-coefficient middle and target anchors on all four faces now
+    factor through the preserved complete right branches on the entire
+    intrinsic germ.  For `a/b/c`, named maps first include the based germ in
+    each selected semantic right branch; the selected-branch embedding into
+    the old middle cover is proved equal to the common-coefficient anchor,
+    and the equality is transported pointwise to the extended middle and
+    target fields.  The `e` factorization is definitional and is recorded by
+    the same interface.  Pointwise extended statements are intentional: an
+    equivalent ring-hom equality makes Lean normalize the full nested-cover
+    types and exceeded the 30 GiB memory safety floor.  The remaining
+    issue-#16 step is therefore purely cross-face: construct common middle
+    and target charts retaining these now-unified anchors, identify repeated
+    `s/sA/u/uB`, and instantiate the non-vacuous `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
