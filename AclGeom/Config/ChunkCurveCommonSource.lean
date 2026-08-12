@@ -1221,6 +1221,70 @@ def rightBSourceField : IntermediateField k (CommonCurveAmbient K) :=
 def rightCSourceField : IntermediateField k (CommonCurveAmbient K) :=
   adjoin k (Set.range R.rightCSourceTuple)
 
+/-- Reordering the original eight independent coefficients does not change
+the rational source field used by the inverse-input chart. -/
+theorem rightASourceField_eq_rightESourceField :
+    R.rightASourceField = R.rightESourceField := by
+  unfold rightASourceField rightESourceField
+  apply congrArg (adjoin k)
+  ext z
+  simp only [Set.mem_range]
+  constructor
+  · rintro ⟨i, rfl⟩
+    fin_cases i
+    · exact ⟨0, rfl⟩
+    · exact ⟨1, rfl⟩
+    · exact ⟨4, rfl⟩
+    · exact ⟨5, rfl⟩
+    · exact ⟨2, rfl⟩
+    · exact ⟨3, rfl⟩
+    · exact ⟨6, rfl⟩
+    · exact ⟨7, rfl⟩
+    · exact ⟨8, rfl⟩
+  · rintro ⟨i, rfl⟩
+    fin_cases i
+    · exact ⟨0, rfl⟩
+    · exact ⟨1, rfl⟩
+    · exact ⟨4, rfl⟩
+    · exact ⟨5, rfl⟩
+    · exact ⟨2, rfl⟩
+    · exact ⟨3, rfl⟩
+    · exact ⟨6, rfl⟩
+    · exact ⟨7, rfl⟩
+    · exact ⟨8, rfl⟩
+
+/-- The second-input ordering generates the same rational source field as
+the original `e` ordering. -/
+theorem rightBSourceField_eq_rightESourceField :
+    R.rightBSourceField = R.rightESourceField := by
+  unfold rightBSourceField rightESourceField
+  apply congrArg (adjoin k)
+  ext z
+  simp only [Set.mem_range]
+  constructor
+  · rintro ⟨i, rfl⟩
+    fin_cases i
+    · exact ⟨0, rfl⟩
+    · exact ⟨1, rfl⟩
+    · exact ⟨6, rfl⟩
+    · exact ⟨7, rfl⟩
+    · exact ⟨4, rfl⟩
+    · exact ⟨5, rfl⟩
+    · exact ⟨2, rfl⟩
+    · exact ⟨3, rfl⟩
+    · exact ⟨8, rfl⟩
+  · rintro ⟨i, rfl⟩
+    fin_cases i
+    · exact ⟨0, rfl⟩
+    · exact ⟨1, rfl⟩
+    · exact ⟨6, rfl⟩
+    · exact ⟨7, rfl⟩
+    · exact ⟨4, rfl⟩
+    · exact ⟨5, rfl⟩
+    · exact ⟨2, rfl⟩
+    · exact ⟨3, rfl⟩
+    · exact ⟨8, rfl⟩
+
 /-- The coordinatewise semilinear source chart from the `e` presentation
 to the `a` presentation. -/
 noncomputable def rightEToASourceEquiv
@@ -1373,6 +1437,49 @@ theorem rightESourceField_eq_commonSourceField :
   rw [adjoin_adjoin_left]
   simp only [Fin.range_snoc, Set.union_singleton]
 
+/-- The inverse-input ordering is another literal presentation of the
+semantic common source field. -/
+theorem rightASourceField_eq_commonSourceField :
+    R.rightASourceField =
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k :=
+  R.rightASourceField_eq_rightESourceField.trans
+    R.rightESourceField_eq_commonSourceField
+
+/-- The second-input ordering is likewise a literal presentation of the
+semantic common source field. -/
+theorem rightBSourceField_eq_commonSourceField :
+    R.rightBSourceField =
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k :=
+  R.rightBSourceField_eq_rightESourceField.trans
+    R.rightESourceField_eq_commonSourceField
+
+/-- The same-position `e` coordinate, regarded as an element of the
+literal semantic common source. -/
+def rightESemanticSourceCoordinate (i : Fin 9) :
+    ↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k) :=
+  ⟨R.rightESourceTuple i,
+    R.rightESourceField_eq_commonSourceField ▸
+      subset_adjoin k _ (Set.mem_range_self i)⟩
+
+/-- The `a`-presentation coordinate in that same literal source field. -/
+def rightASemanticSourceCoordinate (i : Fin 9) :
+    ↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k) :=
+  ⟨R.rightASourceTuple i,
+    R.rightASourceField_eq_commonSourceField ▸
+      subset_adjoin k _ (Set.mem_range_self i)⟩
+
+/-- The `b`-presentation coordinate in the literal semantic source. -/
+def rightBSemanticSourceCoordinate (i : Fin 9) :
+    ↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k) :=
+  ⟨R.rightBSourceTuple i,
+    R.rightBSourceField_eq_commonSourceField ▸
+      subset_adjoin k _ (Set.mem_range_self i)⟩
+
 /-- The semantic common source therefore has a coefficient-moving chart
 whose distinguished right-parameter block is sent from `e` to `a`. -/
 noncomputable def commonSourceToRightASourceEquiv
@@ -1404,6 +1511,31 @@ noncomputable def commonSourceToRightCSourceEquiv
   (IntermediateField.equivOfEq
       R.rightESourceField_eq_commonSourceField.symm).trans
     (R.rightEToCSourceEquiv hind)
+
+/-- After identifying the reordered `a` presentation with the same
+literal intermediate field, the `e→a` source chart is an automorphism of
+the semantic common source. -/
+noncomputable def commonSourceRightAAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) ≃ₐ[k]
+      (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) :=
+  (R.commonSourceToRightASourceEquiv hind).trans
+    (IntermediateField.equivOfEq
+      R.rightASourceField_eq_commonSourceField)
+
+/-- The corresponding semantic common-source automorphism carrying the
+distinguished right block from `e` to `b`. -/
+noncomputable def commonSourceRightBAut
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) ≃ₐ[k]
+      (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) :=
+  (R.commonSourceToRightBSourceEquiv hind).trans
+    (IntermediateField.equivOfEq
+      R.rightBSourceField_eq_commonSourceField)
 
 /-- On every displayed coordinate, the semantic common-source chart to
 the `a` presentation is the coordinatewise transport constructed above. -/
@@ -1446,6 +1578,36 @@ algebraic `c` presentation. -/
   change R.rightEToCSourceEquiv hind
       ⟨R.rightESourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ = _
   exact R.rightEToCSourceEquiv_apply hind i
+
+/-- Exact coordinate formula for the `e→a` automorphism of the semantic
+common source. -/
+@[simp] theorem commonSourceRightAAut_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.commonSourceRightAAut hind (R.rightESemanticSourceCoordinate i) =
+      R.rightASemanticSourceCoordinate i := by
+  change (IntermediateField.equivOfEq
+      R.rightASourceField_eq_commonSourceField)
+    (R.commonSourceToRightASourceEquiv hind
+      (R.rightESemanticSourceCoordinate i)) = _
+  unfold rightESemanticSourceCoordinate rightASemanticSourceCoordinate
+  rw [R.commonSourceToRightASourceEquiv_apply hind i]
+  apply Subtype.ext
+  rfl
+
+/-- Exact coordinate formula for the `e→b` automorphism of the semantic
+common source. -/
+@[simp] theorem commonSourceRightBAut_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.commonSourceRightBAut hind (R.rightESemanticSourceCoordinate i) =
+      R.rightBSemanticSourceCoordinate i := by
+  change (IntermediateField.equivOfEq
+      R.rightBSourceField_eq_commonSourceField)
+    (R.commonSourceToRightBSourceEquiv hind
+      (R.rightESemanticSourceCoordinate i)) = _
+  unfold rightESemanticSourceCoordinate rightBSemanticSourceCoordinate
+  rw [R.commonSourceToRightBSourceEquiv_apply hind i]
+  apply Subtype.ext
+  rfl
 
 /-- Common-base data for the face `sA·a=u`. -/
 def sAaCommonBaseData : R.sAa.CommonBaseData R.commonInputTuple where

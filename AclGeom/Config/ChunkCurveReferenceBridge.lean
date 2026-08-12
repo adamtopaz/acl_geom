@@ -4146,6 +4146,122 @@ noncomputable def selectedGraphRightSourceCover
   (R.selectedGraphSourceCover L hind).sup
     (R.fourRelocatedRightSourceCover L hind)
 
+/-- Lift the coefficient-moving `e→a` automorphism of the literal semantic
+source to its chosen algebraic closure. -/
+noncomputable def rightACommonSourceClosureTransport
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport (↥R.semanticCommonSourceField)
+      (↥R.semanticCommonSourceField) :=
+  AlgebraicClosureTransport.lift
+    (R.commonSourceRightAAut hind).toRingEquiv
+
+/-- Lift the analogous `e→b` semantic-source automorphism. -/
+noncomputable def rightBCommonSourceClosureTransport
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicClosureTransport (↥R.semanticCommonSourceField)
+      (↥R.semanticCommonSourceField) :=
+  AlgebraicClosureTransport.lift
+    (R.commonSourceRightBAut hind).toRingEquiv
+
+/-- The lifted `a` transport still carries every displayed rational-source
+coordinate to the same-position coordinate in the `a` presentation. -/
+@[simp] theorem rightACommonSourceClosureTransport_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    (R.rightACommonSourceClosureTransport hind).closureEquiv
+        (algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField))
+          (R.rightESemanticSourceCoordinate i)) =
+      algebraMap (↥R.semanticCommonSourceField)
+        (AlgebraicClosure (↥R.semanticCommonSourceField))
+        (R.rightASemanticSourceCoordinate i) := by
+  rw [AlgebraicClosureTransport.commutes_apply]
+  exact congrArg
+    (algebraMap (↥R.semanticCommonSourceField)
+      (AlgebraicClosure (↥R.semanticCommonSourceField)))
+    (R.commonSourceRightAAut_apply hind i)
+
+/-- Same-position coordinate formula for the lifted `b` transport. -/
+@[simp] theorem rightBCommonSourceClosureTransport_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    (R.rightBCommonSourceClosureTransport hind).closureEquiv
+        (algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField))
+          (R.rightESemanticSourceCoordinate i)) =
+      algebraMap (↥R.semanticCommonSourceField)
+        (AlgebraicClosure (↥R.semanticCommonSourceField))
+        (R.rightBSemanticSourceCoordinate i) := by
+  rw [AlgebraicClosureTransport.commutes_apply]
+  exact congrArg
+    (algebraMap (↥R.semanticCommonSourceField)
+      (AlgebraicClosure (↥R.semanticCommonSourceField)))
+    (R.commonSourceRightBAut_apply hind i)
+
+/-- The selected graph/right source cover transported through the genuine
+semilinear `e→a` base automorphism. -/
+noncomputable def rightASelectedGraphRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedGraphRightSourceCover L hind).map
+    (R.rightACommonSourceClosureTransport hind)
+
+/-- The corresponding finite normal source cover for the `e→b` chart. -/
+noncomputable def rightBSelectedGraphRightSourceCover
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.selectedGraphRightSourceCover L hind).map
+    (R.rightBCommonSourceClosureTransport hind)
+
+/-- Restriction of the lifted `a` algebraic-closure transport to the finite
+selected graph/right source cover. -/
+noncomputable def selectedGraphRightSourceToRightARingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphRightSourceCover L hind).field) ≃+*
+      (↥(R.rightASelectedGraphRightSourceCover L hind).field) :=
+  (R.selectedGraphRightSourceCover L hind).mapEquiv
+    (R.rightACommonSourceClosureTransport hind)
+
+/-- Restriction of the lifted `b` transport to the same finite source
+cover. -/
+noncomputable def selectedGraphRightSourceToRightBRingEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥(R.selectedGraphRightSourceCover L hind).field) ≃+*
+      (↥(R.rightBSelectedGraphRightSourceCover L hind).field) :=
+  (R.selectedGraphRightSourceCover L hind).mapEquiv
+    (R.rightBCommonSourceClosureTransport hind)
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested source-cover algebra tower is hidden behind named sup constructions.
+/-- On the finite source cover, the `a` chart carries every displayed base
+coordinate to its literal `a`-presentation counterpart. -/
+@[simp] theorem selectedGraphRightSourceToRightARingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.selectedGraphRightSourceToRightARingEquiv L hind
+        ⟨algebraMap (↥R.semanticCommonSourceField)
+            (AlgebraicClosure (↥R.semanticCommonSourceField))
+            (R.rightESemanticSourceCoordinate i),
+          (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ =
+      ⟨algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField))
+          (R.rightASemanticSourceCoordinate i),
+        (R.rightASelectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ := by
+  apply Subtype.ext
+  exact R.rightACommonSourceClosureTransport_algebraMap hind i
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The nested source-cover algebra tower is hidden behind named sup constructions.
+/-- Finite-cover coordinate formula for the `b` chart. -/
+@[simp] theorem selectedGraphRightSourceToRightBRingEquiv_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.selectedGraphRightSourceToRightBRingEquiv L hind
+        ⟨algebraMap (↥R.semanticCommonSourceField)
+            (AlgebraicClosure (↥R.semanticCommonSourceField))
+            (R.rightESemanticSourceCoordinate i),
+          (R.selectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ =
+      ⟨algebraMap (↥R.semanticCommonSourceField)
+          (AlgebraicClosure (↥R.semanticCommonSourceField))
+          (R.rightBSemanticSourceCoordinate i),
+        (R.rightBSelectedGraphRightSourceCover L hind).field.algebraMap_mem _⟩ := by
+  apply Subtype.ext
+  exact R.rightBCommonSourceClosureTransport_algebraMap hind i
+
 /-- The established selected graph source is a literal subcover of the
 right-enlarged graph source. -/
 theorem selectedGraphSourceCover_le_selectedGraphRightSourceCover

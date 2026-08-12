@@ -1202,6 +1202,21 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     to compatible finite normal source covers and use their distinguished
     `e/a/b/c` coordinate formulas to choose independent common middle and
     target charts with the required normalized right restrictions.
+87. The `a`- and `b`-ordered source presentations have now been closed back
+    into the literal semantic common source.  They are permutations of the
+    original nine displayed generators, so their intermediate fields are
+    proved equal to the `e` source and the two coordinatewise equivalences
+    become ground-field automorphisms of that one source.  Both
+    automorphisms retain exact same-position formulas on named semantic
+    source coordinates.  Their chosen algebraic-closure lifts now transport
+    `selectedGraphRightSourceCover` to finite normal `a` and `b` source
+    covers, and the restricted finite-cover equivalences have exact
+    coordinate formulas.  The remaining source-level case is deliberately
+    different: the independent `(s,sA,a,c)` field is not identified with the
+    original ambient source by a permutation.  It must be joined through the
+    selected semantic/reference finite field and normalized over a compatible
+    common base before the middle/target charts and `RightRestriction` are
+    assembled.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

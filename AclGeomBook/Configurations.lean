@@ -2721,6 +2721,35 @@ and can be lifted to the common normal covers in the next step:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceToRightCSourceEquiv_apply}
 
+For the two reordered presentations that use only the original independent
+inputs, the base change can already be closed back into the literal semantic
+source.  The `a`- and `b`-ordered tuples generate exactly the same
+intermediate field as the `e` tuple.  Their coordinatewise equivalences
+therefore become honest ground-field automorphisms of that source, still
+carrying every one of the nine displayed coordinates to its same-position
+counterpart.  Lifting these automorphisms to algebraic closures and mapping
+the selected graph/right source cover gives two finite normal source covers
+with exact coordinate restriction formulas.  This is genuinely semilinear
+over the semantic source presentation; the algebraic `c` presentation
+remains a separate base-changing cover rather than being collapsed to a
+deck transformation:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightASourceField_eq_commonSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightBSemanticSourceCoordinate}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceRightAAut}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceRightBAut_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightACommonSourceClosureTransport}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightASelectedGraphRightSourceCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightARingEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightBRingEquiv_algebraMap}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
