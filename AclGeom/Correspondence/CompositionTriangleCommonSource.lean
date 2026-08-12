@@ -104,6 +104,20 @@ theorem commonSourcePullbackChart_comp_algebraMap_comp
   intro x
   exact commonSourcePullbackChart_algebraMap sourceChart commonSource (g x)
 
+/-- The right square of a source extension remains exact after precomposing
+the old-middle inclusion with any selected branch map. -/
+theorem sourceExtensionRightEquiv_comp_middleRingHom_comp
+    {W : Type u} [Semiring W]
+    (source : IntermediateField X (AlgebraicClosure X))
+    (g : W →+* Y) :
+    (T.sourceExtension source).right.toRingHom.comp
+        ((T.sourceExtensionMiddleRingHom source).comp g) =
+      (T.sourceExtensionTargetRingHom source).comp
+        (T.right.toRingHom.comp g) := by
+  have h := T.sourceExtensionRightEquiv_comp_middleRingHom source
+  have hc := congrArg (fun f ↦ f.comp g) h
+  simpa only [sourceExtension, RingHom.comp_assoc] using hc
+
 end FieldEquiv.CompositionTriangle
 
 end

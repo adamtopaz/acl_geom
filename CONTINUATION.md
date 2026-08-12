@@ -1354,6 +1354,14 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     finite and literally common, rather than only semilinearly identified.
     Issue #16 is now confined to compatible common middle/target charts and
     the six whole-field squares required by item 96.
+98. The whole selected complete right branches now survive those
+    inverse-oriented common-source extensions.  For each `e/a/b/c` face, the
+    old middle branch is included in the new middle field, its image is named
+    in the new target field, and the extended right equivalence satisfies an
+    exact ring-hom square on the entire branch.  These four branch anchors are
+    the preservation conditions for the independent common middle and target
+    charts; issue #16 still requires constructing those charts, identifying
+    the repeated `s/sA/u/uB` arrows, and discharging the six source squares.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

@@ -3003,6 +3003,25 @@ The remaining comparison is now confined to their middle and target fields.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRightSemilinearCommonSourceCharts_comp_bGermCoefficient}
 
+The complete selected right branches survive these inverse-oriented
+extensions as well.  Each old middle and target field embeds in the newly
+extended triangle, and the new right arrow forms an exact square on the
+whole selected branch.  These four squares are the preservation constraints
+for the independent common middle and target charts: the final charts must
+identify these named embeddings, not merely agree on displayed generators.
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionRightEquiv_comp_middleRingHom_comp}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedRightBranchToSemilinearCommonMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedRightBranchToSemilinearCommonMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedRightBranchToSemilinearCommonMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedRightBranchToSemilinearCommonMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSemilinearCommon_right_comp_selectedRightBranch}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
