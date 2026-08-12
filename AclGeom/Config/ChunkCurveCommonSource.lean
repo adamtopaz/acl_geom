@@ -728,6 +728,93 @@ def repeatedUBInputTuple
   commonCurveEmbedding (k := k) (K := K) ∘
     rankTwoFourTuple s D.sA a D.uB
 
+/-- The first right-arrow coefficient presentation, ordered so that the
+distinguished normalized `B` parameter occupies the second rank-two block. -/
+def rightEInputTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 8 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    rankTwoFourTuple s e a b
+
+/-- The inverse-input right-arrow presentation.  Swapping the two original
+independent blocks puts `a` in the same distinguished position as `e`. -/
+def rightAInputTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 8 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    (rankTwoFourTuple s e a b ∘ ![0, 1, 4, 5, 2, 3, 6, 7])
+
+/-- The second-input right-arrow presentation, with `b` in the common
+distinguished parameter position. -/
+def rightBInputTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 8 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    (rankTwoFourTuple s e a b ∘ ![0, 1, 6, 7, 4, 5, 2, 3])
+
+/-- The output right-arrow presentation.  The independent tuple
+`(s,sA,a,c)` is reordered so that `c` occupies the same distinguished
+parameter position as `e`, `a`, and `b` in the other three charts. -/
+def rightCInputTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 8 → CommonCurveAmbient K :=
+  commonCurveEmbedding (k := k) (K := K) ∘
+    (rankTwoFourTuple s D.sA a D.c ∘ ![0, 1, 6, 7, 4, 5, 2, 3])
+
+/-- The first right-arrow coefficient presentation together with the one
+formal curve source shared by all four faces. -/
+def rightESourceTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 9 → CommonCurveAmbient K :=
+  Fin.snoc _R.rightEInputTuple (commonCurveSource (K := K))
+
+/-- The inverse-input right-arrow coefficient/source presentation. -/
+def rightASourceTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 9 → CommonCurveAmbient K :=
+  Fin.snoc _R.rightAInputTuple (commonCurveSource (K := K))
+
+/-- The second-input right-arrow coefficient/source presentation. -/
+def rightBSourceTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 9 → CommonCurveAmbient K :=
+  Fin.snoc _R.rightBInputTuple (commonCurveSource (K := K))
+
+/-- The output right-arrow coefficient/source presentation. -/
+def rightCSourceTuple
+    (_R : w.PsiCurveFourArrowCommonSourceRealizations hψ D) :
+    Fin 9 → CommonCurveAmbient K :=
+  Fin.snoc _R.rightCInputTuple (commonCurveSource (K := K))
+
+/-- The position of a coordinate of the distinguished rank-two right
+parameter inside every one of the four source presentations. -/
+def rightParameterIndex (i : Fin 2) : Fin 9 :=
+  ⟨i + 2, by omega⟩
+
+/-- In the first presentation the distinguished block is literally `e`. -/
+@[simp] theorem rightESourceTuple_rightParameterIndex (i : Fin 2) :
+    R.rightESourceTuple (rightParameterIndex i) =
+      commonCurveEmbedding (k := k) (K := K) (e i) := by
+  fin_cases i <;> rfl
+
+/-- In the inverse-input presentation the same block is literally `a`. -/
+@[simp] theorem rightASourceTuple_rightParameterIndex (i : Fin 2) :
+    R.rightASourceTuple (rightParameterIndex i) =
+      commonCurveEmbedding (k := k) (K := K) (a i) := by
+  fin_cases i <;> rfl
+
+/-- In the second-input presentation the same block is literally `b`. -/
+@[simp] theorem rightBSourceTuple_rightParameterIndex (i : Fin 2) :
+    R.rightBSourceTuple (rightParameterIndex i) =
+      commonCurveEmbedding (k := k) (K := K) (b i) := by
+  fin_cases i <;> rfl
+
+/-- In the output presentation the same block is literally `c`. -/
+@[simp] theorem rightCSourceTuple_rightParameterIndex (i : Fin 2) :
+    R.rightCSourceTuple (rightParameterIndex i) =
+      commonCurveEmbedding (k := k) (K := K) (D.c i) := by
+  fin_cases i <;> rfl
+
 /-- The six algebraic coefficient coordinates needed to compare the three
 alternative full input fields with the original common input field. -/
 def algebraicCoefficientTuple
@@ -1036,6 +1123,156 @@ theorem repeatedUB_auxiliary_parameter_source_independent
   funext i
   rcases i with i | i <;> fin_cases i <;> rfl
 
+/-- The first right-arrow presentation remains independent after embedding
+in the common curve ambient field. -/
+theorem rightEInputTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightEInputTuple := by
+  simpa only [rightEInputTuple] using
+    hind.map' (commonCurveEmbedding (k := k) (K := K)).injective
+
+/-- The inverse-input presentation is an independent permutation of the
+original eight inputs. -/
+theorem rightAInputTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightAInputTuple := by
+  let f : Fin 8 → Fin 8 := ![0, 1, 4, 5, 2, 3, 6, 7]
+  have h := AlgebraicIndependent.comp hind f (by decide)
+  simpa only [rightAInputTuple, f] using
+    h.map' (commonCurveEmbedding (k := k) (K := K)).injective
+
+/-- The second-input presentation is another independent permutation of
+the original eight inputs. -/
+theorem rightBInputTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightBInputTuple := by
+  let f : Fin 8 → Fin 8 := ![0, 1, 6, 7, 4, 5, 2, 3]
+  have h := AlgebraicIndependent.comp hind f (by decide)
+  simpa only [rightBInputTuple, f] using
+    h.map' (commonCurveEmbedding (k := k) (K := K)).injective
+
+/-- The output presentation is independent: first replace the algebraic
+output block by its right input, then reorder the four rank-two blocks. -/
+theorem rightCInputTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightCInputTuple := by
+  let f : Fin 8 → Fin 8 := ![0, 1, 6, 7, 4, 5, 2, 3]
+  have h := AlgebraicIndependent.comp
+    (D.s_sA_a_c_independent hind) f (by decide)
+  simpa only [rightCInputTuple, f] using
+    h.map' (commonCurveEmbedding (k := k) (K := K)).injective
+
+/-- The first right-arrow presentation and formal source are jointly
+independent. -/
+theorem rightESourceTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightESourceTuple := by
+  simpa only [rightESourceTuple, rightEInputTuple] using
+    mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) hind
+
+/-- The inverse-input presentation and formal source are jointly
+independent. -/
+theorem rightASourceTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightASourceTuple := by
+  let f : Fin 8 → Fin 8 := ![0, 1, 4, 5, 2, 3, 6, 7]
+  have h := AlgebraicIndependent.comp hind f (by decide)
+  simpa only [rightASourceTuple, rightAInputTuple, f] using
+    mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) h
+
+/-- The second-input presentation and formal source are jointly
+independent. -/
+theorem rightBSourceTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightBSourceTuple := by
+  let f : Fin 8 → Fin 8 := ![0, 1, 6, 7, 4, 5, 2, 3]
+  have h := AlgebraicIndependent.comp hind f (by decide)
+  simpa only [rightBSourceTuple, rightBInputTuple, f] using
+    mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) h
+
+/-- The output presentation and formal source are jointly independent. -/
+theorem rightCSourceTuple_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k R.rightCSourceTuple := by
+  let f : Fin 8 → Fin 8 := ![0, 1, 6, 7, 4, 5, 2, 3]
+  have h := AlgebraicIndependent.comp
+    (D.s_sA_a_c_independent hind) f (by decide)
+  simpa only [rightCSourceTuple, rightCInputTuple, f] using
+    mappedTuple_snoc_commonCurveSource_independent
+      (k := k) (K := K) h
+
+/-- The rational coefficient/source field displayed by the first right
+arrow. -/
+def rightESourceField : IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k (Set.range R.rightESourceTuple)
+
+/-- The corresponding rational field for the inverse-input right arrow. -/
+def rightASourceField : IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k (Set.range R.rightASourceTuple)
+
+/-- The corresponding rational field for the second-input right arrow. -/
+def rightBSourceField : IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k (Set.range R.rightBSourceTuple)
+
+/-- The corresponding rational field for the output right arrow. -/
+def rightCSourceField : IntermediateField k (CommonCurveAmbient K) :=
+  adjoin k (Set.range R.rightCSourceTuple)
+
+/-- The coordinatewise semilinear source chart from the `e` presentation
+to the `a` presentation. -/
+noncomputable def rightEToASourceEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.rightESourceField) ≃ₐ[k] (R.rightASourceField) :=
+  locusFunctionFieldEquivOfIdealEq (by
+    rw [(idealOf_eq_bot_iff k).2 (R.rightESourceTuple_independent hind),
+      (idealOf_eq_bot_iff k).2 (R.rightASourceTuple_independent hind)])
+
+/-- The coordinatewise semilinear source chart from the `e` presentation
+to the `b` presentation. -/
+noncomputable def rightEToBSourceEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.rightESourceField) ≃ₐ[k] (R.rightBSourceField) :=
+  locusFunctionFieldEquivOfIdealEq (by
+    rw [(idealOf_eq_bot_iff k).2 (R.rightESourceTuple_independent hind),
+      (idealOf_eq_bot_iff k).2 (R.rightBSourceTuple_independent hind)])
+
+/-- The coordinatewise semilinear source chart from the `e` presentation
+to the algebraic `c` presentation. -/
+noncomputable def rightEToCSourceEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.rightESourceField) ≃ₐ[k] (R.rightCSourceField) :=
+  locusFunctionFieldEquivOfIdealEq (by
+    rw [(idealOf_eq_bot_iff k).2 (R.rightESourceTuple_independent hind),
+      (idealOf_eq_bot_iff k).2 (R.rightCSourceTuple_independent hind)])
+
+/-- The `e→a` source chart carries each displayed coordinate, including
+the formal source, to the coordinate with the same role. -/
+@[simp] theorem rightEToASourceEquiv_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.rightEToASourceEquiv hind
+        ⟨R.rightESourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ =
+      ⟨R.rightASourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ :=
+  locusFunctionFieldEquivOfIdealEq_apply _ i
+
+/-- Coordinate formula for the `e→b` semilinear source chart. -/
+@[simp] theorem rightEToBSourceEquiv_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.rightEToBSourceEquiv hind
+        ⟨R.rightESourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ =
+      ⟨R.rightBSourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ :=
+  locusFunctionFieldEquivOfIdealEq_apply _ i
+
+/-- Coordinate formula for the `e→c` semilinear source chart. -/
+@[simp] theorem rightEToCSourceEquiv_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.rightEToCSourceEquiv hind
+        ⟨R.rightESourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ =
+      ⟨R.rightCSourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ :=
+  locusFunctionFieldEquivOfIdealEq_apply _ i
+
 private theorem map_mem_input_racl {x : K}
     (hx : x ∈ racl k (Set.range (rankTwoFourTuple s e a b))) :
     commonCurveEmbedding (k := k) (K := K) x ∈ racl k
@@ -1121,6 +1358,94 @@ def seCommonBaseData : R.se.CommonBaseData R.commonInputTuple where
   a_mem := R.s_mem_commonInput_racl
   b_mem := R.e_mem_commonInput_racl
   c_mem := R.u_mem_commonInput_racl
+
+/-- The `e`-ordered rational source presentation is literally the common
+coefficient/source field used by all four semantic curve triangles. -/
+theorem rightESourceField_eq_commonSourceField :
+    R.rightESourceField =
+      (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+        (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k := by
+  change adjoin k
+      (Set.range (Fin.snoc R.commonInputTuple
+        (commonCurveSource (K := K)))) =
+    (adjoin (↑(adjoin k (Set.range R.commonInputTuple)))
+      {commonCurveSource (K := K)}).restrictScalars k
+  rw [adjoin_adjoin_left]
+  simp only [Fin.range_snoc, Set.union_singleton]
+
+/-- The semantic common source therefore has a coefficient-moving chart
+whose distinguished right-parameter block is sent from `e` to `a`. -/
+noncomputable def commonSourceToRightASourceEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) ≃ₐ[k]
+      (↥R.rightASourceField) :=
+  (IntermediateField.equivOfEq
+      R.rightESourceField_eq_commonSourceField.symm).trans
+    (R.rightEToASourceEquiv hind)
+
+/-- The analogous coefficient-moving chart for the right label `b`. -/
+noncomputable def commonSourceToRightBSourceEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) ≃ₐ[k]
+      (↥R.rightBSourceField) :=
+  (IntermediateField.equivOfEq
+      R.rightESourceField_eq_commonSourceField.symm).trans
+    (R.rightEToBSourceEquiv hind)
+
+/-- The coefficient-moving source chart for the algebraic output label
+`c`; its codomain uses the independent `(s,sA,a,c)` presentation. -/
+noncomputable def commonSourceToRightCSourceEquiv
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (↥((PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
+      (R := R.se) R.seCommonBaseData hψ).sourceField.restrictScalars k)) ≃ₐ[k]
+      (↥R.rightCSourceField) :=
+  (IntermediateField.equivOfEq
+      R.rightESourceField_eq_commonSourceField.symm).trans
+    (R.rightEToCSourceEquiv hind)
+
+/-- On every displayed coordinate, the semantic common-source chart to
+the `a` presentation is the coordinatewise transport constructed above. -/
+@[simp] theorem commonSourceToRightASourceEquiv_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.commonSourceToRightASourceEquiv hind
+        ⟨R.rightESourceTuple i,
+          R.rightESourceField_eq_commonSourceField ▸
+            subset_adjoin k _ (Set.mem_range_self i)⟩ =
+      ⟨R.rightASourceTuple i,
+        subset_adjoin k _ (Set.mem_range_self i)⟩ := by
+  change R.rightEToASourceEquiv hind
+      ⟨R.rightESourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ = _
+  exact R.rightEToASourceEquiv_apply hind i
+
+/-- Coordinate formula for the semantic common-source chart to the `b`
+presentation. -/
+@[simp] theorem commonSourceToRightBSourceEquiv_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.commonSourceToRightBSourceEquiv hind
+        ⟨R.rightESourceTuple i,
+          R.rightESourceField_eq_commonSourceField ▸
+            subset_adjoin k _ (Set.mem_range_self i)⟩ =
+      ⟨R.rightBSourceTuple i,
+        subset_adjoin k _ (Set.mem_range_self i)⟩ := by
+  change R.rightEToBSourceEquiv hind
+      ⟨R.rightESourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ = _
+  exact R.rightEToBSourceEquiv_apply hind i
+
+/-- Coordinate formula for the semantic common-source chart to the
+algebraic `c` presentation. -/
+@[simp] theorem commonSourceToRightCSourceEquiv_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) (i : Fin 9) :
+    R.commonSourceToRightCSourceEquiv hind
+        ⟨R.rightESourceTuple i,
+          R.rightESourceField_eq_commonSourceField ▸
+            subset_adjoin k _ (Set.mem_range_self i)⟩ =
+      ⟨R.rightCSourceTuple i,
+        subset_adjoin k _ (Set.mem_range_self i)⟩ := by
+  change R.rightEToCSourceEquiv hind
+      ⟨R.rightESourceTuple i, subset_adjoin k _ (Set.mem_range_self i)⟩ = _
+  exact R.rightEToCSourceEquiv_apply hind i
 
 /-- Common-base data for the face `sA·a=u`. -/
 def sAaCommonBaseData : R.sAa.CommonBaseData R.commonInputTuple where

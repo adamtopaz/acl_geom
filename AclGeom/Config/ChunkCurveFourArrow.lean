@@ -61,6 +61,19 @@ theorem s_sA_a_uB_independent
   algebraicIndependent_of_racl_range_eq (D.s_sA_a_b_independent hind)
     (D.s_b_uB.racl_four_firstRight_eq_firstOutput D.sA a)
 
+/-- Replacing the final output block by its right input gives an
+independent presentation containing the fourth right-arrow label `c`.
+This is the coefficient presentation needed for a semilinear chart of the
+last face, rather than an automorphism fixing the original common base. -/
+theorem s_sA_a_c_independent
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    AlgebraicIndependent k (rankTwoFourTuple s D.sA a D.c) := by
+  apply algebraicIndependent_of_racl_range_eq
+    (D.s_sA_a_uB_independent hind)
+  have h := D.sA_c_uB.racl_four_firstRight_eq_firstOutput s a
+  rw [rankTwoFourTuple_range, rankTwoFourTuple_range] at h ⊢
+  simpa only [Set.union_assoc, Set.union_left_comm, Set.union_comm] using h.symm
+
 end RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram
 
 namespace QWitness

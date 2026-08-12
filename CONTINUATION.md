@@ -1186,6 +1186,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     right embeddings into independent common middle/target charts whose
     restrictions are the semantic right arrows, then package the resulting
     non-vacuous `RightRestriction` for issue #14.
+86. The coefficient-moving source charts needed for that construction are
+    now explicit.  Besides the original independent `(s,e,a,b)` tuple, the
+    fourth right label admits the independent presentation `(s,sA,a,c)`.
+    Reordering these presentations gives four nine-coordinate rational
+    sources whose one distinguished rank-two block is literally `e`, `a`,
+    `b`, or `c`, while their last coordinate is the same formal curve
+    source.  All four tuples are algebraically independent, so equality of
+    their zero locus ideals gives canonical ground-field function-field
+    equivalences with exact coordinate formulas.  The `e`-ordered source is
+    proved to be the existing semantic common source itself; hence the
+    resulting maps are genuine semilinear base changes that move the
+    coefficient presentation, not deck transformations linear over the old
+    source.  The next issue-#16 step is to lift these three base equivalences
+    to compatible finite normal source covers and use their distinguished
+    `e/a/b/c` coordinate formulas to choose independent common middle and
+    target charts with the required normalized right restrictions.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

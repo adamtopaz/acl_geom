@@ -2683,6 +2683,44 @@ in the same enlarged graph source:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedBCompleteBranchToSelectedGraphRightRingHom}
 
+The enlarged cover alone cannot supply the final four charts: its deck
+transformations are linear over the semantic source, whereas the four
+normalized right embeddings already differ on coefficients in that source.
+The missing base changes are now constructed before passing to covers.  The
+fourth label first receives an independent `(s,sA,a,c)` presentation.  Four
+nine-coordinate rational source tuples are then ordered so that one common
+position contains, respectively, `e`, `a`, `b`, and `c`, and the final
+coordinate is always the formal curve source.  Their zero locus ideals are
+all bottom, so canonical function-field equivalences carry every displayed
+coordinate to the coordinate in the same position.  Finally the
+`e`-presentation is identified literally with the existing semantic common
+source.  Thus the three new charts genuinely move coefficient presentations
+and can be lifted to the common normal covers in the next step:
+
+{docstring AclGeom.RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.s_sA_a_c_independent}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightESourceTuple}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCSourceTuple}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightParameterIndex}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCSourceTuple_rightParameterIndex}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightESourceTuple_independent}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCSourceTuple_independent}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightEToASourceEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightEToCSourceEquiv_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightESourceField_eq_commonSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceToRightCSourceEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceToRightCSourceEquiv_apply}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
