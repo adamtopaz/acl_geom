@@ -2841,6 +2841,39 @@ they are not themselves substituted for the required finite chart:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightCJointClosureRingEquiv_algebraMap}
 
+Before taking that finite stable closure, the coefficient action already
+restricts to the entire intrinsic selected-`B` germ field.  The relocated
+`e`, `a`, and `b` parameter fields lie literally in the semantic source, and
+the relocated `c` parameter field lies in the genuine independent output
+source.  The two common-source automorphisms and the `e→c` source equivalence
+carry the whole intrinsic `e` embedding exactly to the corresponding `a`,
+`b`, and `c` embeddings.  These identities provide the coefficient-faithful
+source boundary for the finite four-arrow descent:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonCoefficientField_le_semanticCommonSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seRelocatedParameterField_le_semanticCommonSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRelocatedParameterField_le_semanticCommonSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbRelocatedParameterField_le_semanticCommonSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRelocatedParameterField_le_rightCSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBGermCoefficientToSemanticSourceAlgHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaBGermCoefficientToSemanticSourceAlgHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbBGermCoefficientToSemanticSourceAlgHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBGermCoefficientToRightCSourceAlgHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceRightAAut_comp_seBGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceRightBAut_comp_seBGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.commonSourceToRightCSourceEquiv_comp_seBGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

@@ -1264,6 +1264,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     The next step must use them to construct a finite common chart stable
     under the necessary comparisons, then prove the repeated arrows and the
     whole intrinsic coefficient-field `RightRestriction` on that chart.
+91. The semilinear source charts now restrict to the whole intrinsic
+    selected-`B` germ coefficient field before any finite-cover descent.  The
+    relocated `e`, `a`, and `b` parameter fields are included literally in
+    the semantic common source, while the relocated algebraic-output `c`
+    parameter field is included in its genuine independent source.  Composing
+    the intrinsic germ map with those inclusions gives four named whole-field
+    embeddings.  The common-source `a` and `b` automorphisms, and the genuine
+    `e→c` source equivalence, carry the `e` embedding exactly to the `a`, `b`,
+    and `c` embeddings.  Thus the required coefficient square is no longer a
+    generator-level or gauge-trivial statement.  It remains to close these
+    source identities under a finite stable common chart, prove the repeated
+    middle/target-arrow equations there, and expose the resulting non-vacuous
+    four-arrow `RightRestriction` required by issues #16 and #14.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
