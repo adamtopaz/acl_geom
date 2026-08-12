@@ -95,6 +95,7 @@ import AclGeom.Config.ChunkCurveFiniteCommonChart
 import AclGeom.Config.ChunkCurveFiniteCommonChartGerm
 import AclGeom.Config.ChunkCurveFiniteCommonTriangle
 import AclGeom.Config.ChunkCurveFiniteCommonTriangleBranch
+import AclGeom.Config.ChunkCurveSemilinearTriangle
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

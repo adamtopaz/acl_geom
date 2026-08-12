@@ -2952,6 +2952,30 @@ identify:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcFiniteCommon_right_comp_selectedRightBranch}
 
+The finite comparisons also have to be oriented correctly.  Their forward
+direction sends the selected `e` presentation to `a`, `b`, or the genuine
+`c` presentation; using those forward maps as final source charts would ask
+one injective repeated-left arrow to identify distinct coefficient
+embeddings.  Instead the three nontrivial semantic triangles are first
+re-presented on their transported source covers and charted back by the
+inverse semilinear equivalences.  On the entire intrinsic germ, all four
+source charts then give one literal embedding in the selected graph/right
+source, including across the different base field of the `c` face:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRightSemilinearCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbRightSemilinearCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRightSemilinearCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightA_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightASourceChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCSourceChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourRightSemilinearSourceCharts_comp_bGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

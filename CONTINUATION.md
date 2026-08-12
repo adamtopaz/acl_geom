@@ -1321,6 +1321,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     common intrinsic embedding, the repeated `s/sA/u/uB` arrows must be made
     literal, and the normalized whole-germ target restrictions must be
     packaged as the non-vacuous `RightRestriction`.
+95. The semilinear source charts are now reoriented in the direction needed
+    by a faithful common middle.  The forward `e→a`, `e→b`, and genuine
+    `e→c` finite-cover equivalences carry the whole intrinsic `e` germ to the
+    corresponding intrinsic target germ.  Conjugating the three semantic
+    triangles onto those transported source covers and then using the inverse
+    equivalences as their common-source charts sends the entire `a`, `b`, and
+    `c` germs back to the one literal `e` embedding in
+    `selectedGraphRightSourceCover`; the `e` chart is the identity.  A single
+    four-way theorem records these ring-hom equalities.  This orientation is
+    essential: the old forward charts sent the same `e` source to four
+    distinct images and therefore could not be followed by one injective
+    repeated-left chart.  The next step is to extend these inverse-oriented
+    triangles to compatible finite common middle/target covers, preserve the
+    complete-branch squares of item 94, and construct `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
