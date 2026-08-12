@@ -2780,6 +2780,39 @@ normal middle/target charts while preserving both semilinear source legs:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSourceJointOverC_finiteDimensional}
 
+A finite normal cover can now be rebased along an actual embedded base
+extension without replacing that embedding by an equivalence of base fields.
+The construction transports one finite basis into the new algebraic closure,
+adjoins it to the larger base, takes the normal closure, and retains the
+selected map from the entire old cover.  On the old base this map is exactly
+the displayed inclusion:
+
+{docstring AclGeom.AlgebraicClosureTransport.FiniteNormalCover.rebaseCover}
+
+{docstring AclGeom.AlgebraicClosureTransport.FiniteNormalCover.rebaseRingHom_algebraMap}
+
+For the four-arrow source, chosen equivalences of algebraic closures extend
+both literal inclusions into the joint field.  Rebasing the original, `a`,
+`b`, and genuine `c` selected graph covers along these two inclusions and
+taking their supremum gives one finite normal codomain.  The four selected
+maps into this codomain retain all nine same-position coordinate formulas;
+in particular, the fourth map lands on the literal `c` coordinate through the
+distinct `Sc → S ⊔ Sc` leg rather than an equality cast or deck action:
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.semanticSourceToRightSourceJointClosureRingEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCSourceToRightSourceJointClosureRingEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourSelectedGraphJointCover}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightEJointRingHom_coordinate}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightAJointRingHom_coordinate}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightBJointRingHom_coordinate}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.selectedGraphRightSourceToRightCJointRingHom_coordinate}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

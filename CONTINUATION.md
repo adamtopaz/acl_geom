@@ -1234,6 +1234,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     select the common semilinear middle/target charts, and prove their four
     whole-field normalized coefficient restrictions before constructing
     `RightRestriction`.
+89. The four semilinear source covers now have one honest finite normal
+    codomain over that joint source.  A reusable finite-base rebase takes a
+    chosen algebraic-closure equivalence extending an embedding `E → E'`,
+    adjoins the transported values of a finite basis, normalizes over `E'`,
+    and retains a selected map from the entire original cover with an exact
+    base-element formula.  Applying it to the inclusions `S → S ⊔ Sc` and
+    `Sc → S ⊔ Sc` rebases the `e`, `a`, `b`, and genuine `c` selected graph
+    covers; their supremum is `fourSelectedGraphJointCover`.  Four named maps
+    from the original selected graph/right source enter this one codomain,
+    and all nine displayed coordinates land exactly on their same-position
+    `e/a/b/c` coordinates through the appropriate literal inclusion in the
+    joint base.  The remaining issue-#16 work is no longer a base/codomain
+    compatibility problem: extend/select these four embeddings as compatible
+    common middle/target equivalences, prove the repeated-arrow equations and
+    whole intrinsic coefficient restrictions, and package the resulting
+    non-vacuous `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
