@@ -23,6 +23,7 @@ import AclGeom.Correspondence.AlgebraicClosureTransport
 import AclGeom.Correspondence.FiniteNormalTransport
 import AclGeom.Correspondence.FieldEquivDiagram
 import AclGeom.Correspondence.FiniteCompositionTriangle
+import AclGeom.Correspondence.CompositionTriangleExtension
 import AclGeom.Correspondence.BranchGroupoid
 import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.FamilyCover
@@ -92,6 +93,7 @@ import AclGeom.Config.ChunkCurveReferenceBridge
 import AclGeom.Config.ChunkCurveIntrinsicSourceRestriction
 import AclGeom.Config.ChunkCurveFiniteCommonChart
 import AclGeom.Config.ChunkCurveFiniteCommonChartGerm
+import AclGeom.Config.ChunkCurveFiniteCommonTriangle
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

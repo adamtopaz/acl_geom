@@ -1293,6 +1293,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     composition triangles to these finite pullback sources, choose compatible
     common middle and target charts, prove the repeated `s/sA/u/uB` equations,
     and package the resulting non-vacuous `RightRestriction`.
+93. Strict semantic composition now extends across those four finite
+    pullback sources without an unsupported normality change of base.  A
+    generic source-extension construction lifts the left and right arrows of
+    any literal `CompositionTriangle` to algebraic closures, defines the new
+    direct arrow as their composite, and restricts all three arrows to the
+    transported intermediate fields.  The enlarged arrows recover the old
+    left, right, and direct equivalences on the entire original fields.
+    Instantiating it gives strict finite `s·e=u`, `sA·a=u`, `s·b=uB`, and
+    `sA·c=uB` triangles on the four semilinear pullback fields, while their
+    source charts still restrict to the selected whole-source `e/a/b/c`
+    embeddings into the literal joint cover.  It remains to select the
+    independent common middle and target charts that identify the repeated
+    `s/sA/u/uB` branches and whose four right arrows have the whole intrinsic
+    germ restrictions required by `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

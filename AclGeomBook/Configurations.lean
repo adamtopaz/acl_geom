@@ -2905,6 +2905,28 @@ than the earlier identity-valued source gauge:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightCFiniteCommonChart_comp_bGermCoefficient}
 
+Those four finite source fields now carry the actual strict semantic
+composition triangles.  A literal triangle of field equivalences extends
+across any intermediate source field by lifting its left and right arrows
+to algebraic closures and defining the enlarged direct arrow as their
+composite.  This avoids an invalid normality descent: no independently
+chosen deck correction has to stabilize the enlarged field.  Applying the
+construction to the four finite pullbacks gives strict `s·e=u`, `sA·a=u`,
+`s·b=uB`, and `sA·c=uB` triangles whose source charts still restrict to the
+four selected whole-source embeddings into the joint cover:
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtension}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionLeftEquiv_algebraMap}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionRightEquiv_algebraMap}
+
+{docstring AclGeom.FieldEquiv.CompositionTriangle.sourceExtensionDirectEquiv_algebraMap}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seFiniteCommonCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seFiniteCommonSourceChart_on_oldSource}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
