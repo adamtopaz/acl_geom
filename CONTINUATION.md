@@ -1461,6 +1461,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     build common middle and target charts preserving these four concrete
     normalized branches, identify the repeated `s/sA/u/uB` arrows, and use
     the six source/direct squares to construct `RightRestriction`.
+107. The build graph is reorganized for the remaining issue-#16 work.  The
+    four grouped selected-branch families now live in independent `E/A/B/C`
+    sibling modules behind a thin compatibility aggregator, and their large
+    expanded coherence equalities have named proposition interfaces so
+    downstream artifacts stay compact.  The same declarations serialize in
+    parallel in roughly 140 seconds instead of the former 1,592-second
+    monolithic checkpoint.  Each Verso chapter now imports only the layers
+    and stable compatibility endpoints that it documents rather than the
+    whole-project umbrella.  A representative new module after the grouped
+    checkpoint therefore completes the default build in roughly ten seconds
+    without rebuilding any chapter.  New four-face constructions should
+    retain this sibling-plus-thin-aggregator layout, and the configurations
+    chapter should remain pinned to the stable grouped checkpoint until it
+    is intentionally extended.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
