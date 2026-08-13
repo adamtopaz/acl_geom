@@ -1536,6 +1536,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     two-orbit finite normal cover stable under its algebraic-closure lift, then
     restrict the lift to the common left chart and combine it with the stable
     repeated-`s` and `sA` corrections.
+114. The `e→a` lift now acts on one finite normal grouped source.  The previous
+    stable cover is transported from the algebraic closure of the joint cover
+    to the canonical algebraic closure of the semantic source, then enlarged
+    by the two-element orbit of the lifted base chart.  A reusable
+    `FiniteNormalOrbit` layer proves that the possible non-functorial defect
+    in the square of the chosen lift is source-linear and hence stabilizes
+    every finite normal cover.  The resulting restricted ring equivalence has
+    its exact semilinearity square, contains the whole joint cover, and is
+    finite over it.  The repeated-`s` and both coherent repeated-`sA`
+    corrections have also been extended to this final orbit cover with exact
+    restriction to the preceding stable source.  Next extend the four grouped
+    triangles across finite pullbacks charted to this orbit cover, keeping the
+    four constructions in independent sibling leaves.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

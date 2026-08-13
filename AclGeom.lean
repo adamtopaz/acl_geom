@@ -22,6 +22,7 @@ import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.AlgebraicClosureTransport
 import AclGeom.Correspondence.EmbeddingClosureEquivComposition
 import AclGeom.Correspondence.FiniteNormalTransport
+import AclGeom.Correspondence.FiniteNormalOrbit
 import AclGeom.Correspondence.FieldEquivDiagram
 import AclGeom.Correspondence.FiniteCompositionTriangle
 import AclGeom.Correspondence.CompositionTriangleExtension
@@ -113,7 +114,7 @@ import AclGeom.Config.ChunkCurveSemilinearGroupedChart
 import AclGeom.Config.ChunkCurveSemilinearGroupedMiddle
 import AclGeom.Config.ChunkCurveSemilinearGroupedStableMiddle
 import AclGeom.Config.ChunkCurveSemilinearGroupedStableTriangle
-import AclGeom.Config.ChunkCurveSemilinearGroupedStableBaseA
+import AclGeom.Config.ChunkCurveSemilinearGroupedStableOrbitAAlignment
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations
