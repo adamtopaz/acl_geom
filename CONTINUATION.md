@@ -1577,6 +1577,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     which align each selected left and direct branch simultaneously; only then
     use the candidate maps to obtain common middle and target charts and prove
     the four normalized `e/a/b/c` restrictions.
+117. The simultaneous-alignment domain is now isolated explicitly.  A
+    reusable `selectedWholeFaceField` adjoins a composition face's middle and
+    target coordinates to its literal source; both the complete selected left
+    branch and the complete selected direct branch are proved literal
+    subextensions of this one finite field.  The four semantic faces now have
+    named whole-face extensions inside the common ten-coordinate
+    `selectedSemanticBranchExtension`; the genuine `c` field additionally
+    retains both algebraic output parameters.  All four are finite over the
+    common semantic source and map to `selectedGraphSourceCover` by restriction
+    of the single coherent ten-coordinate embedding.  Thus the next
+    normal-branch alignment can be selected on one whole-face domain per face,
+    rather than composing unrelated left-only and direct-only corrections.
+    This is the precise mechanism needed to make each future source chart
+    preserve both branches simultaneously.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
