@@ -1518,6 +1518,15 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     families remain parallel leaves behind a thin compatibility module.  Next
     pull all four grouped triangles back to this stable source and orient the
     three corrections into the two common left-arrow charts.
+112. All four grouped triangles now live on finite pullback sources charted to
+    the one stable grouped cover.  The `e/a/b/c` faces are independent sibling
+    leaves, each with its exact intrinsic germ restriction; after charting,
+    `e,b` share the literal stable `groupedStableSourceS` embedding and `a,c`
+    share `groupedStableSourceSA`.  The pullback leaves take roughly three to
+    four seconds apiece to elaborate and serialize independently behind a
+    thin compatibility module.  The next step is to orient the stable
+    repeated-`s` and two `sA` anchor automorphisms into common left charts and
+    prove their two common-middle coefficient squares.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
