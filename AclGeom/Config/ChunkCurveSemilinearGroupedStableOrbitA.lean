@@ -146,6 +146,21 @@ noncomputable def groupedJointCoverToAOrbitSourceRingHom
   (R.groupedStableSourceToAOrbitSourceAlgHom L hind).toRingHom.comp
     (R.groupedJointCoverToStableSourceRingHom L hind)
 
+/-- The selected inclusion of the joint cover into the final orbit cover
+retains the original semantic-source algebra map exactly. -/
+@[simp] theorem groupedJointCoverToAOrbitSourceRingHom_algebraMap
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : groupedStableOrbitSemanticSourceType R) :
+    R.groupedJointCoverToAOrbitSourceRingHom L hind
+        (algebraMap (groupedStableOrbitSemanticSourceType R)
+          (groupedStableOrbitJointCoverType R L hind) x) =
+      algebraMap (groupedStableOrbitSemanticSourceType R)
+        (↥(R.groupedStableAOrbitSourceCover L hind).field) x := by
+  change R.groupedStableSourceToAOrbitSourceAlgHom L hind
+      (algebraMap (groupedStableOrbitSemanticSourceType R)
+        (↥(R.groupedStableSourceField L hind)) x) = _
+  exact (R.groupedStableSourceToAOrbitSourceAlgHom L hind).commutes x
+
 /-- Use the explicit joint-cover inclusion as the algebra structure on the
 stable two-orbit source. -/
 noncomputable instance groupedAOrbitJointCoverAlgebra
@@ -182,6 +197,117 @@ theorem groupedStableAOrbitSource_finite_over_jointCover
         (↥(R.groupedStableSourceField L hind))]
       exact (R.groupedStableSourceToAOrbitSourceAlgHom L hind).commutes x |>.symm
   exact FiniteDimensional.right S P Q
+
+set_option synthInstance.maxHeartbeats 100000 in
+-- The module transport changes the base through an arbitrary source chart.
+set_option maxHeartbeats 800000 in
+-- This isolates the repeated finiteness argument used by the four siblings.
+/-- Any field charted to the joint cover sees the orbit source as a finite
+extension through the chart followed by the selected inclusion. -/
+theorem groupedStableAOrbitSource_finite_over_chartSource
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    {X : Type u} [Field X]
+    (chart : X ≃+* (↥(R.fourSelectedGraphJointCover L hind).field)) :
+    letI : Algebra X (↥(R.groupedStableAOrbitSourceCover L hind).field) :=
+      ((R.groupedJointCoverToAOrbitSourceRingHom L hind).comp
+        chart.toRingHom).toAlgebra
+    FiniteDimensional X
+      (↥(R.groupedStableAOrbitSourceCover L hind).field) := by
+  let P := ↥(R.fourSelectedGraphJointCover L hind).field
+  let Q := ↥(R.groupedStableAOrbitSourceCover L hind).field
+  let fP := R.groupedJointCoverToAOrbitSourceRingHom L hind
+  let f := fP.comp chart.toRingHom
+  let oldAlgebra : Algebra P Q :=
+    R.groupedAOrbitJointCoverAlgebra L hind
+  let newAlgebra : Algebra X Q := f.toAlgebra
+  let oldModule : Module P Q := oldAlgebra.toModule
+  let oldFinite : @Module.Finite P Q _ _ oldModule := by
+    letI : Algebra P Q := oldAlgebra
+    exact R.groupedStableAOrbitSource_finite_over_jointCover L hind
+  letI : Algebra X Q := newAlgebra
+  exact @Module.Finite.of_equiv_equiv P Q X Q _ _ _ _
+    oldAlgebra newAlgebra chart.symm (RingEquiv.refl Q) (by
+      apply RingHom.ext
+      intro x
+      change fP (chart (chart.symm x)) = fP x
+      rw [chart.apply_symm_apply]) oldFinite
+
+/-- The repeated-`s` intrinsic source embedded in the final orbit cover. -/
+noncomputable def groupedStableAOrbitSourceS
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.groupedJointCoverToAOrbitSourceRingHom L hind).comp
+    (R.groupedSourceS L hind)
+
+/-- The repeated-`sA` intrinsic source embedded in the final orbit cover. -/
+noncomputable def groupedStableAOrbitSourceSA
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :=
+  (R.groupedJointCoverToAOrbitSourceRingHom L hind).comp
+    (R.groupedSourceSA L hind)
+
+/-- In the final orbit cover, the repeated-`s` intrinsic source is the
+canonical semantic-source algebra map applied to its `e` presentation. -/
+theorem groupedStableAOrbitSourceS_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : w.bGermCoefficientField hψ) :
+    R.groupedStableAOrbitSourceS L hind x =
+      algebraMap (groupedStableOrbitSemanticSourceType R)
+        (↥(R.groupedStableAOrbitSourceCover L hind).field)
+        (R.seBGermCoefficientToSemanticSourceAlgHom L hind x) := by
+  change R.groupedJointCoverToAOrbitSourceRingHom L hind
+      (R.selectedGraphRightSourceToRightEJointRingHom L hind
+        (R.semanticSourceToSelectedGraphRightSourceRingHom L hind
+          (R.seBGermCoefficientToSemanticSourceAlgHom L hind x))) = _
+  have hE := DFunLike.congr_fun
+    (R.selectedGraphRightSourceToRightEJointRingHom_comp_source L hind)
+    (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)
+  change R.selectedGraphRightSourceToRightEJointRingHom L hind
+      (R.semanticSourceToSelectedGraphRightSourceRingHom L hind
+        (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)) =
+    algebraMap (↥R.rightSourceJointField)
+      (↥(R.fourSelectedGraphJointCover L hind).field)
+      (R.rightEToJointBaseRingHom
+        (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)) at hE
+  rw [hE]
+  change R.groupedJointCoverToAOrbitSourceRingHom L hind
+      (algebraMap (groupedStableOrbitSemanticSourceType R)
+        (groupedStableOrbitJointCoverType R L hind)
+        (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)) = _
+  exact R.groupedJointCoverToAOrbitSourceRingHom_algebraMap L hind _
+
+/-- In the final orbit cover, the repeated-`sA` intrinsic source is the
+canonical semantic-source algebra map applied to its `a` presentation. -/
+theorem groupedStableAOrbitSourceSA_apply
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b))
+    (x : w.bGermCoefficientField hψ) :
+    R.groupedStableAOrbitSourceSA L hind x =
+      algebraMap (groupedStableOrbitSemanticSourceType R)
+        (↥(R.groupedStableAOrbitSourceCover L hind).field)
+        (R.sAaBGermCoefficientToSemanticSourceAlgHom L hind x) := by
+  change R.groupedJointCoverToAOrbitSourceRingHom L hind
+      (R.selectedGraphRightSourceToRightAJointRingHom L hind
+        (R.semanticSourceToSelectedGraphRightSourceRingHom L hind
+          (R.seBGermCoefficientToSemanticSourceAlgHom L hind x))) = _
+  have hA := DFunLike.congr_fun
+    (R.selectedGraphRightSourceToRightAJointRingHom_comp_source L hind)
+    (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)
+  change R.selectedGraphRightSourceToRightAJointRingHom L hind
+      (R.semanticSourceToSelectedGraphRightSourceRingHom L hind
+        (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)) =
+    algebraMap (↥R.rightSourceJointField)
+      (↥(R.fourSelectedGraphJointCover L hind).field)
+      (R.rightAToJointBaseRingHom hind
+        (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)) at hA
+  rw [hA]
+  change R.groupedJointCoverToAOrbitSourceRingHom L hind
+      (algebraMap (groupedStableOrbitSemanticSourceType R)
+        (groupedStableOrbitJointCoverType R L hind)
+        (R.commonSourceRightAAut hind
+          (R.seBGermCoefficientToSemanticSourceAlgHom L hind x))) = _
+  rw [R.groupedJointCoverToAOrbitSourceRingHom_algebraMap]
+  exact congrArg
+    (algebraMap (groupedStableOrbitSemanticSourceType R)
+      (↥(R.groupedStableAOrbitSourceCover L hind).field))
+    (R.commonSourceRightAAut_comp_seBGermCoefficient L hind x)
 
 /-- The inclusion into the two-orbit cover evaluates as the chosen
 canonical-closure comparison. -/
@@ -220,6 +346,28 @@ whole `e→a` semantic-source automorphism. -/
   exact (R.groupedStableCanonicalSourceCover L hind).twoOrbitEquiv_algebraMap
     (R.rightACommonSourceClosureTransport hind)
     (R.rightACommonSourceClosureTransport_base_trans_self hind) x
+
+/-- The final semilinear source chart carries the whole intrinsic
+repeated-`s` germ embedding to the repeated-`sA` embedding. -/
+theorem groupedStableASourceChartRingEquiv_comp_sourceS
+    (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
+    (R.groupedStableASourceChartRingEquiv L hind).toRingHom.comp
+        (R.groupedStableAOrbitSourceS L hind) =
+      R.groupedStableAOrbitSourceSA L hind := by
+  apply RingHom.ext
+  intro x
+  rw [RingHom.comp_apply,
+    R.groupedStableAOrbitSourceS_apply L hind]
+  change R.groupedStableASourceChartRingEquiv L hind
+      (algebraMap (groupedStableOrbitSemanticSourceType R)
+        (↥(R.groupedStableAOrbitSourceCover L hind).field)
+        (R.seBGermCoefficientToSemanticSourceAlgHom L hind x)) = _
+  rw [R.groupedStableASourceChartRingEquiv_algebraMap L hind,
+    R.groupedStableAOrbitSourceSA_apply L hind]
+  exact congrArg
+    (algebraMap (groupedStableOrbitSemanticSourceType R)
+      (↥(R.groupedStableAOrbitSourceCover L hind).field))
+    (R.commonSourceRightAAut_comp_seBGermCoefficient L hind x)
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
 

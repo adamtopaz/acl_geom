@@ -1549,6 +1549,34 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     restriction to the preceding stable source.  Next extend the four grouped
     triangles across finite pullbacks charted to this orbit cover, keeping the
     four constructions in independent sibling leaves.
+115. The `e`, `a`, `b`, and `c` grouped triangles now extend across four
+    finite pullback sources charted to the literal `e/a`-stable orbit cover.
+    Each leaf constructs its explicit embedding through the old joint-source
+    chart, transports finiteness from the joint cover, extends that embedding
+    to algebraic closures, and proves the exact intrinsic restriction to
+    `groupedStableAOrbitSourceS` or `groupedStableAOrbitSourceSA`.  The four
+    leaves remain independent behind thin triangle and compatibility
+    aggregators.  Next orient their extended left arrows with the stable
+    repeated-`s`, repeated-`sA`, and semilinear `e→a` charts to obtain one
+    common middle field and its two exact coefficient squares.
+116. The final orbit source now carries two explicitly oriented candidate
+    left maps with one literal ambient codomain.  The repeated-`s` map
+    uses the exact whole-branch `e/b` correction followed by the restricted
+    finite `e→a` semilinear chart; the repeated-`sA` map is the relative
+    correction between the two selected `sA` branches through their coherent
+    total-field anchor.  The semilinear chart is proved on the entire
+    intrinsic germ field to carry `groupedStableAOrbitSourceS` to
+    `groupedStableAOrbitSourceSA`, while source-linearity proves that every
+    branch correction fixes the applicable source embedding.  Consequently
+    both candidate maps have the same exact whole-germ coefficient
+    restriction.  This coefficient-square leaf and the four triangle leaves
+    elaborate independently behind the thin final compatibility module.  It
+    is not yet a common middle chart for the four selected branches: an
+    injective common postcomposition cannot make distinct face embeddings
+    equal.  Next construct face-specific source charts on a finite compositum
+    which align each selected left and direct branch simultaneously; only then
+    use the candidate maps to obtain common middle and target charts and prove
+    the four normalized `e/a/b/c` restrictions.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
