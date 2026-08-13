@@ -107,6 +107,7 @@ import AclGeom.Config.ChunkCurveSemilinearStableSource
 import AclGeom.Config.ChunkCurveSemilinearStableTriangle
 import AclGeom.Config.ChunkCurveSemilinearGroupedSource
 import AclGeom.Config.ChunkCurveSemilinearGroupedSourceFiniteness
+import AclGeom.Config.ChunkCurveSemilinearGroupedRestriction
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations

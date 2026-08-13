@@ -1440,6 +1440,17 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     requires the analogous grouped common middle and target charts, followed
     by the four semantic right squares and the non-vacuous
     `RightRestriction` package.
+105. The grouped finite triangles now retain the full intrinsic restriction
+    package.  For each `e/a/b/c` face, the old selected-branch middle anchor
+    and its target image are included into the new source extension, and
+    exact whole-germ squares are proved for the left, right, and strict
+    direct arrows.  Consequently the future cross-face middle and target
+    charts have explicit preservation obligations on all four faces; they
+    cannot satisfy coherence by discarding the chosen normalized branch
+    embeddings.  The remaining issue-#16 construction is to place those
+    four preserved middle anchors in one common middle chart, place their
+    four target images in one common target chart, identify the repeated
+    `s/sA/u/uB` maps, and instantiate the non-vacuous `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

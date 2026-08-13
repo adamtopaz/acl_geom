@@ -3175,6 +3175,29 @@ equivalence.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcGroupedSourceField_finiteDimensional}
 
+The grouped extensions also retain the previously selected middle and
+target anchors.  On every face, the left arrow carries the intrinsic source
+germ to its selected-branch middle embedding, the right arrow carries that
+embedding to the selected target, and the strict direct arrow reaches the
+same target.  Thus the next common-chart layer must preserve concrete
+whole-germ squares; it cannot silently replace them by induced identities.
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seBGermCoefficientToGroupedMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaBGermCoefficientToGroupedMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbBGermCoefficientToGroupedMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcBGermCoefficientToGroupedMiddleRingHom}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seGrouped_right_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaGrouped_right_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbGrouped_right_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcGrouped_right_comp_bGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
