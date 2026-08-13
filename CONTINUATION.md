@@ -1424,6 +1424,22 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     middle and target chart layer: choose its repeated `s/sA/u/uB` arrows,
     prove the four semantic right restrictions, and instantiate the
     non-vacuous `RightRestriction`.
+104. The source embeddings are now grouped correctly for that final
+    restriction.  A reusable closure-comparison constructor precomposes an
+    embedding-preserving algebraic-closure equivalence by a source field
+    equivalence while retaining the exact composite embedding.  Applying it
+    to the selected joint cover gives four finite pullback sources and four
+    strict extended triangles with one literal chart codomain.  On the whole
+    intrinsic germ, the `e/b` charts restrict to one selected source
+    embedding and the `a/c` charts restrict to a second selected source
+    embedding, exactly matching the two repeated left labels.  Finiteness of
+    all four pullbacks is proved, including transport through the three
+    nontrivial source equivalences.  Pointwise restriction statements are
+    intentional because normalization of the equivalent deeply nested
+    ring-hom equality crossed the 30 GiB memory safety floor.  Issue #16 now
+    requires the analogous grouped common middle and target charts, followed
+    by the four semantic right squares and the non-vacuous
+    `RightRestriction` package.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

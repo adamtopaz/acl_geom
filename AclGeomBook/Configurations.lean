@@ -3132,6 +3132,49 @@ named selected graph/right automorphism.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRightSemilinearStableSourceChart_comp_bGermCoefficient}
 
+The final restriction cannot use a single source embedding for all four
+faces: the repeated left arrows require one source for `e/b` and another
+for `a/c`.  Algebraic-closure comparisons can now be precomposed by a
+source equivalence while retaining their exact embedding restriction.  The
+four selected joint-cover maps are reoriented with this operation and
+pulled back to finite source fields.  Their charts land in one literal
+joint cover, but restrict to exactly two intrinsic embeddings, grouped by
+the repeated left labels.  The four strict semantic triangles extend to
+these finite sources, and finiteness is transported through each source
+equivalence.
+
+{docstring AclGeom.AlgebraicClosureTransport.EmbeddingClosureEquiv.precompRingEquiv}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seGroupedSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaGroupedSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbGroupedSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcGroupedSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seGroupedCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaGroupedCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbGroupedCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcGroupedCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.groupedSourceS}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.groupedSourceSA}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.groupedSourceCharts_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seGroupedSourceField_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaGroupedSourceField_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbGroupedSourceField_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcGroupedSourceField_finiteDimensional}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are

@@ -20,6 +20,7 @@ import AclGeom.Correspondence.CurveEquation
 import AclGeom.Correspondence.CurveEquationTransport
 import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.AlgebraicClosureTransport
+import AclGeom.Correspondence.EmbeddingClosureEquivComposition
 import AclGeom.Correspondence.FiniteNormalTransport
 import AclGeom.Correspondence.FieldEquivDiagram
 import AclGeom.Correspondence.FiniteCompositionTriangle
@@ -104,6 +105,8 @@ import AclGeom.Config.ChunkCurveSemilinearCommonMiddleC
 import AclGeom.Config.ChunkCurveSemilinearCommonMiddleBranch
 import AclGeom.Config.ChunkCurveSemilinearStableSource
 import AclGeom.Config.ChunkCurveSemilinearStableTriangle
+import AclGeom.Config.ChunkCurveSemilinearGroupedSource
+import AclGeom.Config.ChunkCurveSemilinearGroupedSourceFiniteness
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations
