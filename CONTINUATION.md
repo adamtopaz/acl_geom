@@ -1410,6 +1410,20 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     inverse-oriented triangles to this stable field, use these four extended
     automorphisms as their source charts, and then construct compatible
     common middle and target charts.
+103. The four inverse-oriented semantic triangles now extend over the stable
+    source with one literal source-chart codomain and nontrivial selected
+    graph actions.  The `e` triangle extends directly; the `a/b/c` triangles
+    extend over the pullbacks of the stable source through their inverse
+    semilinear charts.  Each restricted pullback chart is postcomposed with
+    the corresponding stable selected-graph automorphism.  A generic
+    pullback restriction lemma proves that this composite acts on any
+    whole-field source embedding by the prescribed old chart followed by
+    the stable correction.  Specializing it gives exact intrinsic-germ
+    restrictions for all four faces, including genuine algebraic-output
+    `c`.  The remaining issue-#16 construction is now the independent common
+    middle and target chart layer: choose its repeated `s/sA/u/uB` arrows,
+    prove the four semantic right restrictions, and instantiate the
+    non-vacuous `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

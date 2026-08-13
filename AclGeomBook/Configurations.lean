@@ -3107,6 +3107,31 @@ replacing the semantic charts by identity gauges.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.semilinearStableSourceCharts_apply}
 
+All four inverse-oriented semantic triangles now live over this stable
+source.  The `e` face extends directly, while the `a`, `b`, and genuine `c`
+faces are pulled back through their inverse semilinear source charts before
+extension.  Their restricted pullback charts are then postcomposed with the
+four stable selected-graph automorphisms.  The resulting source charts share
+one literal codomain but retain their generally nontrivial graph actions.
+On the whole intrinsic germ, each chart has an exact restriction to its
+named selected graph/right automorphism.
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seRightSemilinearStableCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRightSemilinearStableCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbRightSemilinearStableCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRightSemilinearStableCompositionTriangle}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seRightSemilinearStableSourceChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaRightSemilinearStableSourceChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbRightSemilinearStableSourceChart_comp_bGermCoefficient}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcRightSemilinearStableSourceChart_comp_bGermCoefficient}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
