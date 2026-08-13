@@ -1486,6 +1486,16 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     directly.  This keeps the next construction focused on common-chart
     existence while preventing a source-induced gauge choice from satisfying
     the semantic endpoint vacuously.
+109. The repeated-`s` common-middle alignment now survives both finite source
+    enlargements.  Its established deck transformation on the comparison
+    cover extends first to the selected graph source and then to the
+    right-enlarged selected graph source, with an exact restriction theorem
+    at each boundary.  The restrictions intentionally remain two composable
+    lemmas: forcing Lean to normalize both nested inclusions in one theorem is
+    a slow elaboration boundary and adds no mathematical content.  Construct
+    the repeated-`sA` sibling in the same way, then transport the resulting
+    source-cover alignments through the joint-base rebase into a finite stable
+    common middle chart.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
