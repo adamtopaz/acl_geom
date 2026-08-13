@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import VersoManual
-import AclGeom
+import AclGeom.Interpretation.FrobClass
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean

@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import VersoManual
-import AclGeom
+import AclGeom.Correspondence.JRigidity
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean

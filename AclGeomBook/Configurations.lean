@@ -4,7 +4,16 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import VersoManual
-import AclGeom
+import AclGeom.Config.ChunkGermChart
+import AclGeom.Config.ChunkCurveFiniteCommonChartGerm
+import AclGeom.Config.ChunkCurveSemilinearTriangle
+import AclGeom.Config.ChunkCurveSemilinearCommonSource
+import AclGeom.Config.ChunkCurveSemilinearCommonSourceBranch
+import AclGeom.Config.ChunkCurveSemilinearGroupedBranch
+import AclGeom.Config.Correctness
+import AclGeom.Correspondence.AlgebraicGroup
+import AclGeom.Correspondence.FiniteExtensionTransition
+import AclGeom.Correspondence.AffineAction
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean

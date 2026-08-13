@@ -4,7 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import VersoManual
-import AclGeom
+import AclGeom.Curves.InfinitesimalAutomorphisms
+import AclGeom.Curves.RationalAutomorphisms
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
