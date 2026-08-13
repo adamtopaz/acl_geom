@@ -1505,6 +1505,19 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     common source: it is transporting these source-linear alignments through
     the semilinear joint-base rebase and extending them to one finite stable
     middle cover.
+111. The semilinear joint-base obstruction is now handled by a finite stable
+    cover with the correct base of normality.  The complete four-face joint
+    cover is finite over the original semantic source; its normal closure over
+    that source is finite, contains the joint cover, and is normal over the
+    field fixed by all established repeated-arrow alignments.  The whole
+    selected graph/right source embeds into this cover through the selected
+    `e` leg, and every semantic-source-linear deck transformation extends with
+    an exact whole-cover restriction.  In particular, the repeated-`s` and
+    both coherent repeated-`sA` anchor corrections now act on this one stable
+    finite cover.  The stable cover, generic extension mechanism, and `s`/`sA`
+    families remain parallel leaves behind a thin compatibility module.  Next
+    pull all four grouped triangles back to this stable source and orient the
+    three corrections into the two common left-arrow charts.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
