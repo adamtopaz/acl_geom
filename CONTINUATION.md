@@ -1451,6 +1451,16 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     four preserved middle anchors in one common middle chart, place their
     four target images in one common target chart, identify the repeated
     `s/sA/u/uB` maps, and instantiate the non-vacuous `RightRestriction`.
+106. The entire selected `e/a/b/c` right branches now survive in the grouped
+    middle and target fields, not just their intrinsic germ points.  Each
+    grouped right arrow forms an exact ring-hom square with its complete
+    selected branch embedding, and pointwise factorization theorems identify
+    the intrinsic middle and target anchors of item 105 with the restrictions
+    of those branch embeddings.  This includes the genuine algebraic-output
+    `c` branch.  The remaining issue-#16 construction is cross-face only:
+    build common middle and target charts preserving these four concrete
+    normalized branches, identify the repeated `s/sA/u/uB` arrows, and use
+    the six source/direct squares to construct `RightRestriction`.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

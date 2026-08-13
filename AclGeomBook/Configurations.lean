@@ -3198,6 +3198,23 @@ whole-germ squares; it cannot silently replace them by induced identities.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcGrouped_right_comp_bGermCoefficient}
 
+The preservation statement holds on each complete selected branch, not only
+on its intrinsic germ.  The branch embeddings into grouped middle and
+target fields form exact squares with all four right arrows.  Their
+pointwise restrictions recover the named intrinsic anchors above, including
+the genuine algebraic-output `c` branch.  A common middle/target chart must
+therefore retain a fully specified normalized embedding on every face.
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.fourGrouped_right_comp_selectedRightBranch}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.seSelectedRightBranchToGroupedMiddle_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAaSelectedRightBranchToGroupedMiddle_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sbSelectedRightBranchToGroupedMiddle_bGermCoefficient_apply}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedRightBranchToGroupedMiddle_bGermCoefficient_apply}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
