@@ -1527,6 +1527,15 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     thin compatibility module.  The next step is to orient the stable
     repeated-`s` and two `sA` anchor automorphisms into common left charts and
     prove their two common-middle coefficient squares.
+113. The coefficient-moving `e→a` automorphism of the whole semantic source
+    is now proved involutive, not merely on the distinguished rank-two block.
+    The proof uses the literal nine-coordinate generating presentation and
+    checks the `e/a` block transposition coordinate by coordinate; this avoids
+    an expensive definitional-equality search through the nested source-field
+    presentation.  Next use this finite-order base chart to form the
+    two-orbit finite normal cover stable under its algebraic-closure lift, then
+    restrict the lift to the common left chart and combine it with the stable
+    repeated-`s` and `sA` corrections.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
