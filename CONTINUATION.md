@@ -1398,6 +1398,18 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     issue-#16 step is therefore purely cross-face: construct common middle
     and target charts retaining these now-unified anchors, identify repeated
     `s/sA/u/uB`, and instantiate the non-vacuous `RightRestriction`.
+102. The literal finite common source now lies in one finite stable source
+    on which all four selected graph/right charts act.  Concretely, its
+    normal closure over the semantic common source is formed inside the
+    algebraic closure of the selected graph/right source.  It is proved
+    finite and normal over the semantic source, and the old graph/right
+    source and finite common source both embed literally in it.  Each of the
+    four generally nontrivial selected source automorphisms extends across
+    this normal field with an exact restriction theorem on the entire old
+    source.  The next issue-#16 increment is to extend/pull back the four
+    inverse-oriented triangles to this stable field, use these four extended
+    automorphisms as their source charts, and then construct compatible
+    common middle and target charts.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

@@ -3088,6 +3088,25 @@ choose between a coefficient anchor and a selected-branch anchor.
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.sAcSelectedRightBranchToSemilinearCommonTarget_bGermCoefficient_apply}
 
+The finite common source is next enlarged just enough to support all four
+nontrivial selected source charts.  Its normal closure over the semantic
+source remains finite, contains both the old graph/right source and the
+literal common finite source, and is normal over exactly the field fixed by
+the four charts.  Consequently each selected graph/right automorphism
+extends to this one stable source while retaining its prescribed action on
+the entire old cover.  This removes the stability obstruction without
+replacing the semantic charts by identity gauges.
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSemilinearStableSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSemilinearCommonSourceField_le_stableSourceField}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSemilinearStableSourceField_normal}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.rightSemilinearStableSourceField_finiteDimensional}
+
+{docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.semilinearStableSourceCharts_apply}
+
 The exact cross-edge coherence interface is separated from the construction
 of the reference charts.  Four independently typed triangles give a
 semantic four-arrow diagram precisely when their twelve cover fields are
