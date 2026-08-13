@@ -1496,6 +1496,15 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     the repeated-`sA` sibling in the same way, then transport the resulting
     source-cover alignments through the joint-base rebase into a finite stable
     common middle chart.
+110. Both coherent repeated-`sA` total-anchor corrections now survive the same
+    two finite source enlargements, again with exact restriction equations at
+    each boundary.  They live in a sibling leaf to the repeated-`s` lift and
+    are collected only by a thin grouped-middle compatibility module, so the
+    three normal-cover extension families serialize in parallel.  The next
+    mathematical boundary is no longer branch alignment over the literal
+    common source: it is transporting these source-linear alignments through
+    the semilinear joint-base rebase and extending them to one finite stable
+    middle cover.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
