@@ -1475,6 +1475,17 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     retain this sibling-plus-thin-aggregator layout, and the configurations
     chapter should remain pinned to the stable grouped checkpoint until it
     is intentionally extended.
+108. The remaining cross-face obligation is now isolated as the finite
+    `GroupedCommonChartData` interface.  It asks for one common middle field,
+    one common target field, the repeated `s/sA/u/uB` equivalences, the five
+    intrinsic coefficient embeddings, and exactly the six whole-germ squares
+    relating them to the two grouped source embeddings.  Any inhabitant
+    canonically produces the non-induced four-triangle reference, its
+    faithful four-arrow diagram, and the non-vacuous intrinsic
+    `RightRestriction`; the resulting `c = b e⁻¹ a` factorization is exposed
+    directly.  This keeps the next construction focused on common-chart
+    existence while preventing a source-induced gauge choice from satisfying
+    the semantic endpoint vacuously.
 
 **Next exact step:** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized

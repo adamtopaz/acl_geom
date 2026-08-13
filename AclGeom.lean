@@ -109,6 +109,7 @@ import AclGeom.Config.ChunkCurveSemilinearGroupedSource
 import AclGeom.Config.ChunkCurveSemilinearGroupedSourceFiniteness
 import AclGeom.Config.ChunkCurveSemilinearGroupedRestriction
 import AclGeom.Config.ChunkCurveSemilinearGroupedBranch
+import AclGeom.Config.ChunkCurveSemilinearGroupedChart
 import AclGeom.Config.WitnessTable
 import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations
