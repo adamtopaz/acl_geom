@@ -497,7 +497,8 @@ recovery without RAC, and assembles actual inducing equality and compatible
 inducing existence in perfect fields under RAC bases and explicit completeness.
 Conditional original-field inducing existence through chosen perfections is
 proved in the reconstruction chapter with both perfected completeness inputs
-explicit. General unconditional R1/R2 and final target assembly remain open.
+explicit. Main also assembles the public conditional lattice-form target.
+General unconditional R1/R2 and unconditional completeness remain open.
 
 # Conditional image-base and field-isomorphism existence
 %%%
@@ -605,7 +606,7 @@ This proves the corrected ratio equivalence with decoded equality. The
 next section packages its geometric setoid/quotient and bijective nonzero
 decoding, followed by the full adjoined-zero carrier equivalence.
 Corrected total field graphs are proved later under the same explicit inputs.
-unconditional R1/R2, unconditional completeness and final reconstruction remain open.
+unconditional R1/R2, unconditional completeness and unconditional reconstruction remain open.
 
 # The ratio quotient and nonzero decoding
 %%%
@@ -644,7 +645,7 @@ geometric quotient. Perfection, rank five and still-open ACF
 No global Frobenius setoid is claimed. The next section adjoins zero and
 decodes the full carrier, followed by corrected total operation graphs.
 The transported field structure is proved below. Unconditional completeness,
-unconditional R1/R2 and reconstruction remain open. Historical literal definitions and
+unconditional R1/R2 and unconditional reconstruction remain open. Historical literal definitions and
 their refutation stay preserved.
 
 
@@ -676,7 +677,7 @@ perfection, rank five and still-open ACF `JCompletenessACF`.
 The carrier is the geometric ratio quotient with its new zero. A named
 transported field structure and actual decoding ring equivalence are proved
 below after the total geometric graphs. Naturality, global Frobenius setoid,
-unconditional completeness, unconditional R1/R2 and reconstruction remain open. The original literal
+unconditional completeness, unconditional R1/R2 and unconditional reconstruction remain open. The original literal
 construction and its counterexample remain preserved.
 
 
@@ -720,7 +721,7 @@ The original literal negation/totalization derivation retains its
 historical/open status; no separate negation counterexample is claimed.
 The corrected nonzero-addition detour is displayed next, followed by total
 ratio-carrier graphs. The named transported field structure is proved below. Global Frobenius
-setoid, unconditional completeness, unconditional R1/R2 and reconstruction remain open.
+setoid, unconditional completeness, unconditional R1/R2 and unconditional reconstruction remain open.
 Conditional carrier/graph transport is proved above with the canonical
 image-base equality and carrier inputs explicit; conditional image-base
 existence and the field-isomorphism endpoint are also proved above.
@@ -766,7 +767,7 @@ remain explicit. This establishes the corrected class-level detour,
 and the following section gives the full ratio-carrier graphs.
 The historical literal negation/TOT derivation retains its open status and
 exact provenance. The named transported field structure is proved below. Global Frobenius
-setoid, unconditional completeness, unconditional R1/R2 and reconstruction remain open.
+setoid, unconditional completeness, unconditional R1/R2 and unconditional reconstruction remain open.
 Conditional carrier/graph transport is proved above with the canonical
 image-base equality and carrier inputs explicit; conditional image-base
 existence and the field-isomorphism endpoint are also proved above.
@@ -870,5 +871,5 @@ carrier/graph transport is proved above with the canonical image-base
 equality and carrier inputs explicit. Conditional image-base existence and
 the field-isomorphism endpoint are also proved above. Unconditional
 completeness, the global Frobenius setoid,
-simultaneous representatives, unconditional R1/R2 and full reconstruction remain open. The literal source construction and TOT argument retain
+simultaneous representatives, unconditional R1/R2 and unconditional full reconstruction remain open. The literal source construction and TOT argument retain
 their historical/open status.

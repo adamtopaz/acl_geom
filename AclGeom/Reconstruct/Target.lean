@@ -35,8 +35,10 @@ J-completeness hypotheses are supplied; perfected-base RAC, perfected source ran
 actual conjugated lattice map are derived. The original fields need not be perfect. The
 bundles supply separate exponential characteristics and two local Prop-valued PerfectField
 witnesses; no global instance, local Algebra instance, supplied point/scalar/inducing oracle
-or duplicate RingEquiv is added. Final target assembly with the landed Frobenius uniqueness,
-unconditional completeness and literal/TOT/group/three-pair/tensor/frozen obligations remain open.
+or duplicate RingEquiv is added. Main assembles the public conditional target with rank,
+base/intersection formulas, the exact Frobenius fibre, characteristic-zero uniqueness,
+positive-characteristic exponent uniqueness and converse. Unconditional completeness and
+literal/TOT/group/three-pair/tensor/frozen obligations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -35,8 +35,9 @@ bases, both perfections and separate exponential characteristics, source rank fi
 still-open ACF J-completeness inputs remain explicit. The existence endpoint derives the source
 pair, target rank and actual image pair inline; no supplied pair, target rank or point/scalar oracle
 is assumed. Target proves perfected-base RAC and original-field inducing existence through
-arbitrary chosen perfections under explicit perfected ACF completeness. The assembled target
-theorem with Frobenius uniqueness and unconditional ACF J-completeness remain open. Literal
+arbitrary chosen perfections under explicit perfected ACF completeness. Main assembles the
+public conditional lattice-form target, including Frobenius uniqueness and converse.
+Unconditional ACF J-completeness remains open. Literal
 RatioEq/TOT/scalar arguments, bypassed
 linear-disjointness and frozen M4a obligations retain their recorded provenance.
 

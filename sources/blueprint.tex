@@ -272,22 +272,38 @@ This is type-clean and implies the displayed intersection formula in
 it includes the base condition by applying it to the bottom element.  For general bases,
 the bottom only recovers the perfected relative algebraic closure of the base.
 
+% Earlier chosen-perfection progress scope (before conditional original-field existence; reported on issue 9):
+% Integral Frobenius twists induce the same map.  Constructing a field isomorphism for an
+% arbitrary lattice isomorphism, the uniqueness-up-to-Frobenius converse and the full
+% literal/quotient functorial assembly remain open (issues 8--10).
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% \begin{remark}[Lean induced-map status, October 2026]
+% \lean{AclGeom.Perfection.Induces} formalizes the displayed equality and proves its
+% intersection formula, uniqueness of the induced lattice map and compatible induced-map
+% converse.  Recovery of the literal perfected bases explicitly assumes both bases relatively
+% algebraically closed; the intersection formula and converse need no such hypothesis.
+% Integral Frobenius twists induce the same map. The uniqueness-up-to-Frobenius
+% converse is proved for supplied inducing maps. Conditional original-field
+% inducing existence through chosen perfections is proved with original-base RAC
+% and both perfected ACF completeness inputs explicit. Final target assembly,
+% unconditional completeness and full literal/quotient functorial assembly remain
+% open (issues 8--10).
+% \end{remark}
 \begin{remark}[Lean induced-map status, October 2026]
 \lean{AclGeom.Perfection.Induces} formalizes the displayed equality and proves its
 intersection formula, uniqueness of the induced lattice map and compatible induced-map
 converse.  Recovery of the literal perfected bases explicitly assumes both bases relatively
 algebraically closed; the intersection formula and converse need no such hypothesis.
-% Earlier chosen-perfection progress scope (before conditional original-field existence; reported on issue 9):
-% Integral Frobenius twists induce the same map.  Constructing a field isomorphism for an
-% arbitrary lattice isomorphism, the uniqueness-up-to-Frobenius converse and the full
-% literal/quotient functorial assembly remain open (issues 8--10).
 Integral Frobenius twists induce the same map. The uniqueness-up-to-Frobenius
 converse is proved for supplied inducing maps. Conditional original-field
 inducing existence through chosen perfections is proved with original-base RAC
-and both perfected ACF completeness inputs explicit. Final target assembly,
+and both perfected ACF completeness inputs explicit. Unconditional target assembly,
 unconditional completeness and full literal/quotient functorial assembly remain
 open (issues 8--10).
 \end{remark}
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 \section{What may be taken from Mathlib}
 
@@ -1883,6 +1899,15 @@ Only the existing global algebra and tower instances are used.
 % element recovery for \lean{interpretedRingEquiv}, proved below under explicit
 % carrier/completeness and RAC inputs. General unconditional recovery, scalar one and
 % full inducing reconstruction remain open (issues 5 and 9).
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% \lean{base_ratio_mem_range} proves the original orientation $u_1/u_2\in k$ as actual
+% membership in the image of $\operatorname{algebraMap}(k,K)$, with the relatively
+% algebraically closed-base hypothesis \lean{IsRAC} explicit. Neither theorem assumes
+% perfection, configuration completeness or an exponential characteristic, and finite
+% bases and arbitrary characteristics are included. Its named consumer is actual base
+% element recovery for \lean{interpretedRingEquiv}, proved below under explicit
+% carrier/completeness and RAC inputs. General unconditional R1/R2 and
+% full inducing reconstruction remain open (issues 5 and 9).
 \lean{base_ratio_mem_range} proves the original orientation $u_1/u_2\in k$ as actual
 membership in the image of $\operatorname{algebraMap}(k,K)$, with the relatively
 algebraically closed-base hypothesis \lean{IsRAC} explicit. Neither theorem assumes
@@ -1890,7 +1915,10 @@ perfection, configuration completeness or an exponential characteristic, and fin
 bases and arbitrary characteristics are included. Its named consumer is actual base
 element recovery for \lean{interpretedRingEquiv}, proved below under explicit
 carrier/completeness and RAC inputs. General unconditional R1/R2 and
-full inducing reconstruction remain open (issues 5 and 9).
+unconditional full inducing reconstruction remain open (issues 5 and 9).
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 The correspondence inputs in the formal argument are $(u_1,u_2)$ and the degenerate
 pair $(b,b)$. The original proof above instead names $(u_1,b)$ and $(u_2,b)$; these do
@@ -3656,6 +3684,16 @@ base-range equality \lean{CrossBase.Compatible} for \lean{interpretedRingEquiv}.
 % theorems are unchanged. This accepts corrected conditional R1b; general unconditional R1/R2,
 % original-field \lean{Induces} assembly, unconditional completeness and full reconstruction
 % remain open.
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% Both relatively algebraically closed bases and every existing carrier input
+% remain explicit for compatibility: both perfections/rank-five bounds, separate
+% exponential characteristics, both still-open ACF $J$-completeness hypotheses
+% and the canonical image-base equality. Independent universes, finite bases
+% and characteristics zero/two are included. The two accepted no-fresh ratio
+% theorems are unchanged. This accepts corrected conditional R1b. Conditional
+% original-field inducing existence through chosen perfections is proved below.
+% General unconditional R1/R2, final target assembly, unconditional completeness
+% and full reconstruction remain open.
 Both relatively algebraically closed bases and every existing carrier input
 remain explicit for compatibility: both perfections/rank-five bounds, separate
 exponential characteristics, both still-open ACF $J$-completeness hypotheses
@@ -3663,8 +3701,11 @@ and the canonical image-base equality. Independent universes, finite bases
 and characteristics zero/two are included. The two accepted no-fresh ratio
 theorems are unchanged. This accepts corrected conditional R1b. Conditional
 original-field inducing existence through chosen perfections is proved below.
-General unconditional R1/R2, final target assembly, unconditional completeness
+General unconditional R1/R2, unconditional target assembly, unconditional completeness
 and full reconstruction remain open.
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 The original proof above uses the literal \lean{RatioEq} refuted in the
 interpretation audit (issue 23); it is preserved exactly. This qualification
@@ -3752,15 +3793,28 @@ laws to the existing whole-lattice API are checked independently.
 % assembly, general unconditional R1/R2, chosen-perfection
 % reconstruction, unconditional completeness and the global/literal/TOT/
 % three-pair/tensor/frozen M4a obligations remain open.
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% None of these three theorems assumes RAC. Both perfections/rank-five bounds,
+% separate exponential characteristics, both still-open ACF $J$-completeness
+% hypotheses and the actual canonical image-base equality remain explicit.
+% No extra target genericity, freshness witness, scalar oracle or rank increase
+% is introduced. This accepts corrected conditional R2a/b/c. Conditional
+% original-field chosen-perfection existence is proved below with original RAC
+% and both perfected completeness inputs explicit. Final target assembly,
+% general unconditional R1/R2, unconditional completeness and the global,
+% literal, TOT, three-pair, tensor and frozen M4a obligations remain open.
 None of these three theorems assumes RAC. Both perfections/rank-five bounds,
 separate exponential characteristics, both still-open ACF $J$-completeness
 hypotheses and the actual canonical image-base equality remain explicit.
 No extra target genericity, freshness witness, scalar oracle or rank increase
 is introduced. This accepts corrected conditional R2a/b/c. Conditional
 original-field chosen-perfection existence is proved below with original RAC
-and both perfected completeness inputs explicit. Final target assembly,
+and both perfected completeness inputs explicit. Unconditional target assembly,
 general unconditional R1/R2, unconditional completeness and the global,
 literal, TOT, three-pair, tensor and frozen M4a obligations remain open.
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 \subsection[Points inside the closure of a]
 {Points inside $\acl(a)$}
@@ -3849,6 +3903,28 @@ $\phi(M)=\Phi(M^{\mathrm{perf}})\cap L$ in the original fields.
 % conditional propagation. Reconstruction existence and unconditional recovery remain
 % open (issue 9); the two-generic intersection and bypassed linear-disjointness
 % statements retain their separate status.
+% Earlier chosen-perfection progress scope (before conditional original-field existence; reported on issue 9):
+% conditional propagation. Reconstruction existence and unconditional recovery remain
+% open (issue 9); the two-generic intersection and bypassed linear-disjointness
+% statements retain their separate status.
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% \noindent\textbf{Lean status for conditional recovery.}
+% \lean{eq_closedIFMap_of_point_eq} proves the all-point and atomistic propagation
+% from a field isomorphism carrying the base onto the base and the point formula
+% outside $\acl(a)$. These remain explicit hypotheses for this general API; the
+% actual corrected conditional outputs are proved above with explicit carrier/completeness
+% inputs and RAC for compatibility. General unconditional R1/R2 remain open. The proof uses
+% exchange and bijectivity:
+% at most one atom has a representative inside $\acl(a)$, and two bijections of atoms
+% agreeing away from one atom agree everywhere. The existing atomistic extension
+% uniqueness gives equality of the whole lattice maps.
+% \lean{CrossBase.closedIFMap_point} gives the formula for every principal closure.
+% No rank, freshness or relative-algebraic-closedness hypothesis is needed for this
+% conditional propagation. Conditional perfect-field inducing existence and
+% original-field existence through chosen perfections are proved below under
+% explicit RAC and both perfected completeness hypotheses. Final target assembly
+% and unconditional recovery remain open (issue 9); the two-generic intersection
+% and bypassed linear-disjointness statements retain their separate status.
 \noindent\textbf{Lean status for conditional recovery.}
 \lean{eq_closedIFMap_of_point_eq} proves the all-point and atomistic propagation
 from a field isomorphism carrying the base onto the base and the point formula
@@ -3861,15 +3937,14 @@ agreeing away from one atom agree everywhere. The existing atomistic extension
 uniqueness gives equality of the whole lattice maps.
 \lean{CrossBase.closedIFMap_point} gives the formula for every principal closure.
 No rank, freshness or relative-algebraic-closedness hypothesis is needed for this
-% Earlier chosen-perfection progress scope (before conditional original-field existence; reported on issue 9):
-% conditional propagation. Reconstruction existence and unconditional recovery remain
-% open (issue 9); the two-generic intersection and bypassed linear-disjointness
-% statements retain their separate status.
 conditional propagation. Conditional perfect-field inducing existence and
 original-field existence through chosen perfections are proved below under
-explicit RAC and both perfected completeness hypotheses. Final target assembly
-and unconditional recovery remain open (issue 9); the two-generic intersection
+explicit RAC and both perfected completeness hypotheses. Unconditional target assembly
+and recovery remain open (issue 9); the two-generic intersection
 and bypassed linear-disjointness statements retain their separate status.
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 
 \subsection{Corrected conditional inducing equality and existence in Lean}
@@ -3912,15 +3987,27 @@ this does not prove the general original nonperfect-field theorem.
 % retain their provenance and scope. The perfected conditional qualification
 % was reported on issue 9 before integration. Every original statement and
 % proof above is preserved exactly.
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% The next subsection proves transport through chosen perfection lattices of
+% ORIGINAL fields, deriving perfected-base RAC from original RAC and constructing
+% actual \lean{Perfection.Induces} witnesses conditionally. Final target assembly
+% with Frobenius uniqueness remains open. General unconditional R1/R2/R3/R4,
+% unconditional completeness, the literal \lean{RatioEq}/TOT/scalar arguments,
+% original larger-freshness route, bypassed linear-disjointness and frozen M4a
+% obligations retain their provenance and scope. The conditional qualification
+% was reported on issue 9 before integration. Every original statement and proof
+% above is preserved exactly.
 The next subsection proves transport through chosen perfection lattices of
 ORIGINAL fields, deriving perfected-base RAC from original RAC and constructing
-actual \lean{Perfection.Induces} witnesses conditionally. Final target assembly
-with Frobenius uniqueness remains open. General unconditional R1/R2/R3/R4,
+actual \lean{Perfection.Induces} witnesses conditionally. The public conditional target with Frobenius uniqueness is assembled below. General unconditional R1/R2/R3/R4,
 unconditional completeness, the literal \lean{RatioEq}/TOT/scalar arguments,
 original larger-freshness route, bypassed linear-disjointness and frozen M4a
 obligations retain their provenance and scope. The conditional qualification
 was reported on issue 9 before integration. Every original statement and proof
 above is preserved exactly.
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 \subsection{Conditional original-field existence through chosen perfections in Lean}
 
@@ -3947,14 +4034,26 @@ API; no extra public assembler is added. The focused module adds exactly two
 public results, no helper, generated declaration, global instance or duplicate
 RingEquiv. Its two local Prop-valued perfection witnesses add no Algebra instance.
 
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% Only conditional chosen-perfection existence for the original fields is accepted.
+% The next named consumer is a public conditional target assembling rank,
+% base and intersection formulas, Frobenius uniqueness and the converse. Final
+% target assembly, unconditional completeness, general unconditional recovery,
+% literal ratio, totalization and scalar arguments, bypassed linear-disjointness
+% and the broader group, three-pair, tensor and frozen M4a obligations remain open.
+% The scope and stale status correction were reported on issue 9 before integration.
+% Every original statement and proof, including the proposed assembly proof, is preserved.
 Only conditional chosen-perfection existence for the original fields is accepted.
-The next named consumer is a public conditional target assembling rank,
-base and intersection formulas, Frobenius uniqueness and the converse. Final
+Its named consumer is the assembled public conditional target below, combining rank,
+base and intersection formulas, Frobenius uniqueness and the converse. Unconditional
 target assembly, unconditional completeness, general unconditional recovery,
 literal ratio, totalization and scalar arguments, bypassed linear-disjointness
 and the broader group, three-pair, tensor and frozen M4a obligations remain open.
 The scope and stale status correction were reported on issue 9 before integration.
 Every original statement and proof, including the proposed assembly proof, is preserved.
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 \section{Uniqueness and the Frobenius kernel}
 
@@ -4038,6 +4137,16 @@ $X^{p^{|m-n|}}-X$, impossible unless $m=n$.
 % \lean{frobeniusZPow_injective} separate characteristic-zero identity from
 % positive-characteristic uniqueness of the exponent. Recovery and reconstruction
 % existence remain open (issue 9).
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% \noindent\textbf{Lean status.}
+% \lean{exists_eq_frobeniusZPow_of_point_fixed} proves the rank-five kernel over
+% arbitrary perfect fields, without requiring base preservation or relative algebraic
+% closedness of the base. The tested corollaries \lean{eq_refl_of_point_fixed} and
+% \lean{frobeniusZPow_injective} separate characteristic-zero identity from
+% positive-characteristic uniqueness of the exponent. Original-field inducing
+% existence is proved conditionally above with original RAC and both perfected
+% completeness hypotheses explicit. Final target assembly and unconditional
+% recovery remain open (issue 9).
 \noindent\textbf{Lean status.}
 \lean{exists_eq_frobeniusZPow_of_point_fixed} proves the rank-five kernel over
 arbitrary perfect fields, without requiring base preservation or relative algebraic
@@ -4045,8 +4154,11 @@ closedness of the base. The tested corollaries \lean{eq_refl_of_point_fixed} and
 \lean{frobeniusZPow_injective} separate characteristic-zero identity from
 positive-characteristic uniqueness of the exponent. Original-field inducing
 existence is proved conditionally above with original RAC and both perfected
-completeness hypotheses explicit. Final target assembly and unconditional
+completeness hypotheses explicit. Unconditional target assembly and
 recovery remain open (issue 9).
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 If $\Phi_1,\Phi_2:K^{\mathrm{perf}}\to L^{\mathrm{perf}}$ induce the same geometry map,
 then $\Phi_2\Phi_1^{-1}$ lies in this kernel, proving uniqueness modulo target Frobenius.
@@ -4062,6 +4174,18 @@ For $p=1$, Mathlib's Frobenius equivalence is the identity and literal uniquenes
 % and characteristic-zero literal uniqueness. These statements need neither relatively
 % closed base hypotheses nor an equality of recorded exponential characteristics.
 % Reconstruction existence, recovery and functorial assembly remain open (issues 9--10).
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% \noindent\textbf{Lean status for supplied inducing maps.}
+% \lean{Induces.exists_eq_trans_frobZPow} proves the uniqueness clause from two explicit
+% inducing isomorphisms and $\trdeg(K/k)\geq5$; the source rank transports to the
+% perfected target. \lean{Induces.iff_exists_eq_trans_frobZPow} describes the entire fibre
+% once one inducing map is supplied. \lean{trans_frobZPow_injective} and
+% \lean{Induces.eq_of_p_eq_one} prove positive-characteristic exponent uniqueness
+% and characteristic-zero literal uniqueness. These statements need neither relatively
+% closed base hypotheses nor an equality of recorded exponential characteristics.
+% Original-field chosen-perfection inducing existence is proved conditionally above.
+% Final target assembly, unconditional recovery, completeness and functorial
+% assembly remain open (issues 9--10).
 \noindent\textbf{Lean status for supplied inducing maps.}
 \lean{Induces.exists_eq_trans_frobZPow} proves the uniqueness clause from two explicit
 inducing isomorphisms and $\trdeg(K/k)\geq5$; the source rank transports to the
@@ -4071,8 +4195,11 @@ once one inducing map is supplied. \lean{trans_frobZPow_injective} and
 and characteristic-zero literal uniqueness. These statements need neither relatively
 closed base hypotheses nor an equality of recorded exponential characteristics.
 Original-field chosen-perfection inducing existence is proved conditionally above.
-Final target assembly, unconditional recovery, completeness and functorial
-assembly remain open (issues 9--10).
+Unconditional recovery, completeness and functorial assembly remain open
+(issues 9--10). The public conditional target is assembled below.
+The public lattice-form target is assembled conditionally in Lean below, with both
+exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
+point/automorphism variants and functorial assembly remain open.
 
 
 \section{Assembly of the final Lean theorem}
@@ -4087,7 +4214,10 @@ The proof uses the following explicit maps:
 \item field isomorphism $\to$ map on points $\to$ map on all closed elements.
 \end{enumerate}
 
-The Lean record collecting compatibility is:
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% The Lean record collecting compatibility is:
+The following earlier Lean interface sketch collects compatibility. The accepted
+public relation below is a reducible alias of the actual perfected-image equality:
 
 \begin{lstlisting}
 structure Reconstructs
@@ -4119,12 +4249,20 @@ theorem exists_reconstruction
 % assembly argument, conditional on the open interpretation, unconditional base-recovery and
 % point-recovery
 % inputs; it does not yet establish reconstruction existence in Lean.
+% Earlier public-target progress scope (before conditional public assembly; reported on issue 9):
+% Here \lean{~=o} and \lean{~=+*} are ASCII placeholders for \lean{OrderIso} and
+% \lean{RingEquiv}; the listing records a planned public interface. Actual
+% chosen-perfection inducing existence is proved conditionally in Lean with
+% both perfected completeness hypotheses explicit. The following proposed
+% assembly argument is preserved; the public final target and unconditional
+% interpretation, base recovery and point recovery remain open.
 Here \lean{~=o} and \lean{~=+*} are ASCII placeholders for \lean{OrderIso} and
-\lean{RingEquiv}; the listing records a planned public interface. Actual
-chosen-perfection inducing existence is proved conditionally in Lean with
+\lean{RingEquiv}; the listing preserves the earlier interface sketch. Public
+\lean{Reconstructs} aliases actual \lean{Perfection.Induces}, and public existence
+and the assembled lattice-form target are proved conditionally in Lean with
 both perfected completeness hypotheses explicit. The following proposed
-assembly argument is preserved; the public final target and unconditional
-interpretation, base recovery and point recovery remain open.
+assembly argument is preserved. Unconditional interpretation, base recovery
+and point recovery, point/automorphism variants and functorial assembly remain open.
 
 % Original heading in commit 76484ae: Proof of \cref{thm:target}
 \begin{proof}[Proposed assembly argument for \cref{thm:target}]
@@ -4198,6 +4336,47 @@ is surjective by existence.  Its kernel is the integral Frobenius subgroup by
 positive characteristic.  This also proves all geometry-input and automorphism-group
 corollaries.
 \end{proof}
+
+\subsection{The public conditional lattice-form target in Lean}
+
+The public \lean{AclGeom.Main} module now assembles the chosen-perfection
+lattice-form theorem. \lean{Reconstructs} is a reducible alias of the actual
+\lean{Perfection.Induces} equality of perfected subfields, rather than a
+second compatibility relation. \lean{exists_reconstruction} proves public
+existence with both original bases RAC, original source rank five, arbitrary
+chosen bundles and both exact perfected ACF $J$-completeness hypotheses.
+The original ambient fields need not be perfect.
+
+\lean{reconstruction_target} proves the lifted equality of transcendence
+degrees and constructs one compatible isomorphism of chosen perfections.
+For that SAME witness it gives the literal equality of perfected images,
+every original-field intersection formula, the entire Frobenius fibre,
+characteristic-zero literal uniqueness and positive-characteristic
+injectivity of the integral exponent. Every compatible isomorphism of
+chosen perfections reconstructs its conjugated original lattice map.
+The two bundle characteristic parameters stay separate and the ambient
+universes are independent. No pair, target rank, image equality, point,
+scalar or inducing oracle is supplied.
+
+Exactly three public declarations replace the empty Main skeleton, with
+imports Target and Uniqueness only. There is no helper, private/generated
+item, global/local instance, evaluation or duplicate relation. The frozen
+source passes unchanged and the accepted final changes only its status header.
+Fifteen independent typed behaviors check actual perfected-base Subfield
+image and actual set intersection in the ORIGINAL target field, both fibre
+directions, existence and uniqueness of the exponent, literal uniqueness
+of the reconstruction, compatible converse, induced-lattice uniqueness,
+finite bases and ORIGINAL characteristics zero/two for arbitrary bundles.
+All57 previous behavior fixtures stay byte-exact.
+
+Only the CONDITIONAL public lattice-form target is accepted. Both exact
+perfected completeness hypotheses remain explicit and open in general.
+Unconditional recovery and reconstruction, point-geometry and automorphism
+variants, fully faithful functorial assembly, literal ratio, totalization and scalar
+arguments, bypassed linear-disjointness and broader group, three-pair,
+tensor and frozen M4a obligations remain open. Current status corrections
+were reported on issue 9 before integration; every original statement,
+proof, assembly sketch and proposed proof retains its wording and provenance.
 
 \section{The functorial formulation}
 \label{sec:functorial}

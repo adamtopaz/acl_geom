@@ -36,8 +36,9 @@ closed `M` (`Perfection.Induces`; blueprint §type-correct statement, the defini
 **Status:** the inducing relation, intersection formula, compatible converse and
 forward Frobenius invariance are proved (#24, #10). Target proves actual original-field
 inducing existence through arbitrary chosen perfections under original-base RAC, source rank
-five and both perfected ACF completeness inputs. Final target assembly and unconditional
-completeness remain open. The uniqueness-up-to-Frobenius fibre for supplied maps is proved in
+five and both perfected ACF completeness inputs. Main assembles the public conditional target
+with rank, base/intersection, Frobenius uniqueness and converse; unconditional completeness
+remains open. The uniqueness-up-to-Frobenius fibre for supplied maps is proved in
 `Reconstruct.Uniqueness`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction

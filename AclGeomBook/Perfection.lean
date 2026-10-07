@@ -204,9 +204,10 @@ Integral Frobenius twists induce the same lattice map:
 These complete the foundational carryovers in issue #24. Conditional
 original-field inducing existence through arbitrary chosen perfections is
 proved in Reconstruct.Target with both original RAC bases, source rank five
-and both perfected ACF completeness hypotheses explicit. The public target
-assembly, unconditional completeness and literal/quotient functorial assembly
-remain open in issues #8–#10.
+and both perfected ACF completeness hypotheses explicit. Main assembles the
+public conditional target with rank, base/intersection, Frobenius uniqueness
+and converse. Unconditional completeness and literal/quotient functorial
+assembly remain open in issues #8–#10.
 
 
 For two supplied inducing maps and source transcendence degree at least five,

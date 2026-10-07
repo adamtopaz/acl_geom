@@ -29,7 +29,9 @@ No hypothesis on the bases is needed: relative algebraic closedness of `k` and `
 base clause `Induces.compatible`.  The existence of an inducing isomorphism is not claimed here.
 
 **Status:** uniqueness and the Frobenius fibre for supplied inducing maps are proved (#9).
-Reconstruction existence remains open.
+Conditional original-field reconstruction existence and the public lattice-form target
+are proved in Main with both original RAC bases, source rank five and both exact perfected
+ACF J-completeness inputs explicit. Unconditional completeness and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
