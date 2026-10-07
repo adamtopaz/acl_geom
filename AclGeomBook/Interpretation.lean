@@ -13,6 +13,7 @@ import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
 import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Interpretation.ClassArithmetic
+import AclGeom.Interpretation.Ratio
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -144,9 +145,9 @@ fixes their closed points and normalizes its parameter to `a`:
 
 No infinite-base or relatively closed base assumption is used. These
 conditional statements preserve the original geometric relation. They do
-not prove ACF completeness, setoid laws, ratio semantics or non-generic
-totalization. The conditional coordinate bijection and corrected generic
-class arithmetic are displayed below.
+not prove ACF completeness, setoid/quotient construction or non-generic
+totalization. The conditional coordinate bijection, corrected generic
+class arithmetic and exact corrected ratio semantics are displayed below.
 The common-representative calculation remains a separate open obligation
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
@@ -176,8 +177,9 @@ remain explicit for that class description. No infinite-base or relatively
 closed base hypothesis is added. The map's domain is the original geometric
 `FrobEq` class, and its inverse encodes the same point tuple. Corrected
 generic fixed-class arithmetic is proved below under the same explicit
-inputs. Setoid laws, ratio semantics and non-generic totalization remain
-open ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
+inputs. Exact corrected ratio semantics is also proved below under these
+inputs. Setoid/quotient construction, decoding and non-generic totalization
+remain open ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Refutations of the literal generic operation graphs
 %%%
@@ -278,3 +280,43 @@ genericity clause; the refuted literal projections retain their provenance.
 This proves corrected generic fixed-class semantics. It does not handle
 non-generic inputs or prove a ratio quotient, totalization, setoid laws,
 unconditional ACF completeness, R1/R2 or reconstruction existence.
+
+
+# Corrected ratio semantics
+%%%
+tag := "corrected-ratio-semantics"
+%%%
+
+The historical ratio predicate is refuted above. Its corrected replacement
+keeps the four witness products, uses the coupled `JMulRel`, and requires
+geometric rank-three genericity for each product. Every auxiliary witness
+is a member of the original geometric class; the definition uses no field
+coordinates:
+
+{docstring AclGeom.RatioEq}
+
+For arbitrary input class members, every witness gives equality of decoded
+ratios. Class coordinates are outside the parameter closure and hence nonzero,
+so the four multiplication equations can be cancelled:
+
+{docstring AclGeom.RatioEq.div_eq}
+
+Conversely, equality of ratios writes one of the four field coordinates in
+the closure of the other three and the parameter. A single fresh multiplier
+outside this explicit four-element set supplies the witnesses. The four
+genericity clauses are proved separately; numerator and denominator within
+an input pair need not be generic with one another:
+
+{docstring AclGeom.ratioEq_of_div_eq}
+
+{docstring AclGeom.ratioEq_iff}
+
+Perfection, rank five and the still-open ACF `JCompletenessACF` input remain
+explicit. No infinite-base or relatively closed base assumption is added.
+The corrected relation keeps the geometry and exact rank budget. The literal
+predicate and its counterexample remain preserved.
+
+This proves the corrected ratio equivalence with decoded equality. Packaging
+the ratio setoid/quotient, decoding all nonzero field elements, non-generic
+totalization, field graphs, R1/R2, unconditional completeness and final
+reconstruction remain open.

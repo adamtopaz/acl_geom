@@ -32,7 +32,8 @@ perfection of `K`.
 **Status:** the semantic equivalences and fixed-class description are proved under the explicit
 ACF J-completeness hypothesis `hcomp` (#23). The conditional coordinate bijection is proved
 in `ClassCoordinates`, and corrected generic class arithmetic in `ClassArithmetic`.
-Unconditional completeness, setoid laws, ratio semantics and non-generic totalization remain open.
+Corrected ratio semantics is proved in `Ratio` under the same inputs.
+Unconditional completeness, setoid/quotient construction and non-generic totalization remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

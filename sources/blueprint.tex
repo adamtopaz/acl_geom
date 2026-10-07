@@ -135,8 +135,9 @@ The formalization audit of October 2026 identified errors in the literal $21$-fi
 coordinate target, the arbitrary-field $\Qrel$ and $\Qprel$ consequences, and the generic
 arithmetic predicates.  The corresponding sections retain the provenance and state the
 corrections or counterexamples. Corrected generic class semantics is formalized under
-explicit configuration-completeness inputs; totalization, ratio semantics and the
-dependent reconstruction and functorial assembly require further work.  Lean fragments
+explicit configuration-completeness inputs, as is corrected ratio semantics.
+Totalization, ratio quotient/decoding and the dependent reconstruction and functorial
+assembly require further work.  Lean fragments
 record target interfaces, and each prose argument must be checked against its precise
 hypotheses before transcription.  The library, book, and issue tracker distinguish
 kernel-checked results from conditional theorems and open obligations.
@@ -2293,7 +2294,8 @@ Define $\mu(j(x,a))=x$.
 perfection, rank-five and ACF J-completeness hypotheses, by applying inverse
 Frobenius to the semantic endpoint. The coordinate bijection is proved under these
 same explicit hypotheses below. Corrected generic class arithmetic is also proved
-under these inputs; ratio semantics and non-generic totalization remain open (issue 23).
+under these inputs, as is corrected ratio semantics. The ratio quotient, decoding
+and non-generic totalization remain open (issue 23).
 
 
 \begin{lemma}[coordinate bijection]\label{lem:mu-bij}
@@ -2314,7 +2316,8 @@ arbitrary fields, without perfection or configuration completeness.
 and its evaluation law, keeping the class description's perfection, rank-five
 and still-open ACF J-completeness hypotheses explicit. The domain remains
 the geometric Frobenius class. Corrected generic class arithmetic is also proved under
-these inputs. Setoid laws, ratio semantics and non-generic totalization remain open (issue 23).
+these inputs. Corrected ratio semantics is also proved conditionally below;
+setoid/quotient construction, decoding and non-generic totalization remain open (issue 23).
 
 
 The generic operations can be defined explicitly from the four non-parameter coordinates.
@@ -2407,8 +2410,9 @@ coupled sum, product, difference or quotient output belongs to the class and its
 $\mu$-coordinate is the corresponding field operation. The four theorems are
 \lean{JAddRel.jClassEquiv_add} and \lean{JMulRel.jClassEquiv_mul},
 together with \lean{JSubRel.jClassEquiv_sub} and \lean{JDivRel.jClassEquiv_div}.
-The predicates and genericity remain geometric. Non-generic totalization and corrected
-ratio semantics remain open; the literal definitions below are retained for provenance.
+The predicates and genericity remain geometric. Corrected ratio semantics is proved under
+the same explicit inputs, separately from the historical definitions below. Non-generic
+totalization and ratio quotient/decoding remain open; literal provenance is retained.
 
 The ratio definition below is affected concretely. Take $t$ fresh over $x,y,a$ and put
 \[
@@ -2490,9 +2494,10 @@ nonfunctional \lean{JMul}, and the forward ratio-semantics implication is
 refuted by the witnesses in the preceding audit remark (issue 23).
 Consequently the asserted decoding and field proofs below do not establish
 results for these definitions. Generic class semantics for corrected coupled
-operations is now proved under explicit ACF completeness. Corrected ratio
-semantics and non-generic totalization are still needed before a replacement
-ratio quotient can be constructed.
+operations and corrected ratio semantics are now proved under explicit ACF completeness.
+Setoid/quotient construction, decoding and non-generic totalization are still needed
+for the interpreted field. The corrected predicate is displayed separately below;
+the literal predicate and its refutation remain preserved.
 \end{warning}
 
 Every element outside $\acl(a)$ is nonzero.  Thus pairs in $\Jrel_1^2$ represent nonzero
@@ -2500,6 +2505,47 @@ field elements by
 \[
   (u_1,u_2)\longmapsto \mu(u_1)/\mu(u_2).
 \]
+
+\subsection{The corrected four-product ratio relation in Lean}
+
+Write $j_0=j(x_0,a)$ and, for point tuples, let
+\[
+ \operatorname{GMul}(u,c,d):=
+ \operatorname{JMulRel}(u,c,d)\ \land\
+ \operatorname{PointTripleIndependent}(u_X,c_X,u_A).
+\]
+The corrected relation, denoted here by $\operatorname{RatioEq}_{\mathrm c}$ to
+distinguish it from the historical literal predicate, is
+\[
+\begin{split}
+ \operatorname{RatioEq}_{\mathrm c}(j_0;r,s)
+ \Longleftrightarrow \exists c_1,c_2,d_1,d_2\in[j_0]_{\operatorname{FrobEq}},\quad&
+ \operatorname{GMul}(r_1,c_1,d_1)\land
+ \operatorname{GMul}(r_2,c_1,d_2)\\
+ &{}\land\operatorname{GMul}(s_1,c_2,d_1)\land
+ \operatorname{GMul}(s_2,c_2,d_2).
+\end{split}
+\]
+This is the Lean predicate \lean{AclGeom.RatioEq}. Its definition is entirely
+geometric. For four input class members, \lean{RatioEq.div_eq} applies to every
+witness, and \lean{ratioEq_of_div_eq} constructs a witness from equal decoded
+ratios. Their equivalence \lean{ratioEq_iff} proves
+\[
+ \operatorname{RatioEq}_{\mathrm c}(j_0;r,s)
+ \Longleftrightarrow \frac{\mu(r_1)}{\mu(r_2)}
+                     =\frac{\mu(s_1)}{\mu(s_2)},
+\]
+under explicit perfection, rank-five and still-open ACF J-completeness hypotheses.
+
+For the reverse implication, present the inputs with coordinates $x_1,x_2,y_1,y_2$
+and common parameter $a$. Ratio equality expresses $y_1=x_1y_2/x_2$. A multiplier
+fresh over the explicit four-element set $\{a,x_1,x_2,y_2\}$ is therefore fresh
+over all five values. The four witnesses have coordinates
+$y_2t,x_2t,x_1y_2t,x_2y_2t$. All four product genericity clauses and class
+memberships are proved. No genericity between a pair's numerator and denominator
+is required. The ratio setoid/quotient, decoding and non-generic totalization
+remain open (issue 23). The following original definition and proofs retain their
+historical, refuted status.
 
 \subsection{A geometry-only ratio equivalence}
 
@@ -3630,8 +3676,8 @@ equation (20.20) and both quotient-category unit laws.
 This table tracks transcription targets and their proposed prose arguments. Entries are
 not blanket proof claims: the library, book and issue tracker distinguish imported
 Mathlib facts, checked adapters, conditional theorems, open obligations and refuted
-literal targets. In particular, completeness, corrected ratio semantics, totalization
-and the dependent reconstruction assembly still require proof.
+literal targets. In particular, unconditional completeness, ratio quotient/decoding,
+totalization and the dependent reconstruction assembly still require proof.
 
 \begin{longtable}{p{0.08\linewidth}p{0.67\linewidth}p{0.15\linewidth}}
 \toprule

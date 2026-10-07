@@ -84,8 +84,9 @@ of this guide. The current mathematical boundaries are:
   fixed-class description are proved under explicit perfection, rank-five and
   ACF J-completeness inputs, over any base field. The coordinate bijection
   is proved under the same explicit inputs. Corrected generic fixed-class
-  arithmetic is also proved under these inputs. Setoid laws, non-generic
-  totalization and ratio semantics remain open (#23).
+  arithmetic and corrected geometric ratio semantics are proved under these
+  inputs. Setoid/quotient construction, decoding and non-generic totalization
+  remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3230,3 +3231,71 @@ Non-generic totalization, corrected ratio semantics, setoid laws, unconditional
 ACF completeness, the bypassed simultaneous-representative obligation,
 R1/R2 and reconstruction existence remain open. The frozen M4a chain is
 untouched.
+
+## Corrected ratio semantics with the exact rank-five budget (#23)
+
+`Interpretation/Ratio` replaces the empty M0 skeleton with the corrected
+geometric ratio predicate and its forward, reverse and equivalence theorems.
+The predicate retains four products through four auxiliary class members,
+using the coupled `JMulRel` and a `PointTripleIndependent` clause for each
+product. It contains no semantic coordinates. The four input class
+memberships are explicit in the semantic theorems.
+
+`RatioEq.div_eq` applies to every geometric witness, converts its four
+products to field equations by the accepted generic class semantics, and
+cancels nonzero coordinates. `ratioEq_of_div_eq` presents the four input
+members with the same literal parameter. Equality of ratios recovers one
+coordinate from the other three; a multiplier fresh over the explicit
+four-element set consisting of the parameter and those three coordinates
+therefore avoids all five values. The rank-five oracle supplies it.
+Four independent triples establish all four product genericity clauses.
+Their pair restrictions provide independence and class membership for
+all auxiliary tuples, without duplicating or promoting the private
+coordinate-pair helper. `ratioEq_iff` gives the exact decoded-ratio
+equivalence. Perfection, exponential characteristic, rank five and
+still-open ACF J-completeness remain explicit throughout the semantic
+theorems; the predicate itself is geometric over arbitrary fields.
+
+Claude supplied frozen source-only draft `f1faad39`. Codex checked all
+eleven dependency hashes and the original empty skeleton against pushed
+`04846d1`, independently audited the equations and rank budget, and compiled
+the immutable source without repairs. The old skeleton has zero records.
+Original and final six-record signatures and raw proof/definition bodies
+agree exactly. All four public and two private axiom reports are standard,
+including the geometric predicate definition. No generated declaration
+is introduced, and no statement, attribute or declaration docstring changes.
+The private source passes in 12 s and the final chain in 8 s.
+
+Nine byte-identical original/final interfaces and behavior probes pass
+with independent universe levels. They check arbitrary bases, finite
+bases and characteristic zero, the universal forward witness and reverse
+orientation, repeated input pairs, pair reversal, chained decoded equalities
+and all diagonal pairs representing one. Genericity is required in the
+witness products, not between numerator and denominator. These probes do
+not package a main ratio setoid or construct its quotient/decoding.
+
+Four existing module namespaces are byte-exact; only status headers change.
+The original literal ratio definition and refutation remain preserved, and
+the source displays the corrected geometric predicate separately, with
+the explicit unproved completeness input.
+
+The full library build passes in 32.01 s (6.69 GiB sampled peak family RSS,
+minimum 36.79 GiB available), and the book in 8 s. Shared artifact probes
+pass in 6 s with the same six signatures/raw bodies, all four public and
+two private standard axiom reports and nine interfaces/behaviors. All
+236 library files pass proof-placeholder/project-axiom hygiene. The book
+has 82 HTML pages, preserving all 81 old paths and the frozen
+117-declaration M4a page; four new docstrings display each product's
+geometric genericity, explicit completeness and open quotient/totalization
+scope. Source verification now requires stable auxiliary/contents output:
+the initial two-pass output had stale contents page references. Four passes
+produce 57 pages with stable auxiliary, contents and bookmark hashes and
+no undefined references, overflow or rerun warnings. Actual changed pages
+1, 2, 34–37 and 53 were rendered and visually checked after convergence.
+All 49 original mathematical statement blocks and 44 original proof blocks
+remain byte-exact. Final full build/book checks are repeated after recording
+these results.
+Ratio setoid/quotient construction, decoding, non-generic totalization,
+field graphs, unconditional completeness, the bypassed representative
+obligation, R1/R2 and reconstruction existence remain open. The frozen
+M4a chain is untouched.
