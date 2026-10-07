@@ -17,6 +17,7 @@ import AclGeom.Perfection.Subfield
 import AclGeom.Perfection.Existence
 import AclGeom.Perfection.Lattice
 import AclGeom.Perfection.Naturality
+import AclGeom.Perfection.Induces
 import AclGeom.Correspondence.AddPolynomial
 import AclGeom.Correspondence.FunctionField
 import AclGeom.Correspondence.Regular

@@ -259,8 +259,20 @@ In characteristic zero this reduces to membership in the image of $M$.  Define
   (\phi M)^{\mathrm{perf}}=\Phi(M^{\mathrm{perf}})
   \qquad(M\in\G(K/k)).
 \]
-This is type-clean, implies the displayed intersection formula in
-\cref{thm:target}, and includes the base condition by applying it to the bottom element.
+This is type-clean and implies the displayed intersection formula in
+\cref{thm:target}.  With both bases relatively algebraically closed, as that theorem assumes,
+it includes the base condition by applying it to the bottom element.  For general bases,
+the bottom only recovers the perfected relative algebraic closure of the base.
+
+\begin{remark}[Lean induced-map status, October 2026]
+\lean{AclGeom.Perfection.Induces} formalizes the displayed equality and proves its
+intersection formula, uniqueness of the induced lattice map and compatible induced-map
+converse.  Recovery of the literal perfected bases explicitly assumes both bases relatively
+algebraically closed; the intersection formula and converse need no such hypothesis.
+Integral Frobenius twists induce the same map.  Constructing a field isomorphism for an
+arbitrary lattice isomorphism, the uniqueness-up-to-Frobenius converse and the full
+literal/quotient functorial assembly remain open (issues 8--10).
+\end{remark}
 
 \section{What may be taken from Mathlib}
 
@@ -690,7 +702,8 @@ characteristic.  For arbitrary chosen perfections, \lean{AclGeom.Perfection.Natu
 proves the unique extension of a field isomorphism, its identity/composition/inverse laws,
 and naturality of perfected subfields and the closed-lattice order isomorphisms.  The
 identity field map gives the comparison between two choices.  Explicit \lean{Induces}
-packaging and the literal/quotient functorial reconstruction remain open (issues 24 and 10).
+packaging is proved in \lean{AclGeom.Perfection.Induces}.  The literal/quotient functorial
+reconstruction remains open (issue 10).
 \end{remark}
 
 After \cref{prop:perf-lattice}, the reconstruction proof may assume without loss of

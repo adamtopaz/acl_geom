@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Perfection.Lattice
 import AclGeom.Perfection.Existence
 import AclGeom.Perfection.Naturality
+import AclGeom.Perfection.Induces
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -140,4 +141,57 @@ The two perfection order isomorphisms intertwine the original transport:
 Taking the original field map to be the identity compares two choices of
 perfection and induces the identity on the original closed-field lattice.
 These establish the foundational naturality carryover in issues #24 and #10.
-Explicit Induces packaging and the literal and quotient functors remain open.
+The explicit Induces relation is described below. The literal and quotient
+functors remain open.
+
+
+# Induced lattice maps
+%%%
+tag := "induced-lattice-maps"
+%%%
+
+An isomorphism of chosen perfections induces a prescribed closed-lattice
+isomorphism when it carries every perfected closed subfield to the prescribed
+one. This is the exact definition from the blueprint's type-correct target:
+
+{docstring AclGeom.Perfection.Induces}
+
+Membership gives the intersection formula, expressed as preimage along the
+target inclusion. The field map determines the induced lattice map uniquely:
+
+{docstring AclGeom.Perfection.Induces.mem_iff}
+
+{docstring AclGeom.Perfection.Induces.unique}
+
+At the bottom it transports the perfected relative algebraic closures of the
+bases. Recovering the literal perfected bases requires both bases relatively
+algebraically closed, as the main reconstruction theorem assumes:
+
+{docstring AclGeom.Perfection.Induces.map_bot}
+
+{docstring AclGeom.Perfection.Induces.compatible}
+
+Conversely, a compatible isomorphism of chosen perfections induces the
+conjugated closed-lattice map. This construction requires no additional base
+or rank assumption:
+
+{docstring AclGeom.Perfection.inducedIso}
+
+{docstring AclGeom.Perfection.induces_inducedIso}
+
+{docstring AclGeom.Perfection.induces_iff_eq_inducedIso}
+
+An original field isomorphism induces its direct closed-field transport via
+the unique perfection extension. In particular, the comparison between two
+perfection choices induces the identity on the original lattice:
+
+{docstring AclGeom.Perfection.induces_liftEquiv}
+
+Integral Frobenius twists induce the same lattice map:
+
+{docstring AclGeom.Perfection.Induces.trans_frobZPow}
+
+These complete the foundational carryovers in issue #24. The existence of a
+field map inducing an arbitrary lattice isomorphism, the converse uniqueness
+up to Frobenius, and the literal/quotient functorial assembly remain open in
+issues #8–#10.

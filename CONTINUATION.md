@@ -107,7 +107,7 @@ Coverage at a glance (details and file:line references on #19):
 
 | Layer | Status |
 |---|---|
-| Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. Explicit `Induces` packaging remains open (#24); full literal/quotient functors remain open (#10) |
+| Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. The explicit `Induces` relation, intersection formula and compatible induced-map converse are proved (#24). Full reconstruction and literal/quotient functors remain open (#8–#10) |
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
@@ -115,18 +115,17 @@ Coverage at a glance (details and file:line references on #19):
 
 Immediate priorities, in order:
 
-1. finish explicit `Induces` packaging (#24) and the remaining transfer
-   completeness obligation (#7), with a full library build and rendered book;
-   the measured #18 build gate is satisfied by the focused-module checkpoint;
+1. complete the remaining geometric and transfer completeness obligations
+   (#6/#7), with a full library build and rendered book; the measured #18
+   build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
    (#22/#25), and prove the coupled arithmetic/quotient semantics (#23);
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
-5. work that does not depend on M4: M5 arrows (#7), the
-   explicit foundational packaging (#24), the Frobenius kernel, two-generic
-   intersection, the converse/uniqueness halves of the main
-   theorem, and the functorial definitions (#8–#10).
+5. work that does not depend on M4: the Frobenius kernel, two-generic
+   intersection, the public converse/uniqueness interfaces and functorial
+   definitions (#8–#10).
 
 ## How work is coordinated
 
@@ -177,8 +176,10 @@ Immediate priorities, in order:
   perfection isomorphism are proved. The carryovers from closed #3/#4 are
   proved for compatible cross-base transport, point/lattice round trips,
   independence/rank/trdeg transport, all-characteristic perfection existence
-  and chosen-perfection naturality. Explicit `Induces` packaging remains open
-  (#24), as do the full functorial constructions (#10). The finite
+  and chosen-perfection naturality. The explicit `Induces` relation,
+  intersection formula and compatible induced-map converse are also proved
+  (#24). Full reconstruction and functorial constructions remain open
+  (#8–#10). The finite
   representative calculus (Lemma 4.2) is proved in `Geometry/Representatives`;
   it is used by the arithmetic refutations. M3: `j_rigidity` and the
   correspondence theorems are proved (two-pair additive form; the general
@@ -2774,10 +2775,69 @@ foundation status on page 11 and the following page are visually reviewed.
 This final documentation record receives the mandatory repeated full-build
 and book gates before commit.
 
-Explicit `Induces` packaging remains open (#24). The literal/quotient
-functors, existence of reconstruction and uniqueness-up-to-Frobenius
-converse remain open (#8–#10). The source-only design audit for `Induces`
+At that transport checkpoint, explicit `Induces` packaging remained open
+(#24); the next checkpoint below completes it. The literal/quotient functors,
+existence of reconstruction and uniqueness-up-to-Frobenius converse remain
+open (#8–#10). The source-only design audit for `Induces`
 distinguishes the intersection formula (no extra base hypothesis) from
 recovery of the literal perfected bases (both bases relatively algebraically
 closed), as required by the main theorem's context. No checkbox for these
-remaining obligations is discharged by the present transport checkpoint.
+remaining obligations was discharged by that transport checkpoint.
+
+
+## Explicit induced-map interface (#24, #10)
+
+`Perfection/Induces` implements the blueprint's exact equality of perfected
+closed subfields. Its membership theorem gives the intersection formula as
+preimage along the target inclusion; the inducing field map determines its
+lattice map uniquely. At the bottom it always transports the perfected
+relative algebraic closures of the bases. Recovery of the literal perfected
+bases explicitly assumes both bases relatively algebraically closed, as in
+the main theorem. The contextual qualification and a source-level example
+with ℚ and ℚ(√2) were recorded on #24 before the draft and source clarification.
+
+A compatible isomorphism of chosen perfections induces the conjugated
+closed-lattice map, without a rank or extra base hypothesis; inducing is
+exactly equality with this map. Original field isomorphisms induce their
+direct closed-field transport through the unique perfection extensions.
+The identity compares two choices and induces the identity lattice map.
+Integral Frobenius twists of an inducing field map induce the same map.
+The converse uniqueness-up-to-Frobenius implication remains open, as does
+existence of a field map for an arbitrary lattice isomorphism and full
+literal/quotient functorial assembly (#8–#10).
+
+Claude supplied a frozen 155-line source-only draft against the accepted
+foundation inputs; Codex verified the source/input hashes and independently
+compiled it against `665ee50`. The original source compiled unchanged and
+without diagnostics. A coercion rewrite in the private set-preimage test
+harness was repaired using `Subfield.mem_map`; no public source change was
+needed. The final module changes only its status documentation, and its
+namespace is byte-for-byte the original. The exact 14→14 signature/body
+ledger preserves all statements, bodies, attributes, declaration docstrings
+and exported deny-list metadata. It comprises ten authored public APIs,
+one private bottom helper, and three explicitly audited generated public
+lemmas: `Perfection.inducedIso.eq_1`, `Perfection.inducedIso.congr_simp` and
+`CrossBase.closedIFMap.congr_simp`. All three are emitted in the Induces
+module; their namespace prefixes do not change their module placement.
+All 13 public and the private-helper axiom reports use standard axioms.
+
+The final private compile/probe gate passes in 6.00 s (peak family RSS
+2.45 GiB, minimum available 40.07 GiB). Nine typed interfaces pass, including
+the actual set-preimage formula, unique lattice map, explicitly qualified
+base recovery, assumption-free compatible converse, Frobenius invariance,
+two-choice comparison and agreement with original field transport. The
+shared full build passes in 24.01 s (peak 8.27 GiB, minimum available
+38.16 GiB); the rendered book passes in 8.00 s (peak 1.56 GiB, minimum
+available 39.81 GiB). Fresh shared signatures, proof bodies, public axiom
+reports and all nine interfaces match the independent artifacts exactly
+(6.00 s, peak 2.42 GiB, minimum available 40.30 GiB). Hygiene covers 229
+library/root files. All 69 existing HTML paths remain among 70 pages; all
+ten displayed interfaces, base hypotheses, remaining reconstruction
+boundaries and frozen M4a notice are checked. The blueprint renders to 55
+pages without undefined/overfull diagnostics; pages 5, 11 and 12 are
+visually reviewed. This final documentation record receives the mandatory
+repeated full-build and book gates before commit.
+
+The foundational #24 checklist is complete with this explicit interface.
+The public reconstruction existence, full uniqueness and functorial
+milestones remain open; the U3–U5 checkboxes in #10 are not discharged.

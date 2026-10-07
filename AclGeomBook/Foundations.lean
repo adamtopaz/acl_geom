@@ -145,8 +145,9 @@ exhibited as order isomorphic:
 {docstring AclGeom.ClosedIF.pointSetIso}
 
 This proves the closed-point-set presentation used in checklist item F5.
-The converse and rank transport are described below. Explicit Induces
-packaging remains tracked in [issue #24](https://github.com/adamtopaz/acl_geom/issues/24).
+The converse and rank transport are described below. The explicit Induces
+relation and the map from compatible chosen perfections are described in the
+perfection chapter.
 
 # Finite representative calculus
 %%%
