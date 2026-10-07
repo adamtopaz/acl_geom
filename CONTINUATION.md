@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (audit of 2026-10-06/07; see #19)
+## Current status (2026-10-07; audit #19 and performance #18)
 
 Read the audit on #19 before starting new work. This cleanup checkpoint
 integrates the reviewed target/refutation and source/book corrections, with
@@ -27,13 +27,19 @@ this guide. Its main conclusions:
   time 6h 0m 16s), and the latest
   successful run at that point was for the older `7f572e4`. Historical
   "CI green" reports are therefore not current evidence. The v4.34.1 upgrade `8a54b54` (#20) supplies fresh local
-  full-build/book, hygiene and compiled-axiom evidence. Its Lean Action CI run
-  37575646876 started on 2026-10-07 and was still running at the checkpoint;
-  the separate successful release workflow is not a full build.
+  full-build/book, hygiene and compiled-axiom evidence. Its full Lean Action CI
+  run [37575646876](https://github.com/adamtopaz/acl_geom/actions/runs/37575646876)
+  subsequently passed. The audit head `f6964f0` also passed the full build/book
+  and deployment in run
+  [37580135219](https://github.com/adamtopaz/acl_geom/actions/runs/37580135219),
+  completed on 2026-10-07 at 07:16 UTC. These are current CI evidence; the
+  separate release workflow is not a full build.
   The later documentation-only head `842976b` also has a cancelled CI run
   (37533928699, completed 2026-10-07 03:27:14 UTC after 6h 0m 30s);
   deployment was skipped. It is not successful-build evidence.
-  Build latency and memory are tracked in #18.
+  Build latency and memory are tracked in #18. The focused core/leaf and
+  configuration-book refactor is recorded below; it preserves the audited
+  mathematical targets. Project-clean measurements remain pending.
 - **The old M4 completeness target was false.** `AffineGridExtraction`
   required equality with the table witness in all 21 fields, but `Psi` sees
   the generators `A₁, A₂` (likewise `B`, `C`) only through their joins.
@@ -99,8 +105,8 @@ Coverage at a glance (details and file:line references on #19):
 
 Immediate priorities, in order:
 
-1. pass the build-performance gate (#18: compare compiled artifacts and
-   measure focused dependency cuts) before any expensive new M4 work;
+1. finish the build-performance gate (#18: project-clean measurements after
+   the verified focused dependency cuts) before any expensive new M4 work;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
    (#22/#25), and prove the coupled arithmetic/quotient semantics (#23);
 3. integrate the reviewed foundational and transfer carryovers (#24/#7)
@@ -2123,10 +2129,156 @@ Frobenius-proof audit, generic-operation audit and ratio warning were visually
 checked in scratch renders. These PDFs and the supplied primary-source papers
 remain outside git.
 
-Next: the #18 private split/cast candidate must pass strict declaration/body
-and exported-metadata preservation checks and paired emitted-module timings,
-then isolated Lake dependency-chain measurements and a full library/book
-checkpoint. The baseline split's raw hash differences are accounted for only
-by renamed compiler-generated `_proof_N` theorem references, normalized by
-their statements; the intended helper documentation/privacy change is
-field-scoped. The performance gate remains open.
+At this audit checkpoint, #18 was next: strict compiled-declaration/body and
+metadata preservation, paired emitted-module timings and isolated Lake
+measurements. The focused-module checkpoint below records those results and
+its remaining measurements. The historical M4a work remains frozen.
+
+
+## Focused module checkpoint (#18)
+
+This refactor starts from the audited `f6964f0` sources on Lean/Mathlib 4.34.1.
+It preserves all 1082 exported signatures and 1073 definition/theorem bodies
+of the two oversized configuration modules, subject only to the reviewed
+proof changes listed below. It does not prove an additional blueprint target
+or restart the frozen M4a program.
+
+### Dependency organization
+
+The existing CommonSource and ReferenceBridge module names remain the cores,
+so the 76 downstream library importers keep their imports. Seven leaves are
+explicitly imported by `AclGeom.lean` and only the relevant book sections:
+
+| module suffix | source lines | direct split dependencies |
+|---|---:|---|
+| `ChunkCurveCommonSource` | 3848 | existing upstream chain |
+| `ChunkCurveCommonSourceComparison` | 1036 | CommonSource |
+| `ChunkCurveCommonSourceExistence` | 251 | CommonSource |
+| `ChunkCurveCommonSourceRebasing` | 2004 | CommonSource |
+| `ChunkCurveReferenceBridge` | 2830 | CommonSource |
+| `ChunkCurveReferenceBridgeBGermComplete` | 1396 | ReferenceBridge |
+| `ChunkCurveReferenceBridgeSelectedBScalar` | 2433 | ReferenceBridge |
+| `ChunkCurveReferenceBridgeSemanticBranches` | 720 | ReferenceBridge, Comparison |
+| `ChunkCurveReferenceBridgeFinal` | 306 | ReferenceBridge, BGermComplete, SelectedBScalar |
+
+The two original sources had 6942 and 7493 lines. The remaining CommonSource
+core is still large because its live families form one connected dependency
+component; no independent parallel cut was found. Book-only existence,
+comparison and rebasing results now elaborate independently of the downstream
+library chain. Nothing was discarded as unused.
+
+`AclGeomBook/Configurations` now contains six focused sections:
+CorrespondenceFields, ParameterTransport, CommonSourceCovers,
+ReferenceBranches, SemilinearCommonFields and AlgebraizationPrerequisites.
+A small GroupChunkRecord wrapper preserves the old group-record section and
+frozen-work notice. Each section imports its declaration providers rather
+than all configuration modules. The original 1152 docstring references and
+nine tags remain in exactly their original order; six unique subsection tags
+are added. Generated HTML retains all 64 page paths, the old section 6.8 and
+its ordered subsections 6.8.1–6.8.6. Three prose corrections remove residual
+by-construction claims about equation (8.6) and describe the chosen
+coordinate-field equivalence accurately.
+
+### Mathematical and artifact checks
+
+The split preserves names, statements, attributes, reducibility and
+noncomputability. `curveEmbedding` becomes a documented public abbreviation
+because SelectedBScalar consumes it. This is the sole intended privacy and
+documentation change among the original constants.
+
+Six membership proofs use the inclusion supplied by an equality instead of
+transporting membership with `Eq.rec`. Six later duplicate branch-inclusion
+proofs alias the already proved native statements. The three
+`commonSourceToRight{A,B,C}SourceEquiv_apply` type hashes change only in their
+membership proof arguments, which are equal by proof irrelevance. Exactly
+eleven normalized bodies change: the six aliases, those three apply lemmas
+and `commonSourceRight{A,B}Aut_apply`. All changes were reviewed; the coordinate
+definitions themselves have unchanged raw values.
+
+Independent dumps from the actual isolated Lake artifacts match the frozen
+1082-signature/1073-body baseline with no missing or new constants, unexpected
+changes or nonstandard axioms. The exported premise-index deny entry has the
+same module, kind and string. Differences caused by renamed compiler-generated
+`_proof_N` theorem references are normalized only by their recursively
+normalized statements; other constants and bodies are compared strictly.
+All seven structural mutation checks and all 22 saved-dump comparator controls
+and mutations behave as required. The existing metadata workaround remains
+in CommonSource once; it does not weaken Lean kernel checking.
+
+### Controlled measurements
+
+Both private worktrees start at `f6964f0`, with separate regular project build
+outputs and the same isolated, pinned dependency/cache snapshot. Only Codex's
+one build family runs during each measured interval. All runs use two Lean
+threads, the GCC path recorded above and the 30 GiB available-memory guard.
+The OS cache is warm; the following are component or incremental measurements,
+not whole-project clean-build ratios.
+
+| check | elapsed | sampled peak family RSS | minimum available RAM |
+|---|---:|---:|---:|
+| Original six-target component rebuild | 560.85 s | 8.00 GiB | 39.05 GiB |
+| Refactored six-target component rebuild | 331.76 s | 7.74 GiB | 41.09 GiB |
+| Original monolithic book native-object control | 134.66 s | 5.36 GiB | 36.14 GiB |
+| Focused book full build, library outputs cached | 221.09 s | 10.85 GiB | 38.53 GiB |
+| Focused HTML generation | 8.05 s | 1.42 GiB | 41.02 GiB |
+| Full build after one leaf docstring edit | 84.41 s | 8.81 GiB | 38.22 GiB |
+| Canonical full build after reverting that fixture | 84.44 s | 8.59 GiB | 38.15 GiB |
+| Canonical HTML generation | 8.04 s | 1.53 GiB | 39.75 GiB |
+| Warm no-change full build | 4.02 s | 0.96 GiB | 40.28 GiB |
+| Warm no-change HTML generation | 8.04 s | 1.51 GiB | 39.91 GiB |
+
+The paired six-target experiment rebuilds exactly the same 54 library modules
+in both worktrees; upstream and package outputs are reused. Targets are
+IntrinsicSourceRestriction, SelectedWholeFace, SemilinearGroupedMiddleS,
+SemilinearGroupedMiddleSA, SemilinearGroupedRestriction and
+SemilinearGroupedStableOrbitATriangleE (each prefixed by `AclGeom.Config.ChunkCurve`).
+CommonSource takes 208 → 98 seconds, ReferenceBridge 129 → 33, intrinsic
+restriction 52 → 25, grouped restriction 10 → 10 and orbit-triangle E
+4.2 → 4.2. The 41% wall-time reduction applies only to that component rebuild.
+
+The original staged full build reused its unchanged book C object whereas
+the math-only variant regenerated it; their raw full-build times are not a
+fair speed ratio. A separately forced original native-object control takes
+130 seconds in C. An earlier control overlapped a short peer Lean run and
+was discarded for timing; the reported rerun has no such overlap. The original
+monolithic book takes 299 seconds in Lean. The six focused sections take
+28/26/51/53/73/33 seconds in Lean and 14/13/22/21/29/15 seconds in C, with the
+full focused build above including their wrapper, parents and executable.
+No memory guard stopped any reported run.
+
+The temporary documentation edit was in
+`QWitness.exists_psiCurveCompositionBaseChangeRealization`, cited only by
+CommonSourceCovers. The full build rebuilt only Existence and the library
+root, then that book section, its parents, its native object and the executable.
+None of the 54 measured heavy library consumers rebuilt, and no other book
+section rebuilt. The fixture was reverted before the canonical signatures,
+bodies and full/book gates. A mathematical proof edit still needs its own
+full gate; these measurements show the improved import fan-out.
+
+Shared-checkout validation on 2026-10-07, with the same flags and guard:
+
+| check | elapsed | sampled peak family RSS | minimum available RAM |
+|---|---:|---:|---:|
+| Full default `lake build` after source integration | 581.07 s | 12.00 GiB | 37.81 GiB |
+| `lake exe book` | 14.08 s | 1.47 GiB | 39.91 GiB |
+| Final full gate after book EOF whitespace cleanup | 132.71 s | 10.66 GiB | 36.52 GiB |
+| Final `lake exe book` | 8.04 s | 1.55 GiB | 39.88 GiB |
+
+All pass without a memory stop. The first full gate rebuilds the affected library
+chain and all six new book sections; it is incremental, not project-clean.
+The final gate follows removal of trailing blank lines in six new book sources;
+no mathematical source changes in that cleanup. Fresh dumps from the shared artifacts repeat the 1082/1073 signature/body and
+standard-axiom checks with exactly the reviewed exceptions and no additions.
+The rendered shared book has the same 64 page paths as both private variants
+and preserves the frozen notice. The 206-file library/root lexical audit
+finds no placeholders or project axioms; `git diff --check` passes and no touched
+file emits a deprecation warning. Only the nineteen reviewed source/doc paths
+changed; no generated artifacts were copied to the shared build.
+
+Paired project-clean builds (project outputs removed, dependency outputs
+cached) are still pending; #18 remains open until those measurements and the
+acceptance criteria are reconciled. The natural green focused-module
+checkpoint is committed and pushed before that longer experiment. Three
+native round-trip kernel checks remain potential optimization work, rather
+than claims of a completed kernel fix. Next mathematical work is re-planned
+against #12/#21 and the corrected configuration targets.

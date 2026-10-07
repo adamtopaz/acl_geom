@@ -93,7 +93,14 @@ import AclGeom.Config.ChunkFiniteFieldAction
 import AclGeom.Config.ChunkCurveRelocation
 import AclGeom.Config.ChunkCurveFourArrow
 import AclGeom.Config.ChunkCurveCommonSource
+import AclGeom.Config.ChunkCurveCommonSourceExistence
+import AclGeom.Config.ChunkCurveCommonSourceRebasing
+import AclGeom.Config.ChunkCurveCommonSourceComparison
 import AclGeom.Config.ChunkCurveReferenceBridge
+import AclGeom.Config.ChunkCurveReferenceBridgeSemanticBranches
+import AclGeom.Config.ChunkCurveReferenceBridgeSelectedBScalar
+import AclGeom.Config.ChunkCurveReferenceBridgeBGermComplete
+import AclGeom.Config.ChunkCurveReferenceBridgeFinal
 import AclGeom.Config.ChunkCurveIntrinsicSourceRestriction
 import AclGeom.Config.ChunkCurveFiniteCommonChart
 import AclGeom.Config.ChunkCurveFiniteCommonChartGerm
