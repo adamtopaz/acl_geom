@@ -4609,3 +4609,40 @@ completeness inputs, general unconditional recovery/reconstruction, literal
 ratio/TOT/scalar, bypassed linear-disjointness, broader group/three-pair/
 tensor/frozen M4a, point-geometry/automorphism and functorial forms remain
 open. The next bounded public consumer is chosen only after publication.
+
+
+## Completeness dependency and current-status reconciliation (#6/#22)
+
+The public lattice-form target is now conditional on both exact perfected
+ACF J-completeness inputs. The next mathematical priority is discharging
+those inputs, rather than adding public wrappers. Semantic J assembly
+reduces each rank-five ACF input to completeness of Q and Q′. Corrected
+AffineGridExtraction implies witness-level Q completeness; the latter
+needs only the four free output points and does not require pinning all
+witness coordinates. The frozen 117-item M4a stays frozen.
+
+The audit found stale current prose: Config.Correctness and issues 6/22
+still called the accepted concrete arbitrary-field Q/Q′ refutations open;
+issue 6 still called concrete geometry transport open. Both are proved:
+Config.Transport maps partial quadrangles, all Psi clauses, multiplication
+diagrams and Q/Q′/J along arbitrary closed-lattice order isomorphisms,
+without completeness/perfection/rank/freshness. Counterexamples.QRefutation
+proves not_forall_qGeom_imp_qSem and not_forall_q'Geom_imp_q'Sem in
+characteristic zero over rational functions in five variables.
+Correctness/Transport change current headers only, with full namespaces
+byte-exact. The configuration chapter's current overview/transport status
+is reconciled; no declaration, proof, source statement or source PDF changes.
+Status discrepancies and the scope were reported before edits on issue 6
+(6049189938). Full library/book and scoped commit/push validate the cleanup.
+
+Claude's read-only G1 audit 4068 confirms Language's incidence/collinearity,
+partial quadrangle and named-triple permutation, FiniteRank's finite-rank
+interfaces and concrete invariance in Geometry/Config Transport. Broad G1
+stays open with explicit unimplemented generic-formula recursion and named
+MemCl/Col invariance interfaces. The accepted concrete per-predicate route
+bypasses the blueprint's proposed generic recursion method; no bypassed
+obligation is silently closed. General ACF Q/Q′/J completeness, corrected
+extraction, geometric projection identities, general witness descent and
+group/action integration remain open. The completeness-engine audit is
+read-only; no new source draft, Lean/main ownership, child agents or frozen
+bookkeeping expansion is delegated.

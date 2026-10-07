@@ -21,9 +21,10 @@ conditional on the open witness-level completeness `QCompletenessACF` (see
 
 Not yet formalized: ACF completeness of `Q′` (converse of Lemma mul-diagram)
 and `J`, the geometric projection identities,
-and the full four-way J descent theorem (issue #7). The arbitrary-field Q/Q′ equivalence
-consequences have been refuted mathematically (issue #25); their Lean
-refutations remain open.
+and unconditional four-way J descent (issue #7). The geometric/semantic J equivalence
+is assembled in Transfer.JDescent with explicit ACF J-completeness. Both concrete
+characteristic-zero arbitrary-field Q/Q′ refutations are proved in Counterexamples.QRefutation
+(issue #25); general witness descent and ACF completeness remain separate obligations.
 
 **Status:** in progress (M4–M5).
 

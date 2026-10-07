@@ -26,9 +26,12 @@ tag := "configurations"
 
 The configuration layer (blueprint §§6–7, milestone M4) defines the finite
 geometric predicates through which the field structure will be recovered
-from the geometry alone, and proves them correct against their semantic
-counterparts. This chapter tracks the layer as it grows; the language and
-the semantic relations are in place.
+from the geometry alone. Soundness, semantic J assembly and concrete geometric
+invariance are proved; ACF Q/Q′/J completeness remains open. Conditional
+interpretation and the public lattice-form target keep both perfected
+J-completeness inputs explicit. The arbitrary-field Q/Q′ versions have
+concrete characteristic-zero Lean refutations. This chapter distinguishes
+these results from the still-open corrected extraction and group/action engine.
 
 # The incidence language
 %%%
@@ -184,11 +187,14 @@ Their conjunction gives geometric J invariance:
 
 These arguments use only joins, meets, order, finite rank and bijective
 point transport. They need no perfection, semantic completeness,
-rank-five bound or fresh element. Corrected interpretation-relation
-transport, quotient-carrier and geometric operation-graph naturality,
-interpreted reconstruction, R1/R2 and unconditional completeness remain
-open (#23/#8). The frozen M4a record and literal source obligations are
-preserved.
+rank-five bound or fresh element. Corrected interpretation-relation transport,
+quotient-carrier and geometric operation-graph naturality are proved in the
+interpretation chapter; actual inducing existence and the public lattice-form
+target are proved conditionally in the reconstruction chapter. Both exact
+perfected ACF J-completeness inputs remain explicit. Unconditional R1/R2,
+completeness/reconstruction, geometric projection identities and broader
+point/automorphism/functorial variants remain open. The frozen M4a record
+and literal source obligations are preserved.
 
 # Soundness of the geometric Q
 %%%
