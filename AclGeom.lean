@@ -9,6 +9,7 @@ import AclGeom.Closure.ClosedLattice
 import AclGeom.Geometry.Points
 import AclGeom.Geometry.Equivalence
 import AclGeom.Geometry.FiniteRank
+import AclGeom.Geometry.Representatives
 import AclGeom.Perfection.Subfield
 import AclGeom.Perfection.Lattice
 import AclGeom.Correspondence.AddPolynomial
@@ -131,6 +132,8 @@ import AclGeom.Transfer.Transcendence
 import AclGeom.Transfer.Descent
 import AclGeom.Config.Correctness
 import AclGeom.Interpretation.FrobClass
+import AclGeom.Interpretation.FrobLinkIncidence
+import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Interpretation.GenericOps
 import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Field

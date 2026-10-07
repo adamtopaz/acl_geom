@@ -20,8 +20,10 @@ correspondences.
 Normality is the key stabilization input.  The vertical discrepancy
 between strict `A`-then-`B` composition and the independently chosen `C`
 lift fixes the target base field, hence stabilizes the transported target
-cover.  Equation (8.6) consequently restricts to an exact equality of
-equivalences between finite-dimensional normal fields.
+cover.  The constructed transport identity consequently restricts to an
+exact equality between finite-dimensional normal fields.  Identifying these
+transports with a single intrinsic `C`-family action is still open; this is
+not a proof of blueprint equation (8.6) (issues #19, #12).
 -/
 
 namespace AclGeom
@@ -199,10 +201,9 @@ noncomputable def psiStrictCFiniteCoverEquiv (hψ : w.Psi) :
   (w.psiCFiniteCoverEquiv hψ).trans
     (w.psiFiniteCoverCompositionDefect hψ).symm.toRingEquiv
 
-/-- **Finite-cover form of blueprint equation (8.6).**  Strict
-`A`-then-`B` composition followed by the restricted vertical deck defect
-is exactly the independently selected `C` equivalence on the common finite
-normal curve cover. -/
+/-- The constructed endpoint-lift identity restricted to the common finite
+normal cover.  The defect is defined by comparison of the lifts, so this
+does not identify an intrinsic `C`-family action or prove equation (8.6). -/
 theorem psiFiniteCoverComposition (hψ : w.Psi) :
     (w.psiABFiniteCoverEquiv hψ).trans
         (w.psiFiniteCoverCompositionDefect hψ).toRingEquiv =

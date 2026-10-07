@@ -233,23 +233,47 @@ infinite base field, given a supply of fresh elements over small sets.
 tag := "affine-grid-boundary"
 %%%
 
-The completeness half has a precise formal boundary.  At the level of
-closed points, the interalgebraic replacements in blueprint Lemma 8.5 amount
-to equality with the verified table witness.  Once those coordinates have
-been extracted, the free outputs are immediately the semantic quadruple
-`([b], [ax], [b+ax], [b/(ax)])`; the reciprocal ratio defines the same
-closed point:
+The completeness half reduces to blueprint Lemma 8.5.  Its table (8.5) lists
+all twenty-one points, but `Psi` sees the generators of the rank-two elements
+`A, B, C` only through their joins, so exchanging two generators preserves
+`Psi`:
+
+{docstring AclGeom.QWitness.Psi.of_eq}
+
+{docstring AclGeom.QWitness.Psi.swapA}
+
+Consequently the literal reading of the table, equality with the verified
+table witness in every field, cannot be the conclusion of an extraction
+theorem:
+
+{docstring AclGeom.not_forall_psi_hasLiteralTableCoordinates}
+
+The corrected coordinate interface constrains the three joins and the fifteen
+remaining points.  Witnesses with these coordinates satisfy `Psi`, the
+swapped table witness has them, and they force the free outputs to be the
+semantic quadruple `([b], [ax], [b+ax], [b/(ax)])`; the reciprocal ratio
+defines the same closed point:
 
 {docstring AclGeom.QWitness.HasAffineGridCoordinates}
+
+{docstring AclGeom.QWitness.HasAffineGridCoordinates.psi}
+
+{docstring AclGeom.QWitness.hasAffineGridCoordinates_swapA}
 
 {docstring AclGeom.QWitness.affineGrid_output_independent}
 
 {docstring AclGeom.QWitness.qSem_of_hasAffineGridCoordinates}
 
-The sole remaining geometric implication is named without being assumed or
-axiomatized.  Supplying a proof of it closes the `QGeom ↔ QSem` theorem:
+None of this proves completeness.  The open geometric content of Lemma 8.5,
+over algebraically closed fields, is stated without being assumed or
+axiomatized, together with the weaker witness-level completeness that the
+completeness direction of `Q` actually uses:
 
 {docstring AclGeom.AffineGridExtraction}
+
+{docstring AclGeom.affineGridExtraction_iff}
+
+{docstring AclGeom.QCompletenessACF}
 
 {docstring AclGeom.qGeom_iff_qSem}
 
@@ -257,6 +281,14 @@ axiomatized.  Supplying a proof of it closes the `QGeom ↔ QSem` theorem:
 %%%
 tag := "group-chunk-core"
 %%%
+
+The following library records selected correspondence and field-transport
+constructions.  The 2026-10-06 audit (issue #19) found that these do not yet
+construct the algebraic group of blueprint Theorem 8.2 or prove affine-grid
+extraction.  The historical group-chunk route is frozen while its target and
+construction are re-planned (issues #12, #18, #22).  In particular, identities
+obtained by defining a discrepancy between two lifts do not establish an
+intrinsic parameter multiplication.
 
 Finite correspondence composition keeps track of a selected generic
 component.  The matching theorem relocates the source of the second germ
@@ -1148,8 +1180,8 @@ equipped with faithful actions on one reference field.  These automorphisms
 form the finite deck group; they are not the positive-dimensional parameter
 group.
 
-The positive-dimensional action begins with the actual curve-coordinate
-fields of the selected correspondence families.  A finite correspondence
+The field-transport construction begins with the curve-coordinate fields
+of selected correspondence branches.  A finite correspondence
 does not usually act on its source rational field, since its target is only
 algebraic over that field.  It does induce an equivalence between the
 source and target rational fields, and a chosen semilinear equivalence of
@@ -1170,13 +1202,13 @@ curve field:
 
 {docstring AclGeom.FiniteCorrespondencePair.chainCoordinateClosureTransport_trans_compositionDefect}
 
-For the Ψ witness this gives the field-action form of blueprint equation
-`(8.6)`: the `A` branch carries `X` to `Y`, the `B` branch carries `Y` to
-`Z`, and their strict composite agrees with the independently selected `C`
-lift after the vertical deck correction.  Its coefficient field contains
-the two independent rank-two parameters `A,B`; this is therefore the first
-single-valued positive-dimensional field action, not another finite deck
-chart:
+For a Ψ witness the `A` branch carries `X` to `Y` and the `B` branch
+carries `Y` to `Z`.  Over their joint coefficient field, the strict composite
+agrees with a separately selected endpoint lift after correcting by the
+defined discrepancy.  This identity holds by construction.  The lift named
+`C` here has not been identified with an intrinsic `C`-parametrized family,
+and no positive-dimensional group action or equation `(8.6)` follows from
+this identity alone:
 
 {docstring AclGeom.QWitness.psiAClosureTransport}
 

@@ -18,9 +18,9 @@ set_option pp.rawOnError true
 tag := "curves"
 %%%
 
-The completeness half of the configuration layer classifies group actions
-on curves (blueprint Lemma 8.4), and by the design decision recorded on
-the project tracker the supporting theory is built as a classical
+Blueprint Lemma 8.4 requires a classification of group actions on curves.
+The action-to-function-field bridge and that classification remain open
+(issue #21).  This chapter provides the supporting theory as a classical
 function-field library — places, divisors, Riemann–Roch spaces, genus —
 with no scheme theory, over mathlib's valuation and Dedekind stacks. The
 base field is algebraically closed throughout the application, which

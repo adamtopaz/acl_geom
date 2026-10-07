@@ -384,7 +384,9 @@ $`\lambda = 1`:
 
 {docstring AclGeom.j_rigidity}
 
-With this, the hard kernel (milestone M3) is complete: the additive and
-multiplicative correspondence theorems, the simultaneous-coset lemma, and
-the rigidity of `j` are all proved elementwise, uniformly in the
-exponential characteristic.
+The elementwise correspondence results, simultaneous-coset classification,
+and `j_rigidity` are proved uniformly in the exponential characteristic,
+meeting M3's rigidity acceptance test.  The literal three-pair additive
+packaging and abstract subgroup/coset statements remain open in #5, the
+general tensor-domain statement in #11, and the rational group and affine
+action construction in #12 and #21.

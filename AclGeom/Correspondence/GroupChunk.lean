@@ -7,12 +7,13 @@ import AclGeom.Correspondence.Composition
 import Mathlib.Algebra.Group.MinimalAxioms
 
 /-!
-# The rational group chunk theorem
+# Abstract group laws for the group-chunk route
 
-The algebraic core of Weil's group-chunk construction.  Once a chosen branch
-on the common normal cover makes the generic multiplication and inverse
-single-valued, the three identities in blueprint Theorem
-`rational-group-chunk` force an honest group:
+This module assumes everywhere-defined multiplication and inverse operations
+and constructs an abstract group from their total identities.  It does not
+construct these operations from generic finite correspondences, extend
+partial rational operations, or algebraize them to a group scheme.  Those
+steps of blueprint Theorem `rational-group-chunk` remain open (issue #12):
 
 * `RationalGroupChunk` records associativity and the two generic inverse
   identities in their everywhere-defined algebraic form;
@@ -23,10 +24,11 @@ single-valued, the three identities in blueprint Theorem
 * `TranslationGroupChunk.translationHom` is that chart as an injective group
   homomorphism.
 
-The geometric gluing/descent layer and its applications to the six-point and
-affine configurations are built on this core in subsequent slices.
+The historical M4a route is frozen pending the audit re-plan (#19).  These
+abstract identities remain available as bookkeeping; no rational group-chunk
+theorem follows from them without the missing geometric construction.
 
-**Status:** in progress (M4a, checklist C3, issue #12 pipeline step 2).
+**Status:** abstract group-law bookkeeping; blueprint Theorem 8.2 is open (#12).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -36,15 +38,16 @@ namespace AclGeom
 
 noncomputable section
 
-/-- The everywhere-defined algebraic core of a rational group chunk after
-passing to the selected branch on its common normal cover.  The two inverse
-laws are the pointwise forms of blueprint hypothesis (iii). -/
+/-- Total multiplication and inverse operations with associativity and
+cancellation identities.  The legacy name records their intended use in the
+rational group-chunk route; construction of this total data from the generic
+hypotheses of blueprint Theorem 8.2 remains open (#12). -/
 structure RationalGroupChunk (V : Type*) where
-  /-- Generic multiplication, made single-valued on the selected branch. -/
+  /-- Multiplication defined on every pair of parameters. -/
   mul : V → V → V
-  /-- Generic inverse on the selected branch. -/
+  /-- Inverse defined on every parameter. -/
   inv : V → V
-  /-- Generic associativity, promoted to an identity of rational maps. -/
+  /-- Associativity on every parameter triple. -/
   mul_assoc : ∀ a b c, mul (mul a b) c = mul a (mul b c)
   /-- Left cancellation by the selected inverse. -/
   inv_mul_mul : ∀ a b, mul (inv a) (mul a b) = b

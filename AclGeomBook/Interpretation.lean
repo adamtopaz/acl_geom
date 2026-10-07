@@ -5,6 +5,8 @@ Authors: Adam Topaz
 -/
 import VersoManual
 import AclGeom.Interpretation.FrobClass
+import AclGeom.Interpretation.FrobLinkIncidence
+import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -17,10 +19,13 @@ set_option pp.rawOnError true
 tag := "interpretation"
 %%%
 
-The interpretation layer (blueprint §10, milestone M6) starts from the
-geometric `J`-locus and quotients its tuples by the Frobenius ambiguity that
-the dependence geometry cannot see.  Its basic addition and multiplication
-incidences are projections of the already-defined `Q` and `Q′` predicates:
+The interpretation layer (milestone M6) aims to quotient the
+geometric `J`-locus by Frobenius ambiguity and construct a field.  The quotient
+and its field operations are still open (#8).  The current addition and
+multiplication incidences are projections of the `Q` and `Q′` predicates;
+they are relations on closed points, whose interalgebraic representatives
+can give different outputs.  The required representative alignment and the
+Frobenius-link correctness argument remain open (#23):
 
 {docstring AclGeom.SumPoint}
 
@@ -47,3 +52,48 @@ of the interpretation milestone:
 {docstring AclGeom.FrobEq}
 
 {docstring AclGeom.FrobEq.symm}
+
+The multiplier point lies on the three lines joining corresponding rigid
+coordinates. This is the incidence configuration of EH95 Lemma 2.8,
+Figure 3; it follows directly from the multiplication diagram, without
+configuration completeness or a choice of common representatives:
+
+{docstring AclGeom.DirectFrobLink.exists_concurrent}
+
+The converse still needs an algebraic argument from this concurrence to an
+exact Frobenius twist. The two-link bridge also needs an explicit semantic
+completeness statement for its geometric middle tuple (#23).
+
+# Refutations of the literal generic operation graphs
+%%%
+tag := "generic-arithmetic-audit"
+%%%
+
+The original blueprint addition and multiplication graphs allowed each
+incidence clause to choose its own representatives. Scaling one input by a
+nonzero base constant therefore gives extra outputs:
+
+{docstring AclGeom.BlueprintJAdd}
+
+{docstring AclGeom.BlueprintJMul}
+
+Over an infinite base and with transcendence degree at least five, these
+graphs are not functional even among tuples satisfying the same encoded
+Frobenius-class membership relation:
+
+{docstring AclGeom.blueprintJAdd_not_functional_on_class}
+
+{docstring AclGeom.blueprintJMul_not_functional_on_class}
+
+The literal ratio relation consequently relates pairs with different decoded
+ratios. All its witnesses satisfy that class-membership relation:
+
+{docstring AclGeom.BlueprintRatioEq}
+
+{docstring AclGeom.blueprintRatioEq_counterexample}
+
+These refutations preserve the original predicates for provenance. EH95
+Lemma 2.11 uses meets of joins of the given tuple coordinates to keep the
+coupling lost by those predicates. Generic meet identities and derived
+operations have checked private drafts; their integration, class correctness,
+totalization and ratio-field construction remain open (#23).

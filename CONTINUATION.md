@@ -1,8 +1,8 @@
 # Continuation guide
 
 This document lets a fresh agent (or human) pick up the formalization
-with no prior context and carry it to completion. Read this file, then
-the issue tracker, then start working.
+with no prior context. Read the **Current status** section first, then the
+open GitHub issues, then start working.
 
 ## What this project is
 
@@ -10,8 +10,106 @@ A Lean 4 formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem. The mathematical source of truth is
 `sources/blueprint.tex`. The library lives in `AclGeom/`, a Verso book
 documenting it lives in `AclGeomBook/` (built with `lake exe book`).
-Toolchain: see `lean-toolchain`; verso is pinned to the nearest minor
-tag of the toolchain (currently v4.34.0 for toolchain v4.34.1).
+Toolchain: see `lean-toolchain`. The upgrade to Lean/Mathlib v4.34.1 (Verso
+v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
+local build and rendered book pass; reproduction and measurements appear at
+the end of this guide. Verso uses the compatible stable tag for the toolchain.
+
+## Current status (audit of 2026-10-06/07; see #19)
+
+Read the audit on #19 before starting new work. This cleanup checkpoint
+integrates the reviewed target/refutation and source/book corrections, with
+fresh full-build/book and 64-theorem axiom evidence recorded at the end of
+this guide. Its main conclusions:
+
+- **No `sorry`, `admit` or project `axiom` in the sources.** The latest CI run
+  at the start of the audit was on `ee31244` (run 31712093484), cancelled after about six hours (job
+  time 6h 0m 16s), and the latest
+  successful run at that point was for the older `7f572e4`. Historical
+  "CI green" reports are therefore not current evidence. The v4.34.1 upgrade `8a54b54` (#20) supplies fresh local
+  full-build/book, hygiene and compiled-axiom evidence. Its Lean Action CI run
+  37575646876 started on 2026-10-07 and was still running at the checkpoint;
+  the separate successful release workflow is not a full build.
+  The later documentation-only head `842976b` also has a cancelled CI run
+  (37533928699, completed 2026-10-07 03:27:14 UTC after 6h 0m 30s);
+  deployment was skipped. It is not successful-build evidence.
+  Build latency and memory are tracked in #18.
+- **The old M4 completeness target was false.** `AffineGridExtraction`
+  required equality with the table witness in all 21 fields, but `Psi` sees
+  the generators `A₁, A₂` (likewise `B`, `C`) only through their joins.
+  Exchanging `A₁` and `A₂` preserves `Psi`, so the conditional
+  `QGeom ↔ QSem` held only vacuously. Blueprint table (8.5) has the same
+  imprecision. This checkpoint retains the literal-target refutation and
+  corrects the interface to three joins and fifteen points (#22). The ACF
+  extraction and witness-level Q completeness statements remain open.
+- **The M4a group-chunk chain (historical items 1–117 below) is frozen.** It
+  did not converge toward a blueprint statement: no `Config/Chunk*` module is
+  upstream of `AffineGrid`, `Correctness` or `Main`, and several headline
+  "composition" theorems hold by construction (#19, finding A2). M4 is being
+  re-planned against the corrected target (#12, #21, #22).
+- **The arbitrary-field Q/Q′ consequences are false.** In the rank-five
+  extension ℚ(s,t,e₁,e₂,e₃), geometric Q and Q′ can hold without K-valued
+  semantic representatives. Both mathematical counterexamples were independently
+  checked; their Lean refutations remain open (#25). The four-way J target is
+  separate. The source withdraws the invalid projection consequence.
+- **The Frobenius-class, generic-arithmetic and ratio sections need a correction.** `SumPoint` and `MulPoint` allow
+  independent changes of representatives. The literal JAdd/JMul definitions
+  are nonfunctional even over algebraically closed fields: they accept
+  j(κx+y,a) and j(κxy,a) for κ ∈ k×, κ ≠ 1. This refutes the original
+  generic-arithmetic equivalences (#23), rather than only exposing a proof gap.
+  The FrobEq converse reuses one multiplier representative across three
+  existential clauses without proving that choice. EH95's route supplies a
+  partial-quadrangle coupling by specialization. Concurrence has an independently
+  checked Lean proof in `Interpretation/FrobLinkIncidence` (five public
+  declarations, standard axioms); an algebraic converse from this concurrence
+  and semantic bridge completeness remain obligations. The Frobenius target has not been
+  refuted. Correct arithmetic predicates and the affected ratio semantics
+  remain open. The JAdd, JMul and full-class RatioEq refutations have an
+  independently checked Lean proof in `Counterexamples/GenericArithmetic`;
+  all 26 public declarations use standard axioms. They record the literal
+  predicates for provenance and explicitly prove membership of every witness
+  in the encoded class relation.
+  EH95 Lemma 2.11 and Figures 4–5 use meets of joins of the given coordinates
+  for subtraction/division, preserving the coupling lost in the blueprint's
+  existential projections. Its generic meet identities and Point-valued JSem
+  bridge, together with generic negation/inverse/addition/multiplication, have
+  independently checked private Lean drafts over arbitrary relative fields:
+  both modules compile without warnings and all 91 public declarations use
+  standard axioms. The generic inputs share a literal parameter element and
+  are independent. Geometric membership retains the current rank-five
+  soundness hypotheses. Integration, class correctness, totalization and
+  ratio semantics remain open (#23).
+- **Lemma 8.4 (affine action) has no Lean statement.** #13's curve
+  prerequisites are proved: places, divisors, Riemann–Roch, genus, rationality
+  in genus 0, Tate residues, rigidity of regular derivations in genus ≥ 1, and
+  Möbius normalization. #13's final step (P7, assembling Lemma 8.4) is absent,
+  and so are the group-action model and the bridge from actions to the curve
+  library (#21). No module outside `Curves`/`Tate` uses the curve library
+  yet.
+
+Coverage at a glance (details and file:line references on #19):
+
+| Layer | Status |
+|---|---|
+| Foundations, perfection | Lattice, atoms, point geometry, perfection iso and finite representative calculus proved. Missing on main: char-p `Perfection` constructor, cross-base equivariance, `Induces`, transport of independence/rank along order isos; reviewed private drafts cover several carryovers; explicit `Induces` packaging remains open (#24) |
+| Configurations | Soundness of Q, Q′, J proved (currently needs `[Infinite k]`; a reviewed private repair is ready in #24). ACF completeness: Q conditional (#22); Q′ and J open. Arbitrary-field Q/Q′ equivalence refuted mathematically (#25) |
+| Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
+| Transfer | T1–T3 and the full one-quantifier transfer proved; j-descent (2)⇒(1) at element level. Several further arrows can be done now |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction and literal arithmetic/ratio refutations proved. Corrected arithmetic, ratio-field, recovery, kernel and functorial theorems are absent on main; checked private drafts are tracked separately |
+
+Immediate priorities, in order:
+
+1. pass the build-performance gate (#18: compare compiled artifacts and
+   measure focused dependency cuts) before any expensive new M4 work;
+2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
+   (#22/#25), and prove the coupled arithmetic/quotient semantics (#23);
+3. integrate the reviewed foundational and transfer carryovers (#24/#7)
+   in small checkpoints with a full library build and rendered book;
+4. re-plan M4 (#12, #21);
+5. work that does not depend on M4: M5 arrows (#7), the
+   foundational carryovers (#24), the Frobenius kernel, two-generic
+   intersection, trdeg transport, the converse/uniqueness halves of the main
+   theorem, and the functorial definitions (#8–#10).
 
 ## How work is coordinated
 
@@ -28,10 +126,10 @@ tag of the toolchain (currently v4.34.0 for toolchain v4.34.1).
 - Issue map: #1 coordination; #2–#10 milestones M0–M8; #11 M3a regularity
   brick (open, off the critical path); #12 M4a design; #13 M4b curve
   library; #14–#16 historical M4a sub-steps; #18 build performance;
-  #19 audit; #20 upgrade; #21 Lemma 8.4 action bridge; #22 extraction
+  #19 audit; #20 upgrade (closed, 8a54b54); #21 Lemma 8.4 action bridge; #22 extraction
   target repair; #23 representative alignment and refuted generic arithmetic
   in §10–12; #24 foundational carryovers from #3/#4; #25 false arbitrary-field
-  Q/Q′ consequences; #26 optional source-paper request.
+  Q/Q′ consequences; #26 source-paper request fulfilled (PDFs outside git).
 - Issue comments are posted through Adam's `gh` account. Do not append
   signature lines. When it matters which agent did the work, say so in the
   body.
@@ -47,7 +145,7 @@ tag of the toolchain (currently v4.34.0 for toolchain v4.34.1).
 - **Never leave `sorry` or `admit` on `main`**, including WIP files.
 - **Never axiomatize blueprint theorems.** Every Lean declaration must be
   kernel checked; explicitly named unproved hypotheses remain obligations.
-- Verify with `lake build` (or `lake build <module>`); never trust
+- Use focused `lake build <module>` checks during development; never trust
   `lake env lean` alone. Run a full `lake build` before every commit.
 - Keep `lake exe book` building; grow the book alongside the code.
 - Never `cd` into `.lake/packages/*` — lake builds whatever package
@@ -55,17 +153,20 @@ tag of the toolchain (currently v4.34.0 for toolchain v4.34.1).
 - Commit and push at every natural checkpoint, in small verifiable
   increments, always green (Adam's standing instruction).
 
-## State of the library (historical checkpoint; audit in issue #19)
-
-The inventory below records earlier progress. Current proof boundaries and
-CI evidence are being reconciled in issues #19–#25; it is not a claim that
-the current head has passed CI.
+## State of the library (descriptive; see #19 for the audited coverage)
 
 ### Foundations (earlier milestones)
-- M0 skeleton/CI done; M1–M3 lattice/pregeometry layers done through
-  the "hard kernel" (see issues #3–#5, #11); M4 partially done (#6).
-  The curve theory below is M4b (#13), the completeness half of the
-  configuration layer, targeting blueprint Lemma 8.4.
+- M0 skeleton/CI done. M1–M2: the lattice, atoms, point geometry and
+  perfection isomorphism are proved. The carryovers from closed #3/#4 are
+  open (#24): cross-base transport,
+  the point-geometry → lattice direction with rank transport, char-p
+  perfection, and naturality. The finite representative calculus (Lemma 4.2)
+  is proved in `Geometry/Representatives`; it is used by the arithmetic refutations. M3: `j_rigidity` and the correspondence
+  theorems are proved (two-pair additive form; the general `E ⊗ F`
+  regularity of #11 is open). M4: soundness only (#6).
+  The curve theory below is M4b (#13), built as the input to blueprint
+  Lemma 8.4. The lemma itself and the bridge from group actions to the
+  curve library are not formalized yet (#21).
 
 ### Curve theory (`AclGeom/Curves/`, Stichtenoth-style, no schemes;
 ### base field algebraically closed, all places degree one)
@@ -129,12 +230,20 @@ the current head has passed CI.
   uniformizers** (`residueFunctional_pi_ne_zero`, value 1 on the
   single-place adele `π⁻¹`).
 
-## THE ACTIVE TASK: M4a — finite-cover field action and algebraization
+## Historical log: M4a finite-cover field action (items 1–117; frozen)
 
-P6 and P7 are complete in the library: regular-derivation rigidity,
-infinitesimal automorphisms, genus-zero rationality, rational-function-field
-automorphisms, Möbius normalization, and the algebraic affine-action
-endgame all compile and are documented.  Issue #12 is active again.
+The numbered historical items are preserved as a record. They are **not** the
+current plan. The
+2026-10-06 audit (#19) found that the chain was aimed at a false target (#22)
+and was not converging. Several statements described below as
+"strict composition" or "cancellation" hold by construction. Re-check any
+item before relying on it.
+
+The P6 prerequisites are proved in the library: regular-derivation
+rigidity, infinitesimal automorphisms, genus-zero rationality,
+rational-function-field automorphisms, and Möbius normalization. P7, the
+assembly of Lemma 8.4 from them, has not been done. Only the abstract
+`kˣ ⋉ k` bookkeeping of the affine-action endgame exists (#21).
 
 The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
 
@@ -1612,7 +1721,7 @@ The current boundary is blueprint Theorem 8.2 applied to equation (8.6):
     This is the precise mechanism needed to make each future source chart
     preserve both branches simultaneously.
 
-**Next exact step:** turn the selected relational multiplication and inverse
+**Historical next step (superseded by the audit, #19):** turn the selected relational multiplication and inverse
 into dominant rational maps on one common positive-dimensional normalized
 parameter cover.  Items 25--27 put the four normalized based projections on
 one literal source and target and identify every generic-point map with an
@@ -1797,21 +1906,37 @@ and post on #13.
 
 ## Remaining project roadmap
 
-- **M4** (#6, #12): algebraize the finite-normal-cover rank-two group and
-  its rank-one normal kernel; apply affine-action classification; prove
-  affine-grid extraction and both directions of Q/Q'/J correctness.
-- **M5** (#7): T1--T3 and the main descent direction are present.  Finish
-  the four-way T4 wiring after M4 supplies the ACF correctness theorems.
-- **M6–M8** (#8--#10): Frobenius classes and generic arithmetic, ratio
-  field interpretation, base/point recovery, Frobenius kernel, public
-  theorem variants, and the functorial quotient formulation.
-- **Book**: the curves chapter covers P1--P7 through infinitesimal
-  rigidity, and the configurations chapter follows the current M4a
-  boundary.  Keep both synchronized.  Verso requires docstrings on every
-  referenced declaration *and its structure fields*.
+- **M4** (#6, #12, #21, #22): repair the extraction target, state and prove
+  Lemma 8.4 (action bridge), re-plan the group-chunk step (8.2/8.3) from the
+  corrected target, then prove Q, Q′ and J completeness over algebraically
+  closed fields.
+- **M5** (#7): T1–T3 and the element-level (2)⇒(1) descent are present.
+  The point-level lattice lift, (1)⇔(2), (4)⇒(3), semantic J assembly and
+  removal of `[Infinite k]` have independently checked private drafts.
+  They await separate checkpoints; ACF completeness (3)⇒(2) still needs M4.
+  The old arbitrary-field Q/Q′ consequences are refuted (#25).
+- **M6–M8** (#8–#10, #23): Frobenius classes and generic arithmetic (after
+  corrected §10–12 operation predicates), ratio-field interpretation, base/point
+  recovery, the Frobenius kernel, public theorem variants, and the
+  functorial quotient formulation. The kernel, two-generic intersection,
+  trdeg transport and the converse/uniqueness halves do not depend on M4.
+- **Book**: keep each chapter synchronized with the library and free of
+  overclaims. Verso requires docstrings on every referenced declaration *and
+  its structure fields*.
 
 ## Lean gotchas (hard-won; read before writing proofs)
 
+- (v4.34.1) `MvPolynomial.coeff` is gone: write `p.coeff m`. The lemmas
+  `MvPolynomial.coeff_add` and `MvPolynomial.coeff_zero` are protected.
+- (v4.34.1) `rw` and `simp` unify only up to instance transparency. A
+  rewrite through a `def` such as `Point` or a local `Field` instance can
+  fail; use `exact`/`refine` with the lemma, which checks definitional
+  equality.
+- (v4.34.1) `Function.Injective.encard_range` is now an equality, and
+  `TrivSqZeroExt` pair literals no longer simp-normalize their `fst`/`snd`.
+- Check single files with the toolchain `lean` and the lakefile options
+  (`-DmaxSynthPendingDepth=3 -DrelaxedAutoImplicit=false`); without them,
+  instance search behaves differently.
 - Bare `LinearMap.id - P.conjProj g` (or any operator-subtraction)
   *applied to an argument* gives "Function expected ?m" — type-ascribe
   `(… : F →ₗ[k] F)` at every application site.
@@ -1852,13 +1977,13 @@ and post on #13.
 
 ## Session mechanics for an agent
 
-If running as a self-paced loop: each iteration (1) check
-`gh issue list` / recent comments on adamtopaz/acl_geom for steering,
-(2) do one small verifiable increment, (3) full `lake build`, commit,
-push, (4) leave an unsigned progress comment on the active issue, (5)
-keep the book building. CI runs on push (build + Pages deploy;
-back-to-back pushes can race the Pages deployment — harmless, next
-push redeploys).
+Each work session: (1) check the issues on adamtopaz/acl_geom for Adam's
+steering and `chit inbox` for the peer agent; (2) agree on file ownership;
+(3) do one small verifiable increment; (4) validate with a full `lake build`
+and `lake exe book` (one build family at a time in a shared checkout);
+(5) commit and push; (6) leave a progress comment on the relevant issue.
+CI runs on push (build + Pages deploy). Until a fresh run on the current
+`main` succeeds, local validation is the authoritative evidence.
 
 ## Lean/Mathlib 4.34.1 compatibility checkpoint (#20)
 
@@ -1937,3 +2062,71 @@ probe exceeded its 180-second cap. These observations separate the optional expo
 bottleneck from kernel work; they are not controlled clean-build speed ratios.
 Focused dependency cuts and the remaining native instance-path/kernel costs are
 still tracked under #18.
+
+## Audit cleanup checkpoint (#19/#22/#23/#24/#25)
+
+This checkpoint builds on the pushed v4.34.1 migration `8a54b54` and retains
+all existing proved mathematics. The 117-step M4a record remains frozen.
+
+- `Geometry/Representatives` proves the finite representative calculus
+  (12 public theorems), consumed by the arithmetic refutations. The other
+  foundational carryovers in #24 remain open or privately reviewed.
+- `Config/AffineGrid` retains the literal-target refutation and constrains
+  only three joins and fifteen points in the corrected target. Extraction
+  and `QCompletenessACF` are open; the conditional correctness statements
+  name the latter and require algebraically closed fields.
+- `Counterexamples/GenericArithmetic` records the literal JAdd/JMul and
+  full-class RatioEq refutations (26 public theorems), with every witness's
+  geometric class membership proved. Corrected class operations, totalization
+  and ratio decoding remain open.
+- `Interpretation/FrobLinkIncidence` gives the geometric concurrence
+  reduction (five public theorems) without configuration completeness.
+  Direct-link semantics and the two-hop bridge are separate obligations.
+- The source retains the original wording's provenance, withdraws the false
+  arbitrary-field Q/Q′ consequences and marks their mathematical
+  counterexamples as not yet formalized. It also withdraws the invalid
+  common-representative proof and the refuted literal arithmetic/ratio claims.
+  Module status, book exposition and the current issue map match these limits.
+
+Validation on 2026-10-07 used the same GCC path, two Lean threads and owned
+process-family 30 GiB available-memory guard documented above:
+
+| check | elapsed | sampled peak family RSS | minimum available RAM |
+|---|---:|---:|---:|
+| Full default `lake build` | 1085.79 s | 10.18 GiB | 35.09 GiB |
+| `lake exe book` | 10.08 s | 1.43 GiB | 41.44 GiB |
+
+Both exit successfully with no memory safety stop. This is an incremental
+full gate following the audit's upstream documentation/interface changes; it
+is not a clean-cache benchmark. It rebuilt the frozen configuration chain.
+CommonSource/ReferenceBridge took 210/131 seconds, intrinsic source
+restriction 51 seconds, grouped restriction 11 seconds, orbit-triangle E
+4.5 seconds, and the root library 4.2 seconds.
+
+The configuration book module took 300 seconds in Lean, then 131 seconds
+for its roughly 60 MiB generated C object; executable linking took 8.8 seconds.
+That chapter contains 1152 docstring references and is a concrete remaining
+#18 target for focused book sections and reduced incremental rebuild costs.
+The rendered multi-page HTML contains the new calculus/refutation sections.
+
+All 64 expected public theorem axiom reports for representative calculus,
+corrected extraction/refutation, rank-five correctness, concurrence and
+literal arithmetic/ratio refutations use exactly `propext`, `Classical.choice`
+and `Quot.sound`; none is missing. The lexical audit covers all 199
+library/root files and finds no placeholders or project axioms.
+`git diff --check` passes. The changed files have no deprecation warnings;
+existing warnings in untouched files are separate.
+
+The revised TeX builds to 54 pages without undefined references or overfull
+boxes. The title/provenance, corrected grid, Q/Q′ counterexamples,
+Frobenius-proof audit, generic-operation audit and ratio warning were visually
+checked in scratch renders. These PDFs and the supplied primary-source papers
+remain outside git.
+
+Next: the #18 private split/cast candidate must pass strict declaration/body
+and exported-metadata preservation checks and paired emitted-module timings,
+then isolated Lake dependency-chain measurements and a full library/book
+checkpoint. The baseline split's raw hash differences are accounted for only
+by renamed compiler-generated `_proof_N` theorem references, normalized by
+their statements; the intended helper documentation/privacy change is
+field-scoped. The performance gate remains open.

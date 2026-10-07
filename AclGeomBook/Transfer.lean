@@ -231,8 +231,8 @@ from transcendence degree:
 
 {docstring AclGeom.mem_of_j_represented_of_five_le_trdeg}
 
-This completes the `(2) ⇒ (1)` arrow of the blueprint's descent theorem; the
-`(1) ⇒ (4)` arrow is the soundness half of the configuration layer
-(proved over any infinite base), and the equivalence `(2) ⇔ (3)` is the
-ACF-correctness of `J`, whose completeness half is the remaining open
-engine of the configuration milestone.
+This proves the element-level descent step for `(2) ⇒ (1)`.  Its literal
+tuple wrappers and the remaining transfer arrows are tracked in #7.  The
+proved `(1) ⇒ (4)` soundness step has an infinite-base hypothesis; the finite
+base case remains open.  The equivalence `(2) ⇔ (3)` also requires the open
+ACF completeness of `J`.

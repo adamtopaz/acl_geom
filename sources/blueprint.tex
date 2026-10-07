@@ -28,8 +28,8 @@
   linkcolor=leanblue,
   citecolor=darkgreen,
   urlcolor=leanblue,
-  pdftitle={A Self-Contained Lean Blueprint for the Evans--Hrushovski--Gismatullin Reconstruction Theorem},
-  pdfauthor={Self-contained formalization blueprint prepared for Mathlib}
+  pdftitle={A Self-Contained Formalization Blueprint for the Evans--Hrushovski--Gismatullin Reconstruction Theorem},
+  pdfauthor={Technical proof and implementation blueprint}
 }
 
 \pagestyle{fancy}
@@ -111,34 +111,42 @@
 
 \title{\bfseries A Self-Contained Formalization Blueprint for the\\
 Evans--Hrushovski--Gismatullin Reconstruction Theorem\\[4pt]
-\large Complete specialized proofs for reconstruction from algebraic-dependence geometry in Lean 4 and Mathlib}
+\large Proof program for reconstruction from algebraic-dependence geometry in Lean 4 and Mathlib}
 \author{Technical proof and implementation blueprint}
-\date{Mathlib API audit: 5 August 2026}
+\date{Original Mathlib API audit: 5 August 2026\\Formalization audit: 6--7 October 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This document is a self-contained, implementation-level blueprint for formalizing the theorem that a
+This document records a proof program and target interfaces for formalizing the theorem that a
 relatively algebraically closed field extension of transcendence degree at least five is
 determined, up to perfection, by its full algebraic matroid (equivalently, by the complete
 lattice of relatively algebraically closed intermediate fields).  It states the theorem in
 a Lean-friendly form, corrects three often-omitted qualifications, separates the parts already
 available in Mathlib from the new mathematics, gives exact predicates for the finite
 configurations used by Evans--Hrushovski and Gismatullin, and specifies the quotient
-construction which interprets the perfect closure as a field.  Every mathematical result
-not already present in Mathlib is proved below.  In particular, the general machinery of
-stability theory is replaced by a proof of the one algebraic group--configuration statement
-actually used here, phrased entirely in terms of irreducible loci, transcendence degree,
-finite correspondences, and rational group chunks.  The additive and multiplicative
-correspondence theorems, simultaneous Frobenius rigidity, the $21$-point calculation,
-Gismatullin transfer, generic totalization, base recovery, point recovery, and the
-Frobenius kernel all receive complete proofs.  The final sections also construct the
-geometry functor, prove its identity and composition laws, determine every Hom-set fibre,
-and prove the corrected fully faithful assertion after quotienting source morphisms by
-integral Frobenius.  Lean fragments record target interfaces; the prose proofs immediately
-preceding them are the proofs to be transcribed.
+construction intended to interpret the perfect closure as a field.  The proposed replacement
+for group-configuration machinery uses irreducible loci, transcendence degree, finite
+correspondences, and rational group chunks; its group construction and curve-action
+classification remain proof obligations.
+
+The formalization audit of October 2026 identified errors in the literal $21$-field
+coordinate target, the arbitrary-field $\Qrel$ and $\Qprel$ consequences, and the generic
+arithmetic predicates.  The corresponding sections retain the provenance and state the
+corrections or counterexamples.  Correct operation predicates, their totalization, and the
+dependent reconstruction and functorial assembly require further work.  Lean fragments
+record target interfaces, and each prose argument must be checked against its precise
+hypotheses before transcription.  The library, book, and issue tracker distinguish
+kernel-checked results from conditional theorems and open obligations.
 \end{abstract}
+
+\noindent\textbf{Audit provenance.}
+The abstract in repository commit \texttt{ee31244} claimed complete proofs for all
+new results. That blanket claim is withdrawn following the counterexamples and
+coverage audit tracked in issues 19, 22, 23 and 25. The published reconstruction
+theorem remains the mathematical target; the proposed elementary replacements and
+the dependent formal assembly still require proof.
 
 \begin{resultbox}
 \textbf{Three corrections to the informal statement.}
@@ -1058,15 +1066,19 @@ Consequently the remaining coordinate is
 and the whole tuple is $j(x,a)$.  This proves the reverse implication.
 \end{proof}
 
-Over arbitrary perfect relatively algebraically closed fields the same equality is
-proved, without an ACF black box, in \cref{thm:j-descent}.  The useful projection
+Descent of $\Jrel$ over arbitrary perfect relatively algebraically closed fields is
+addressed in \cref{thm:j-descent}.  The semantic projection identity
 \[
- \Qrel(X,Q,R,A)\Longleftrightarrow\exists P\;\Jrel(X,P,Q,R,A)
+ \Qrel_{\rm sem}(X,Q,R,A)\Longleftrightarrow
+ \exists P\;\Jrel_{\rm sem}(X,P,Q,R,A)
 \]
-follows semantically: from a $\Qrel$ witness in the form
-$([x],[xa],[x+xa],[a])$ take $P=[x+a]$, and the reverse implication is the first conjunct
-of the definition.  Transport through the correctness theorems gives the geometric
-version.  The corresponding $\Qprel$ projections are identical coordinate eliminations.
+holds over every field: from a semantic $\Qrel$ witness in the form
+$([x],[xa],[x+xa],[a])$ take $P=[x+a]$, and the reverse implication is its semantic
+$\Qrel$ projection.  Over algebraically closed fields the configuration correctness
+theorems transport this to a geometric projection identity.  Over arbitrary perfect
+relatively algebraically closed fields, geometric and semantic $\Qrel$ and $\Qprel$
+need not agree. The original extension of that conclusion is withdrawn; see
+\cref{rem:q-descent-audit}.
 
 \section{The hard kernel: algebraic-correspondence rigidity}\label{sec:rigidity}
 
@@ -1507,12 +1519,15 @@ coordinates are algebraic over one another.
 
 \begin{lemma}[affine grid and meet extraction]\label{lem:affine-grid-extraction}
 Assume all clauses of $\Psi$ over algebraically closed $k\subseteq\Omega$.
-After replacing point representatives by interalgebraic representatives, there are
-algebraically independent $a,b,c,d,x$ such that
+There are algebraically independent $a,b,c,d,x$ such that
+$A=\acl(a,b)$, $B=\acl(c,d)$, $C=\acl(ac,bc+d)$ and, after replacing
+representatives of the fifteen remaining points by interalgebraic representatives,
+those points are given by (8.5).  Its first row defines new generator pairs for
+these joins; it imposes no condition on the six original generator points.
 \[
 \begin{gathered}
 \begin{array}{c|cccccc}
-\text{point}&A_1&A_2&B_1&B_2&C_1&C_2\\ \midrule
+\text{chosen generator}&A_1^*&A_2^*&B_1^*&B_2^*&C_1^*&C_2^*\\ \midrule
 \text{representative}&a&b&c&d&ac&bc+d
 \end{array}\\[1.5mm]
 \begin{array}{c|cccccccc}
@@ -1526,6 +1541,17 @@ algebraically independent $a,b,c,d,x$ such that
 \end{gathered}                                                   \tag{8.5}
 \]
 \end{lemma}
+\begin{remark}[Audit correction and formalization status]
+The original wording (repository commit \texttt{ee31244}, corrected in issue 22)
+said ``After replacing point representatives by interalgebraic representatives''
+and used $A_1,A_2,B_1,B_2,C_1,C_2$ in the first row of (8.5).
+That conclusion is false: swapping $A_1$ and $A_2$ preserves every clause of $\Psi$,
+while the canonical table requires $A_1=S$ and its swap has $A_1=P\ne S$.
+The corrected conclusion allows new generators for the same rank-two joins and
+preserves the fifteen remaining closed points.  Its extraction implication remains
+an open formalization target; the argument below has not yet been verified in Lean.
+The Lean refutation is \texttt{not\_forall\_psi\_hasLiteralTableCoordinates}.
+\end{remark}
 \begin{proof}
 We spell out the algebraic-action argument normally hidden under the phrase ``apply the
 group-configuration theorem.''  Choose generic pairs $\alpha=(\alpha_1,\alpha_2)$,
@@ -1592,9 +1618,11 @@ coordinate.  Hence its three generic coordinates are $a,c,ac$.  Formula (8.7) gi
 every entry through $Z$ in (8.5).
 
 The passage from finite correspondences to rational maps was made on a common finite
-normal cover.  Every new representative is algebraic over, and generates an algebraic
-extension of, the old representative.  It therefore defines exactly the same rank-one
-closed point.
+normal cover.  The chosen generator pairs need only generate the same rank-two
+closed fields $A,B,C$; their individual points need not be the original generators.
+For each of the fifteen remaining points, the claimed replacement is algebraic over,
+and generates an algebraic extension of, the old representative, and therefore defines
+the same rank-one closed point.
 
 It remains to solve the seven meet equations.  We include the elimination because this is
 the other place where the published proof compresses a group-configuration calculation.
@@ -1982,10 +2010,10 @@ $\bar k=\acl_\Omega(k)$.  For a five-tuple of points represented in $K$, conside
 \item $K/k$ satisfies the geometric $\Jrel$ predicate.
 \end{enumerate}
 
-\begin{theorem}[descent and arbitrary-field correctness]\label{thm:j-descent}
+\begin{theorem}[descent and arbitrary-field correctness of $\Jrel$]\label{thm:j-descent}
 If $K$ is perfect, $k$ is relatively algebraically closed in $K$, and
 $\trdeg_kK\geq5$, conditions (1)--(4) above are equivalent.  Consequently the geometric
-and semantic relations $\Qrel,\Qprel,\Jrel$ agree over $K/k$.
+and semantic relations $\Jrel$ agree over $K/k$.
 \end{theorem}
 \begin{proof}
 The closure relation on tuples from $K$ is unchanged after adjoining $\bar k$: an element
@@ -2022,10 +2050,85 @@ intersecting the absolute closures with $K$, and the minimal-parameter derivatio
 for clause (iv) works in the perfect field $K$.  Hence all witnesses lie in $K$ and the
 geometric formula holds.
 
-We have proved the four-way equivalence for $\Jrel$.  The projection identity following
-\cref{thm:j-acf-correct} gives correctness of $\Qrel$; the multiplication diagram and
-\cref{thm:qp-correct} give correctness of $\Qprel$.
+This proves the four-way equivalence for $\Jrel$.
 \end{proof}
+
+\begin{remark}[Audit correction: the arbitrary-field $\Qrel,\Qprel$ consequences]
+\label{rem:q-descent-audit}
+The original statement also asserted correctness of $\Qrel$ and $\Qprel$ over $K/k$.
+Its projection argument is invalid: a semantic $\Qrel$ witness over $\bar k\subseteq\Omega$
+need not have representatives in $K$, even when its four points descend to $K$.
+Correctness of $\Jrel$ cannot supply the missing fifth descended point.  The following
+counterexamples refute both claimed consequences. Neither is retained as a proved
+conclusion.
+
+Let $k=\mathbb Q$ and $K=\mathbb Q(s,t,e_1,e_2,e_3)$, with all five generators
+algebraically independent.  This is a perfect extension of transcendence degree five
+and $k$ is relatively algebraically closed in $K$.  The four $K/k$ points
+\[
+ P=[s],\qquad D=[st^2],\qquad Y=[s(1+t)^2],\qquad I=[t]
+\]
+satisfy the geometric $\Qrel$ predicate.  Indeed, in an algebraic closure $\Omega$ set
+\[
+ a=e_1,\quad b=\sqrt{s},\quad c=e_2,\quad d=\sqrt{s}\,e_3,
+ \quad x=\sqrt{s}\,t/e_1.
+\]
+The table-(7.1) witness satisfies $\Psi$.  Every point in that table and its auxiliary
+partial quadrangle has a representative in $K$: its displayed representative is either
+$w\in K$ or $\sqrt{s}\,w$ with $w\in K$, and in the latter case it has the same closure
+as $sw^2\in K$.  Rank, joins, meets and incidence reflect through the lift of the
+$K/k$ geometry; the universal atom clauses over $K$ follow from those over $\Omega$.
+The free outputs are precisely $(P,D,Y,I)$.
+
+They have no semantic representatives in $K$.  The relative closures of $s$, $st^2$,
+$s(1+t)^2$ and $t$ in $K$ are the corresponding rational function fields.  Thus such
+representatives would give nonconstant rational functions
+\[
+ u=\alpha(s),\quad v=\beta(st^2),\quad u/v=\gamma(t),
+ \quad u+v=\delta(s(1+t)^2).
+\]
+Differentiating the ratio with respect to $s$, and putting $w=st^2$, yields
+$s\alpha'/\alpha=w\beta'/\beta\in\mathbb Q(s)\cap\mathbb Q(w)=\mathbb Q$.
+A rational function with constant logarithmic derivative of this form has zeros and
+poles only at $0$ and infinity.  Hence $\alpha=c_1s^n$, $\beta=c_2w^n$ for one nonzero
+integer $n$ and nonzero constants.  Differentiating the sum similarly forces
+$\delta(z)=cz^n$.  Therefore
+\[
+ c_1+c_2t^{2n}=c(1+t)^{2n}.
+\]
+For $n>0$, the coefficient of $t$ gives a contradiction.  For $n=-m<0$, multiply by
+$t^{2m}(1+t)^{2m}$ and evaluate at $t=0$ to obtain $c_2=0$, again a contradiction.
+
+The same rank-five field refutes the $\Qprel$ consequence at
+\[
+ (X,Y,S,E)=([s],[st^2],[s(1+t)^2],[st]).
+\]
+Its geometric $\Qrel$ conjunct is the example above, with $V=[t]$. For the multiplication
+diagram take the independent triple $(\sqrt{s},\sqrt{s}\,t,e_1)$ over $\bar k$.
+Its auxiliary points descend to
+\[
+ A_0=[e_1],\quad B_0=[e_1^2s],\quad C_0=[e_1^2st^2],\quad D_0=[e_1st].
+\]
+Distinctness and exact ranks of joins reflect through the lift, so this is a
+multiplication diagram over $K/k$ and the geometric $\Qprel$ predicate holds.
+The auxiliary parameter need only be independent of the two multiplicands, not of all
+coordinates of the $\Qrel$ witness.
+
+Semantic representatives would satisfy $x=\alpha(s)$, $y=\beta(w)$,
+$xy=\varepsilon(m)$ and $x+y=\delta(z)$, where $w=st^2$, $m=st$ and $z=s(1+t)^2$.
+All four one-generator fields are relatively algebraically closed in $K$.
+Put $A=s\alpha'/\alpha$, $B=w\beta'/\beta$ and $C=m\varepsilon'/\varepsilon$.
+Differentiating the product in $s$ and in $t$ gives $A+B=C$ and $2B=C$.
+Thus $A=B$ is constant, forcing $\alpha=c_1s^n$ and $\beta=c_2w^n$ with a nonzero integer
+$n$. The same sum equation as above then gives a contradiction.
+
+These mathematical counterexamples were independently checked during the 2026-10-06
+audit and are tracked in \url{https://github.com/adamtopaz/acl_geom/issues/25}.
+Their Lean formalizations remain open. The four-way $\Jrel$ theorem above remains a target; an
+independently checked private Lean assembly takes algebraically closed configuration
+completeness as an explicit hypothesis.  The interpretation arguments using arbitrary-field projections
+must be reassessed against this correction.
+\end{remark}
 
 \section[The Frobenius-class relation on J]
 {The Frobenius-class relation on $\Jrel$}
@@ -2043,7 +2146,12 @@ Define the derived relations
   \exists S\;\Qprel(U,V,S,W).
 \end{aligned}
 \]
-They assert $W=[u+v]$ or $W=[uv]$ when the representatives are independent.
+Over algebraically closed fields, configuration correctness identifies these with
+existence of independent representatives satisfying $W=[u+v]$ or $W=[uv]$.  This does not
+choose representatives for given inputs.  Over arbitrary perfect relatively
+algebraically closed fields, the corresponding claim about representatives in $K$ is
+withdrawn with the projection consequence in \cref{rem:q-descent-audit}; the later
+arguments require a corrected representative-alignment statement.
 
 For $u,v\in\Jrel$, write $u_X,u_P,u_Q,u_R,u_A$ for their five coordinates.  Define
 \lean{DirectFrobLink u v} by:
@@ -2077,36 +2185,39 @@ is:
  \exists n\in\mathbb Z,\ a'=a^{p^n}.
 \]
 
-\begin{lemma}[semantic correctness of the Frobenius link]\label{lem:frobeq-correct}
-The displayed equivalence holds, and therefore \lean{FrobEq} is an equivalence relation
-on $\Jrel$.
+\begin{lemma}[semantic correctness of the Frobenius link; open proof obligation]
+\label{lem:frobeq-correct}
+Prove the displayed equivalence, and hence that \lean{FrobEq} is an equivalence
+relation on $\Jrel$.
 \end{lemma}
-\begin{proof}
-The forward witness for a direct link was just given.  For the converse, let $c$ represent
-the link point.  Correctness of \lean{MulPoint} turns the three incidences into
+\begin{remark}[Audit of the common-representative step]\label{rem:frob-link-audit}
+The proof in the original source at commit \texttt{ee31244} used one representative
+$c$ of the multiplier point in all three \lean{MulPoint} clauses, asserting
 \[
  [cx']=[x],\qquad[cx'a']=[xa],\qquad[cx'(1+a')]=[x(1+a)].       \tag{10.1}
 \]
-Set $u=cx'$.  The first equality makes $u$ interalgebraic with $x$.  Apply the
-multiplicative correspondence theorem first to the independent pairs $(u,a')$ and
-$(x,a)$, using the second equality, and then to $(u,1+a')$ and $(x,1+a)$, using the
-third.  The relation involving both $a$ and $1+a$ is the simultaneous-coset situation of
-\cref{lem:simultaneous-coset}; its coefficient-$1$ comparison, exactly as in the last
-paragraph of \cref{thm:jrigidity}, gives $a'=a^{p^n}$ for an integral $n$.  Thus a direct
-link has precisely the asserted semantics.
+Even assuming $\Qprel$ completeness over algebraically closed fields, each
+existential clause supplies its own independent representatives. Equality of their
+points does not supply the common choice used in (10.1). Thus this converse is an
+open proof obligation; the Frobenius-link target has not been refuted.
 
-If $a'=a^{p^n}$ for two arbitrary $j$-tuples, choose $z$ outside
-$\acl_k(a,x,x')$ and put $w=j(z,a)$.  Then both required triples of $X$-coordinates and
-the common $A$-coordinate are independent, and the explicit link point
-$[x^{p^r}/z]$ (with the appropriate exponent and orientation) supplies each direct
-link.  Such a $z$ exists because the parameter rank is at most three and
-$\trdeg\geq5$.  Conversely two links through a bridge give
-$a''=a^{p^r}$ and $a'=a''^{p^s}$, hence $a'=a^{p^{r+s}}$.
+The primary-source route in EH95~\cite[Lemma 2.8, Figure 3]{EH1995} first uses
+concurrent lines through the given coordinates. It then applies the
+partial-quadrangle coupling of EH91~\cite[Lemma 2.1.1, pp. 6--7]{EH1991}, proved by
+specialization, before the multiplicative rigidity and coefficient comparison.
+The independently kernel-checked Lean module
+\lean{Interpretation/FrobLinkIncidence} proves that geometric
+\lean{DirectFrobLink} implies the required concurrence directly from its
+multiplication diagrams, without selecting representatives for \lean{MulPoint} or
+assuming configuration completeness. The converse from this concurrence to an
+exact Frobenius twist and its relative-field application remain to be formalized.
 
-The semantic formula is reflexive ($n=0$), symmetric (replace $n$ by $-n$), and
-transitive (add exponents).  It therefore supplies the \lean{Setoid} laws without any
-further configuration chase.
-\end{proof}
+The displayed forward witnesses retain their role once their geometric soundness
+hypotheses are supplied. For the two-link converse, the geometric bridge tuple must
+also be given semantic representatives by a proved $\Jrel$-completeness statement;
+that obligation must be explicit. These gaps are tracked in
+\url{https://github.com/adamtopaz/acl_geom/issues/23}.
+\end{remark}
 
 \section{A fixed class and its generic arithmetic}\label{sec:genericops}
 
@@ -2160,38 +2271,87 @@ $u_X,v_X,u_A$, and
 \]
 These give $xy$, $xy+a$, $xya$, and $xy(1+a)$.
 
-\begin{lemma}[correctness of generic arithmetic]\label{lem:generic-arithmetic}
+\begin{lemma}[soundness of the displayed generic operations]\label{lem:generic-arithmetic}
 If $x,y,a$ are independent, then
 \[
-\begin{aligned}
-\operatorname{JAdd}(j(x,a),j(y,a),w)
-&\Longleftrightarrow w=j(x+y,a),\\
-\operatorname{JMul}(j(x,a),j(y,a),w)
-&\Longleftrightarrow w=j(xy,a),
-\end{aligned}
+ \operatorname{JAdd}(j(x,a),j(y,a),j(x+y,a)),\qquad
+ \operatorname{JMul}(j(x,a),j(y,a),j(xy,a)).
 \]
 \end{lemma}
 \begin{proof}
-For addition, correctness of \lean{SumPoint} identifies the four output coordinates as
-\[
- [x+y],\quad[x+(y+a)]=[x+y+a],\quad[xa+ya]=[(x+y)a],
- \quad[x(1+a)+y(1+a)]=[(x+y)(1+a)].
-\]
-Together with the common parameter point these are exactly $j(x+y,a)$.  Conversely each
-identity supplies the required incidence.  Every input pair is independent: for example
-$(xa,ya)$ and $(x(1+a),y(1+a))$ are obtained by birational monomial changes from
-independent variables, as in \cref{lem:finite-representative-calculus}(d).
-
-For multiplication the four clauses give respectively
-\[
- [xy],\quad[xy+a],\quad[(xa)y]=[xya],
- \quad[x(1+a)y]=[xy(1+a)],
-\]
-which are the coordinates of $j(xy,a)$.  The reverse direction and all independence
-checks are the same.  If an output is initially presented with another representative,
-\cref{lem:mu-bij} makes the tuple equality literal.  Because the definitions use only
-$\Qrel,\Qprel$, ranks, and coordinate equality, a geometry isomorphism preserves them.
+For addition the four representative pairs are $(x,y)$, $(x,y+a)$, $(xa,ya)$ and
+$(x(1+a),y(1+a))$. Their sums are the four required output coordinates. For
+multiplication use $(x,y)$, $(xy,a)$, $(xa,y)$ and $(x(1+a),y)$, with a sum in the second
+clause and products in the others. All these pairs are independent by the birational
+coordinate changes of \cref{lem:finite-representative-calculus}(d). The rank-five
+hypothesis supplies the geometric $\Qrel$ and $\Qprel$ soundness witnesses. Parameter
+coordinates coincide, so every defining clause holds.
 \end{proof}
+
+\begin{remark}[Audit correction: the generic operations are not functional]
+\label{rem:generic-arithmetic-audit}
+The original \cref{lem:generic-arithmetic} asserted equivalences with
+$w=j(x+y,a)$ and $w=j(xy,a)$. Both converses are false, already over algebraically
+closed fields. The original proof treated an existentially chosen representative as
+if it were the fixed representative of a $j$-tuple.
+
+Choose $\kappa\in k^\times$ with $\kappa\neq1$ and independent $x,y,a$ in an extension
+satisfying the standing rank-five hypothesis. The tuple $w=j(\kappa x+y,a)$ satisfies
+all four addition clauses, using the independent representative pairs
+\[
+ (\kappa x,y),\quad(\kappa x,y+a),\quad(\kappa xa,ya),
+ \quad(\kappa x(1+a),y(1+a)).
+\]
+Likewise $w=j(\kappa xy,a)$ satisfies the four multiplication clauses via
+\[
+ (\kappa x,y),\quad(\kappa xy,a),\quad(\kappa xa,y),
+ \quad(\kappa x(1+a),y).
+\]
+Scaling by a nonzero base constant does not change an input point. The output tuples
+are distinct from $j(x+y,a)$ and $j(xy,a)$: their $P$-coordinates are distinct, since
+$\kappa x+y+a$ and $x+y+a$ are independent affine linear forms, as are $\kappa xy+a$
+and $xy+a$. Thus the displayed operation graphs cannot be used as field operations.
+Adding the symmetric clause $\operatorname{SumPoint}(u_P,v_X,w_P)$ excludes this
+particular addition family, but completeness of that proposed repair and a corrected
+multiplication predicate are open.
+
+The primary source uses a different construction: EH95~\cite[Lemma 2.11 and
+Figures 4--5]{EH1995} obtains subtraction and division from intersections of joins
+of the given tuple coordinates. For instance,
+\[
+ [x-y]=([x]\vee[y])\wedge([x+a]\vee[y+a]).
+\]
+This retains the coupling discarded by the existential projections above. Private,
+independently kernel-checked Lean drafts prove the generic-coordinate meet identities
+and their Point-valued semantic bridge over arbitrary relative fields. The generic
+negation, inverse, addition and multiplication derived from these meet formulas are
+also privately checked. Geometric membership is stated with the existing rank-five
+soundness hypotheses. These drafts await integration; class correctness, totalization
+and ratio semantics remain open and must be proved before replacing the definitions.
+
+The ratio definition below is affected concretely. Take $t$ fresh over $x,y,a$ and put
+\[
+\begin{gathered}
+ r=(j(x,a),j(y,a)),\quad s=(j(\kappa x,a),j(y,a)),\\
+ c_1=c_2=j(t,a),\quad d_1=j(xt,a),\quad d_2=j(yt,a).
+\end{gathered}
+\]
+These witness the displayed \lean{RatioEq r s}: the third multiplication clause uses
+$\kappa^{-1}$ in the family above, and the others use the usual product witnesses.
+Their decoded ratios are $x/y$ and $\kappa x/y$, which are unequal. Therefore the
+proposed decoding does not descend to this quotient.
+
+The Lean module \lean{Counterexamples/GenericArithmetic} records these refutations,
+including membership of every witness in the encoded Frobenius-class relation.
+The counterexamples are tracked in issue 23:
+\url{https://github.com/adamtopaz/acl_geom/issues/23}.
+
+The subsequent
+totalization and ratio/field construction, here and in the following section, is
+retained as a historical proposed derivation, pending corrected operation graphs.
+Its completeness and well-definedness arguments are not proofs for the displayed
+refuted definitions. The intended reconstruction theorem remains the project target.
+\end{remark}
 
 For negation, avoid trying to use $[0]$, which is not a point.  Define
 \[
@@ -2242,6 +2402,17 @@ base scalar $c$), so \lean{JAdd u v w} need not be defined.
 
 \section{The ratio quotient and the interpreted field}
 
+\begin{warning}[Historical ratio construction; refuted literal predicates]
+The construction in this section is preserved from repository commit
+\texttt{ee31244} for provenance. Its displayed \lean{RatioEq} uses the original,
+nonfunctional \lean{JMul}, and the forward ratio-semantics implication is
+refuted by the witnesses in the preceding audit remark (issue 23).
+Consequently the asserted decoding and field proofs below do not establish
+results for these definitions. Correct coupled operations, their class
+semantics and totalization must be proved before a replacement ratio quotient
+can be constructed.
+\end{warning}
+
 Every element outside $\acl(a)$ is nonzero.  Thus pairs in $\Jrel_1^2$ represent nonzero
 field elements by
 \[
@@ -2264,7 +2435,7 @@ Semantically this says
 $r_1c_1=s_1c_2$ and $r_2c_1=s_2c_2$, hence $r_1/r_2=s_1/s_2$.
 The converse and the exact rank budget are contained in the following result.
 
-\begin{lemma}[ratio semantics]\label{lem:ratio-semantics}
+\begin{lemma}[historical ratio semantics; refuted for the literal predicates]\label{lem:ratio-semantics}
 \[
  \operatorname{RatioEq}(r,s)
  \Longleftrightarrow

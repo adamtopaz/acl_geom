@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Geometry.Equivalence
+import AclGeom.Geometry.Representatives
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -34,9 +35,8 @@ relative `algebraicClosure`, with scalars restricted back to `k`:
 
 {docstring AclGeom.racl}
 
-Following the blueprint's proof-engineering rule, no downstream proof unfolds
-this definition; everything goes through the carrier-level membership
-criterion:
+The carrier-level membership criterion provides the main downstream
+interface to this definition:
 
 {docstring AclGeom.mem_racl_iff}
 
@@ -142,6 +142,40 @@ exhibited as order isomorphic:
 
 {docstring AclGeom.ClosedIF.pointSetIso}
 
-This is blueprint checklist item F5; the finite-rank predicates (F6) and the
-transport of order isomorphisms to geometry equivalences complete the
-foundations layer.
+This proves the closed-point-set presentation used in checklist item F5.
+Cross-base field transport, the converse from geometry isomorphisms to lattice
+isomorphisms, and full rank/transcendence-degree transport remain open (issue #24).
+
+# Finite representative calculus
+%%%
+tag := "representatives"
+%%%
+
+The finite representative calculus of blueprint Lemma 4.2 works over any
+relative field extension. Replacing entries by interalgebraic elements
+preserves their generated closure, independence and rank:
+
+{docstring AclGeom.racl_image_congr}
+
+{docstring AclGeom.algebraicIndependent_congr_racl}
+
+{docstring AclGeom.eRk_range_congr}
+
+Rank below the ambient transcendence degree supplies fresh elements. Two
+successive fresh choices raise the rank by two:
+
+{docstring AclGeom.exists_notMem_racl_of_eRk_lt}
+
+{docstring AclGeom.exists_two_fresh_of_eRk_add_two_le}
+
+Mutually algebraic coordinate changes also preserve independence, including
+the literal product and shifted-product changes used by the configuration
+witnesses and the generic-arithmetic refutations:
+
+{docstring AclGeom.AlgebraicIndependent.of_racl_range_eq}
+
+{docstring AclGeom.algebraicIndependent_mul_mul_left}
+
+{docstring AclGeom.algebraicIndependent_mul_one_add}
+
+{docstring AclGeom.algebraicIndependent_mul_left}

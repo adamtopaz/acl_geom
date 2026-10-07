@@ -24,7 +24,7 @@ set_option pp.rawOnError true
 authors := ["Adam Topaz"]
 %%%
 
-This is a formalization, in Lean 4 and Mathlib, of the
+This is an ongoing formalization, in Lean 4 and Mathlib, of the
 Evans–Hrushovski–Gismatullin reconstruction theorem: a relatively
 algebraically closed field extension of transcendence degree at least five is
 determined, up to perfection, by the combinatorial geometry of algebraic
@@ -64,14 +64,24 @@ The formalization follows the self-contained blueprint in the project's
 theory by direct proofs about irreducible loci, transcendence degree, finite
 correspondences, and rational group chunks.
 
+The displayed reconstruction theorem is the project goal and has not yet
+been proved in Lean.  The 2026-10-06 audit (issue #19) separates the proved
+foundation, rigidity, transfer and curve prerequisites from the open
+configuration completeness, arithmetic interpretation and reconstruction
+layers.  The corrected affine-grid target is open (#22), the group/action
+bridge is absent (#21), and the representative-alignment argument needs
+repair (#23).  The architecture below describes the intended development;
+it does not claim that every listed theorem is already implemented.
+
 # Architecture of the formalization
 %%%
 tag := "architecture"
 %%%
 
-The development is organized in layers, mirroring the blueprint's dependency
-architecture; no file in an earlier layer imports a later one, and the hard
-kernel is independently buildable.
+The development follows the blueprint's dependencies, with shared
+configuration interfaces used by some correspondence modules and Möbius
+lemmas reused by the curve library.  The proved `j_rigidity` kernel can be
+built independently of the configuration layer.
 
 1. *Closure foundations* (`AclGeom.Closure.*`): the relative algebraic closure
    operator as a pregeometry, and the complete lattice of relatively
