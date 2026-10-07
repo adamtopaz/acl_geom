@@ -329,8 +329,10 @@ theorem totalOverInput_finiteDimensional :
   have key : D.totalOverInput =
       adjoin (↥D.inputField) (Set.range D.totalTuple) := by
     refine restrictScalars_injective k ?_
-    unfold totalOverInput inputField totalField
-    rw [adjoin_adjoin_left, extendScalars_restrictScalars, adjoin_union]
+    unfold totalOverInput
+    rw [extendScalars_restrictScalars]
+    unfold inputField totalField
+    rw [adjoin_adjoin_left, adjoin_union]
     exact (sup_eq_right.2 D.inputField_le_totalField).symm
   rw [key]
   letI : Fintype (Set.range D.totalTuple) :=

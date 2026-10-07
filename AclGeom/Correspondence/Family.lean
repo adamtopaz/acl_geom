@@ -921,7 +921,6 @@ def ofOneTupleIdealEq
         ({p, x} : Set Ω) := by
       ext z
       simp
-      tauto
     rw [himage'] at htrans
     simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using htrans
   source_mem_parameter_target := by
@@ -951,7 +950,6 @@ def ofOneTupleIdealEq
         ({p, y} : Set Ω) := by
       ext z
       simp
-      tauto
     rw [himage'] at htrans
     simpa [Matrix.range_cons, Matrix.range_empty, Set.pair_comm] using htrans
 
@@ -1359,16 +1357,13 @@ theorem exists_fourArrowDifferenceDiagram [IsAlgClosed Ω]
   have hq01 : q '' ({0, 1} : Set (Fin 4)) = ({s, e} : Set Ω) := by
     ext z
     simp [q]
-    tauto
   have hq012 : q '' ({0, 1, 2} : Set (Fin 4)) =
       ({s, e, a} : Set Ω) := by
     ext z
     simp [q]
-    tauto
   have hq02 : q '' ({0, 2} : Set (Fin 4)) = ({s, a} : Set Ω) := by
     ext z
     simp [q]
-    tauto
   have ha_se : a ∉ racl k ({s, e} : Set Ω) := by
     have hnot := AlgebraicIndependent.notMem_racl_image hq
       (S := ({0, 1} : Set (Fin 4))) (i := 2) (by simp)

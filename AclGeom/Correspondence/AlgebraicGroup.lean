@@ -259,18 +259,18 @@ instance kernelι_isClosedImmersion (f : G.Hom H) :
       (Limits.equalizer.ι
         ((CategoryTheory.Grp.forget (Over (Spec (.of k)))).map f)
         ((CategoryTheory.Grp.forget (Over (Spec (.of k)))).map 0)).left)
-  have he : IsClosedImmersion (Comma.leftIso e).hom := inferInstance
+  letI : IsClosedImmersion (Comma.leftIso e).hom := inferInstance
   letI : IsSeparated
       ((CategoryTheory.Grp.forget (Over (Spec (.of k)))).obj
         H.toGroupScheme).hom := H.isSeparated
-  have hι : IsClosedImmersion
+  letI : IsClosedImmersion
       (Limits.equalizer.ι
         ((CategoryTheory.Grp.forget (Over (Spec (.of k)))).map f)
         ((CategoryTheory.Grp.forget (Over (Spec (.of k)))).map 0)).left :=
     isClosedImmersion_equalizer_ι_left
       ((CategoryTheory.Grp.forget (Over (Spec (.of k)))).map f)
       ((CategoryTheory.Grp.forget (Over (Spec (.of k)))).map 0)
-  exact MorphismProperty.comp_mem _ _ _ he hι
+  exact IsClosedImmersion.comp _ _
 
 /-- The scheme-theoretic kernel is locally of finite type over the base. -/
 instance kernel_locallyOfFiniteType (f : G.Hom H) :

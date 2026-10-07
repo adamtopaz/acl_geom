@@ -11,35 +11,55 @@ reconstruction theorem. The mathematical source of truth is
 `sources/blueprint.tex`. The library lives in `AclGeom/`, a Verso book
 documenting it lives in `AclGeomBook/` (built with `lake exe book`).
 Toolchain: see `lean-toolchain`; verso is pinned to the nearest minor
-tag of the toolchain (currently v4.32.0 for toolchain v4.32.2).
+tag of the toolchain (currently v4.34.0 for toolchain v4.34.1).
 
 ## How work is coordinated
 
-- **All coordination happens on GitHub issues** of `adamtopaz/acl_geom`.
-  Adam reads the issues, the code, and the generated Verso page; he
-  steers by commenting on issues. Check for new comments from Adam at
-  the start of every work session and treat them as top priority.
-- Issue map: #1 coordination, #2–#10 milestones M0–M8, #11 M3a
-  regularity brick, **#12 M4a design — the active issue**, and #13
-  M4b function-field curve theory (completed).
-- Do not add a Claude signature or Claude attribution to issue comments.
-  Current Codex progress comments are left unsigned.
-- Post a progress comment on the relevant milestone issue after each
-  substantive push.
+- **All communication with Adam happens on GitHub issues** of
+  `adamtopaz/acl_geom`, and only there. Nothing else on Adam's GitHub
+  account may be changed. Check for new comments from Adam at the start of
+  every work session and treat them as top priority. Questions for Adam use
+  the `question-for-adam` label.
+- Two agents work on the project: `aclgeom.claude` and `aclgeom.codex`.
+  They coordinate through chit direct messages. File ownership is divided
+  explicitly before editing. In the shared checkout only one Lake build
+  family runs at a time, and builds stop if available memory drops below
+  30 GiB.
+- Issue map: #1 coordination; #2–#10 milestones M0–M8; #11 M3a regularity
+  brick (open, off the critical path); #12 M4a design; #13 M4b curve
+  library; #14–#16 historical M4a sub-steps; #18 build performance;
+  #19 audit; #20 upgrade; #21 Lemma 8.4 action bridge; #22 extraction
+  target repair; #23 representative alignment and refuted generic arithmetic
+  in §10–12; #24 foundational carryovers from #3/#4; #25 false arbitrary-field
+  Q/Q′ consequences; #26 optional source-paper request.
+- Issue comments are posted through Adam's `gh` account. Do not append
+  signature lines. When it matters which agent did the work, say so in the
+  body.
+- Post a progress comment on the relevant issue after each substantive push.
+- Blueprint statements that the Lean route bypasses (for example the
+  three-pair additive correspondence or general `E ⊗ F` regularity) remain
+  tracked obligations; do not close them merely because nothing uses them.
 
 ## Hard policies
 
-- **Never leave `sorry` on `main`** outside files whose module
-  docstring marks them WIP. (Currently no file contains sorries.)
-- **Never axiomatize blueprint theorems.** Everything is proved.
+`AGENTS.md` is authoritative. In particular:
+
+- **Never leave `sorry` or `admit` on `main`**, including WIP files.
+- **Never axiomatize blueprint theorems.** Every Lean declaration must be
+  kernel checked; explicitly named unproved hypotheses remain obligations.
 - Verify with `lake build` (or `lake build <module>`); never trust
   `lake env lean` alone. Run a full `lake build` before every commit.
 - Keep `lake exe book` building; grow the book alongside the code.
 - Never `cd` into `.lake/packages/*` — lake builds whatever package
   the cwd is in.
-- Commit and push in small verifiable increments, always green.
+- Commit and push at every natural checkpoint, in small verifiable
+  increments, always green (Adam's standing instruction).
 
-## State of the library (all built, CI green)
+## State of the library (historical checkpoint; audit in issue #19)
+
+The inventory below records earlier progress. Current proof boundaries and
+CI evidence are being reconciled in issues #19–#25; it is not a claim that
+the current head has passed CI.
 
 ### Foundations (earlier milestones)
 - M0 skeleton/CI done; M1–M3 lattice/pregeometry layers done through
@@ -1839,3 +1859,81 @@ push, (4) leave an unsigned progress comment on the active issue, (5)
 keep the book building. CI runs on push (build + Pages deploy;
 back-to-back pushes can race the Pages deployment — harmless, next
 push redeploys).
+
+## Lean/Mathlib 4.34.1 compatibility checkpoint (#20)
+
+The direct pins are Lean/Mathlib v4.34.1 and Verso v4.34.0. Mathlib's resolved
+revision is recorded in `lake-manifest.json`; Verso v4.34.0 is the compatible
+stable tag for this Lean minor version. These were the latest stable releases
+verified against the upstream release pages on 2026-10-06/07.
+
+Reproduce with the toolchain's available C compiler on `PATH`, then run:
+
+```sh
+LEAN_NUM_THREADS=2 lake exe cache get
+LEAN_NUM_THREADS=2 lake build
+LEAN_NUM_THREADS=2 lake exe book
+```
+
+The host's previous compiler wrapper referenced a removed Nix path. For the
+migration measurements, GCC was supplied from
+`/nix/store/79mr0jw3qccq7hhf1hh62knxd88dwazc-gcc-wrapper-15.3.0/bin` on `PATH`.
+That path is a local workaround; another machine should use its installed
+compiler. The build monitor samples `MemAvailable` and process-family RSS
+every two seconds and interrupts only its own family below 30 GiB available.
+
+The compatibility changes update Mathlib lattice/rank, polynomial and
+category APIs, replace deprecated declarations, and expose scalar inclusions
+through the correct restricted intermediate fields. The largest repair is
+`ChunkCurveCommonSource`: canonical closure transport is now over the native
+source field before restricting the whole-total map to each preserved branch.
+This retains a single map on the complete source and its coefficient action,
+rather than constructing unrelated branch maps. The book documents the new
+presentation. Abstract coefficient/composition lemmas are reused downstream.
+Commented local elaboration settings unfold transparent field aliases; the
+Lean kernel still checks all resulting terms.
+
+The final transport modules exposed a separate export bottleneck: Lean's optional
+symbol-frequency index traverses their deeply nested theorem signatures without
+a heartbeat bound. The original 115-line orbit-triangle E module checked in 6.03
+seconds without artifact emission but exceeded a 180-second compiled-output probe.
+An extension-by-extension diagnostic isolated `symbolFrequency` preprocessing.
+The documented `nameDenyListExt` entry excludes the exact frozen technical
+namespace `PsiCurveFourArrowCommonSourceRealizations` from the optional premise
+selectors and frequency statistics. It preserves every declaration, proof term,
+kernel check, direct reference, simp/instance attribute and book docstring. The
+private emitted-module probe then passed in 6.03 seconds, with all eight public
+declarations using standard axioms. The full shared build and book also passed,
+as recorded below; this is not a clean-build speed claim.
+
+Validation on 2026-10-07 (two Lean threads):
+
+| check | elapsed | sampled peak family RSS | minimum available RAM |
+|---|---:|---:|---:|
+| Full default `lake build`, pass 16 | 876.62 s | 12.46 GiB | 35.71 GiB |
+| `lake exe book` | 12.08 s | 1.55 GiB | 40.67 GiB |
+
+Both exited successfully, with no memory safety stop. The full pass rebuilt the
+common-source family after the metadata entry, using dependency artifacts prepared
+by earlier migration passes; it is not a clean-build measurement. Book generation
+writes the multi-page HTML to `_out/html-multi`.
+
+The compiled root axiom check covers seven representative declarations, including
+all three native raw roundtrips, whole-source branch composition, soundness and
+j-rigidity. Each uses only `propext`, `Classical.choice` and `Quot.sound`. Earlier
+focused axiom checks cover the 68 native-source declarations, 428 reference-bridge
+declarations, 34 middle-field declarations and the alignment repair. A lexical
+scan of all 196 library/root files finds no proof placeholders or project axioms.
+`git diff --check` passes, and the final logs have no deprecation warnings in the
+changed files. Existing style suggestions and warnings in untouched files remain.
+
+The upgrade does not close the performance gate #18. The final pass measured
+`ChunkCurveCommonSource` at 209 seconds, `ChunkCurveReferenceBridge` at 129 seconds,
+the four common-middle modules at 5.3–6.1 seconds, grouped restriction at 10 seconds,
+and orbit-triangle E at 4.4 seconds. Earlier migration passes took 596/304 seconds
+for CommonSource/ReferenceBridge, hundreds of seconds for small middle modules,
+and 1439 seconds for grouped restriction; the original orbit-triangle compiled
+probe exceeded its 180-second cap. These observations separate the optional export
+bottleneck from kernel work; they are not controlled clean-build speed ratios.
+Focused dependency cuts and the remaining native instance-path/kernel costs are
+still tracked under #18.

@@ -5,6 +5,14 @@ of the Evans–Hrushovski–Gismatullin reconstruction theorem (recovering a fie
 combinatorial geometry of algebraic dependence over it), following the blueprint in
 [`sources/blueprint.tex`](sources/blueprint.tex).
 
+## Status
+
+Work in progress; the theorem is not yet fully formalized. The current
+coverage audit, open gaps and priorities are on issue
+[#19](https://github.com/adamtopaz/acl_geom/issues/19), and
+[`CONTINUATION.md`](CONTINUATION.md) is the handoff guide for contributors.
+The library contains no `sorry` and no project axioms.
+
 ## Layout
 
 * `AclGeom/` — the formalization itself (a Lean library depending on Mathlib).
@@ -36,15 +44,3 @@ python3 -m http.server 8000 --directory _out/html-multi
 ```
 
 then visit <http://localhost:8000>.
-
-## GitHub configuration
-
-To set up your new GitHub repository, follow these steps:
-
-* Under your repository name, click **Settings**.
-* In the **Actions** section of the sidebar, click "General".
-* Check the box **Allow GitHub Actions to create and approve pull requests**.
-* Click the **Pages** section of the settings sidebar.
-* In the **Source** dropdown menu, select "GitHub Actions".
-
-After following the steps above, you can remove this section from the README file.

@@ -188,8 +188,7 @@ theorem ambientImageUnderAutomorphism_le
     (h : E ≤ N.restrictScalars k) (sigma : (↥N) ≃ₐ[k] (↥N)) :
     ambientImageUnderAutomorphism E N h sigma ≤ N.restrictScalars k := by
   intro z hz
-  rw [ambientImageUnderAutomorphism, mem_map] at hz
-  obtain ⟨x, _, rfl⟩ := hz
+  obtain ⟨x, _, rfl⟩ := (IntermediateField.mem_map _).1 hz
   change ((x : ↥N) : Ω) ∈ N
   exact (x : ↥N).2
 
@@ -223,11 +222,11 @@ theorem ambientImageUnderAutomorphism_finiteDimensional
       (↥(extendScalars (ambientImageUnderAutomorphism_le E N h sigma))) := by
   let h' := ambientImageUnderAutomorphism_le E N h sigma
   let e := extensionEquivUnderAutomorphism E N h sigma
-  letI : Algebra (↥E) (↥(N.restrictScalars k)) :=
+  let : Algebra (↥E) (↥(N.restrictScalars k)) :=
     (inclusion h).toAlgebra
-  letI : Algebra (↥(ambientImageUnderAutomorphism E N h sigma))
+  let : Algebra (↥(ambientImageUnderAutomorphism E N h sigma))
       (↥(N.restrictScalars k)) := (inclusion h').toAlgebra
-  letI : FiniteDimensional (↥E) (↥(N.restrictScalars k)) := by
+  let : FiniteDimensional (↥E) (↥(N.restrictScalars k)) := by
     change FiniteDimensional (↥E) (↥(extendScalars h))
     exact hfin
   apply Module.Finite.of_equiv_equiv e.baseEquiv.toRingEquiv
@@ -237,6 +236,31 @@ theorem ambientImageUnderAutomorphism_finiteDimensional
   exact (e.commutes_apply x).symm
 
 end IntermediateField
+
+namespace AclGeom.FiniteCover
+
+open IntermediateField
+
+/-- Transport finiteness across explicit identity-on-ambient-value presentations. -/
+theorem finiteDimensional_of_carrier_eq
+    {k₁ k₂ Ω : Type*} [Field k₁] [Field k₂] [Field Ω]
+    [Algebra k₁ Ω] [Algebra k₂ Ω]
+    {E L : IntermediateField k₁ Ω} {E' L' : IntermediateField k₂ Ω}
+    (h : E ≤ L) (h' : E' ≤ L')
+    (hE : (E : Set Ω) = (E' : Set Ω))
+    (hL : (L : Set Ω) = (L' : Set Ω))
+    (hfin : FiniteDimensional (↥E) (↥(extendScalars h))) :
+    FiniteDimensional (↥E') (↥(extendScalars h')) := by
+  have := hfin
+  apply Module.Finite.of_equiv_equiv
+    (IntermediateField.ringEquivOfCarrierEq E E' hE)
+    (IntermediateField.ringEquivOfCarrierEq (extendScalars h) (extendScalars h') hL)
+  apply RingHom.ext
+  intro x
+  apply Subtype.ext
+  rfl
+
+end AclGeom.FiniteCover
 
 namespace AclGeom
 
@@ -386,8 +410,8 @@ def basisValues : Fin (Module.finrank (↥F) (↥N)) → K :=
 theorem basisValues_isIntegral_of_le (hFE : F ≤ E)
     (i : Fin (Module.finrank (↥F) (↥N))) :
     IsIntegral (↥E) (basisValues F N i) := by
-  letI : Algebra (↥F) (↥E) := (IntermediateField.inclusion hFE).toAlgebra
-  letI : IsScalarTower (↥F) (↥E) K :=
+  let : Algebra (↥F) (↥E) := (IntermediateField.inclusion hFE).toAlgebra
+  let : IsScalarTower (↥F) (↥E) K :=
     IsScalarTower.of_algebraMap_eq' rfl
   let b := Module.finBasis (↥F) (↥N)
   have hiN : IsIntegral (↥F) (b i) :=
@@ -454,8 +478,8 @@ theorem over_finiteDimensional (hFE : F ≤ E) :
   have key : over F E N = adjoin (↥E) (Set.range (basisValues F N)) := by
     refine restrictScalars_injective k ?_
     unfold over field
-    rw [extendScalars_restrictScalars, restrictScalars_adjoin,
-      adjoin_union, adjoin_self]
+    refine (extendScalars_restrictScalars _).trans ?_
+    rw [restrictScalars_adjoin, adjoin_union, adjoin_self]
   rw [key]
   exact finiteDimensional_adjoin fun x hx ↦ by
     obtain ⟨i, rfl⟩ := hx
@@ -464,7 +488,7 @@ theorem over_finiteDimensional (hFE : F ≤ E) :
 /-- The finite scalar extension is algebraic over the enlarged base. -/
 theorem over_isAlgebraic (hFE : F ≤ E) :
     Algebra.IsAlgebraic (↥E) (↥(over F E N)) := by
-  letI : FiniteDimensional (↥E) (↥(over F E N)) :=
+  let : FiniteDimensional (↥E) (↥(over F E N)) :=
     over_finiteDimensional F E N hFE
   exact Algebra.IsAlgebraic.of_finite _ _
 
@@ -560,18 +584,18 @@ theorem extendScalars_trans_finiteDimensional
     (hfin01 : FiniteDimensional (↥E₀) (↥(extendScalars h01)))
     (hfin12 : FiniteDimensional (↥E₁) (↥(extendScalars h12))) :
     FiniteDimensional (↥E₀) (↥(extendScalars (h01.trans h12))) := by
-  letI : Algebra (↥E₀) (↥E₁) :=
+  let : Algebra (↥E₀) (↥E₁) :=
     (IntermediateField.inclusion h01).toAlgebra
-  letI : Algebra (↥E₁) (↥E₂) :=
+  let : Algebra (↥E₁) (↥E₂) :=
     (IntermediateField.inclusion h12).toAlgebra
-  letI : Algebra (↥E₀) (↥E₂) :=
+  let : Algebra (↥E₀) (↥E₂) :=
     (IntermediateField.inclusion (h01.trans h12)).toAlgebra
-  letI : IsScalarTower (↥E₀) (↥E₁) (↥E₂) :=
+  let : IsScalarTower (↥E₀) (↥E₁) (↥E₂) :=
     IsScalarTower.of_algebraMap_eq' rfl
-  letI : FiniteDimensional (↥E₀) (↥E₁) := by
+  let : FiniteDimensional (↥E₀) (↥E₁) := by
     change FiniteDimensional (↥E₀) (↥(extendScalars h01))
     exact hfin01
-  letI : FiniteDimensional (↥E₁) (↥E₂) := by
+  let : FiniteDimensional (↥E₁) (↥E₂) := by
     change FiniteDimensional (↥E₁) (↥(extendScalars h12))
     exact hfin12
   change FiniteDimensional (↥E₀) (↥E₂)
@@ -656,7 +680,7 @@ def withFirstBranch : IntermediateField k Ω := by
 compositum. -/
 theorem coefficientSourceField_le_withFirstBranch :
     coefficientSourceField F P C ≤ withFirstBranch F P C := by
-  letI := firstBranchOverSource_finiteDimensional F P
+  let := firstBranchOverSource_finiteDimensional F P
   exact FiniteExtensionCompositum.le_field
     (sourceField F P) (coefficientSourceField F P C)
       (firstBranchOverSource F P)
@@ -665,7 +689,7 @@ theorem coefficientSourceField_le_withFirstBranch :
 theorem firstBranch_le_withFirstBranch :
     (firstBranchOverSource F P).restrictScalars k ≤
       withFirstBranch F P C := by
-  letI := firstBranchOverSource_finiteDimensional F P
+  let := firstBranchOverSource_finiteDimensional F P
   exact FiniteExtensionCompositum.normal_le_field
     (sourceField F P) (coefficientSourceField F P C)
       (firstBranchOverSource F P)
@@ -677,7 +701,7 @@ theorem withFirstBranch_finiteDimensional :
     FiniteDimensional (↥(coefficientSourceField F P C))
       (↥(extendScalars
         (coefficientSourceField_le_withFirstBranch F P C))) := by
-  letI := firstBranchOverSource_finiteDimensional F P
+  let := firstBranchOverSource_finiteDimensional F P
   exact FiniteExtensionCompositum.over_finiteDimensional
     (sourceField F P) (coefficientSourceField F P C)
       (firstBranchOverSource F P)
@@ -707,7 +731,7 @@ theorem secondBranchOverSource_eq_adjoin_target :
   change extendScalars (sourceField_le_secondBranchField F P Q hsource) =
     adjoin (↥P.sourceField) {Q.target}
   unfold FiniteCorrespondencePair.branchField
-  rw [extendScalars_adjoin]
+  refine (extendScalars_adjoin _).trans ?_
   apply le_antisymm
   · apply adjoin_le_iff.2
     intro z hz
@@ -803,7 +827,7 @@ def field : IntermediateField k Ω := by
 /-- The first-branch compositum embeds in the full joint field. -/
 theorem withFirstBranch_le_field :
     withFirstBranch F P C ≤ field F P Q hsource C := by
-  letI := secondBranchOverSource_finiteDimensional F P Q hsource
+  let := secondBranchOverSource_finiteDimensional F P Q hsource
   exact FiniteExtensionCompositum.le_field
     (sourceField F P) (withFirstBranch F P C)
       (secondBranchOverSource F P Q hsource)
@@ -812,7 +836,7 @@ theorem withFirstBranch_le_field :
 theorem secondBranch_le_field :
     (secondBranchOverSource F P Q hsource).restrictScalars k ≤
       field F P Q hsource C := by
-  letI := secondBranchOverSource_finiteDimensional F P Q hsource
+  let := secondBranchOverSource_finiteDimensional F P Q hsource
   exact FiniteExtensionCompositum.normal_le_field
     (sourceField F P) (withFirstBranch F P C)
       (secondBranchOverSource F P Q hsource)
@@ -823,7 +847,7 @@ theorem secondBranch_le_field :
 theorem field_over_withFirstBranch_finiteDimensional :
     FiniteDimensional (↥(withFirstBranch F P C))
       (↥(extendScalars (withFirstBranch_le_field F P Q hsource C))) := by
-  letI := secondBranchOverSource_finiteDimensional F P Q hsource
+  let := secondBranchOverSource_finiteDimensional F P Q hsource
   exact FiniteExtensionCompositum.over_finiteDimensional
     (sourceField F P) (withFirstBranch F P C)
       (secondBranchOverSource F P Q hsource)
@@ -969,7 +993,7 @@ theorem normalField_finiteDimensional_over_coefficientSource
     change E ≤ (adjoin E {P.source}).restrictScalars k
     rw [restrictScalars_adjoin_eq_sup]
     exact le_sup_left
-  letI : FiniteDimensional (↥E) (↥CE) := hfinEC
+  let : FiniteDimensional (↥E) (↥CE) := hfinEC
   have hBD : B ≤ D :=
     FiniteExtensionCompositum.le_field E B CE
   have hCD : C.restrictScalars k ≤ D := by
@@ -1003,17 +1027,17 @@ theorem normalField_finiteDimensional_over_coefficientSource
       (↥(normalField F P Q hsource C)) :=
     normalField_finiteDimensional F P Q hsource C
   have hfinDN : FiniteDimensional (↥D) (↥(extendScalars hDN)) := by
-    letI : Algebra (↥(sourceField F P)) (↥D) :=
+    let : Algebra (↥(sourceField F P)) (↥D) :=
       (IntermediateField.inclusion hSD).toAlgebra
-    letI : Algebra (↥D) (↥(normalField F P Q hsource C)) :=
+    let : Algebra (↥D) (↥(normalField F P Q hsource C)) :=
       (IntermediateField.inclusion hDN).toAlgebra
-    letI : Algebra (↥(sourceField F P))
+    let : Algebra (↥(sourceField F P))
         (↥(normalField F P Q hsource C)) :=
       (IntermediateField.inclusion (hSD.trans hDN)).toAlgebra
-    letI : IsScalarTower (↥(sourceField F P)) (↥D)
+    let : IsScalarTower (↥(sourceField F P)) (↥D)
         (↥(normalField F P Q hsource C)) :=
       IsScalarTower.of_algebraMap_eq' rfl
-    letI : FiniteDimensional (↥(sourceField F P))
+    let : FiniteDimensional (↥(sourceField F P))
         (↥(normalField F P Q hsource C)) := hfinSN
     change FiniteDimensional (↥D)
       (↥(normalField F P Q hsource C))
@@ -1028,7 +1052,7 @@ normal over the source-coordinate field. -/
 theorem normalField_normal [IsAlgClosed Ω] :
     Normal (↥(sourceField F P))
       (↥(normalField F P Q hsource C)) := by
-  letI := field_finiteDimensional F P Q hsource C
+  let := field_finiteDimensional F P Q hsource C
   exact FiniteCover.normalClosureOver_normal
     (sourceField_le_field F P Q hsource C)
     (Algebra.IsAlgebraic.of_finite _ _)
@@ -1064,7 +1088,7 @@ theorem rebasedNormalField_normal [IsAlgClosed Ω]
     Normal
       (↥((adjoin E {P.source}).restrictScalars k))
       (↥(rebasedNormalField F P Q hsource C E hEC)) := by
-  letI := normalField_finiteDimensional_over_coefficientSource
+  let := normalField_finiteDimensional_over_coefficientSource
     F P Q hsource C E hEC hfinEC
   exact FiniteCover.normalClosureOver_normal
     (coefficientSourceAdjoin_le_normalField F P Q hsource C E hEC)
@@ -1097,7 +1121,7 @@ noncomputable def rebasedCanonicalCover
       (normalField_finiteDimensional_over_coefficientSource
         F P Q hsource C E hEC hfinEC)
   normal := by
-    letI : FiniteDimensional
+    let : FiniteDimensional
         (↥((adjoin E {P.source}).restrictScalars k))
         (↥(extendScalars
           (coefficientSourceAdjoin_le_normalField
@@ -1203,7 +1227,11 @@ theorem secondBranchOverRebasedSource_le_rebasedNormalField
   exact subset_adjoin (↥F) _ (by simp)
 
 /-- The first literal common-base branch embedded in the canonical rebased
-normal cover. -/
+normal cover.
+
+Retained for raw restricted-source comparisons and the corresponding
+embedding into a larger canonical cover. The native-source migration in
+issue #20 uses coherent whole-total-field restrictions instead. -/
 noncomputable def firstBranchEmbeddingInRebasedCanonical [IsAlgClosed Ω]
     (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
     (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
@@ -1218,7 +1246,11 @@ noncomputable def firstBranchEmbeddingInRebasedCanonical [IsAlgClosed Ω]
         F P Q hsource C E hEC))⟩
 
 /-- The second literal common-base branch embedded in the same canonical
-rebased normal cover. -/
+rebased normal cover.
+
+Retained for raw restricted-source comparisons and the corresponding
+embedding into a larger canonical cover. The native-source migration in
+issue #20 uses coherent whole-total-field restrictions instead. -/
 noncomputable def secondBranchEmbeddingInRebasedCanonical [IsAlgClosed Ω]
     (E : IntermediateField k Ω) (hEC : E ≤ C.restrictScalars k)
     (hfinEC : FiniteDimensional (↥E) (↥(extendScalars hEC))) :
@@ -1306,15 +1338,15 @@ theorem branchAutomorphismOfIdealEq_inclusion_apply [IsAlgClosed Ω]
       IntermediateField.inclusion
         (secondBranch_le_normalField_overSource F P Q hsource C)
         (branchEquivOfIdealEq F P Q hsource hideal x) := by
-  letI : Algebra (↥(firstBranchOverSource F P))
+  let : Algebra (↥(firstBranchOverSource F P))
       (↥(normalField F P Q hsource C)) :=
     (IntermediateField.inclusion
       (firstBranch_le_normalField_overSource F P Q hsource C)).toAlgebra
-  letI : IsScalarTower (↥(sourceField F P))
+  let : IsScalarTower (↥(sourceField F P))
       (↥(firstBranchOverSource F P))
       (↥(normalField F P Q hsource C)) :=
     IsScalarTower.of_algebraMap_eq' rfl
-  letI : Normal (↥(sourceField F P))
+  let : Normal (↥(sourceField F P))
       (↥(normalField F P Q hsource C)) :=
     normalField_normal F P Q hsource C
   change ((secondBranchEmbeddingOfIdealEq F P Q hsource C hideal).toAlgHom

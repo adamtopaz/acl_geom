@@ -92,12 +92,11 @@ theorem psiB_sourceCover_le_psiYFiniteNormalCover (hψ : w.Psi) :
   let NB := (w.yzCorrespondencePair hψ).sourceFiniteNormalCover
   have hpre : (NB.map T.symm).field ≤
       (w.psiXFiniteNormalCover hψ).field := by
-    simpa [psiXFiniteNormalCover, T, NB] using
-      (le_sup_right.trans le_sup_left :
-        (NB.map T.symm).field ≤
-          ((((w.xyCorrespondencePair hψ).sourceFiniteNormalCover.field ⊔
-            (NB.map T.symm).field)) ⊔
-            (w.xzCorrespondencePair hψ).sourceFiniteNormalCover.field))
+    change (NB.map T.symm).field ≤
+      ((w.xyCorrespondencePair hψ).sourceFiniteNormalCover.field ⊔
+        (NB.map T.symm).field) ⊔
+        (w.xzCorrespondencePair hψ).sourceFiniteNormalCover.field
+    exact le_sup_right.trans le_sup_left
   have hmap := T.mapField_mono hpre
   simpa [psiYFiniteNormalCover, T, NB] using hmap
 

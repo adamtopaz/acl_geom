@@ -510,8 +510,7 @@ theorem groupoidDifferenceChart_mem_psiChunkKernel_iff
         (w.psiChunkBArrow a)) = 1 ↔ _
   rw [map_groupoidDifferenceChart]
   simp only [psiChunkScalarReverseFunctor_map_b]
-  rw [groupoidDifferenceChart_eq_one_iff]
-  exact IsIso.inv_eq_inv
+  exact (groupoidDifferenceChart_eq_one_iff _ _).trans IsIso.inv_eq_inv
 
 /-- Four exact edges on the joint rank-two/scalar presentation.  Repeated
 parameters are literal pairs, so the algebraic branch coordinate is shared

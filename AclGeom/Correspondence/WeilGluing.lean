@@ -44,7 +44,7 @@ universe u
 namespace WeilGluing
 
 variable {J : Type u} (U : J → Scheme.{u}) (W : Scheme.{u})
-  (f : ∀ i, W ⟶ U i) [∀ i, IsOpenImmersion (f i)]
+  (f : ∀ i, W ⟶ U i) [hopen : ∀ i, IsOpenImmersion (f i)]
 
 /-- Categorical gluing data for a family of charts that all contain the same
 open subscheme.  Every off-diagonal overlap is `W` and every transition on
@@ -80,7 +80,8 @@ def commonOverlapGlueData : Scheme.GlueData where
     split
     · infer_instance
     · delta commonOverlapGlueData'
-      infer_instance
+      letI := hopen i
+      exact IsOpenImmersion.comp _ _
 
 variable (D : Scheme.GlueData.{u})
 
@@ -118,17 +119,19 @@ abbrev toBase {S : Scheme.{u}} (s : ∀ i, D.U i ⟶ S)
     (hs : CompatibleMaps D s) : D.glued ⟶ S :=
   desc D s hs
 
+-- Unfold the scheme-morphism property to synthesize its source-locality instance.
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Local finite type over the base descends from every chart of a
 scheme gluing. -/
 instance toBase_locallyOfFiniteType {S : Scheme.{u}}
     (s : ∀ i, D.U i ⟶ S) (hs : CompatibleMaps D s)
-    [∀ i, LocallyOfFiniteType (s i)] :
+    [hlt : ∀ i, LocallyOfFiniteType (s i)] :
     LocallyOfFiniteType (toBase D s hs) := by
   apply IsZariskiLocalAtSource.of_openCover D.openCover
   intro i
   change LocallyOfFiniteType (D.ι i ≫ toBase D s hs)
   rw [ι_desc D s hs i]
-  infer_instance
+  exact hlt i
 
 /-- A finite gluing of charts quasi-compact over the base is
 quasi-compact over the base. -/
@@ -224,9 +227,9 @@ instance commonOverlapToBase_quasiCompact {S : Scheme.{u}} [hJ : Finite J]
     (commonOverlap_compatible U W f s w h) hJ (fun i ↦ hqc i)
 
 /-- The glued scheme is reduced when every chart is reduced. -/
-instance isReduced [∀ i, IsReduced (D.U i)] : IsReduced D.glued := by
+instance isReduced [hred : ∀ i, IsReduced (D.U i)] : IsReduced D.glued := by
   letI (i : D.openCover.I₀) : IsReduced (D.openCover.X i) :=
-    show IsReduced (D.U i) from inferInstance
+    hred i
   exact IsReduced.of_openCover D.glued D.openCover
 
 /-- If every chart is irreducible and every pairwise overlap is nonempty,
@@ -288,20 +291,23 @@ instance isIntegral [Nonempty D.J] [∀ i, IsIntegral (D.U i)]
   exact ⟨inferInstance, inferInstance⟩
 
 instance commonOverlap_isIntegral [Nonempty J]
-    [∀ i, IsIntegral (U i)] [Nonempty W.carrier] :
+    [hint : ∀ i, IsIntegral (U i)] [Nonempty W.carrier] :
     IsIntegral (commonOverlapGlueData U W f).glued := by
   letI : Nonempty (commonOverlapGlueData U W f).J :=
     show Nonempty J from inferInstance
   letI : ∀ i : (commonOverlapGlueData U W f).J,
       IsIntegral ((commonOverlapGlueData U W f).U i) := fun i ↦ by
     change IsIntegral (U i)
-    infer_instance
+    exact hint i
   letI : ∀ i j,
       Nonempty ((commonOverlapGlueData U W f).V (i, j)).carrier :=
     fun i j ↦ by
       classical
       change Nonempty ((if h : i = j then U i else W).carrier)
-      split <;> infer_instance
+      split
+      · letI := hint i
+        infer_instance
+      · infer_instance
   apply isIntegral
 
 end WeilGluing

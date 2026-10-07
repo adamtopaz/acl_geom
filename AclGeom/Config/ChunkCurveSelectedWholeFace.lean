@@ -28,6 +28,12 @@ noncomputable section
 
 universe u
 
+/- The pairwise source and whole-face base types are transparent aliases.
+Lean 4.34 must unfold them when comparing scalar structures; this scoped
+elaboration setting preserves the kernel-checked maps and field types. -/
+section WholeFaceAliases
+set_option backward.isDefEq.respectTransparency false
+
 namespace FiniteCorrespondencePair.FiniteCoverTriangle
 
 variable {E Ω : Type u} [Field E] [Field Ω] [Algebra E Ω]
@@ -73,19 +79,9 @@ noncomputable def selectedLeftBranchToWholeFace :
 complete face field. -/
 noncomputable def selectedDirectBranchToWholeFace :
     (↥(P.comp Q h).branchOverSource) →ₐ[↥P.sourceField]
-      (↥(selectedWholeFaceField P Q h)) := by
-  let f : (↥(P.comp Q h).branchOverSource) →+*
       (↥(selectedWholeFaceField P Q h)) :=
-    { toFun := fun x ↦
-        ⟨x, directBranchOverSource_le_selectedWholeFaceField P Q h x.2⟩
-      map_one' := by ext; rfl
-      map_mul' := by intro x y; ext; rfl
-      map_zero' := by ext; rfl
-      map_add' := by intro x y; ext; rfl }
-  exact { f with
-    commutes' := fun x ↦ by
-      apply Subtype.ext
-      rfl }
+  IntermediateField.inclusion
+    (directBranchOverSource_le_selectedWholeFaceField P Q h)
 
 end FiniteCorrespondencePair.FiniteCoverTriangle
 
@@ -187,7 +183,7 @@ private theorem finiteDimensional_of_le_selectedSemanticBranchExtension
       (CommonCurveAmbient K))
     (hF : F ≤ R.selectedSemanticBranchExtension L) :
     FiniteDimensional (selectedWholeFaceBaseType R) (↥F) := by
-  letI : FiniteDimensional (selectedWholeFaceBaseType R)
+  let : FiniteDimensional (selectedWholeFaceBaseType R)
       (↥(R.selectedSemanticBranchExtension L)) :=
     R.selectedSemanticBranchExtension_finiteDimensional L
   exact FiniteDimensional.of_injective
@@ -268,6 +264,8 @@ noncomputable def sAcSelectedWholeFaceToSelectedGraphSource
       (R.sAcSelectedWholeFaceExtension_le_selectedSemanticBranchExtension L))
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
+
+end WholeFaceAliases
 
 end
 

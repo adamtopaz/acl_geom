@@ -33,6 +33,13 @@ universe u
 
 namespace QWitness.PsiCurveFourArrowCommonSourceRealizations
 
+/- These chart types use named intermediate-field and normal-cover aliases.
+Lean 4.34's default backward transparency does not unfold those aliases in
+rewrites or instance comparisons. This setting is scoped to this bridge;
+it affects elaboration only, and the resulting terms are kernel-checked. -/
+section ReferenceFieldAliases
+set_option backward.isDefEq.respectTransparency false
+
 variable {k K : Type u} [Field k] [Field K] [Algebra k K]
   {w : QWitness k K} {hψ : w.Psi}
   {s a b e : Fin 2 → K}
@@ -118,12 +125,12 @@ theorem mappedReferenceNormalOverInput_finiteDimensional :
   let e₀ : D.inputField ≃ₐ[k] D.inputField.map ι :=
     D.inputField.equivMap ι
   let e₁ : N₀ ≃ₐ[k] N₀.map ι := N₀.equivMap ι
-  letI : Algebra (↥D.inputField) (↥N₀) :=
+  let : Algebra (↥D.inputField) (↥N₀) :=
     (IntermediateField.inclusion h₀).toAlgebra
-  letI : Algebra (↥(D.inputField.map ι)) (↥(N₀.map ι)) :=
+  let : Algebra (↥(D.inputField.map ι)) (↥(N₀.map ι)) :=
     (IntermediateField.inclusion
       (IntermediateField.map_mono ι h₀)).toAlgebra
-  letI : FiniteDimensional (↥D.inputField) (↥N₀) := by
+  let : FiniteDimensional (↥D.inputField) (↥N₀) := by
     change FiniteDimensional (↥D.inputField) (↥L.referenceNormalCover)
     exact L.referenceNormalCover_finiteDimensional
   change FiniteDimensional (↥(D.inputField.map ι)) (↥(N₀.map ι))
@@ -199,7 +206,7 @@ theorem rightSourceJointOverSemantic_finiteDimensional :
     rw [extendScalars_restrictScalars, restrictScalars_adjoin_eq_sup]
     rfl
   rw [key]
-  letI : Fintype (Set.range R.rightCSourceTuple) :=
+  let : Fintype (Set.range R.rightCSourceTuple) :=
     Set.Finite.fintype (Set.finite_range R.rightCSourceTuple)
   exact finiteDimensional_adjoin fun z hz ↦ by
     have hzr : z ∈ racl k (Set.range R.rightESourceTuple) := by
@@ -233,7 +240,7 @@ theorem rightSourceJointOverC_finiteDimensional :
           R.rightCSourceField ⊔ F)
           R.rightESourceField_eq_commonSourceField.symm
   rw [key]
-  letI : Fintype (Set.range R.rightESourceTuple) :=
+  let : Fintype (Set.range R.rightESourceTuple) :=
     Set.Finite.fintype (Set.finite_range R.rightESourceTuple)
   exact finiteDimensional_adjoin fun z hz ↦ by
     have hzr : z ∈ racl k (Set.range R.rightCSourceTuple) := by
@@ -271,10 +278,10 @@ literal image in the joint source. -/
         (AlgebraicClosure (↥R.rightSourceJointField))
         (R.semanticSourceToRightSourceJoint x) := by
   let hSJ := R.semanticCommonSourceField_le_rightSourceJointField
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) :=
     (IntermediateField.inclusion hSJ).toAlgebra
-  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+  let : FiniteDimensional (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) := by
     change FiniteDimensional (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointOverSemantic)
@@ -328,9 +335,9 @@ embedding. -/
         (AlgebraicClosure (↥R.rightSourceJointField))
         (R.rightCSourceToRightSourceJoint x) := by
   let hCJ := R.rightCSourceField_le_rightSourceJointField
-  letI : Algebra (↥R.rightCSourceField) (↥R.rightSourceJointField) :=
+  let : Algebra (↥R.rightCSourceField) (↥R.rightSourceJointField) :=
     (IntermediateField.inclusion hCJ).toAlgebra
-  letI : FiniteDimensional (↥R.rightCSourceField)
+  let : FiniteDimensional (↥R.rightCSourceField)
       (↥R.rightSourceJointField) := by
     change FiniteDimensional (↥R.rightCSourceField)
       (↥R.rightSourceJointOverC)
@@ -384,7 +391,7 @@ compositum. -/
 theorem semanticCommonSourceField_le_referenceSemanticJoin
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     R.semanticCommonSourceField ≤ R.referenceSemanticJoin L hind := by
-  letI := R.mappedReferenceNormalOverInput_finiteDimensional L
+  let := R.mappedReferenceNormalOverInput_finiteDimensional L
   exact FiniteExtensionCompositum.le_field
     (R.mappedReferenceInputField L) R.semanticCommonSourceField
     (R.mappedReferenceNormalOverInput L)
@@ -394,7 +401,7 @@ reference/semantic compositum. -/
 theorem mappedReferenceNormalField_le_referenceSemanticJoin
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     R.mappedReferenceNormalField L ≤ R.referenceSemanticJoin L hind := by
-  letI := R.mappedReferenceNormalOverInput_finiteDimensional L
+  let := R.mappedReferenceNormalOverInput_finiteDimensional L
   change (R.mappedReferenceNormalOverInput L).restrictScalars k ≤ _
   exact FiniteExtensionCompositum.normal_le_field
     (R.mappedReferenceInputField L) R.semanticCommonSourceField
@@ -415,7 +422,7 @@ theorem referenceSemanticJoinOverSource_finiteDimensional
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.referenceSemanticJoinOverSource L hind)) := by
-  letI := R.mappedReferenceNormalOverInput_finiteDimensional L
+  let := R.mappedReferenceNormalOverInput_finiteDimensional L
   exact FiniteExtensionCompositum.over_finiteDimensional
     (R.mappedReferenceInputField L) R.semanticCommonSourceField
     (R.mappedReferenceNormalOverInput L)
@@ -451,9 +458,9 @@ private theorem c_isAlgebraic_over_semanticCommonSourceField (i : Fin 2) :
     exact
       (PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
         (R := R.se) R.seCommonBaseData hψ).sourceField.algebraMap_mem ⟨z, hz⟩
-  letI : Algebra (↥A) (↥R.semanticCommonSourceField) :=
+  let : Algebra (↥A) (↥R.semanticCommonSourceField) :=
     (IntermediateField.inclusion hAS).toAlgebra
-  letI : IsScalarTower (↥A) (↥R.semanticCommonSourceField)
+  let : IsScalarTower (↥A) (↥R.semanticCommonSourceField)
       (CommonCurveAmbient K) := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   exact IsAlgebraic.tower_top (L := ↥R.semanticCommonSourceField) hcA
 
@@ -568,7 +575,7 @@ theorem referenceSemanticJoin_le_selectedSemanticReferenceJoin
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     R.referenceSemanticJoin L hind ≤
       R.selectedSemanticReferenceJoin L hind := by
-  letI := R.selectedSemanticBranchExtension_finiteDimensional L
+  let := R.selectedSemanticBranchExtension_finiteDimensional L
   exact FiniteExtensionCompositum.le_field
     R.semanticCommonSourceField (R.referenceSemanticJoin L hind)
       (R.selectedSemanticBranchExtension L)
@@ -579,7 +586,7 @@ theorem selectedSemanticBranchExtension_le_selectedSemanticReferenceJoin
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     (R.selectedSemanticBranchExtension L).restrictScalars k ≤
       R.selectedSemanticReferenceJoin L hind := by
-  letI := R.selectedSemanticBranchExtension_finiteDimensional L
+  let := R.selectedSemanticBranchExtension_finiteDimensional L
   exact FiniteExtensionCompositum.normal_le_field
     R.semanticCommonSourceField (R.referenceSemanticJoin L hind)
       (R.selectedSemanticBranchExtension L)
@@ -938,7 +945,7 @@ theorem selectedSemanticReferenceJoinOverSource_finiteDimensional
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceJoinOverSource L hind)) := by
-  letI := R.selectedSemanticBranchExtension_finiteDimensional L
+  let := R.selectedSemanticBranchExtension_finiteDimensional L
   exact FiniteExtensionCompositum.extendScalars_trans_finiteDimensional
     (R.semanticCommonSourceField_le_referenceSemanticJoin L hind)
     (R.referenceSemanticJoin_le_selectedSemanticReferenceJoin L hind)
@@ -973,7 +980,7 @@ theorem selectedSemanticReferenceNormalField_normal
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
     Normal (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceNormalField L hind)) := by
-  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+  let : FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(extendScalars
         (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin
           L hind))) := by
@@ -1059,7 +1066,7 @@ def selectedSemanticReferenceSourceCover
       (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind)
       (R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind)
   normal := by
-    letI : FiniteDimensional (↥R.semanticCommonSourceField)
+    let : FiniteDimensional (↥R.semanticCommonSourceField)
         (↥(extendScalars
           (R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind))) := by
       change FiniteDimensional (↥R.semanticCommonSourceField)
@@ -1369,7 +1376,7 @@ semantic source chart on the whole branch-comparison subcover. -/
           L hind x) =
       R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
         L hind (R.seRepeatedUTotalAnchorAlignmentAut hind x) := by
-  letI : Normal
+  let : Normal
       (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
         (R := R.se) R.seCommonBaseData hψ).sourceField)
       (↥(R.selectedGraphSourceCover L hind).field) :=
@@ -1386,7 +1393,7 @@ source chart. -/
           L hind x) =
       R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
         L hind (R.sAaRepeatedUTotalAnchorAlignmentAut hind x) := by
-  letI : Normal
+  let : Normal
       (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
         (R := R.se) R.seCommonBaseData hψ).sourceField)
       (↥(R.selectedGraphSourceCover L hind).field) :=
@@ -1403,7 +1410,7 @@ source chart. -/
           L hind x) =
       R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
         L hind (R.sbRepeatedUBTotalAnchorAlignmentAut hind x) := by
-  letI : Normal
+  let : Normal
       (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
         (R := R.se) R.seCommonBaseData hψ).sourceField)
       (↥(R.selectedGraphSourceCover L hind).field) :=
@@ -1420,7 +1427,7 @@ source chart. -/
           L hind x) =
       R.branchComparisonSourceCoverToSelectedGraphSourceCoverOverSource
         L hind (R.sAcRepeatedUBTotalAnchorAlignmentAut hind x) := by
-  letI : Normal
+  let : Normal
       (↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
         (R := R.se) R.seCommonBaseData hψ).sourceField)
       (↥(R.selectedGraphSourceCover L hind).field) :=
@@ -1480,11 +1487,12 @@ noncomputable def sAcSelectedGraphCompositionTriangle
 selected graph source. -/
 noncomputable def selectedSemanticReferenceSourceCoverToSelectedGraphSourceCover
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
-    (R.selectedSemanticReferenceSourceCover L hind).field →ₐ[k]
-      (R.selectedGraphSourceCover L hind).field :=
-  (IntermediateField.inclusion
-    (R.selectedSemanticReferenceSourceCover_le_selectedGraphSourceCover
-      L hind)).restrictScalars k
+    (↥(R.selectedSemanticReferenceSourceCover L hind).field) →ₐ[k]
+      (↥(R.selectedGraphSourceCover L hind).field) :=
+  IntermediateField.inclusion (show
+    (R.selectedSemanticReferenceSourceCover L hind).field.restrictScalars k ≤
+      (R.selectedGraphSourceCover L hind).field.restrictScalars k from
+    R.selectedSemanticReferenceSourceCover_le_selectedGraphSourceCover L hind)
 
 /-- The literal common curve source is contained in the finite extension
 generated by all selected semantic face coordinates. -/
@@ -1989,7 +1997,7 @@ def transportedReferenceSourceCover
       (R.semanticCommonSourceField_le_referenceSemanticJoin L hind)
       (R.referenceSemanticJoinOverSource_finiteDimensional L hind)
   normal := by
-    letI : FiniteDimensional (↥R.semanticCommonSourceField)
+    let : FiniteDimensional (↥R.semanticCommonSourceField)
         (↥(extendScalars
           (R.semanticCommonSourceField_le_referenceSemanticJoin L hind))) := by
       change FiniteDimensional (↥R.semanticCommonSourceField)
@@ -2021,11 +2029,12 @@ theorem branchComparisonSourceCover_le_referenceSemanticSourceCover
 combined semantic/reference source cover. -/
 def branchComparisonSourceCoverToReferenceSemanticSourceCover
     (hind : AlgebraicIndependent k (rankTwoFourTuple s e a b)) :
-    (R.branchComparisonSourceCover hind).field →ₐ[k]
-      (R.referenceSemanticSourceCover L hind).field :=
-  (IntermediateField.inclusion
-    (R.branchComparisonSourceCover_le_referenceSemanticSourceCover
-      L hind)).restrictScalars k
+    (↥(R.branchComparisonSourceCover hind).field) →ₐ[k]
+      (↥(R.referenceSemanticSourceCover L hind).field) :=
+  IntermediateField.inclusion (show
+    (R.branchComparisonSourceCover hind).field.restrictScalars k ≤
+      (R.referenceSemanticSourceCover L hind).field.restrictScalars k from
+    R.branchComparisonSourceCover_le_referenceSemanticSourceCover L hind)
 
 /-- The transported explicit reference cover embeds in the combined
 reference/semantic cover. -/
@@ -2130,7 +2139,7 @@ theorem ambientReferenceNormalClosureToTransportedSourceCover_algebraMap
       algebraMap (↥R.semanticCommonSourceField)
         (↥(R.transportedReferenceSourceCover L hind).field) z := by
   let hSJ := R.semanticCommonSourceField_le_referenceSemanticJoin L hind
-  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+  let : FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(extendScalars hSJ)) := by
     change FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.referenceSemanticJoinOverSource L hind))
@@ -2433,15 +2442,12 @@ theorem bGermCoefficientField_le_selectedBNormalField :
 in the rank-two parameter field generated by the selected `B` tuple. -/
 def bGermCoefficientToSelectedBParameterAlgHom :
     (↥(w.bGermCoefficientField hψ)) →ₐ[k]
-      (↥(rankTwoParameterField (k := k) w.bReps)) where
-  toFun z := ⟨z, by
-    change z.1 ∈ w.bField
-    exact w.bGermCoefficientField_le_bField hψ z.2⟩
-  map_one' := rfl
-  map_mul' _ _ := rfl
-  map_zero' := rfl
-  map_add' _ _ := rfl
-  commutes' _ := rfl
+      (↥(rankTwoParameterField (k := k) w.bReps)) :=
+  IntermediateField.inclusion (show w.bGermCoefficientField hψ ≤
+      rankTwoParameterField (k := k) w.bReps from by
+    intro z hz
+    change z ∈ w.bField
+    exact w.bGermCoefficientField_le_bField hψ hz)
 
 /-- Include the intrinsic selected-`B` coefficient field in the whole
 selected nonnormal `B/T` scalar branch.  This is the common domain on which
@@ -2807,9 +2813,9 @@ theorem normalizedToSelectedFunctionFieldRingHom_conjugate
           ((selectedBFunctionFieldAlgEquiv
             (w := w) (hψ := hψ)).symm z)) =
       selectedBNormalEquivProjection (w := w) (hψ := hψ) hp z := by
-  letI := rankTwoScalarNormalField_finiteDimensional
+  let := rankTwoScalarNormalField_finiteDimensional
     (k := k) (w.T_rep_mem_racl_bReps hψ)
-  letI := rankTwoScalarNormalField_finiteDimensional
+  let := rankTwoScalarNormalField_finiteDimensional
     (k := k) (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
   let hx := PsiBProjectionRelation.scalar_mem_racl w hψ hp
   let hy := w.T_rep_mem_racl_bReps hψ
@@ -2852,8 +2858,8 @@ theorem projectionFunctionFieldRingHom_conjugate [IsAlgClosed K]
           (PsiBProjectionRelation.scalar_mem_racl w hψ hp) hfield z) =
       L.scalarNormalFieldToReferenceNormalCover p x hfield
         (projectionBFunctionFieldRingEquiv (w := w) (hψ := hψ) hp z) := by
-  letI := L.referenceNormalCover_finiteDimensional
-  letI := rankTwoScalarNormalField_finiteDimensional
+  let := L.referenceNormalCover_finiteDimensional
+  let := rankTwoScalarNormalField_finiteDimensional
     (k := k) (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
   change FiniteExtensionChart.functionFieldAlgEquiv
       (k := k) (K := ↥D.inputField) (L := ↥L.referenceNormalCover)
@@ -2894,10 +2900,10 @@ theorem projectionToReferenceInSemanticSourceRingHom_apply_selectedNormal
       R.referenceNormalCoverToReferenceSemanticSourceCover L hind
         (L.scalarNormalFieldToReferenceNormalCover p x hfield
           (selectedBNormalEquivProjection (w := w) (hψ := hψ) hp z)) := by
-  letI := L.referenceNormalCover_finiteDimensional
-  letI := rankTwoScalarNormalField_finiteDimensional
+  let := L.referenceNormalCover_finiteDimensional
+  let := rankTwoScalarNormalField_finiteDimensional
     (k := k) (w.T_rep_mem_racl_bReps hψ)
-  letI := rankTwoScalarNormalField_finiteDimensional
+  let := rankTwoScalarNormalField_finiteDimensional
     (k := k) (PsiBProjectionRelation.scalar_mem_racl w hψ hp)
   unfold projectionToReferenceInSemanticSourceRingHom
     referenceChartFunctionFieldToSemanticSourceRingHom
@@ -4177,10 +4183,10 @@ semantic source to its canonical copy in the target algebraic closure. -/
         (AlgebraicClosure (↥R.semanticCommonSourceField)) x := by
   let hSJ :=
     R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceJoin L hind)) :=
     (IntermediateField.inclusion hSJ).toAlgebra
-  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+  let : FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceJoin L hind)) := by
     change FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceJoinOverSource L hind))
@@ -4290,18 +4296,18 @@ theorem fourRelocatedRightTransportedField_finiteDimensional
       (↥(R.fourRelocatedRightTransportedField L hind)) := by
   let hSJ :=
     R.semanticCommonSourceField_le_selectedSemanticReferenceJoin L hind
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceJoin L hind)) :=
     (IntermediateField.inclusion hSJ).toAlgebra
-  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+  let : FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceJoin L hind)) := by
     change FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.selectedSemanticReferenceJoinOverSource L hind))
     exact R.selectedSemanticReferenceJoinOverSource_finiteDimensional L hind
-  letI : FiniteDimensional (↥(R.selectedSemanticReferenceJoin L hind))
+  let : FiniteDimensional (↥(R.selectedSemanticReferenceJoin L hind))
       (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
     (R.fourRelocatedRightRebasedCover L hind).finiteDimensional
-  letI : FiniteDimensional (↥R.semanticCommonSourceField)
+  let : FiniteDimensional (↥R.semanticCommonSourceField)
       (↥(R.fourRelocatedRightRebasedCover L hind).field) :=
     FiniteDimensional.trans
       (↥R.semanticCommonSourceField)
@@ -4325,7 +4331,7 @@ def fourRelocatedRightSourceCover
     (↥(R.fourRelocatedRightTransportedField L hind))
     (AlgebraicClosure (↥R.semanticCommonSourceField))
   finiteDimensional := by
-    letI : FiniteDimensional (↥R.semanticCommonSourceField)
+    let : FiniteDimensional (↥R.semanticCommonSourceField)
         (↥(R.fourRelocatedRightTransportedField L hind)) :=
       R.fourRelocatedRightTransportedField_finiteDimensional L hind
     exact normalClosure.is_finiteDimensional
@@ -4333,10 +4339,10 @@ def fourRelocatedRightSourceCover
       (↥(R.fourRelocatedRightTransportedField L hind))
       (AlgebraicClosure (↥R.semanticCommonSourceField))
   normal := by
-    letI : FiniteDimensional (↥R.semanticCommonSourceField)
+    let : FiniteDimensional (↥R.semanticCommonSourceField)
         (↥(R.fourRelocatedRightTransportedField L hind)) :=
       R.fourRelocatedRightTransportedField_finiteDimensional L hind
-    letI : Algebra.IsAlgebraic (↥R.semanticCommonSourceField)
+    let : Algebra.IsAlgebraic (↥R.semanticCommonSourceField)
         (↥(R.fourRelocatedRightTransportedField L hind)) :=
       Algebra.IsAlgebraic.of_finite _ _
     exact
@@ -4766,11 +4772,11 @@ theorem rightSourceJointOverA_finiteDimensional
     (R.rightAToJointBaseRingHom hind).toAlgebra
   let oldModule : Module S J := oldAlgebra.toModule
   let oldFinite : @Module.Finite S J _ _ oldModule := by
-    letI : Algebra S J := oldAlgebra
+    let : Algebra S J := oldAlgebra
     change FiniteDimensional (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointOverSemantic)
     exact R.rightSourceJointOverSemantic_finiteDimensional
-  letI : Algebra S J := newAlgebra
+  let : Algebra S J := newAlgebra
   exact @Module.Finite.of_equiv_equiv S J S J _ _ _ _
     oldAlgebra newAlgebra
     (R.commonSourceRightAAut hind).symm.toRingEquiv
@@ -4799,11 +4805,11 @@ theorem rightSourceJointOverB_finiteDimensional
     (R.rightBToJointBaseRingHom hind).toAlgebra
   let oldModule : Module S J := oldAlgebra.toModule
   let oldFinite : @Module.Finite S J _ _ oldModule := by
-    letI : Algebra S J := oldAlgebra
+    let : Algebra S J := oldAlgebra
     change FiniteDimensional (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointOverSemantic)
     exact R.rightSourceJointOverSemantic_finiteDimensional
-  letI : Algebra S J := newAlgebra
+  let : Algebra S J := newAlgebra
   exact @Module.Finite.of_equiv_equiv S J S J _ _ _ _
     oldAlgebra newAlgebra
     (R.commonSourceRightBAut hind).symm.toRingEquiv
@@ -4833,11 +4839,11 @@ theorem rightSourceJointOverCChart_finiteDimensional
     (R.rightCToJointBaseRingHom hind).toAlgebra
   let oldModule : Module Sc J := oldAlgebra.toModule
   let oldFinite : @Module.Finite Sc J _ _ oldModule := by
-    letI : Algebra Sc J := oldAlgebra
+    let : Algebra Sc J := oldAlgebra
     change FiniteDimensional (↥R.rightCSourceField)
       (↥R.rightSourceJointOverC)
     exact R.rightSourceJointOverC_finiteDimensional
-  letI : Algebra S J := newAlgebra
+  let : Algebra S J := newAlgebra
   exact @Module.Finite.of_equiv_equiv Sc J S J _ _ _ _
     oldAlgebra newAlgebra
     (R.commonSourceToRightCSourceEquiv hind).symm.toRingEquiv
@@ -4866,7 +4872,7 @@ inclusion. -/
       algebraMap (↥R.rightSourceJointField)
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.rightEToJointBaseRingHom x) := by
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) :=
     R.semanticSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
@@ -4888,7 +4894,7 @@ map into the joint source. -/
       algebraMap (↥R.rightSourceJointField)
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.rightAToJointBaseRingHom hind x) := by
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) :=
     R.semanticSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
@@ -4914,7 +4920,7 @@ set_option maxHeartbeats 800000 in
       algebraMap (↥R.rightSourceJointField)
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.rightBToJointBaseRingHom hind x) := by
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) :=
     R.semanticSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
@@ -4941,7 +4947,7 @@ map. -/
       algebraMap (↥R.rightSourceJointField)
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.rightCToJointBaseRingHom hind x) := by
-  letI : Algebra (↥R.rightCSourceField) (↥R.rightSourceJointField) :=
+  let : Algebra (↥R.rightCSourceField) (↥R.rightSourceJointField) :=
     R.rightCSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
   change R.rightCSourceToRightSourceJointClosureRingEquiv
@@ -5245,7 +5251,7 @@ source base. -/
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.semanticSourceToRightSourceJoint
           (R.rightESemanticSourceCoordinate i)) := by
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) :=
     R.semanticSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
@@ -5274,7 +5280,7 @@ the joint source base. -/
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.semanticSourceToRightSourceJoint
           (R.rightASemanticSourceCoordinate i)) := by
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) :=
     R.semanticSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
@@ -5308,7 +5314,7 @@ the joint source base. -/
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.semanticSourceToRightSourceJoint
           (R.rightBSemanticSourceCoordinate i)) := by
-  letI : Algebra (↥R.semanticCommonSourceField)
+  let : Algebra (↥R.semanticCommonSourceField)
       (↥R.rightSourceJointField) :=
     R.semanticSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
@@ -5341,7 +5347,7 @@ coordinate through its distinct inclusion in the joint source. -/
       algebraMap (↥R.rightSourceJointField)
         (↥(R.fourSelectedGraphJointCover L hind).field)
         (R.rightCSourceToRightSourceJoint (R.rightCSourceCoordinate i)) := by
-  letI : Algebra (↥R.rightCSourceField) (↥R.rightSourceJointField) :=
+  let : Algebra (↥R.rightCSourceField) (↥R.rightSourceJointField) :=
     R.rightCSourceToRightSourceJoint.toAlgebra
   apply Subtype.ext
   change R.rightCSourceToRightSourceJointClosureRingEquiv
@@ -5428,7 +5434,7 @@ entire established selected graph source. -/
         (R.selectedGraphSourceCoverToSelectedGraphRightSourceCover L hind x) =
       R.selectedGraphSourceCoverToSelectedGraphRightSourceCover L hind
         (σ x) := by
-  letI : Normal R.semanticCommonSourceType
+  let : Normal R.semanticCommonSourceType
       (↥(R.selectedGraphRightSourceCover L hind).field) :=
     (R.selectedGraphRightSourceCover L hind).normal
   exact NormalBranchEmbedding.extendAlong_apply _ _ _
@@ -7477,6 +7483,8 @@ theorem fourToReferenceInSemanticSourceRingHom_restrict_bGerm
           (bGermCoefficientToSelectedBFunctionFieldRingHom
             (w := w) (hψ := hψ)) := by
   exact ⟨rfl, rfl, rfl, rfl⟩
+
+end ReferenceFieldAliases
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
 

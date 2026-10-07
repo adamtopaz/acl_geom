@@ -460,7 +460,6 @@ theorem image_parameterIndices (v : Fin 6 → K) :
     v '' parameterIndices = ({v 0, v 1, v 2} : Set K) := by
   ext z
   simp [parameterIndices]
-  tauto
 
 omit [Field K] in
 /-- Image of the common parameters and position `3`. -/
@@ -468,7 +467,6 @@ theorem image_parameterSource3Indices (v : Fin 6 → K) :
     v '' parameterSource3Indices = ({v 0, v 1, v 2, v 3} : Set K) := by
   ext z
   simp [parameterSource3Indices]
-  tauto
 
 omit [Field K] in
 /-- Image of the common parameters and position `4`. -/
@@ -476,7 +474,6 @@ theorem image_parameterSource4Indices (v : Fin 6 → K) :
     v '' parameterSource4Indices = ({v 0, v 1, v 2, v 4} : Set K) := by
   ext z
   simp [parameterSource4Indices]
-  tauto
 
 omit [Field K] in
 /-- Image of the common parameters and position `5`. -/
@@ -484,7 +481,6 @@ theorem image_parameterSource5Indices (v : Fin 6 → K) :
     v '' parameterSource5Indices = ({v 0, v 1, v 2, v 5} : Set K) := by
   ext z
   simp [parameterSource5Indices]
-  tauto
 
 /-- The six displayed representatives of the partial quadrangle. -/
 def configurationReps (f : Fin 6 → Point k K) : Fin 6 → K :=
@@ -698,7 +694,9 @@ theorem configurationOverGroupCoordinates_finiteDimensional
     refine restrictScalars_injective k ?_
     unfold configurationOverGroupCoordinates groupCoordinateField
       configurationField
-    rw [adjoin_adjoin_left, extendScalars_restrictScalars, adjoin_union]
+    rw [adjoin_adjoin_left]
+    refine (extendScalars_restrictScalars _).trans ?_
+    rw [adjoin_union]
     exact (sup_eq_right.2 groupCoordinateField_le_configurationField).symm
   rw [key]
   letI : Fintype (Set.range (configurationReps f)) :=
@@ -1102,7 +1100,6 @@ theorem exists_parameterFourArrowDiagramWithFamilyLifts [IsAlgClosed K]
         ({s, e, a, b} : Set K) := by
       ext z
       simp [q]
-      tauto
     rw [himage] at hnot
     simpa [q] using hnot
   obtain ⟨D⟩ := exists_parameter_fourArrowDifferenceDiagram h hfour
@@ -2484,8 +2481,8 @@ corrected deck-group equivalence. -/
     (hw : idealOf k w = idealOf k (configurationReps f))
     (b : relocatedChainBranchGroupoid h v hv)
     (a : relocatedChainBranchObject h v hv ⟶ b) :
-    (relocatedChainBasedArrowEquiv h hv hw b a).val =
-      (relocatedChainBasedBranchEquiv h hv hw).deckEquiv a.val := rfl
+    (relocatedChainBasedArrowEquiv h hv hw b a).hom =
+      (relocatedChainBasedBranchEquiv h hv hw).deckEquiv a.hom := rfl
 
 /-- Relocated based-arrow transport preserves difference-chart
 multiplication on the nose. -/

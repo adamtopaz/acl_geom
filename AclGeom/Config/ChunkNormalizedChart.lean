@@ -176,8 +176,8 @@ the inverse normalized difference label in the reference deck group. -/
           (actionCategoryLabel
             (finiteCoverSelectedArrow R.ambientField_le_jointField
               (R.jointExtension_finiteDimensional hψ) b)))⁻¹ *
-        normalizeDeck hψ reference R (actionCategoryLabel a))⁻¹ := by
-  simp [normalizedTranslationChunk]
+        normalizeDeck hψ reference R (actionCategoryLabel a))⁻¹ :=
+  rfl
 
 end PsiChunkRelationRealization
 

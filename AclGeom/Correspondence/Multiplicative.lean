@@ -558,9 +558,9 @@ theorem JointRel.rho_snd_mem [IsAlgClosed k] (hrel : S.JointRel c₂')
   -- The nontrivial binomial witness kills independence of `ρ`.
   have hP0 : (monomial m 1 - monomial m' (1 : k)) ≠ 0 := by
     intro h0
-    have hc := congrArg (coeff m) h0
-    rw [coeff_sub, coeff_monomial, coeff_monomial, if_pos rfl,
-      if_neg (Ne.symm hmne), coeff_zero] at hc
+    have hc := congrArg (fun p ↦ p.coeff m) h0
+    rw [coeff_sub, coeff_monomial, coeff_monomial, ite_eq_left rfl,
+      ite_eq_right (Ne.symm hmne), AddMonoidAlgebra.coeff_zero] at hc
     simp at hc
   have hnindK : ¬AlgebraicIndependent k (rhoVec S c₂') := by
     intro hind

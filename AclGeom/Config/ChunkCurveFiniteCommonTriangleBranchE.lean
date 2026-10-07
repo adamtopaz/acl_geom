@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.ChunkCurveFiniteCommonTriangleE
+import AclGeom.Correspondence.CompositionTriangleCommonSource
 
 /-!
 # The selected right branch in the extended finite `e` triangle
@@ -24,6 +25,12 @@ noncomputable section
 universe u
 
 namespace QWitness.PsiCurveFourArrowCommonSourceRealizations
+
+/- The finite common-chart and triangle fields are transparent aliases.
+Lean 4.34 needs to unfold them when synthesizing scalar structures; this
+scoped setting affects elaboration only, while the kernel checks all terms. -/
+section FiniteTriangleAliases
+set_option backward.isDefEq.respectTransparency false
 
 variable {k K : Type u} [Field k] [Field K] [Algebra k K]
   {w : QWitness k K} {hψ : w.Psi}
@@ -85,17 +92,15 @@ theorem seFiniteCommon_right_comp_selectedRightBranch
     (R.seFiniteCommonCompositionTriangle L hind).right.toRingHom.comp
         (R.seSelectedRightBranchToFiniteCommonMiddleRingHom L hind) =
       R.seSelectedRightBranchToFiniteCommonTargetRingHom L hind := by
-  let T := R.seSelectedGraphRightCompositionTriangle L hind
-  let X := R.rightEFiniteCommonChartSourceField L hind
-  let branch :=
-    (R.seSelectedRightBranchInSelectedGraphRightMiddle L hind).toAlgHom.toRingHom
-  have h := T.sourceExtensionRightEquiv_comp_middleRingHom X
-  have hc := congrArg (fun f ↦ f.comp branch) h
-  simpa only [T, X, branch, seFiniteCommonCompositionTriangle,
-    FieldEquiv.CompositionTriangle.sourceExtension,
-    seSelectedRightBranchToFiniteCommonMiddleRingHom,
-    seSelectedRightBranchToFiniteCommonTargetRingHom, RingHom.comp_assoc]
-    using hc
+  unfold seFiniteCommonCompositionTriangle
+    seSelectedRightBranchToFiniteCommonMiddleRingHom
+    seSelectedRightBranchToFiniteCommonTargetRingHom
+  exact (R.seSelectedGraphRightCompositionTriangle L hind)
+    |>.sourceExtensionRightEquiv_comp_middleRingHom_comp
+      (R.rightEFiniteCommonChartSourceField L hind)
+      (R.seSelectedRightBranchInSelectedGraphRightMiddle L hind).toAlgHom.toRingHom
+
+end FiniteTriangleAliases
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
 

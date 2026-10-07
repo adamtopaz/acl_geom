@@ -461,6 +461,8 @@ def restrictAlgEquiv
       AlgebraicClosure E) = σ x := by
     exact N.coe_restrictAlgEquiv_apply σ x
 
+-- Unfold the restricted-cover aliases when comparing the two composed equivalences.
+set_option backward.isDefEq.respectTransparency false in
 /-- The deck-corrected strict equivalence is exactly the restricted second
 transport on the finite normal cover. -/
 theorem mapEquiv_trans_restrictAlgEquiv

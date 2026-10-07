@@ -30,6 +30,13 @@ variable {k K : Type u} [Field k] [Field K] [Algebra k K]
   (R : w.PsiCurveFourArrowCommonSourceRealizations hψ D)
   (L : w.PsiChunkFourArrowEdgeLifts hψ D)
 
+section GroupedAlignmentAliases
+
+-- The selected graph and stable cover use semireducible aliases of the same
+-- semantic source. Permit those aliases to unfold in the scalar-linearity proof;
+-- the maps and their source/target fields are unchanged.
+set_option backward.isDefEq.respectTransparency false
+
 private abbrev groupedAlignmentSemanticSourceType :=
   ↥(PsiCurveCompositionBaseChangeRealization.CommonBaseData.aCorrespondencePair
     (R := R.se) R.seCommonBaseData hψ).sourceField
@@ -82,7 +89,7 @@ noncomputable def groupedStableSourceChartAut
     (R.groupedStableSourceField L hind)
       ≃ₐ[groupedAlignmentSemanticSourceType R]
       (R.groupedStableSourceField L hind) := by
-  letI : Normal (groupedAlignmentSemanticSourceType R)
+  let : Normal (groupedAlignmentSemanticSourceType R)
       (R.groupedStableSourceField L hind) :=
     R.groupedStableSourceField_normal L hind
   exact NormalBranchEmbedding.extendAlong
@@ -103,10 +110,12 @@ selected graph/right source. -/
     R.groupedStableSourceChartAut L hind σ
         (R.selectedGraphRightSourceToGroupedStableSource L hind x) =
       R.selectedGraphRightSourceToGroupedStableSource L hind (σ x) := by
-  letI : Normal (groupedAlignmentSemanticSourceType R)
+  let : Normal (groupedAlignmentSemanticSourceType R)
       (R.groupedStableSourceField L hind) :=
     R.groupedStableSourceField_normal L hind
   exact NormalBranchEmbedding.extendAlong_apply _ _ _
+
+end GroupedAlignmentAliases
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
 

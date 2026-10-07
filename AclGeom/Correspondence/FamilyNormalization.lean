@@ -90,8 +90,10 @@ theorem familyOverEndpoints_finiteDimensional :
       adjoin (↥F.endpointField)
         (Set.range F.toFiniteCorrespondenceFamilyMember.tuple) := by
     refine restrictScalars_injective k ?_
-    unfold familyOverEndpoints endpointField familyField
-    rw [adjoin_adjoin_left, extendScalars_restrictScalars, adjoin_union]
+    unfold familyOverEndpoints
+    rw [extendScalars_restrictScalars]
+    unfold endpointField familyField
+    rw [adjoin_adjoin_left, adjoin_union]
     exact (sup_eq_right.2 F.endpointField_le_familyField).symm
   rw [key]
   letI : Fintype

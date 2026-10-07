@@ -75,7 +75,7 @@ def ofDerivationAlgEquiv (D : Derivation k F F) :
     apply TrivSqZeroExt.ext <;> simp
   map_mul' x y := by
     apply TrivSqZeroExt.ext
-    · simp
+    · rfl
     · change x.fst * y.snd + x.snd * y.fst +
           D (x.fst * y.fst) =
         x.fst * (y.snd + D y.fst) +
@@ -85,7 +85,7 @@ def ofDerivationAlgEquiv (D : Derivation k F F) :
       ring
   map_add' x y := by
     apply TrivSqZeroExt.ext
-    · simp
+    · rfl
     · change x.snd + y.snd + D (x.fst + y.fst) =
         x.snd + D x.fst + (y.snd + D y.fst)
       rw [D.map_add]
@@ -200,7 +200,9 @@ theorem ofDerivation_toDerivation
   rw [← z.inl_fst_add_inr_snd_eq, map_add, map_add, σ.map_inr]
   apply TrivSqZeroExt.ext
   · simp
+    exact add_zero z.fst
   · simp
+    rfl
 
 /-- `k`-derivations of `F` are equivalent to infinitesimal
 automorphisms of `F[ε]` reducing to the identity. -/

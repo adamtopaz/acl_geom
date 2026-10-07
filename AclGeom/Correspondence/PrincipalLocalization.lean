@@ -169,6 +169,8 @@ theorem genericAwayMap_eq_mapToFractionRing (d : A) (hd : d ≠ 0) :
     (Submonoid.powers d) (Localization.Away d)
     (powers_le_nonZeroDivisors_of_noZeroDivisors hd))).commutes z |>.symm
 
+-- Unfold the generic-point scheme/stalk aliases while matching the Spec maps.
+set_option backward.isDefEq.respectTransparency false in
 /-- The generic-point morphism of the principal-open partial map is induced
 by its cleared localization homomorphism followed by the canonical map to the
 source function field. -/
@@ -344,8 +346,8 @@ theorem awayAlgHomOfGenerators_mapToFractionRing
         (Subalgebra.val S).comp eA.toAlgHom :=
     (IsLocalization.algHom_subsingleton (Submonoid.powers d)).elim _ _
   rw [AlgHom.congr_fun hmaps]
-  change ((eA (eA.symm (ψS z)) : S) : K) = φ z
-  rw [eA.apply_symm_apply]
+  change ((e (e.symm (ψS z)) : Sk) : K) = φ z
+  rw [e.apply_symm_apply]
   rfl
 
 /-- If the original fraction-field homomorphism is injective, so is its

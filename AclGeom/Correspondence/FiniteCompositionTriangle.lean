@@ -139,6 +139,10 @@ noncomputable def selectedLeftBranchIn
     (Algebra.IsAlgebraic.of_finite (↥P.sourceField) (↥P.branchOverSource))
     N.field (leftSourceFiniteNormalCover_le_sourceCover P Q h |>.trans hle)
 
+-- The stated type needs `Algebra ↥P.sourceField ↥(P.comp Q h).branchOverSource`;
+-- `(P.comp Q h).sourceField` is `P.sourceField` only after unfolding `comp`,
+-- which instance search no longer does under the default transparency rules.
+set_option backward.isDefEq.respectTransparency false in
 /-- The distinguished direct branch, embedded in the same larger canonical
 source cover. -/
 noncomputable def selectedDirectBranchIn
@@ -207,7 +211,7 @@ theorem selectedRightBranchInMiddle_curveEquation
           chart ((selectedRightBranchInMiddle P Q h N hle).toAlgHom
             Q.targetInBranchOverSource)]
         Q.curveEquation = 0 := by
-  letI : IsScalarTower E (↥Q.sourceField)
+  let : IsScalarTower E (↥Q.sourceField)
       (↥(N.map (sourceToMiddleTransport P Q h)).field) :=
     IsScalarTower.of_algebraMap_eq' rfl
   let branch : (↥Q.branchOverSource) →ₐ[E]

@@ -71,8 +71,8 @@ theorem aevalSnd_eq_map_toUVPoly (c : Fin 2 → K)
 evaluations of the universal coefficient polynomials. -/
 theorem coeff_aevalSnd (c : Fin 2 → K) (g : MvPolynomial (Fin 2 ⊕ Fin 2) k)
     (m : Fin 2 →₀ ℕ) :
-    coeff m (aevalSnd (k := k) c g) =
-      aeval c (coeff m (toUVPoly (k := k) g)) := by
+    (aevalSnd (k := k) c g).coeff m =
+      aeval c ((toUVPoly (k := k) g).coeff m) := by
   rw [aevalSnd_eq_map_toUVPoly, MvPolynomial.coeff_map]
   rfl
 
@@ -279,8 +279,8 @@ theorem aevalFst_eq_map_toVUPoly (c : Fin 2 → K)
 /-- The coefficient bridge for the first block. -/
 theorem coeff_aevalFst (c : Fin 2 → K) (g : MvPolynomial (Fin 2 ⊕ Fin 2) k)
     (m : Fin 2 →₀ ℕ) :
-    coeff m (aevalFst (k := k) c g) =
-      aeval c (coeff m (toVUPoly (k := k) g)) := by
+    (aevalFst (k := k) c g).coeff m =
+      aeval c ((toVUPoly (k := k) g).coeff m) := by
   rw [aevalFst_eq_map_toVUPoly, MvPolynomial.coeff_map]
   rfl
 
@@ -309,13 +309,13 @@ coefficientwise condition. -/
 theorem mem_span_C_iff {R : Type*} [CommRing R] {g : R}
     {p : MvPolynomial (Fin 2) R} :
     p ∈ Ideal.span {(C g : MvPolynomial (Fin 2) R)} ↔
-      ∀ m, coeff m p ∈ Ideal.span {g} := by
+      ∀ m, p.coeff m ∈ Ideal.span {g} := by
   constructor
   · intro hp m
     rw [Ideal.mem_span_singleton'] at hp
     obtain ⟨q, hq⟩ := hp
     rw [Ideal.mem_span_singleton]
-    exact ⟨coeff m q, by rw [← hq, mul_comm q (C g), coeff_C_mul]⟩
+    exact ⟨q.coeff m, by rw [← hq, mul_comm q (C g), coeff_C_mul]⟩
   · intro h
     classical
     choose r hr using fun m ↦ Ideal.mem_span_singleton.1 (h m)
@@ -336,11 +336,11 @@ theorem mem_span_rename_inl_of_aevalFst_eq_zero {G : MvPolynomial (Fin 2) k}
     {f : MvPolynomial (Fin 2 ⊕ Fin 2) k} (hf : aevalFst (k := k) w f = 0) :
     f ∈ Ideal.span {rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G} := by
   classical
-  have hcoeff : ∀ m, coeff m (toVUPoly (k := k) f) ∈ Ideal.span {G} := by
+  have hcoeff : ∀ m, (toVUPoly (k := k) f).coeff m ∈ Ideal.span {G} := by
     intro m
     refine hker _ ?_
-    have h := congrArg (fun p ↦ coeff m p) hf
-    simp only [coeff_zero] at h
+    have h := congrArg (fun p ↦ p.coeff m) hf
+    simp only [AddMonoidAlgebra.coeff_zero] at h
     rwa [coeff_aevalFst] at h
   have hspan : toVUPoly (k := k) f ∈
       Ideal.span {(C G : MvPolynomial (Fin 2) (MvPolynomial (Fin 2) k))} :=
@@ -377,7 +377,7 @@ theorem totalDegree_addSubst_le (g : MvPolynomial (Fin 2) k) :
   refine Finset.sup_le fun d hd ↦ ?_
   refine le_trans (totalDegree_mul _ _) ?_
   have hC : (algebraMap k (MvPolynomial (Fin 2 ⊕ Fin 2) k)
-      (coeff d g)).totalDegree = 0 := by
+      (g.coeff d)).totalDegree = 0 := by
     rw [MvPolynomial.algebraMap_eq, totalDegree_C]
   rw [hC, zero_add]
   refine le_trans (totalDegree_finsetProd _ _) ?_
@@ -450,16 +450,16 @@ theorem translate_eq_of_idealOf_le
   have hDc : aevalSnd (k := k) c D = 0 := by
     rw [hD, map_sub, aevalSnd_addSubst, aevalSnd_rename_inl, hid, sub_self]
   have hQ : ∀ m : Fin 2 →₀ ℕ,
-      coeff m (toUVPoly (k := k) D) ∈ idealOf k c := by
+      (toUVPoly (k := k) D).coeff m ∈ idealOf k c := by
     intro m
     rw [mem_idealOf_iff]
-    have h := congrArg (fun g ↦ coeff m g) hDc
-    simp only [coeff_zero] at h
+    have h := congrArg (fun g ↦ g.coeff m) hDc
+    simp only [AddMonoidAlgebra.coeff_zero] at h
     rw [coeff_aevalSnd] at h
     exact h
   have hDw : aevalSnd (k := k) w D = 0 := by
     ext m
-    rw [coeff_aevalSnd, coeff_zero]
+    rw [coeff_aevalSnd, AddMonoidAlgebra.coeff_zero]
     exact (mem_idealOf_iff k).1 (hle (hQ m))
   rw [hD, map_sub, aevalSnd_addSubst, aevalSnd_rename_inl, sub_eq_zero] at hDw
   exact hDw
@@ -501,7 +501,7 @@ theorem not_algebraicIndependent_of_translate_eq
   rcases eq_or_ne (aeval (fun _ : Fin 2 ↦ (0 : k)) F) 0 with hc0 | hc0
   · rw [hc0, map_zero] at hmem
     exact hFp.ne_zero hmem
-  · exact hFp.not_unit (hmem ▸ (isUnit_iff_ne_zero.2 hc0).map
+  · exact hFp.not_isUnit (hmem ▸ (isUnit_iff_ne_zero.2 hc0).map
       (C : k →+* MvPolynomial (Fin 2) k))
 
 end

@@ -37,6 +37,12 @@ private theorem onSourceCover_left_comp_algebraMap_comp
 
 namespace QWitness.PsiCurveFourArrowCommonSourceRealizations
 
+section SemilinearMiddleAliases
+
+-- These coefficient and cover aliases have definitionally equal carriers.
+-- Lean 4.34 elaboration must unfold them when composing the germ maps.
+set_option backward.isDefEq.respectTransparency false
+
 variable {k K : Type u} [Field k] [Field K] [Algebra k K]
   {w : QWitness k K} {hψ : w.Psi}
   {s a b e : Fin 2 → K}
@@ -143,6 +149,7 @@ noncomputable def seBGermCoefficientToSemilinearCommonMiddleRingHom
     (R.seBGermCoefficientToSelectedGraphRightMiddleRingHom L hind)
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- Synthesize algebra maps through the nested finite-cover fields.
 /-- Before the common-source extension, the finite `e` left arrow carries
 the intrinsic source germ to its embedding through the selected branch. -/
 theorem seSelectedGraphRight_left_comp_bGermCoefficient
@@ -187,6 +194,7 @@ theorem seSelectedGraphRight_left_comp_bGermCoefficient
         L hind).symm
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- Synthesize algebra maps through the nested finite-cover fields.
 /-- The common-source `e` left arrow carries the intrinsic source germ to
 the germ embedded through the preserved complete right branch. -/
 theorem seSemilinearCommon_left_comp_bGermCoefficient
@@ -239,6 +247,8 @@ theorem seSemilinearCommon_direct_comp_bGermCoefficient
     (R.seSemilinearCommon_left_comp_bGermCoefficient L hind)
     (R.seSemilinearCommon_right_comp_bGermCoefficient L hind)
 
+
+end SemilinearMiddleAliases
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
 

@@ -136,8 +136,10 @@ theorem jointExtension_finiteDimensional (hψ : w.Psi) :
   have key : R.jointExtension = adjoin (↥R.ambientField)
       (Set.range R.jointTuple) := by
     refine restrictScalars_injective k ?_
-    unfold jointExtension ambientField jointField
-    rw [adjoin_adjoin_left, extendScalars_restrictScalars, adjoin_union]
+    unfold jointExtension
+    rw [extendScalars_restrictScalars]
+    unfold ambientField jointField
+    rw [adjoin_adjoin_left, adjoin_union]
     exact (sup_eq_right.2 R.ambientField_le_jointField).symm
   rw [key]
   letI : Fintype (Set.range R.jointTuple) :=
@@ -314,9 +316,9 @@ positionwise by the selected-branch-preserving normal-cover equivalence. -/
       FiniteCover.selectedEmbedding V.ambientField_le_jointField
         ⟨V.jointTuple i,
           IntermediateField.subset_adjoin k _ (Set.mem_range_self i)⟩ := by
-  rw [basedNormalCoverEquiv_selected_apply]
-  congr 1
-  exact jointEquiv_apply R V i
+  refine (basedNormalCoverEquiv_selected_apply hψ R V _).trans ?_
+  exact congrArg (FiniteCover.selectedEmbedding V.ambientField_le_jointField)
+    (jointEquiv_apply R V i)
 
 /-- Equal-locus joint edges have equivariantly equivalent conjugate-branch
 groupoids, based at their literal selected edges. -/

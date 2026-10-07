@@ -73,8 +73,8 @@ theorem not_isMaximal_idealOf {u v : Ω} (hu : Transcendental k u) :
   have heval : Ideal.Quotient.liftₐ (idealOf k ![u, v]) (aeval ![u, v])
       (fun a ha ↦ (mem_idealOf_iff k).1 ha)
       (Ideal.Quotient.mk (idealOf k ![u, v]) (X 0)) = u := by
-    rw [Ideal.Quotient.liftₐ_apply, Ideal.Quotient.lift_mk]
-    simp
+    rw [Ideal.Quotient.liftₐ_apply]
+    exact (Ideal.Quotient.lift_mk _ _ _).trans (by simp)
   rw [heval] at hlift
   exact hu hlift.isAlgebraic
 
@@ -193,7 +193,7 @@ theorem totalDegree_translate_monomial_sub_lt (c : σ → K) {m : σ →₀ ℕ}
     -- Split the monomial and its translation into the two factors.
     have hmono : (monomial (Finsupp.single j n + m') (1 : K)) =
         monomial (Finsupp.single j n) 1 * monomial m' 1 := by
-      rw [monomial_mul, mul_one]
+      rw [monomial_mul_monomial, mul_one]
     have htrA : translate c (monomial (Finsupp.single j n) (1 : K)) =
         (X j + C (c j)) ^ n := by
       rw [← X_pow_eq_monomial, map_pow, translate_X]
@@ -240,11 +240,11 @@ theorem totalDegree_translate_sub_lt (c : σ → K) {F : MvPolynomial σ K}
     (translate c F - F).totalDegree < F.totalDegree := by
   classical
   have hrepr : translate c F - F = ∑ m ∈ F.support,
-      C (coeff m F) * (translate c (monomial m 1) - monomial m 1) := by
+      C (F.coeff m) * (translate c (monomial m 1) - monomial m 1) := by
     conv_lhs => rw [F.as_sum]
     rw [map_sum, ← Finset.sum_sub_distrib]
     refine Finset.sum_congr rfl fun m _ ↦ ?_
-    have hCm : monomial m (coeff m F) = C (coeff m F) * monomial m 1 := by
+    have hCm : monomial m (F.coeff m) = C (F.coeff m) * monomial m 1 := by
       rw [C_mul_monomial, mul_one]
     rw [hCm, map_mul, translate_C, mul_sub]
   rw [hrepr]
@@ -308,7 +308,7 @@ theorem translate_eq_self_of_span_eq {c : σ → K} {F : MvPolynomial σ K}
       have hprod := totalDegree_mul_of_isDomain hτF u.ne_zero
       rw [hu, hτdeg] at hprod
       omega
-    set a : K := coeff 0 (u : MvPolynomial σ K) with ha_def
+    set a : K := (u : MvPolynomial σ K).coeff 0 with ha_def
     have ha : (u : MvPolynomial σ K) = C a := totalDegree_eq_zero_iff_eq_C.1 hudeg
     -- A top-degree coefficient of `F` is unchanged by the translation,
     -- forcing the unit to be `1`.
@@ -317,14 +317,14 @@ theorem translate_eq_self_of_span_eq {c : σ → K} {F : MvPolynomial σ K}
     have hesum' : F.totalDegree = ∑ i ∈ e.support, e i := by
       rw [totalDegree_eq, hesum, Finsupp.card_toMultiset]
       rfl
-    have hcoeff : coeff e F ≠ 0 := mem_support_iff.1 heF
-    have htop : coeff e (translate c F) = coeff e F := by
-      have hzero : coeff e (translate c F - F) = 0 :=
+    have hcoeff : F.coeff e ≠ 0 := mem_support_iff.1 heF
+    have htop : (translate c F).coeff e = F.coeff e := by
+      have hzero : (translate c F - F).coeff e = 0 :=
         coeff_eq_zero_of_totalDegree_lt (hesum' ▸ hdrop)
       have hsplit : translate c F = (translate c F - F) + F := by ring
-      rw [hsplit, coeff_add, hzero, zero_add]
+      rw [hsplit, AddMonoidAlgebra.coeff_add, Finsupp.add_apply, hzero, zero_add]
     rw [mul_comm] at hu
-    have hcmp : coeff e F = a * coeff e F := by
+    have hcmp : F.coeff e = a * F.coeff e := by
       nth_rewrite 1 [← hu]
       rw [ha, coeff_C_mul, htop]
     have ha1 : a = 1 :=
@@ -440,17 +440,17 @@ theorem scale_monomial (c : σ → K) (m : σ →₀ ℕ) (a : K) :
 the corresponding monomial value. In particular the support is preserved
 when the scaling vector has no zero entries. -/
 theorem coeff_scale (c : σ → K) (g : MvPolynomial σ K) (m : σ →₀ ℕ) :
-    coeff m (scale c g) = (m.prod fun j e ↦ c j ^ e) * coeff m g := by
+    (scale c g).coeff m = (m.prod fun j e ↦ c j ^ e) * g.coeff m := by
   classical
   conv_lhs => rw [g.as_sum, map_sum]
-  rw [Finset.sum_congr rfl fun m' _ ↦ scale_monomial c m' (coeff m' g)]
+  rw [Finset.sum_congr rfl fun m' _ ↦ scale_monomial c m' (g.coeff m')]
   rw [MvPolynomial.coeff_sum]
   rw [Finset.sum_congr rfl fun m' _ ↦ MvPolynomial.coeff_monomial m m' _]
   by_cases hm : m ∈ g.support
   · rw [Finset.sum_ite_eq' g.support m
-      fun m' ↦ (m'.prod fun j e ↦ c j ^ e) * coeff m' g, if_pos hm]
+      fun m' ↦ (m'.prod fun j e ↦ c j ^ e) * g.coeff m', ite_eq_left hm]
   · rw [Finset.sum_ite_eq' g.support m
-      fun m' ↦ (m'.prod fun j e ↦ c j ^ e) * coeff m' g, if_neg hm]
+      fun m' ↦ (m'.prod fun j e ↦ c j ^ e) * g.coeff m', ite_eq_right hm]
     rw [MvPolynomial.notMem_support_iff.1 hm, mul_zero]
 
 theorem scale_scale (c c' : σ → K) (g : MvPolynomial σ K) :
@@ -562,17 +562,17 @@ theorem monomial_prod_eq_of_span_scale_eq {c : σ → K} (hc : ∀ j, c j ≠ 0)
     have hdeq : (scale c F).totalDegree = F.totalDegree := by
       rw [totalDegree_eq, totalDegree_eq, support_scale hc]
     omega
-  set lam : K := coeff 0 (u : MvPolynomial σ K) with hlam
+  set lam : K := (u : MvPolynomial σ K).coeff 0 with hlam
   have hCl : (u : MvPolynomial σ K) = C lam :=
     totalDegree_eq_zero_iff_eq_C.1 hudeg
   have key : ∀ m₀ ∈ F.support, lam * (m₀.prod fun j e ↦ c j ^ e) = 1 := by
     intro m₀ hm₀
-    have h1 : coeff m₀ (scale c F * (u : MvPolynomial σ K)) = coeff m₀ F :=
-      congrArg (fun g ↦ coeff m₀ g) hu
+    have h1 : (scale c F * (u : MvPolynomial σ K)).coeff m₀ = F.coeff m₀ :=
+      congrArg (fun g ↦ g.coeff m₀) hu
     rw [hCl, mul_comm (scale c F), coeff_C_mul, coeff_scale] at h1
-    have hm₀0 : coeff m₀ F ≠ 0 := MvPolynomial.mem_support_iff.1 hm₀
-    have h2 : (lam * (m₀.prod fun j e ↦ c j ^ e)) * coeff m₀ F =
-        1 * coeff m₀ F := by
+    have hm₀0 : F.coeff m₀ ≠ 0 := MvPolynomial.mem_support_iff.1 hm₀
+    have h2 : (lam * (m₀.prod fun j e ↦ c j ^ e)) * F.coeff m₀ =
+        1 * F.coeff m₀ := by
       rw [one_mul, mul_assoc]
       exact h1
     exact mul_right_cancel₀ hm₀0 h2
@@ -595,7 +595,7 @@ theorem exists_support_pair_of_aeval_eq_zero [Fintype σ]
   obtain ⟨m₀, hm₀⟩ :=
     Finset.nonempty_iff_ne_empty.2 fun h ↦ hF0 (support_eq_empty.1 h)
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsup : F.support = {m₀} :=
     Finset.eq_singleton_iff_unique_mem.2 ⟨hm₀, fun m hm ↦ hcon m hm m₀ hm₀⟩
   rw [aeval_def, eval₂_eq, hsup, Finset.sum_singleton] at hF

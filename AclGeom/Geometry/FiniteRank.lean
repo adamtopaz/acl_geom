@@ -170,7 +170,8 @@ theorem pointIndep_point {n : ℕ} {v : Fin n → K}
   have himg : Subtype.val ''
       ((fun j ↦ (Point.mk' k (v j) (h0 j) : Point k K)) '' {j | j ≠ i}) =
       (fun x ↦ ClosedIF.point k x) '' (v '' {j | j ≠ i}) := by
-    rw [Set.image_image, Set.image_image]
+    refine (Set.image_image _ _ _).trans ?_
+    rw [Set.image_image]
     rfl
   rw [himg] at hmem
   have hmem' : v i ∈ racl k (v '' {j | j ≠ i}) := by
@@ -235,7 +236,7 @@ theorem algebraicIndependent_of_rankEq_iSup_point {n : ℕ} {v : Fin n → K}
     apply le_antisymm
     · simpa [s, ← Set.image_univ] using
         (Set.encard_image_le (fun i ↦ (f i).rep) (Set.univ : Set (Fin n)))
-    · simpa [s] using hfrep.injective.encard_range
+    · simpa [s] using hfrep.injective.encard_range.ge
   have htfinite : t.Finite := Set.finite_range v
   have htencard : t.encard ≤ n := by
     simpa [t, ← Set.image_univ] using
@@ -317,13 +318,13 @@ theorem RankEq.eq_of_le {n : ℕ} {E F : ClosedIF k K}
     · simpa [s, ← Set.image_univ] using
         (Set.encard_image_le (fun i ↦ (e i).rep)
           (Set.univ : Set (Fin n)))
-    · simpa [s] using heind.injective.encard_range
+    · simpa [s] using heind.injective.encard_range.ge
   have htencard : t.encard = n := by
     apply le_antisymm
     · simpa [t, ← Set.image_univ] using
         (Set.encard_image_le (fun i ↦ (f i).rep)
           (Set.univ : Set (Fin n)))
-    · simpa [t] using hfind.injective.encard_range
+    · simpa [t] using hfind.injective.encard_range.ge
   have hsclosure : M.closure s =
       ((⨆ i, (e i).1 : ClosedIF k K) : Set K) := by
     rw [algebraicMatroid_closure_eq_racl]
@@ -344,7 +345,7 @@ theorem RankEq.eq_of_le {n : ℕ} {E F : ClosedIF k K}
   have hErkfinite : M.IsRkFinite
       ((⨆ i, (e i).1 : ClosedIF k K) : Set K) := by
     rw [← M.eRk_lt_top_iff, hErank]
-    exact ENat.coe_lt_top n
+    exact ENat.natCast_lt_top n
   have hEFset :
       (((⨆ i, (e i).1 : ClosedIF k K).1 :
           IntermediateField k K) : Set K) ⊆ (F.1 : Set K) := hEF

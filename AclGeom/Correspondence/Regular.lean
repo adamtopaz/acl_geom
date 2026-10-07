@@ -155,7 +155,8 @@ noncomputable def fwd :
     (IsScalarTower.toAlgHom k F (MvPolynomial σ F)) fun _ _ ↦ Commute.all _ _
 
 theorem fwd_tmul (p : MvPolynomial σ k) (f : F) :
-    fwd σ (p ⊗ₜ[k] f) = MvPolynomial.map (algebraMap k F) p * MvPolynomial.C f := by
+    fwd (k := k) (F := F) σ (p ⊗ₜ[k] f) =
+      MvPolynomial.map (algebraMap k F) p * MvPolynomial.C f := by
   simp [fwd, Algebra.TensorProduct.lift_tmul, Algebra.ofId_apply, algebraMap_eq,
     IsScalarTower.coe_toAlgHom', MvPolynomial.algebraMap_eq]
 
@@ -178,7 +179,7 @@ theorem fwd_bijective : Function.Bijective (fwd (k := k) (F := F) σ) := by
       simp only [eLin, Module.Basis.equiv_apply, Equiv.prodComm_apply, Prod.swap_prod_mk]
       simp [bT, Module.Basis.smulTower_apply, MvPolynomial.coe_basisMonomials,
         MvPolynomial.smul_monomial]
-    change fwd σ (bRF (d, β)) = eLin (bRF (d, β))
+    change fwd (k := k) (F := F) σ (bRF (d, β)) = eLin (bRF (d, β))
     rw [h2, h1, fwd_tmul, MvPolynomial.map_monomial, map_one, mul_comm,
       MvPolynomial.C_mul_monomial, mul_one]
   have hfun : ∀ z, fwd (k := k) (F := F) σ z = eLin z := fun z ↦ by

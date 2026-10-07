@@ -967,9 +967,10 @@ theorem abcOverAb_finiteDimensional (hψ : w.Psi) :
   have key : w.abcOverAb =
       adjoin (↥w.abField) (Set.range w.abcReps) := by
     refine restrictScalars_injective k ?_
-    unfold abcOverAb abField abcField
-    rw [adjoin_adjoin_left,
-      extendScalars_restrictScalars, adjoin_union]
+    unfold abcOverAb
+    rw [extendScalars_restrictScalars]
+    unfold abField abcField
+    rw [adjoin_adjoin_left, adjoin_union]
     exact (sup_eq_right.2 w.abField_le_abcField).symm
   rw [key]
   letI : Fintype (Set.range w.abcReps) :=

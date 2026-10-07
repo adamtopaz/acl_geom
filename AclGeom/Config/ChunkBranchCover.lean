@@ -82,9 +82,10 @@ theorem rankTwoScalarExtension_eq_adjoin (p : Fin 2 → K) (x : K) :
     rankTwoScalarExtension (k := k) p x =
       adjoin (↥(rankTwoParameterField (k := k) p)) {x} := by
   refine restrictScalars_injective k ?_
-  unfold rankTwoScalarExtension rankTwoParameterField rankTwoScalarField
-  rw [adjoin_adjoin_left, extendScalars_restrictScalars,
-    rankTwoScalarTuple_range]
+  unfold rankTwoScalarExtension
+  rw [extendScalars_restrictScalars]
+  unfold rankTwoParameterField rankTwoScalarField
+  rw [adjoin_adjoin_left, rankTwoScalarTuple_range]
 
 /-- Algebraicity of the scalar coordinate makes its branch field finite
 over the rank-two parameter field. -/
@@ -109,10 +110,10 @@ theorem scalar_mem_racl_of_rankTwoScalar_locus
   let J : Set (Fin 3) := {0, 1}
   have hq : (rankTwoScalarTuple q y) '' J = Set.range q := by
     ext z
-    simp [J, rankTwoScalarTuple]
+    simp [J, rankTwoScalarTuple, eq_comm]
   have hp : (rankTwoScalarTuple p x) '' J = Set.range p := by
     ext z
-    simp [J, rankTwoScalarTuple]
+    simp [J, rankTwoScalarTuple, eq_comm]
   have hy' : rankTwoScalarTuple q y 2 ∈
       racl k ((rankTwoScalarTuple q y) '' J) := by
     rw [hq]
@@ -192,9 +193,8 @@ def rankTwoScalarExtensionEquivOfIdealEq
       rw [locusFunctionFieldEquivOfIdealEq_apply
         (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy) 0]
       apply Subtype.ext
-      have ht := congrArg Subtype.val
+      exact congrArg Subtype.val
         (locusFunctionFieldEquivOfIdealEq_apply hxy 0)
-      simpa [rankTwoScalarTuple] using ht
     · change locusFunctionFieldEquivOfIdealEq hxy
           ⟨p 1, _⟩ =
         IntermediateField.inclusion
@@ -205,9 +205,8 @@ def rankTwoScalarExtensionEquivOfIdealEq
       rw [locusFunctionFieldEquivOfIdealEq_apply
         (rankTwoParameter_ideal_eq_of_scalar_ideal_eq hxy) 1]
       apply Subtype.ext
-      have ht := congrArg Subtype.val
+      exact congrArg Subtype.val
         (locusFunctionFieldEquivOfIdealEq_apply hxy 1)
-      simpa [rankTwoScalarTuple] using ht
 
 /-- Equal scalar graph loci over the same rank-two parameter canonically
 identify their finite extensions. -/

@@ -241,7 +241,7 @@ theorem coe_sup (E F : ClosedIF k K) :
     ((E ⊔ F).1 : IntermediateField k K) = racl k ((E : Set K) ∪ F) := by
   refine le_antisymm ?_ ?_
   · have h : E ⊔ F ≤ ⟨racl k ((E : Set K) ∪ F), isRAC_racl _⟩ := by
-      refine sup_le ?_ ?_ <;> rw [le_iff]
+      refine sup_le (le_iff.2 ?_) (le_iff.2 ?_)
       · calc E.1 ≤ racl k (E : Set K) := fun x hx ↦ subset_racl k _ hx
           _ ≤ racl k ((E : Set K) ∪ F) := racl_mono Set.subset_union_left
       · calc F.1 ≤ racl k (F : Set K) := fun x hx ↦ subset_racl k _ hx

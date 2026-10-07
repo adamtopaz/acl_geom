@@ -173,7 +173,8 @@ def relabelPrefunctor {Q : Type v} (S : Q → Q → Q → Prop)
     | .x0 => x0 S
     | .x1 => x1 S
     | .x2 => x2 S
-  map g := by
+  map {X Y} g := by
+    change CorrespondenceFamilyGenerator P X Y at g
     cases g with
     | t a => exact t S (f a)
     | s a => exact s S (f a)
@@ -237,25 +238,25 @@ def map {Q : Type v} {S : Q → Q → Q → Prop} (f : P → Q)
     (f : P → Q) (hf : ∀ {t s u}, R t s u → S (f t) (f s) (f u))
     (a : P) :
     (map R f hf).map (t R a) = t S (f a) := by
-  exact CategoryTheory.Quotient.lift_map_functor_map
+  exact (CategoryTheory.Quotient.lift_map_functor_map
     (CorrespondenceFamilyRelationOf R) (freeRelabelFunctor S f) _
-    (FreeCorrespondenceFamilyGroupoid.t a)
+    (FreeCorrespondenceFamilyGroupoid.t a)).trans (freeRelabelFunctor_t S f a)
 
 @[simp] theorem map_s {Q : Type v} {S : Q → Q → Q → Prop}
     (f : P → Q) (hf : ∀ {t s u}, R t s u → S (f t) (f s) (f u))
     (a : P) :
     (map R f hf).map (s R a) = s S (f a) := by
-  exact CategoryTheory.Quotient.lift_map_functor_map
+  exact (CategoryTheory.Quotient.lift_map_functor_map
     (CorrespondenceFamilyRelationOf R) (freeRelabelFunctor S f) _
-    (FreeCorrespondenceFamilyGroupoid.s a)
+    (FreeCorrespondenceFamilyGroupoid.s a)).trans (freeRelabelFunctor_s S f a)
 
 @[simp] theorem map_u {Q : Type v} {S : Q → Q → Q → Prop}
     (f : P → Q) (hf : ∀ {t s u}, R t s u → S (f t) (f s) (f u))
     (a : P) :
     (map R f hf).map (u R a) = u S (f a) := by
-  exact CategoryTheory.Quotient.lift_map_functor_map
+  exact (CategoryTheory.Quotient.lift_map_functor_map
     (CorrespondenceFamilyRelationOf R) (freeRelabelFunctor S f) _
-    (FreeCorrespondenceFamilyGroupoid.u a)
+    (FreeCorrespondenceFamilyGroupoid.u a)).trans (freeRelabelFunctor_u S f a)
 
 /-- Relabel a family presentation contravariantly: the first and second
 families are exchanged and every target arrow is inverted.  This is the
@@ -268,7 +269,8 @@ def reverseRelabelPrefunctor {Q : Type v} (S : Q → Q → Q → Prop)
     | .x0 => x2 S
     | .x1 => x1 S
     | .x2 => x0 S
-  map g := by
+  map {X Y} g := by
+    change CorrespondenceFamilyGenerator P X Y at g
     cases g with
     | t a => exact inv (s S (f a))
     | s a => exact inv (t S (f a))

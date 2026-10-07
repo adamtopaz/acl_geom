@@ -40,6 +40,8 @@ lemma map_genericPoint_of_isDominant (f : X ⟶ Y)
   rw [← f.denseRange.closure_range]
   simpa only [Set.image_univ] using (genericPoint_spec X).image f.continuous
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
+set_option backward.isDefEq.respectTransparency false in
 lemma PartialMap.fromFunctionField_closedPoint (f : X.PartialMap Y)
     [IrreducibleSpace X] [IrreducibleSpace Y] [IsDominant f.hom] :
     f.fromFunctionField (closedPoint X.functionField) = genericPoint Y := by
@@ -149,6 +151,7 @@ lemma PartialMap.genericLift_compToDomain_hom (f : X.PartialMap Y)
   exact f.fromFunctionField_restrict (f.comp g).dense_domain
     (f.comp_domain_le g)
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
 set_option backward.isDefEq.respectTransparency false in
 lemma PartialMap.fromFunctionField_comp (f : X.PartialMap Y)
     [IrreducibleSpace X] [IrreducibleSpace Y] [IsDominant f.hom]
@@ -191,14 +194,16 @@ noncomputable def functionFieldMorphism
   Spec.map (CommRingCat.ofHom E.symm.toRingHom) ≫
     Y.fromSpecStalk (genericPoint Y)
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
+set_option backward.isDefEq.respectTransparency false in
 lemma functionFieldMorphism_closedPoint
     [IrreducibleSpace X] [IrreducibleSpace Y]
     (E : X.functionField ≃+* Y.functionField) :
     functionFieldMorphism E (closedPoint X.functionField) = genericPoint Y := by
   letI : IsLocalHom E.symm.toRingHom :=
     .of_surjective _ E.symm.surjective
-  rw [functionFieldMorphism, Scheme.Hom.comp_apply, Spec_closedPoint,
-    Scheme.fromSpecStalk_closedPoint]
+  rw [functionFieldMorphism, Scheme.Hom.comp_apply, Spec_closedPoint]
+  exact Scheme.fromSpecStalk_closedPoint
 
 /-- The field homomorphism contravariantly recovered from a morphism at the generic point. -/
 noncomputable def functionFieldMapOfMorphism
@@ -219,6 +224,8 @@ lemma functionFieldMapOfMorphism_congr
   subst G
   rfl
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
+set_option backward.isDefEq.respectTransparency false in
 /-- Recovering the field map from its generic-point morphism returns the original map. -/
 lemma functionFieldMap_functionFieldMorphism
     [IsIntegral X] [IsIntegral Y]
@@ -241,12 +248,11 @@ lemma functionFieldMap_functionFieldMorphism
   have hmap' : Scheme.stalkClosedPointTo
       (Spec.map q ≫ Y.fromSpecStalk (genericPoint Y)) =
         (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q := by
-    convert hmap using 1
-    congr 1
+    exact hmap
   rw [hmap']
   change (Y.presheaf.stalkCongr (.of_eq hF)).inv ≫
     (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q = q
-  simp
+  exact Iso.inv_hom_id_assoc _ q
 
 /-- The generic-point morphism contravariantly attached to an arbitrary
 embedding of integral-scheme function fields. -/
@@ -256,6 +262,8 @@ noncomputable def functionFieldMorphismOfHom
     Spec X.functionField ⟶ Y :=
   Spec.map q ≫ Y.fromSpecStalk (genericPoint Y)
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
+set_option backward.isDefEq.respectTransparency false in
 /-- A function-field embedding sends the closed point of the source field
 spectrum to the generic point of the target scheme. -/
 lemma functionFieldMorphismOfHom_closedPoint
@@ -271,6 +279,8 @@ lemma functionFieldMorphismOfHom_closedPoint
   rw [functionFieldMorphismOfHom, Scheme.Hom.comp_apply, Spec_closedPoint,
     Scheme.fromSpecStalk_closedPoint]
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
+set_option backward.isDefEq.respectTransparency false in
 /-- Recovering the contravariant function-field map from the generic-point
 morphism attached to an embedding returns that embedding. -/
 lemma functionFieldMap_functionFieldMorphismOfHom
@@ -296,12 +306,11 @@ lemma functionFieldMap_functionFieldMorphismOfHom
   have hmap' : Scheme.stalkClosedPointTo
       (Spec.map q ≫ Y.fromSpecStalk (genericPoint Y)) =
         (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q := by
-    convert hmap using 1
-    congr 1
+    exact hmap
   rw [hmap']
   change (Y.presheaf.stalkCongr (.of_eq hF)).inv ≫
     (Y.presheaf.stalkCongr (.of_eq hF)).hom ≫ q = q
-  simp
+  exact Iso.inv_hom_id_assoc _ q
 
 /-- A dominant partial map induces a prescribed function-field embedding as
 soon as its generic-point morphism is the one attached to that embedding. -/
@@ -318,6 +327,8 @@ lemma PartialMap.functionFieldMap_eq_of_fromFunctionField_eq_hom
     (functionFieldMorphismOfHom_closedPoint q)).trans
       (functionFieldMap_functionFieldMorphismOfHom q)
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
+set_option backward.isDefEq.respectTransparency false in
 /-- Two morphisms from the spectrum of an integral scheme's function field
 which carry the closed point to the target generic point are equal as soon as
 they induce the same map on function fields. -/
@@ -339,7 +350,8 @@ lemma functionFieldMorphism_eq_of_functionFieldMapOfMorphism_eq
     (Y.presheaf.stalkCongr (.of_eq (hF.trans hG.symm))).hom ≫
       stalkClosedPointTo G
   simpa [Category.assoc, Iso.inv_hom_id_assoc, eF, eG,
-    TopCat.Presheaf.stalkCongr] using hm
+    TopCat.Presheaf.stalkCongr, TopCat.Presheaf.stalkSpecializes_comp,
+    TopCat.Presheaf.stalkSpecializes_comp_assoc] using hm
 
 /-- A dominant partial map has the generic-point morphism prescribed by a
 function-field equivalence as soon as the induced field map is its inverse. -/
@@ -503,6 +515,8 @@ theorem RationalMap.comp_eq_id_of_fromFunctionField_eq
     X.fromSpecStalk (genericPoint X) = _
   rw [hspec, Category.id_comp]
 
+-- Unfold scheme carriers and generic-stalk aliases while elaborating this proof.
+set_option backward.isDefEq.respectTransparency false in
 /-- Rational maps whose generic-point morphisms are prescribed by two
 successive function-field equivalences compose according to the transitive
 equivalence. -/

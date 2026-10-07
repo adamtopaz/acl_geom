@@ -24,6 +24,12 @@ universe u
 
 namespace QWitness.PsiCurveFourArrowCommonSourceRealizations
 
+section SemilinearMiddleAliases
+
+-- These coefficient and cover aliases have definitionally equal carriers.
+-- Lean 4.34 elaboration must unfold them when composing the germ maps.
+set_option backward.isDefEq.respectTransparency false
+
 variable {k K : Type u} [Field k] [Field K] [Algebra k K]
   {w : QWitness k K} {hψ : w.Psi}
   {s a b e : Fin 2 → K}
@@ -178,6 +184,8 @@ theorem sAcSemilinearCommon_direct_comp_bGermCoefficient
     (R.sAcBGermCoefficientToSemilinearCommonTargetRingHom L hind)
     (R.sAcSemilinearCommon_left_comp_bGermCoefficient L hind)
     (R.sAcSemilinearCommon_right_comp_bGermCoefficient L hind)
+
+end SemilinearMiddleAliases
 
 end QWitness.PsiCurveFourArrowCommonSourceRealizations
 

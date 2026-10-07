@@ -78,7 +78,7 @@ theorem innerParam_coeff_eq_zero {α : K} {n : ℕ} (hn : n ≠ 0)
     (p : Polynomial K) {e : ℕ} (he : ¬ n ∣ e) :
     (innerParam α n p).coeff e = 0 := by
   rw [innerParam_apply, Polynomial.coeff_expand (Nat.pos_of_ne_zero hn),
-    if_neg he]
+    ite_eq_right he]
 
 /-- The full parametrization `(K[x])[y] → K[T]`: `y ↦ T^m`, `x ↦ α·T^n`. -/
 def binomialParam (α : K) (n m : ℕ) :
@@ -197,11 +197,11 @@ theorem cosetBinomial_dvd_of_binomialParam_eq_zero {α c : K} (hα : α ≠ 0)
       -- The nonvanishing coefficient pins down the residue of `e`.
       have hle : m * j₀ ≤ e := by
         by_contra hlt
-        rw [Polynomial.coeff_mul_X_pow', if_neg hlt] at hce
+        rw [Polynomial.coeff_mul_X_pow', ite_eq_right hlt] at hce
         exact hce rfl
       have hdvd : n ∣ e - m * j₀ := by
         by_contra hnd
-        rw [Polynomial.coeff_mul_X_pow', if_pos hle,
+        rw [Polynomial.coeff_mul_X_pow', ite_eq_left hle,
           innerParam_coeff_eq_zero hn _ hnd] at hce
         exact hce rfl
       -- Any other term vanishes at `e`.
@@ -212,11 +212,11 @@ theorem cosetBinomial_dvd_of_binomialParam_eq_zero {α c : K} (hα : α ≠ 0)
         by_contra hcj
         have hlej : m * j ≤ e := by
           by_contra hlt
-          rw [Polynomial.coeff_mul_X_pow', if_neg hlt] at hcj
+          rw [Polynomial.coeff_mul_X_pow', ite_eq_right hlt] at hcj
           exact hcj rfl
         have hdvdj : n ∣ e - m * j := by
           by_contra hnd
-          rw [Polynomial.coeff_mul_X_pow', if_pos hlej,
+          rw [Polynomial.coeff_mul_X_pow', ite_eq_left hlej,
             innerParam_coeff_eq_zero hn _ hnd] at hcj
           exact hcj rfl
         have hmod : m * j ≡ m * j₀ [MOD n] := by
@@ -295,8 +295,8 @@ theorem cosetBinomial_prime [IsAlgClosed K] {c : K} (hc : c ≠ 0) {m n : ℕ}
     intro h0
     have hcoeff := congrArg (fun p ↦ Polynomial.coeff p n) h0
     simp only [cosetBinomial, Polynomial.coeff_sub, Polynomial.coeff_zero,
-      Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl, mul_one,
-      Polynomial.coeff_C, if_neg hn] at hcoeff
+      Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_left rfl, mul_one,
+      Polynomial.coeff_C, ite_eq_right hn] at hcoeff
     rw [zero_sub, neg_eq_zero] at hcoeff
     exact hc (by simpa using hcoeff)
   exact (Ideal.span_singleton_prime hb0).1 hprime_ideal
@@ -468,7 +468,7 @@ theorem eq_smul_binomial_of_dvd_shift [IsAlgClosed K]
     rw [MvPolynomial.totalDegree_mul_of_isDomain (Units.ne_zero u)
       (Units.ne_zero u⁻¹)] at h1
     omega
-  set l := MvPolynomial.coeff 0 (u : MvPolynomial (Fin 2) K) with hldef
+  set l := (u : MvPolynomial (Fin 2) K).coeff 0 with hldef
   have hCform : (u : MvPolynomial (Fin 2) K) = MvPolynomial.C l :=
     MvPolynomial.totalDegree_eq_zero_iff_eq_C.1 hudeg
   refine ⟨rfl, l, ?_, ?_, ?_⟩

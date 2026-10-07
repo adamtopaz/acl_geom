@@ -390,34 +390,34 @@ def actionCategoryFunctorOfEquivariantEquiv
     (heq : ∀ g x, eX (g • x) = eG g • eX x) :
     ActionCategory G X ⥤ ActionCategory H Y where
   obj x := eX x.back
-  map {x y} f := ⟨eG f.val, by
-    change eG f.val • eX x.back = eX y.back
+  map {x y} f := ⟨eG f.hom, by
+    change eG f.hom • eX x.back = eX y.back
     rw [← heq]
-    exact congrArg eX f.property⟩
+    exact congrArg eX f.map_val⟩
   map_id x := by
-    apply Subtype.ext
+    apply Functor.Elements.hom_ext
     change eG 1 = 1
     simp
   map_comp f g := by
-    apply Subtype.ext
-    change eG (g.val * f.val) = eG g.val * eG f.val
+    apply Functor.Elements.hom_ext
+    change eG (g.hom * f.hom) = eG g.hom * eG f.hom
     simp
 
 /-- The groupoid inverse in an action category inverts its group label. -/
 @[simp] theorem actionCategory_groupoidInv_val
     {x y : ActionCategory G X} (f : x ⟶ y) :
-    (CategoryTheory.Groupoid.inv f).val = f.val⁻¹ := rfl
+    (CategoryTheory.Groupoid.inv f).hom = f.hom⁻¹ := rfl
 
 /-- The acting-group label of an action-category arrow, exposing the group
 element hidden by the category-of-elements presentation. -/
 def actionCategoryLabel {x y : ActionCategory G X} (f : x ⟶ y) : G :=
-  f.val
+  f.hom
 
 /-- Action-category labels determine arrows. -/
 theorem actionCategoryLabel_injective {x y : ActionCategory G X} :
     Function.Injective (actionCategoryLabel : (x ⟶ y) → G) := by
   intro f g h
-  apply Subtype.ext
+  apply Functor.Elements.hom_ext
   exact h
 
 /-- Action-category composition reverses the order of acting-group labels. -/
@@ -426,16 +426,16 @@ theorem actionCategoryLabel_injective {x y : ActionCategory G X} :
     actionCategoryLabel (f ≫ g) =
       actionCategoryLabel g * actionCategoryLabel f := by
   unfold actionCategoryLabel
-  exact ActionCategory.comp_val f g
+  exact ActionCategory.comp_hom f g
 
 /-- The inverse arrow written directly in the action-category presentation. -/
 def actionCategoryArrowInv {x y : ActionCategory G X} (f : x ⟶ y) : y ⟶ x :=
   ⟨(actionCategoryLabel f)⁻¹, by
-    rcases x with ⟨⟨⟩, x⟩
-    rcases y with ⟨⟨⟩, y⟩
+    rcases x with ⟨x⟩
+    rcases y with ⟨y⟩
     change X at x y
     change (actionCategoryLabel f)⁻¹ • y = x
-    have hf : actionCategoryLabel f • x = y := f.property
+    have hf : actionCategoryLabel f • x = y := f.map_val
     calc
       (actionCategoryLabel f)⁻¹ • y =
           (actionCategoryLabel f)⁻¹ • (actionCategoryLabel f • x) :=
@@ -499,21 +499,21 @@ noncomputable def actionCategoryEquivalenceOfEquivariantEquiv
   let F := actionCategoryFunctorOfEquivariantEquiv eG eX heq
   have hFF : F.FullyFaithful := by
     refine
-      { preimage := fun {x y} f ↦ ⟨eG.symm f.val, by
-          change eG.symm f.val • x.back = y.back
+      { preimage := fun {x y} f ↦ ⟨eG.symm f.hom, by
+          change eG.symm f.hom • x.back = y.back
           apply eX.injective
           calc
-            eX (eG.symm f.val • x.back) =
-                eG (eG.symm f.val) • eX x.back := heq _ _
-            _ = f.val • eX x.back := by simp
-            _ = eX y.back := f.property⟩
+            eX (eG.symm f.hom • x.back) =
+                eG (eG.symm f.hom) • eX x.back := heq _ _
+            _ = f.hom • eX x.back := by simp
+            _ = eX y.back := f.map_val⟩
         map_preimage := fun f ↦ by
-          apply Subtype.ext
-          change eG (eG.symm f.val) = f.val
+          apply Functor.Elements.hom_ext
+          change eG (eG.symm f.hom) = f.hom
           simp
         preimage_map := fun f ↦ by
-          apply Subtype.ext
-          change eG.symm (eG f.val) = f.val
+          apply Functor.Elements.hom_ext
+          change eG.symm (eG f.hom) = f.hom
           simp }
   letI : F.Full := hFF.full
   letI : F.Faithful := hFF.faithful
@@ -523,7 +523,7 @@ noncomputable def actionCategoryEquivalenceOfEquivariantEquiv
       rw [← ActionCategory.back_coe (x := F.obj x),
         ← ActionCategory.back_coe (x := y)]
       congr 1
-      simp [F, x, actionCategoryFunctorOfEquivariantEquiv]
+      simp [F, x, actionCategoryFunctorOfEquivariantEquiv] <;> rfl
     exact ⟨x, ⟨eqToIso hy⟩⟩⟩
   letI : F.IsEquivalence := { }
   exact F.asEquivalence
@@ -602,7 +602,7 @@ def selectedArrow [Normal E N] (f : NormalBranchEmbedding E M N) :
 
 @[simp] theorem selectedArrow_val [Normal E N]
     (f : NormalBranchEmbedding E M N) :
-    (selectedArrow f).val = f.extendToAut := rfl
+    (selectedArrow f).hom = f.extendToAut := rfl
 
 /-- Every based conjugate-branch arrow family on the normal cover carries
 the rational group chunk transported from the genuine action groupoid. -/
@@ -697,6 +697,10 @@ deck transformations. -/
     NormalBranchEmbedding.deckEquivOfEquiv
   ext x
   simp
+  change n ((σ • b).toAlgHom (e.totalEquiv.toRingEquiv.symm x)) =
+    n (σ (n.symm (n (b.toAlgHom (e.totalEquiv.toRingEquiv.symm x)))))
+  rw [n.symm_apply_apply]
+  rfl
 
 /-- The genuine action groupoid of all conjugate branches of a concrete
 finite cover. -/
@@ -854,8 +858,8 @@ def toBasedBranchEquiv (T : FiniteCoverBasedNormalEquiv h h' e) :
     change T.toRingEquiv
         (FiniteCover.selectedEmbedding h (e.totalEquiv.symm y)) =
       FiniteCover.selectedEmbedding h' y
-    rw [e.totalEquiv.apply_symm_apply] at hy
-    exact hy
+    exact hy.trans (congrArg (FiniteCover.selectedEmbedding h')
+      (e.totalEquiv.apply_symm_apply y))
 
 end FiniteCoverBasedNormalEquiv
 
@@ -907,7 +911,8 @@ noncomputable def finiteCoverBasedNormalEquivOfExtensionEquiv [IsAlgClosed Ω]
       FiniteCover.selectedEmbedding h' (e.totalEquiv x) at hx
     change τ (n (FiniteCover.selectedEmbedding h x)) =
       FiniteCover.selectedEmbedding h' (e.totalEquiv x)
-    simpa using hx
+    exact (congrArg (fun z ↦ τ (n (FiniteCover.selectedEmbedding h z)))
+      (e.totalEquiv.symm_apply_apply x)).symm.trans hx
 
 /-- Forgetting the corrected field equivalence recovers a selected-branch-
 preserving equivalence of the corresponding conjugate-branch actions. -/
@@ -1062,14 +1067,14 @@ def arrowEquiv (T : FiniteCoverBasedBranchEquiv h h')
     (finiteCoverSelectedObject h ⟶ b) ≃
       (finiteCoverSelectedObject h' ⟶
         (T.branchEquiv b.back : finiteCoverBranchGroupoid h')) where
-  toFun a := ⟨T.deckEquiv a.val, by
-    change T.deckEquiv a.val • finiteCoverSelectedBranch h' =
+  toFun a := ⟨T.deckEquiv a.hom, by
+    change T.deckEquiv a.hom • finiteCoverSelectedBranch h' =
       T.branchEquiv b.back
     rw [← T.map_selected, ← T.map_smul]
-    exact congrArg T.branchEquiv a.property⟩
+    exact congrArg T.branchEquiv a.map_val⟩
   invFun a := by
-    let σ : FiniteCoverDeck h' := a.val
-    have ha := a.property
+    let σ : FiniteCoverDeck h' := a.hom
+    have ha := a.map_val
     change σ • finiteCoverSelectedBranch h' = T.branchEquiv b.back at ha
     refine ⟨T.deckEquiv.symm σ, ?_⟩
     change T.deckEquiv.symm σ • finiteCoverSelectedBranch h = b.back
@@ -1082,18 +1087,18 @@ def arrowEquiv (T : FiniteCoverBasedBranchEquiv h h')
       _ = σ • finiteCoverSelectedBranch h' := by simp [T.map_selected]
       _ = T.branchEquiv b.back := ha
   left_inv a := by
-    apply Subtype.ext
-    simp
+    apply Functor.Elements.hom_ext
+    exact T.deckEquiv.symm_apply_apply a.hom
   right_inv a := by
-    apply Subtype.ext
-    simp
+    apply Functor.Elements.hom_ext
+    exact T.deckEquiv.apply_symm_apply a.hom
 
 /-- The based-arrow equivalence sends an arrow's deck label through the
 deck-transformation equivalence. -/
 @[simp] theorem arrowEquiv_val (T : FiniteCoverBasedBranchEquiv h h')
     (b : finiteCoverBranchGroupoid h)
     (a : finiteCoverSelectedObject h ⟶ b) :
-    (T.arrowEquiv b a).val = T.deckEquiv a.val := rfl
+    (T.arrowEquiv b a).hom = T.deckEquiv a.hom := rfl
 
 /-- Based-arrow transport intertwines the difference-product operation. -/
 theorem arrowEquiv_differenceProduct
@@ -1103,27 +1108,27 @@ theorem arrowEquiv_differenceProduct
     T.arrowEquiv b (groupoidDifferenceProduct e a c) =
       groupoidDifferenceProduct
         (T.arrowEquiv b e) (T.arrowEquiv b a) (T.arrowEquiv b c) := by
-  let ε : FiniteCoverDeck h := e.val
-  let α : FiniteCoverDeck h := a.val
-  let γ : FiniteCoverDeck h := c.val
-  have hsrc : (a ≫ CategoryTheory.Groupoid.inv e ≫ c).val =
+  let ε : FiniteCoverDeck h := e.hom
+  let α : FiniteCoverDeck h := a.hom
+  let γ : FiniteCoverDeck h := c.hom
+  have hsrc : (a ≫ CategoryTheory.Groupoid.inv e ≫ c).hom =
       γ * ε⁻¹ * α := rfl
   have htgt : (T.arrowEquiv b a ≫
       CategoryTheory.Groupoid.inv (T.arrowEquiv b e) ≫
-        T.arrowEquiv b c).val =
+        T.arrowEquiv b c).hom =
       T.deckEquiv γ * (T.deckEquiv ε)⁻¹ * T.deckEquiv α := rfl
-  apply Subtype.ext
-  rw [arrowEquiv_val]
+  apply Functor.Elements.hom_ext
+  refine (arrowEquiv_val T b _).trans ?_
   unfold groupoidDifferenceProduct
   rw [← CategoryTheory.Groupoid.inv_eq_inv e,
     ← CategoryTheory.Groupoid.inv_eq_inv (T.arrowEquiv b e)]
   calc
-    T.deckEquiv (a ≫ CategoryTheory.Groupoid.inv e ≫ c).val =
+    T.deckEquiv (a ≫ CategoryTheory.Groupoid.inv e ≫ c).hom =
         T.deckEquiv (γ * ε⁻¹ * α) := congrArg T.deckEquiv hsrc
     _ = T.deckEquiv γ * (T.deckEquiv ε)⁻¹ * T.deckEquiv α := by simp
     _ = (T.arrowEquiv b a ≫
         CategoryTheory.Groupoid.inv (T.arrowEquiv b e) ≫
-          T.arrowEquiv b c).val := htgt.symm
+          T.arrowEquiv b c).hom := htgt.symm
 
 /-- Based-arrow transport intertwines the difference-inverse operation. -/
 theorem arrowEquiv_differenceInverse
@@ -1132,26 +1137,26 @@ theorem arrowEquiv_differenceInverse
     (e a : finiteCoverSelectedObject h ⟶ b) :
     T.arrowEquiv b (groupoidDifferenceInverse e a) =
       groupoidDifferenceInverse (T.arrowEquiv b e) (T.arrowEquiv b a) := by
-  let ε : FiniteCoverDeck h := e.val
-  let α : FiniteCoverDeck h := a.val
-  have hsrc : (e ≫ CategoryTheory.Groupoid.inv a ≫ e).val =
+  let ε : FiniteCoverDeck h := e.hom
+  let α : FiniteCoverDeck h := a.hom
+  have hsrc : (e ≫ CategoryTheory.Groupoid.inv a ≫ e).hom =
       ε * α⁻¹ * ε := rfl
   have htgt : (T.arrowEquiv b e ≫
       CategoryTheory.Groupoid.inv (T.arrowEquiv b a) ≫
-        T.arrowEquiv b e).val =
+        T.arrowEquiv b e).hom =
       T.deckEquiv ε * (T.deckEquiv α)⁻¹ * T.deckEquiv ε := rfl
-  apply Subtype.ext
-  rw [arrowEquiv_val]
+  apply Functor.Elements.hom_ext
+  refine (arrowEquiv_val T b _).trans ?_
   unfold groupoidDifferenceInverse
   rw [← CategoryTheory.Groupoid.inv_eq_inv a,
     ← CategoryTheory.Groupoid.inv_eq_inv (T.arrowEquiv b a)]
   calc
-    T.deckEquiv (e ≫ CategoryTheory.Groupoid.inv a ≫ e).val =
+    T.deckEquiv (e ≫ CategoryTheory.Groupoid.inv a ≫ e).hom =
         T.deckEquiv (ε * α⁻¹ * ε) := congrArg T.deckEquiv hsrc
     _ = T.deckEquiv ε * (T.deckEquiv α)⁻¹ * T.deckEquiv ε := by simp
     _ = (T.arrowEquiv b e ≫
         CategoryTheory.Groupoid.inv (T.arrowEquiv b a) ≫
-          T.arrowEquiv b e).val := htgt.symm
+          T.arrowEquiv b e).hom := htgt.symm
 
 end FiniteCoverBasedBranchEquiv
 

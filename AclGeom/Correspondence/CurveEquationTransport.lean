@@ -332,8 +332,7 @@ theorem toPair_ideal_map_parameterEquivOfIdealEq
     convert congrArg Subtype.val
       (locusFunctionFieldEquivOfIdealEq_apply h
         i.castSucc.castSucc) using 1
-    · congr 1
-    · simp [tuple, parameterSource]
+    simp [tuple, parameterSource]
   let q : Fin 2 → L :=
     ![⟨F.source, IntermediateField.subset_adjoin k _
         ⟨(Fin.last d).castSucc, by simp [tuple, parameterSource]⟩⟩,
@@ -364,8 +363,7 @@ theorem toPair_ideal_map_parameterEquivOfIdealEq
       convert congrArg Subtype.val
         (locusFunctionFieldEquivOfIdealEq_apply h
           (Fin.last d).castSucc) using 1
-      · congr 1
-      · simp [tuple, parameterSource]
+      simp [tuple, parameterSource]
     · change et ⟨F.target, _⟩ = ⟨G.target, _⟩
       have hin :
           (⟨F.target, IntermediateField.subset_adjoin k _
@@ -383,8 +381,7 @@ theorem toPair_ideal_map_parameterEquivOfIdealEq
       convert congrArg Subtype.val
         (locusFunctionFieldEquivOfIdealEq_apply h
           (Fin.last (d + 1))) using 1
-      · congr 1
-      · simp [tuple]
+      simp [tuple]
   have het_eval (f : MvPolynomial (Fin 2) E) :
       et (MvPolynomial.aeval q f) =
         MvPolynomial.aeval q' (MvPolynomial.map ep.toRingHom f) := by

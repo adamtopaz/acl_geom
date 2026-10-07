@@ -85,17 +85,18 @@ private theorem exp_ne_e01_e11 :
 one in each variable has exactly four coefficients. -/
 theorem eq_bilinear_of_degreeOf_le_one {F : MvPolynomial (Fin 2) k}
     (h0 : degreeOf 0 F ≤ 1) (h1 : degreeOf 1 F ≤ 1) :
-    F = C (coeff 0 F) +
-      C (coeff (Finsupp.single 0 1) F) * X 0 +
-      C (coeff (Finsupp.single 1 1) F) * X 1 +
-      C (coeff (Finsupp.single 0 1 + Finsupp.single 1 1) F) *
+    F = C (F.coeff 0) +
+      C (F.coeff (Finsupp.single 0 1)) * X 0 +
+      C (F.coeff (Finsupp.single 1 1)) * X 1 +
+      C (F.coeff (Finsupp.single 0 1 + Finsupp.single 1 1)) *
         (X 0 * X 1) := by
   classical
   have hX01 : (X 0 * X 1 : MvPolynomial (Fin 2) k) =
       monomial (Finsupp.single 0 1 + Finsupp.single 1 1) 1 := by
-    rw [X, X, monomial_mul, one_mul]
+    rw [X, X, monomial_mul_monomial, one_mul]
   ext m
-  rw [coeff_add, coeff_add, coeff_add, hX01, X, X,
+  simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply]
+  rw [hX01, X, X,
     coeff_C_mul, coeff_C_mul, coeff_C_mul,
     coeff_monomial, coeff_monomial, coeff_monomial, coeff_C]
   by_cases hbig : m 0 ≤ 1 ∧ m 1 ≤ 1
@@ -107,7 +108,7 @@ theorem eq_bilinear_of_degreeOf_le_one {F : MvPolynomial (Fin 2) k}
       rw [h00, h10] at hrec
       simp only [Finsupp.single_zero, add_zero] at hrec
       subst hrec
-      simp [exp_ne_zero_e10.symm ∘ Eq.symm, if_neg, exp_ne_zero_e10,
+      simp [exp_ne_zero_e10.symm ∘ Eq.symm, ite_eq_right, exp_ne_zero_e10,
         exp_ne_zero_e01, exp_ne_zero_e11]
     · -- m = single 1 1
       rw [h00, h10] at hrec
@@ -119,7 +120,7 @@ theorem eq_bilinear_of_degreeOf_le_one {F : MvPolynomial (Fin 2) k}
           Finsupp.single 1 1 := fun h ↦ exp_ne_e01_e11 h.symm
       have hn3 : (0 : Fin 2 →₀ ℕ) ≠ Finsupp.single 1 1 := fun h ↦
         exp_ne_zero_e01 h.symm
-      simp [if_neg hn1, if_neg hn2, if_neg hn3]
+      simp [ite_eq_right hn1, ite_eq_right hn2, ite_eq_right hn3]
     · -- m = single 0 1
       rw [h00, h10] at hrec
       simp only [Finsupp.single_zero, add_zero] at hrec
@@ -130,7 +131,7 @@ theorem eq_bilinear_of_degreeOf_le_one {F : MvPolynomial (Fin 2) k}
           Finsupp.single 0 1 := fun h ↦ exp_ne_e10_e11 h.symm
       have hn3 : (0 : Fin 2 →₀ ℕ) ≠ Finsupp.single 0 1 := fun h ↦
         exp_ne_zero_e10 h.symm
-      simp [if_neg hn1, if_neg hn2, if_neg hn3]
+      simp [ite_eq_right hn1, ite_eq_right hn2, ite_eq_right hn3]
     · -- m = single 0 1 + single 1 1
       rw [h00, h10] at hrec
       subst hrec
@@ -141,9 +142,9 @@ theorem eq_bilinear_of_degreeOf_le_one {F : MvPolynomial (Fin 2) k}
       have hn3 : (0 : Fin 2 →₀ ℕ) ≠
           Finsupp.single 0 1 + Finsupp.single 1 1 := fun h ↦
         exp_ne_zero_e11 h.symm
-      simp [if_neg hn1, if_neg hn2, if_neg hn3]
+      simp [ite_eq_right hn1, ite_eq_right hn2, ite_eq_right hn3]
   · -- Out-of-range exponents carry no coefficient on either side.
-    have hLHS : coeff m F = 0 := by
+    have hLHS : F.coeff m = 0 := by
       by_contra hc
       refine hbig ⟨?_, ?_⟩
       · exact degreeOf_le_iff.1 h0 m (mem_support_iff.2 hc)
@@ -169,7 +170,7 @@ theorem eq_bilinear_of_degreeOf_le_one {F : MvPolynomial (Fin 2) k}
       refine hbig ?_
       rw [← h]
       simp
-    rw [hLHS, if_neg hn0, if_neg hn1, if_neg hn2, if_neg hn3]
+    rw [hLHS, ite_eq_right hn0, ite_eq_right hn1, ite_eq_right hn2, ite_eq_right hn3]
     ring
 
 end Bilinear
@@ -192,10 +193,10 @@ theorem exists_moebius_of_bidegree_le_one {z w : Ω}
       w * (algebraMap k Ω c * z + algebraMap k Ω d) =
         algebraMap k Ω a * z + algebraMap k Ω b := by
   classical
-  set c₀₀ := coeff 0 F with hc00
-  set c₁₀ := coeff (Finsupp.single 0 1) F with hc10
-  set c₀₁ := coeff (Finsupp.single 1 1) F with hc01
-  set c₁₁ := coeff (Finsupp.single 0 1 + Finsupp.single 1 1) F with hc11
+  set c₀₀ := F.coeff 0 with hc00
+  set c₁₀ := F.coeff (Finsupp.single 0 1) with hc10
+  set c₀₁ := F.coeff (Finsupp.single 1 1) with hc01
+  set c₁₁ := F.coeff (Finsupp.single 0 1 + Finsupp.single 1 1) with hc11
   have hform := eq_bilinear_of_degreeOf_le_one h0 h1
   rw [← hc00, ← hc10, ← hc01, ← hc11] at hform
   -- Expand the vanishing along the normal form.

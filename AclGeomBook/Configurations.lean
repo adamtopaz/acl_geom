@@ -1712,16 +1712,16 @@ identifications are constructed:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSBranchAlignmentAut_selectedTarget}
 
-The first algebraic coefficient change is now transported without an
-equality cast.  For the repeated `sA` block, an explicit equivalence of the
-raw rebased source with the literal common source is extended to their
-algebraic closures.  Both raw selected branches are identified with the
-literal branch fields of the `sA·a=u` and `sA·c=uB` faces and transported by
-that same semilinear equivalence.  After inclusion in
+The first algebraic coefficient change is transported over the literal
+common source and its native coefficient field. For the repeated `sA` block,
+an explicit equivalence of the raw rebased source with that common source
+extends to their algebraic closures. A coherent embedding of the entire
+pairwise total field into the rebased canonical cover restricts to the
+literal branch fields of the `sA·a=u` and `sA·c=uB` faces. After inclusion in
 `branchComparisonSourceCover`, two distinguished deck transformations remove
-only the remaining normal-closure choices.  Their action equations therefore
-compare the actual selected face branches with the coefficient-comparison
-branches over the full common coefficient/source field:
+the remaining normal-closure choices. Their action equations compare the
+actual selected face branches with the coefficient-comparison branches over
+the full common coefficient/source field:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSARebasedSourceEquiv}
 
@@ -1742,11 +1742,12 @@ branches over the full common coefficient/source field:
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSASecondClosureAlignmentAut_smul}
 
 The identical construction for the repeated direct output `u` uses the
-strict composite pairs of the first two faces.  A carrier-invariance lemma
+strict composite pairs of the first two faces. A carrier-invariance lemma
 for adjoining one ambient generator identifies the raw branches with the
-literal selected direct branches.  The source and closure equivalences then
-transport both branches together, and two further deck transformations give
-their exact alignment equations in the common cover:
+literal selected direct branches. Both literal branches are restrictions of
+one coherent whole-total-field embedding into the rebased canonical cover.
+Two further deck transformations give their exact alignment equations in the
+common cover:
 
 {docstring IntermediateField.adjoin_singleton_carrier_eq_of_carrier_eq}
 
@@ -1764,11 +1765,12 @@ their exact alignment equations in the common cover:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUSecondClosureAlignmentAut_smul}
 
-Finally, the two strict composite pairs ending at `uB` undergo the same
-transport.  The resulting equations align the selected direct branches of
-the `s·b=uB` and `sA·c=uB` faces with their coefficient-comparison copies.
-Hence all four repeated labels are now represented by coefficient-linear
-selected-branch equations on one finite normal source cover:
+Finally, the two strict composite pairs ending at `uB` use the same
+whole-total-field embedding and its restrictions to their literal branches.
+The resulting equations align the selected direct branches of the `s·b=uB`
+and `sA·c=uB` faces with their coefficient-comparison copies. Hence all four
+repeated labels are represented by coefficient-linear selected-branch
+equations on one finite normal source cover:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedUBRebasedSourceEquiv}
 
@@ -1876,15 +1878,18 @@ normal-cover transports and their exact selected-branch equations:
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedCommonSourceBasedBranchEquiv_selected}
 
-The concrete based comparisons and the canonical comparison covers now
-meet through an explicit equality-based bridge.  The literal common source
-and the raw rebased source present the same intermediate field, so they give
-an equivalence of the corresponding total extensions.  Its normal lift,
-followed by the already chosen raw-to-common algebraic-closure transport,
-identifies the direct canonical normal closure with the named rebased cover
-which is already a subcover of the simultaneous source compositum:
+The concrete based comparisons and the canonical comparison covers meet
+through an explicit equality-based bridge over the native coefficient field.
+The literal common source and the raw rebased source have equal intermediate
+fields in this presentation, while the pairwise total field stays fixed.
+Carrier equivalences transport finiteness from the earlier presentation.
+The normal lift followed by the chosen raw-to-common algebraic-closure
+transport identifies the direct canonical normal closure with the named
+rebased cover, already a subcover of the simultaneous source compositum:
 
 {docstring AclGeom.FiniteCover.finiteDimensional_of_eq}
+
+{docstring AclGeom.FiniteCover.finiteDimensional_of_carrier_eq}
 
 {docstring AclGeom.QWitness.PsiCurveFourArrowCommonSourceRealizations.repeatedSACommonToRawRebasedExtensionEquiv}
 

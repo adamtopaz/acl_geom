@@ -260,9 +260,11 @@ theorem jointOverInput_finiteDimensional :
   have key : L.jointOverInput =
       adjoin (↥D.inputField) (Set.range L.jointTuple) := by
     refine restrictScalars_injective k ?_
-    unfold jointOverInput jointField
+    unfold jointOverInput
+    rw [extendScalars_restrictScalars]
+    unfold jointField
       RankTwoFiniteCorrespondenceMultiplication.FourArrowDifferenceDiagram.inputField
-    rw [adjoin_adjoin_left, extendScalars_restrictScalars, adjoin_union]
+    rw [adjoin_adjoin_left, adjoin_union]
     exact (sup_eq_right.2 L.inputField_le_jointField).symm
   rw [key]
   letI : Fintype (Set.range L.jointTuple) :=

@@ -700,8 +700,10 @@ theorem familyOverParameterSource_eq_adjoin_target :
     F.familyOverParameterSource =
       adjoin (↥F.parameterSourceField) {F.target} := by
   refine restrictScalars_injective k ?_
-  unfold familyOverParameterSource parameterSourceField familyField
-  rw [adjoin_adjoin_left, extendScalars_restrictScalars]
+  unfold familyOverParameterSource
+  rw [extendScalars_restrictScalars]
+  unfold parameterSourceField familyField
+  rw [adjoin_adjoin_left]
   simp only [tuple, Fin.range_snoc, Set.union_singleton]
 
 /-- A generic family member determines a finite extension of its
@@ -791,6 +793,8 @@ def extensionEquivOfIdealEq
     rw [locusFunctionFieldEquivOfIdealEq_apply
       (F.parameterSource_ideal_eq_of_ideal_eq G h) i]
     apply Subtype.ext
+    change ((locusFunctionFieldEquivOfIdealEq h
+      ⟨F.parameterSource i, _⟩) : Ω) = G.parameterSource i
     have ht := congrArg Subtype.val
       (locusFunctionFieldEquivOfIdealEq_apply h i.castSucc)
     simpa [tuple] using ht

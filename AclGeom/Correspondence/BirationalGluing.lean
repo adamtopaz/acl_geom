@@ -80,10 +80,12 @@ def partialIsoFamilyMap (i : J) :
   (partialIsoFamilyRestriction U e i).iso.hom ≫
     (partialIsoFamilyRestriction U e i).target.ι
 
+-- Unfold the partial-isomorphism chart types to recognize its isomorphism instance.
+set_option backward.isDefEq.respectTransparency.types false in
 instance partialIsoFamilyMap_isOpenImmersion (i : J) :
     IsOpenImmersion (partialIsoFamilyMap U e i) := by
   delta partialIsoFamilyMap
-  infer_instance
+  exact IsOpenImmersion.comp _ _
 
 /-- A finite family of partial isomorphisms from one reference chart produces
 a full multi-chart atlas.  Restricting every member to the common dense source
