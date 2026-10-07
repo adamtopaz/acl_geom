@@ -2961,10 +2961,39 @@ Mathlib's dependent-function equivalence handles the tuple quantifier.
 These proofs require no semantic completeness, perfection, rank-five bound,
 exponential characteristic or freshness input. They provide invariant class membership
 for later carrier transport, and supply no global Frobenius setoid.
-Coupled arithmetic, corrected totalization and ratio transport, quotient-carrier and
-geometric operation-graph naturality, interpreted reconstruction, unconditional
-completeness, base recovery and the scalar-one input remain open (issues 8 and 23).
+% Earlier Frobenius-naturality progress scope (before the coupled checkpoint):
+% Coupled arithmetic, corrected totalization and ratio transport, quotient-carrier and
+% geometric operation-graph naturality, interpreted reconstruction, unconditional
+% completeness, base recovery and the scalar-one input remain open (issues 8 and 23).
+Coupled arithmetic transport is proved in the following subsection. Corrected
+totalization and ratio transport, quotient-carrier and geometric operation-graph
+naturality, interpreted reconstruction, unconditional completeness, base recovery
+and the scalar-one input remain open (issues 8 and 23).
 All original source statements and proofs retain their provenance.
+
+\subsection{Coupled arithmetic naturality in Lean}
+
+\lean{Interpretation.JArithTransport} proves the meet/join arithmetic stage of
+\cref{prop:interpreted-reconstruction}, across arbitrary bases and independent universes.
+
+The difference commutes with closed-lattice order isomorphisms by \lean{jSub_map}.
+
+The quotient commutes by \lean{jDiv_map}. Both laws hold on arbitrary closed-lattice
+five-tuples, without assuming point tuples or generic representatives.
+The coordinate order and coupling of the EH95 formulas are unchanged.
+
+The coupled point-tuple sum is invariant by \lean{jAddRel_map_iff}.
+
+The coupled point-tuple product is invariant by \lean{jMulRel_map_iff}.
+The coordinates of image tuples are the images of the coordinates definitionally;
+composition with an injective lattice map reflects the defining coordinate equalities.
+
+These proofs require no semantics, genericity, completeness, perfection, rank-five,
+exponential-characteristic or freshness input. Their named consumers are corrected
+total negation/nonzero addition, ratio equivalence and full-carrier graph preservation.
+Totalization/ratio transport, quotient-carrier and operation-graph naturality,
+interpreted reconstruction, unconditional completeness, base recovery and scalar-one
+inputs remain open (issues 8 and 23). Original statements and proofs are preserved.
 
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which

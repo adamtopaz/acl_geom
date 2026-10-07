@@ -9,6 +9,7 @@ import AclGeom.Interpretation.FrobClass
 import AclGeom.Interpretation.FrobTransport
 import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArithSem
+import AclGeom.Interpretation.JArithTransport
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
@@ -38,8 +39,9 @@ by a global Frobenius setoid remains open (#8). The corrected geometric ratio
 quotient, full carrier decoding and total operation graphs are proved below
 under explicit ACF completeness. A named transported field structure and
 the actual decoding ring equivalence are proved below under the same inputs.
-Geometric J-locus and Frobenius-link/bridge transport are proved below with
-no completeness input. Operation-graph and carrier naturality remain open.
+Geometric J-locus, Frobenius-link/bridge and coupled meet/join arithmetic
+transport are proved below with no completeness input. Totalization/ratio,
+operation-graph and carrier naturality remain open.
 The historical addition and multiplication incidences are projections
 of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
@@ -165,9 +167,10 @@ completeness, rank-five bound, exponential characteristic or freshness
 premise. They supply class-membership invariance for later quotient
 carrier transport; they do not supply a global Frobenius setoid.
 
-Coupled arithmetic, corrected totalization and ratio transport,
-quotient-carrier and geometric operation-graph naturality, interpreted
-reconstruction, unconditional completeness and R1/R2 remain open
+Coupled arithmetic transport is proved below. Corrected totalization
+and ratio transport, quotient-carrier and geometric operation-graph
+naturality, interpreted reconstruction, unconditional completeness
+and R1/R2 remain open
 (#23/#8). The literal source obligations and frozen M4a record are
 preserved.
 
@@ -311,8 +314,44 @@ The output is semantic; geometric `J` membership follows from the
 rank-five soundness theorem over any base field. The class-level computation
 under explicit completeness is displayed next, followed by the ratio quotient
 and corrected total geometric graphs, then a named transported field
-structure and its actual decoding ring equivalence. Naturality remains
-open (#23/#8).
+structure and its actual decoding ring equivalence. Coupled arithmetic
+naturality is proved next; totalization/ratio and carrier/operation-graph
+naturality remain open (#23/#8).
+
+# Coupled arithmetic naturality
+%%%
+tag := "coupled-arithmetic-naturality"
+%%%
+
+The EH95 difference and quotient are lattice formulas, so they commute
+with every closed-lattice order isomorphism, across arbitrary bases and
+universe levels. Their map laws hold on all closed-lattice five-tuples,
+without requiring point tuples or generic representatives:
+
+{docstring AclGeom.jSub_map}
+
+{docstring AclGeom.jDiv_map}
+
+Point-tuple coordinates commute definitionally with the induced point
+map. The derived negation, inverse, sum and product commute locally;
+Mathlib's injectivity of composition reflects the coordinate equality
+that defines the coupled relations:
+
+{docstring AclGeom.jAddRel_map_iff}
+
+{docstring AclGeom.jMulRel_map_iff}
+
+This completes I6b2b, the coupled-arithmetic stage of blueprint
+`interpreted-reconstruction`. It preserves the original coordinate
+coupling and order with no semantics, genericity, completeness,
+perfection, rank-five, exponential-characteristic, Infinite or freshness
+premise. The named consumers are corrected total negation/nonzero
+addition, ratio equivalence and the full-carrier product graph.
+
+Corrected totalization/ratio transport, quotient-carrier and operation-
+graph naturality, interpreted reconstruction, unconditional completeness
+and R1/R2 remain open (#23/#8). The literal source obligations and
+frozen M4a record are preserved.
 
 # Generic arithmetic on the fixed class
 %%%

@@ -93,9 +93,9 @@ of this guide. The current mathematical boundaries are:
   under the same inputs. The named transported field structure, actual decoding ring
   equivalence and geometric graph/operation characterizations are proved under the same
   inputs. Pure geometric Q/Q′/J configuration and J-locus/Frobenius-link/bridge
-  transport are proved across arbitrary bases/universes, with no completeness or
-  perfection input. Coupled arithmetic, total/ratio and carrier/operation-graph
-  naturality and reconstruction remain open (#23).
+  transport and coupled meet/join arithmetic transport are proved across arbitrary
+  bases/universes, with no completeness or perfection input. Total/ratio and
+  carrier/operation-graph naturality and reconstruction remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -130,7 +130,7 @@ Coverage at a glance (details and file:line references on #19):
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link and bridge invariance need no such input. Coupled arithmetic, total/ratio and carrier/operation-graph naturality, unconditional recovery, reconstruction existence and functorial theorems remain open |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge and coupled meet/join arithmetic invariance need no such input. Total/ratio and carrier/operation-graph naturality, unconditional recovery, reconstruction existence and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -3865,3 +3865,68 @@ interpreted reconstruction. Earlier interpreted-field semantics keep
 perfection/rank-five/ACF completeness explicit. Unconditional
 completeness, the global Frobenius setoid, literal source obligations,
 base recovery and scalar-one inputs remain open.
+
+## Coupled arithmetic naturality (#23/#8, I6b2b)
+
+`Interpretation/JArithTransport` imports only `JArithSem` and
+proves four public transport laws across arbitrary closed-lattice
+order isomorphisms, bases and universe levels. `jSub_map` and
+`jDiv_map` hold for all closed-lattice five-tuples, with their
+original coordinate order and coupling intact. Their named consumers
+`jAddRel_map_iff` and `jMulRel_map_iff` preserve and reflect
+the coupled sum/product relations on arbitrary point tuples.
+Coordinate transport is RFL/local; the derived operations transport
+locally, and Mathlib `Function.Injective.comp_left.eq_iff` reflects
+the coordinate equalities. No extra normalization helper chain,
+instance, genericity or semantic assumption is introduced.
+
+The four declarations supply corrected total negation/nonzero addition
+and ratio transport, and later full-carrier graph preservation, in
+blueprint `interpreted-reconstruction`. No existing lattice/point
+operation or interpretation definition is changed.
+
+Claude supplied frozen source `9983d949` against published `9f9ee07`,
+with eight exact project/Mathlib input hashes and two exact baseline
+copies. Codex compiled it unchanged and warning-free in 8.06 s
+(peak 2.62 GiB, minimum 39.08 GiB available). The final changes only
+its module-status qualification and reflows that paragraph, passing
+in 8.05 s. All eight original/final signatures/types/docs/attributes,
+raw bodies and standard-axiom reports are exact. Four authored public
+theorems and four generated equation lemmas (`jSub.eq_1`,
+`jDiv.eq_1`, `JAddRel.eq_1` and `JMulRel.eq_1`) are
+present, with no private helper or global instance. No mathematical,
+proof or interface-harness repair was needed.
+
+Ten byte-identical original/final independent interfaces pass:
+four exact cross-universe types, whole raw-output reflection for
+difference/quotient, composition over six universe levels, reflection
+of actual unique point-tuple output, finite bases and characteristic
+two. Separate existing-API probes for coordinate RFL, composition
+injection and nested lattice formulas pass with the same narrow import.
+
+The prior Frobenius-link checkpoint `9f9ee07` has full library/book
+and deployment CI success in run 37674711938. The full library passes
+in 54.35 s (peak 9.18 GiB, minimum 35.54 GiB available); the book
+passes in 8.00 s. Shared acceptance passes in 6.00 s, matching all
+eight compiled records and the identical ten interfaces. Hygiene checks
+242 library files without proof placeholders or project axioms. The book
+has 91 HTML pages, retaining all 90 prior paths and the four new
+declaration docstrings, including the frozen 117-item record. Four stable
+source passes produce 61 pages without undefined labels, overflow or
+rerun warnings. Actual final pages 1, 2, 3, 42 and 43 pass visual
+review. Final library/book and exact five-path staged-byte checks are
+required before this natural checkpoint is committed and pushed. The preceding source progress paragraph still
+listed coupled arithmetic as open; its scope correction was reported
+on #23 before updating and its earlier wording is retained in a TeX
+comment. All original 49 source statements and 44 proofs, literal
+TOT/interpreted reconstruction arguments and the frozen 117-item M4a
+record remain exact.
+
+This stage takes no semantics, genericity, completeness, perfection,
+rank-five, exponential-characteristic, Infinite or freshness input.
+N2c totalization/ratio transport remains held, followed by carrier/
+operation-graph naturality and interpreted reconstruction. Earlier
+interpreted-field semantics keep perfection/rank-five/ACF completeness
+explicit. Unconditional completeness, the global Frobenius setoid,
+literal source obligations, base recovery and scalar-one inputs
+remain open.

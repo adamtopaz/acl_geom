@@ -158,6 +158,7 @@ import AclGeom.Interpretation.FrobTransport
 import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArith
 import AclGeom.Interpretation.JArithSem
+import AclGeom.Interpretation.JArithTransport
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Interpretation.FrobLinkRigidity
 import AclGeom.Interpretation.FrobLinkRelative
