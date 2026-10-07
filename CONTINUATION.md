@@ -2380,3 +2380,42 @@ paths are preserved, the specialization prose is checked, and the frozen
 group-chunk notice remains present. Touched modules have no deprecation
 diagnostics. This is the finite-base item in #24, not completion of its
 remaining foundational carryovers.
+
+## Focused semantic j-coordinate and Frobenius-soundness checkpoint (#23)
+
+`Config/JCoordinates` owns the semantic `jTupleOf` constructor and its
+coordinate API. `Interpretation/FrobLinkSoundness` owns explicit geometric
+sum/product witnesses and common-parameter links;
+`Counterexamples/GenericArithmetic` now contains the literal predicates
+and refutations. Existing public names are preserved. Four superseded
+private helpers are replaced by the representative-calculus API or
+Mathlib's `AlgebraicIndependent.ne_zero`. There are no duplicate aliases.
+
+Eight new declarations have named consumers: generic triple-to-pair
+selection and its nonvanishing lemma serve the refutations/links; power
+transport of an independent pair, semantic tuple normalization and
+positive Frobenius point normalization serve `frobEq_of_frobenius_twist`.
+This theorem proves that semantic tuples whose parameters differ by a
+positive Frobenius power satisfy `FrobEq`, using a fresh common-parameter
+bridge. The displayed wrappers retain `[Infinite k]` and rank five;
+removing their now-redundant infinite-base binders is a separate
+strengthening. The converse and semantic completeness remain open.
+
+Claude prepared the focused extraction. Codex independently checked all
+six extraction/arithmetic modules on the pushed finite-base baseline
+(34.17 s, peak 3.48 GiB, minimum available 39.69 GiB); the arithmetic
+modules remain private pending their own checkpoint. Baseline/split
+artifact comparisons cover 63/67 declarations and check placements,
+axioms, statements, bodies and deny-list metadata. The only deletions
+are the four superseded private helpers; the eight additions are exact.
+Six statement differences name the replacement proof arguments.
+Applying only the three explicit helper renames and private-name
+normalization makes all common statement hashes identical and leaves
+exactly three body differences: two Mathlib nonvanishing replacements
+and one inlined pair-range proof. In particular both nonfunctional
+existence refutation bodies agree under that exact ledger; reference-set
+equality was not used as proof-body identity. The source edits were
+reviewed directly. Later changes are module documentation and two
+docstring line wraps only. Shared build/book and artifact evidence
+follows after integration. Fixed-class arithmetic, totalization, ratio
+semantics and the historical M4a chain remain open or frozen as before.

@@ -75,6 +75,7 @@ import AclGeom.Correspondence.Multiplicative
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Config.Language
 import AclGeom.Config.Semantic
+import AclGeom.Config.JCoordinates
 import AclGeom.Config.Psi
 import AclGeom.Config.CompositionIdentity
 import AclGeom.Config.ChunkGermCoordinates
@@ -139,6 +140,7 @@ import AclGeom.Transfer.Transcendence
 import AclGeom.Transfer.Descent
 import AclGeom.Config.Correctness
 import AclGeom.Interpretation.FrobClass
+import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Interpretation.GenericOps

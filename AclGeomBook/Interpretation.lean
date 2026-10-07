@@ -4,7 +4,9 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import VersoManual
+import AclGeom.Config.JCoordinates
 import AclGeom.Interpretation.FrobClass
+import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Counterexamples.GenericArithmetic
 
@@ -63,6 +65,20 @@ configuration completeness or a choice of common representatives:
 The converse still needs an algebraic argument from this concurrence to an
 exact Frobenius twist. The two-link bridge also needs an explicit semantic
 completeness statement for its geometric middle tuple (#23).
+
+Semantic tuples with the same literal parameter are related by a fresh
+bridge `j(t,a)`. Raising both representatives to the same positive
+Frobenius power preserves all five closed points. Hence, if one semantic
+parameter is a positive Frobenius power of the other, the tuples satisfy
+`FrobEq`. The displayed statements retain the infinite-base hypothesis
+and require transcendence degree at least five; they use configuration
+soundness and require no completeness hypothesis:
+
+{docstring AclGeom.jTupleOf_pow_expChar_pow}
+
+{docstring AclGeom.frobEq_jTupleOf_of_common}
+
+{docstring AclGeom.frobEq_of_frobenius_twist}
 
 # Refutations of the literal generic operation graphs
 %%%
