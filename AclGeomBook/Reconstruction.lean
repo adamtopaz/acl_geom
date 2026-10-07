@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Counterexamples.KernelRank
 import AclGeom.Reconstruct.Kernel
 import AclGeom.Reconstruct.TwoGeneric
+import AclGeom.Reconstruct.Uniqueness
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -60,6 +61,8 @@ algebraic-dependence geometry:
 
 {docstring AclGeom.frobeniusZPow_natCast_apply}
 
+{docstring AclGeom.frobeniusZPow_eq_one_of_eq_one}
+
 {docstring AclGeom.point_frobeniusZPow}
 
 # The kernel theorem
@@ -111,3 +114,41 @@ algebraically closed. The corrected statement keeps rank five explicitly,
 and the source preserves the original wording and audit provenance:
 
 {docstring AclGeom.not_forall_eq_refl_of_point_fixed}
+
+
+# The fibre of supplied inducing maps
+%%%
+tag := "supplied-inducing-map-fibre"
+%%%
+
+Suppose two isomorphisms of chosen perfections induce the same closed-lattice
+map. Their composite `Φ₂ ∘ Φ₁⁻¹` fixes every principal closure of the
+perfected target, without a rank or relatively closed base assumption:
+
+{docstring AclGeom.Perfection.Induces.point_symm_trans}
+
+When the original source has transcendence degree at least five, rank
+transport along the supplied lattice isomorphism and the perfection lattice
+isomorphism gives the kernel's target rank. Thus the two supplied inducing
+maps differ by an integral power of target Frobenius:
+
+{docstring AclGeom.Perfection.Induces.exists_eq_trans_frobZPow}
+
+Combined with the forward Frobenius-invariance law, this describes the
+entire fibre once one inducing isomorphism is supplied:
+
+{docstring AclGeom.Perfection.Induces.iff_exists_eq_trans_frobZPow}
+
+The exponent is unique in positive characteristic, and the inducing
+isomorphism is literally unique in characteristic zero:
+
+{docstring AclGeom.Perfection.trans_frobZPow_injective}
+
+{docstring AclGeom.Perfection.Induces.eq_of_p_eq_one}
+
+These theorems require no agreement of the two recorded exponential
+characteristics and no relatively closed base hypotheses. They take the
+inducing maps as explicit inputs. Existence of a map inducing an arbitrary
+lattice isomorphism, base/point recovery and full functorial assembly remain
+open ([issues #9](https://github.com/adamtopaz/acl_geom/issues/9) and
+[#10](https://github.com/adamtopaz/acl_geom/issues/10)).

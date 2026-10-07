@@ -192,6 +192,14 @@ Integral Frobenius twists induce the same lattice map:
 {docstring AclGeom.Perfection.Induces.trans_frobZPow}
 
 These complete the foundational carryovers in issue #24. The existence of a
-field map inducing an arbitrary lattice isomorphism, the converse uniqueness
-up to Frobenius, and the literal/quotient functorial assembly remain open in
+field map inducing an arbitrary lattice isomorphism and the literal/quotient
+functorial assembly remain open in
 issues #8–#10.
+
+
+For two supplied inducing maps and source transcendence degree at least five,
+the converse uniqueness up to target Frobenius and the full fibre description
+are now proved in `Reconstruct.Uniqueness`. No relatively closed base or
+characteristic-agreement hypothesis is needed for that uniqueness half.
+The reconstruction chapter displays its separate characteristic-zero equality
+and positive-characteristic exponent-injectivity corollaries.

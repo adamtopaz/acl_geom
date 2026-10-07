@@ -173,6 +173,7 @@ import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Points
 import AclGeom.Reconstruct.Kernel
 import AclGeom.Reconstruct.TwoGeneric
+import AclGeom.Reconstruct.Uniqueness
 import AclGeom.Functorial.Literal
 import AclGeom.Functorial.FrobeniusQuotient
 import AclGeom.Main

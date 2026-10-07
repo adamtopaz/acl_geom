@@ -107,7 +107,7 @@ Coverage at a glance (details and file:line references on #19):
 
 | Layer | Status |
 |---|---|
-| Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. The explicit `Induces` relation, intersection formula and compatible induced-map converse are proved (#24). Full reconstruction and literal/quotient functors remain open (#8–#10) |
+| Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. The explicit `Induces` relation, intersection formula, compatible induced-map converse and the Frobenius fibre/uniqueness for supplied inducing maps are proved (#24/#9). Full reconstruction and literal/quotient functors remain open (#8–#10) |
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
@@ -123,9 +123,9 @@ Immediate priorities, in order:
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
-5. complete the public uniqueness-up-to-Frobenius interface and functorial
-   definitions using the proved kernel/intersection and Induces APIs;
-   these do not depend on M4 (#8–#10).
+5. continue recovery and the literal/quotient functorial definitions using the
+   proved kernel, intersection and supplied-endpoint Induces fibre APIs;
+   keep reconstruction existence and assembly explicit (#8–#10).
 
 ## How work is coordinated
 
@@ -1941,8 +1941,8 @@ and post on #13.
   corrected §10–12 operation predicates), ratio-field interpretation, base/point
   recovery, public theorem variants and the functorial quotient formulation.
   The rank-five kernel, two-generic intersection, trdeg transport and compatible
-  induced-map converse are proved. The remaining uniqueness-up-to-Frobenius
-  interface and functorial definitions do not depend on M4.
+  induced-map converse and supplied-endpoint uniqueness/Frobenius fibre are
+  proved. Full functorial definitions and assembly remain open.
 - **Book**: keep each chapter synchronized with the library and free of
   overclaims. Verso requires docstrings on every referenced declaration *and
   its structure fields*.
@@ -2912,3 +2912,66 @@ Final documentation build/book and staged-byte/push gates are required before
 the checkpoint commit. U1 and the intersection part of R3 are this
 checkpoint's scope; R1/R2/R4, recovery of all points, reconstruction existence,
 full functorial assembly, M4 and the held FrobEqCorrect/L2 work remain open.
+
+
+## Supplied-endpoint uniqueness and the Frobenius fibre (#9, #10)
+
+`Reconstruct/Uniqueness` proves the uniqueness clause of the main target
+for explicit inducing isomorphisms of arbitrary chosen perfections.
+`Induces.point_symm_trans` shows that their target difference fixes every
+principal closure, without rank or relatively closed base hypotheses.
+The same Induces equations identify the image of every perfected closed
+subfield; the perfection lattice isomorphism makes these all target closed
+subfields. An order isomorphism of the original lattices and the target
+perfection order isomorphism transport source rank five to the perfected
+target, with universe lifts handled by the existing transport API.
+
+The kernel yields `Induces.exists_eq_trans_frobZPow` with the correct
+orientation `Φ₂ = Φ₁.trans (ρ.frobZPow n)`. Together with the accepted
+forward invariance, `Induces.iff_exists_eq_trans_frobZPow` describes the
+full fibre once one inducing map is supplied. The independent
+`trans_frobZPow_injective` clause takes the lattice isomorphism and rank
+explicitly, with no unused Induces hypothesis. `Induces.eq_of_p_eq_one`
+gives literal uniqueness in characteristic zero. No agreement of the two
+recorded exponential characteristics, target-rank or relatively closed-base
+hypothesis is added. Reconstruction existence and assembly remain open.
+
+Claude supplied the frozen source-only drafts; Codex verified both draft
+hashes and all six input hashes against pushed `76484ae`. The draft note
+still named `641a09e` with working-tree kernel candidates; chit #3663
+confirmed, and the independent ledger verified, that these inputs are exactly
+the pushed kernel checkpoint. The raw draft compiles unchanged and preserves
+all 15 old declaration signatures and normalized proof bodies.
+
+The final 22→22 ledger has zero statement, attribute, docstring or definition
+body changes. Exactly two existing Kernel theorem proofs now use the shared
+`frobeniusZPow_eq_one_of_eq_one`, removing duplicated characteristic-zero
+computations. There are six new authored public theorems, one private shared
+rank helper and no new generated declarations; the existing
+`frobeniusZPow.eq_1` has an explicit placement check. All 21 public reports
+and the private helper use standard axioms. Twelve identical original/final
+typed interfaces pass, including independent universe levels, original-field
+characteristic zero, characteristic three, original compatible transport
+and the comparison of two arbitrary choices of perfection.
+
+The full shared library build passes in 24.02 s (peak family RSS 8.07 GiB,
+minimum available memory 34.85 GiB), and the rendered book passes in 10.00 s.
+The isolated reconstruction chapter required its explicit Uniqueness import;
+that integration error was fixed before these gates passed. The exact 22
+shared signatures/proofs, 21 public standard-axiom reports, private helper and
+all twelve interfaces match the independent final review (8.00 s, peak
+2.54 GiB, minimum available 36.58 GiB). The unchanged Induces namespace is
+byte-checked. Hygiene covers 233 library files; all 76 previous HTML paths
+remain among 77 pages, with the six new displayed docstrings and explicit
+source-rank/endpoints/open-existence boundaries checked. The 55-page blueprint
+has visual review of pages 40–42 with no undefined references or overfull boxes.
+
+Visual review also found the old assembly paragraph still claiming a complete
+proof of existence. This status overclaim was reported on #9 before correction;
+the original phrasing is retained in source comments. The target and planned
+interface are unchanged, while the assembly text now explicitly depends on the
+open interpretation and recovery inputs. Final documentation build/book and
+staged-byte/push gates remain required before the checkpoint commit.
+The supplied-endpoint uniqueness half is this checkpoint's scope. R1/R2/R3b/R4
+recovery, reconstruction existence, full functorial assembly, M4 and the held
+FrobEqCorrect/L2 work remain open.

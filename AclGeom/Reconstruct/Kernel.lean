@@ -160,11 +160,7 @@ theorem frobeniusZPow_eq_of_apply_eq {m n : ℤ} {x : K}
     frobeniusZPow K q m = frobeniusZPow K q n := by
   rcases expChar_is_prime_or_one K q with hq | hq
   · rw [eq_of_frobeniusZPow_apply_eq q hq.two_le hx h]
-  · subst hq
-    have h1 : (frobeniusEquiv K 1 : RingAut K) = 1 := by
-      ext z
-      simp [frobeniusEquiv_apply, frobenius_def]
-    simp [frobeniusZPow, h1]
+  · rw [frobeniusZPow_eq_one_of_eq_one q hq m, frobeniusZPow_eq_one_of_eq_one q hq n]
 
 end FrobeniusPowers
 
@@ -311,12 +307,8 @@ theorem eq_refl_of_point_fixed [ExpChar K 1]
       ClosedIF.point k (σ z) = ClosedIF.point k z) :
     σ = RingEquiv.refl K := by
   obtain ⟨n, hn⟩ := exists_eq_frobeniusZPow_of_point_fixed 1 htr σ hσ
-  have h1 : (frobeniusEquiv K 1 : RingAut K) = 1 := by
-    ext w
-    simp [frobeniusEquiv_apply, frobenius_def]
-  rw [hn]
-  ext z
-  simp [frobeniusZPow, h1]
+  rw [hn, frobeniusZPow_eq_one_of_eq_one 1 rfl n]
+  rfl
 
 end Kernel
 

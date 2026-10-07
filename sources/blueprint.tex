@@ -2823,6 +2823,17 @@ If $\Phi_1,\Phi_2:K^{\mathrm{perf}}\to L^{\mathrm{perf}}$ induce the same geomet
 then $\Phi_2\Phi_1^{-1}$ lies in this kernel, proving uniqueness modulo target Frobenius.
 For $p=1$, Mathlib's Frobenius equivalence is the identity and literal uniqueness follows.
 
+\noindent\textbf{Lean status for supplied inducing maps.}
+\lean{Induces.exists_eq_trans_frobZPow} proves the uniqueness clause from two explicit
+inducing isomorphisms and $\trdeg(K/k)\geq5$; the source rank transports to the
+perfected target. \lean{Induces.iff_exists_eq_trans_frobZPow} describes the entire fibre
+once one inducing map is supplied. \lean{trans_frobZPow_injective} and
+\lean{Induces.eq_of_p_eq_one} prove positive-characteristic exponent uniqueness
+and characteristic-zero literal uniqueness. These statements need neither relatively
+closed base hypotheses nor an equality of recorded exponential characteristics.
+Reconstruction existence, recovery and functorial assembly remain open (issues 9--10).
+
+
 \section{Assembly of the final Lean theorem}
 
 The proof uses the following explicit maps:
@@ -2855,10 +2866,14 @@ theorem exists_reconstruction
 \end{lstlisting}
 
 Here \lean{~=o} and \lean{~=+*} are ASCII placeholders for \lean{OrderIso} and
-\lean{RingEquiv}; the listing records a signature, while the following is its complete
-mathematical proof.
+% Original assembly status in commit 76484ae (issue 9):
+% the listing records a signature, while the following is its complete mathematical proof.
+\lean{RingEquiv}; the listing records a planned interface. The following is the proposed
+assembly argument, conditional on the open interpretation, base-recovery and point-recovery
+inputs; it does not yet establish reconstruction existence in Lean.
 
-\begin{proof}[Proof of \cref{thm:target}]
+% Original heading in commit 76484ae: Proof of \cref{thm:target}
+\begin{proof}[Proposed assembly argument for \cref{thm:target}]
 Let
 $\pi_K:\G(K/k)\simeq_o\G(K^{\mathrm{perf}}/k^{\mathrm{perf}})$ and $\pi_L$ be the
 order isomorphisms of \cref{prop:perf-lattice}, and set
@@ -2900,7 +2915,8 @@ intersection with $L$, to obtain
 \[
  \phi(M)=\Phi(M^{\mathrm{perf}})\cap L.
 \]
-This proves existence and compatibility.
+% Original conclusion in commit 76484ae: This proves existence and compatibility.
+Subject to those open reconstruction inputs, these identities give existence and compatibility.
 
 If $\Phi_1,\Phi_2$ have the same compatibility, then
 $\tau=\Phi_2\circ\Phi_1^{-1}$ fixes every atom of the $L$-geometry.  By

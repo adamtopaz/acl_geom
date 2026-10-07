@@ -14,6 +14,7 @@ The integral Frobenius powers `n ↦ Frob^n` of a perfect field of exponential c
 
 * Natural powers raise to `q^n` (`frobeniusZPow_natCast_apply`).
 * Quotients of powers are powers (`frobeniusZPow_sub`, `frobeniusZPow_sub_apply_of_pow_eq`).
+* In characteristic zero every power is the identity (`frobeniusZPow_eq_one_of_eq_one`).
 * They act trivially on the point geometry (`point_frobeniusZPow`).
 
 The Frobenius kernel theorem (`AclGeom.Reconstruct.Kernel`) and the existing perfection action
@@ -70,6 +71,15 @@ theorem frobeniusZPow_sub_apply_of_pow_eq {u v : ℕ} {x y : K}
     rw [frobeniusZPow_natCast_apply, frobeniusZPow_natCast_apply, h]
   rw [frobeniusZPow_sub, RingAut.mul_apply, ← hv]
   exact (frobeniusZPow K q v).symm_apply_apply y
+
+/-- In exponential characteristic one (characteristic zero) every integral Frobenius power is
+the identity (blueprint validation item TEST-1). -/
+theorem frobeniusZPow_eq_one_of_eq_one (hq : q = 1) (n : ℤ) : frobeniusZPow K q n = 1 := by
+  subst hq
+  have h1 : (frobeniusEquiv K 1 : RingAut K) = 1 := by
+    ext z
+    simp [frobeniusEquiv_apply, frobenius_def]
+  rw [frobeniusZPow, h1, one_zpow]
 
 /-- Integral Frobenius powers act trivially on the point geometry
 (blueprint validation item TEST-2): `[Frob^n z] = [z]` for every `z` and

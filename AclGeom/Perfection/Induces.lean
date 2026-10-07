@@ -25,8 +25,8 @@ closed `M` (`Perfection.Induces`; blueprint §type-correct statement, the defini
   clause fails: for `K = L = ℚ(√2)(t)`, `k = ℚ` and `l = ℚ(√2)`, the carrier identity of closed
   fields is induced by the identity, which does not carry `ℚ` onto `ℚ(√2)` (issue #24);
 * Frobenius twists of an inducing isomorphism induce the same map (`Induces.trans_frobZPow`), the
-  easy half of the fibre clause of Thm `target`; the converse is the uniqueness part of the
-  reconstruction theorem and remains open;
+  forward half of the fibre clause of Thm `target`. The converse for supplied inducing maps is
+  proved in `Reconstruct.Uniqueness`; reconstruction existence remains open;
 * an isomorphism `σ : K ≃+* L` compatible with the bases induces, through its unique extension to
   the chosen perfections, the direct transport of closed fields (`induces_liftEquiv`).  With `σ`
   the identity this is the blueprint's statement that the comparison `u_K` between two chosen
@@ -34,7 +34,8 @@ closed `M` (`Perfection.Induces`; blueprint §type-correct statement, the defini
 
 **Status:** the inducing relation, intersection formula, compatible converse and
 forward Frobenius invariance are proved (#24, #10). Reconstruction existence
-and the uniqueness-up-to-Frobenius converse remain open.
+remains open. The uniqueness-up-to-Frobenius fibre for supplied maps is proved in
+`Reconstruct.Uniqueness`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
