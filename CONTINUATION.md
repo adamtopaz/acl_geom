@@ -32,14 +32,18 @@ this guide. Its main conclusions:
   subsequently passed. The audit head `f6964f0` also passed the full build/book
   and deployment in run
   [37580135219](https://github.com/adamtopaz/acl_geom/actions/runs/37580135219),
-  completed on 2026-10-07 at 07:16 UTC. These are current CI evidence; the
-  separate release workflow is not a full build.
+  completed on 2026-10-07 at 07:16 UTC. The focused-module code checkpoint
+  `31864cd` also passed full CI in run
+  [37591789192](https://github.com/adamtopaz/acl_geom/actions/runs/37591789192),
+  completed at 08:27 UTC. These are current CI evidence; the separate release
+  workflow is not a full build.
   The later documentation-only head `842976b` also has a cancelled CI run
   (37533928699, completed 2026-10-07 03:27:14 UTC after 6h 0m 30s);
   deployment was skipped. It is not successful-build evidence.
   Build latency and memory are tracked in #18. The focused core/leaf and
   configuration-book refactor is recorded below; it preserves the audited
-  mathematical targets. Project-clean measurements remain pending.
+  mathematical targets. Paired project-clean measurements now pass, and the
+  #18 acceptance evidence is recorded below.
 - **The old M4 completeness target was false.** `AffineGridExtraction`
   required equality with the table witness in all 21 fields, but `Psi` sees
   the generators `A₁, A₂` (likewise `B`, `C`) only through their joins.
@@ -105,13 +109,14 @@ Coverage at a glance (details and file:line references on #19):
 
 Immediate priorities, in order:
 
-1. finish the build-performance gate (#18: project-clean measurements after
-   the verified focused dependency cuts) before any expensive new M4 work;
+1. integrate the reviewed foundational and transfer carryovers (#24/#7)
+   in small checkpoints with a full library build and rendered book; the
+   measured #18 build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
    (#22/#25), and prove the coupled arithmetic/quotient semantics (#23);
-3. integrate the reviewed foundational and transfer carryovers (#24/#7)
-   in small checkpoints with a full library build and rendered book;
-4. re-plan M4 (#12, #21);
+3. formalize the #25 counterexamples with explicit witness descent and the
+   existing correspondence/character results; do not claim general descent;
+4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
 5. work that does not depend on M4: M5 arrows (#7), the
    foundational carryovers (#24), the Frobenius kernel, two-generic
    intersection, trdeg transport, the converse/uniqueness halves of the main
@@ -2275,10 +2280,66 @@ finds no placeholders or project axioms; `git diff --check` passes and no touche
 file emits a deprecation warning. Only the nineteen reviewed source/doc paths
 changed; no generated artifacts were copied to the shared build.
 
-Paired project-clean builds (project outputs removed, dependency outputs
-cached) are still pending; #18 remains open until those measurements and the
-acceptance criteria are reconciled. The natural green focused-module
-checkpoint is committed and pushed before that longer experiment. Three
-native round-trip kernel checks remain potential optimization work, rather
-than claims of a completed kernel fix. Next mathematical work is re-planned
-against #12/#21 and the corrected configuration targets.
+The green focused-module code checkpoint was committed and pushed as
+`31864cd2c70831ebe70df9bffb98ead19dd30499` before the longer project-clean
+experiment. Its full CI run also passes, as recorded above. Three native
+round-trip kernel checks remain potential optimization work; they were not
+claimed as completed kernel fixes. The measured gate below allows the next
+mathematical checkpoints, with M4 re-planned against #12/#21 and the corrected
+configuration targets.
+
+### Project-clean measurements and gate acceptance
+
+Both isolated worktrees use the `f6964f0` base. The candidate has exactly the
+reviewed nine math modules, seven root imports and eight focused book sources
+(including final EOF whitespace cleanup). Each regular `.lake/build` directory
+was moved aside before its full default build. The same pinned dependency
+snapshot remained populated: **neither run built any package output**. These
+are whole-project clean-output builds with cached dependencies and warm OS
+caches, not fresh-machine or dependency-clean benchmarks. The runs are
+sequential, with no other Lean family, two Lean threads and the same 30 GiB
+available-memory guard. This is one measured pair, not a statistical study.
+
+| check | elapsed | sampled peak family RSS | minimum available RAM |
+|---|---:|---:|---:|
+| Original project-clean full build | 1131.89 s | 11.73 GiB | 34.93 GiB |
+| Original HTML generation | 8.04 s | 1.56 GiB | 40.00 GiB |
+| Refactored project-clean full build | 792.14 s | 12.27 GiB | 37.77 GiB |
+| Refactored HTML generation | 8.04 s | 1.52 GiB | 40.33 GiB |
+
+All four commands pass without a memory stop. Whole-project wall time falls
+by 30.02% in this pair. Sampled family peak RSS is slightly higher with the
+parallel leaves/book sections; the resource acceptance is the safe host
+envelope, rather than a claim that every peak is lower.
+
+The original run actually builds all 199 library/root modules and 417 project
+tasks including native objects and the executable. The candidate builds all
+206 library/root modules and 445 project tasks. Their task-set difference is
+exactly the fourteen new math/book modules and their fourteen native objects;
+no original task is missing or reused and no dependency task is rebuilt.
+CommonSource/ReferenceBridge take 206/128 seconds originally and 98/33 seconds
+in the candidate. Intrinsic restriction takes 48/26 seconds. The original
+monolithic book takes 294 seconds in Lean and 131 seconds in C; the focused
+sections and their native objects are all regenerated in the candidate.
+Both rendered books retain the same 64 page paths and the candidate preserves
+the six ordered subsections and frozen-work notice.
+
+Fresh dumps from the project-clean candidate again match all 1082 signatures
+and 1073 bodies with exactly the reviewed type/body and helper documentation/
+privacy exceptions, no missing or additional constants or nonstandard axioms,
+and equal exported metadata. Source hashes match the reviewed canonical
+candidate; no generated artifacts are injected into the shared checkout.
+
+The #18 acceptance criteria are met: warm full/book gates are 4.02/8.04 s,
+the changed-leaf full gate is 84.41 s and avoids every unrelated heavy library
+consumer and book section, reported resource measurements stay above the
+30 GiB guard, and the module organization/timing/artifact/hygiene evidence is
+recorded here. A core or genuinely upstream change can still require the
+whole dependency chain; the measurement does not promise instant builds for
+those edits. The old M4a route stays frozen.
+
+Final shared gates for this measurement-documentation checkpoint pass:
+`lake build` takes 12.10 s (sampled family peak 1.11 GiB, minimum available
+40.84 GiB) and `lake exe book` takes 8.05 s (1.51 GiB, 40.52 GiB), with no
+memory stop. The 206-file hygiene audit and final staged diff check also pass.
+Only this continuation guide changes in the measurement checkpoint.
