@@ -3617,23 +3617,32 @@ composite values agree by reflexivity.
 uses the forward theorem in both directions. Its conclusion is the actual
 base-range equality \lean{CrossBase.Compatible} for \lean{interpretedRingEquiv}.
 
-% Earlier scalar-one progress scope (before conditional R2; reported on issue 9):
+% Earlier inducing/existence progress scope (before perfected conditional R3/R4; reported on issue 9):
+% % Earlier scalar-one progress scope (before conditional R2; reported on issue 9):
+% % Both relatively algebraically closed bases and every existing carrier input
+% % remain explicit for compatibility: both perfections/rank-five bounds, separate
+% % exponential characteristics, both still-open ACF $J$-completeness hypotheses
+% % and the canonical image-base equality. Independent universes, finite bases
+% % and characteristics zero/two are included. The two accepted no-fresh ratio
+% % theorems are unchanged. This accepts corrected conditional R1b; general
+% % unconditional R1, scalar one/R2, agreement with the supplied lattice map,
+% % \lean{Induces}, unconditional completeness and full reconstruction remain open.
 % Both relatively algebraically closed bases and every existing carrier input
 % remain explicit for compatibility: both perfections/rank-five bounds, separate
 % exponential characteristics, both still-open ACF $J$-completeness hypotheses
 % and the canonical image-base equality. Independent universes, finite bases
 % and characteristics zero/two are included. The two accepted no-fresh ratio
 % theorems are unchanged. This accepts corrected conditional R1b; general
-% unconditional R1, scalar one/R2, agreement with the supplied lattice map,
+% unconditional R1/R2, agreement with the supplied lattice map,
 % \lean{Induces}, unconditional completeness and full reconstruction remain open.
 Both relatively algebraically closed bases and every existing carrier input
 remain explicit for compatibility: both perfections/rank-five bounds, separate
 exponential characteristics, both still-open ACF $J$-completeness hypotheses
 and the canonical image-base equality. Independent universes, finite bases
 and characteristics zero/two are included. The two accepted no-fresh ratio
-theorems are unchanged. This accepts corrected conditional R1b; general
-unconditional R1/R2, agreement with the supplied lattice map,
-\lean{Induces}, unconditional completeness and full reconstruction remain open.
+theorems are unchanged. This accepts corrected conditional R1b; general unconditional R1/R2,
+original-field \lean{Induces} assembly, unconditional completeness and full reconstruction
+remain open.
 
 The original proof above uses the literal \lean{RatioEq} refuted in the
 interpretation audit (issue 23); it is preserved exactly. This qualification
@@ -3703,12 +3712,21 @@ $(H(x),a')$ for every independent source pair $(x,a)$. This consequence,
 actual inverse/base-coordinate behavior and feeding the compatibility and point
 laws to the existing whole-lattice API are checked independently.
 
+% Earlier inducing/existence progress scope (before perfected conditional R3/R4; reported on issue 9):
+% None of these three theorems assumes RAC. Both perfections/rank-five bounds,
+% separate exponential characteristics, both still-open ACF $J$-completeness
+% hypotheses and the actual canonical image-base equality remain explicit.
+% No extra target genericity, freshness witness, scalar oracle or rank increase
+% is introduced. This accepts corrected conditional R2a/b/c; public inducing
+% and existence assembly, general unconditional R1/R2, chosen-perfection
+% reconstruction, unconditional completeness and the global/literal/TOT/
+% three-pair/tensor/frozen M4a obligations remain open.
 None of these three theorems assumes RAC. Both perfections/rank-five bounds,
 separate exponential characteristics, both still-open ACF $J$-completeness
 hypotheses and the actual canonical image-base equality remain explicit.
 No extra target genericity, freshness witness, scalar oracle or rank increase
-is introduced. This accepts corrected conditional R2a/b/c; public inducing
-and existence assembly, general unconditional R1/R2, chosen-perfection
+is introduced. This accepts corrected conditional R2a/b/c; original-field inducing and existence
+assembly, general unconditional R1/R2, chosen-perfection
 reconstruction, unconditional completeness and the global/literal/TOT/
 three-pair/tensor/frozen M4a obligations remain open.
 
@@ -3808,6 +3826,46 @@ conditional propagation. Reconstruction existence and unconditional recovery rem
 open (issue 9); the two-generic intersection and bypassed linear-disjointness
 statements retain their separate status.
 
+
+\subsection{Corrected conditional inducing equality and existence in Lean}
+
+The actual inducing equality is \lean{closedIFMap_interpretedRingEquiv}.
+It combines the actual base-range compatibility and outside-point formula with the general all-point and
+atomistic propagation theorem. For the same actual interpreted reconstruction
+$H$, its conclusion is
+\[
+ e=\operatorname{closedIFMap}(H).
+\]
+Both RAC bases and all carrier inputs remain explicit: both perfections, rank bounds,
+separate exponential characteristics, both ACF-completeness hypotheses and the
+actual image-base equality.
+Every principal point, every closed-field set image and inverse point formula
+follow from this actual equality, without a supplied point or scalar oracle.
+
+\lean{exists_ringEquiv_closedIFMap_eq} chooses the source pair, derives target
+rank from the lattice isomorphism, obtains the actual target pair from
+completeness, and proves existence of a compatible inducing field RingEquiv.
+No source/target pair, target-rank bound, image equality, point/scalar oracle
+or inducing endpoint is supplied. Both PERFECT ambient fields, source rank
+five, both RAC bases, separate exponential characteristics and both still-open
+ACF $J$-completeness hypotheses remain explicit, including finite bases and
+characteristics zero/two across independent universes.
+
+This proves the corrected conditional reconstruction step in the perfected
+RAC setting. The twelve new independent behaviors include all-point/closed-image/
+inverse consequences and an actual induced base-field RingEquiv. Extension to
+arbitrary chosen perfections of these already-perfect input fields is checked;
+this does not prove the general original nonperfect-field theorem.
+
+The next named consumer is transport through the chosen perfection lattices of
+ORIGINAL fields, including RAC of the perfected base, actual
+\lean{Perfection.Induces} existence and assembly with Frobenius uniqueness.
+Those steps remain open. General unconditional R1/R2/R3/R4, unconditional
+completeness, the literal \lean{RatioEq}/TOT/scalar arguments, original
+larger-freshness route, bypassed linear-disjointness and frozen M4a obligations
+retain their provenance and scope. The perfected conditional qualification
+was reported on issue 9 before integration. Every original statement and
+proof above is preserved exactly.
 
 \section{Uniqueness and the Frobenius kernel}
 

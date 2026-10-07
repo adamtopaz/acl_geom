@@ -182,6 +182,7 @@ import AclGeom.Interpretation.Field
 import AclGeom.Interpretation.Naturality
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Scalar
+import AclGeom.Reconstruct.Existence
 import AclGeom.Reconstruct.Points
 import AclGeom.Reconstruct.Kernel
 import AclGeom.Reconstruct.TwoGeneric

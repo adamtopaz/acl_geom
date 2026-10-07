@@ -31,9 +31,10 @@ J-completeness of both sides and the image-base equality are explicit.
 R2a/b/c), with both perfections/rank-five bounds, separate exponential characteristics, both
 still-open ACF J-completeness inputs and the actual canonical image-tuple equality explicit. No
 RAC, extra target-genericity/freshness or scalar oracle is assumed. The full tuple-image
-consequence follows from B1 and these laws. Public inducing/existence assembly is the named next
-consumer and remains open, as do general unconditional R1/R2, chosen-perfection reconstruction,
-unconditional completeness and the literal/TOT/frozen source obligations. The original scalar
+consequence follows from B1 and these laws. The actual inducing/existence consumer is proved in
+`Reconstruct.Existence` for perfect ambient fields under both RAC bases and explicit completeness.
+General unconditional R1/R2, original-field chosen-perfection reconstruction, unconditional
+completeness and the literal/TOT/frozen source obligations remain open. The original scalar
 proof chooses over acl(a,x₀,t₀); the corrected route transports genericity geometrically instead.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin

@@ -29,9 +29,10 @@ An order isomorphism of closed lattices is determined by its action on points
 freshness is used.
 
 **Status:** general conditional point propagation and lattice extension are proved (#9). The
-actual corrected conditional base-recovery and outside-point inputs are proved separately. Public
-assembly for that actual map, general unconditional R1/R2, chosen-perfection reconstruction and
-unconditional completeness remain open.
+actual corrected conditional base-recovery and outside-point inputs are proved separately, and
+`Reconstruct.Existence` assembles the actual inducing equality and compatible inducing existence
+for perfect fields under explicit RAC/completeness inputs. General unconditional R1/R2,
+original-field chosen-perfection reconstruction and unconditional completeness remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

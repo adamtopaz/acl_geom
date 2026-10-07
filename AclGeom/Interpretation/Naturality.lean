@@ -50,9 +50,10 @@ independent pair are derived from the source rank-five bound and the lattice iso
 ACF-completeness inputs, both perfections and separate exponential characteristics remain explicit.
 Conditional base recovery for this actual decoded isomorphism is proved in `Reconstruct.Base`
 under explicit RAC bases and the same carrier inputs. Corrected conditional scalar one and the
-outside-point formula for this same map are proved in `Reconstruct.Scalar` without RAC. General
-unconditional R1/R2, public `Induces` assembly, unconditional completeness, full reconstruction and
-literal source obligations remain open.
+outside-point formula for this same map are proved in `Reconstruct.Scalar` without RAC. The
+perfect-field compatible inducing/existence consumer is proved in `Reconstruct.Existence`.
+General unconditional R1/R2, original-field `Induces` assembly, unconditional completeness, full
+reconstruction and literal source obligations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

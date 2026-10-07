@@ -493,8 +493,9 @@ The reconstruction chapter proves actual base-range compatibility for
 this same `interpretedRingEquiv` under explicit RAC bases and these carrier
 inputs. Its inverse is the swapped construction pointwise by reflexivity.
 The same chapter proves corrected conditional scalar one and outside-point
-recovery without RAC. General unconditional R1/R2 and public inducing
-assembly remain open.
+recovery without RAC, and assembles actual inducing equality and compatible
+inducing existence in perfect fields under RAC bases and explicit completeness.
+General unconditional R1/R2 and original-field inducing assembly remain open.
 
 # Conditional image-base and field-isomorphism existence
 %%%

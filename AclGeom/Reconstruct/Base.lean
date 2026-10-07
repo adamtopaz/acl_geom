@@ -42,9 +42,10 @@ characteristic; base membership names `IsRAC` explicitly. Corrected base recover
 separate exponential characteristics, both still-open ACF J-completeness inputs and the canonical
 image-base equality, with both `IsRAC` hypotheses for compatibility. Corrected conditional scalar
 one and outside-point recovery are proved in `Reconstruct.Scalar` under the same carrier inputs,
-without RAC. General unconditional R1/R2, public `Induces` assembly, unconditional completeness,
-full reconstruction and literal source obligations remain open. The two ratio declarations are
-unchanged.
+without RAC. The actual perfect-field inducing/existence consumer is proved in
+`Reconstruct.Existence` with both RAC bases and completeness explicit. General unconditional
+R1/R2, original-field `Induces` assembly, unconditional completeness, full reconstruction and
+literal source obligations remain open. The two ratio declarations are unchanged.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
