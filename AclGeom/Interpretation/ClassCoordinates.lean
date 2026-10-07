@@ -25,7 +25,8 @@ Blueprint Lemma `mu-bij`: on the fixed class `J₁ = [j(x₀, a)]_FrobEq`, the c
 with its evaluation law is proved under the explicit ACF J-completeness input `hcomp` (#23).
 Corrected generic fixed-class operations are proved in `ClassArithmetic` under the same inputs.
 Corrected ratio semantics is proved in `Ratio` under the same explicit inputs.
-Non-generic totalization, setoid/quotient construction and decoding remain open.
+`Decode` packages the corrected geometric ratio quotient and bijective nonzero decoding.
+Adjoining zero, non-generic totalization and quotient field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
@@ -119,6 +120,15 @@ theorem jClassEquiv_jTupleOf [PerfectField K] (q : ℕ) [ExpChar K q]
   unfold jClassEquiv
   exact congrArg Subtype.val ((Equiv.ofBijective (jClassMk htr h₀) _).symm_apply_apply
     ⟨x, AlgebraicIndependent.notMem_racl_pair' hx⟩)
+
+/-- Class coordinates are nonzero: they lie outside `acl_k(a)`, which contains `0`. -/
+theorem jClassEquiv_ne_zero [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a])
+    (w : {w : Fin 5 → Point k K // FrobEq (jTupleOf x₀ a h₀) w}) :
+    (jClassEquiv q htr hcomp h₀ w : K) ≠ 0 := fun h0 ↦
+  (jClassEquiv q htr hcomp h₀ w).2 (by rw [h0]; exact zero_mem _)
 
 end
 

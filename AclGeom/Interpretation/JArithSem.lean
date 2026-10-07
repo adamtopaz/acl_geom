@@ -28,7 +28,8 @@ closed subfields.  This file transports them to five-tuples of points of the geo
 **Status:** the displayed generic semantics and function properties are proved (#23).
 `ClassArithmetic` proves generic fixed-class correctness under explicit ACF J-completeness.
 `Ratio` proves corrected ratio semantics under the same explicit inputs.
-Non-generic totalization, ratio quotient and decoding remain open.
+`Decode` packages the ratio quotient and bijective nonzero decoding.
+Adjoining zero, non-generic totalization and quotient field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

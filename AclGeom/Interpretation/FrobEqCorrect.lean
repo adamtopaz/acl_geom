@@ -33,7 +33,8 @@ perfection of `K`.
 ACF J-completeness hypothesis `hcomp` (#23). The conditional coordinate bijection is proved
 in `ClassCoordinates`, and corrected generic class arithmetic in `ClassArithmetic`.
 Corrected ratio semantics is proved in `Ratio` under the same inputs.
-Unconditional completeness, setoid/quotient construction and non-generic totalization remain open.
+`Decode` packages the geometric ratio quotient and bijective nonzero decoding.
+Unconditional completeness, adjoining zero and non-generic totalization remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

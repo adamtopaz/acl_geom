@@ -27,8 +27,8 @@ operations computes the output.
 **Status:** corrected generic outputs remain in the fixed geometric class, and their decoded
 coordinates satisfy the displayed field operations, under explicit perfection, rank-five and
 ACF J-completeness inputs (#23). Corrected ratio semantics is proved in `Ratio` under the same
-inputs. Non-generic totalization, setoid/quotient construction and the interpreted field
-remain open.
+inputs. `Decode` packages its geometric ratio quotient and bijective nonzero decoding.
+Adjoining zero, non-generic totalization and interpreted field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

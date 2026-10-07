@@ -31,8 +31,9 @@ ratios `μ(r₁)/μ(r₂)` and `μ(s₁)/μ(s₂)` agree, where `μ` is the clas
 presents class members with the literal parameter `a` and defines `μ`.
 
 **Status:** the corrected geometric ratio relation has exact decoded-ratio semantics under
-explicit perfection, rank-five and ACF J-completeness inputs (#23). The ratio setoid/quotient,
-decoding equivalence, non-generic totalization and interpreted field remain open.
+explicit perfection, rank-five and ACF J-completeness inputs (#23). `Decode` constructs its
+setoid/quotient and bijective nonzero decoding under the same inputs. Adjoining zero,
+non-generic totalization and interpreted field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
@@ -91,8 +92,8 @@ theorem RatioEq.div_eq [PerfectField K] (q : ℕ) [ExpChar K q]
   obtain ⟨c₁, c₂, d₁, d₂, hc₁, hc₂, hd₁, hd₂, ⟨m₁, g₁⟩, ⟨m₂, g₂⟩, ⟨m₃, g₃⟩, ⟨m₄, g₄⟩⟩ := h
   -- Class coordinates are nonzero.
   have hne : ∀ {w : Fin 5 → Point k K} (hw : FrobEq (jTupleOf x₀ a h₀) w),
-      (jClassEquiv q htr hcomp h₀ ⟨w, hw⟩ : K) ≠ 0 := fun hw h0 ↦
-    (jClassEquiv q htr hcomp h₀ ⟨_, hw⟩).2 (by rw [h0]; exact zero_mem _)
+      (jClassEquiv q htr hcomp h₀ ⟨w, hw⟩ : K) ≠ 0 := fun hw ↦
+    jClassEquiv_ne_zero q htr hcomp h₀ ⟨_, hw⟩
   -- The four products, as field equations between coordinates.
   obtain ⟨_hd₁, e₁⟩ := JMulRel.jClassEquiv_mul q htr hcomp h₀ hr₁ hc₁ g₁ m₁
   obtain ⟨_hd₂, e₂⟩ := JMulRel.jClassEquiv_mul q htr hcomp h₀ hr₂ hc₁ g₂ m₂

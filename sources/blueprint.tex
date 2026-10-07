@@ -135,9 +135,9 @@ The formalization audit of October 2026 identified errors in the literal $21$-fi
 coordinate target, the arbitrary-field $\Qrel$ and $\Qprel$ consequences, and the generic
 arithmetic predicates.  The corresponding sections retain the provenance and state the
 corrections or counterexamples. Corrected generic class semantics is formalized under
-explicit configuration-completeness inputs, as is corrected ratio semantics.
-Totalization, ratio quotient/decoding and the dependent reconstruction and functorial
-assembly require further work.  Lean fragments
+explicit configuration-completeness inputs, as are corrected ratio semantics and
+bijective nonzero quotient decoding. Adjoining zero, totalization and the dependent
+reconstruction and functorial assembly require further work.  Lean fragments
 record target interfaces, and each prose argument must be checked against its precise
 hypotheses before transcription.  The library, book, and issue tracker distinguish
 kernel-checked results from conditional theorems and open obligations.
@@ -2294,8 +2294,8 @@ Define $\mu(j(x,a))=x$.
 perfection, rank-five and ACF J-completeness hypotheses, by applying inverse
 Frobenius to the semantic endpoint. The coordinate bijection is proved under these
 same explicit hypotheses below. Corrected generic class arithmetic is also proved
-under these inputs, as is corrected ratio semantics. The ratio quotient, decoding
-and non-generic totalization remain open (issue 23).
+under these inputs, as are corrected ratio semantics and bijective nonzero quotient
+decoding. Adjoining zero and non-generic totalization remain open (issue 23).
 
 
 \begin{lemma}[coordinate bijection]\label{lem:mu-bij}
@@ -2316,8 +2316,9 @@ arbitrary fields, without perfection or configuration completeness.
 and its evaluation law, keeping the class description's perfection, rank-five
 and still-open ACF J-completeness hypotheses explicit. The domain remains
 the geometric Frobenius class. Corrected generic class arithmetic is also proved under
-these inputs. Corrected ratio semantics is also proved conditionally below;
-setoid/quotient construction, decoding and non-generic totalization remain open (issue 23).
+these inputs. Corrected ratio semantics and bijective nonzero quotient decoding are
+also proved conditionally below. Adjoining zero and non-generic totalization remain
+open (issue 23).
 
 
 The generic operations can be defined explicitly from the four non-parameter coordinates.
@@ -2412,7 +2413,8 @@ $\mu$-coordinate is the corresponding field operation. The four theorems are
 together with \lean{JSubRel.jClassEquiv_sub} and \lean{JDivRel.jClassEquiv_div}.
 The predicates and genericity remain geometric. Corrected ratio semantics is proved under
 the same explicit inputs, separately from the historical definitions below. Non-generic
-totalization and ratio quotient/decoding remain open; literal provenance is retained.
+totalization and adjoining zero remain open; the corrected quotient and nonzero
+decoding are proved under explicit completeness. Literal provenance is retained.
 
 The ratio definition below is affected concretely. Take $t$ fresh over $x,y,a$ and put
 \[
@@ -2495,8 +2497,9 @@ refuted by the witnesses in the preceding audit remark (issue 23).
 Consequently the asserted decoding and field proofs below do not establish
 results for these definitions. Generic class semantics for corrected coupled
 operations and corrected ratio semantics are now proved under explicit ACF completeness.
-Setoid/quotient construction, decoding and non-generic totalization are still needed
-for the interpreted field. The corrected predicate is displayed separately below;
+The corrected geometric quotient and bijective nonzero decoding are now proved under
+the same inputs. Adjoining zero and non-generic totalization are still needed for
+the interpreted field. The corrected predicate is displayed separately below;
 the literal predicate and its refutation remain preserved.
 \end{warning}
 
@@ -2543,9 +2546,34 @@ fresh over the explicit four-element set $\{a,x_1,x_2,y_2\}$ is therefore fresh
 over all five values. The four witnesses have coordinates
 $y_2t,x_2t,x_1y_2t,x_2y_2t$. All four product genericity clauses and class
 memberships are proved. No genericity between a pair's numerator and denominator
-is required. The ratio setoid/quotient, decoding and non-generic totalization
-remain open (issue 23). The following original definition and proofs retain their
+is required. Its geometric setoid/quotient and bijective nonzero decoding are proved
+under the same inputs as described next. Adjoining zero and non-generic totalization
+remain open (issue 23). The later original definition and proofs retain their
 historical, refuted status.
+
+\subsection{The corrected quotient and nonzero decoding in Lean}
+
+On pairs of members of the fixed class of $j(x_0,a)$, the corrected geometric
+relation $\operatorname{RatioEq}_{\mathrm c}$ is an equivalence relation
+(\lean{ratioEq_equivalence}); its setoid is \lean{ratioSetoid}.
+The quotient decodes to the actual nonzero field elements $K^\times$ by
+\lean{ratioDecode}, with representative evaluation \lean{ratioDecode_mk}.
+Well-definedness uses the universal forward implication of corrected ratio
+semantics; nonzero coordinates follow from \lean{jClassEquiv_ne_zero}.
+
+The map is bijective (\lean{ratioDecode_bijective}, \lean{ratioDecodeEquiv}).
+Injectivity uses the converse of corrected ratio semantics. For $z\ne0$,
+choose $t$ outside $\acl_k(a,z,x_0)$. Cancellation of $z$ shows both $t$ and
+$zt$ lie outside $\acl_k(x_0,a)$. Independent triples give the pair
+$(j(zt,a),j(t,a))$ of class members, whose ratio is $z$.
+
+This establishes the nonzero part of Lemma \ref{lem:decode-equiv} for the
+corrected geometric relation. Perfection, rank five and still-open ACF
+J completeness remain explicit. The uniform rank-five input also supplies
+class soundness; no rank-four completeness theorem is claimed.
+Adjoining zero, non-generic totalization and quotient field operations
+remain open (issue 23). No global Frobenius setoid is asserted.
+The following historical literal construction and its proofs are preserved.
 
 \subsection{A geometry-only ratio equivalence}
 
@@ -3676,8 +3704,9 @@ equation (20.20) and both quotient-category unit laws.
 This table tracks transcription targets and their proposed prose arguments. Entries are
 not blanket proof claims: the library, book and issue tracker distinguish imported
 Mathlib facts, checked adapters, conditional theorems, open obligations and refuted
-literal targets. In particular, unconditional completeness, ratio quotient/decoding,
-totalization and the dependent reconstruction assembly still require proof.
+literal targets. Corrected ratio quotient and nonzero decoding are proved under explicit
+completeness. Unconditional completeness, adjoining zero, totalization and the dependent
+reconstruction assembly still require proof.
 
 \begin{longtable}{p{0.08\linewidth}p{0.67\linewidth}p{0.15\linewidth}}
 \toprule

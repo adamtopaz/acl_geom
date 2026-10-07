@@ -85,8 +85,9 @@ of this guide. The current mathematical boundaries are:
   ACF J-completeness inputs, over any base field. The coordinate bijection
   is proved under the same explicit inputs. Corrected generic fixed-class
   arithmetic and corrected geometric ratio semantics are proved under these
-  inputs. Setoid/quotient construction, decoding and non-generic totalization
-  remain open (#23).
+  inputs. The corrected geometric ratio setoid/quotient and bijective nonzero
+  decoding are proved under the same inputs. Adjoining zero and non-generic
+  totalization remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -100,7 +101,9 @@ of this guide. The current mathematical boundaries are:
   All 89 authored public declarations have standard-axiom checks. Inputs
   share a literal parameter and are independent. Geometric membership
   follows from rank-five soundness without an infinite-base binder.
-  Fixed-class correctness, totalization and ratio semantics remain open (#23).
+  Generic fixed-class correctness and corrected ratio semantics are proved
+  under explicit completeness, as is bijective nonzero quotient decoding.
+  Non-generic totalization remains open (#23).
 - **Lemma 8.4 (affine action) has no Lean statement.** #13's curve
   prerequisites are proved: places, divisors, Riemann–Roch, genus, rationality
   in genus 0, Tate residues, rigidity of regular derivations in genus ≥ 1, and
@@ -3299,3 +3302,69 @@ Ratio setoid/quotient construction, decoding, non-generic totalization,
 field graphs, unconditional completeness, the bypassed representative
 obligation, R1/R2 and reconstruction existence remain open. The frozen
 M4a chain is untouched.
+
+## The geometric ratio quotient and bijective nonzero decoding (#23/#8)
+
+`Interpretation/Decode` proves the corrected ratio relation an equivalence
+on pairs of members of the fixed geometric class, packages its setoid and
+quotient, and decodes that quotient bijectively to the actual nonzero
+field elements `Kˣ`. These six public declarations establish the nonzero
+part of blueprint `decode-equiv`; every semantic statement and definition
+keeps perfection, exponential characteristic, rank five and the still-open
+ACF `JCompletenessACF` input explicit. The setoid relation itself is the
+geometric `RatioEq`, with no semantic replacement.
+
+`ratioDecode` descends by `Quotient.lift` and the universal corrected
+ratio semantics. Its evaluation law computes a representative as the
+ratio of its two coordinates. Injectivity uses the reverse ratio
+implication. For surjectivity, a multiplier is fresh over the explicit
+three-element set `{a,z,x₀}`; cancellation of the nonzero `z` shows
+both `t` and `z*t` avoid the closure of `{x₀,a}`. Independent
+triples and their pair restrictions supply the two class members
+`j(z*t,a)` and `j(t,a)`, with ratio `z`. No pair helper is
+promoted or duplicated, and the one exclusion calculation stays in place.
+The theorem retains the uniform rank-five input used for class soundness.
+
+The one new coordinate helper `jClassEquiv_ne_zero` is consumed by the
+quotient decoding and by a separately ledgered proof-only cleanup of
+`RatioEq.div_eq`. All eleven older signatures, attributes and declaration
+docstrings are exact. Ten older raw proof/definition bodies are exact;
+only that named proof changes. All eighteen original/final signatures
+and raw bodies agree exactly. All fourteen public and four private axiom
+reports are standard, including the three new definitions. There are no
+new private helpers or generated declarations.
+
+Claude froze source-only bundle `34d2ca37` (Decode), `09be3b60`
+(coordinates) and `1b186aab` (Ratio) against pushed `2cb0133`. Codex
+checked eight dependency hashes and both byte-exact bases, independently
+reviewed the geometric quotient and freshness budget, and compiled all
+three frozen sources without repairs in 14 s. Final sources pass in 10 s;
+a private quotient-equality probe required the setoid supplied explicitly
+to `Quotient.sound`, then all fifteen interfaces pass in 4 s on both
+overlays. They use independent universes and check arbitrary/finite bases,
+characteristic zero, actual geometric setoid relation, both evaluation
+routes, quotient equality, global injectivity, surjectivity and the
+nonzero helper. No source proof needed repair.
+
+Three additional existing module namespaces remain byte-exact; their
+status headers now identify the nonzero decoding. Original mathematical
+statement/proof blocks and the literal refutation remain preserved.
+The full library build passes in 36.01 s (10.18 GiB sampled peak family
+RSS, minimum 36.38 GiB available); the book passes in 8 s. Shared artifact
+probes pass in 6 s, reproducing all eighteen signatures/raw bodies, fourteen
+public/four private standard-axiom reports and fifteen interfaces.
+All 237 library files pass proof-placeholder/project-axiom hygiene.
+The book has 83 HTML pages, retaining all 82 old paths and the frozen
+117-declaration M4a page. Seven new docstrings display the geometric setoid,
+three-element freshness, explicit completeness and still-open zero/TOT
+scope. Four source passes produce 57 pages with stable auxiliary, contents
+and bookmark hashes, with no undefined references, overflow or rerun
+warnings. Actual changed pages 1, 2, 34–37 and 53 are rendered and visually
+checked; page 36's final equation ends at 771.93 pt, before the footer
+at 787.71 pt. All 49 original mathematical statement blocks and 44 proof
+blocks stay byte-exact. Final full build/book checks repeat after recording
+these results.
+Adjoining zero, non-generic totalization, quotient field operations, global
+Frobenius setoid, unconditional completeness, simultaneous representatives,
+field graphs, R1/R2 and reconstruction remain open. The frozen M4a chain
+is untouched.
