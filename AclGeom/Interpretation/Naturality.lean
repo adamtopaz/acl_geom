@@ -26,7 +26,7 @@ carries the base tuple `j(x₀, a)` of `K` to the base tuple `j(x₀', a')` of `
 `ratioInterpMapRingEquiv` bundles that same geometric carrier map, using graph preservation for
 its addition and multiplication laws. `interpretedRingEquiv` composes it with the two decoding
 ring equivalences to obtain `K ≃+* L`. Their named consumers are conditional existence and the
-later base/scalar recovery inputs.
+conditional base recovery in `Reconstruct.Base` and later scalar recovery.
 
 `exists_map_jTupleOf_eq` supplies the canonical image base using target completeness, while
 `nonempty_ringEquiv_of_closedIF_orderIso` chooses the source pair inline and applies the decoded
@@ -48,8 +48,10 @@ its decoded field isomorphism are complete (#23/#8) under the stated carrier inp
 image base and conditional field-isomorphism existence are also proved: target rank and the source
 independent pair are derived from the source rank-five bound and the lattice isomorphism. Both
 ACF-completeness inputs, both perfections and separate exponential characteristics remain explicit.
-Base recovery, scalar one, `Induces`, unconditional completeness, full reconstruction and literal
-source obligations remain open.
+Conditional base recovery for this actual decoded isomorphism is proved in `Reconstruct.Base`
+under explicit RAC bases and the same carrier inputs. General unconditional R1, scalar one/R2,
+`Induces`, unconditional completeness, full reconstruction and literal source obligations remain
+open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

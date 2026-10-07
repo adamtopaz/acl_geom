@@ -369,8 +369,10 @@ with a common generic factor remain interalgebraic differ by a constant:
 This algebraically closed core takes a supplied fresh third element. The
 reconstruction chapter now proves the no-fresh relative base-ratio
 corollary and actual base membership under an explicit relatively closed
-base hypothesis, by adjoining a rational-function variable. Actual recovery
-for the reconstructed field isomorphism remains open.
+base hypothesis, by adjoining a rational-function variable. It also proves
+corrected conditional base recovery for the actual interpreted ring
+equivalence, under explicit carrier/completeness and RAC inputs. General
+unconditional recovery and scalar one remain open.
 
 Second, perfection: the base field is algebraically closed, so the coset
 constant has roots of every Frobenius order, and injectivity of the

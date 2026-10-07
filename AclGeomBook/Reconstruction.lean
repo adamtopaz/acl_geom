@@ -24,8 +24,8 @@ tag := "reconstruction"
 
 The Frobenius kernel theorem supplies the kernel input to the blueprint's
 uniqueness argument.  The existence of a field isomorphism inducing a
-geometry isomorphism, and the base and point recovery needed for it, remain
-open ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
+geometry isomorphism and its point recovery remain open. Corrected conditional
+base recovery for the actual interpreted ring equivalence is proved below ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
 
 # Relative base ratios
 %%%
@@ -58,12 +58,57 @@ statements include finite bases and characteristics zero/two, and the
 algebraically closed-base case needs no ambient closure assumption.
 This completes the base-ratio corollary prerequisite (R1a/C7b).
 
-Actual recovery for `interpretedRingEquiv`, the equality
-`CrossBase.Compatible`, scalar one and the full `Induces` direction remain
-open. The next named consumer is R1b's base-element membership and then
-compatible transport. The broader C7/group/three-pair/tensor obligations
+The next section proves the named R1b consumer: base-element membership and
+`CrossBase.Compatible` for the actual `interpretedRingEquiv` under explicit
+carrier and RAC inputs. General unconditional R1, scalar one and the full
+`Induces` direction remain open. The broader C7/group/three-pair/tensor obligations
 and frozen M4a scope are preserved. The original source proof is retained;
 its incorrect correspondence-pair ordering was reported on issue #5.
+
+# Conditional base recovery
+%%%
+tag := "conditional-base-recovery"
+%%%
+
+For the actual decoded geometric ring equivalence, the forward base
+inclusion needs only the target base to be relatively algebraically closed:
+
+{docstring AclGeom.interpretedRingEquiv_algebraMap_mem}
+
+The zero case uses explicit zero-preservation identities. A nonzero base
+element is represented by the ratio of `j(c x₀,a)` and the canonical
+`j(x₀,a)`. The supplied image-tuple equality fixes the denominator as
+`j(x₀',a')`. Target fixed-class correctness supplies `j(y,a')` for the
+numerator. Only point coordinates zero and two are used: base scaling
+fixes the points of `x₀` and `x₀ a`, so the relative base-ratio
+corollary puts the decoded ratio `y/x₀'` in the actual target base.
+
+The actual inverse agrees with the swapped construction:
+
+{docstring AclGeom.interpretedRingEquiv_symm}
+
+This theorem needs no RAC hypothesis. It takes the redundant inverse
+image-tuple equality explicitly; pointwise values of the two inverse
+composites agree by reflexivity. Compatible assembly derives that equality
+inline and applies forward inclusion in both directions:
+
+{docstring AclGeom.interpretedRingEquiv_compatible}
+
+The conclusion is the actual equality of base-field ranges
+`CrossBase.Compatible (interpretedRingEquiv …)`. Both RAC bases and all
+existing carrier inputs remain explicit: both perfections/rank-five bounds,
+separate exponential characteristics, both still-open ACF J-completeness
+hypotheses and the canonical image-base equality. Forward inclusion uses
+target RAC only. The statements include independent universes, finite bases
+and characteristics zero/two. The two accepted no-fresh ratio declarations
+are unchanged, and no helper, generated declaration or global instance is added.
+
+This accepts corrected conditional R1b. General unconditional R1, scalar
+one/R2, agreement with the supplied lattice map, `Induces`, unconditional
+completeness and full reconstruction remain open. The named next consumers
+are scalar elimination and inducing reconstruction. The original literal
+RatioEq proof, broader C7/group/three-pair/tensor obligations and frozen
+M4a scope remain preserved.
 
 # Two generic intersections
 %%%
@@ -190,8 +235,8 @@ isomorphism is literally unique in characteristic zero:
 These theorems require no agreement of the two recorded exponential
 characteristics and no relatively closed base hypotheses. They take the
 inducing maps as explicit inputs. Existence of a map inducing an arbitrary
-lattice isomorphism, base/point recovery and full functorial assembly remain
-open ([issues #9](https://github.com/adamtopaz/acl_geom/issues/9) and
+lattice isomorphism, unconditional base/point recovery and full functorial
+assembly remain open ([issues #9](https://github.com/adamtopaz/acl_geom/issues/9) and
 [#10](https://github.com/adamtopaz/acl_geom/issues/10)).
 
 
@@ -203,7 +248,8 @@ tag := "conditional-point-recovery"
 Suppose a field isomorphism carries the source base onto the target base
 and agrees with the prescribed lattice map on the principal closures of
 every element outside the closure of one parameter. These are explicit
-outputs of base recovery and scalar elimination, which remain open.
+outputs of base recovery and scalar elimination. Conditional base recovery
+is proved above; scalar elimination and the general inducing direction remain open.
 The agreement then extends to every closed intermediate field:
 
 {docstring AclGeom.eq_closedIFMap_of_point_eq}
