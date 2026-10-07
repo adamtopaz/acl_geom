@@ -89,7 +89,8 @@ of this guide. The current mathematical boundaries are:
   decoding are proved under the same inputs. Adjoining zero yields the full
   carrier decoding equivalence. The corrected two-addition negation detour
   and corrected total nonzero addition are proved under the same inputs.
-  Full ratio-carrier totalization and quotient field operations remain open (#23).
+  Corrected total geometric graphs on the full ratio carrier are proved
+  under the same inputs. Transported field structure and naturality remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3575,4 +3576,88 @@ Full ratio-carrier totalization, quotient field operations, geometric
 graphs, global Frobenius setoid, unconditional completeness, simultaneous
 representatives, R1/R2 and reconstruction remain open. The next
 read-only peer audit checks the common-denominator addition graph.
+The frozen M4a chain is untouched.
+
+## Corrected total geometric operation graphs (#23/#8)
+
+`Interpretation/Field` now proves the corrected totality/functionality
+and decoded-operation part of blueprint `thm:total-field-graphs`.
+`RatioAddGraph` retains the two named-zero cases and existential
+class-member representatives with a common denominator: corrected
+negation gives zero, or corrected total nonzero addition gives a ratio.
+`RatioMulGraph` retains zero factors and two generic coupled products,
+on the numerators and denominators. Quotient equalities use the actual
+corrected geometric `ratioSetoid`. Definitions contain no coordinates,
+choices or `Quotient.out`.
+
+Both decode iffs apply to every witness, and their converses construct
+witnesses for arbitrary carrier elements. Addition uses a common
+denominator fresh over `{a,c,d}`, with class members supplied by the
+existing coordinate equivalence inverse. Its inner addition detour may
+use a fifth independent element, so the full construction retains the
+uniform rank-five bound. Multiplication uses successive freshness over
+`{a,c,d}` and `{a,c,d,b}`, giving the two independent triples
+`(b,e,a)` and `(c*b,d*e,a)`. There is no extra sixth element.
+Both `existsUnique` theorems use decoding bijectivity. Perfection,
+exponential characteristic, rank five and still-open ACF J completeness
+stay explicit, over arbitrary base fields. Common denominators are
+existential: a prescribed one may make the numerator sum algebraic over
+the parameter, even when the decoded sum is nonzero.
+
+Claude supplied frozen Field `c2870a42`, Ratio `a2876cd8` and
+ClassCoordinates `b125d8dd` against published `ebad9db`.
+Codex verified thirteen input hashes and three exact bases, then
+compiled the seven-module chain in 18 s (peak 2.65 GiB, minimum available
+37.45 GiB), without source repairs or warnings. The initial six-second
+attempt stopped on a private overlay symlink/root-path harness error
+before Field compilation. Materializing unchanged dependency sources
+fixed the harness. The final changes only module headers/status and
+preserves all seven namespaces.
+
+All seventeen original/final signature and raw-body records are exact.
+All eleven old types/docs/attributes/raw bodies are exact except the
+two ledgered private-to-public flags on `mul_fresh_notMem` and
+`pair_of_notMem`. Their types/docs/proofs are unchanged, with named
+old ratio/class and new graph consumers. Six public declarations are
+new; no private/generated declaration is added. All sixteen public
+and one private axiom reports are standard, including both geometric
+graph definitions and the existing class encoding.
+
+Twenty-two byte-identical independent-universe interfaces pass.
+They cover arbitrary and finite bases, characteristics zero and two,
+every witness and both converses, actual totality/functionality,
+named-zero laws, geometric quotient representative invariance,
+associativity/distributivity without carrier field operations,
+base-valued inputs, opposite-input zero and rank-free helper types.
+Only private interface-harness zero/numeral normalization needed repair.
+Independent earlier probes also checked the exact common-denominator
+and two-generic-product freshness budgets.
+
+The recovery warning's blanket open-status qualification was reported
+on issues 9 and 23 before its current-scope update; its earlier wording
+is preserved in a source comment. Conditional total graphs do not
+discharge R1/R2 or unconditional completeness. All original 49
+statement blocks, 44 proof blocks and the literal total-field-graphs
+argument remain exact. Full library/book passes in 50.01/10.00 s
+(peak 9.84 GiB, minimum available 33.27 GiB), with no touched-module
+warnings. All seventeen independent/shared records, sixteen public and
+one private standard-axiom reports and twenty-two interfaces pass.
+Hygiene covers 239 library files; all 86 old HTML paths survive among
+87, with eight new or promoted docs and the frozen M4a status checked.
+Four source passes converge in auxiliary/contents/bookmark hashes,
+with 59 pages and no undefined references, overflows or rerun warnings.
+Changed pages 1, 2, 39, 40 and 41 have visual review. New prose
+overflows were fixed before acceptance, and the corrected subsection
+was moved before the literal heading to keep that heading with its
+original prose. The original mathematical blocks and literal argument
+remain exact. Final documentation library/book and ten-path staged-byte
+gates are required before commit and push.
+
+Transported field structure, graph naturality, global Frobenius setoid,
+unconditional ACF completeness, simultaneous representatives, R1/R2
+and reconstruction remain open. A private downstream audit confirms
+Mathlib's `Equiv.field` and `Equiv.ringEquiv` can give a named
+field structure/decoding equivalence, preserving the named zero.
+No carrier Field instance or corresponding declaration is installed.
+That blueprint obligation remains even if a later route bypasses it.
 The frozen M4a chain is untouched.

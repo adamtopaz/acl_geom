@@ -20,8 +20,9 @@ Mathlib's `WithZero.withZeroUnitsEquiv : WithZero Kˣ ≃* K`.
 `K` is perfect of rank at least five, and completeness over `k̄ ⊆ K̄` (`hcomp`) stays explicit.
 
 **Status:** the corrected ratio quotient with an adjoined zero decodes bijectively to the field,
-under explicit perfection, rank-five and ACF J-completeness inputs (#23). Non-generic totalization,
-quotient field operations, geometric graphs, naturality and reconstruction remain open.
+under explicit perfection, rank-five and ACF J-completeness inputs (#23). `Field` proves
+corrected total geometric addition/multiplication graphs under the same inputs. Transported
+field structure, graph naturality and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

@@ -33,8 +33,10 @@ presents class members with the literal parameter `a` and defines `μ`.
 **Status:** the corrected geometric ratio relation has exact decoded-ratio semantics under
 explicit perfection, rank-five and ACF J-completeness inputs (#23). `Decode` constructs its
 setoid/quotient and bijective nonzero decoding under the same inputs. `Interp` adjoins zero
-and decodes the full carrier bijectively to `K`. Non-generic totalization and interpreted
-field operations remain open.
+and decodes the full carrier bijectively to `K`. `Field` proves corrected total geometric
+operation graphs under the same inputs. Transported field structure and naturality remain open.
+The public `mul_fresh_notMem` supplies the existing ratio witnesses and both operation-graph
+converses in `Field`; its type and proof use no rank-five or completeness input.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
@@ -63,7 +65,7 @@ def RatioEq (j₀ : Fin 5 → Point k K) (r s : (Fin 5 → Point k K) × (Fin 5 
 
 /-- A nonzero multiple, from `racl k S`, of an element `t` fresh over `S` avoids every set whose
 closure lies in `racl k S`. -/
-private theorem mul_fresh_notMem {S T : Set K} {c t : K} (ht : t ∉ racl k S)
+theorem mul_fresh_notMem {S T : Set K} {c t : K} (ht : t ∉ racl k S)
     (hc : c ∈ racl k S) (hc0 : c ≠ 0) (hT : T ⊆ racl k S) : c * t ∉ racl k T := fun h ↦
   ht (mem_racl_of_eq (mul_div_cancel_left₀ t hc0).symm
     (div_mem (racl_le_of_subset_racl hT h) hc))

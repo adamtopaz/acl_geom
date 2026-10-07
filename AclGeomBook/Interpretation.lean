@@ -17,6 +17,7 @@ import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Decode
 import AclGeom.Interpretation.Interp
 import AclGeom.Interpretation.TotalOps
+import AclGeom.Interpretation.Field
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -31,9 +32,12 @@ tag := "interpretation"
 %%%
 
 The interpretation layer (milestone M6) aims to quotient the
-geometric `J`-locus by Frobenius ambiguity and construct a field.  The quotient
-and its field operations are still open (#8).  The current addition and
-multiplication incidences are projections of the `Q` and `Q′` predicates;
+geometric `J`-locus by Frobenius ambiguity and construct a field. The quotient
+by a global Frobenius setoid remains open (#8). The corrected geometric ratio
+quotient, full carrier decoding and total operation graphs are proved below
+under explicit ACF completeness. Transported field structure and naturality
+remain open. The historical addition and multiplication incidences are projections
+of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
 can give different outputs. Corrected generic fixed-class semantics for the
 coupled operations follows below under explicit ACF completeness (#23).
@@ -186,7 +190,8 @@ generic fixed-class arithmetic is proved below under the same explicit
 inputs. Exact corrected ratio semantics is also proved below under these
 inputs. The geometric ratio quotient and bijective nonzero decoding are
 proved below, followed by the full adjoined-zero carrier equivalence.
-Non-generic totalization and quotient field operations remain open
+Corrected total geometric graphs are proved below under the same inputs.
+Transported field structure and naturality remain open
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Refutations of the literal generic operation graphs
@@ -256,8 +261,9 @@ they have the unique outputs `j(x+y,a)` and `j(xy,a)`:
 
 The output is semantic; geometric `J` membership follows from the
 rank-five soundness theorem over any base field. The class-level computation
-under explicit completeness is displayed next; non-generic totalization and
-ratio-field construction remain open (#23/#8).
+under explicit completeness is displayed next, followed by the ratio quotient
+and corrected total geometric graphs. Transported field structure and
+naturality remain open (#23/#8).
 
 # Generic arithmetic on the fixed class
 %%%
@@ -287,8 +293,8 @@ genericity clause; the refuted literal projections retain their provenance.
 
 This proves corrected generic fixed-class semantics. The following
 sections construct the corrected ratio quotient and its nonzero decoding.
-Non-generic totalization, unconditional ACF completeness, R1/R2 and
-reconstruction existence remain open.
+Corrected total graphs are proved later under the explicit input.
+Unconditional ACF completeness, R1/R2 and reconstruction existence remain open.
 
 
 # Corrected ratio semantics
@@ -328,8 +334,8 @@ predicate and its counterexample remain preserved.
 This proves the corrected ratio equivalence with decoded equality. The
 next section packages its geometric setoid/quotient and bijective nonzero
 decoding, followed by the full adjoined-zero carrier equivalence.
-Non-generic totalization, field graphs, R1/R2, unconditional completeness
-and final reconstruction remain open.
+Corrected total field graphs are proved later under the same explicit inputs.
+R1/R2, unconditional completeness and final reconstruction remain open.
 
 # The ratio quotient and nonzero decoding
 %%%
@@ -366,9 +372,9 @@ This proves the nonzero part of blueprint `decode-equiv` for the corrected
 geometric quotient. Perfection, rank five and still-open ACF
 `JCompletenessACF` remain explicit, over arbitrary base fields.
 No global Frobenius setoid is claimed. The next section adjoins zero and
-decodes the full carrier. Quotient field operations await non-generic totalization;
-unconditional completeness, field graphs, R1/R2 and reconstruction remain
-open. Historical literal definitions and their refutation stay preserved.
+decodes the full carrier, followed by corrected total operation graphs.
+Transported field structure, unconditional completeness, R1/R2 and
+reconstruction remain open. Historical literal definitions and their refutation stay preserved.
 
 
 # The adjoined-zero carrier and full decoding
@@ -397,8 +403,8 @@ Both evaluation laws reduce by definition:
 This proves the full corrected blueprint `decode-equiv` under explicit
 perfection, rank five and still-open ACF `JCompletenessACF`.
 The carrier is the geometric ratio quotient with its new zero. No quotient
-field operations are installed: they await non-generic totalization.
-Total operation graphs, naturality, global Frobenius setoid, unconditional
+field structure is installed. Corrected total operation graphs are proved below;
+transported field structure, naturality, global Frobenius setoid, unconditional
 completeness, R1/R2 and reconstruction remain open. The original literal
 construction and its counterexample remain preserved.
 
@@ -441,9 +447,9 @@ assumption between the two original inputs. This proves the corrected
 counterpart of the blueprint's two-addition negation detour.
 The original literal negation/totalization derivation retains its
 historical/open status; no separate negation counterexample is claimed.
-The corrected nonzero-addition detour is displayed next. Full ratio-carrier
-totalization, quotient field operations, total graphs, global Frobenius
-setoid, unconditional completeness, R1/R2 and reconstruction remain open.
+The corrected nonzero-addition detour is displayed next, followed by total
+ratio-carrier graphs. Transported field structure, global Frobenius setoid,
+unconditional completeness, naturality, R1/R2 and reconstruction remain open.
 
 
 # Corrected total nonzero addition
@@ -482,8 +488,67 @@ condition; being merely nonzero in `K` is insufficient.
 
 Perfection, uniform rank five and still-open ACF `JCompletenessACF`
 remain explicit. This establishes the corrected class-level detour,
-not the full ratio-carrier field graphs. The historical literal
-negation/TOT derivation retains its open status and exact provenance.
-Ratio-carrier totalization, quotient field operations, geometric graphs,
-global Frobenius setoid, unconditional completeness, R1/R2 and
-reconstruction remain open.
+and the following section gives the full ratio-carrier graphs.
+The historical literal negation/TOT derivation retains its open status and
+exact provenance. Transported field structure, global Frobenius setoid,
+unconditional completeness, naturality, R1/R2 and reconstruction remain open.
+
+
+# Corrected total geometric field graphs
+%%%
+tag := "corrected-total-field-graphs"
+%%%
+
+On the full corrected geometric ratio carrier, addition uses the named
+zero clauses and existential representatives with a common denominator.
+Opposite numerators give the named zero; otherwise the corrected total
+nonzero numerator sum gives the output ratio:
+
+{docstring AclGeom.RatioAddGraph}
+
+Multiplication chooses representatives whose numerator and denominator
+pairs have generic coupled products, then takes their output ratio:
+
+{docstring AclGeom.RatioMulGraph}
+
+The definitions use geometric class members and quotient equalities for
+the corrected geometric ratio setoid. They contain no decoded coordinates,
+choices or `Quotient.out`. Their semantic laws cover every witness:
+
+{docstring AclGeom.ratioAddGraph_iff}
+
+{docstring AclGeom.ratioMulGraph_iff}
+
+For addition, a denominator fresh over `{a,c,d}` moves the nonzero
+decoded values, including a nonzero sum, outside `racl k {a}`.
+The existing inner addition detour may use a fifth independent element.
+For multiplication, successive fresh elements over `{a,c,d}` and
+`{a,c,d,b}` give the two independent product triples. Both constructions
+keep the explicit uniform rank-five bound and require no sixth element.
+
+The existing fresh-multiple and independent-pair helpers are now public;
+their unchanged types and proofs serve both the old class/ratio
+constructions and these graph witnesses:
+
+{docstring AclGeom.mul_fresh_notMem}
+
+{docstring AclGeom.pair_of_notMem}
+
+Decoding is bijective, so each pair of interpreted inputs has exactly
+one graph output:
+
+{docstring AclGeom.ratioAddGraph_existsUnique}
+
+{docstring AclGeom.ratioMulGraph_existsUnique}
+
+This proves the corrected totality/functionality and decoded-operation
+part of blueprint `total-field-graphs`, with explicit perfection,
+rank five and still-open ACF `JCompletenessACF` over arbitrary base fields.
+Graph representative invariance comes from the geometric ratio quotient.
+The common denominator is chosen existentially: an arbitrary choice
+can put the numerator sum inside `racl k {a}`.
+
+Transported field structure, graph naturality, global Frobenius setoid,
+unconditional completeness, simultaneous representatives, R1/R2 and
+reconstruction remain open. The literal TOT argument retains its
+historical/open status and exact provenance.

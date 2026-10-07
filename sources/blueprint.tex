@@ -137,8 +137,8 @@ arithmetic predicates.  The corresponding sections retain the provenance and sta
 corrections or counterexamples. Corrected generic class semantics is formalized under
 explicit configuration-completeness inputs, as are corrected ratio semantics,
 full carrier decoding after adjoining zero, and the corrected negation and nonzero-addition
-detours. Full ratio-carrier totalization, quotient field operations and the dependent reconstruction
-and functorial assembly require further work. Lean fragments
+detours and total geometric operation graphs. Transported field structure and the dependent
+reconstruction and functorial assembly require further work. Lean fragments
 record target interfaces, and each prose argument must be checked against its precise
 hypotheses before transcription.  The library, book, and issue tracker distinguish
 kernel-checked results from conditional theorems and open obligations.
@@ -2472,8 +2472,8 @@ public lemma in \path{Interpretation/FrobLinkSoundness.lean}, with unchanged
 type/doc/proof and no rank-five or completeness input. It serves direct links,
 corrected ratios and this negation detour, avoiding another duplicated proof.
 
-The corrected nonzero-addition detour is formalized next; full ratio-carrier
-totalization remains open (issues 8 and 23).
+The corrected nonzero-addition detour is formalized next, followed by conditional
+total geometric graphs; transported field structure and naturality remain open (issues 8 and 23).
 The following original literal negation and totalization expressions and argument
 remain historical/open, since their proof uses refuted generic semantics.
 No separate negation-detour counterexample is asserted.
@@ -2509,8 +2509,8 @@ No genericity between $x$ and $y$ is assumed.
 For canonical inputs with $x+y\notin\acl_k(a)$, this proves the corrected
 counterpart of \cref{lem:total-nonzero-add}: the arbitrary raw output is
 exactly $j(x+y,a)$. The output condition is stronger than merely $x+y\ne0$.
-Full ratio-carrier totalization, quotient field operations and geometric field
-graphs remain open. The following literal definitions and proof retain their
+The corrected full-carrier graphs are formalized below under the same explicit
+inputs; transported field structure and naturality remain open. The following literal definitions and proof retain their
 historical/open status and exact provenance.
 
 For negation, avoid trying to use $[0]$, which is not a point.  Define
@@ -2669,8 +2669,8 @@ The representative law is \lean{ratioInterpDecode_coe}:
 \]
 Both are definitional. This proves the full corrected counterpart of
 Lemma \ref{lem:decode-equiv}, under explicit perfection, rank-five and still-open
-ACF J-completeness inputs. No quotient field operations are installed before
-non-generic totalization. Total geometric graphs, naturality and reconstruction
+ACF J-completeness inputs. Corrected total geometric graphs are formalized below
+under the same inputs. Transported field structure, naturality and reconstruction
 remain open (issues 8 and 23). The original literal construction below is preserved.
 
 \subsection{A geometry-only ratio equivalence}
@@ -2741,6 +2741,51 @@ $t$ there), and the class of $(j(ct,a),j(t,a))$ decodes to $c$.
 Transport the field structure on $K$ across this equivalence.  This is substantially less
 error-prone than defining quotient addition with nested choices.  Nevertheless, naturality
 requires geometry-only graph predicates for the operations.
+
+\subsection{The corrected total geometric graphs in Lean}
+
+The corrected graphs are formulas on the full geometric ratio carrier.
+Write $[u,v]$ for the class of a pair in the corrected ratio quotient, and
+$\operatorname{N}_{\mathrm c}(u,v)$ and $\operatorname{A}_{\mathrm c}(u,v,w)$
+for the corrected negation and total nonzero addition above. Then
+\lean{RatioAddGraph} consists of the two named-zero clauses and
+\[
+\begin{split}
+\exists u,v,e\in[j_0]_{\operatorname{FrobEq}},\quad&
+ r=[u,e]\land s=[v,e]\\
+&{}\land\bigl((\operatorname{N}_{\mathrm c}(u,v)\land t=0)\\
+&\qquad{}\lor\exists w\in[j_0]_{\operatorname{FrobEq}},
+       \operatorname{A}_{\mathrm c}(u,v,w)\land t=[w,e]\bigr).
+\end{split}
+\]
+For \lean{RatioMulGraph}, a zero factor gives zero.
+
+Otherwise choose six class members $u_1,u_2,v_1,v_2,w_1,w_2$ with
+$r=[u_1,u_2]$, $s=[v_1,v_2]$, $t=[w_1,w_2]$, and generic coupled products
+$\operatorname{JMulRel}(u_1,v_1,w_1)$ and
+$\operatorname{JMulRel}(u_2,v_2,w_2)$, each with its geometric independence clause.
+Both definitions use quotient equalities for the corrected geometric setoid,
+not decoded coordinates, representative choices or \lean{Quotient.out}.
+
+The exact decoded-operation laws are \lean{ratioAddGraph_iff} and
+\lean{ratioMulGraph_iff}, for every witness and arbitrary carrier inputs.
+Their converses rescale nonzero decoded values $c,d$:
+addition chooses a common denominator outside $\acl_k(a,c,d)$, while
+multiplication chooses successive elements outside $\acl_k(a,c,d)$ and
+$\acl_k(a,c,d,b)$. The inner addition detour may use a fifth independent element.
+Both constructions keep the explicit uniform rank-five bound; no sixth is needed.
+The existing \lean{mul_fresh_notMem} and \lean{pair_of_notMem} are now public,
+with unchanged types/docs/proofs and old and new named consumers.
+
+Bijective decoding gives unique sums: \lean{ratioAddGraph_existsUnique}.
+
+Unique products follow from \lean{ratioMulGraph_existsUnique}.
+Both use explicit perfection, rank-five and still-open ACF J-completeness inputs.
+This proves the corrected counterpart of the operation/TOT part of
+\cref{thm:total-field-graphs}. Common denominators must be existential:
+a specified denominator can put a nonzero numerator sum inside $\acl_k(a)$.
+Transported field structure, graph naturality and reconstruction remain open.
+The literal graph description and argument below retain their historical/open status.
 
 \subsection{Geometric graphs of addition and multiplication}
 
@@ -2817,14 +2862,21 @@ $\widetilde\phi$.
 
 \section{Naturality, recovery of the base, and recovery of points}
 
+% Earlier recovery warning qualification (preserved before the graph checkpoint):
+% proofs require a corrected interpretation and non-generic totalization, which
+% are still open; the accepted generic class semantics keeps ACF completeness explicit. This dependency was reported on issues 9 and 23 before adding this
+% qualification. The original propositions and proofs are preserved below.
+
 \begin{warning}[Open recovery inputs after the interpretation audit]
 \label{warn:recovery-inputs}
 The following proofs of \cref{prop:base-recovery,prop:scalar-one} use the literal
 \lean{RatioEq} and \lean{JMul} semantics refuted in the preceding interpretation
 audit (issue 23). Their propositions are retained as targets; their displayed
-proofs require a corrected interpretation and non-generic totalization, which
-are still open; the accepted generic class semantics keeps ACF completeness explicit. This dependency was reported on issues 9 and 23 before adding this
-qualification. The original propositions and proofs are preserved below.
+proofs require the corrected interpretation and totalization in unconditional form.
+The accepted corrected total geometric graphs keep ACF completeness explicit;
+unconditional completeness, graph naturality and these recovery inputs remain open.
+The scope update was reported on issues 9 and 23 before changing this qualification.
+The original propositions and proofs are preserved below.
 The conditional point propagation later in this section takes their outputs as
 explicit hypotheses and does not discharge these inputs.
 \end{warning}

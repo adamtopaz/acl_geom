@@ -34,8 +34,9 @@ The class corresponds to `K \ racl k {a}`, so the output condition is stronger t
 being nonzero in `K`.
 
 **Status:** both corrected geometric detours have exact coordinate semantics under explicit
-perfection, rank-five and ACF J-completeness inputs (#23). Totalization on the ratio carrier,
-quotient field operations, total geometric graphs and reconstruction remain open.
+perfection, rank-five and ACF J-completeness inputs (#23). `Field` proves corrected total
+geometric graphs on the ratio carrier under the same inputs. Transported field structure,
+graph naturality and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
