@@ -172,6 +172,7 @@ import AclGeom.Counterexamples.QRefutation
 import AclGeom.Interpretation.GenericOps
 import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Decode
+import AclGeom.Interpretation.Interp
 import AclGeom.Interpretation.Field
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Points

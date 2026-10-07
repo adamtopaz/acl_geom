@@ -29,7 +29,8 @@ closed subfields.  This file transports them to five-tuples of points of the geo
 `ClassArithmetic` proves generic fixed-class correctness under explicit ACF J-completeness.
 `Ratio` proves corrected ratio semantics under the same explicit inputs.
 `Decode` packages the ratio quotient and bijective nonzero decoding.
-Adjoining zero, non-generic totalization and quotient field operations remain open.
+`Interp` adjoins zero and gives full carrier decoding under the same inputs.
+Non-generic totalization and quotient field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

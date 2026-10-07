@@ -26,7 +26,8 @@ with its evaluation law is proved under the explicit ACF J-completeness input `h
 Corrected generic fixed-class operations are proved in `ClassArithmetic` under the same inputs.
 Corrected ratio semantics is proved in `Ratio` under the same explicit inputs.
 `Decode` packages the corrected geometric ratio quotient and bijective nonzero decoding.
-Adjoining zero, non-generic totalization and quotient field operations remain open.
+`Interp` adjoins zero and gives full carrier decoding under the same inputs.
+Non-generic totalization and quotient field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

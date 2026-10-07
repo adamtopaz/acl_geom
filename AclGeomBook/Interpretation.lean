@@ -15,6 +15,7 @@ import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Decode
+import AclGeom.Interpretation.Interp
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -148,7 +149,8 @@ No infinite-base or relatively closed base assumption is used. These
 conditional statements preserve the original geometric relation. They do
 not prove ACF completeness or non-generic totalization. The conditional
 coordinate bijection, corrected generic class arithmetic, exact corrected
-ratio semantics and bijective nonzero quotient decoding are displayed below.
+ratio semantics, bijective nonzero quotient decoding and the full adjoined-zero
+carrier equivalence are displayed below.
 The common-representative calculation remains a separate open obligation
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
@@ -182,7 +184,8 @@ closed base hypothesis is added. The map's domain is the original geometric
 generic fixed-class arithmetic is proved below under the same explicit
 inputs. Exact corrected ratio semantics is also proved below under these
 inputs. The geometric ratio quotient and bijective nonzero decoding are
-proved below. Adjoining zero and non-generic totalization remain open
+proved below, followed by the full adjoined-zero carrier equivalence.
+Non-generic totalization and quotient field operations remain open
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Refutations of the literal generic operation graphs
@@ -323,8 +326,9 @@ predicate and its counterexample remain preserved.
 
 This proves the corrected ratio equivalence with decoded equality. The
 next section packages its geometric setoid/quotient and bijective nonzero
-decoding. Adjoining zero, non-generic totalization, field graphs, R1/R2,
-unconditional completeness and final reconstruction remain open.
+decoding, followed by the full adjoined-zero carrier equivalence.
+Non-generic totalization, field graphs, R1/R2, unconditional completeness
+and final reconstruction remain open.
 
 # The ratio quotient and nonzero decoding
 %%%
@@ -360,7 +364,39 @@ members `j(z*t,a)` and `j(t,a)`; their quotient decodes to `z`:
 This proves the nonzero part of blueprint `decode-equiv` for the corrected
 geometric quotient. Perfection, rank five and still-open ACF
 `JCompletenessACF` remain explicit, over arbitrary base fields.
-No global Frobenius setoid is claimed. Adjoining zero is the next bounded
-consumer. Quotient field operations await non-generic totalization;
+No global Frobenius setoid is claimed. The next section adjoins zero and
+decodes the full carrier. Quotient field operations await non-generic totalization;
 unconditional completeness, field graphs, R1/R2 and reconstruction remain
 open. Historical literal definitions and their refutation stay preserved.
+
+
+# The adjoined-zero carrier and full decoding
+%%%
+tag := "adjoined-zero-carrier-decoding"
+%%%
+
+Adjoin a new zero to the corrected geometric ratio quotient, using
+Mathlib's `WithZero` carrier:
+
+{docstring AclGeom.RatioInterp}
+
+The accepted equivalence of nonzero decoding extends by
+`Equiv.optionCongr`, then Mathlib's `WithZero.withZeroUnitsEquiv`
+identifies the units with an adjoined zero and the full field.
+This constructs the actual carrier equivalence onto every element of `K`:
+
+{docstring AclGeom.ratioInterpDecode}
+
+Both evaluation laws reduce by definition:
+
+{docstring AclGeom.ratioInterpDecode_zero}
+
+{docstring AclGeom.ratioInterpDecode_coe}
+
+This proves the full corrected blueprint `decode-equiv` under explicit
+perfection, rank five and still-open ACF `JCompletenessACF`.
+The carrier is the geometric ratio quotient with its new zero. No quotient
+field operations are installed: they await non-generic totalization.
+Total operation graphs, naturality, global Frobenius setoid, unconditional
+completeness, R1/R2 and reconstruction remain open. The original literal
+construction and its counterexample remain preserved.

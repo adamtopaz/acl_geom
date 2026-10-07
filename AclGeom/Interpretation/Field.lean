@@ -3,7 +3,7 @@ Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
-import AclGeom.Interpretation.Ratio
+import AclGeom.Interpretation.Interp
 
 /-!
 # The interpreted field and its geometric operation graphs
@@ -14,7 +14,9 @@ addition and multiplication graphs, their functionality/totality/naturality
 geometry isomorphism induces a field isomorphism of decoded fields
 (Prop interpreted-reconstruction).
 
-**Status:** skeleton (M0); contents arrive with M6 (checklist I6).
+**Status:** skeleton for field operations and reconstruction (M6, checklist I5c/I6).
+`Interp` supplies the carrier and decoding equivalence under explicit ACF J completeness.
+Field operations await non-generic totalization; geometric graphs and naturality remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

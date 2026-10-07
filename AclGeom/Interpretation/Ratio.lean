@@ -32,8 +32,9 @@ presents class members with the literal parameter `a` and defines `μ`.
 
 **Status:** the corrected geometric ratio relation has exact decoded-ratio semantics under
 explicit perfection, rank-five and ACF J-completeness inputs (#23). `Decode` constructs its
-setoid/quotient and bijective nonzero decoding under the same inputs. Adjoining zero,
-non-generic totalization and interpreted field operations remain open.
+setoid/quotient and bijective nonzero decoding under the same inputs. `Interp` adjoins zero
+and decodes the full carrier bijectively to `K`. Non-generic totalization and interpreted
+field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

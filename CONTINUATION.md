@@ -86,8 +86,9 @@ of this guide. The current mathematical boundaries are:
   is proved under the same explicit inputs. Corrected generic fixed-class
   arithmetic and corrected geometric ratio semantics are proved under these
   inputs. The corrected geometric ratio setoid/quotient and bijective nonzero
-  decoding are proved under the same inputs. Adjoining zero and non-generic
-  totalization remain open (#23).
+  decoding are proved under the same inputs. Adjoining zero yields the full
+  carrier decoding equivalence. Non-generic totalization and quotient field
+  operations remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3368,3 +3369,59 @@ Adjoining zero, non-generic totalization, quotient field operations, global
 Frobenius setoid, unconditional completeness, simultaneous representatives,
 field graphs, R1/R2 and reconstruction remain open. The frozen M4a chain
 is untouched.
+
+## The adjoined-zero carrier and full decoding equivalence (#23/#8)
+
+`Interpretation/Interp` defines the corrected geometric ratio quotient
+with an adjoined zero, as `RatioInterp := WithZero (Quotient ratioSetoid)`.
+Its `ratioInterpDecode` is an actual equivalence onto all of `K`,
+with the named zero and representative evaluation laws both reducing by
+`rfl`. This proves the full corrected blueprint `decode-equiv`.
+Perfection, exponential characteristic, rank five and the still-open ACF
+`JCompletenessACF` input remain explicit throughout. No quotient field
+operations or transported field structure are installed before totalization.
+
+The proof uses Mathlib directly: `Equiv.optionCongr` extends the accepted
+nonzero decoding, and `WithZero.withZeroUnitsEquiv.toEquiv` identifies
+the units with an adjoined zero with the field. The carrier abbreviation
+is reducible, with the actual geometric quotient inside it. There is
+no local bijectivity or zero-detection boilerplate.
+
+Claude supplied source-only draft `a56e1fa8` pinned to pushed `e15d81d`.
+Codex checked the three local and two Mathlib hashes, independently
+audited the construction and compiled its immutable source without
+repairs in 6 s. The Status-only final chain passes in 8 s.
+All four original/final signatures and raw proof/definition bodies
+are exact, and all four public axiom reports are standard, including
+both definitions. No private helper or generated declaration is added.
+Fifteen byte-identical interfaces pass on both overlays, with independent
+universes, arbitrary/finite bases and characteristic zero. They check the
+literal WithZero quotient carrier, equivalence onto all K, named zero and
+representative evaluation, global zero detection and surjectivity, both
+inverse laws, and that genuine quotient representatives decode nonzero.
+
+Seven existing module namespaces remain byte-exact. Six headers identify
+the new full decoding; the field skeleton imports its carrier but retains
+open field operations, total graphs, naturality and reconstruction.
+Original mathematical statement/proof blocks and literal refutation
+provenance remain preserved.
+The full library build passes in 38.01 s (10.17 GiB sampled peak family
+RSS, minimum 36.48 GiB available), and the book in 8 s. Shared artifact
+probes pass in 6 s with all four exact signatures/raw bodies, all four
+public standard-axiom reports including both definitions and fifteen
+interfaces. All 238 library files pass proof-placeholder/project-axiom
+hygiene. The book has 84 HTML pages, preserving all 83 old paths and the
+frozen 117-declaration M4a page; four new docstrings show the actual
+carrier, explicit completeness, zero/representative evaluations and
+still-open field/TOT scope. Source checking caught one overfull line in
+the new evaluation-law prose, which was fixed by a paragraph break before
+acceptance. Four passes then produce 58 pages with stable auxiliary,
+contents and bookmark hashes, with no undefined references, overflow
+or rerun warnings. Actual changed pages 1, 2, 34–37 and 54 are rendered
+and visually checked. All original 49 mathematical statement blocks
+and 44 proof blocks remain byte-exact. Final full build/book checks
+repeat after recording these results.
+Non-generic totalization, quotient field operations, global Frobenius
+setoid, unconditional completeness, simultaneous representatives, field
+graphs, R1/R2 and reconstruction remain open. The frozen M4a chain is
+untouched.

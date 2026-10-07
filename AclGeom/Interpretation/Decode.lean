@@ -22,8 +22,9 @@ Surjectivity: for `z ≠ 0` take `t` outside `racl_k {a, z, x₀}`; then `t` and
 `K` is perfect of rank at least five, and completeness over `k̄ ⊆ K̄` (`hcomp`) stays explicit.
 
 **Status:** the corrected geometric ratio quotient decodes bijectively to the nonzero field
-elements under explicit perfection, rank-five and ACF J-completeness inputs (#23). Adjoining zero,
-non-generic totalization, field operations and naturality remain open.
+elements under explicit perfection, rank-five and ACF J-completeness inputs (#23).
+`Interp` adjoins zero and decodes the full carrier bijectively to `K` under the same inputs.
+Non-generic totalization, field operations and naturality remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
