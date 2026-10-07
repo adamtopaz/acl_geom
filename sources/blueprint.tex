@@ -2911,6 +2911,34 @@ $\widetilde\phi$.
 
 \section{Naturality, recovery of the base, and recovery of points}
 
+\subsection{Configuration naturality in Lean}
+
+\lean{Config.Transport} proves the configuration part of
+\cref{prop:interpreted-reconstruction} for any order isomorphism of the closed-subfield
+lattices. The bases and ambient fields may be different and live in independent universes.
+
+Partial quadrangles transport by \lean{IsPartialQuadrangle.map}, using finite rank,
+finite joins and point injectivity. \lean{QWitness.map} maps all twenty-one raw witness
+points. Its three join laws are consumed by \lean{QWitness.Psi.map}, which transports
+all twenty-four actual clauses, including the three universal point clauses and the
+partial quadrangle. \lean{MulDiagram.map} preserves the eight-point multiplication diagram.
+
+The invariant geometric relations are recorded by \lean{qGeom_map_iff}.
+
+The prime relation is reflected by \lean{q'Geom_map_iff}.
+
+Their conjunction gives \lean{jGeom_map_iff}. Each reverse direction uses the inverse
+lattice isomorphism and bijective point transport.
+
+These proofs use only joins, meets, order, finite rank and point quantifiers. They require
+no perfection, semantic completeness, rank-five bound or fresh element. Corrected
+interpretation-relation transport, quotient-carrier and geometric operation-graph
+naturality, and interpreted reconstruction remain open (issues 8 and 23).
+The original interpreted reconstruction statement and argument are preserved above;
+this first stage does not discharge the literal source predicates, unconditional
+completeness, base recovery or the scalar-one input.
+
+
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which
 % are still open; the accepted generic class semantics keeps ACF completeness explicit. This dependency was reported on issues 9 and 23 before adding this

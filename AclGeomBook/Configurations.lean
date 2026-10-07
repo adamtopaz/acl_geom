@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import VersoManual
 import AclGeom.Config.Correctness
 import AclGeom.Config.JAssembly
+import AclGeom.Config.Transport
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Closure.RationalFunctions
 import AclGeom.Correspondence.WeightedSupport
@@ -137,6 +138,57 @@ The geometric `J` is then a conjunction of one `Q`-instance and two
 the shifted representative `a+1`:
 
 {docstring AclGeom.JGeom}
+
+# Configuration naturality
+%%%
+tag := "configuration-naturality"
+%%%
+
+An arbitrary order isomorphism of closed-subfield lattices, across
+independent bases and universe levels, preserves the configurations.
+This is the first part of naturality in blueprint
+`interpreted-reconstruction` and checklist I6b1.
+
+Finite-rank clauses and injectivity transport partial quadrangles:
+
+{docstring AclGeom.IsPartialQuadrangle.map}
+
+Every one of the twenty-one raw witness points is mapped. The three
+rank-two joins commute with the lattice isomorphism:
+
+{docstring AclGeom.QWitness.map}
+
+{docstring AclGeom.QWitness.map_A}
+
+{docstring AclGeom.QWitness.map_B}
+
+{docstring AclGeom.QWitness.map_C}
+
+All twenty-four actual clauses of the witness predicate transport,
+including its three universal point clauses and partial quadrangle:
+
+{docstring AclGeom.QWitness.Psi.map}
+
+The multiplication diagram and both geometric configuration relations
+are preserved and reflected:
+
+{docstring AclGeom.MulDiagram.map}
+
+{docstring AclGeom.qGeom_map_iff}
+
+{docstring AclGeom.q'Geom_map_iff}
+
+Their conjunction gives geometric J invariance:
+
+{docstring AclGeom.jGeom_map_iff}
+
+These arguments use only joins, meets, order, finite rank and bijective
+point transport. They need no perfection, semantic completeness,
+rank-five bound or fresh element. Corrected interpretation-relation
+transport, quotient-carrier and geometric operation-graph naturality,
+interpreted reconstruction, R1/R2 and unconditional completeness remain
+open (#23/#8). The frozen M4a record and literal source obligations are
+preserved.
 
 # Soundness of the geometric Q
 %%%

@@ -92,7 +92,8 @@ of this guide. The current mathematical boundaries are:
   Corrected total geometric graphs on the full ratio carrier are proved
   under the same inputs. The named transported field structure, actual decoding ring
   equivalence and geometric graph/operation characterizations are proved under the same
-  inputs. Naturality and reconstruction remain open (#23).
+  inputs. Pure geometric Q/Q′/J configuration transport is proved across arbitrary
+  bases/universes. Corrected-relation and carrier naturality and reconstruction remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -108,7 +109,9 @@ of this guide. The current mathematical boundaries are:
   follows from rank-five soundness without an infinite-base binder.
   Generic fixed-class correctness and corrected ratio semantics are proved
   under explicit completeness, as is bijective nonzero quotient decoding.
-  Non-generic totalization remains open (#23).
+  Corrected negation and nonzero addition detours and full-carrier geometric graphs
+  are proved under the same inputs, with a named reducible field structure and
+  actual decoding RingEquiv. Interpretation naturality remains open (#23).
 - **Lemma 8.4 (affine action) has no Lean statement.** #13's curve
   prerequisites are proved: places, divisors, Riemann–Roch, genus, rationality
   in genus 0, Tate residues, rigidity of regular derivations in genus ≥ 1, and
@@ -122,10 +125,10 @@ Coverage at a glance (details and file:line references on #19):
 | Layer | Status |
 |---|---|
 | Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. The explicit `Induces` relation, intersection formula, compatible induced-map converse and the Frobenius fibre/uniqueness for supplied inducing maps are proved (#24/#9). Full reconstruction and literal/quotient functors remain open (#8–#10) |
-| Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
+| Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, totalization, ratio-field, unconditional recovery, reconstruction existence and functorial theorems remain open |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Corrected-relation/carrier naturality, unconditional recovery, reconstruction existence and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -133,7 +136,8 @@ Immediate priorities, in order:
    (#6/#7), with a full library build and rendered book; the measured #18
    build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
-   (#22/#25), and prove the coupled arithmetic/quotient semantics (#23);
+   (#22/#25), and prove corrected-relation/carrier naturality after the accepted
+   conditional arithmetic, quotient, total-graph and named-field checkpoints (#23/#8);
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
@@ -3741,3 +3745,58 @@ completeness remain explicit over any base field. Geometric naturality,
 unconditional completeness, global Frobenius setoid, simultaneous
 representatives, R1/R2 and full reconstruction remain open. The literal
 source statements/proofs and frozen M4a chain remain unchanged.
+
+## Pure geometric configuration naturality (#23/#8, I6b1)
+
+`Config/Transport` preserves the configuration layer under an arbitrary
+`ClosedIF k K ≃o ClosedIF l L`, with independent base/ambient universe
+levels. Partial quadrangles transport through the existing rank and
+Mathlib finite-supremum API. `QWitness.map` maps all 21 raw points;
+its three join laws are consumed by `QWitness.Psi.map`, which handles
+all 24 actual clauses, including all three universal-point clauses and
+its quadrangle. Multiplication diagrams transport, and applying the
+same maps to the inverse gives the geometric Q/Q′/J iff laws. These
+are the configuration consumer for blueprint `interpreted-reconstruction`
+and I6b1, with corrected interpretation transport as the next consumer.
+
+Claude supplied frozen source `1dc2a300` against published `ccec377`,
+with eleven exact project/Mathlib input hashes and six exact baseline
+copies. Codex compiled it unchanged and warning-free in 8.05 s
+(peak 2.37 GiB, minimum 37.14 GiB available). The final changes only the
+module status qualification and passes in 8.04 s. Ten authored public
+declarations and two generated equation lemmas are present
+(`QWitness.map.eq_1` and `JGeom.eq_1`), with no private helpers
+or global instances. All 12 signatures/types/docs/attributes/raw bodies
+and standard-axiom reports are exact between original and final,
+including the witness definition. No mathematical or proof repair
+was needed.
+
+Sixteen byte-identical original/final independent interfaces pass,
+covering the ten exact cross-universe types, full raw-witness round trip,
+whole-Psi and partial-quadrangle reflection, successive unrelated
+lattices, finite bases and characteristic two. The separate existing-API
+probe needed a typed finite-join equality before rewriting a RankEq
+goal; that was a harness adjustment, not a source repair.
+
+The latest prior named-field checkpoint `ccec377` has full build/book
+and deployment CI success in run 37668882418. The warning-free full library passes in 44.24 s (peak family
+11.32 GiB, minimum 34.50 GiB available); the rendered book passes in
+10.06 s. Shared acceptance passes in 6.03 s, matching all 12 compiled
+records and the identical 16 interfaces. Hygiene checks 240 library
+files without proof placeholders or project axioms. The book has 89
+HTML pages, retaining all 88 prior paths and all ten declaration docs,
+including the frozen 117-item record. Four stable source passes produce
+60 pages without undefined labels, overflow or rerun warnings. Actual
+final pages 1, 2, 3, 41, 42 and 43 pass visual review. The final
+documentation library/book and exact five-path staged-byte checks are
+required before commit and push. No existing Lean declaration is changed.
+No original 49 source statements or 44 proofs, literal TOT or interpreted
+reconstruction arguments, or frozen 117-item M4a record are changed.
+
+This configuration stage needs only Field/Algebra structures and the
+closed-lattice order isomorphism, with no semantic, perfection,
+rank-five or freshness assumption. Corrected relation/carrier transport,
+geometric operation-graph naturality and interpreted reconstruction
+remain open. Perfection/rank-five/ACF completeness stay explicit for
+the earlier interpreted-field route; unconditional completeness, the
+global Frobenius setoid, literal source arguments and R1/R2 remain open.
