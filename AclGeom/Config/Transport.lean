@@ -26,8 +26,9 @@ Prop `interpreted-reconstruction`, checklist I6).
 The arguments are purely order-theoretic.  No semantics, completeness, rank hypothesis or fresh
 element is used.  The bases and ambient fields are arbitrary and may live in different universes.
 
-**Status:** configuration transport is complete (#23/#8, I6b1).  Transport of the interpretation
-relations, the induced map of interpreted fields and the interpreted reconstruction remain open.
+**Status:** configuration transport is complete (#23/#8, I6b1). The corrected interpretation
+relations transport in `FrobTransport`, `JArithTransport` and `TotalTransport` (I6b2).
+Carrier/operation-graph naturality and interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

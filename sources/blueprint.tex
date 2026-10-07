@@ -2931,9 +2931,14 @@ Their conjunction gives \lean{jGeom_map_iff}. Each reverse direction uses the in
 lattice isomorphism and bijective point transport.
 
 These proofs use only joins, meets, order, finite rank and point quantifiers. They require
+% Earlier configuration progress scope (before the totalization/ratio checkpoint):
+% no perfection, semantic completeness, rank-five bound or fresh element. Corrected
+% interpretation-relation transport, quotient-carrier and geometric operation-graph
+% naturality, and interpreted reconstruction remain open (issues 8 and 23).
 no perfection, semantic completeness, rank-five bound or fresh element. Corrected
-interpretation-relation transport, quotient-carrier and geometric operation-graph
-naturality, and interpreted reconstruction remain open (issues 8 and 23).
+interpretation-relation transport is proved in the following subsections. Quotient-carrier
+and geometric operation-graph naturality and interpreted reconstruction remain open
+(issues 8 and 23).
 The original interpreted reconstruction statement and argument are preserved above;
 this first stage does not discharge the literal source predicates, unconditional
 completeness, base recovery or the scalar-one input.
@@ -2965,10 +2970,15 @@ for later carrier transport, and supply no global Frobenius setoid.
 % Coupled arithmetic, corrected totalization and ratio transport, quotient-carrier and
 % geometric operation-graph naturality, interpreted reconstruction, unconditional
 % completeness, base recovery and the scalar-one input remain open (issues 8 and 23).
-Coupled arithmetic transport is proved in the following subsection. Corrected
-totalization and ratio transport, quotient-carrier and geometric operation-graph
-naturality, interpreted reconstruction, unconditional completeness, base recovery
-and the scalar-one input remain open (issues 8 and 23).
+% Earlier Frobenius progress scope (before the totalization/ratio checkpoint):
+% Coupled arithmetic transport is proved in the following subsection. Corrected
+% totalization and ratio transport, quotient-carrier and geometric operation-graph
+% naturality, interpreted reconstruction, unconditional completeness, base recovery
+% and the scalar-one input remain open (issues 8 and 23).
+Coupled arithmetic and corrected totalization/ratio transport are proved in the
+following subsections. Quotient-carrier and geometric operation-graph naturality,
+interpreted reconstruction, unconditional completeness, base recovery and the scalar-one
+input remain open (issues 8 and 23).
 All original source statements and proofs retain their provenance.
 
 \subsection{Coupled arithmetic naturality in Lean}
@@ -2991,9 +3001,38 @@ composition with an injective lattice map reflects the defining coordinate equal
 These proofs require no semantics, genericity, completeness, perfection, rank-five,
 exponential-characteristic or freshness input. Their named consumers are corrected
 total negation/nonzero addition, ratio equivalence and full-carrier graph preservation.
-Totalization/ratio transport, quotient-carrier and operation-graph naturality,
-interpreted reconstruction, unconditional completeness, base recovery and scalar-one
-inputs remain open (issues 8 and 23). Original statements and proofs are preserved.
+% Earlier coupled progress scope (before the totalization/ratio checkpoint):
+% Totalization/ratio transport, quotient-carrier and operation-graph naturality,
+% interpreted reconstruction, unconditional completeness, base recovery and scalar-one
+% inputs remain open (issues 8 and 23). Original statements and proofs are preserved.
+Corrected totalization/ratio transport is proved in the following subsection.
+Quotient-carrier and operation-graph naturality, interpreted reconstruction, unconditional
+completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+Original statements and proofs are preserved.
+
+\subsection{Corrected totalization and ratio naturality in Lean}
+
+\lean{Interpretation.TotalTransport} completes the corrected-relation transport stage of
+\cref{prop:interpreted-reconstruction}, across arbitrary bases and independent universes.
+
+Corrected negation is invariant by \lean{jNegTotalRel_map_iff}: both witness tuples,
+both generic coupled additions and all their independence clauses transfer.
+
+Corrected total nonzero addition is invariant by \lean{jAddTotalNZRel_map_iff}: all four
+witness tuples, the corrected negation and all three generic additions transfer.
+The output tuple is arbitrary, with no assumed class membership.
+
+The corrected ratio relation is invariant by \lean{ratioEq_map_iff}: all four witness
+tuples and all four generic coupled cross-products transfer, with every independence clause.
+
+Mathlib's dependent-function equivalence pulls back every target witness. The earlier
+Frobenius, coupled arithmetic and rank-three iff laws transfer the conjuncts. No semantics,
+genericity, completeness, perfection, rank-five, exponential-characteristic or freshness
+input or global Frobenius setoid is assumed. The named consumers are class-pair quotient
+well-definedness and full-carrier graph preservation.
+Quotient-carrier and operation-graph naturality, interpreted reconstruction, unconditional
+completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+All original source statements and proofs are preserved.
 
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which

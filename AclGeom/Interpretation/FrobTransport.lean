@@ -29,9 +29,9 @@ fresh element is used, and the bases and ambient fields are arbitrary.  Witness 
 on the target side are pulled back by the bijections `Point.map e` and
 `Equiv.piCongrRight fun _ ↦ Point.map e`.
 
-**Status:** Frobenius-link relation transport is complete (#23/#8, I6b2a).  Transport of the coupled
-arithmetic, of the corrected total relations and of the ratio relation, and the induced map of
-interpreted fields, remain open.
+**Status:** Frobenius-link relation transport is complete (#23/#8, I6b2a). Coupled arithmetic and
+corrected totalization/ratio transport are proved in `JArithTransport` and `TotalTransport`.
+Carrier/operation-graph naturality and interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

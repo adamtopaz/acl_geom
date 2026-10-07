@@ -19,6 +19,7 @@ import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Decode
 import AclGeom.Interpretation.Interp
 import AclGeom.Interpretation.TotalOps
+import AclGeom.Interpretation.TotalTransport
 import AclGeom.Interpretation.Field
 import AclGeom.Counterexamples.GenericArithmetic
 
@@ -39,9 +40,9 @@ by a global Frobenius setoid remains open (#8). The corrected geometric ratio
 quotient, full carrier decoding and total operation graphs are proved below
 under explicit ACF completeness. A named transported field structure and
 the actual decoding ring equivalence are proved below under the same inputs.
-Geometric J-locus, Frobenius-link/bridge and coupled meet/join arithmetic
-transport are proved below with no completeness input. Totalization/ratio,
-operation-graph and carrier naturality remain open.
+Geometric J-locus, Frobenius-link/bridge, coupled meet/join arithmetic
+and corrected totalization/ratio transport are proved below with no
+completeness input. Operation-graph and carrier naturality remain open.
 The historical addition and multiplication incidences are projections
 of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
@@ -167,10 +168,9 @@ completeness, rank-five bound, exponential characteristic or freshness
 premise. They supply class-membership invariance for later quotient
 carrier transport; they do not supply a global Frobenius setoid.
 
-Coupled arithmetic transport is proved below. Corrected totalization
-and ratio transport, quotient-carrier and geometric operation-graph
-naturality, interpreted reconstruction, unconditional completeness
-and R1/R2 remain open
+Coupled arithmetic and corrected totalization/ratio transport are proved
+below. Quotient-carrier and geometric operation-graph naturality,
+interpreted reconstruction, unconditional completeness and R1/R2 remain open
 (#23/#8). The literal source obligations and frozen M4a record are
 preserved.
 
@@ -315,8 +315,8 @@ rank-five soundness theorem over any base field. The class-level computation
 under explicit completeness is displayed next, followed by the ratio quotient
 and corrected total geometric graphs, then a named transported field
 structure and its actual decoding ring equivalence. Coupled arithmetic
-naturality is proved next; totalization/ratio and carrier/operation-graph
-naturality remain open (#23/#8).
+and corrected totalization/ratio naturality are proved next; carrier/
+operation-graph naturality remains open (#23/#8).
 
 # Coupled arithmetic naturality
 %%%
@@ -348,10 +348,47 @@ perfection, rank-five, exponential-characteristic, Infinite or freshness
 premise. The named consumers are corrected total negation/nonzero
 addition, ratio equivalence and the full-carrier product graph.
 
-Corrected totalization/ratio transport, quotient-carrier and operation-
-graph naturality, interpreted reconstruction, unconditional completeness
-and R1/R2 remain open (#23/#8). The literal source obligations and
+Corrected totalization/ratio transport is proved next. Quotient-carrier
+and operation-graph naturality, interpreted reconstruction, unconditional
+completeness and R1/R2 remain open (#23/#8). The literal source obligations and
 frozen M4a record are preserved.
+
+# Totalization and ratio naturality
+%%%
+tag := "totalization-and-ratio-naturality"
+%%%
+
+An arbitrary closed-lattice order isomorphism preserves and reflects
+the corrected total relations, for an arbitrary base tuple and all raw
+point tuples, across independent bases and universe levels.
+
+Negation retains both witness tuples and both generic coupled additions:
+
+{docstring AclGeom.jNegTotalRel_map_iff}
+
+Total nonzero addition retains all four witness tuples, the corrected
+negation clause and all three generic coupled additions. Its output
+is arbitrary; class membership is not a premise:
+
+{docstring AclGeom.jAddTotalNZRel_map_iff}
+
+Ratio equivalence retains all four witness tuples and all four generic
+coupled cross-products, with every independence clause:
+
+{docstring AclGeom.ratioEq_map_iff}
+
+Mathlib's dependent-function equivalence pulls back every target witness;
+the earlier Frobenius, coupled arithmetic and rank-three iff laws transfer
+the conjuncts. No semantics, genericity, completeness, perfection,
+rank-five, exponential-characteristic, Infinite or freshness premise
+or global Frobenius setoid is assumed.
+
+This completes I6b2c and the corrected-relation transport stage I6b2
+of blueprint `interpreted-reconstruction`. Its named consumers are
+class-pair quotient well-definedness and full-carrier graph preservation.
+Quotient-carrier and geometric operation-graph naturality, interpreted
+reconstruction, unconditional completeness and R1/R2 remain open
+(#23/#8). The literal source obligations and frozen M4a record remain.
 
 # Generic arithmetic on the fixed class
 %%%

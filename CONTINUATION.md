@@ -93,9 +93,9 @@ of this guide. The current mathematical boundaries are:
   under the same inputs. The named transported field structure, actual decoding ring
   equivalence and geometric graph/operation characterizations are proved under the same
   inputs. Pure geometric Q/Q′/J configuration and J-locus/Frobenius-link/bridge
-  transport and coupled meet/join arithmetic transport are proved across arbitrary
-  bases/universes, with no completeness or perfection input. Total/ratio and
-  carrier/operation-graph naturality and reconstruction remain open (#23).
+  transport, coupled meet/join arithmetic and corrected total/ratio transport are
+  proved across arbitrary bases/universes, with no completeness or perfection input.
+  Carrier/operation-graph naturality and reconstruction remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -130,7 +130,7 @@ Coverage at a glance (details and file:line references on #19):
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge and coupled meet/join arithmetic invariance need no such input. Total/ratio and carrier/operation-graph naturality, unconditional recovery, reconstruction existence and functorial theorems remain open |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge, coupled meet/join arithmetic and corrected total/ratio invariance need no such input. Carrier/operation-graph naturality, unconditional recovery, reconstruction existence and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -138,8 +138,8 @@ Immediate priorities, in order:
    (#6/#7), with a full library build and rendered book; the measured #18
    build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
-   (#22/#25), and prove corrected-relation/carrier naturality after the accepted
-   conditional arithmetic, quotient, total-graph and named-field checkpoints (#23/#8);
+   (#22/#25), and prove carrier/operation-graph naturality after the accepted
+   configuration/relation transport and conditional interpreted-field checkpoints (#23/#8);
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
@@ -3930,3 +3930,68 @@ interpreted-field semantics keep perfection/rank-five/ACF completeness
 explicit. Unconditional completeness, the global Frobenius setoid,
 literal source obligations, base recovery and scalar-one inputs
 remain open.
+
+## Corrected totalization and ratio naturality (#23/#8, I6b2c)
+
+`Interpretation/TotalTransport` imports only `FrobTransport`,
+`JArithTransport` and `TotalOps`. Three public iff laws preserve
+and reflect corrected negation, total nonzero addition and ratio
+relation on arbitrary raw point tuples and arbitrary base tuples,
+across independent bases and universe levels.
+
+All 2/4/4 witness tuples are retained, with the two/three/four generic
+coupled-operation clauses and every rank-three independence condition.
+Mathlib `Equiv.piCongrRight` supplies witness preimages; lower
+relation iff laws transfer the conjuncts. No extra hypothesis, global
+setoid, private helper, instance or normalization chain is introduced.
+Named consumers are class-pair quotient well-definedness and full-carrier
+operation-graph preservation in blueprint `interpreted-reconstruction`.
+
+Claude supplied frozen source `97eddeb3` against published `fb030c4`,
+with eight exact project/Mathlib input hashes and four exact baselines.
+Codex compiled it unchanged and warning-free in 6.00 s (peak 2.62 GiB,
+minimum 37.71 GiB available). The status-only final passes in 8.00 s;
+all three signatures/types/docs/attributes/raw bodies and standard-axiom
+reports are exact. There are three authored public theorems, no new
+generated equation lemmas and no private helper or global instance.
+No source, proof or independent-interface repair was needed.
+
+Ten byte-identical original/final interfaces pass: exact cross-universe
+types, arbitrary target-output existence reflection, six-universe
+addition/ratio composition, an actual corrected quotient/adjoined-zero
+map under explicit semantic inputs and a supplied canonical-base image
+equality, finite bases and characteristic two. Separate existing-API
+probes for canonical image tuples, raw class equivalences and quotient/
+option representative RFL pass without main changes.
+
+The prior coupled-arithmetic checkpoint `fb030c4` has full library/
+book and deployment CI success in run 37677086411. Three preceding
+current source-progress qualifications were reported on #23 before
+updating and retained in provenance comments. Three upstream transport
+module status paragraphs are corrected in this checkpoint; their
+namespaces are byte-exact, with combined compiled-record integrity
+checks. Full library/book passes in 50.01/10.00 s (full peak 8.82 GiB,
+minimum 35.44 GiB available). The book has 92 HTML pages, retaining
+all 91 prior paths and the three new declaration docstrings. Four stable
+source passes produce 61 pages without undefined labels, overflow or
+rerun warnings; actual final pages 1, 2, 3, 41, 42, 43 and 44
+pass visual review. Shared acceptance passes in 12.00 s: all three new
+records and all 29 combined types/docs/attributes/raw bodies/standard
+axiom reports match, with the identical ten interfaces. The three
+existing library namespaces are byte-exact. Hygiene checks 243 library
+files without proof placeholders or project axioms. Final sequential
+library/book pass in 4.00/10.00 s without touched-module warnings.
+Exact eight-path staged-byte gates remain required before this natural
+checkpoint is committed and pushed. All original
+49 source statements and 44 proofs, literal TOT/interpreted-reconstruction
+arguments and the frozen 117-item M4a record remain exact.
+
+This completes the pure corrected-relation transport stage I6b2, with
+no semantic, genericity, completeness, perfection, rank-five, exponential-
+characteristic, Infinite or freshness input. Quotient-carrier and full
+operation-graph naturality and interpreted reconstruction remain open.
+The separate four-public carrier/graph plan is agreed with the peer;
+its draft remains held until this checkpoint is published. Earlier
+field semantics keep perfection/rank-five/ACF completeness explicit.
+Unconditional completeness, global Frobenius setoid, literal source
+obligations, base recovery and scalar-one inputs remain open.

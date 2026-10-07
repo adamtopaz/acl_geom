@@ -21,8 +21,8 @@ arguments are purely order-theoretic: no semantics, genericity, completeness, pe
 hypothesis or fresh element is used, and the bases and ambient fields are arbitrary.
 
 **Status:** coupled-arithmetic transport is complete (#23/#8, I6b2b).
-Transport of the corrected total relations and of the ratio relation, and the induced map of
-interpreted fields, remain open.
+Corrected totalization/ratio transport is proved in `TotalTransport`. Carrier/operation-graph
+naturality and interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -177,6 +177,7 @@ import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Decode
 import AclGeom.Interpretation.Interp
 import AclGeom.Interpretation.TotalOps
+import AclGeom.Interpretation.TotalTransport
 import AclGeom.Interpretation.Field
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Points
