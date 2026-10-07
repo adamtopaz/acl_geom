@@ -144,6 +144,8 @@ import AclGeom.Transfer.Descent
 import AclGeom.Transfer.Lift
 import AclGeom.Transfer.LiftConfig
 import AclGeom.Config.Correctness
+import AclGeom.Config.JAssembly
+import AclGeom.Transfer.JDescent
 import AclGeom.Interpretation.FrobClass
 import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArith

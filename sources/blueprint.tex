@@ -2124,10 +2124,12 @@ $n$. The same sum equation as above then gives a contradiction.
 
 These mathematical counterexamples were independently checked during the 2026-10-06
 audit and are tracked in \url{https://github.com/adamtopaz/acl_geom/issues/25}.
-Their Lean formalizations remain open. The four-way $\Jrel$ theorem above remains a target; an
-independently checked private Lean assembly takes algebraically closed configuration
-completeness as an explicit hypothesis.  The interpretation arguments using arbitrary-field projections
-must be reassessed against this correction.
+Their Lean formalizations remain open. Lean proves the semantic $\Jrel$ assembly and the
+point-level arrows $(1)\Leftrightarrow(2)$ and $(4)\Rightarrow(3)$; rank-five soundness
+$(1)\Rightarrow(4)$ also allows finite bases. The four-way theorem remains conditional on
+algebraically closed $\Jrel$ completeness, which the semantic assembly reduces to the still-open
+algebraically closed $\Qrel/\Qprel$ completeness inputs. The interpretation arguments using
+arbitrary-field projections must be reassessed against this correction.
 \end{remark}
 
 \section[The Frobenius-class relation on J]

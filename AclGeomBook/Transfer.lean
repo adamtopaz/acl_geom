@@ -8,6 +8,7 @@ import AclGeom.Config.Correctness
 import AclGeom.Transfer.OneQuantifier
 import AclGeom.Transfer.Descent
 import AclGeom.Transfer.LiftConfig
+import AclGeom.Transfer.JDescent
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -235,10 +236,27 @@ from transcendence degree:
 
 {docstring AclGeom.mem_of_j_represented_of_five_le_trdeg}
 
-This proves the element-level descent step for `(2) ⇒ (1)`. Its literal
-tuple wrappers and the remaining transfer arrows are tracked in #7.
-Rank-five `(1) ⇒ (4)` soundness now works over finite bases as well.
-The equivalence `(2) ⇔ (3)` still requires the open ACF completeness of `J`.
+This proves the element-level descent step for `(2) ⇒ (1)`. The literal
+five-tuple wrappers are now proved as well: semantic `J` lifts, and a
+semantic lifted tuple descends to a perfect field of rank at least five.
+The geometric `(4) ⇒ (3)` arrow uses the configuration lifts below:
+
+{docstring AclGeom.jSem_lift_iff}
+
+{docstring AclGeom.jGeom_lift_of_jGeom}
+
+Rank-five `(1) ⇒ (4)` soundness works over finite bases as well.
+The remaining `(3) ⇒ (2)` input is explicitly `JCompletenessACF`.
+The proved semantic assembly reduces it to the still-open ACF Q/Q′
+completeness statements. Assuming that input, the canonical algebraic
+closure gives the geometric/semantic J equivalence over perfect K:
+
+{docstring AclGeom.five_le_trdeg_algebraicClosure}
+
+{docstring AclGeom.jGeom_iff_jSem}
+
+This conditional theorem leaves the unconditional blueprint T4 obligation
+open on #7.
 
 The lattice and point lift is now proved for a `k`-embedding into an
 overfield and any enlarged base algebraic over `k`. It preserves closure

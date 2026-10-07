@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Config.Correctness
+import AclGeom.Config.JAssembly
 import AclGeom.Closure.RationalFunctions
 import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.MultiplicativeQuotient
@@ -224,6 +225,34 @@ follows from the same normalization calculus:
 With this, the soundness half of the configuration layer is complete:
 `QSem → QGeom`, `Q'Sem → Q'Geom`, and `JSem → JGeom` all hold over any
 base field, given a supply of fresh elements over small sets.
+
+# Semantic assembly of J
+%%%
+tag := "j-semantic-assembly"
+%%%
+
+Over an algebraically closed pair of rank at least five, a semantic
+`Q` witness and the two semantic `Q′` witnesses of the `J` projections
+assemble to one semantic `j`-tuple. Their additive and multiplicative
+correspondences align the representatives through affine Frobenius
+rigidity and the shifted-binomial identity:
+
+{docstring AclGeom.shift_binomial_poly}
+
+{docstring AclGeom.exists_racl_add_eq_of_shifted}
+
+{docstring AclGeom.jSem_of_qSem_q'Sem}
+
+This proves the semantic assembly. Geometric `J` completeness still
+requires geometric `Q` and `Q′` completeness over the algebraically
+closed pair as explicit hypotheses:
+
+{docstring AclGeom.JCompletenessACF}
+
+{docstring AclGeom.jCompletenessACF_of_completeness}
+
+Neither completeness input is discharged here. The arbitrary-field
+Q/Q′ counterexamples in #25 do not supply or contradict those ACF inputs.
 
 # The affine-grid extraction boundary
 %%%

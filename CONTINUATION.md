@@ -101,10 +101,10 @@ Coverage at a glance (details and file:line references on #19):
 | Layer | Status |
 |---|---|
 | Foundations, perfection | Lattice, atoms, point geometry, perfection iso and finite representative calculus proved. Missing on main: char-p `Perfection` constructor, cross-base equivariance, `Induces`, transport of independence/rank along order isos; reviewed private drafts cover several carryovers; explicit `Induces` packaging remains open (#24) |
-| Configurations | Soundness of Q, Q′, J proved over any base field, with fresh elements supplied by the rank-five hypothesis (#24). ACF completeness: Q conditional (#22); Q′ and J open. Arbitrary-field Q/Q′ equivalence refuted mathematically (#25) |
+| Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence is refuted mathematically (#25), with concrete Lean refutations open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
-| Transfer | T1–T3 and the full one-quantifier transfer proved; j-descent (2)⇒(1) at element level. Several further arrows can be done now |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction and literal arithmetic/ratio refutations proved. Corrected arithmetic, ratio-field, recovery, kernel and functorial theorems are absent on main; checked private drafts are tracked separately |
+| Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. Fixed-class correctness, totalization, ratio-field, recovery, kernel and functorial theorems remain open; checked private drafts are tracked separately |
 
 Immediate priorities, in order:
 
@@ -1920,11 +1920,12 @@ and post on #13.
   Lemma 8.4 (action bridge), re-plan the group-chunk step (8.2/8.3) from the
   corrected target, then prove Q, Q′ and J completeness over algebraically
   closed fields.
-- **M5** (#7): T1–T3 and the element-level (2)⇒(1) descent are present.
-  The point-level lattice lift, (1)⇔(2), (4)⇒(3), semantic J assembly and
-  removal of `[Infinite k]` have independently checked private drafts.
-  They await separate checkpoints; ACF completeness (3)⇒(2) still needs M4.
-  The old arbitrary-field Q/Q′ consequences are refuted (#25).
+- **M5** (#7): T1–T3, algebraic-base lattice/point/rank and configuration
+  lifts, point-level (1)⇔(2), (4)⇒(3), semantic J assembly and finite-base
+  soundness are on main. Conditional four-way packaging names the open
+  ACF completeness (3)⇒(2) input, which still needs M4. The old
+  arbitrary-field Q/Q′ consequences are refuted mathematically; the
+  concrete Lean refutations remain open (#25).
 - **M6–M8** (#8–#10, #23): Frobenius classes and generic arithmetic (after
   corrected §10–12 operation predicates), ratio-field interpretation, base/point
   recovery, the Frobenius kernel, public theorem variants, and the
@@ -2546,3 +2547,46 @@ all authored/generated module placements are checked. Hygiene covers
 finite-base/counterexample/completeness/frozen notices are verified.
 Both new modules have no diagnostics. The eight prerequisite lemmas'
 preceding commit 3061254 now has successful full CI.
+
+## Semantic J assembly and point-level descent (#6, #7)
+
+`Config/JAssembly` assembles semantic Q and two Q′ projections into one
+semantic J tuple over an algebraically closed pair of rank at least five.
+It aligns their additive/multiplicative correspondences through affine
+Frobenius and shifted-binomial rigidity. Geometric J completeness is
+packaged as `JCompletenessACF` and reduced to explicit ACF Q/Q′
+completeness hypotheses; these inputs remain unproved. Its shifted
+binomial lemmas are also the named prerequisites of the reviewed
+Frobenius-incidence converse, avoiding a second proof family.
+`Transfer/JDescent` proves point-level (1)⇔(2) for perfect K of rank at
+least five and geometric (4)⇒(3). With the existing finite-base (1)⇒(4),
+it packages J equivalence under explicit `JCompletenessACF`, including
+the canonical algebraic closure form. No infinite-base assumption or
+arbitrary-field Q/Q′ equivalence enters these arrows. The unconditional
+T4 completeness obligation stays open.
+
+Claude supplied the drafts and extracted the already integrated
+configuration-lift block from JDescent. Codex independently compiled the
+remaining two modules on main 2f25a78 (6.00 s, peak 2.74 GiB, minimum
+available 40.15 GiB), without diagnostics. A fresh historical/full versus
+focused comparison covers 77→81 signature and body records with zero
+existing changes; the only four additions are the reflection lemmas
+already on main in 2f25a78. All 40 public declarations of these two new
+modules have standard axiom reports. The conditional hypotheses are
+inspected in the emitted statements. The book adds a semantic-assembly
+section and updates the point-descent status; the blueprint correction
+records the still-open ACF inputs. Lift checkpoint 2f25a78 has successful
+full CI.
+The shared full `lake build` passed in 36.01 s (peak family RSS 11.68 GiB,
+minimum available 38.14 GiB); `lake exe book` passed in 8.00 s (peak
+1.55 GiB, minimum available 39.80 GiB). All 81 shared signature/body
+records, the 40 axiom reports and six inspected conditional statements
+match the independent review exactly. The two new modules contribute
+29 semantic-assembly and 11 point-descent declarations, with unchanged
+source bodies and no diagnostics. Hygiene covers 217 library/root files.
+All 65 prior HTML paths remain, and one semantic-assembly page is added
+(66 total); conditional-completeness, concrete-refutation and frozen
+boundaries are checked. The revised blueprint renders to 54 pages
+without undefined/overfull diagnostics; the changed status on page 31
+is visually reviewed. Claude acknowledged the source-only geometric
+consumer task after the corrected chit resend and retains no build slot.
