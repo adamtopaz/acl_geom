@@ -2416,6 +2416,20 @@ and one inlined pair-range proof. In particular both nonfunctional
 existence refutation bodies agree under that exact ledger; reference-set
 equality was not used as proof-body identity. The source edits were
 reviewed directly. Later changes are module documentation and two
-docstring line wraps only. Shared build/book and artifact evidence
-follows after integration. Fixed-class arithmetic, totalization, ratio
+docstring line wraps only. The code was committed and pushed as `c171657`. Shared full `lake build`
+passed in 22.11 s (peak family RSS 7.21 GiB, minimum available 38.45 GiB),
+and `lake exe book` passed in 8.04 s (peak 1.53 GiB, minimum available
+40.12 GiB). Fresh shared Sig/Proof/Rename probes preserve the reviewed
+67 statements/values, exact eight additions/four private deletions, all
+66 authored module placements and standard axioms. The on-demand
+`jTupleOf.congr_simp` equation retains its original Counterexamples
+consumer placement; an extra provenance assertion initially assumed the
+constructor's module and was corrected against the actual baseline and
+shared artifacts. The only additional signature differences are the two
+documented docstring line wraps. Hygiene covers 208 library/root Lean
+files. The 64 HTML page paths and frozen notice are preserved; the new
+semantic soundness prose is present. Touched modules have no deprecations. Fixed-class arithmetic, totalization, ratio
 semantics and the historical M4a chain remain open or frozen as before.
+
+The documentation-only evidence follow-up also passes the required full
+build (4.02 s) and rendered book (8.04 s).
