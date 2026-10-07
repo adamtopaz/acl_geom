@@ -82,8 +82,9 @@ of this guide. The current mathematical boundaries are:
   common-representative calculation and unconditional bridge completeness
   remain obligations. The natural/integral FrobEq semantic equivalences and
   fixed-class description are proved under explicit perfection, rank-five and
-  ACF J-completeness inputs, over any base field. Setoid laws, the coordinate
-  bijection, fixed-class arithmetic and ratio semantics remain open (#23).
+  ACF J-completeness inputs, over any base field. The coordinate bijection
+  is proved under the same explicit inputs. Setoid laws, fixed-class arithmetic
+  and ratio semantics remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3112,3 +3113,61 @@ Unconditional ACF completeness, the original simultaneous-representative
 calculation, setoid laws, the coordinate bijection, corrected fixed-class
 operations, ratio semantics, totalization, R1/R2 and reconstruction existence
 remain open. The frozen M4a chain is untouched.
+
+
+## Coordinates on the fixed Frobenius class (#23)
+
+`Interpretation/ClassCoordinates` proves blueprint Lemma `mu-bij`.
+`eq_of_jTupleOf_eq` shows that two tuples with the same literal parameter
+coincide only if their first field coordinates coincide. It uses rank-five
+freshness and the accepted arbitrary-field j-rigidity, with the exponential
+characteristic chosen internally as `ringExpChar k`. The transcendental
+parameter separates natural Frobenius exponents; in characteristic zero
+Frobenius is the identity. This injectivity needs no perfection, relative
+algebraic closedness, infinite base or configuration-completeness input.
+
+`jClassEquiv` is the actual coordinate equivalence from the geometric
+`FrobEq` class of `j(x₀,a)` onto the elements outside `racl k {a}`.
+The inverse sends such an element to its semantic tuple, with independence
+supplied by exchange. Surjectivity onto the geometric class uses the accepted
+class description, keeping perfection, rank five and ACF `JCompletenessACF`
+explicit. `jClassEquiv_jTupleOf` gives the blueprint evaluation formula
+`μ(j(x,a)) = x`. These are three public declarations with two private
+helpers, all consumed by the displayed coordinate bijection. No generated
+declaration is introduced.
+
+Claude supplied the frozen source-only draft `5ce5c0fb`. Codex verified
+all eight dependency hashes against pushed `2ec826b`, then compiled it
+independently. The initial bijective-constructor placeholders did not infer
+the independence proof terms through the private encoding definition; the
+reviewed original supplies the existing private proofs explicitly. Frozen
+source provenance is retained. Original and final five-record signatures and
+raw proof/definition bodies agree exactly, with unchanged statements,
+attributes and declaration docstrings. All three public and both private
+axiom reports are standard, including the private encoding definition.
+
+Nine identical original/final interfaces pass with independent universe
+levels. They include arbitrary-field, finite-base and characteristic-zero
+injectivity, the actual geometric-class/domain equivalence, bijectivity,
+coordinate evaluation, inverse encoding, every outside-closure coordinate
+and a finite-base equivalence. The equivalence-valued harness examples were
+marked noncomputable, and private Status newline escapes were corrected
+before the green gates. Main code contains no proof placeholders.
+
+The full library build passes in 38.01 s (8.19 GiB sampled peak family RSS,
+minimum 34.45 GiB available); the book passes in 10 s. Shared probes pass in
+8 s, reproducing all five signatures and raw bodies exactly, both private
+and all public standard axiom reports, and the same nine typed interfaces.
+All 235 library files are free of proof placeholders and project axioms.
+The book has 80 HTML pages, retaining all 79 old paths and displaying the
+three new docstrings, the explicit completeness input and the open arithmetic
+scope. The frozen 117-declaration M4a page is preserved. Two source passes
+produce 56 pages without undefined references or overflow. The actual
+changed page 34 was rendered and visually checked; the original coordinate
+lemma and proof are byte-exact. Both existing module namespaces are also
+byte-exact; only their status headers changed. Final full build/book checks
+are repeated after recording these results.
+Corrected fixed-class generic operations are the next consumer. Unconditional
+ACF completeness, the original simultaneous-representative calculation,
+setoid laws, ratio semantics, totalization, R1/R2 and reconstruction existence
+remain open; the frozen M4a chain is untouched.

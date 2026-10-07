@@ -11,6 +11,7 @@ import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
+import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -141,10 +142,39 @@ fixes their closed points and normalizes its parameter to `a`:
 
 No infinite-base or relatively closed base assumption is used. These
 conditional statements preserve the original geometric relation. They do
-not prove ACF completeness, the setoid laws, coordinate bijection, corrected
-fixed-class operation correctness, ratio semantics or totalization.
+not prove ACF completeness, setoid laws, corrected fixed-class operation
+correctness, ratio semantics or totalization. The conditional coordinate
+bijection is displayed next.
 The common-representative calculation remains a separate open obligation
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
+
+# Coordinates on a fixed class
+%%%
+tag := "fixed-class-coordinates"
+%%%
+
+A tuple with a fixed literal parameter determines its first coordinate.
+The arbitrary-field j-rigidity theorem compares Frobenius exponents;
+a transcendental parameter separates them. In characteristic zero
+Frobenius is the identity. Rank five supplies the two fresh elements:
+
+{docstring AclGeom.eq_of_jTupleOf_eq}
+
+This injectivity uses no perfection, completeness or relatively closed
+base hypothesis. The actual coordinate bijection uses the conditional
+class description above. It identifies the geometric class with exactly
+the elements outside the parameter's relative closure:
+
+{docstring AclGeom.jClassEquiv}
+
+{docstring AclGeom.jClassEquiv_jTupleOf}
+
+Perfection, rank five and the still-open ACF `JCompletenessACF` input
+remain explicit for that class description. No infinite-base or relatively
+closed base hypothesis is added. The map's domain is the original geometric
+`FrobEq` class, and its inverse encodes the same point tuple. Corrected
+fixed-class arithmetic, setoid laws, ratio semantics and totalization remain
+open ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Refutations of the literal generic operation graphs
 %%%

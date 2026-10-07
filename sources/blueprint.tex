@@ -2290,8 +2290,9 @@ Define $\mu(j(x,a))=x$.
 \noindent\textbf{Lean status for the fixed class.}
 \lean{frobEq_jTupleOf_iff} proves this class description under the same explicit
 perfection, rank-five and ACF J-completeness hypotheses, by applying inverse
-Frobenius to the semantic endpoint. The coordinate bijection, corrected
-fixed-class operations, ratio semantics and totalization remain open (issue 23).
+Frobenius to the semantic endpoint. The coordinate bijection is proved under these
+same explicit hypotheses below. Corrected fixed-class operations, ratio semantics
+and totalization remain open (issue 23).
 
 
 \begin{lemma}[coordinate bijection]\label{lem:mu-bij}
@@ -2304,6 +2305,16 @@ $y=x^{p^n}$ and $a=a^{p^n}$.  A transcendental $a$ cannot be a root of
 $X^{p^{|n|}}-X$ unless $n=0$, so $x=y$.  This also proves that $\mu$ is well-defined
 independently of the chosen presentation with parameter $a$.
 \end{proof}
+
+\noindent\textbf{Lean status for the coordinate bijection.}
+\lean{eq_of_jTupleOf_eq} proves same-parameter injectivity at rank five over
+arbitrary fields, without perfection or configuration completeness.
+\lean{jClassEquiv} and \lean{jClassEquiv_jTupleOf} give the displayed bijection
+and its evaluation law, keeping the class description's perfection, rank-five
+and still-open ACF J-completeness hypotheses explicit. The domain remains
+the geometric Frobenius class. Corrected fixed-class arithmetic, setoid laws,
+ratio semantics and totalization remain open (issue 23).
+
 
 The generic operations can be defined explicitly from the four non-parameter coordinates.
 For $u,v,w\in\Jrel_1$, define \lean{JAdd u v w} by equality of parameter coordinates,

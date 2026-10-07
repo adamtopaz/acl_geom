@@ -30,8 +30,9 @@ to all of its coordinates, which does not move points (`point_frobeniusZPow`); t
 perfection of `K`.
 
 **Status:** the semantic equivalences and fixed-class description are proved under the explicit
-ACF J-completeness hypothesis `hcomp` (#23). Unconditional completeness, the class coordinate
-bijection, fixed-class operations, ratio semantics and totalization remain open.
+ACF J-completeness hypothesis `hcomp` (#23). The conditional coordinate bijection is proved
+in `ClassCoordinates`. Unconditional completeness, setoid laws, fixed-class operations,
+ratio semantics and totalization remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

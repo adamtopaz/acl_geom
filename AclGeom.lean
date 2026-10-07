@@ -162,6 +162,7 @@ import AclGeom.Interpretation.FrobLinkRelative
 import AclGeom.Interpretation.FrobLinkSemantic
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
+import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic
