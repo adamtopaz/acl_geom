@@ -10,6 +10,7 @@ import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Interpretation.FrobEqForward
+import AclGeom.Interpretation.FrobEqCorrect
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -50,9 +51,9 @@ orientation, the undirected edge is symmetric definitionally:
 
 {docstring AclGeom.DirectFrobEdge.symm}
 
-The two-step bridge is the geometric Frobenius-class relation.  Its exact
-semantic characterization and the resulting setoid laws are the next part
-of the interpretation milestone:
+The two-step bridge is the geometric Frobenius-class relation. Its semantic
+characterization under explicit ACF completeness is displayed below;
+unconditional completeness and the resulting setoid laws remain open:
 
 {docstring AclGeom.FrobEq}
 
@@ -102,8 +103,8 @@ Semantic tuples with the same literal parameter are related by a fresh
 bridge `j(t,a)`. Raising both representatives to the same positive
 Frobenius power preserves all five closed points. Hence, if one semantic
 parameter is a positive Frobenius power of the other, the tuples satisfy
-`FrobEq`. The displayed statements retain the infinite-base hypothesis
-and require transcendence degree at least five; they use configuration
+`FrobEq`. The displayed statements require transcendence degree at least
+five over any base field, including finite bases. They use configuration
 soundness and require no completeness hypothesis:
 
 {docstring AclGeom.jTupleOf_pow_expChar_pow}
@@ -111,6 +112,39 @@ soundness and require no completeness hypothesis:
 {docstring AclGeom.frobEq_jTupleOf_of_common}
 
 {docstring AclGeom.frobEq_of_frobenius_twist}
+
+# Conditional Frobenius classes
+%%%
+tag := "conditional-frobenius-class"
+%%%
+
+Combining the two-link rigidity implication with geometric soundness gives
+the exact relation between semantic tuples. Perfection, rank five and
+the still-open ACF `JCompletenessACF` input remain explicit; the reverse
+twist-to-class direction uses soundness alone:
+
+{docstring AclGeom.frobEq_iff_frobenius_twist}
+
+Natural powers in either orientation are the same relation as an integral
+Frobenius power in a perfect field:
+
+{docstring AclGeom.exists_frobeniusZPow_iff}
+
+{docstring AclGeom.frobEq_iff_exists_frobeniusZPow}
+
+The class of `j(x₀,a)` consists exactly of tuples `j(x,a)` with the same
+literal parameter. The geometric endpoint is made semantic by the explicit
+ACF-completeness input. Applying inverse Frobenius to all its coordinates
+fixes their closed points and normalizes its parameter to `a`:
+
+{docstring AclGeom.frobEq_jTupleOf_iff}
+
+No infinite-base or relatively closed base assumption is used. These
+conditional statements preserve the original geometric relation. They do
+not prove ACF completeness, the setoid laws, coordinate bijection, corrected
+fixed-class operation correctness, ratio semantics or totalization.
+The common-representative calculation remains a separate open obligation
+([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Refutations of the literal generic operation graphs
 %%%

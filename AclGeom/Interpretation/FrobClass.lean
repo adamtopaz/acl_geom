@@ -13,9 +13,10 @@ semantic characterization `FrobEq (j x a) (j x' a') ↔ ∃ n, a' = a^(p^n)`
 (blueprint Lemma frobeq-correct), the setoid, the fixed class `J₁`, and the
 coordinate bijection `μ` (Lemma mu-bij).
 
-**Status:** in progress (M6, checklist I1): the geometric link language is
-defined; its exact semantic characterization remains dependent on
-configuration completeness.
+**Status:** the geometric link language is defined. `FrobEqCorrect` proves its semantic
+characterization and fixed-class description under explicit ACF J-completeness.
+Unconditional completeness, the setoid laws, class coordinate bijection and
+fixed-class operations remain open (M6, checklist I1).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

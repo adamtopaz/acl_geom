@@ -26,15 +26,15 @@ are Frobenius twists are Frobenius-equivalent (`frobEq_of_frobenius_twist`): the
 smaller parameter is raised to the common parameter by `jTupleOf_pow_expChar_pow`, a positive power
 only.
 
-Only soundness of `Q′` and `J` is used, never completeness.  The existing wrappers in this module
-retain their infinite-base hypotheses; configuration soundness itself is valid over any base field
-(#24). Removing the redundant wrapper hypotheses is a separate strengthening.
+Only soundness of `Q′` and `J` is used, never completeness. The wrappers use the rank-five
+configuration soundness over arbitrary base fields (#24); no infinite-base hypothesis is needed.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** the displayed soundness statements are proved. The implication
-`FrobEq ⇒` twist and its explicit semantic-completeness bridge remain open on main (#23).
+**Status:** the displayed soundness statements are proved over arbitrary base fields. The reverse
+implication is proved in `FrobEqForward` under an explicit semantic-bridge or ACF-completeness
+hypothesis; unconditional bridge completeness remains open (#23).
 -/
 
 namespace AclGeom
@@ -49,7 +49,7 @@ section Witnesses
 
 /-- A geometric sum point from an explicit independent pair of
 representatives. -/
-theorem sumPoint_of_indep [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+theorem sumPoint_of_indep (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {p q : K} (h : AlgebraicIndependent k ![p, q]) {U V W : Point k K}
     (hU : U.1 = point k p) (hV : V.1 = point k q) (hW : W.1 = point k (p + q)) :
     SumPoint U V W := by
@@ -67,7 +67,7 @@ theorem sumPoint_of_indep [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg k
 
 /-- A geometric product point from an explicit independent pair of
 representatives. -/
-theorem mulPoint_of_indep [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+theorem mulPoint_of_indep (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {p q : K} (h : AlgebraicIndependent k ![p, q]) {U V W : Point k K}
     (hU : U.1 = point k p) (hV : V.1 = point k q) (hW : W.1 = point k (p * q)) :
     MulPoint U V W := by
@@ -82,7 +82,7 @@ end Witnesses
 
 section FrobeniusClass
 
-variable [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+variable (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
 
 include htr
 

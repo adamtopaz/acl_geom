@@ -80,7 +80,10 @@ of this guide. The current mathematical boundaries are:
   completeness explicit; its canonical form uses perfect K, rank at least
   five and the still-open ACF JCompletenessACF input. The original
   common-representative calculation and unconditional bridge completeness
-  remain obligations. Fixed-class arithmetic and ratio semantics remain open.
+  remain obligations. The natural/integral FrobEq semantic equivalences and
+  fixed-class description are proved under explicit perfection, rank-five and
+  ACF J-completeness inputs, over any base field. Setoid laws, the coordinate
+  bijection, fixed-class arithmetic and ratio semantics remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3041,3 +3044,71 @@ before commit and push. R1/R2, unconditional R3b/R4, reconstruction
 existence and final assembly remain open. The two-generic intersection
 remains a proved blueprint lemma despite the different propagation proof;
 #11's bypassed obligations, frozen M4a and held FrobEqCorrect/L2 are unaffected.
+
+
+## Conditional Frobenius-link equivalence and fixed-class description (#23)
+
+`Interpretation/FrobEqCorrect` proves the exact Frobenius-link equivalence
+for supplied semantic endpoints, both with natural powers in either orientation
+and with integer Frobenius powers. The immediate consumer
+`frobEq_jTupleOf_iff` identifies the class of `j(x₀,a)` with all semantic
+tuples `j(x,a)` having the same literal parameter. A geometric endpoint is
+made semantic by the existing J descent API, and inverse Frobenius normalizes
+its parameter without moving any closed point.
+
+Perfection, source rank five and the still-open ACF `JCompletenessACF`
+input are explicit. No relatively closed base or infinite-base hypothesis is
+added. The predicates remain the original geometric `FrobEq` and `J`.
+The natural/integral conversion `exists_frobeniusZPow_iff`, previously held
+for lack of a landed consumer, now has the immediate literal-equivalence
+consumer. There are exactly four new public theorems and no new private or
+generated declarations.
+
+Seven `FrobLinkSoundness` wrappers lose redundant `Infinite k` hypotheses:
+the independent sum/product witnesses and five Frobenius-class soundness
+theorems. The existing arbitrary-base rank-five configuration soundness
+already supplies their proofs. A narrowly defined check removes only an
+unused forall binder of type `Infinite` and proves all fourteen old
+remaining types structurally identical; exactly seven such binders disappear.
+Their seven type/proof hash changes are ledgered. All other old signatures,
+attributes, declaration docstrings, definition bodies and raw proof bodies
+remain exact. The old generated `frobeniusZPow.eq_1` placement is explicit.
+
+Claude supplied frozen source-only drafts. Codex verified two draft hashes
+and seven main dependency hashes against `7681ac3`, together with the
+owned finite-base Soundness input `9427859f`. The frozen draft compiles
+unchanged. Reviewed original and final eighteen-record signatures and raw
+proof bodies agree exactly; all eighteen public declarations use standard
+axioms. Fourteen identical original/final typed interfaces test all seven
+finite-base wrappers, generic exponent conversion, the two semantic
+equivalences, same-parameter class description, characteristic-zero literal
+parameter equality, anchor-independent class membership and finite-base
+class membership. The characteristic-zero test has no finite-base assumption.
+A harness namespace typo and accidental literal Status newline escapes were
+repaired privately before the green gates; no main code contained placeholders.
+
+The R1/R2 displayed proofs depend on the refuted literal RatioEq/JMul semantics.
+This dependency was reported on #23 and #9 before adding a source warning.
+The original propositions and proofs are preserved. Their outputs remain the
+explicit inputs of conditional point propagation, rather than proved recovery.
+
+The full library build passes in 48.01 seconds (peak family RSS 8.33 GiB,
+minimum available memory 33.94 GiB), and the rendered book in 10.00 seconds,
+with no touched-module diagnostics. The shared check reproduces all eighteen
+signatures and raw bodies, standard-axiom reports and fourteen interfaces
+(6.00 seconds, peak 2.61 GiB, minimum available 36.70 GiB); code bytes match
+the private accepted candidate. Hygiene covers 234 library files. All 78 old
+HTML paths remain among 79 pages; all four new docstrings, explicit completeness,
+finite-base soundness and open class-operation boundaries pass inspection.
+The frozen 117-item notice is retained. The first TeX render found an overfull
+line joining long theorem names; splitting the sentences fixes it. Two-pass
+TeX now has no undefined references or overfull boxes and remains 56 pages,
+with visual review of pages 32–34 and 38–40. The original R1/R2 propositions
+and proofs and the FrobClass namespace are byte-exact with the pushed baseline.
+The continuation-text integration assertion needed a documentation-only match
+repair before acceptance; all eight scoped paths are now complete. Final
+full build/book and exact staged-byte checks follow before commit and push.
+Unconditional ACF completeness, the original simultaneous-representative
+calculation, setoid laws, the coordinate bijection, corrected fixed-class
+operations, ratio semantics, totalization, R1/R2 and reconstruction existence
+remain open. The frozen M4a chain is untouched.

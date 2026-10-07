@@ -16,15 +16,19 @@ The integral Frobenius powers `n ↦ Frob^n` of a perfect field of exponential c
 * Quotients of powers are powers (`frobeniusZPow_sub`, `frobeniusZPow_sub_apply_of_pow_eq`).
 * In characteristic zero every power is the identity (`frobeniusZPow_eq_one_of_eq_one`).
 * They act trivially on the point geometry (`point_frobeniusZPow`).
+* The natural two-sided twist relation `a' = a^{q^s} ∨ a = a'^{q^s}` is the integral one
+  (`exists_frobeniusZPow_iff`).
 
-The Frobenius kernel theorem (`AclGeom.Reconstruct.Kernel`) and the existing perfection action
-(`AclGeom.Perfection.Lattice`) use this definition. Separation of exponents on transcendental
-elements stays in the kernel, which needs `AclGeom.Transfer.Descent`.
+The Frobenius kernel theorem (`AclGeom.Reconstruct.Kernel`), the existing perfection action
+(`AclGeom.Perfection.Lattice`) and the conditional Frobenius-link correctness
+(`AclGeom.Interpretation.FrobEqCorrect`) use this definition. Separation of exponents on
+transcendental elements stays in the kernel, which needs `AclGeom.Transfer.Descent`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** Frobenius calculus and trivial point action for the kernel theorem (#9, U1).
+**Status:** Frobenius calculus and trivial point action for the kernel theorem (#9, U1), and
+the natural/integral twist comparison for the Frobenius link (#23).
 -/
 
 namespace AclGeom
@@ -102,6 +106,24 @@ theorem point_frobeniusZPow (n : ℤ) (z : K) :
         add_neg_cancel, zpow_zero]
       rfl
     rw [← hnat m w, hz]
+
+/-- **Natural versus integral Frobenius twists** in a perfect field: `a'` is a natural Frobenius
+power of `a` in one of the two directions exactly when it is an integral Frobenius power of `a`. -/
+theorem exists_frobeniusZPow_iff {a a' : K} :
+    (∃ s : ℕ, a' = a ^ q ^ s ∨ a = a' ^ q ^ s) ↔ ∃ n : ℤ, a' = frobeniusZPow K q n a := by
+  constructor
+  · rintro ⟨s, h | h⟩
+    · exact ⟨s, by rw [frobeniusZPow_natCast_apply, h]⟩
+    · refine ⟨((0 : ℕ) : ℤ) - s, ?_⟩
+      exact (frobeniusZPow_sub_apply_of_pow_eq q (u := 0) (v := s)
+        (by rw [pow_zero, pow_one, h])).symm
+  · rintro ⟨n, rfl⟩
+    rcases Int.eq_nat_or_neg n with ⟨m, rfl | rfl⟩
+    · exact ⟨m, Or.inl (frobeniusZPow_natCast_apply q m a)⟩
+    · refine ⟨m, Or.inr ?_⟩
+      rw [← frobeniusZPow_natCast_apply q m, ← RingAut.mul_apply, frobeniusZPow, frobeniusZPow,
+        ← zpow_add, add_neg_cancel, zpow_zero]
+      rfl
 
 end FrobeniusPowers
 
