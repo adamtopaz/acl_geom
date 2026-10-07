@@ -2699,6 +2699,12 @@ $\bar E$.  Intersecting with $K$ gives $\bar E\cap K=E$ by relative algebraic
 closedness.  This proves the identity.
 \end{proof}
 
+\noindent\textbf{Lean status.}
+\lean{racl_pair_mul_inf_racl_pair_mul} proves the two-generic intersection lemma.
+Its proof uses exchange, through the stronger arbitrary-set interface
+\lean{racl_insert_inf_racl_insert}. Recovery of all points remains open (issue 9);
+the bypassed linear-disjointness statements remain obligations (issue 11).
+
 \begin{proposition}[recovery of all points]\label{prop:all-points}
 For every $x\in K\setminus k$, $F([x])=[\widetilde F(x)]$.
 \end{proposition}
@@ -2737,8 +2743,30 @@ For a perfect relatively algebraically closed extension $K/k$, define
 \lean{PairAut k K} as field automorphisms of $K$ carrying $k$ onto itself.  They act on the
 point geometry.  The kernel theorem is:
 
+% Original displayed wording in commit 641a09e (issue 9):
+% \begin{theorem}[Frobenius kernel]\label{thm:kernel}
+% If $\sigma\in\operatorname{PairAut}(k,K)$ satisfies
+% $[\sigma(x)]=[x]$ for every $x\notin k$, then
+% $\sigma=\Frob^n$ for some $n\in\mathbb Z$.  In characteristic zero, $\sigma=1$.
+% In positive characteristic and positive transcendence degree, $n$ is unique.
+% \end{theorem}
+
+\begin{remark}[Rank qualification audit]\label{rem:kernel-rank-audit}
+The displayed statement in commit \texttt{641a09e} omitted a rank hypothesis;
+its proof and the main reconstruction theorem use $\trdeg(K/k)\geq5$.
+The rank-free reading is false already for $\mathbb Q\subseteq\mathbb Q(t)$:
+the relatively closed coefficient field is fixed by $t\mapsto t+1$, every
+nonconstant element generates the unique closed point, and this automorphism
+is not the identity in characteristic zero. The Lean refutation is
+\lean{not_forall_eq_refl_of_point_fixed} in \lean{Counterexamples/KernelRank};
+it was reported on issue 9 before the correction. The original displayed wording
+is retained in the source comments above.
+Only uniqueness of a Frobenius exponent, once existence is supplied, needs
+merely positive transcendence degree.
+\end{remark}
+
 \begin{theorem}[Frobenius kernel]\label{thm:kernel}
-If $\sigma\in\operatorname{PairAut}(k,K)$ satisfies
+Assume $\trdeg(K/k)\geq5$. If $\sigma\in\operatorname{PairAut}(k,K)$ satisfies
 $[\sigma(x)]=[x]$ for every $x\notin k$, then
 $\sigma=\Frob^n$ for some $n\in\mathbb Z$.  In characteristic zero, $\sigma=1$.
 In positive characteristic and positive transcendence degree, $n$ is unique.
@@ -2782,6 +2810,14 @@ $\Frob^m=\Frob^n$, apply inverse Frobenius to reduce a transcendental $t$ to
 $t^{p^{|m-n|}}=t$.  This makes $t$ a root of the nonzero polynomial
 $X^{p^{|m-n|}}-X$, impossible unless $m=n$.
 \end{proof}
+
+\noindent\textbf{Lean status.}
+\lean{exists_eq_frobeniusZPow_of_point_fixed} proves the rank-five kernel over
+arbitrary perfect fields, without requiring base preservation or relative algebraic
+closedness of the base. The tested corollaries \lean{eq_refl_of_point_fixed} and
+\lean{frobeniusZPow_injective} separate characteristic-zero identity from
+positive-characteristic uniqueness of the exponent. Recovery and reconstruction
+existence remain open (issue 9).
 
 If $\Phi_1,\Phi_2:K^{\mathrm{perf}}\to L^{\mathrm{perf}}$ induce the same geometry map,
 then $\Phi_2\Phi_1^{-1}$ lies in this kernel, proving uniqueness modulo target Frobenius.

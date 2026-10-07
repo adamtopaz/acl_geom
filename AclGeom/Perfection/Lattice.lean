@@ -3,6 +3,7 @@ Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
+import AclGeom.Geometry.FrobeniusPowers
 import AclGeom.Perfection.Subfield
 import AclGeom.Geometry.Points
 import Mathlib.FieldTheory.Perfect
@@ -28,12 +29,13 @@ provides:
 * `Perfection.latticeIso`: the perfection order isomorphism
   `𝒢(K/k) ≃o 𝒢(K^perf/k^perf)` — checklist item P2.
 
-Still to come (P3): the integral Frobenius action fixing every atom.
+The integral Frobenius action fixes every closed perfected subextension and hence every atom
+(`frobZPow_mem_iff`, `frobZPow_image_closed`; P3).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M2, checklist P2).
+**Status:** the perfection lattice isomorphism and its Frobenius invariance are proved (M2, P2–P3).
 -/
 
 namespace AclGeom
@@ -287,12 +289,12 @@ end Comap
 section Frobenius
 
 /-- The integral Frobenius action on the perfection (blueprint checklist P3):
-`n ↦ Frob^n` as a group power of `frobeniusEquiv` in the automorphism group.
+`n ↦ Frob^n` through the shared `frobeniusZPow` definition in the automorphism group.
 The group-power laws supply `Frob^(m+n) = Frob^m * Frob^n` and the negative
 iterates for free; in characteristic zero (`p = 1`), Frobenius is the
 identity map on elements. -/
 def frobZPow (n : ℤ) : RingAut π.carrier :=
-  (frobeniusEquiv π.carrier π.p : RingAut π.carrier) ^ n
+  frobeniusZPow π.carrier π.p n
 
 @[simp] theorem frobZPow_zero : π.frobZPow 0 = 1 := rfl
 
@@ -331,12 +333,12 @@ theorem frobZPow_mem_iff (n : ℤ) {N : ClosedIF (π.basePerf k) π.carrier}
       refine (h1 (F⁻¹ y)).1 ?_
       rwa [hFy]
   induction n using Int.induction_on generalizing x with
-  | zero => simp [frobZPow]
+  | zero => simp [frobZPow, frobeniusZPow]
   | succ i ih =>
-    rw [frobZPow, zpow_add_one]
+    rw [frobZPow, frobeniusZPow, zpow_add_one]
     exact (ih (F x)).trans (h1 x)
   | pred i ih =>
-    rw [frobZPow, zpow_sub_one]
+    rw [frobZPow, frobeniusZPow, zpow_sub_one]
     exact (ih (F⁻¹ x)).trans (h2 x)
 
 /-- The setwise form: integral Frobenius powers fix every closed

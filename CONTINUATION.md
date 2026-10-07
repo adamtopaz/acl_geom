@@ -111,7 +111,7 @@ Coverage at a glance (details and file:line references on #19):
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. Fixed-class correctness, totalization, ratio-field, recovery, kernel and functorial theorems remain open; checked private drafts are tracked separately |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Fixed-class correctness, totalization, ratio-field, recovery, reconstruction existence and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -123,9 +123,9 @@ Immediate priorities, in order:
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
-5. work that does not depend on M4: the Frobenius kernel, two-generic
-   intersection, the public converse/uniqueness interfaces and functorial
-   definitions (#8–#10).
+5. complete the public uniqueness-up-to-Frobenius interface and functorial
+   definitions using the proved kernel/intersection and Induces APIs;
+   these do not depend on M4 (#8–#10).
 
 ## How work is coordinated
 
@@ -1939,9 +1939,10 @@ and post on #13.
   characteristic-zero rational function fields in five variables (#25).
 - **M6–M8** (#8–#10, #23): Frobenius classes and generic arithmetic (after
   corrected §10–12 operation predicates), ratio-field interpretation, base/point
-  recovery, the Frobenius kernel, public theorem variants, and the
-  functorial quotient formulation. The kernel, two-generic intersection,
-  trdeg transport and the converse/uniqueness halves do not depend on M4.
+  recovery, public theorem variants and the functorial quotient formulation.
+  The rank-five kernel, two-generic intersection, trdeg transport and compatible
+  induced-map converse are proved. The remaining uniqueness-up-to-Frobenius
+  interface and functorial definitions do not depend on M4.
 - **Book**: keep each chapter synchronized with the library and free of
   overclaims. Verso requires docstrings on every referenced declaration *and
   its structure fields*.
@@ -2841,3 +2842,73 @@ repeated full-build and book gates before commit.
 The foundational #24 checklist is complete with this explicit interface.
 The public reconstruction existence, full uniqueness and functorial
 milestones remain open; the U3–U5 checkboxes in #10 are not discharged.
+
+
+## Frobenius kernel, two-generic intersection and rank refutation (#9)
+
+The kernel theorem is proved with an explicit rank-five hypothesis:
+`exists_eq_frobeniusZPow_of_point_fixed` applies to every field automorphism
+of a perfect field fixing the transcendental points. It needs neither base
+preservation nor a relatively closed base. The proof transports elementwise
+j-rigidity through algebraic closures, compares independent pairs using fresh
+elements and recovers algebraic elements by addition and cancellation.
+`eq_refl_of_point_fixed` gives characteristic-zero identity; the independent
+`frobeniusZPow_injective` clause needs only a transcendental element and
+positive characteristic.
+
+The displayed source theorem had omitted the rank hypothesis, despite its
+proof and the main target using it. This was reported on #9 before any source
+change. `Counterexamples/KernelRank.not_forall_eq_refl_of_point_fixed` refutes
+the rank-free characteristic-zero claim over ℚ(t)/ℚ and records the
+relatively closed base. The local translation fixes every point and moves t.
+The corrected blueprint retains the full original displayed wording from
+`641a09e` in source comments and an audit remark. Five typed refutation
+interfaces check characteristic zero, perfection, relative closedness,
+the literal refutation and preservation of the coefficient field.
+
+`racl_pair_mul_inf_racl_pair_mul` proves the literal two-generic intersection.
+Its helper `racl_insert_inf_racl_insert` is an infimum-equality wrapper around
+the existing `mem_racl_of_mem_racl_insert` and accepts arbitrary base sets:
+finiteness and the other element's freshness are unnecessary. The all-point
+recovery half of R3 remains open. The bypassed #11 linear-disjointness
+obligations also remain open.
+
+Claude supplied and source-audited the frozen drafts; Codex independently
+compiled immutable original, split and final snapshots against `641a09e`.
+The original→split ledger preserves all 46 declarations, with five authored
+Frobenius APIs plus their generated equation moved and one held-consumer iff
+temporarily added. Final cleanup removes that unused iff and two duplicate
+helpers; the surviving kernel statements are unchanged. The 47→44 ledger
+records one generic intersection statement strengthening, the shared
+`Perfection.frobZPow` definition body, its generated equation type and four
+theorem proof edits. The nested generated proof renaming in exponent
+separation is matched only by identical theorem-statement keys, including
+numeric underscore suffixes; no blanket type normalization is used.
+
+The counterexample has one authored declaration and the public generated
+`AclGeom.Test.t.eq_1` emitted in its module. Its source-only draft needed
+explicit M1 type parameters and restricted generator simplification; no
+heartbeat increase was used. A final collaborator review generalized the
+statement from ℚ to every field and quantified base-preserving algebra
+automorphisms explicitly, removing the temporary coefficient-algebra
+instance priority. The exact ledger records this authored statement/docstring
+and proof strengthening; the generated equation's type and proof are unchanged. All 46 combined public declarations use only standard axioms, every
+generated declaration has an explicit module placement, and all 15 typed
+interfaces pass. The common Frobenius implementation also preserves the
+original perfection group-power expression definitionally and the existing
+Induces forward fibre law.
+
+After the counterexample strengthening and line-length cleanup, the full
+shared library build passed in 16.00 s (peak family RSS 10.60 GiB, minimum
+available memory 37.29 GiB); the book passed in 10.00 s. All 46 shared
+signature/proof/axiom records match the independent final artifacts exactly,
+and all 15 interfaces pass (10.00 s, peak 2.56 GiB, minimum available 38.31 GiB).
+Hygiene covers 232 library files. All 70 previous HTML paths remain among
+76 pages; the new chapter's eleven displayed docstrings, rank qualification,
+open recovery/linear-disjointness boundaries and frozen 117-declaration
+notice pass review. The blueprint is 55 pages; pages 39–40 were rendered
+and visually checked, with no undefined references or overfull boxes.
+Final documentation build/book and staged-byte/push gates are required before
+the checkpoint commit. U1 and the intersection part of R3 are this
+checkpoint's scope; R1/R2/R4, recovery of all points, reconstruction existence,
+full functorial assembly, M4 and the held FrobEqCorrect/L2 work remain open.

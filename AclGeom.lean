@@ -9,6 +9,7 @@ import AclGeom.Closure.Ambient
 import AclGeom.Closure.ClosedLattice
 import AclGeom.Closure.CrossBase
 import AclGeom.Geometry.Points
+import AclGeom.Geometry.FrobeniusPowers
 import AclGeom.Geometry.Equivalence
 import AclGeom.Geometry.FiniteRank
 import AclGeom.Geometry.Representatives
@@ -163,6 +164,7 @@ import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic
+import AclGeom.Counterexamples.KernelRank
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Interpretation.GenericOps
 import AclGeom.Interpretation.Ratio
@@ -170,6 +172,7 @@ import AclGeom.Interpretation.Field
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Points
 import AclGeom.Reconstruct.Kernel
+import AclGeom.Reconstruct.TwoGeneric
 import AclGeom.Functorial.Literal
 import AclGeom.Functorial.FrobeniusQuotient
 import AclGeom.Main

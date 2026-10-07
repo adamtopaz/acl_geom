@@ -8,6 +8,7 @@ import AclGeomBook.Configurations
 import AclGeomBook.Transfer
 import AclGeomBook.Curves
 import AclGeomBook.Interpretation
+import AclGeomBook.Reconstruction
 
 -- The manual genre, used for book-like documents with chapters, cross-references,
 -- citations, and an index.
@@ -123,6 +124,8 @@ elaborated against the actual development.
 {include 0 AclGeomBook.Curves}
 
 {include 0 AclGeomBook.Interpretation}
+
+{include 0 AclGeomBook.Reconstruction}
 
 # About this document
 %%%
