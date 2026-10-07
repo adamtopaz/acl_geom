@@ -29,8 +29,8 @@ coordinates satisfy the displayed field operations, under explicit perfection, r
 ACF J-completeness inputs (#23). Corrected ratio semantics is proved in `Ratio` under the same
 inputs. `Decode` packages its geometric ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
-`TotalOps` proves the corrected two-addition negation detour under the same inputs.
-Total nonzero addition, full totalization and interpreted field operations remain open.
+`TotalOps` proves corrected negation and nonzero addition detours under the same inputs.
+Ratio-carrier totalization and interpreted field operations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

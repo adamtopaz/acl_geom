@@ -136,8 +136,9 @@ coordinate target, the arbitrary-field $\Qrel$ and $\Qprel$ consequences, and th
 arithmetic predicates.  The corresponding sections retain the provenance and state the
 corrections or counterexamples. Corrected generic class semantics is formalized under
 explicit configuration-completeness inputs, as are corrected ratio semantics,
-full carrier decoding after adjoining zero and the corrected two-addition negation detour. Totalization, quotient field
-operations and the dependent reconstruction and functorial assembly require further work.  Lean fragments
+full carrier decoding after adjoining zero, and the corrected negation and nonzero-addition
+detours. Full ratio-carrier totalization, quotient field operations and the dependent reconstruction
+and functorial assembly require further work. Lean fragments
 record target interfaces, and each prose argument must be checked against its precise
 hypotheses before transcription.  The library, book, and issue tracker distinguish
 kernel-checked results from conditional theorems and open obligations.
@@ -2471,10 +2472,46 @@ public lemma in \path{Interpretation/FrobLinkSoundness.lean}, with unchanged
 type/doc/proof and no rank-five or completeness input. It serves direct links,
 corrected ratios and this negation detour, avoiding another duplicated proof.
 
-Total nonzero addition and full non-generic totalization remain open (issues 8 and 23).
+The corrected nonzero-addition detour is formalized next; full ratio-carrier
+totalization remains open (issues 8 and 23).
 The following original literal negation and totalization expressions and argument
 remain historical/open, since their proof uses refuted generic semantics.
 No separate negation-detour counterexample is asserted.
+
+\subsection{The corrected geometric nonzero-addition detour in Lean}
+
+Using the corrected negation and the geometric generic addition clause above,
+\lean{JAddTotalNZRel} keeps exactly the three-addition witness pattern:
+\[
+\begin{split}
+\operatorname{JAddTotalNZ}_{\mathrm c}(j_0;u,v,w)
+\Longleftrightarrow \exists z,nz,r,s\in[j_0]_{\operatorname{FrobEq}},\quad&
+ \operatorname{JNeg}_{\mathrm c}(j_0;z,nz)\\
+&{}\land\operatorname{GAdd}(u,z,r)\\
+&{}\land\operatorname{GAdd}(v,nz,s)\\
+&{}\land\operatorname{GAdd}(r,s,w).
+\end{split}
+\]
+Output membership is not assumed by the predicate. For input class members,
+\lean{JAddTotalNZRel.exists_mem_add} applies to every witness and derives
+$w\in[j_0]_{\operatorname{FrobEq}}$ with $\mu(w)=\mu(u)+\mu(v)$.
+The converse is \lean{jAddTotalNZRel_of_add_eq}, and the exact equivalence
+with arbitrary output is \lean{jAddTotalNZRel_iff}. Perfection, uniform rank five
+and still-open ACF J completeness remain explicit.
+
+For the converse, write $c=x+y$, choose $z$ outside $\acl_k(a,x,y)$ and use
+$j(z,a)$, $j(-z,a)$, $j(x+z,a)$ and $j(y-z,a)$ as the four witnesses.
+Insertion gives independence of $(x,z,a)$, $(y,-z,a)$ and $(c,x+z,a)$.
+Mutual closure membership gives independence of $(x+z,y-z,a)$.
+The corrected negation and three generic additions then supply the clauses.
+No genericity between $x$ and $y$ is assumed.
+
+For canonical inputs with $x+y\notin\acl_k(a)$, this proves the corrected
+counterpart of \cref{lem:total-nonzero-add}: the arbitrary raw output is
+exactly $j(x+y,a)$. The output condition is stronger than merely $x+y\ne0$.
+Full ratio-carrier totalization, quotient field operations and geometric field
+graphs remain open. The following literal definitions and proof retain their
+historical/open status and exact provenance.
 
 For negation, avoid trying to use $[0]$, which is not a point.  Define
 \[

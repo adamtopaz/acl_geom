@@ -441,6 +441,49 @@ assumption between the two original inputs. This proves the corrected
 counterpart of the blueprint's two-addition negation detour.
 The original literal negation/totalization derivation retains its
 historical/open status; no separate negation counterexample is claimed.
-Total nonzero addition, full totalization, quotient field operations,
-total graphs, global Frobenius setoid, unconditional completeness,
-R1/R2 and reconstruction remain open.
+The corrected nonzero-addition detour is displayed next. Full ratio-carrier
+totalization, quotient field operations, total graphs, global Frobenius
+setoid, unconditional completeness, R1/R2 and reconstruction remain open.
+
+
+# Corrected total nonzero addition
+%%%
+tag := "corrected-total-nonzero-addition"
+%%%
+
+The corrected counterpart of the blueprint's nonzero-addition detour
+retains four auxiliary class members, corrected negation, and three
+coupled additions with their geometric genericity clauses:
+
+{docstring AclGeom.JAddTotalNZRel}
+
+The output is an arbitrary tuple. Every witness derives output class
+membership and the sum of the input coordinates:
+
+{docstring AclGeom.JAddTotalNZRel.exists_mem_add}
+
+Conversely, present all three tuples with their common literal parameter
+and write `c = x+y`. An element `z` fresh over the explicit
+three-element set `{a,x,y}` gives generic triples `(x,z,a)`,
+`(y,-z,a)` and `(c,x+z,a)`. Mutual closure membership then gives
+`(x+z,y-z,a)`. The witnesses are `j(z,a)`, `j(-z,a)`,
+`j(x+z,a)` and `j(y-z,a)`:
+
+{docstring AclGeom.jAddTotalNZRel_of_add_eq}
+
+{docstring AclGeom.jAddTotalNZRel_iff}
+
+No genericity between the original two inputs is assumed, and output
+membership is derived in the forward direction and kept inside the
+existential on the right of the equivalence. For canonical inputs, if
+`x+y` lies outside `racl k {a}`, the relation holds exactly when the
+raw output equals `j(x+y,a)`. This is the blueprint's actual output
+condition; being merely nonzero in `K` is insufficient.
+
+Perfection, uniform rank five and still-open ACF `JCompletenessACF`
+remain explicit. This establishes the corrected class-level detour,
+not the full ratio-carrier field graphs. The historical literal
+negation/TOT derivation retains its open status and exact provenance.
+Ratio-carrier totalization, quotient field operations, geometric graphs,
+global Frobenius setoid, unconditional completeness, R1/R2 and
+reconstruction remain open.

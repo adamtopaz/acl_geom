@@ -88,8 +88,8 @@ of this guide. The current mathematical boundaries are:
   inputs. The corrected geometric ratio setoid/quotient and bijective nonzero
   decoding are proved under the same inputs. Adjoining zero yields the full
   carrier decoding equivalence. The corrected two-addition negation detour
-  is proved under the same inputs. Total nonzero addition, full totalization
-  and quotient field operations remain open (#23).
+  and corrected total nonzero addition are proved under the same inputs.
+  Full ratio-carrier totalization and quotient field operations remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3500,4 +3500,79 @@ byte-exact. Final full build/book checks repeat after recording these results.
 Total nonzero addition, full totalization, quotient field operations,
 global Frobenius setoid, unconditional completeness, simultaneous
 representatives, total graphs, R1/R2 and reconstruction remain open.
+The frozen M4a chain is untouched.
+
+## Corrected total nonzero addition with derived output membership (#23/#8)
+
+`Interpretation/TotalOps` now proves the corrected counterpart of
+blueprint `lem:total-nonzero-add`. `JAddTotalNZRel` retains four
+auxiliary class members `z,nz,r,s`, corrected negation of `z`,
+and three coupled generic additions `u+z=r`, `v+nz=s` and
+`r+s=w`. Its geometric definition does not assume output membership
+or input genericity and contains no semantic coordinates.
+
+`JAddTotalNZRel.exists_mem_add` applies to every witness, deriving
+`w` in the class and `µ(w)=µ(u)+µ(v)`. The converse presents all
+three tuples with the common literal parameter, so `c=x+y`.
+One element fresh over the explicit three-element set `{a,x,y}`
+gives `(x,z,a)` and `(y,-z,a)` by insertion, and
+`(c,x+z,a)` because membership of `x+z` in its closure would
+put `z=(x+z)-x` in the original closure. Mutual closure membership
+gives `(x+z,y-z,a)`. The four canonical tuples are class members;
+the negation theorem and the three generic-sum theorems provide the
+geometric witnesses. `jAddTotalNZRel_iff` leaves membership in the
+right-hand existential for arbitrary raw output tuples.
+
+This is class-level totalization for sums outside `racl k {a}`,
+a stronger condition than being merely nonzero in `K`. Perfection,
+exponential characteristic, uniform rank five and still-open ACF
+J completeness remain explicit over arbitrary base fields. The local
+freshness set has size three; no claim lowers the uniform rank bound.
+
+Claude supplied immutable source `64ba2297` against pushed
+`173d6ec`, with ten exact dependency hashes and an exact base copy.
+Codex verified its append-only namespace and compiled the frozen source
+without repairs in 14 s (peak 2.62 GiB, minimum available 36.59 GiB).
+The header/status-only final passes in 10 s with no warnings and its
+entire namespace is byte-exact to the draft. All nine original/final
+signature and raw-body records are exact: four old declarations, four
+authored new public declarations, and one generated match definition
+`jAddTotalNZRel_iff.match_1_1` from existential destructuring.
+All eight authored public and the generated definition use only
+standard axioms, including both geometric predicates. No private
+helper is added, and all four old attributes/docstrings/types/bodies
+remain exact.
+
+Ten byte-identical independent interfaces pass in separate universes:
+arbitrary and finite bases, characteristic zero, every-witness output
+membership/value, constructed converse, canonical raw-output equivalence
+with the blueprint's actual Out condition, symmetry, raw-tuple
+functionality, the pure geometric definition and the zero obstruction.
+All original 49 mathematical statement blocks, 44 proof blocks and
+the literal negation/TOT expressions and argument stay byte-exact.
+The literal detour remains historical/open; no separate counterexample
+is asserted. Full library/book passes in 46.01/10.00 s, with peak
+8.36 GiB and minimum available 34.24 GiB for the library. All nine
+independent/shared signature and raw-body records, eight authored public
+and one generated standard-axiom reports and all ten interfaces pass.
+Hygiene covers 239 library files with no proof placeholders or project
+axioms. The book preserves all 85 older HTML paths among 86 and checks
+the four new declaration docs, explicit completeness, derived output
+membership, exact Out condition and open full-TOT obligations.
+Four source passes converge in auxiliary/contents/bookmark hashes,
+with 59 pages and no undefined references, overflows or rerun warnings.
+Changed pages 1, 2 and 36 have visual review. All original 49 statements,
+44 proofs and literal negation/TOT derivation remain exact.
+Final documentation library/book and five-path staged-byte gates follow
+before commit and push.
+
+The prior `173d6ec` CI library/book job passed, but the overall
+run `37655075766` concluded failure with no failed or deploy job.
+GitHub refuses retrying that workflow. Issue REST PATCH failures were
+bypassed with repository-scoped GraphQL, without changing settings.
+
+Full ratio-carrier totalization, quotient field operations, geometric
+graphs, global Frobenius setoid, unconditional completeness, simultaneous
+representatives, R1/R2 and reconstruction remain open. The next
+read-only peer audit checks the common-denominator addition graph.
 The frozen M4a chain is untouched.
