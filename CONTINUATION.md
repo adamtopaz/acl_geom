@@ -17,10 +17,11 @@ the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
 ## Current status (2026-10-07; audit #19, performance #18 and carryovers #24)
 
-Read the audit on #19 before starting new work. This cleanup checkpoint
-integrates the reviewed target/refutation and source/book corrections, with
-fresh full-build/book and 64-theorem axiom evidence recorded at the end of
-this guide. Its main conclusions:
+Read the audit on #19 before starting new work. The accepted checkpoints
+include the target repairs and refutations, generic arithmetic, transfer and
+semantic consumers, and the foundational transport/existence/naturality
+carryovers. Full-build/book and compiled-axiom evidence is recorded at the end
+of this guide. The current mathematical boundaries are:
 
 - **No `sorry`, `admit` or project `axiom` in the sources.** The latest CI run
   at the start of the audit was on `ee31244` (run 31712093484), cancelled after about six hours (job
@@ -106,7 +107,7 @@ Coverage at a glance (details and file:line references on #19):
 
 | Layer | Status |
 |---|---|
-| Foundations, perfection | Lattice, atoms, point geometry, perfection iso and finite representative calculus proved. Missing on main: char-p `Perfection` constructor, cross-base equivariance, `Induces`, transport of independence/rank along order isos; reviewed private drafts cover several carryovers; explicit `Induces` packaging remains open (#24) |
+| Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. Explicit `Induces` packaging remains open (#24); full literal/quotient functors remain open (#10) |
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
@@ -114,17 +115,17 @@ Coverage at a glance (details and file:line references on #19):
 
 Immediate priorities, in order:
 
-1. integrate the reviewed foundational and transfer carryovers (#24/#7)
-   in small checkpoints with a full library build and rendered book; the
-   measured #18 build gate is satisfied by the focused-module checkpoint;
+1. finish explicit `Induces` packaging (#24) and the remaining transfer
+   completeness obligation (#7), with a full library build and rendered book;
+   the measured #18 build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
    (#22/#25), and prove the coupled arithmetic/quotient semantics (#23);
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
 5. work that does not depend on M4: M5 arrows (#7), the
-   foundational carryovers (#24), the Frobenius kernel, two-generic
-   intersection, trdeg transport, the converse/uniqueness halves of the main
+   explicit foundational packaging (#24), the Frobenius kernel, two-generic
+   intersection, the converse/uniqueness halves of the main
    theorem, and the functorial definitions (#8–#10).
 
 ## How work is coordinated
@@ -174,12 +175,15 @@ Immediate priorities, in order:
 ### Foundations (earlier milestones)
 - M0 skeleton/CI done. M1–M2: the lattice, atoms, point geometry and
   perfection isomorphism are proved. The carryovers from closed #3/#4 are
-  open (#24): cross-base transport,
-  the point-geometry → lattice direction with rank transport, char-p
-  perfection, and naturality. The finite representative calculus (Lemma 4.2)
-  is proved in `Geometry/Representatives`; it is used by the arithmetic refutations. M3: `j_rigidity` and the correspondence
-  theorems are proved (two-pair additive form; the general `E ⊗ F`
-  regularity of #11 is open). M4: soundness only (#6).
+  proved for compatible cross-base transport, point/lattice round trips,
+  independence/rank/trdeg transport, all-characteristic perfection existence
+  and chosen-perfection naturality. Explicit `Induces` packaging remains open
+  (#24), as do the full functorial constructions (#10). The finite
+  representative calculus (Lemma 4.2) is proved in `Geometry/Representatives`;
+  it is used by the arithmetic refutations. M3: `j_rigidity` and the
+  correspondence theorems are proved (two-pair additive form; the general
+  `E ⊗ F` regularity of #11 is open). M4: soundness and semantic J assembly
+  are proved; geometric completeness remains open (#6).
   The curve theory below is M4b (#13), built as the input to blueprint
   Lemma 8.4. The lemma itself and the bridge from group actions to the
   curve library are not formalized yet (#21).
@@ -2709,3 +2713,71 @@ frozen M4a notice are checked. The revised blueprint renders to 54
 pages without undefined/overfull diagnostics, and pages 31–32 are
 visually reviewed. The final prerequisite documentation reflow and
 this validation record receive the mandatory repeated build/book gates.
+
+
+## Foundation transport, existence and naturality (#24, #10)
+
+`Closure/CrossBase` proves equivariance of relative closure and closed-lattice
+transport for a field isomorphism carrying one base image onto the other.
+It constructs the induced compatible scalar isomorphism and proves the
+identity/composition/inverse transport laws. Compatibility is an explicit
+hypothesis; no reconstruction or completeness input is assumed.
+
+`Geometry/Transport` extends a closure-preserving point equivalence uniquely
+to an order isomorphism and recovers the original point map. Order
+isomorphisms preserve finite independence, finite geometric rank and
+arbitrary independent representative families. Transcendence degree is
+invariant, with universe lifts when necessary, and exact finite geometric
+rank agrees with the transcendence degree of the closed intermediate field.
+No infinite-base or perfect-field hypothesis is needed for these interfaces.
+
+`Perfection/Existence` supplies a chosen perfection in every exponential
+characteristic using the relative perfect closure inside an algebraic
+closure. This focused leaf keeps the algebraic-closure constructor out of
+the existing Subfield/Lattice dependency cone. The existing `ofCharZero`
+constructor and its rational-function acceptance consumer are unchanged.
+`Perfection/Naturality` extends a field isomorphism uniquely to arbitrary
+chosen perfections, proves its groupoid laws, and transports perfected
+subfields and compatible perfected bases. The perfection lattice
+isomorphisms intertwine this transport; the identity field map compares two
+choices and acts as the identity on the original closed-field lattice.
+
+Claude audited the frozen source drafts and their blueprint consumers with
+no builds or main edits. Codex independently compiled owned snapshots
+against `8798315`, removed exactly two unused helpers, and made exactly two
+proof edits: the deprecated `if_pos` becomes `ite_eq_left` in the existing
+`Perfection.isRAC_perfIF`, and `haveI` becomes `have` in the new
+transcendence-basis/closure bridge. All 113 surviving declaration statements,
+definition bodies, attributes and declaration docstrings match the original
+115-record draft ledger. The two constructor/instance declarations move
+byte-for-byte from Subfield to Existence. The previous-main 55-record ledger
+is preserved, with only the documented existing proof edit. There are 57
+new authored declarations and one reviewed generated `baseRingHom.eq_1`;
+all 110 public definitions/theorems have standard-axiom reports.
+
+The final six-module independent compile passes without diagnostics in
+6.00 s (peak family RSS 1.14 GiB, minimum available 40.10 GiB). Nine typed
+interfaces pass, including arbitrary-characteristic existence, the ZMod 3
+constructor, closure-compatible point transport, rank/trdeg agreement,
+cross-base closure transport, naturality and comparison of two choices.
+The shared full build passes in 680.21 s (peak 12.06 GiB, minimum available
+37.86 GiB); it recompiles the dependents of the foundational documentation
+corrections. The rendered book passes in 8.00 s (peak 1.56 GiB, minimum
+available 39.88 GiB). Fresh shared signatures, proof bodies, public axiom
+reports and all nine interfaces match the independent artifacts exactly
+(6.00 s, peak 2.42 GiB, minimum available 40.43 GiB). Hygiene covers 228
+library/root files. All 66 existing HTML paths remain among 69 pages; the
+new transport/naturality sections, all displayed interfaces, preserved
+representative calculus and frozen M4a notice are checked. The blueprint
+renders to 55 pages without undefined/overfull diagnostics; the new
+foundation status on page 11 and the following page are visually reviewed.
+This final documentation record receives the mandatory repeated full-build
+and book gates before commit.
+
+Explicit `Induces` packaging remains open (#24). The literal/quotient
+functors, existence of reconstruction and uniqueness-up-to-Frobenius
+converse remain open (#8–#10). The source-only design audit for `Induces`
+distinguishes the intersection formula (no extra base hypothesis) from
+recovery of the literal perfected bases (both bases relatively algebraically
+closed), as required by the main theorem's context. No checkbox for these
+remaining obligations is discharged by the present transport checkpoint.

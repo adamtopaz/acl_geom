@@ -22,8 +22,8 @@ For a field extension `K/k`, this file defines:
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M1, checklist F3). Transport along base-preserving
-field equivalences still to come.
+**Status:** the complete lattice and same-base transport are proved (M1, F3).
+Compatible transport across different base fields is in `Closure.CrossBase`.
 -/
 
 namespace AclGeom
@@ -193,8 +193,8 @@ theorem _root_.AclGeom.IsRAC.map {E : IntermediateField k K} (hE : IsRAC E)
 
 /-- Transport of the closed lattice along a `k`-algebra isomorphism of
 extensions (blueprint Prop `closed-complete-lattice`, last clause). For
-extensions over different base fields, transport the algebra structure along
-the base isomorphism first. -/
+extensions over different base fields, use `CrossBase.closedIFMap` with
+its explicit compatibility hypothesis. -/
 def congr (σ : K ≃ₐ[k] L) : ClosedIF k K ≃o ClosedIF k L where
   toFun E := ⟨E.1.map σ.toAlgHom, E.2.map σ⟩
   invFun F := ⟨F.1.map σ.symm.toAlgHom, F.2.map σ.symm⟩

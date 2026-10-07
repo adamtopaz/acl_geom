@@ -21,13 +21,14 @@ Geometric finite rank, defined without cardinal arithmetic (blueprint, end of
 * finite character of `pointCl` (`exists_finset_pointCl`), completing the
   pregeometry axioms of the point closure.
 
-Agreement of `RankEq` with `Algebra.trdeg` is deliberately deferred until the
-configuration API is stable, per the blueprint.
+Agreement of `RankEq` with `Algebra.trdeg`, and transport of independence,
+finite rank and transcendence degree, are proved in `Geometry.Transport`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M1, checklist F6).
+**Status:** the finite-rank predicates and representative interfaces are proved
+(M1, F6); the numerical rank bridge is in `Geometry.Transport`.
 -/
 
 namespace AclGeom

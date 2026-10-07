@@ -22,13 +22,15 @@ Following blueprint §type-correct statement and §Foundation III:
   (`mem_perfSubfield_iff`), monotonicity, and the pullback computation
   `incl_mem_perfSubfield_iff`.
 
+Perfection/Existence supplies a chosen bundle in every exponential characteristic.
 The perfection order isomorphism between closed lattices (P2) and the
 Frobenius action (P3) build on this in `AclGeom.Perfection.Lattice`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M2, checklist P1).
+**Status:** the bundle and perfected-subfield interface are proved (M2, P1).
+The constructor in every characteristic is supplied by Perfection/Existence.
 -/
 
 namespace AclGeom

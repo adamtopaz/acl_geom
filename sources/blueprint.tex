@@ -679,6 +679,20 @@ Finally $x$ and $x^{p^r}$ are interalgebraic, and inverse Frobenius handles nega
 $r$; therefore every integral Frobenius iterate fixes every atom.
 \end{proof}
 
+\begin{remark}[Lean foundation status, October 2026]
+The point/lattice constructions and their round trips, transport of independence and finite
+rank, and invariance of transcendence degree (with universe lifts) are proved in
+\lean{AclGeom.Geometry.Transport}.  Exact finite rank agrees with transcendence degree
+without an infinite-base assumption.  Compatible field isomorphisms carry relative closure
+and closed lattices across different base fields in \lean{AclGeom.Closure.CrossBase}.
+\lean{AclGeom.Perfection.Existence} constructs a chosen perfection in every exponential
+characteristic.  For arbitrary chosen perfections, \lean{AclGeom.Perfection.Naturality}
+proves the unique extension of a field isomorphism, its identity/composition/inverse laws,
+and naturality of perfected subfields and the closed-lattice order isomorphisms.  The
+identity field map gives the comparison between two choices.  Explicit \lean{Induces}
+packaging and the literal/quotient functorial reconstruction remain open (issues 24 and 10).
+\end{remark}
+
 After \cref{prop:perf-lattice}, the reconstruction proof may assume without loss of
 generality that the ambient fields are perfect and the bases relatively algebraically
 closed.  The final theorem transports the result back through these order isomorphisms.

@@ -5,6 +5,8 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Perfection.Lattice
+import AclGeom.Perfection.Existence
+import AclGeom.Perfection.Naturality
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -30,11 +32,19 @@ lattice — and hence of the geometry — under perfection.
 tag := "perfection-bundle"
 %%%
 
-Following the blueprint's type-correctness discussion, the formalization
-never chooses a concrete perfect closure; it quantifies over a bundle that is
-uniform in the characteristic exponent (`p = 1` in characteristic zero):
+The bundle is uniform in the characteristic exponent (`p = 1` in
+characteristic zero). Theorems can use any chosen perfection:
 
 {docstring AclGeom.Perfection}
+
+Every field admits a chosen perfection. One construction uses the relative
+perfect closure inside an algebraic closure:
+
+{docstring AclGeom.Perfection.ofExpChar}
+
+{docstring AclGeom.Perfection.instNonempty}
+
+In characteristic zero, the identity inclusion gives a smaller choice:
 
 {docstring AclGeom.Perfection.ofCharZero}
 
@@ -98,5 +108,36 @@ every point of its geometry:
 
 {docstring AclGeom.Perfection.frobZPow_image_closed}
 
-This completes milestone M2. The next layer is the hard kernel of the
-project: the algebraic-correspondence rigidity theorems.
+# Naturality and change of chosen perfection
+%%%
+tag := "perfection-naturality"
+%%%
+
+A field isomorphism extends uniquely to any two chosen perfections. The
+extension satisfies identity, composition and inverse laws:
+
+{docstring AclGeom.Perfection.liftEquiv}
+
+{docstring AclGeom.Perfection.liftEquiv_unique}
+
+{docstring AclGeom.Perfection.liftEquiv_refl}
+
+{docstring AclGeom.Perfection.liftEquiv_trans}
+
+{docstring AclGeom.Perfection.liftEquiv_symm}
+
+Perfected subfields commute with this transport. A compatible base-field
+map also carries the perfected base onto the other perfected base:
+
+{docstring AclGeom.Perfection.perfSubfield_map}
+
+{docstring AclGeom.Perfection.basePerf_map}
+
+The two perfection order isomorphisms intertwine the original transport:
+
+{docstring AclGeom.Perfection.latticeIso_natural}
+
+Taking the original field map to be the identity compares two choices of
+perfection and induces the identity on the original closed-field lattice.
+These establish the foundational naturality carryover in issues #24 and #10.
+Explicit Induces packaging and the literal and quotient functors remain open.

@@ -7,12 +7,16 @@ import AclGeom.Closure.Basic
 import AclGeom.Closure.RationalFunctions
 import AclGeom.Closure.Ambient
 import AclGeom.Closure.ClosedLattice
+import AclGeom.Closure.CrossBase
 import AclGeom.Geometry.Points
 import AclGeom.Geometry.Equivalence
 import AclGeom.Geometry.FiniteRank
 import AclGeom.Geometry.Representatives
+import AclGeom.Geometry.Transport
 import AclGeom.Perfection.Subfield
+import AclGeom.Perfection.Existence
 import AclGeom.Perfection.Lattice
+import AclGeom.Perfection.Naturality
 import AclGeom.Correspondence.AddPolynomial
 import AclGeom.Correspondence.FunctionField
 import AclGeom.Correspondence.Regular

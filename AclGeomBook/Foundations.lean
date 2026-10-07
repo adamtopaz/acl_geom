@@ -6,6 +6,8 @@ Authors: Adam Topaz, Claude
 import VersoManual
 import AclGeom.Geometry.Equivalence
 import AclGeom.Geometry.Representatives
+import AclGeom.Geometry.Transport
+import AclGeom.Closure.CrossBase
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -143,8 +145,8 @@ exhibited as order isomorphic:
 {docstring AclGeom.ClosedIF.pointSetIso}
 
 This proves the closed-point-set presentation used in checklist item F5.
-Cross-base field transport, the converse from geometry isomorphisms to lattice
-isomorphisms, and full rank/transcendence-degree transport remain open (issue #24).
+The converse and rank transport are described below. Explicit Induces
+packaging remains tracked in [issue #24](https://github.com/adamtopaz/acl_geom/issues/24).
 
 # Finite representative calculus
 %%%
@@ -179,3 +181,69 @@ witnesses and the generic-arithmetic refutations:
 {docstring AclGeom.algebraicIndependent_mul_one_add}
 
 {docstring AclGeom.algebraicIndependent_mul_left}
+
+# Geometry isomorphisms and rank transport
+%%%
+tag := "geometry-isomorphism-transport"
+%%%
+
+A point bijection that preserves point closure extends to an order isomorphism
+of the closed-field lattices. Its restriction to atoms is the original
+bijection, and it is the unique order isomorphism with that point map:
+
+{docstring AclGeom.latticeIsoOfPointEquiv}
+
+{docstring AclGeom.point_map_latticeIsoOfPointEquiv}
+
+{docstring AclGeom.latticeIsoOfPointEquiv_unique}
+
+Conversely, an order isomorphism preserves independence and finite geometric
+rank:
+
+{docstring AclGeom.pointIndep_map_iff}
+
+{docstring AclGeom.rankLE_map_iff}
+
+{docstring AclGeom.rankEq_map_iff}
+
+The same argument transports arbitrary independent families. Applying it to a
+transcendence basis preserves the whole transcendence degree, including the
+rank-five hypothesis used by reconstruction. Fields in different universes
+require the displayed cardinal lifts:
+
+{docstring AclGeom.algebraicIndependent_pointMap_rep}
+
+{docstring AclGeom.lift_trdeg_eq_of_orderIso}
+
+{docstring AclGeom.trdeg_eq_of_orderIso}
+
+The exact finite-rank predicate also agrees with the numerical transcendence
+degree of the closed intermediate field (blueprint Foundation II):
+
+{docstring AclGeom.rankEq_iff_trdeg_eq}
+
+# Compatible transport across base fields
+%%%
+tag := "cross-base-transport"
+%%%
+
+A field isomorphism carries relative closure across different base fields
+when it maps the image of one base onto the image of the other:
+
+{docstring AclGeom.CrossBase.Compatible}
+
+{docstring AclGeom.CrossBase.baseRingEquiv}
+
+{docstring AclGeom.CrossBase.image_racl}
+
+It therefore transports closed intermediate fields. The identity,
+composition and inverse laws are proved with the compatibility hypothesis
+explicit:
+
+{docstring AclGeom.CrossBase.closedIFMap}
+
+{docstring AclGeom.CrossBase.closedIFMap_refl}
+
+{docstring AclGeom.CrossBase.closedIFMap_trans}
+
+{docstring AclGeom.CrossBase.closedIFMap_symm}

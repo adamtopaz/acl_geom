@@ -26,7 +26,9 @@ the closed lattice, with closure
   blueprint eq. 20.3).
 
 Finite character of `pointCl` lives with the finite-rank predicates in
-`AclGeom.Geometry.FiniteRank`.
+`AclGeom.Geometry.FiniteRank`. The converse from closure-preserving point
+equivalences to lattice isomorphisms, with both round trips, is proved in
+`AclGeom.Geometry.Transport`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

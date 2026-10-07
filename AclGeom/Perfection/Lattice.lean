@@ -153,7 +153,7 @@ theorem isRAC_perfIF (M : ClosedIF k K) : IsRAC (π.perfIF k M) := by
     have : Q.coeff q.natDegree = c q.natDegree ^ π.p ^ r := by
       rw [hQ, Polynomial.finsetSum_coeff]
       simp only [Polynomial.coeff_monomial]
-      rw [Finset.sum_ite_eq' q.support _ fun n ↦ c n ^ π.p ^ r, if_pos hd]
+      rw [Finset.sum_ite_eq' q.support _ fun n ↦ c n ^ π.p ^ r, ite_eq_left hd]
     rw [h0, Polynomial.coeff_zero] at this
     exact pow_ne_zero _ (hcne _ hd) this.symm
   -- The evaluation identity, via the `p^(s+r)`-th Frobenius.
