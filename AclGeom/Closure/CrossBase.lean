@@ -3,7 +3,7 @@ Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
-import AclGeom.Closure.ClosedLattice
+import AclGeom.Geometry.Points
 
 /-!
 # Relative closure across different base fields
@@ -174,6 +174,14 @@ def closedIFMap (σ : K ≃+* L) (hσ : Compatible (k := k) (l := l) σ) :
 @[simp] theorem coe_closedIFMap (hσ : Compatible (k := k) (l := l) σ) (E : ClosedIF k K) :
     ((closedIFMap σ hσ E).1 : Set L) = σ '' (E.1 : Set K) :=
   (image_closed hσ E).symm
+
+/-- The transport of a principal point is the principal point of the image. -/
+theorem closedIFMap_point (hσ : Compatible (k := k) (l := l) σ) (x : K) :
+    closedIFMap σ hσ (ClosedIF.point k x) = ClosedIF.point l (σ x) := by
+  apply Subtype.ext
+  apply SetLike.coe_injective
+  rw [coe_closedIFMap, ClosedIF.coe_point, ClosedIF.coe_point, image_racl hσ,
+    Set.image_singleton]
 
 /-- The inverse transport is the transport along the inverse isomorphism. -/
 theorem closedIFMap_symm (hσ : Compatible (k := k) (l := l) σ) :

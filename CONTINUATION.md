@@ -111,7 +111,7 @@ Coverage at a glance (details and file:line references on #19):
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Fixed-class correctness, totalization, ratio-field, recovery, reconstruction existence and functorial theorems remain open |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, totalization, ratio-field, unconditional recovery, reconstruction existence and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -124,7 +124,7 @@ Immediate priorities, in order:
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
 5. continue recovery and the literal/quotient functorial definitions using the
-   proved kernel, intersection and supplied-endpoint Induces fibre APIs;
+   proved kernel, intersection, conditional point propagation and supplied-endpoint Induces fibre APIs;
    keep reconstruction existence and assembly explicit (#8–#10).
 
 ## How work is coordinated
@@ -2975,3 +2975,69 @@ staged-byte/push gates remain required before the checkpoint commit.
 The supplied-endpoint uniqueness half is this checkpoint's scope. R1/R2/R3b/R4
 recovery, reconstruction existence, full functorial assembly, M4 and the held
 FrobEqCorrect/L2 work remain open.
+
+
+## Conditional point recovery and atomistic extension (#9)
+
+`Reconstruct/Points` now proves `eq_closedIFMap_of_point_eq`: a compatible
+field isomorphism agreeing with the prescribed lattice isomorphism on
+principal closures outside `racl {a}` induces the whole lattice map.
+Compatibility and that outside-point formula are explicit hypotheses.
+They are the outputs of still-open base recovery R1 and scalar elimination
+R2, rather than claims that those tasks have been proved.
+
+The proof follows a shorter route than the blueprint's meet/intersection
+argument. Exchange identifies every point represented inside `racl {a}`
+with the single exceptional point. Two bijections agreeing away from one
+point agree there as well; the existing `latticeIsoOfPointEquiv_unique`
+then identifies the lattice maps. No rank, freshness or relatively closed
+base assumption is needed. The parameter may be algebraic. The existing
+`ClosedIF.mem_point_symm` supplies the exchange step, avoiding a duplicate
+representative-transcendence calculation.
+
+`CrossBase.closedIFMap_point` supplies point transport for the compatible
+isomorphism and immediately yields the all-point formula. Its narrow import
+changes from `Closure.ClosedLattice` to `Geometry.Points`, the module defining
+principal closures; there is no cycle. The Points skeleton drops its broad
+`Reconstruct.Base` import in favour of CrossBase and Geometry.Transport.
+The only public additions are these two blueprint-facing theorems, with
+one private bijection helper and no new generated declarations.
+
+Claude supplied frozen source-only drafts; Codex independently verified the
+two hashes and seven dependencies against pushed `33c4d07`. The private
+compile exposed a default-simplifier rewrite from a representative's
+principal closure back to its point. The reviewed original uses narrowly
+listed singleton/point-membership rewrites. A follow-up harness typo used
+the namespace-qualified singleton lemma, which was corrected before the
+green private original gates. The frozen source files remain preserved.
+
+The 22→25 ledger preserves all 22 old signatures and raw proof/body hashes
+exactly, including generated `CrossBase.baseRingHom.eq_1` and its module.
+Reviewed original and final 25-record signatures agree completely:
+statements, attributes, declaration docstrings and definition bodies do
+not change. The sole proof cleanup is the new point theorem's use of the
+existing point-exchange API. All 24 public reports and the private helper
+use standard axioms.
+
+Eight identical original/final typed interfaces pass with independent
+universe levels. They test principal-closure transport, the precise
+conditional lattice equality, every point, every closed-field image,
+the lift to chosen perfections and its inducing relation, perfected-lattice
+conjugacy back to original fields, an algebraic zero parameter and identity
+specialization.
+
+The full library build passes in 50.01 seconds (peak family RSS 10.25 GiB,
+minimum available memory 34.25 GiB), and the rendered book in 14.00 seconds.
+The shared artifact check reproduces the exact 25-record signature/proof
+ledger, 24 public standard-axiom reports plus the private helper, and all eight
+typed interfaces (6.00 seconds, peak 2.32 GiB, minimum available 37.24 GiB).
+The code sources are byte-exact with the private accepted candidate.
+Hygiene covers 233 library files. All 77 old HTML paths remain among 78 pages,
+with both new docstrings, explicit hypotheses, open recovery and the frozen
+117-item notice checked. The blueprint renders in two passes without undefined
+references or overfull boxes, now 56 pages; pages 38–43 were visually reviewed.
+Final documentation build/book and the exact five-path staged-byte gate follow
+before commit and push. R1/R2, unconditional R3b/R4, reconstruction
+existence and final assembly remain open. The two-generic intersection
+remains a proved blueprint lemma despite the different propagation proof;
+#11's bypassed obligations, frozen M4a and held FrobEqCorrect/L2 are unaffected.

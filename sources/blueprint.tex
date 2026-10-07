@@ -2737,6 +2737,21 @@ intermediate field $M$, atomisticity and preservation of joins give
 in the perfected setting.  Transport through \cref{prop:perf-lattice} yields the formula
 $\phi(M)=\Phi(M^{\mathrm{perf}})\cap L$ in the original fields.
 
+\noindent\textbf{Lean status for conditional recovery.}
+\lean{eq_closedIFMap_of_point_eq} proves the all-point and atomistic propagation
+from a field isomorphism carrying the base onto the base and the point formula
+outside $\acl(a)$. These are explicit hypotheses, the outputs of the still-open
+\cref{prop:base-recovery,prop:scalar-one}. The proof uses exchange and bijectivity:
+at most one atom has a representative inside $\acl(a)$, and two bijections of atoms
+agreeing away from one atom agree everywhere. The existing atomistic extension
+uniqueness gives equality of the whole lattice maps.
+\lean{CrossBase.closedIFMap_point} gives the formula for every principal closure.
+No rank, freshness or relative-algebraic-closedness hypothesis is needed for this
+conditional propagation. Reconstruction existence and unconditional recovery remain
+open (issue 9); the two-generic intersection and bypassed linear-disjointness
+statements retain their separate status.
+
+
 \section{Uniqueness and the Frobenius kernel}
 
 For a perfect relatively algebraically closed extension $K/k$, define
