@@ -81,14 +81,13 @@ this guide. Its main conclusions:
   in the encoded class relation.
   EH95 Lemma 2.11 and Figures 4–5 use meets of joins of the given coordinates
   for subtraction/division, preserving the coupling lost in the blueprint's
-  existential projections. Its generic meet identities and Point-valued JSem
-  bridge, together with generic negation/inverse/addition/multiplication, have
-  independently checked private Lean drafts over arbitrary relative fields:
-  both modules compile without warnings and all 91 public declarations use
-  standard axioms. The generic inputs share a literal parameter element and
-  are independent. Geometric membership retains the current rank-five
-  soundness hypotheses. Integration, class correctness, totalization and
-  ratio semantics remain open (#23).
+  existential projections. `Interpretation/JArith` and `JArithSem` now prove
+  the generic meet identities, Point-valued JSem bridge and derived generic
+  negation/inverse/addition/multiplication over arbitrary relative fields.
+  All 89 authored public declarations have standard-axiom checks. Inputs
+  share a literal parameter and are independent. Geometric membership
+  follows from rank-five soundness without an infinite-base binder.
+  Fixed-class correctness, totalization and ratio semantics remain open (#23).
 - **Lemma 8.4 (affine action) has no Lean statement.** #13's curve
   prerequisites are proved: places, divisors, Riemann–Roch, genus, rationality
   in genus 0, Tate residues, rigidity of regular derivations in genus ≥ 1, and
@@ -2433,3 +2432,41 @@ semantics and the historical M4a chain remain open or frozen as before.
 
 The documentation-only evidence follow-up also passes the required full
 build (4.02 s) and rendered book (8.04 s).
+
+## Generic meet/join arithmetic checkpoint (#23)
+
+`Interpretation/JArith` implements the four subtraction and five division
+meets from EH95 Lemma 2.11, Figures 4–5. Their independent-input coordinate
+identities imply generic negation, inverse, addition and multiplication.
+`JArithSem` uses the shared `jTupleOf` constructor, defines Point-valued
+relations by those geometric operations, and proves their function
+properties, independent-input unique outputs and semantic membership.
+Rank-five soundness gives geometric J membership over any base field;
+six redundant infinite-base binders are removed from these new wrappers.
+No configuration completeness is used in the arithmetic computations.
+The source/book status is updated; literal-refutation provenance stays
+intact. The new book subsection documents the coupled construction.
+
+Claude supplied the generic arithmetic and deduplicated semantic draft.
+Codex independently checked the final two modules against the focused
+main APIs (30.15 s, peak 3.47 GiB, minimum available 39.61 GiB), without
+warnings. A 102-record canonical/final statement/body comparison finds
+exactly the six strengthened membership wrappers and no other changes.
+All 100 public artifact axiom reports are standard; excluding generated
+equations, these cover 89 authored public declarations (theorems and
+definitions). The shared full `lake build` passed in 48.27 s (peak family RSS 6.15 GiB,
+minimum available 38.34 GiB); `lake exe book` passed in 8.04 s (peak
+1.54 GiB, minimum available 40.02 GiB). Fresh shared signature/body
+comparisons match the independently checked 102-record final artifacts
+without exceptions; all 100 public axiom reports match the standard-axiom
+review. Hygiene covers 210 library/root Lean files. All 64 existing HTML
+page paths remain, and the coupled-arithmetic subsection adds one page
+(65 total); its computation and open-boundary prose is checked. The
+blueprint renders to 54 pages without undefined/overfull diagnostics;
+the changed status paragraph on page 34 is visually reviewed. New
+arithmetic modules compile without warnings.
+
+Fixed-class/Frobenius correctness, extension to all input pairs, totalized
+field operations and ratio semantics remain open. This checkpoint proves
+the generic coordinate computations and preserves the corrected
+configuration completeness boundary.

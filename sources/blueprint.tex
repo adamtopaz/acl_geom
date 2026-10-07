@@ -2321,12 +2321,13 @@ of the given tuple coordinates. For instance,
 \[
  [x-y]=([x]\vee[y])\wedge([x+a]\vee[y+a]).
 \]
-This retains the coupling discarded by the existential projections above. Private,
-independently kernel-checked Lean drafts prove the generic-coordinate meet identities
-and their Point-valued semantic bridge over arbitrary relative fields. The generic
-negation, inverse, addition and multiplication derived from these meet formulas are
-also privately checked. Geometric membership is stated with the existing rank-five
-soundness hypotheses. These drafts await integration; class correctness, totalization
+This retains the coupling discarded by the existential projections above. The Lean
+modules \path{Interpretation/JArith.lean} and
+\path{Interpretation/JArithSem.lean} prove the generic-coordinate meet identities
+and their Point-valued semantic bridge over arbitrary relative fields. The derived
+negation, inverse, addition and multiplication are also proved on generic inputs.
+Geometric membership follows from rank-five soundness over any base field.
+Fixed-class correctness, totalization
 and ratio semantics remain open and must be proved before replacing the definitions.
 
 The ratio definition below is affected concretely. Take $t$ fresh over $x,y,a$ and put

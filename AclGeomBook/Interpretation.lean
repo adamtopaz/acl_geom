@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Config.JCoordinates
 import AclGeom.Interpretation.FrobClass
 import AclGeom.Interpretation.FrobLinkSoundness
+import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Counterexamples.GenericArithmetic
 
@@ -108,8 +109,43 @@ ratios. All its witnesses satisfy that class-membership relation:
 
 {docstring AclGeom.blueprintRatioEq_counterexample}
 
-These refutations preserve the original predicates for provenance. EH95
-Lemma 2.11 uses meets of joins of the given tuple coordinates to keep the
-coupling lost by those predicates. Generic meet identities and derived
-operations have checked private drafts; their integration, class correctness,
-totalization and ratio-field construction remain open (#23).
+These refutations preserve the original predicates for provenance. The
+faithful generic arithmetic below follows the meet/join construction of
+EH95 Lemma 2.11, keeping the original tuple coordinates coupled.
+
+# Coupled generic arithmetic
+%%%
+tag := "coupled-j-arithmetic"
+%%%
+
+For independent `x,y,a`, the EH95 subtraction and division constructions
+intersect lines spanned by coordinates of `j(x,a)` and `j(y,a)`:
+
+{docstring AclGeom.jSub}
+
+{docstring AclGeom.jDiv}
+
+The coordinate identities compute `j(x-y,a)` and `j(x/y,a)` over any base
+field. They need no configuration completeness or rank-five hypothesis:
+
+{docstring AclGeom.jSub_jC}
+
+{docstring AclGeom.jDiv_jC}
+
+Negation and inversion use a generic auxiliary tuple; addition and
+multiplication follow from subtraction and division. The Point-valued
+relations are defined by these meets and joins, and are functional. On
+inputs with a shared literal parameter and independent representatives,
+they have the unique outputs `j(x+y,a)` and `j(xy,a)`:
+
+{docstring AclGeom.JAddRel}
+
+{docstring AclGeom.JMulRel}
+
+{docstring AclGeom.jAddRel_jTupleOf_iff}
+
+{docstring AclGeom.jMulRel_jTupleOf_iff}
+
+The output is semantic; geometric `J` membership follows from the
+rank-five soundness theorem over any base field. Fixed-class correctness,
+totalization and ratio-field construction remain open (#23/#8).

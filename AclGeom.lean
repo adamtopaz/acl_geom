@@ -141,6 +141,8 @@ import AclGeom.Transfer.Descent
 import AclGeom.Config.Correctness
 import AclGeom.Interpretation.FrobClass
 import AclGeom.Interpretation.FrobLinkSoundness
+import AclGeom.Interpretation.JArith
+import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Interpretation.GenericOps
