@@ -23,6 +23,11 @@ carries the base tuple `j(x₀, a)` of `K` to the base tuple `j(x₀', a')` of `
   clauses, the common-denominator clause with its opposite and nonzero branches, and the generic
   product clause, with every witness and genericity clause.
 
+`ratioInterpMapRingEquiv` bundles that same geometric carrier map, using graph preservation for
+its addition and multiplication laws. `interpretedRingEquiv` composes it with the two decoding
+ring equivalences to obtain `K ≃+* L`. Their named consumers are conditional existence and the
+later base/scalar recovery inputs.
+
 Both maps are the geometric ones and are not defined through the decodings.  Witnesses on the target
 side are pulled back by the surjectivity of the class map, and equalities in the target carrier
 are reflected by the injectivity of the carrier map.  The adjoined zero and the class of a pair of
@@ -33,9 +38,10 @@ interpreted carriers of `K` and `L`, so their perfection, rank-five and ACF J-co
 are explicit on both sides; the bases, the ambient fields and the exponents `q`, `q'` are
 independent.
 
-**Status:** geometric class/carrier maps and graph transport are complete (#23/#8, I6b3),
-under the explicit image-base equality and carrier inputs above. The induced ring isomorphism,
-corrected interpreted reconstruction and existence of the image base remain open.
+**Status:** geometric class/carrier maps, graph transport, the induced ring isomorphism and
+corrected interpreted reconstruction are complete (#23/#8), given the explicit image-base equality
+and carrier inputs above. Image-base existence, unconditional completeness, base recovery and
+full reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -210,6 +216,54 @@ theorem ratioMulGraph_map_iff [PerfectField K] (q : ℕ) [ExpChar K q]
         ratioClassMap e h₀ h₀' hφ w₁, ratioClassMap e h₀ h₀' hφ w₂, hΦmk u₁ u₂, hΦmk v₁ v₂,
         ⟨(jMulRel_map_iff e).2 m₁, (pointTripleIndependent_map_iff e).2 g₁⟩,
         ⟨(jMulRel_map_iff e).2 m₂, (pointTripleIndependent_map_iff e).2 g₂⟩, hΦmk w₁ w₂⟩
+
+/-- **The map of interpreted carriers is a ring isomorphism** for the transported field structures
+`ratioInterpField` on both sides.  Its underlying bijection is the geometric carrier map
+`ratioInterpMap`.  It is additive and multiplicative because the transported operations are
+characterized by the geometric graphs (`ratioAddGraph_iff_eq_add`, `ratioMulGraph_iff_eq_mul`),
+which the carrier map preserves (`ratioAddGraph_map_iff`, `ratioMulGraph_map_iff`). -/
+def ratioInterpMapRingEquiv [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    [PerfectField L] (q' : ℕ) [ExpChar L q']
+    (htr' : (5 : Cardinal) ≤ Algebra.trdeg l L)
+    (hcomp' : JCompletenessACF (↥(algebraicClosure l (AlgebraicClosure L))) (AlgebraicClosure L))
+    (e : ClosedIF k K ≃o ClosedIF l L) {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a])
+    {x₀' a' : L} (h₀' : AlgebraicIndependent l ![x₀', a'])
+    (hφ : Point.map e ∘ jTupleOf x₀ a h₀ = jTupleOf x₀' a' h₀') :
+    letI := ratioInterpField q htr hcomp h₀
+    letI := ratioInterpField q' htr' hcomp' h₀'
+    RatioInterp q htr hcomp h₀ ≃+* RatioInterp q' htr' hcomp' h₀' :=
+  letI := ratioInterpField q htr hcomp h₀
+  letI := ratioInterpField q' htr' hcomp' h₀'
+  { ratioInterpMap q htr hcomp q' htr' hcomp' e h₀ h₀' hφ with
+    map_add' := fun r s ↦ (ratioAddGraph_iff_eq_add q' htr' hcomp' h₀').1
+      ((ratioAddGraph_map_iff q htr hcomp q' htr' hcomp' e h₀ h₀' hφ).2
+        ((ratioAddGraph_iff_eq_add q htr hcomp h₀ (r := r) (s := s)).2 rfl))
+    map_mul' := fun r s ↦ (ratioMulGraph_iff_eq_mul q' htr' hcomp' h₀').1
+      ((ratioMulGraph_map_iff q htr hcomp q' htr' hcomp' e h₀ h₀' hφ).2
+        ((ratioMulGraph_iff_eq_mul q htr hcomp h₀ (r := r) (s := s)).2 rfl)) }
+
+/-- **The corrected interpreted reconstruction** (the corrected counterpart of blueprint
+Prop `interpreted-reconstruction`): a closed-lattice isomorphism carrying the base tuple
+`j(x₀, a)` to the base tuple `j(x₀', a')` induces the field isomorphism `K ≃+* L` obtained by
+decoding, the geometric map of interpreted carriers, and decoding back.  Perfection, rank five
+and ACF J-completeness of both sides and the image-base equality are explicit. -/
+def interpretedRingEquiv [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    [PerfectField L] (q' : ℕ) [ExpChar L q']
+    (htr' : (5 : Cardinal) ≤ Algebra.trdeg l L)
+    (hcomp' : JCompletenessACF (↥(algebraicClosure l (AlgebraicClosure L))) (AlgebraicClosure L))
+    (e : ClosedIF k K ≃o ClosedIF l L) {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a])
+    {x₀' a' : L} (h₀' : AlgebraicIndependent l ![x₀', a'])
+    (hφ : Point.map e ∘ jTupleOf x₀ a h₀ = jTupleOf x₀' a' h₀') :
+    K ≃+* L :=
+  letI := ratioInterpField q htr hcomp h₀
+  letI := ratioInterpField q' htr' hcomp' h₀'
+  (ratioInterpRingEquiv q htr hcomp h₀).symm.trans
+    ((ratioInterpMapRingEquiv q htr hcomp q' htr' hcomp' e h₀ h₀' hφ).trans
+      (ratioInterpRingEquiv q' htr' hcomp' h₀'))
 
 end
 

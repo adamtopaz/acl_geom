@@ -2979,8 +2979,11 @@ no perfection, semantic completeness, rank-five bound or fresh element. Correcte
 % (issues 8 and 23).
 interpretation-relation transport is proved in the following subsections. Conditional
 carrier and operation-graph transport is also proved below, with a supplied canonical
-image-base equality and explicit carrier inputs. Discharging that equality, the induced
-ring isomorphism and interpreted reconstruction remain open (issues 8 and 23).
+image-base equality and explicit carrier inputs. % Earlier induced-isomorphism scope 1 (before the two-definition checkpoint; reported on issue 23):
+% Discharging that equality, the induced
+% ring isomorphism and interpreted reconstruction remain open (issues 8 and 23).
+Discharging that equality and general interpreted reconstruction remain open
+(issues 8 and 23).
 The original interpreted reconstruction statement and argument are preserved above;
 this first stage does not discharge the literal source predicates, unconditional
 completeness, base recovery or the scalar-one input.
@@ -3025,7 +3028,9 @@ for later carrier transport, and supply no global Frobenius setoid.
 Coupled arithmetic and corrected totalization/ratio transport are proved in the
 following subsections, followed by conditional carrier and operation-graph transport
 with the canonical image-base equality and carrier inputs explicit. Image-base discharge,
-the induced ring isomorphism, interpreted reconstruction, unconditional completeness,
+% Earlier induced-isomorphism scope 2 (before the two-definition checkpoint; reported on issue 23):
+% the induced ring isomorphism, interpreted reconstruction, unconditional completeness,
+general interpreted reconstruction, unconditional completeness,
 base recovery and the scalar-one input remain open (issues 8 and 23).
 All original source statements and proofs retain their provenance.
 
@@ -3059,8 +3064,11 @@ total negation/nonzero addition, ratio equivalence and full-carrier graph preser
 % completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
 Corrected totalization/ratio transport is proved in the following subsection, followed
 by conditional carrier and operation-graph transport with the image-base equality explicit.
-Discharging that equality, the induced ring isomorphism, interpreted reconstruction,
-unconditional completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+% Earlier coupled induced-isomorphism scope (before the two-definition checkpoint; reported on issue 23):
+% Discharging that equality, the induced ring isomorphism, interpreted reconstruction,
+% unconditional completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+Discharging that equality, general interpreted reconstruction, unconditional completeness,
+base recovery and scalar-one inputs remain open (issues 8 and 23).
 Original statements and proofs are preserved.
 
 \subsection{Corrected totalization and ratio naturality in Lean}
@@ -3088,7 +3096,9 @@ well-definedness and full-carrier graph preservation.
 % completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
 Conditional carrier and operation-graph transport is proved in the following subsection,
 with the canonical image-base equality and carrier inputs explicit. Image-base discharge,
-the induced ring isomorphism, interpreted reconstruction, unconditional completeness,
+% Earlier induced-isomorphism scope 2 (before the two-definition checkpoint; reported on issue 23):
+% the induced ring isomorphism, interpreted reconstruction, unconditional completeness,
+general interpreted reconstruction, unconditional completeness,
 base recovery and scalar-one inputs remain open (issues 8 and 23).
 All original source statements and proofs are preserved.
 
@@ -3118,11 +3128,40 @@ pointwise map, so no dependent carrier is rewritten.
 
 The actual carriers retain independent perfection, rank-five, exponential-characteristic
 and ACF-completeness inputs on both sides, across independent bases and universe levels.
-The named consumers are additivity/multiplicativity of the induced ring isomorphism and
-its composition with the decoding equivalences. Image-base existence, the named induced
-ring isomorphism and interpreted reconstruction remain open (issues 8 and 23), as do
-unconditional completeness, global Frobenius setoid, base recovery and scalar-one inputs.
+% Earlier carrier/graph scope (before the two-definition checkpoint; reported on issue 23):
+% The named consumers are additivity/multiplicativity of the induced ring isomorphism and
+% its composition with the decoding equivalences. Image-base existence, the named induced
+% ring isomorphism and interpreted reconstruction remain open (issues 8 and 23), as do
+% unconditional completeness, global Frobenius setoid, base recovery and scalar-one inputs.
+The induced ring isomorphism and its composition with both decoding equivalences are
+formalized next under these same inputs. Image-base existence and general interpreted
+reconstruction remain open (issues 8 and 23), as do unconditional completeness, global
+Frobenius setoid, base recovery and scalar-one inputs.
 The original literal statements and proofs retain their exact provenance.
+
+\subsection{Conditional induced ring isomorphisms in Lean}
+
+\lean{ratioInterpMapRingEquiv} bundles the geometric carrier map as an actual ring
+isomorphism for the named transported field structures. Its addition and multiplication
+laws follow by characterizing the source operation with its geometric graph, transporting
+that graph and characterizing the target operation. Its underlying equivalence is exactly
+\lean{ratioInterpMap}; native zero and representatives remain definitional. Mathlib's
+ring-equivalence API supplies the one and inverse laws. Only proof-local named field
+instances are used.
+
+The composite field isomorphism is \lean{interpretedRingEquiv}:
+\[
+ D_L\circ\Phi\circ D_K^{-1}:K\simeq_{\mathrm{ring}}L.
+\]
+Here $\Phi$ is the same geometric carrier map, and $D_K,D_L$ are the actual decoding
+ring equivalences. Pointwise forward and inverse composite values are definitional;
+the decoding diagram commutes by the inverse laws. This proves the corrected counterpart of \cref{prop:interpreted-reconstruction}, given the canonical
+image-base equality and both carriers' perfection, rank-five, separate exponential-
+characteristic and still-open ACF-completeness inputs, across independent bases and universes.
+The named consumers are the later conditional existence endpoint and base/scalar recovery.
+Image-base existence, general interpreted reconstruction, unconditional completeness,
+global Frobenius setoid, R1/R2 and literal source obligations remain open (issues 8 and 23).
+The original statements and proofs retain their exact provenance.
 
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which

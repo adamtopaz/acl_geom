@@ -28,10 +28,14 @@ The arguments are purely order-theoretic.  No semantics, genericity, completenes
 hypothesis or fresh element is used, no Frobenius setoid is assumed, and the bases and ambient
 fields are arbitrary.
 
-**Status:** corrected totalization/ratio transport is complete (#23/#8, I6b2c).
-Conditional geometric carrier maps and graph transport are proved in `Naturality`, with its
-canonical image-base equality and carrier inputs explicit. Image-base discharge, the induced
-RingEquiv and interpreted reconstruction remain open.
+**Status:** corrected negation, total nonzero-addition and ratio transport is complete (#23/#8,
+I6b2c).
+Conditional class/carrier and graph transport, the same geometric map bundled as a RingEquiv,
+and its composition with both decodings are proved in `Naturality`, given the canonical
+image-base
+equality and actual carrier inputs. Image-base existence, unconditional completeness,
+base/scalar
+recovery and general interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -96,8 +96,9 @@ of this guide. The current mathematical boundaries are:
   transport, coupled meet/join arithmetic and corrected total/ratio transport are
   proved across arbitrary bases/universes, with no completeness or perfection input.
   Conditional class/carrier maps and graph transport are proved given the
-  canonical image-base equality and explicit carrier inputs. Discharging that
-  equality, the induced RingEquiv and interpreted reconstruction remain open (#23).
+  canonical image-base equality and explicit carrier inputs. The same geometric
+  map is bundled as an actual RingEquiv and composed with both decodings.
+  Discharging that equality and general interpreted reconstruction remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -117,7 +118,8 @@ of this guide. The current mathematical boundaries are:
   are proved under the same inputs, with a named reducible field structure and
   actual decoding RingEquiv. Conditional carrier/graph transport is proved
   with the canonical image-base equality and carrier inputs explicit; its
-  image-base discharge and induced RingEquiv remain open (#23).
+  induced RingEquiv and composition with both decodings are proved, while
+  image-base discharge and general reconstruction remain open (#23).
 - **Lemma 8.4 (affine action) has no Lean statement.** #13's curve
   prerequisites are proved: places, divisors, Riemann–Roch, genus, rationality
   in genus 0, Tate residues, rigidity of regular derivations in genus ≥ 1, and
@@ -134,7 +136,7 @@ Coverage at a glance (details and file:line references on #19):
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge, coupled meet/join arithmetic and corrected total/ratio invariance need no such input. Conditional class/carrier maps and graph transport are proved with a supplied canonical image-base equality and explicit carrier inputs. Image-base discharge, the induced RingEquiv, unconditional recovery, reconstruction existence and functorial theorems remain open |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge, coupled meet/join arithmetic and corrected total/ratio invariance need no such input. Conditional class/carrier maps and graph transport are proved with a supplied canonical image-base equality and explicit carrier inputs. The same geometric map gives the induced RingEquiv and its actual K-to-L composite under those inputs. Image-base discharge, unconditional recovery, general reconstruction existence and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -142,8 +144,8 @@ Immediate priorities, in order:
    (#6/#7), with a full library build and rendered book; the measured #18
    build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
-   (#22/#25), and assemble the induced RingEquiv and discharge the canonical
-   image-base equality after accepted conditional carrier/graph transport (#23/#8);
+   (#22/#25), and discharge the canonical image-base equality after accepted
+   conditional carrier/graph transport and actual induced RingEquivs (#23/#8);
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
@@ -4072,3 +4074,65 @@ not yet declared. The separate two-public RingEquiv plan is agreed;
 its draft remains held until this checkpoint is published. Unconditional
 completeness, global Frobenius setoid, literal source obligations, base
 recovery and scalar-one inputs remain open.
+
+
+## Conditional induced ring isomorphisms (#23/#8, I6c1)
+
+Two public definitions are appended in `Interpretation/Naturality`, with
+no new import/helper/global instance: `ratioInterpMapRingEquiv` has exactly
+the geometric `ratioInterpMap` as its underlying Equiv, and
+`interpretedRingEquiv` is the actual `K ≃+* L` composite of the inverse
+source decoding, geometric carrier map and target decoding. Add/mul laws
+use the graph characterizations and naturality. Native zero, representative
+and forward/inverse composite values are definitional; Mathlib supplies
+one/inverse laws. All four prior declaration bytes are unchanged.
+
+Claude froze source `07766340` against published `603c57b`, with eleven
+exact inputs and three baseline copies. Original compilation passes in
+6.00 s (peak 2.59 GiB, minimum 37.16 GiB available). Four unused explicit
+lambda-binder warnings are fixed by naming `(r := r) (s := s)` in the two
+source graph iffs. The final passes in 10.00 s (peak 2.62 GiB, minimum
+36.94 GiB). All six original/final types/docs/attributes/raw bodies and
+standard-axiom records remain exact, including both new definitions and
+all four previous records. No mathematical source/proof repair is needed.
+
+Eighteen accepted original/final interfaces have identical bytes and pass
+warning-free: genuine named-field RingEquiv/type and exact geometric
+toEquiv/pointwise map; native zero, inverse zero and representatives RFL;
+actual add/mul/one/inverse laws; actual K-to-L type; forward/inverse
+decode compositions RFL; the forward decode diagram, actual ring laws
+and inverse roundtrip; independent universes/bases/separate exponents,
+finite bases and characteristic two. The root harness initially lacked
+proof-local named field contexts at projections/inverse/decode diagrams;
+adding those contexts is only a fixture repair. The frozen source is
+unchanged and all compiled final bodies remain exact.
+
+Prior `603c57b` has full build/book/deployment CI success in run
+37684293833. The current conditional reconstruction scope and five
+upstream header-only qualifications were reported on #23 before changing
+source/status prose. All five old namespaces and 43 prior compiled records
+remain exact; all 45 combined public records have standard axioms. The full
+library/book passes in 56.01/8.00 s (peak 8.90 GiB, minimum 36.39 GiB
+available for the build). Shared six-record/eighteen-interface and 43-old/
+45-total comparison passes in 14.00 s (peak 2.60 GiB, minimum 38.38 GiB).
+Hygiene covers 244 files; the 94-page HTML book retains all 93 prior paths
+and adds the two-docstring conditional induced-isomorphism section. Four
+stable TeX passes produce 62 pages; actual visual review covers pages
+1/2/3/41/42/43/44/45. The visual audit caught one earlier coupled status
+missed by the first qualifier pass; the reported scope is fixed with old
+wording retained in a comment. All original 49 source statements/44 proofs
+and literal TOT/interpreted-reconstruction arguments remain exact. The
+final prose review distinguishes definitional forward/inverse composite
+values from the commuting decoding diagram, which uses inverse laws.
+Final sequential library/book passes in 50.01/8.00 s (minimum available
+36.98/38.72 GiB), with no touched-module warning. Exact nine-path staged-byte
+gates precede commit/push.
+
+This accepts I6c1, corrected interpreted reconstruction GIVEN the
+canonical image-base equality, with both sides' perfection, rank-five,
+separate exponential characteristic and ACF-completeness inputs explicit.
+Parent I6b/I6c remain open until image-base existence and the conditional
+existence endpoint; that separate two-public plan is agreed and remains
+held until this checkpoint is published. R1/R2, unconditional completeness,
+global Frobenius setoid, literal source obligations, full inducing
+reconstruction and the frozen M4a obligations remain open/preserved.

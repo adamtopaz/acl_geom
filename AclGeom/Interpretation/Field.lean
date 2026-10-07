@@ -43,11 +43,15 @@ definitionally.  The two graphs are exactly the graphs of the transported operat
 
 `K` is perfect of rank at least five, and completeness over `k̄ ⊆ K̄` (`hcomp`) stays explicit.
 
-**Status:** both corrected geometric graphs are total and functional on the full ratio carrier,
-with exact decoded-operation semantics, and they are the graphs of the transported field structure,
-under explicit perfection, rank-five and ACF J-completeness inputs (#23). Graph naturality and
-interpreted reconstruction remain open. The blueprint's literal graphs and argument retain their
-historical/open status.
+**Status:** both corrected full-carrier geometric graphs and their named transported field
+structure are complete under explicit perfection, rank-five and ACF J-completeness inputs
+(#23/#8, I5c).
+Conditional class/carrier and graph transport, the same geometric map bundled as a RingEquiv,
+and its composition with both decodings are proved in `Naturality`, given the canonical
+image-base
+equality and actual carrier inputs. Image-base existence, unconditional completeness,
+base/scalar
+recovery and general interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

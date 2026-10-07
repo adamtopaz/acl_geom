@@ -29,11 +29,13 @@ fresh element is used, and the bases and ambient fields are arbitrary.  Witness 
 on the target side are pulled back by the bijections `Point.map e` and
 `Equiv.piCongrRight fun _ ↦ Point.map e`.
 
-**Status:** Frobenius-link relation transport is complete (#23/#8, I6b2a). Coupled arithmetic and
-corrected totalization/ratio transport are proved in `JArithTransport` and `TotalTransport`.
-Conditional carrier/graph transport is proved in `Naturality`, with its canonical image-base
-equality and carrier inputs explicit. Image-base discharge, the induced RingEquiv and interpreted
-reconstruction remain open.
+**Status:** geometric Frobenius-link transport is complete (#23/#8, I6b2a).
+Conditional class/carrier and graph transport, the same geometric map bundled as a RingEquiv,
+and its composition with both decodings are proved in `Naturality`, given the canonical
+image-base
+equality and actual carrier inputs. Image-base existence, unconditional completeness,
+base/scalar
+recovery and general interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

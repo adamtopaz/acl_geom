@@ -26,11 +26,13 @@ Prop `interpreted-reconstruction`, checklist I6).
 The arguments are purely order-theoretic.  No semantics, completeness, rank hypothesis or fresh
 element is used.  The bases and ambient fields are arbitrary and may live in different universes.
 
-**Status:** configuration transport is complete (#23/#8, I6b1). The corrected interpretation
-relations transport in `FrobTransport`, `JArithTransport` and `TotalTransport` (I6b2).
-Conditional carrier/graph transport is proved in `Naturality`, with its canonical image-base
-equality and carrier inputs explicit. Image-base discharge, the induced RingEquiv and interpreted
-reconstruction remain open.
+**Status:** geometric configuration transport is complete (#23/#8, I6b1).
+Conditional class/carrier and graph transport, the same geometric map bundled as a RingEquiv,
+and its composition with both decodings are proved in `Naturality`, given the canonical
+image-base
+equality and actual carrier inputs. Image-base existence, unconditional completeness,
+base/scalar
+recovery and general interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
