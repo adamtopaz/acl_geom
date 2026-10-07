@@ -23,7 +23,8 @@ Blueprint Lemma `mu-bij`: on the fixed class `J₁ = [j(x₀, a)]_FrobEq`, the c
 
 **Status:** same-parameter injectivity is proved at rank five, and the coordinate bijection
 with its evaluation law is proved under the explicit ACF J-completeness input `hcomp` (#23).
-Corrected fixed-class operations, ratio semantics and totalization remain open.
+Corrected generic fixed-class operations are proved in `ClassArithmetic` under the same inputs.
+Ratio semantics, non-generic totalization and setoid laws remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

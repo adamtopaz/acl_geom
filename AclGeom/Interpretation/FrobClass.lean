@@ -16,7 +16,8 @@ coordinate bijection `μ` (Lemma mu-bij).
 **Status:** the geometric link language is defined. `FrobEqCorrect` proves its semantic
 characterization and fixed-class description under explicit ACF J-completeness.
 The conditional coordinate bijection is proved in `ClassCoordinates`.
-Unconditional completeness, setoid laws and fixed-class operations remain open
+Corrected generic class arithmetic is proved in `ClassArithmetic` under the same inputs.
+Unconditional completeness, setoid laws and non-generic operations remain open
 (M6, checklist I1).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin

@@ -12,6 +12,7 @@ import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
 import AclGeom.Interpretation.ClassCoordinates
+import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -30,7 +31,8 @@ geometric `J`-locus by Frobenius ambiguity and construct a field.  The quotient
 and its field operations are still open (#8).  The current addition and
 multiplication incidences are projections of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
-can give different outputs.  Fixed-class operation correctness remains open (#23).
+can give different outputs. Corrected generic fixed-class semantics for the
+coupled operations follows below under explicit ACF completeness (#23).
 The Frobenius rigidity implications below keep their semantic endpoint
 and bridge-completeness hypotheses explicit:
 
@@ -142,9 +144,9 @@ fixes their closed points and normalizes its parameter to `a`:
 
 No infinite-base or relatively closed base assumption is used. These
 conditional statements preserve the original geometric relation. They do
-not prove ACF completeness, setoid laws, corrected fixed-class operation
-correctness, ratio semantics or totalization. The conditional coordinate
-bijection is displayed next.
+not prove ACF completeness, setoid laws, ratio semantics or non-generic
+totalization. The conditional coordinate bijection and corrected generic
+class arithmetic are displayed below.
 The common-representative calculation remains a separate open obligation
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
@@ -173,7 +175,8 @@ Perfection, rank five and the still-open ACF `JCompletenessACF` input
 remain explicit for that class description. No infinite-base or relatively
 closed base hypothesis is added. The map's domain is the original geometric
 `FrobEq` class, and its inverse encodes the same point tuple. Corrected
-fixed-class arithmetic, setoid laws, ratio semantics and totalization remain
+generic fixed-class arithmetic is proved below under the same explicit
+inputs. Setoid laws, ratio semantics and non-generic totalization remain
 open ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Refutations of the literal generic operation graphs
@@ -242,5 +245,36 @@ they have the unique outputs `j(x+y,a)` and `j(xy,a)`:
 {docstring AclGeom.jMulRel_jTupleOf_iff}
 
 The output is semantic; geometric `J` membership follows from the
-rank-five soundness theorem over any base field. Fixed-class correctness,
-totalization and ratio-field construction remain open (#23/#8).
+rank-five soundness theorem over any base field. The class-level computation
+under explicit completeness is displayed next; non-generic totalization and
+ratio-field construction remain open (#23/#8).
+
+# Generic arithmetic on the fixed class
+%%%
+tag := "generic-class-arithmetic"
+%%%
+
+Take two members of the original geometric `FrobEq` class. Their `X`
+coordinates and common parameter must satisfy the geometric rank-three
+genericity clause. The conditional class description presents them with
+the same literal parameter; rank three then gives independent generators.
+The coupled meet/join operation output remains in the class, and the
+coordinate bijection computes the corresponding field operation:
+
+{docstring AclGeom.JAddRel.jClassEquiv_add}
+
+{docstring AclGeom.JMulRel.jClassEquiv_mul}
+
+{docstring AclGeom.JSubRel.jClassEquiv_sub}
+
+{docstring AclGeom.JDivRel.jClassEquiv_div}
+
+Perfection, rank five and the still-open ACF `JCompletenessACF` input remain
+explicit. There is no infinite-base or relatively closed base assumption.
+The output is a geometric point tuple, and its class membership is proved
+rather than assumed. These are the coupled EH95 relations, with the original
+genericity clause; the refuted literal projections retain their provenance.
+
+This proves corrected generic fixed-class semantics. It does not handle
+non-generic inputs or prove a ratio quotient, totalization, setoid laws,
+unconditional ACF completeness, R1/R2 or reconstruction existence.

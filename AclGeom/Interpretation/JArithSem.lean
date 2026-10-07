@@ -26,7 +26,8 @@ closed subfields.  This file transports them to five-tuples of points of the geo
   soundness hypotheses of `jGeom_of_jSem_of_five_le_trdeg`.
 
 **Status:** the displayed generic semantics and function properties are proved (#23).
-Totalization, fixed-class correctness and ratio semantics remain open.
+`ClassArithmetic` proves generic fixed-class correctness under explicit ACF J-completeness.
+Non-generic totalization and ratio semantics remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

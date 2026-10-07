@@ -83,8 +83,9 @@ of this guide. The current mathematical boundaries are:
   remain obligations. The natural/integral FrobEq semantic equivalences and
   fixed-class description are proved under explicit perfection, rank-five and
   ACF J-completeness inputs, over any base field. The coordinate bijection
-  is proved under the same explicit inputs. Setoid laws, fixed-class arithmetic
-  and ratio semantics remain open (#23).
+  is proved under the same explicit inputs. Corrected generic fixed-class
+  arithmetic is also proved under these inputs. Setoid laws, non-generic
+  totalization and ratio semantics remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3171,3 +3172,61 @@ Corrected fixed-class generic operations are the next consumer. Unconditional
 ACF completeness, the original simultaneous-representative calculation,
 setoid laws, ratio semantics, totalization, R1/R2 and reconstruction existence
 remain open; the frozen M4a chain is untouched.
+
+## Corrected generic arithmetic on the fixed class (#23)
+
+`Interpretation/ClassArithmetic` computes the four coupled EH95 relations
+on the original geometric Frobenius class. If two class members satisfy
+`PointTripleIndependent` on their first coordinates and the parameter,
+then every `JAddRel`, `JMulRel`, `JSubRel` or `JDivRel` output belongs to
+the same class and its `jClassEquiv` coordinate is the sum, product,
+difference or quotient of the input coordinates. Perfection, rank five,
+the exponential characteristic and still-open ACF J-completeness remain
+explicit. No relatively closed or infinite base hypothesis is used.
+
+One private helper presents the two geometric inputs as tuples with the
+same literal parameter. The accepted rank-three closure lemma supplies
+independent generators; the accepted coupled generic semantics gives the
+output tuple, soundness gives its class membership, and the coordinate
+evaluation law gives the field formula. The predicates are geometric
+meet/join relations, and the genericity hypothesis remains geometric;
+no semantic redefinition is introduced.
+
+Claude's immutable source-only draft `2e59baa0` was recorded against local
+`2df132b` during transient GitHub write failures. That exact checkpoint
+was subsequently pushed before this review. Codex checked all seven input
+hashes against the published pin. The frozen draft compiled without repairs.
+Original and final private chains pass in 8 s each, with all five signatures
+and raw proofs exact, four public and one private standard axiom reports,
+and no generated declarations. Twelve byte-identical interfaces pass with
+independent universe levels: all four operations over arbitrary bases,
+finite bases and characteristic zero. Only the module status header changes
+from the immutable draft; statements, attributes and declaration docstrings
+are exact.
+
+Four existing module namespaces are byte-exact; their status headers now
+point to the conditional generic class semantics. The book displays all
+four results. The source retains the original literal definitions, theorem
+statements and historical proofs. A residual blanket assertion that all
+transcription-table items were already proved was reported on issue #1
+(comment 6041011479) before its status prose was corrected; the original
+wording is retained in a source comment.
+
+The full library build passes in 36.01 s (10.19 GiB sampled peak family
+RSS, minimum 34.98 GiB available); the book passes in 8 s. Shared artifact
+probes pass in 6 s, reproducing the same five signatures/raw proofs, four
+public and one private standard axiom reports, and twelve typed interfaces.
+All 236 library files pass proof-placeholder/project-axiom hygiene. The
+book has 81 HTML pages, retaining all 80 old paths and displaying all four
+docstrings with geometric genericity and explicit completeness. The frozen
+117-declaration M4a page is preserved. Two source passes produce 56 pages
+without undefined references or overflow. Actual changed pages 1, 34–36,
+38 and 52 were rendered and visually checked, including the ratio warning
+after normalizing extracted whitespace to identify it. All 49 original
+mathematical statement blocks and 44 original proof blocks are byte-exact.
+The original checklist status wording is retained as a source comment.
+Final full build/book checks are repeated after recording these results.
+Non-generic totalization, corrected ratio semantics, setoid laws, unconditional
+ACF completeness, the bypassed simultaneous-representative obligation,
+R1/R2 and reconstruction existence remain open. The frozen M4a chain is
+untouched.

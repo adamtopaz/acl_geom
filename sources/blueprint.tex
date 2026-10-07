@@ -134,7 +134,8 @@ classification remain proof obligations.
 The formalization audit of October 2026 identified errors in the literal $21$-field
 coordinate target, the arbitrary-field $\Qrel$ and $\Qprel$ consequences, and the generic
 arithmetic predicates.  The corresponding sections retain the provenance and state the
-corrections or counterexamples.  Correct operation predicates, their totalization, and the
+corrections or counterexamples. Corrected generic class semantics is formalized under
+explicit configuration-completeness inputs; totalization, ratio semantics and the
 dependent reconstruction and functorial assembly require further work.  Lean fragments
 record target interfaces, and each prose argument must be checked against its precise
 hypotheses before transcription.  The library, book, and issue tracker distinguish
@@ -2291,8 +2292,8 @@ Define $\mu(j(x,a))=x$.
 \lean{frobEq_jTupleOf_iff} proves this class description under the same explicit
 perfection, rank-five and ACF J-completeness hypotheses, by applying inverse
 Frobenius to the semantic endpoint. The coordinate bijection is proved under these
-same explicit hypotheses below. Corrected fixed-class operations, ratio semantics
-and totalization remain open (issue 23).
+same explicit hypotheses below. Corrected generic class arithmetic is also proved
+under these inputs; ratio semantics and non-generic totalization remain open (issue 23).
 
 
 \begin{lemma}[coordinate bijection]\label{lem:mu-bij}
@@ -2312,8 +2313,8 @@ arbitrary fields, without perfection or configuration completeness.
 \lean{jClassEquiv} and \lean{jClassEquiv_jTupleOf} give the displayed bijection
 and its evaluation law, keeping the class description's perfection, rank-five
 and still-open ACF J-completeness hypotheses explicit. The domain remains
-the geometric Frobenius class. Corrected fixed-class arithmetic, setoid laws,
-ratio semantics and totalization remain open (issue 23).
+the geometric Frobenius class. Corrected generic class arithmetic is also proved under
+these inputs. Setoid laws, ratio semantics and non-generic totalization remain open (issue 23).
 
 
 The generic operations can be defined explicitly from the four non-parameter coordinates.
@@ -2399,8 +2400,15 @@ modules \path{Interpretation/JArith.lean} and
 and their Point-valued semantic bridge over arbitrary relative fields. The derived
 negation, inverse, addition and multiplication are also proved on generic inputs.
 Geometric membership follows from rank-five soundness over any base field.
-Fixed-class correctness, totalization
-and ratio semantics remain open and must be proved before replacing the definitions.
+The module \path{Interpretation/ClassArithmetic.lean} now proves corrected generic
+fixed-class semantics under explicit perfection, rank-five and ACF J-completeness.
+For two geometric class members satisfying the rank-three genericity clause, every
+coupled sum, product, difference or quotient output belongs to the class and its
+$\mu$-coordinate is the corresponding field operation. The four theorems are
+\lean{JAddRel.jClassEquiv_add} and \lean{JMulRel.jClassEquiv_mul},
+together with \lean{JSubRel.jClassEquiv_sub} and \lean{JDivRel.jClassEquiv_div}.
+The predicates and genericity remain geometric. Non-generic totalization and corrected
+ratio semantics remain open; the literal definitions below are retained for provenance.
 
 The ratio definition below is affected concretely. Take $t$ fresh over $x,y,a$ and put
 \[
@@ -2481,9 +2489,10 @@ The construction in this section is preserved from repository commit
 nonfunctional \lean{JMul}, and the forward ratio-semantics implication is
 refuted by the witnesses in the preceding audit remark (issue 23).
 Consequently the asserted decoding and field proofs below do not establish
-results for these definitions. Correct coupled operations, their class
-semantics and totalization must be proved before a replacement ratio quotient
-can be constructed.
+results for these definitions. Generic class semantics for corrected coupled
+operations is now proved under explicit ACF completeness. Corrected ratio
+semantics and non-generic totalization are still needed before a replacement
+ratio quotient can be constructed.
 \end{warning}
 
 Every element outside $\acl(a)$ is nonzero.  Thus pairs in $\Jrel_1^2$ represent nonzero
@@ -2641,8 +2650,8 @@ $\widetilde\phi$.
 The following proofs of \cref{prop:base-recovery,prop:scalar-one} use the literal
 \lean{RatioEq} and \lean{JMul} semantics refuted in the preceding interpretation
 audit (issue 23). Their propositions are retained as targets; their displayed
-proofs require a corrected interpretation and fixed-class arithmetic, which are
-still open. This dependency was reported on issues 9 and 23 before adding this
+proofs require a corrected interpretation and non-generic totalization, which
+are still open; the accepted generic class semantics keeps ACF completeness explicit. This dependency was reported on issues 9 and 23 before adding this
 qualification. The original propositions and proofs are preserved below.
 The conditional point propagation later in this section takes their outputs as
 explicit hypotheses and does not discharge these inputs.
@@ -3614,9 +3623,15 @@ equation (20.20) and both quotient-category unit laws.
 
 \section{Lean transcription checklist}
 
-Every mathematical item in this checklist has been proved above.  The table is for tracking
-its transcription into Lean: a Mathlib item is imported, ``glue'' is a short adapter proof,
-and ``new'' is a project declaration whose prose proof is cited in the preceding sections.
+% Original status prose retained from before the October 2026 audit:
+% Every mathematical item in this checklist has been proved above. The table is for tracking
+% its transcription into Lean: a Mathlib item is imported, ``glue'' is a short adapter proof,
+% and ``new'' is a project declaration whose prose proof is cited in the preceding sections.
+This table tracks transcription targets and their proposed prose arguments. Entries are
+not blanket proof claims: the library, book and issue tracker distinguish imported
+Mathlib facts, checked adapters, conditional theorems, open obligations and refuted
+literal targets. In particular, completeness, corrected ratio semantics, totalization
+and the dependent reconstruction assembly still require proof.
 
 \begin{longtable}{p{0.08\linewidth}p{0.67\linewidth}p{0.15\linewidth}}
 \toprule
