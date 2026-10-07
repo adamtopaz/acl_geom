@@ -6,6 +6,7 @@ Authors: Adam Topaz, Codex
 import VersoManual
 import AclGeom.Counterexamples.KernelRank
 import AclGeom.Reconstruct.Base
+import AclGeom.Reconstruct.Scalar
 import AclGeom.Reconstruct.Kernel
 import AclGeom.Reconstruct.Points
 import AclGeom.Reconstruct.TwoGeneric
@@ -24,8 +25,9 @@ tag := "reconstruction"
 
 The Frobenius kernel theorem supplies the kernel input to the blueprint's
 uniqueness argument.  The existence of a field isomorphism inducing a
-geometry isomorphism and its point recovery remain open. Corrected conditional
-base recovery for the actual interpreted ring equivalence is proved below ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
+geometry isomorphism remains open in general. Corrected conditional base recovery,
+scalar one and outside-point recovery for the actual interpreted ring equivalence
+are proved below ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
 
 # Relative base ratios
 %%%
@@ -60,8 +62,8 @@ This completes the base-ratio corollary prerequisite (R1a/C7b).
 
 The next section proves the named R1b consumer: base-element membership and
 `CrossBase.Compatible` for the actual `interpretedRingEquiv` under explicit
-carrier and RAC inputs. General unconditional R1, scalar one and the full
-`Induces` direction remain open. The broader C7/group/three-pair/tensor obligations
+carrier and RAC inputs. Conditional scalar one is proved after it without RAC.
+General unconditional R1/R2 and public `Induces` assembly remain open. The broader C7/group/three-pair/tensor obligations
 and frozen M4a scope are preserved. The original source proof is retained;
 its incorrect correspondence-pair ordering was reported on issue #5.
 
@@ -103,12 +105,62 @@ target RAC only. The statements include independent universes, finite bases
 and characteristics zero/two. The two accepted no-fresh ratio declarations
 are unchanged, and no helper, generated declaration or global instance is added.
 
-This accepts corrected conditional R1b. General unconditional R1, scalar
-one/R2, agreement with the supplied lattice map, `Induces`, unconditional
-completeness and full reconstruction remain open. The named next consumers
-are scalar elimination and inducing reconstruction. The original literal
+This accepts corrected conditional R1b. The next section proves scalar
+elimination for this same map without RAC. General unconditional R1/R2,
+public inducing assembly, `Induces`, unconditional completeness and full
+reconstruction remain open. The original literal
 RatioEq proof, broader C7/group/three-pair/tensor obligations and frozen
 M4a scope remain preserved.
+
+# Conditional scalar one and outside points
+%%%
+tag := "conditional-scalar-one"
+%%%
+
+Write `H = interpretedRingEquiv … e …` for the same decoded geometric
+ring equivalence. For an actual tuple image `e(j(x,a)) = j(y,a')`,
+the ratio class of `(j(x,a),j(x₀,a))` decodes to `x/x₀` and its image
+to `y/x₀'`. Division preservation gives the multiplied coordinate formula:
+
+{docstring AclGeom.interpretedRingEquiv_coord}
+
+There is a single scalar `x₀'/H(x₀)`, and it is one:
+
+{docstring AclGeom.interpretedRingEquiv_base_coord}
+
+Choose two fresh source elements over `a`. Their target genericity is
+proved geometrically: point-triple independence is preserved by the lattice
+isomorphism, and tuple-image coordinates zero, zero and four identify the
+target triple. The coupled product is preserved, so its image coordinate
+is the product of the two image coordinates. Combining the three multiplied
+coordinate identities with multiplication preservation and nonzero
+cancellation yields `H(x₀)=x₀'`.
+
+This route replaces the original blueprint choice over `acl(a,x₀,t₀)`
+by geometric transport of target genericity. The original proposition and
+proof remain preserved exactly; their literal RatioEq/JMul argument and
+unconditional completeness remain obligations.
+
+The first tuple coordinate then gives the outside-point formula:
+
+{docstring AclGeom.interpretedRingEquiv_point}
+
+B1 plus the coordinate and scalar-one laws also give the full tuple-image
+consequence: an independent `(x,a)` maps to the independent target pair
+`(H(x),a')` and its canonical tuple. This consequence, actual inverse/base
+coordinates, and feeding compatibility plus this point law to the existing
+whole-lattice propagation API are checked by independent typed interfaces.
+
+All three statements need no RAC hypothesis. Both perfections/rank-five
+bounds, separate exponential characteristics, both still-open ACF
+J-completeness inputs and the actual canonical image-base equality remain
+explicit. No extra target genericity, freshness witness, scalar oracle,
+helper, global instance or generated declaration is introduced. The new
+module imports Base only. This accepts corrected conditional R2a/b/c;
+general unconditional R1/R2, public inducing/existence assembly,
+chosen-perfection reconstruction, unconditional completeness and global,
+literal/TOT/three-pair/tensor/frozen M4a obligations remain open. The named
+next consumer is the actual inducing direction under explicit RAC bases.
 
 # Two generic intersections
 %%%
@@ -249,7 +301,8 @@ Suppose a field isomorphism carries the source base onto the target base
 and agrees with the prescribed lattice map on the principal closures of
 every element outside the closure of one parameter. These are explicit
 outputs of base recovery and scalar elimination. Conditional base recovery
-is proved above; scalar elimination and the general inducing direction remain open.
+and outside-point recovery are proved above under explicit carrier inputs.
+Public assembly and the general inducing direction remain open.
 The agreement then extends to every closed intermediate field:
 
 {docstring AclGeom.eq_closedIFMap_of_point_eq}
@@ -267,10 +320,12 @@ formula, including elements inside the exceptional closure:
 {docstring AclGeom.CrossBase.closedIFMap_point}
 
 This conditional propagation also supplies the whole-lattice image
-formula. On the perfected lattices the existing conjugacy and inducing-map
-APIs transport it back to the original fields. The result leaves base
-recovery, scalar elimination, unconditional point recovery and reconstruction
-existence open ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
+formula. Its inputs for the actual interpreted ring equivalence are now
+proved under explicit completeness/carrier hypotheses, with RAC for
+compatibility. On perfected lattices the existing conjugacy and inducing-map
+APIs can transport it back to the original fields. Public assembly, general
+unconditional R1/R2, chosen-perfection reconstruction and unconditional
+completeness remain open ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
 The two-generic intersection remains a proved blueprint statement; the
 separate linear-disjointness obligations on
 [issue #11](https://github.com/adamtopaz/acl_geom/issues/11) remain open.

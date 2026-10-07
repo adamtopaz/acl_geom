@@ -11,8 +11,10 @@ import AclGeom.Geometry.Transport
 
 Blueprint Prop `all-points` and the atomistic extension after it (checklist R3, R4), conditional
 on the outputs of base recovery (Prop `base-recovery`, R1) and of the scalar elimination
-(Prop `scalar-one`, R2), which remain open.  Those outputs enter as explicit hypotheses: a field
-isomorphism `σ : K ≃+* L` compatible with the bases, and the point formula
+(Prop `scalar-one`, R2). Corrected conditional outputs for the actual `interpretedRingEquiv`
+are proved in `Reconstruct.Base` and `Reconstruct.Scalar` under their explicit carrier/completeness
+inputs, with RAC for compatibility. This general propagation theorem takes them as hypotheses:
+a field isomorphism `σ : K ≃+* L` compatible with the bases, and the point formula
 `φ([x]) = [σ x]` for every `x` outside `racl_k {a}`.
 
 `eq_closedIFMap_of_point_eq` then shows `φ = CrossBase.closedIFMap σ`, that is
@@ -26,9 +28,10 @@ An order isomorphism of closed lattices is determined by its action on points
 (`latticeIsoOfPointEquiv_unique`).  No rank hypothesis, relative algebraic closedness or
 freshness is used.
 
-**Status:** conditional point propagation and lattice extension are proved (#9). Scalar
-elimination (R2), base recovery (R1) and
-the existence of the reconstruction remain open.
+**Status:** general conditional point propagation and lattice extension are proved (#9). The
+actual corrected conditional base-recovery and outside-point inputs are proved separately. Public
+assembly for that actual map, general unconditional R1/R2, chosen-perfection reconstruction and
+unconditional completeness remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

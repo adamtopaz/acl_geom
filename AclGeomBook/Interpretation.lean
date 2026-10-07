@@ -484,14 +484,17 @@ This accepts the constructive part I6c1. The next section proves the
 canonical image-base existence and conditional field-isomorphism endpoint
 I6c2. General I6b/I6c remain open under their original scope. The named
 consumers are that conditional existence endpoint, accepted conditional R1b
-base recovery in the reconstruction chapter, and later R2. General inducing
+base recovery and corrected conditional scalar one in the reconstruction
+chapter. General inducing
 reconstruction, unconditional completeness, global Frobenius setoid,
 literal source obligations and the frozen M4a record remain open/preserved.
 
 The reconstruction chapter proves actual base-range compatibility for
 this same `interpretedRingEquiv` under explicit RAC bases and these carrier
 inputs. Its inverse is the swapped construction pointwise by reflexivity.
-General unconditional R1, scalar one/R2 and the inducing direction remain open.
+The same chapter proves corrected conditional scalar one and outside-point
+recovery without RAC. General unconditional R1/R2 and public inducing
+assembly remain open.
 
 # Conditional image-base and field-isomorphism existence
 %%%

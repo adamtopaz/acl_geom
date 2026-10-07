@@ -1858,17 +1858,26 @@ the existing algebraically closed correspondence lemma. Algebraic enlargement of
 the base preserves closure membership, and the embedding pulls algebraicity back.
 Only the existing global algebra and tower instances are used.
 
+% Earlier scalar-one progress scope (before conditional R2; reported on issue 9):
+% \lean{base_ratio_mem_range} proves the original orientation $u_1/u_2\in k$ as actual
+% membership in the image of $\operatorname{algebraMap}(k,K)$, with the relatively
+% algebraically closed-base hypothesis \lean{IsRAC} explicit. Neither theorem assumes
+% perfection, configuration completeness or an exponential characteristic, and finite
+% % Earlier ratio consumer progress (before conditional R1b; reported on issue 9):
+% % bases and arbitrary characteristics are included. The named next consumer is base
+% % element recovery for \lean{interpretedRingEquiv}; that recovery, scalar one and the
+% % full inducing reconstruction remain open (issues 5 and 9).
+% bases and arbitrary characteristics are included. Its named consumer is actual base
+% element recovery for \lean{interpretedRingEquiv}, proved below under explicit
+% carrier/completeness and RAC inputs. General unconditional recovery, scalar one and
+% full inducing reconstruction remain open (issues 5 and 9).
 \lean{base_ratio_mem_range} proves the original orientation $u_1/u_2\in k$ as actual
 membership in the image of $\operatorname{algebraMap}(k,K)$, with the relatively
 algebraically closed-base hypothesis \lean{IsRAC} explicit. Neither theorem assumes
 perfection, configuration completeness or an exponential characteristic, and finite
-% Earlier ratio consumer progress (before conditional R1b; reported on issue 9):
-% bases and arbitrary characteristics are included. The named next consumer is base
-% element recovery for \lean{interpretedRingEquiv}; that recovery, scalar one and the
-% full inducing reconstruction remain open (issues 5 and 9).
 bases and arbitrary characteristics are included. Its named consumer is actual base
 element recovery for \lean{interpretedRingEquiv}, proved below under explicit
-carrier/completeness and RAC inputs. General unconditional recovery, scalar one and
+carrier/completeness and RAC inputs. General unconditional R1/R2 and
 full inducing reconstruction remain open (issues 5 and 9).
 
 The correspondence inputs in the formal argument are $(u_1,u_2)$ and the degenerate
@@ -3378,19 +3387,35 @@ that graph and characterizing the target operation. Its underlying equivalence i
 ring-equivalence API supplies the one and inverse laws. Only proof-local named field
 instances are used.
 
-% Earlier base-recovery progress scope (before conditional R1b; reported on issue 9):
-% % Earlier image-base/existence progress scope (before I6c2; reported on issue 23):
+% Earlier scalar-one progress scope (before conditional R2; reported on issue 9):
+% % Earlier base-recovery progress scope (before conditional R1b; reported on issue 9):
+% % % Earlier image-base/existence progress scope (before I6c2; reported on issue 23):
+% % % The composite field isomorphism is \lean{interpretedRingEquiv}:
+% % % \[
+% % %  D_L\circ\Phi\circ D_K^{-1}:K\simeq_{\mathrm{ring}}L.
+% % % \]
+% % % Here $\Phi$ is the same geometric carrier map, and $D_K,D_L$ are the actual decoding
+% % % ring equivalences. Pointwise forward and inverse composite values are definitional;
+% % % the decoding diagram commutes by the inverse laws. This proves the corrected counterpart of \cref{prop:interpreted-reconstruction}, given the canonical
+% % % image-base equality and both carriers' perfection, rank-five, separate exponential-
+% % % characteristic and still-open ACF-completeness inputs, across independent bases and universes.
+% % % The named consumers are the later conditional existence endpoint and base/scalar recovery.
+% % % Image-base existence, general interpreted reconstruction, unconditional completeness,
+% % % global Frobenius setoid, R1/R2 and literal source obligations remain open (issues 8 and 23).
+% % % The original statements and proofs retain their exact provenance.
 % % The composite field isomorphism is \lean{interpretedRingEquiv}:
 % % \[
 % %  D_L\circ\Phi\circ D_K^{-1}:K\simeq_{\mathrm{ring}}L.
 % % \]
 % % Here $\Phi$ is the same geometric carrier map, and $D_K,D_L$ are the actual decoding
 % % ring equivalences. Pointwise forward and inverse composite values are definitional;
-% % the decoding diagram commutes by the inverse laws. This proves the corrected counterpart of \cref{prop:interpreted-reconstruction}, given the canonical
+% % the decoding diagram commutes by the inverse laws. This proves the corrected counterpart of
+% % \cref{prop:interpreted-reconstruction}, given the canonical
 % % image-base equality and both carriers' perfection, rank-five, separate exponential-
 % % characteristic and still-open ACF-completeness inputs, across independent bases and universes.
-% % The named consumers are the later conditional existence endpoint and base/scalar recovery.
-% % Image-base existence, general interpreted reconstruction, unconditional completeness,
+% % The named consumers are the following conditional existence endpoint and base/scalar recovery.
+% % Conditional image-base existence and the field-isomorphism endpoint are proved below under
+% % explicit ACF completeness. General interpreted reconstruction, unconditional completeness,
 % % global Frobenius setoid, R1/R2 and literal source obligations remain open (issues 8 and 23).
 % % The original statements and proofs retain their exact provenance.
 % The composite field isomorphism is \lean{interpretedRingEquiv}:
@@ -3403,10 +3428,12 @@ instances are used.
 % \cref{prop:interpreted-reconstruction}, given the canonical
 % image-base equality and both carriers' perfection, rank-five, separate exponential-
 % characteristic and still-open ACF-completeness inputs, across independent bases and universes.
-% The named consumers are the following conditional existence endpoint and base/scalar recovery.
+% The named consumers are the following conditional existence endpoint and conditional base
+% recovery and later scalar recovery.
 % Conditional image-base existence and the field-isomorphism endpoint are proved below under
 % explicit ACF completeness. General interpreted reconstruction, unconditional completeness,
-% global Frobenius setoid, R1/R2 and literal source obligations remain open (issues 8 and 23).
+% global Frobenius setoid, unconditional R1/R2 and literal source obligations remain open (issues
+% 8 and 23).
 % The original statements and proofs retain their exact provenance.
 The composite field isomorphism is \lean{interpretedRingEquiv}:
 \[
@@ -3419,7 +3446,7 @@ the decoding diagram commutes by the inverse laws. This proves the corrected cou
 image-base equality and both carriers' perfection, rank-five, separate exponential-
 characteristic and still-open ACF-completeness inputs, across independent bases and universes.
 The named consumers are the following conditional existence endpoint and conditional base
-recovery and later scalar recovery.
+recovery and corrected conditional scalar one below.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
 explicit ACF completeness. General interpreted reconstruction, unconditional completeness,
 global Frobenius setoid, unconditional R1/R2 and literal source obligations remain open (issues
@@ -3464,8 +3491,26 @@ obligations remain open (issues 8, 9 and 23). Original statements and proofs are
 % are still open; the accepted generic class semantics keeps ACF completeness explicit. This dependency was reported on issues 9 and 23 before adding this
 % qualification. The original propositions and proofs are preserved below.
 
-% Earlier base-recovery progress scope (before conditional R1b; reported on issue 9):
-% % Earlier image-base/existence progress scope (before I6c2; reported on issue 23):
+% Earlier scalar-one progress scope (before conditional R2; reported on issue 9):
+% % Earlier base-recovery progress scope (before conditional R1b; reported on issue 9):
+% % % Earlier image-base/existence progress scope (before I6c2; reported on issue 23):
+% % % \begin{warning}[Open recovery inputs after the interpretation audit]
+% % % \label{warn:recovery-inputs}
+% % % The following proofs of \cref{prop:base-recovery,prop:scalar-one} use the literal
+% % % \lean{RatioEq} and \lean{JMul} semantics refuted in the preceding interpretation
+% % % audit (issue 23). Their propositions are retained as targets; their displayed
+% % % proofs require the corrected interpretation and totalization in unconditional form.
+% % % The accepted corrected total geometric graphs keep ACF completeness explicit;
+% % % % Earlier progress scope 8 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% % % % unconditional completeness, graph naturality and these recovery inputs remain open.
+% % % conditional carrier and graph transport is proved above with the canonical image-base
+% % % equality and carrier inputs explicit. Discharging that equality, unconditional
+% % % completeness and these recovery inputs remain open.
+% % % The scope update was reported on issues 9 and 23 before changing this qualification.
+% % % The original propositions and proofs are preserved below.
+% % % The conditional point propagation later in this section takes their outputs as
+% % % explicit hypotheses and does not discharge these inputs.
+% % % \end{warning}
 % % \begin{warning}[Open recovery inputs after the interpretation audit]
 % % \label{warn:recovery-inputs}
 % % The following proofs of \cref{prop:base-recovery,prop:scalar-one} use the literal
@@ -3473,10 +3518,9 @@ obligations remain open (issues 8, 9 and 23). Original statements and proofs are
 % % audit (issue 23). Their propositions are retained as targets; their displayed
 % % proofs require the corrected interpretation and totalization in unconditional form.
 % % The accepted corrected total geometric graphs keep ACF completeness explicit;
-% % % Earlier progress scope 8 (before the conditional carrier/graph checkpoint; reported on issue 23):
-% % % unconditional completeness, graph naturality and these recovery inputs remain open.
 % % conditional carrier and graph transport is proved above with the canonical image-base
-% % equality and carrier inputs explicit. Discharging that equality, unconditional
+% % equality and carrier inputs explicit. Conditional image-base existence and the field-isomorphism
+% % endpoint are proved above under explicit ACF completeness. Unconditional
 % % completeness and these recovery inputs remain open.
 % % The scope update was reported on issues 9 and 23 before changing this qualification.
 % % The original propositions and proofs are preserved below.
@@ -3493,7 +3537,8 @@ obligations remain open (issues 8, 9 and 23). Original statements and proofs are
 % conditional carrier and graph transport is proved above with the canonical image-base
 % equality and carrier inputs explicit. Conditional image-base existence and the field-isomorphism
 % endpoint are proved above under explicit ACF completeness. Unconditional
-% completeness and these recovery inputs remain open.
+% completeness and recovery inputs remain open. Corrected conditional base recovery is
+% proved below with explicit carrier and RAC hypotheses.
 % The scope update was reported on issues 9 and 23 before changing this qualification.
 % The original propositions and proofs are preserved below.
 % The conditional point propagation later in this section takes their outputs as
@@ -3509,8 +3554,8 @@ The accepted corrected total geometric graphs keep ACF completeness explicit;
 conditional carrier and graph transport is proved above with the canonical image-base
 equality and carrier inputs explicit. Conditional image-base existence and the field-isomorphism
 endpoint are proved above under explicit ACF completeness. Unconditional
-completeness and recovery inputs remain open. Corrected conditional base recovery is
-proved below with explicit carrier and RAC hypotheses.
+completeness and general recovery remain open. Corrected conditional base recovery and scalar
+one are proved below with explicit carrier inputs, with RAC for compatibility only.
 The scope update was reported on issues 9 and 23 before changing this qualification.
 The original propositions and proofs are preserved below.
 The conditional point propagation later in this section takes their outputs as
@@ -3572,13 +3617,22 @@ composite values agree by reflexivity.
 uses the forward theorem in both directions. Its conclusion is the actual
 base-range equality \lean{CrossBase.Compatible} for \lean{interpretedRingEquiv}.
 
+% Earlier scalar-one progress scope (before conditional R2; reported on issue 9):
+% Both relatively algebraically closed bases and every existing carrier input
+% remain explicit for compatibility: both perfections/rank-five bounds, separate
+% exponential characteristics, both still-open ACF $J$-completeness hypotheses
+% and the canonical image-base equality. Independent universes, finite bases
+% and characteristics zero/two are included. The two accepted no-fresh ratio
+% theorems are unchanged. This accepts corrected conditional R1b; general
+% unconditional R1, scalar one/R2, agreement with the supplied lattice map,
+% \lean{Induces}, unconditional completeness and full reconstruction remain open.
 Both relatively algebraically closed bases and every existing carrier input
 remain explicit for compatibility: both perfections/rank-five bounds, separate
 exponential characteristics, both still-open ACF $J$-completeness hypotheses
 and the canonical image-base equality. Independent universes, finite bases
 and characteristics zero/two are included. The two accepted no-fresh ratio
 theorems are unchanged. This accepts corrected conditional R1b; general
-unconditional R1, scalar one/R2, agreement with the supplied lattice map,
+unconditional R1/R2, agreement with the supplied lattice map,
 \lean{Induces}, unconditional completeness and full reconstruction remain open.
 
 The original proof above uses the literal \lean{RatioEq} refuted in the
@@ -3618,6 +3672,45 @@ $j(\widetilde F(x_1)\widetilde F(x_2)t^2,b)$ for the same output.  Injectivity o
  \qquad(x\notin\acl(a)).
 \]
 \end{proof}
+
+\subsection{Corrected conditional scalar one in Lean}
+
+Write $H$ for the actual decoded geometric ring equivalence
+\lean{interpretedRingEquiv} above. From an actual tuple image $e(j(x,a))=j(y,a')$,
+\lean{interpretedRingEquiv_coord} proves
+\[
+ yH(x_0)=H(x)x_0'.
+\]
+The corrected ratio class of $(j(x,a),j(x_0,a))$ decodes to $x/x_0$,
+and its image class to $y/x_0'$. Division preservation gives the formula.
+\lean{interpretedRingEquiv_base_coord} then proves $H(x_0)=x_0'$.
+
+The corrected proof chooses two fresh source elements over $a$. Point-triple
+independence is transported by the lattice isomorphism, and actual tuple-image
+coordinates zero, zero and four identify the target independent triple.
+Preservation and semantic correctness of the coupled product give
+$y_{12}=y_1y_2$. The three multiplied coordinate identities, multiplication
+preservation and nonzero cancellation force the scalar to be one.
+This geometric genericity route replaces the original proof's choice over
+$\acl(a,x_0,t_0)$; the original proposition and proof remain exact above.
+Its literal \lean{RatioEq}/\lean{JMul} argument and unconditional completeness
+remain obligations. The route qualification was reported on issue 9 before integration.
+
+\lean{interpretedRingEquiv_point} gives $e([x])=[H(x)]$ outside $\acl_k(a)$.
+Actual B1 together with the coordinate/scalar-one laws also yields the full
+canonical tuple-image consequence $e(j(x,a))=j(H(x),a')$ and independence of
+$(H(x),a')$ for every independent source pair $(x,a)$. This consequence,
+actual inverse/base-coordinate behavior and feeding the compatibility and point
+laws to the existing whole-lattice API are checked independently.
+
+None of these three theorems assumes RAC. Both perfections/rank-five bounds,
+separate exponential characteristics, both still-open ACF $J$-completeness
+hypotheses and the actual canonical image-base equality remain explicit.
+No extra target genericity, freshness witness, scalar oracle or rank increase
+is introduced. This accepts corrected conditional R2a/b/c; public inducing
+and existence assembly, general unconditional R1/R2, chosen-perfection
+reconstruction, unconditional completeness and the global/literal/TOT/
+three-pair/tensor/frozen M4a obligations remain open.
 
 \subsection[Points inside the closure of a]
 {Points inside $\acl(a)$}
@@ -3685,11 +3778,27 @@ intermediate field $M$, atomisticity and preservation of joins give
 in the perfected setting.  Transport through \cref{prop:perf-lattice} yields the formula
 $\phi(M)=\Phi(M^{\mathrm{perf}})\cap L$ in the original fields.
 
+% Earlier scalar-one progress scope (before conditional R2; reported on issue 9):
+% \noindent\textbf{Lean status for conditional recovery.}
+% \lean{eq_closedIFMap_of_point_eq} proves the all-point and atomistic propagation
+% from a field isomorphism carrying the base onto the base and the point formula
+% outside $\acl(a)$. These are explicit hypotheses, the outputs of the still-open
+% \cref{prop:base-recovery,prop:scalar-one}. The proof uses exchange and bijectivity:
+% at most one atom has a representative inside $\acl(a)$, and two bijections of atoms
+% agreeing away from one atom agree everywhere. The existing atomistic extension
+% uniqueness gives equality of the whole lattice maps.
+% \lean{CrossBase.closedIFMap_point} gives the formula for every principal closure.
+% No rank, freshness or relative-algebraic-closedness hypothesis is needed for this
+% conditional propagation. Reconstruction existence and unconditional recovery remain
+% open (issue 9); the two-generic intersection and bypassed linear-disjointness
+% statements retain their separate status.
 \noindent\textbf{Lean status for conditional recovery.}
 \lean{eq_closedIFMap_of_point_eq} proves the all-point and atomistic propagation
 from a field isomorphism carrying the base onto the base and the point formula
-outside $\acl(a)$. These are explicit hypotheses, the outputs of the still-open
-\cref{prop:base-recovery,prop:scalar-one}. The proof uses exchange and bijectivity:
+outside $\acl(a)$. These remain explicit hypotheses for this general API; the
+actual corrected conditional outputs are proved above with explicit carrier/completeness
+inputs and RAC for compatibility. General unconditional R1/R2 remain open. The proof uses
+exchange and bijectivity:
 at most one atom has a representative inside $\acl(a)$, and two bijections of atoms
 agreeing away from one atom agree everywhere. The existing atomistic extension
 uniqueness gives equality of the whole lattice maps.

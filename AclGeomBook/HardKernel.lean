@@ -372,7 +372,8 @@ corollary and actual base membership under an explicit relatively closed
 base hypothesis, by adjoining a rational-function variable. It also proves
 corrected conditional base recovery for the actual interpreted ring
 equivalence, under explicit carrier/completeness and RAC inputs. General
-unconditional recovery and scalar one remain open.
+unconditional recovery remains open; corrected conditional scalar one and
+outside-point recovery are proved there without RAC.
 
 Second, perfection: the base field is algebraically closed, so the coset
 constant has roots of every Frobenius order, and injectivity of the
