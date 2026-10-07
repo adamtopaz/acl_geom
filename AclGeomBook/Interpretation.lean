@@ -16,6 +16,7 @@ import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Decode
 import AclGeom.Interpretation.Interp
+import AclGeom.Interpretation.TotalOps
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -400,3 +401,46 @@ field operations are installed: they await non-generic totalization.
 Total operation graphs, naturality, global Frobenius setoid, unconditional
 completeness, R1/R2 and reconstruction remain open. The original literal
 construction and its counterexample remain preserved.
+
+
+# Corrected total negation
+%%%
+tag := "corrected-total-negation"
+%%%
+
+The blueprint avoids the non-point zero by passing through two generic
+additions. The corrected relation keeps both auxiliary class members
+and both geometric genericity clauses, using the coupled `JAddRel`:
+
+{docstring AclGeom.JNegTotalRel}
+
+Every witness has the same coordinate equations `r = u+z` and
+`z = v+r`, so the second input is the negative of the first:
+
+{docstring AclGeom.JNegTotalRel.neg_eq}
+
+Conversely, present the two inputs with their common literal parameter.
+For `y = -x`, choose `z` outside the closure of the explicit two-element
+set `{a,x}` and put `r = x+z`. The triples `(x,z,a)` and
+`(-x,x+z,a)` are independent, by insertion and mutual closure membership.
+Both witnesses lie in the original geometric class:
+
+{docstring AclGeom.jNegTotalRel_of_neg_eq}
+
+{docstring AclGeom.jNegTotalRel_iff}
+
+The genericity proof is shared with direct Frobenius links and corrected
+ratios. Its type and proof use no perfection, exponential characteristic,
+rank-five or completeness input:
+
+{docstring AclGeom.pointTripleIndependent_jTupleOf}
+
+Perfection, rank five and still-open ACF `JCompletenessACF` remain
+explicit for the semantic negation equivalence. There is no genericity
+assumption between the two original inputs. This proves the corrected
+counterpart of the blueprint's two-addition negation detour.
+The original literal negation/totalization derivation retains its
+historical/open status; no separate negation counterexample is claimed.
+Total nonzero addition, full totalization, quotient field operations,
+total graphs, global Frobenius setoid, unconditional completeness,
+R1/R2 and reconstruction remain open.

@@ -61,17 +61,6 @@ def RatioEq (j₀ : Fin 5 → Point k K) (r s : (Fin 5 → Point k K) × (Fin 5 
     (JMulRel s.1 c₂ d₁ ∧ PointTripleIndependent (s.1 0) (c₂ 0) (s.1 4)) ∧
     (JMulRel s.2 c₂ d₂ ∧ PointTripleIndependent (s.2 0) (c₂ 0) (s.2 4))
 
-/-- The tuples of an independent triple `x, y, a` are generic for the product of `j(x, a)` and
-`j(y, a)`. -/
-private theorem pointTripleIndependent_jTupleOf {x y a : K}
-    (h : AlgebraicIndependent k ![x, y, a]) :
-    PointTripleIndependent (jTupleOf x a (AlgebraicIndependent.pair_zero_two h) 0)
-      (jTupleOf y a (AlgebraicIndependent.pair_one_two h) 0)
-      (jTupleOf x a (AlgebraicIndependent.pair_zero_two h) 4) := by
-  unfold PointTripleIndependent
-  rw [jTupleOf_zero, jTupleOf_zero, jTupleOf_four]
-  exact rankEq_three_points h rfl
-
 /-- A nonzero multiple, from `racl k S`, of an element `t` fresh over `S` avoids every set whose
 closure lies in `racl k S`. -/
 private theorem mul_fresh_notMem {S T : Set K} {c t : K} (ht : t ∉ racl k S)

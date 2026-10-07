@@ -87,8 +87,9 @@ of this guide. The current mathematical boundaries are:
   arithmetic and corrected geometric ratio semantics are proved under these
   inputs. The corrected geometric ratio setoid/quotient and bijective nonzero
   decoding are proved under the same inputs. Adjoining zero yields the full
-  carrier decoding equivalence. Non-generic totalization and quotient field
-  operations remain open (#23).
+  carrier decoding equivalence. The corrected two-addition negation detour
+  is proved under the same inputs. Total nonzero addition, full totalization
+  and quotient field operations remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3425,3 +3426,78 @@ Non-generic totalization, quotient field operations, global Frobenius
 setoid, unconditional completeness, simultaneous representatives, field
 graphs, R1/R2 and reconstruction remain open. The frozen M4a chain is
 untouched.
+
+## Corrected two-addition total negation and shared geometric genericity (#23/#8)
+
+`Interpretation/TotalOps` begins corrected non-generic totalization with
+the blueprint's two-addition negation detour. `JNegTotalRel` retains
+two auxiliary class members `z,r`, the coupled clauses `u+z=r`
+and `v+r=z`, and a geometric `PointTripleIndependent` input clause
+for each addition. The predicate contains no semantic coordinates.
+`JNegTotalRel.neg_eq` applies to every witness, giving `µ(v)=-µ(u)`.
+The converse presents inputs with the common literal parameter and uses
+a multiplier fresh over the explicit two-element set `{a,x}`. Insertion
+gives `(x,z,a)` independent; mutual closure membership gives
+`(-x,x+z,a)` independent. The witnesses `j(z,a)` and `j(x+z,a)`
+are both class members and both additions are generic.
+`jNegTotalRel_iff` proves the exact corrected semantic equivalence,
+under explicit perfection, exponential characteristic, uniform rank five
+and still-open ACF J completeness, over arbitrary base fields.
+No genericity between the original two inputs is assumed.
+
+The one existing `pointTripleIndependent_jTupleOf` helper moves from
+private Ratio to public `FrobLinkSoundness` before any `include htr`.
+Its type, declaration docstring and raw proof are exact. Its signature
+uses no perfection, characteristic, rank-five, completeness or infinite
+base assumption. Named consumers are four ratio products, two negation
+additions and the direct-link proof. Only the named
+`directFrobLink_jTupleOf` proof replaces its inline duplicate with
+this helper. No new rank, linear or pair helper is introduced.
+
+Claude supplied frozen sources `94853196` (TotalOps), `0964b535`
+(soundness) and `e9fcbc6d` (Ratio) against pushed `0231f69`.
+Codex checked eight dependency hashes and exact base files, independently
+audited the relation and witness budget, and compiled the immutable
+bundle without proof repairs in 14 s. Two `show` style warnings are
+fixed to `change` in the private final; the final passes in 10 s
+with no warning and the same kernel proof bodies.
+
+The thirteen older signatures, attributes and declaration docs are
+exact except the single ledgered helper module/visibility change.
+Twelve older raw bodies are exact; only the direct-link proof consumes
+the helper. All seventeen original/final signatures and raw bodies are
+exact. All sixteen public and one private axiom reports are standard,
+including the new geometric predicate. Four public declarations are new
+and one existing helper is promoted/moved; no private/generated
+declaration is added.
+
+Ten byte-identical original/final typed interfaces pass with independent
+universes. They check arbitrary and finite bases, characteristic zero,
+every witness and the converse orientation, reversal, tuple-level double
+negation, characteristic-zero irreflexivity, the pure geometric predicate,
+and the moved helper without rank/perfection/completeness hypotheses.
+The original literal negation and totalization expressions/derivation
+stay byte-exact, in addition to the original mathematical statement and
+proof blocks. They remain historical/open because their argument uses
+the refuted literal generic semantics; no separate negation-detour
+counterexample is claimed.
+The full library build passes in 40.01 s (7.71 GiB sampled peak family
+RSS, minimum 36.44 GiB available), the book in 8 s and shared probes in
+6 s. Shared artifacts reproduce all seventeen exact signature/raw-body
+records, sixteen public/one private standard-axiom reports and ten
+independent interfaces. All 239 library files pass placeholder/project
+axiom hygiene. The book has 85 HTML pages, retaining all 84 old paths
+and the frozen 117-declaration M4a page. Five new/promoted docstrings
+show the two geometric additions, each genericity clause, fresh
+two-element set, explicit completeness and still-open full addition/TOT
+scope. Four source passes converge to 58 pages with stable auxiliary,
+contents and bookmarks, with no undefined references, overflow or rerun
+warnings. Actual changed pages 1, 2, 35 and 36 are rendered and visually
+checked. The source paragraph audit restores the abstract's explicit
+completeness phrase before acceptance. All original49 mathematical
+statement blocks/44 proofs and the literal negation/TOT derivation remain
+byte-exact. Final full build/book checks repeat after recording these results.
+Total nonzero addition, full totalization, quotient field operations,
+global Frobenius setoid, unconditional completeness, simultaneous
+representatives, total graphs, R1/R2 and reconstruction remain open.
+The frozen M4a chain is untouched.

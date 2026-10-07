@@ -35,6 +35,8 @@ reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 **Status:** the displayed soundness statements are proved over arbitrary base fields. The reverse
 implication is proved in `FrobEqForward` under an explicit semantic-bridge or ACF-completeness
 hypothesis; unconditional bridge completeness remains open (#23).
+`pointTripleIndependent_jTupleOf` supplies rank-free genericity from an independent triple;
+direct links, corrected ratios and total-negation witnesses share this public helper.
 -/
 
 namespace AclGeom
@@ -79,6 +81,17 @@ theorem mulPoint_of_indep (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     ⟨p, q, h, hU, hV, rfl, hW⟩
 
 end Witnesses
+
+/-- The tuples of an independent triple `x, y, a` are generic for the product of `j(x, a)` and
+`j(y, a)`. -/
+theorem pointTripleIndependent_jTupleOf {x y a : K}
+    (h : AlgebraicIndependent k ![x, y, a]) :
+    PointTripleIndependent (jTupleOf x a (AlgebraicIndependent.pair_zero_two h) 0)
+      (jTupleOf y a (AlgebraicIndependent.pair_one_two h) 0)
+      (jTupleOf x a (AlgebraicIndependent.pair_zero_two h) 4) := by
+  unfold PointTripleIndependent
+  rw [jTupleOf_zero, jTupleOf_zero, jTupleOf_four]
+  exact rankEq_three_points h rfl
 
 section FrobeniusClass
 
@@ -158,9 +171,7 @@ theorem directFrobLink_jTupleOf {x y a : K} (h : AlgebraicIndependent k ![x, y, 
     P₁.transcendental 0 (ClosedIF.mem_bot_iff.1 hb)
   refine ⟨isJTuple_jTupleOf htr _, isJTuple_jTupleOf htr _, jTupleOf_four_eq _ _, ?_,
     ⟨Point.mk' k (x / y) hC, ?_, ?_, ?_⟩⟩
-  · unfold PointTripleIndependent
-    rw [jTupleOf_zero, jTupleOf_zero, jTupleOf_four]
-    exact rankEq_three_points h rfl
+  · exact pointTripleIndependent_jTupleOf h
   · refine mulPoint_of_indep htr P₁ rfl (jTupleOf_zero _) ((jTupleOf_zero _).trans ?_)
     rw [div_mul_cancel₀ x hy0]
   · refine mulPoint_of_indep htr P₂ rfl (jTupleOf_two _) ((jTupleOf_two _).trans ?_)

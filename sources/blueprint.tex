@@ -135,8 +135,8 @@ The formalization audit of October 2026 identified errors in the literal $21$-fi
 coordinate target, the arbitrary-field $\Qrel$ and $\Qprel$ consequences, and the generic
 arithmetic predicates.  The corresponding sections retain the provenance and state the
 corrections or counterexamples. Corrected generic class semantics is formalized under
-explicit configuration-completeness inputs, as are corrected ratio semantics and
-bijective full carrier decoding after adjoining zero. Totalization, quotient field
+explicit configuration-completeness inputs, as are corrected ratio semantics,
+full carrier decoding after adjoining zero and the corrected two-addition negation detour. Totalization, quotient field
 operations and the dependent reconstruction and functorial assembly require further work.  Lean fragments
 record target interfaces, and each prose argument must be checked against its precise
 hypotheses before transcription.  The library, book, and issue tracker distinguish
@@ -2440,6 +2440,41 @@ retained as a historical proposed derivation, pending corrected operation graphs
 Its completeness and well-definedness arguments are not proofs for the displayed
 refuted definitions. The intended reconstruction theorem remains the project target.
 \end{remark}
+
+\subsection{The corrected geometric negation detour in Lean}
+
+The corrected counterpart retains the blueprint's two-addition witness pattern.
+Write $j_0=j(x_0,a)$ and
+\[
+ \operatorname{GAdd}(u,z,r):=\operatorname{JAddRel}(u,z,r)
+   \land\operatorname{PointTripleIndependent}(u_X,z_X,u_A).
+\]
+The purely geometric predicate \lean{JNegTotalRel} is
+\[
+\begin{split}
+ \operatorname{JNeg}_{\mathrm c}(j_0;u,v)
+ \Longleftrightarrow \exists z,r\in[j_0]_{\operatorname{FrobEq}},\quad&
+ \operatorname{GAdd}(u,z,r)\\
+ &{}\land\operatorname{GAdd}(v,r,z).
+\end{split}
+\]
+For input class members, \lean{JNegTotalRel.neg_eq} applies to every witness,
+and \lean{jNegTotalRel_of_neg_eq} constructs a witness when $\mu(v)=-\mu(u)$.
+The exact equivalence is \lean{jNegTotalRel_iff}, under explicit perfection,
+rank-five and still-open ACF J-completeness hypotheses.
+
+For the converse, use $y=-x$, choose $z$ outside $\acl_k(a,x)$, and put $r=x+z$.
+The triples $(x,z,a)$ and $(-x,x+z,a)$ are independent by insertion and mutual
+closure membership. Both auxiliary tuples are class members, and each addition
+is generic. The existing \lean{pointTripleIndependent_jTupleOf} is now a shared
+public lemma in \path{Interpretation/FrobLinkSoundness.lean}, with unchanged
+type/doc/proof and no rank-five or completeness input. It serves direct links,
+corrected ratios and this negation detour, avoiding another duplicated proof.
+
+Total nonzero addition and full non-generic totalization remain open (issues 8 and 23).
+The following original literal negation and totalization expressions and argument
+remain historical/open, since their proof uses refuted generic semantics.
+No separate negation-detour counterexample is asserted.
 
 For negation, avoid trying to use $[0]$, which is not a point.  Define
 \[
