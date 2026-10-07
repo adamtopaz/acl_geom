@@ -151,6 +151,10 @@ import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArith
 import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.FrobLinkIncidence
+import AclGeom.Interpretation.FrobLinkRigidity
+import AclGeom.Interpretation.FrobLinkRelative
+import AclGeom.Interpretation.FrobLinkSemantic
+import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Interpretation.GenericOps
 import AclGeom.Interpretation.Ratio

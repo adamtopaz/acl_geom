@@ -2200,8 +2200,10 @@ $c$ of the multiplier point in all three \lean{MulPoint} clauses, asserting
 \]
 Even assuming $\Qprel$ completeness over algebraically closed fields, each
 existential clause supplies its own independent representatives. Equality of their
-points does not supply the common choice used in (10.1). Thus this converse is an
-open proof obligation; the Frobenius-link target has not been refuted.
+points does not supply the common choice used in (10.1). That common-representative
+calculation remains unproved; the audited incidence-rigidity argument below proves the
+exact-twist conclusion from supplied semantic endpoint witnesses. The Frobenius-link
+target has not been refuted.
 
 The primary-source route in EH95~\cite[Lemma 2.8, Figure 3]{EH1995} first uses
 concurrent lines through the given coordinates. It then applies the
@@ -2211,8 +2213,14 @@ The independently kernel-checked Lean module
 \lean{Interpretation/FrobLinkIncidence} proves that geometric
 \lean{DirectFrobLink} implies the required concurrence directly from its
 multiplication diagrams, without selecting representatives for \lean{MulPoint} or
-assuming configuration completeness. The converse from this concurrence to an
-exact Frobenius twist and its relative-field application remain to be formalized.
+assuming configuration completeness. The kernel-checked modules
+\lean{Interpretation/FrobLinkRigidity} and \lean{FrobLinkRelative} now derive the exact
+Frobenius twist from the three concurrent closure lines, including over arbitrary base fields.
+They compare scaled curve loci and use common primitive signed exponents with shifted-binomial
+rigidity. \lean{FrobLinkSemantic} applies this to supplied semantic endpoint witnesses.
+The two-link consumer \lean{FrobEqForward} names semantic middle-tuple completeness explicitly;
+its canonical form uses perfection, rank at least five and the still-open algebraically
+closed $\Jrel$ completeness input. It asserts no unconditional bridge completeness.
 
 The displayed forward witnesses retain their role once their geometric soundness
 hypotheses are supplied. For the two-link converse, the geometric bridge tuple must

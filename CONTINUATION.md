@@ -72,9 +72,13 @@ this guide. Its main conclusions:
   partial-quadrangle coupling by specialization. Concurrence has an independently
   checked Lean proof in `Interpretation/FrobLinkIncidence` (five public
   declarations, standard axioms); an algebraic converse from this concurrence
-  and semantic bridge completeness remain obligations. The Frobenius target has not been
-  refuted. Correct arithmetic predicates and the affected ratio semantics
-  remain open. The JAdd, JMul and full-class RatioEq refutations have an
+  now yields exact parameter twists from supplied semantic endpoint witnesses,
+  over arbitrary base fields. The two-link implication keeps semantic bridge
+  completeness explicit; its canonical form uses perfect K, rank at least
+  five and the still-open ACF JCompletenessACF input. The original
+  common-representative calculation and unconditional bridge completeness
+  remain obligations. Fixed-class arithmetic and ratio semantics remain open.
+  The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
   predicates for provenance and explicitly prove membership of every witness
@@ -2590,3 +2594,48 @@ boundaries are checked. The revised blueprint renders to 54 pages
 without undefined/overfull diagnostics; the changed status on page 31
 is visually reviewed. Claude acknowledged the source-only geometric
 consumer task after the corrected chit resend and retains no build slot.
+
+## Frobenius incidence rigidity and semantic consumers (#23)
+
+`Interpretation/FrobLinkRigidity` proves that concurrence of the three
+closure lines forces the parameters to differ by a natural Frobenius
+power, over an algebraically closed pair. Its scaled-locus argument
+reads both signed characters from one support pair, extracts common
+primitive exponents and applies shifted-binomial rigidity from the
+existing JAssembly chain. `FrobLinkRelative` transfers the algebraic
+facts to an algebraically closed overfield/algebraic base and reflects
+the exact conclusion along the embedding. `FrobLinkSemantic` consumes
+the geometric concurrency, rank and parameter clauses with explicit
+semantic endpoint equations over any base. `FrobEqForward` composes
+the two twists under an explicit semantic-middle-tuple hypothesis;
+the canonical form names perfection, rank five and unproved ACF
+`JCompletenessACF`. No unconditional bridge completeness, original
+common-representative alignment, setoid law or field operation law
+is claimed. These results retain the original geometric predicates.
+
+Claude supplied the canonical drafts. Codex compiled all four on main
+a8233d8 (6.00 s, peak 2.65 GiB, minimum available 40.19 GiB) and checked
+a final focused version (6.00 s, peak 2.65 GiB, minimum available
+40.17 GiB), without diagnostics. The final core module is named
+FrobLinkRigidity. Three duplicate/one-use helpers are removed in favor
+of Mathlib's unit theorem and the existing point-representative API.
+An exact 24→21 signature/body comparison has these three deletions,
+exactly two proof edits, zero surviving statement changes and unchanged
+deny metadata. All 21 public authored theorems have standard axiom
+reports; the five displayed rigidity/conditional-converse interfaces
+are inspected. Module documentation changes only after the reviewed
+proofs are accepted. The source/book identify the still-open
+common-representative and completeness obligations.
+The shared full build passed in 26.01 s (peak family RSS 10.15 GiB,
+minimum available 38.07 GiB); the rendered book passed in 8.00 s
+(peak 1.55 GiB, minimum available 38.67 GiB). Fresh shared 21-record
+signatures/bodies, axiom reports and five typed interfaces match the
+independent review exactly. All 21 authored module placements and
+proof-source bodies are checked; final module-documentation edits are
+the only source differences. Hygiene covers 221 library/root files.
+All 66 existing HTML paths remain, and the semantic/completeness,
+infinite-base soundness-wrapper and frozen boundaries are verified.
+The revised blueprint renders to 54 pages without undefined/overfull
+diagnostics; its changed status across pages 32–33 is visually checked.
+The four new modules have no diagnostics. The preceding semantic J
+assembly/point-transfer commit a8233d8 now has successful full CI.

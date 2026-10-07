@@ -9,6 +9,7 @@ import AclGeom.Interpretation.FrobClass
 import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.FrobLinkIncidence
+import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -27,8 +28,9 @@ geometric `J`-locus by Frobenius ambiguity and construct a field.  The quotient
 and its field operations are still open (#8).  The current addition and
 multiplication incidences are projections of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
-can give different outputs.  The required representative alignment and the
-Frobenius-link correctness argument remain open (#23):
+can give different outputs.  Fixed-class operation correctness remains open (#23).
+The Frobenius rigidity implications below keep their semantic endpoint
+and bridge-completeness hypotheses explicit:
 
 {docstring AclGeom.SumPoint}
 
@@ -63,9 +65,38 @@ configuration completeness or a choice of common representatives:
 
 {docstring AclGeom.DirectFrobLink.exists_concurrent}
 
-The converse still needs an algebraic argument from this concurrence to an
-exact Frobenius twist. The two-link bridge also needs an explicit semantic
-completeness statement for its geometric middle tuple (#23).
+Three-line concurrence now forces an exact Frobenius twist for the
+parameters of semantic endpoint witnesses. The algebraic proof compares
+scaled curve loci over the closure of the multiplier representative;
+common primitive signed exponents and shifted-binomial rigidity give the
+exact parameter relation:
+
+{docstring AclGeom.frobenius_of_concurrent_lines}
+
+Lifting only the algebraic facts to an algebraically closed overfield and
+its algebraic base removes both closure hypotheses. The natural-power
+conclusion returns by injectivity of the field embedding:
+
+{docstring AclGeom.frobenius_of_concurrent_lines_rel}
+
+The link's rank clause supplies independence, and its shared parameter
+point supplies interalgebraicity. The semantic endpoint equations then
+identify the three lines, without configuration completeness:
+
+{docstring AclGeom.DirectFrobLink.frobenius_of_witnesses}
+
+The two-link bridge uses semantic coordinates for its geometric middle
+tuple as the explicit hypothesis `hJ`. Its canonical form obtains them
+for perfect K of rank at least five from the still-open ACF
+`JCompletenessACF` input:
+
+{docstring AclGeom.FrobEq.frobenius_of_witnesses}
+
+{docstring AclGeom.FrobEq.frobenius_of_witnesses_of_completeness}
+
+Unconditional geometric bridge completeness and the original
+common-representative calculation remain open (#23). These statements
+preserve the original geometric relations.
 
 Semantic tuples with the same literal parameter are related by a fresh
 bridge `j(t,a)`. Raising both representatives to the same positive
