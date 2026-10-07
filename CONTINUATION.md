@@ -2506,3 +2506,43 @@ and each new lemma's authored module placement is checked. The existing
 covers 213 library/root Lean files. All prior HTML paths remain (65 pages
 total); the new prerequisite prose and remaining obligations are checked.
 Touched modules have no deprecation diagnostics.
+
+## Algebraic-base lattice and configuration lift (#7, #25)
+
+`Transfer/Lift` now proves closure trace, an injective order-preserving
+closed-field lift, bottom/finite-join preservation, exact matroid rank
+and point transport along a k-embedding with an algebraic enlarged base.
+Over an algebraically closed overfield it preserves binary meets. Its
+finite-generator atom-capture transfer uses the existing one-quantifier
+theorem and needs no transcendence-degree or infinite-base hypothesis.
+`Transfer/LiftConfig` lifts partial quadrangles, full Q witnesses and
+Q/Q′ configurations. It reflects partial quadrangles and multiplication
+diagrams of lifted points, and reflects a Q witness when the three
+clause-(vi) quadrangle witnesses are explicitly supplied as K-points.
+It asserts no general descent of existential witnesses. Neither module
+imports the private JAssembly completeness interface. Their named
+consumers are the remaining point-level J arrows and the explicit
+`Counterexamples.QDescent` geometric witnesses. Both concrete #25 Lean
+refutations and unconditional J ACF completeness remain open.
+
+Claude supplied the drafts. Codex compiled both against main 3061254
+(6.00 s, peak 2.42 GiB, minimum available 40.31 GiB), repairing two
+reflection proof rewrites for the A/C joins without changing statements.
+The historical configuration-lift block is preserved verbatim. An
+independently compiled reduced historical block permits an exact
+37→41 signature and body comparison: four explicitly reviewed reflection
+additions, zero existing type/body changes, and unchanged deny metadata.
+All 41 public axiom reports use only standard axioms. The book corrects
+its stale finite-base and arbitrary-field Q/Q′ status prose.
+The shared full `lake build` passed after the module-documentation line
+wrap (20.01 s, peak family RSS 10.49 GiB, minimum available 39.31 GiB),
+and the rendered book passed in 8.00 s (peak 1.55 GiB, minimum available
+39.79 GiB). Fresh shared signatures, bodies, axiom reports and explicit
+reflection statements match the independent review exactly, including
+the K-valued quadrangle hypothesis. The 41 artifact records cover 40
+authored public declarations and one generated congruence theorem;
+all authored/generated module placements are checked. Hygiene covers
+215 library/root files, all 65 HTML paths are preserved, and the
+finite-base/counterexample/completeness/frozen notices are verified.
+Both new modules have no diagnostics. The eight prerequisite lemmas'
+preceding commit 3061254 now has successful full CI.

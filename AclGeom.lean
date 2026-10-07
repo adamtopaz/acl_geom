@@ -141,6 +141,8 @@ import AclGeom.Transfer.Intersections
 import AclGeom.Transfer.OneQuantifier
 import AclGeom.Transfer.Transcendence
 import AclGeom.Transfer.Descent
+import AclGeom.Transfer.Lift
+import AclGeom.Transfer.LiftConfig
 import AclGeom.Config.Correctness
 import AclGeom.Interpretation.FrobClass
 import AclGeom.Interpretation.FrobLinkSoundness

@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Config.Correctness
 import AclGeom.Transfer.OneQuantifier
 import AclGeom.Transfer.Descent
+import AclGeom.Transfer.LiftConfig
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -19,10 +20,13 @@ set_option pp.rawOnError true
 tag := "transfer"
 %%%
 
-Gismatullin's transfer principle (blueprint §9, milestone M5) moves the
-correctness of the geometric relations from algebraically closed fields to
-arbitrary perfect fields with a relatively algebraically closed base. The
-statements the proof transfers are Boolean combinations of
+Gismatullin's transfer principle (blueprint §9, milestone M5) supplies the
+field-theoretic steps toward transferring geometric `J` correctness to
+perfect fields with a relatively algebraically closed base. The `J`
+equivalence still depends on open algebraically closed completeness.
+The blueprint's claimed arbitrary-field `Q` and `Q′` consequences have
+mathematical counterexamples tracked in #25; their Lean refutations are
+open. The statements the transfer principle handles are Boolean combinations of
 closure-membership assertions, so no first-order syntax is formalized: the
 entire principle reduces to three pieces of field theory about the
 closures `racl k A` inside a fixed algebraically closed overfield.
@@ -231,8 +235,44 @@ from transcendence degree:
 
 {docstring AclGeom.mem_of_j_represented_of_five_le_trdeg}
 
-This proves the element-level descent step for `(2) ⇒ (1)`.  Its literal
-tuple wrappers and the remaining transfer arrows are tracked in #7.  The
-proved `(1) ⇒ (4)` soundness step has an infinite-base hypothesis; the finite
-base case remains open.  The equivalence `(2) ⇔ (3)` also requires the open
-ACF completeness of `J`.
+This proves the element-level descent step for `(2) ⇒ (1)`. Its literal
+tuple wrappers and the remaining transfer arrows are tracked in #7.
+Rank-five `(1) ⇒ (4)` soundness now works over finite bases as well.
+The equivalence `(2) ⇔ (3)` still requires the open ACF completeness of `J`.
+
+The lattice and point lift is now proved for a `k`-embedding into an
+overfield and any enlarged base algebraic over `k`. It preserves closure
+membership, bottom, finite joins and exact rank. Binary meets also lift
+when the overfield is algebraically closed:
+
+{docstring AclGeom.liftClosed}
+
+{docstring AclGeom.apply_mem_liftClosed_iff}
+
+{docstring AclGeom.liftPoint}
+
+{docstring AclGeom.eRk_liftClosed}
+
+{docstring AclGeom.liftClosed_inf}
+
+A capturing atom below a lifted finitely generated closure transfers back
+by the one-quantifier theorem. This supplies the universal atom clauses
+needed to lift a configuration:
+
+{docstring AclGeom.exists_point_of_lift}
+
+{docstring AclGeom.QWitness.Psi.lift}
+
+{docstring AclGeom.Q'Geom.lift}
+
+Reflection is proved for partial quadrangles and multiplication diagrams
+of lifted points. A `Q` witness reflects when its three existential
+quadrangle witnesses are explicitly supplied as lifted `K`-points:
+
+{docstring AclGeom.QWitness.Psi.of_lift}
+
+{docstring AclGeom.QGeom.of_lift_witness}
+
+These focused results use no completeness hypothesis. They prepare the
+specific #25 geometric counterexamples; they do not descend arbitrary
+existential witnesses. The concrete Q/Q′ Lean refutations remain open.

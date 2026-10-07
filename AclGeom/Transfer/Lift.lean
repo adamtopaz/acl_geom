@@ -1,0 +1,418 @@
+/-
+Copyright (c) 2026 Adam Topaz. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Adam Topaz, Claude
+-/
+import AclGeom.Geometry.FiniteRank
+import AclGeom.Transfer.OneQuantifier
+
+/-!
+# Lifting the geometry of `K/k` into an algebraically closed overfield
+
+The opening line of the proof of blueprint Theorem `j-descent` (§9.1): for a
+`k`-embedding `ι : K →ₐ[k] Ω` and a subextension `K₀` of `Ω/k` consisting of
+elements algebraic over `k` (in the application, `K₀ = k̄`), the closure
+relation on tuples from `K` is unchanged when computed over `K₀` in `Ω`.
+Hence the closed lattice of `K/k` embeds in that of `Ω/K₀`:
+
+* `liftClosed K₀ ι E = racl K₀ (ι '' E)`, with trace `ι x ∈ liftClosed E ↔
+  x ∈ E` (`apply_mem_liftClosed_iff`);
+* `liftClosed` is an order embedding, preserves `⊥`, binary and finite
+  joins, and principal closures (`liftClosed_point`), so it sends points to
+  points (`liftPoint`);
+* rank is absolute: the matroid rank of `liftClosed E` equals that of `E`
+  (`eRk_liftClosed`), so `RankEq n` is preserved and reflected;
+* if `Ω` is algebraically closed, binary meets are preserved as well
+  (`liftClosed_inf`), by the finite intersection generator of blueprint
+  Lemma `finite-intersection-generator`;
+* the atom clauses: if some point of `Ω/K₀` below the lift of a finitely
+  generated `A` captures `X` from `Y`, then so does a point of `K/k`
+  (`exists_point_of_lift`).  This is the one-quantifier transfer applied to
+  `ι(K) ⊆ Ω`; since the formula has positive membership conjuncts, no
+  transcendence-degree hypothesis is needed.
+
+This module is part of the formalization of the Evans–Hrushovski–Gismatullin
+reconstruction theorem; the source of truth is `sources/blueprint.tex`.
+
+**Status:** complete (M5, the lattice side of Theorem `j-descent`).
+-/
+
+namespace AclGeom
+
+open IntermediateField
+
+noncomputable section
+
+section Rank
+
+variable {k K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- `RankEq n E` says exactly that `E` has rank `n` in the algebraic
+independence matroid. -/
+theorem rankEq_iff_eRk {n : ℕ} {E : ClosedIF k K} :
+    RankEq n E ↔ (AlgebraicIndependent.matroid k K).eRk (E : Set K) = n := by
+  classical
+  set M := AlgebraicIndependent.matroid k K
+  have hcl : ∀ S : Set K, M.closure S = (racl k S : Set K) :=
+    algebraicMatroid_closure_eq_racl
+  constructor
+  · rintro ⟨f, hf, rfl⟩
+    let s : Set K := Set.range fun i ↦ (f i).rep
+    have hfrep : AlgebraicIndependent k fun i ↦ (f i).rep :=
+      algebraicIndependent_rep_of_pointIndep hf
+    have hsind : M.Indep s :=
+      AlgebraicIndependent.matroid_indep_iff.2 hfrep.to_subtype_range
+    have hsencard : s.encard = n := by
+      apply le_antisymm
+      · simpa [s, ← Set.image_univ] using
+          (Set.encard_image_le (fun i ↦ (f i).rep) (Set.univ : Set (Fin n)))
+      · simpa [s] using hfrep.injective.encard_range.ge
+    have hsclosure : M.closure s = ((⨆ i, (f i).1 : ClosedIF k K) : Set K) := by
+      rw [hcl]
+      exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
+        (iSup_point_val f).symm
+    rw [← hsclosure, M.eRk_closure_eq, hsind.eRk_eq_encard, hsencard]
+  · intro hrk
+    obtain ⟨I, hI⟩ := M.exists_isBasis (E : Set K) (by simp [M])
+    have hIcard : I.encard = n := hI.encard_eq_eRk.trans hrk
+    obtain ⟨m, v, hvinj, hvrange⟩ := (Set.finite_of_encard_eq_coe hIcard).fin_param
+    have hm : m = n := by
+      have h1 : (Set.range v).encard = m := by simpa using hvinj.encard_range
+      rw [hvrange, hIcard] at h1
+      exact_mod_cast h1.symm
+    subst hm
+    have hv : AlgebraicIndependent k v :=
+      (AlgebraicIndependent.of_subtype_range hvinj)
+        (AlgebraicIndependent.matroid_indep_iff.1 (hvrange ▸ hI.indep))
+    refine rankEq_of_coe_eq_racl hv (SetLike.coe_injective ?_)
+    rw [hvrange, ← hcl, hI.closure_eq_closure, hcl]
+    exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
+      (isRAC_iff_racl_eq.1 E.2).symm
+
+end Rank
+
+variable {k K Ω : Type*} [Field k] [Field K] [Field Ω] [Algebra k K]
+  [Algebra k Ω]
+
+section Base
+
+/-- The bottom of the closed lattice is the closure of the empty set. -/
+theorem ClosedIF.coe_bot_eq_racl_empty :
+    ((⊥ : ClosedIF k K).1 : IntermediateField k K) = racl k (∅ : Set K) := by
+  rw [ClosedIF.coe_bot]
+  refine racl_congr_of_subset_racl ?_ (Set.empty_subset _)
+  intro x hx
+  obtain ⟨c, rfl⟩ := IntermediateField.mem_bot.1 hx
+  exact mem_racl_empty_of_isAlgebraic (isAlgebraic_algebraMap c)
+
+end Base
+
+variable {K₀ : IntermediateField k Ω} (halg : ∀ y ∈ K₀, IsAlgebraic k y)
+  (ι : K →ₐ[k] Ω)
+
+include halg
+
+/-- Closure membership along an embedding, with the base enlarged by
+algebraic elements (blueprint §9.1: an element is algebraic over `k(A)` iff
+it is algebraic over `k̄(A)`). -/
+theorem apply_mem_racl_base_image_iff {S : Set K} {x : K} :
+    ι x ∈ racl (↥K₀) (⇑ι '' S) ↔ x ∈ racl k S :=
+  (mem_racl_base_iff_of_algebraic halg).trans (algHom_mem_racl_image_iff ι)
+
+/-- Closing a generating set before embedding it changes nothing. -/
+theorem racl_base_image_racl (S : Set K) :
+    racl (↥K₀) (⇑ι '' (racl k S : Set K)) = racl (↥K₀) (⇑ι '' S) := by
+  refine racl_congr_of_subset_racl ?_
+    (fun z hz ↦ subset_racl _ _ (Set.image_mono (subset_racl k S) hz))
+  rintro _ ⟨y, hy, rfl⟩
+  exact (apply_mem_racl_base_image_iff halg ι).2 hy
+
+omit halg
+
+variable (K₀) in
+/-- The lift of a closed element of `K/k` to `Ω/K₀`: the relative algebraic
+closure over `K₀` of its image. -/
+def liftClosed (E : ClosedIF k K) : ClosedIF (↥K₀) Ω :=
+  ⟨racl (↥K₀) (⇑ι '' (E : Set K)), isRAC_racl _⟩
+
+/-- The underlying field of a lift. -/
+theorem coe_liftClosed (E : ClosedIF k K) :
+    ((liftClosed K₀ ι E).1 : IntermediateField (↥K₀) Ω) =
+      racl (↥K₀) (⇑ι '' (E : Set K)) := rfl
+
+/-- Membership in a lift. -/
+theorem mem_liftClosed_iff {E : ClosedIF k K} {z : Ω} :
+    z ∈ liftClosed K₀ ι E ↔ z ∈ racl (↥K₀) (⇑ι '' (E : Set K)) := Iff.rfl
+
+include halg
+
+/-- The lift of a closed element generated by `S` is generated by `ι '' S`. -/
+theorem coe_liftClosed_of_coe_eq_racl {E : ClosedIF k K} {S : Set K}
+    (hE : (E.1 : IntermediateField k K) = racl k S) :
+    ((liftClosed K₀ ι E).1 : IntermediateField (↥K₀) Ω) =
+      racl (↥K₀) (⇑ι '' S) := by
+  rw [coe_liftClosed, ← racl_base_image_racl halg ι S, ← hE]
+  rfl
+
+/-- **Trace of the lift**: an element of `K` lies in the lift of `E` iff it
+lies in `E`. -/
+theorem apply_mem_liftClosed_iff {E : ClosedIF k K} {x : K} :
+    ι x ∈ liftClosed K₀ ι E ↔ x ∈ E := by
+  rw [mem_liftClosed_iff, apply_mem_racl_base_image_iff halg ι]
+  change x ∈ racl k (E.1 : Set K) ↔ x ∈ E.1
+  rw [isRAC_iff_racl_eq.1 E.2]
+
+/-- The lift is an order embedding. -/
+theorem liftClosed_le_liftClosed_iff {E F : ClosedIF k K} :
+    liftClosed K₀ ι E ≤ liftClosed K₀ ι F ↔ E ≤ F := by
+  constructor
+  · intro h
+    rw [ClosedIF.le_iff]
+    intro x hx
+    exact (apply_mem_liftClosed_iff halg ι).1
+      ((ClosedIF.le_iff.1 h) ((apply_mem_liftClosed_iff halg ι).2 hx))
+  · intro h
+    rw [ClosedIF.le_iff]
+    exact racl_mono (Set.image_mono (ClosedIF.le_iff.1 h))
+
+/-- The lift is injective. -/
+theorem liftClosed_injective :
+    Function.Injective (liftClosed K₀ ι : ClosedIF k K → ClosedIF (↥K₀) Ω) :=
+  fun _ _ h ↦ le_antisymm ((liftClosed_le_liftClosed_iff halg ι).1 h.le)
+    ((liftClosed_le_liftClosed_iff halg ι).1 h.ge)
+
+/-- The lift of a principal closure is the principal closure of the image. -/
+theorem liftClosed_point (x : K) :
+    liftClosed K₀ ι (ClosedIF.point k x) = ClosedIF.point (↥K₀) (ι x) :=
+  Subtype.ext <| by
+    rw [coe_liftClosed_of_coe_eq_racl halg ι (ClosedIF.coe_point x),
+      Set.image_singleton]
+    rfl
+
+/-- The lift preserves the bottom: algebraicity over the base is absolute. -/
+theorem liftClosed_bot : liftClosed K₀ ι (⊥ : ClosedIF k K) = ⊥ :=
+  Subtype.ext <| by
+    rw [coe_liftClosed_of_coe_eq_racl halg ι ClosedIF.coe_bot_eq_racl_empty,
+      Set.image_empty, ClosedIF.coe_bot_eq_racl_empty]
+
+/-- **Joins are absolute**: the lift preserves binary joins. -/
+theorem liftClosed_sup (E F : ClosedIF k K) :
+    liftClosed K₀ ι (E ⊔ F) = liftClosed K₀ ι E ⊔ liftClosed K₀ ι F :=
+  Subtype.ext <| by
+    rw [coe_liftClosed_of_coe_eq_racl halg ι (ClosedIF.coe_sup E F),
+      ClosedIF.coe_sup, Set.image_union]
+    change racl (↥K₀) (⇑ι '' (E : Set K) ∪ ⇑ι '' (F : Set K)) =
+      racl (↥K₀) ((racl (↥K₀) (⇑ι '' (E : Set K)) : Set Ω) ∪
+        (racl (↥K₀) (⇑ι '' (F : Set K)) : Set Ω))
+    rw [racl_union_left, racl_union_right]
+
+/-- The lift preserves finite joins. -/
+theorem liftClosed_finset_sup {α : Type*} (s : Finset α) (f : α → ClosedIF k K) :
+    liftClosed K₀ ι (s.sup f) = s.sup (liftClosed K₀ ι ∘ f) :=
+  Finset.apply_sup_eq_sup_comp _ (liftClosed_sup halg ι) (liftClosed_bot halg ι)
+
+/-- An element of `K` is outside the bottom iff its image is. -/
+theorem apply_notMem_bot_iff {x : K} :
+    ι x ∉ (⊥ : ClosedIF (↥K₀) Ω) ↔ x ∉ (⊥ : ClosedIF k K) := by
+  rw [← liftClosed_bot halg ι, apply_mem_liftClosed_iff halg ι]
+
+/-- The lift of a point of `K/k`: a point of `Ω/K₀`. -/
+def liftPoint (P : Point k K) : Point (↥K₀) Ω :=
+  ⟨liftClosed K₀ ι P.1, by
+    rw [← P.point_rep, liftClosed_point halg ι]
+    exact ClosedIF.isAtom_point ((apply_notMem_bot_iff halg ι).2 P.rep_notMem_bot)⟩
+
+/-- The closed element of a lifted point is the lift of the point. -/
+@[simp] theorem liftPoint_val (P : Point k K) :
+    (liftPoint halg ι P).1 = liftClosed K₀ ι P.1 := rfl
+
+/-- Distinct points have distinct lifts. -/
+theorem liftPoint_injective : Function.Injective (liftPoint halg ι) :=
+  fun _ _ h ↦ Subtype.ext (liftClosed_injective halg ι (congrArg Subtype.val h))
+
+/-- **Rank is absolute** (blueprint §9.1): the lift of `E` has the same rank
+in the algebraic matroid of `Ω/K₀` as `E` in that of `K/k`. -/
+theorem eRk_liftClosed (E : ClosedIF k K) :
+    (AlgebraicIndependent.matroid (↥K₀) Ω).eRk (liftClosed K₀ ι E : Set Ω) =
+      (AlgebraicIndependent.matroid k K).eRk (E : Set K) := by
+  classical
+  set M := AlgebraicIndependent.matroid k K
+  set N := AlgebraicIndependent.matroid (↥K₀) Ω
+  obtain ⟨I, hI⟩ := M.exists_isBasis (E : Set K) (by simp [M])
+  have hinj : Function.Injective ι := ι.injective
+  have hJind : N.Indep (⇑ι '' I) := by
+    rw [Matroid.indep_iff_forall_notMem_closure_sdiff (by simp [N])]
+    rintro _ ⟨i, hi, rfl⟩ hmem
+    rw [← Set.image_singleton, ← Set.image_sdiff hinj,
+      algebraicMatroid_closure_eq_racl, SetLike.mem_coe,
+      apply_mem_racl_base_image_iff halg ι, ← SetLike.mem_coe,
+      ← algebraicMatroid_closure_eq_racl] at hmem
+    exact (Matroid.indep_iff_forall_notMem_closure_sdiff (by simp [M])).1
+      hI.indep hi hmem
+  have hJclosure : N.closure (⇑ι '' I) = (liftClosed K₀ ι E : Set Ω) := by
+    rw [algebraicMatroid_closure_eq_racl]
+    have hIE : (racl k I : Set K) = (E : Set K) := by
+      rw [← algebraicMatroid_closure_eq_racl, hI.closure_eq_closure,
+        algebraicMatroid_closure_eq_racl]
+      exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
+        (isRAC_iff_racl_eq.1 E.2)
+    rw [← racl_base_image_racl halg ι I, hIE]
+    rfl
+  rw [← hJclosure, N.eRk_closure_eq, hJind.eRk_eq_encard,
+    hinj.encard_image, hI.encard_eq_eRk]
+
+/-- Rank clauses are absolute under the lift. -/
+theorem rankEq_liftClosed_iff {n : ℕ} {E : ClosedIF k K} :
+    RankEq n (liftClosed K₀ ι E) ↔ RankEq n E := by
+  rw [rankEq_iff_eRk, rankEq_iff_eRk, eRk_liftClosed halg ι]
+
+/-- **Meets are absolute** over an algebraically closed `Ω`: the lift
+preserves binary infima.  For `z` in both lifts, a finite part `T` of `E`
+already captures `z`; the finite intersection generator turns
+`racl(ι T) ⊓ racl(ι F)` into the closure of a finite subset of `ι(K)`, whose
+preimage lies in `E ⊓ F`. -/
+theorem liftClosed_inf [IsAlgClosed Ω] (E F : ClosedIF k K) :
+    liftClosed K₀ ι (E ⊓ F) = liftClosed K₀ ι E ⊓ liftClosed K₀ ι F := by
+  refine le_antisymm (le_inf ((liftClosed_le_liftClosed_iff halg ι).2 inf_le_left)
+    ((liftClosed_le_liftClosed_iff halg ι).2 inf_le_right)) ?_
+  rw [ClosedIF.le_iff]
+  intro z hz
+  change z ∈ liftClosed K₀ ι E ⊓ liftClosed K₀ ι F at hz
+  rw [ClosedIF.mem_inf_iff, mem_liftClosed_iff, mem_liftClosed_iff,
+    mem_racl_base_iff_of_algebraic halg, mem_racl_base_iff_of_algebraic halg] at hz
+  change z ∈ racl (↥K₀) (⇑ι '' ((E ⊓ F : ClosedIF k K) : Set K))
+  rw [mem_racl_base_iff_of_algebraic halg]
+  obtain ⟨T, hTE, hzT⟩ := exists_finset_racl hz.1
+  have hrange : ∀ {S : Set K}, ⇑ι '' S ⊆ (ι.fieldRange : Set Ω) := by
+    rintro S _ ⟨y, -, rfl⟩
+    exact AlgHom.mem_fieldRange.2 ⟨y, rfl⟩
+  obtain ⟨C, hCfin, hCK, hC⟩ := exists_finite_inter_generator (K₁ := ι.fieldRange)
+    (A := (T : Set Ω)) (B := ⇑ι '' (F : Set K)) T.finite_toSet
+    (hTE.trans hrange) hrange
+  have hzC : z ∈ racl k C := by
+    rw [← hC]
+    exact IntermediateField.mem_inf.2 ⟨hzT, hz.2⟩
+  refine racl_le_of_subset_racl ?_ hzC
+  intro c hc
+  obtain ⟨w, rfl⟩ := AlgHom.mem_fieldRange.1 (hCK hc)
+  have hwC : ι w ∈ racl k (T : Set Ω) ⊓ racl k (⇑ι '' (F : Set K)) := by
+    rw [hC]
+    exact subset_racl k C hc
+  obtain ⟨hwT, hwF⟩ := IntermediateField.mem_inf.1 hwC
+  have hwE : w ∈ E := by
+    rw [← apply_mem_liftClosed_iff halg ι, mem_liftClosed_iff,
+      mem_racl_base_iff_of_algebraic halg]
+    exact racl_mono hTE hwT
+  have hwF' : w ∈ F := by
+    rw [← apply_mem_liftClosed_iff halg ι, mem_liftClosed_iff,
+      mem_racl_base_iff_of_algebraic halg]
+    exact hwF
+  exact subset_racl k _ ⟨w, ClosedIF.mem_inf_iff.2 ⟨hwE, hwF'⟩, rfl⟩
+
+/-- **Transfer of an atom clause** (blueprint Theorem `j-descent`, the
+`Ψ(iv)` clauses in `(4) ⇒ (3)`): let `A` be generated by a finite set.  If a
+point of `Ω/K₀` below the lift of `A` captures the lift of `X` from the lift
+of `Y`, then a point of `K/k` below `A` captures `X` from `Y`.
+
+When `X ≤ Y` any point of `A` works.  Otherwise, by exchange, a capturing
+point is a witness `z` for the one-quantifier formula
+`z ∈ racl(ι S) ∧ z ∈ racl{ι x, ι y} ∧ z ∉ racl{ι y}`, which has positive
+membership conjuncts and finite parameters in `ι(K)`; the transfer from `Ω`
+down to `ι(K)` needs no transcendence-degree hypothesis. -/
+theorem exists_point_of_lift [IsAlgClosed Ω] {A : ClosedIF k K} {S : Set K}
+    (hS : S.Finite) (hA : (A.1 : IntermediateField k K) = racl k S)
+    {X Y : Point k K}
+    (h : ∃ A'' : Point (↥K₀) Ω, A''.1 ≤ liftClosed K₀ ι A ∧
+      (liftPoint halg ι X).1 ≤ A''.1 ⊔ (liftPoint halg ι Y).1) :
+    ∃ A' : Point k K, A'.1 ≤ A ∧ X.1 ≤ A'.1 ⊔ Y.1 := by
+  obtain ⟨A'', hA''A, hcap⟩ := h
+  set x := X.rep
+  set y := Y.rep
+  have hX : X.1 = ClosedIF.point k x := X.point_rep.symm
+  have hY : Y.1 = ClosedIF.point k y := Y.point_rep.symm
+  by_cases hxy : x ∈ racl k ({y} : Set K)
+  · -- `X ≤ Y`: any point of `A` captures `X`.
+    have hAne : A ≠ ⊥ := by
+      rintro rfl
+      rw [liftClosed_bot halg ι] at hA''A
+      exact A''.2.1 (le_bot_iff.1 hA''A)
+    obtain ⟨a, haA, ha0⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.2 hAne)
+    refine ⟨Point.mk' k a ha0, ClosedIF.point_le_iff.2 haA, ?_⟩
+    rw [hX]
+    refine ClosedIF.point_le_iff.2 ((ClosedIF.le_iff.1 le_sup_right) ?_)
+    rw [hY]
+    exact hxy
+  · set z := A''.rep
+    have hz0 : z ∉ racl k (∅ : Set Ω) := by
+      rw [← mem_racl_base_iff_of_algebraic halg]
+      intro hz
+      apply A''.rep_notMem_bot
+      change z ∈ ((⊥ : ClosedIF (↥K₀) Ω).1 : IntermediateField (↥K₀) Ω)
+      rw [ClosedIF.coe_bot_eq_racl_empty]
+      exact hz
+    -- The three conditions on `z` in `Ω`.
+    have hzA : z ∈ racl k (⇑ι '' S) := by
+      rw [← mem_racl_base_iff_of_algebraic halg,
+        ← coe_liftClosed_of_coe_eq_racl halg ι hA]
+      exact (ClosedIF.le_iff.1 hA''A) A''.mem_rep
+    have hxz : ι x ∈ racl k ({z, ι y} : Set Ω) := by
+      rw [← mem_racl_base_iff_of_algebraic halg, ← coe_sup_point₂,
+        ClosedIF.mem_val, A''.point_rep, ← liftClosed_point halg ι y, ← hY]
+      refine (ClosedIF.le_iff.1 hcap) ?_
+      change ι x ∈ liftClosed K₀ ι X.1
+      rw [apply_mem_liftClosed_iff halg ι]
+      exact X.mem_rep
+    have hxy' : ι x ∉ racl k ({ι y} : Set Ω) := by
+      rwa [algHom_mem_racl_singleton_iff ι]
+    have hzxy : z ∈ racl k ({ι x, ι y} : Set Ω) := racl_exchange hxz hxy'
+    have hzy : z ∉ racl k ({ι y} : Set Ω) := by
+      intro hzy
+      apply hxy'
+      refine racl_le_of_subset_racl ?_ hxz
+      rintro w (rfl | rfl)
+      · exact hzy
+      · exact subset_racl k _ rfl
+    -- Transfer the witness down to `ι(K)`.
+    have hrange : ∀ {T : Set K}, ⇑ι '' T ⊆ (ι.fieldRange : Set Ω) := by
+      rintro T _ ⟨w, -, rfl⟩
+      exact AlgHom.mem_fieldRange.2 ⟨w, rfl⟩
+    have hpair : ({ι x, ι y} : Set Ω) = ⇑ι '' {x, y} := by
+      rw [Set.image_pair]
+    have hsing : ({ι y} : Set Ω) = ⇑ι '' {y} := by
+      rw [Set.image_singleton]
+    have htransfer := one_quantifier_transfer (k := k)
+      (K₁ := ι.fieldRange) (K₂ := ⊤) le_top
+      (A := ![⇑ι '' S, {ι x, ι y}]) (B := ![{ι y}])
+      (Fin.forall_fin_two.2 ⟨hS.image _, (Set.finite_singleton _).insert _⟩)
+      (Fin.forall_fin_two.2 ⟨hrange, by rw [hpair]; exact hrange⟩)
+      (Fin.forall_fin_one.2 (by rw [hsing]; exact hrange))
+    obtain ⟨_, hwK, hwA, hwB⟩ := htransfer.2
+      ⟨z, IntermediateField.mem_top, Fin.forall_fin_two.2 ⟨hzA, hzxy⟩,
+        Fin.forall_fin_one.2 hzy⟩
+    obtain ⟨w, rfl⟩ := AlgHom.mem_fieldRange.1 hwK
+    have hwS : w ∈ racl k S := (algHom_mem_racl_image_iff ι).1 (hwA 0)
+    have hwxy : w ∈ racl k ({x, y} : Set K) := by
+      rw [← algHom_mem_racl_image_iff ι, ← hpair]
+      exact hwA 1
+    have hwy : w ∉ racl k ({y} : Set K) := by
+      rw [← algHom_mem_racl_singleton_iff ι]
+      exact hwB 0
+    have hw0 : w ∉ (⊥ : ClosedIF k K) := by
+      intro hw
+      apply hwy
+      change w ∈ ((⊥ : ClosedIF k K).1 : IntermediateField k K) at hw
+      rw [ClosedIF.coe_bot_eq_racl_empty] at hw
+      exact racl_mono (Set.empty_subset _) hw
+    refine ⟨Point.mk' k w hw0, ClosedIF.point_le_iff.2 ?_, ?_⟩
+    · change w ∈ A.1
+      rw [hA]
+      exact hwS
+    · rw [hX]
+      refine ClosedIF.point_le_iff.2 ?_
+      change x ∈ ((ClosedIF.point k w ⊔ Y.1).1 : IntermediateField k K)
+      rw [hY, coe_sup_point₂]
+      exact racl_exchange hwxy hwy
+
+end
+
+end AclGeom
