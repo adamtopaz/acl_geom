@@ -29,8 +29,9 @@ hypothesis or fresh element is used, no Frobenius setoid is assumed, and the bas
 fields are arbitrary.
 
 **Status:** corrected totalization/ratio transport is complete (#23/#8, I6b2c).
-The induced map of interpreted fields, preservation of the total geometric graphs and corrected
-interpreted reconstruction remain open.
+Conditional geometric carrier maps and graph transport are proved in `Naturality`, with its
+canonical image-base equality and carrier inputs explicit. Image-base discharge, the induced
+RingEquiv and interpreted reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

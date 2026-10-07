@@ -31,7 +31,9 @@ on the target side are pulled back by the bijections `Point.map e` and
 
 **Status:** Frobenius-link relation transport is complete (#23/#8, I6b2a). Coupled arithmetic and
 corrected totalization/ratio transport are proved in `JArithTransport` and `TotalTransport`.
-Carrier/operation-graph naturality and interpreted reconstruction remain open.
+Conditional carrier/graph transport is proved in `Naturality`, with its canonical image-base
+equality and carrier inputs explicit. Image-base discharge, the induced RingEquiv and interpreted
+reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

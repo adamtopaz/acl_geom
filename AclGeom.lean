@@ -179,6 +179,7 @@ import AclGeom.Interpretation.Interp
 import AclGeom.Interpretation.TotalOps
 import AclGeom.Interpretation.TotalTransport
 import AclGeom.Interpretation.Field
+import AclGeom.Interpretation.Naturality
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Points
 import AclGeom.Reconstruct.Kernel

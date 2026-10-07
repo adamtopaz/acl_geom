@@ -28,7 +28,9 @@ element is used.  The bases and ambient fields are arbitrary and may live in dif
 
 **Status:** configuration transport is complete (#23/#8, I6b1). The corrected interpretation
 relations transport in `FrobTransport`, `JArithTransport` and `TotalTransport` (I6b2).
-Carrier/operation-graph naturality and interpreted reconstruction remain open.
+Conditional carrier/graph transport is proved in `Naturality`, with its canonical image-base
+equality and carrier inputs explicit. Image-base discharge, the induced RingEquiv and interpreted
+reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

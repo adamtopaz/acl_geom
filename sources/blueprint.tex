@@ -2299,7 +2299,11 @@ under these inputs, as are corrected ratio semantics and full carrier decoding a
 % Prior status qualification 1 (scope correction reported on issue 23 before editing):
 % adjoining zero. Non-generic totalization and quotient field operations remain open (issue 23).
 adjoining zero, corrected total geometric graphs and a named transported field structure.
-Unconditional completeness, naturality and reconstruction remain open (issue 23).
+% Earlier progress scope 1 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% Unconditional completeness, naturality and reconstruction remain open (issue 23).
+Conditional carrier and graph transport is proved below with a supplied canonical
+image-base equality and explicit carrier inputs. Discharging that equality, unconditional
+completeness and reconstruction remain open (issues 8 and 23).
 
 
 \begin{lemma}[coordinate bijection]\label{lem:mu-bij}
@@ -2325,8 +2329,13 @@ these inputs. Corrected ratio semantics and full carrier decoding after adjoinin
 % zero are also proved conditionally below. Non-generic totalization and quotient field
 % operations remain open (issue 23).
 zero are also proved conditionally below, followed by total geometric graphs and a named
-transported field structure under those inputs. Unconditional completeness, naturality
-and reconstruction remain open (issue 23).
+% Earlier progress scope 2 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% transported field structure under those inputs. Unconditional completeness, naturality
+% and reconstruction remain open (issue 23).
+transported field structure under those inputs. Conditional carrier and graph transport
+is proved below with the canonical image-base equality and carrier inputs explicit.
+Image-base discharge, unconditional completeness and reconstruction remain open
+(issues 8 and 23).
 
 
 The generic operations can be defined explicitly from the four non-parameter coordinates.
@@ -2427,8 +2436,13 @@ The predicates and genericity remain geometric. Corrected ratio semantics is pro
 % Literal provenance is retained.
 the same explicit inputs, separately from the historical definitions below. The corrected
 quotient with an adjoined zero, full decoding, total geometric graphs and a named transported
-field structure are proved under those inputs. Unconditional completeness, naturality and
-reconstruction remain open. Literal provenance is retained.
+% Earlier progress scope 3 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% field structure are proved under those inputs. Unconditional completeness, naturality and
+% reconstruction remain open. Literal provenance is retained.
+field structure are proved under those inputs. Conditional carrier and graph transport
+is proved below with the canonical image-base equality and carrier inputs explicit.
+Image-base discharge, unconditional completeness and reconstruction remain open.
+Literal provenance is retained.
 
 The ratio definition below is affected concretely. Take $t$ fresh over $x,y,a$ and put
 \[
@@ -2588,8 +2602,12 @@ The corrected geometric quotient and bijective nonzero decoding are now proved u
 % the same inputs, and adjoining zero gives full carrier decoding. Non-generic
 % totalization and quotient field operations are still needed for the interpreted field.
 the same inputs, followed by full carrier decoding, corrected total geometric graphs and
-a named transported field structure. Unconditional completeness, geometric naturality
-and interpreted reconstruction remain open.
+% Earlier progress scope 4 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% a named transported field structure. Unconditional completeness, geometric naturality
+% and interpreted reconstruction remain open.
+a named transported field structure. Conditional carrier and graph transport is proved
+below with the canonical image-base equality and carrier inputs explicit. Image-base
+discharge, unconditional completeness and interpreted reconstruction remain open.
 The corrected predicate is displayed separately below;
 the literal predicate and its refutation remain preserved.
 \end{warning}
@@ -2642,8 +2660,13 @@ is required. Its geometric setoid/quotient and bijective nonzero decoding are pr
 % under the same inputs as described next, followed by full decoding with an adjoined zero.
 % Non-generic totalization and quotient field operations remain open (issue 23).
 under the same inputs as described next, followed by full decoding with an adjoined zero,
-total geometric graphs and a named transported field structure. Unconditional completeness,
-naturality and reconstruction remain open (issue 23).
+% Earlier progress scope 5 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% total geometric graphs and a named transported field structure. Unconditional completeness,
+% naturality and reconstruction remain open (issue 23).
+total geometric graphs and a named transported field structure. Conditional carrier
+and graph transport is proved below with the canonical image-base equality and carrier
+inputs explicit. Image-base discharge, unconditional completeness and reconstruction
+remain open (issues 8 and 23).
 The later original definition and proofs retain their
 historical, refuted status.
 
@@ -2672,7 +2695,11 @@ class soundness; no rank-four completeness theorem is claimed.
 % totalization and quotient field operations remain open (issue 23).
 The adjoined-zero extension gives full decoding as described next, followed by total geometric
 graphs and a named transported field structure under the same explicit inputs.
-Unconditional completeness, naturality and reconstruction remain open (issue 23).
+% Earlier progress scope 1 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% Unconditional completeness, naturality and reconstruction remain open (issue 23).
+Conditional carrier and graph transport is proved below with a supplied canonical
+image-base equality and explicit carrier inputs. Discharging that equality, unconditional
+completeness and reconstruction remain open (issues 8 and 23).
 No global Frobenius setoid is asserted. The later historical literal construction
 and its proofs are preserved.
 
@@ -2809,8 +2836,13 @@ Both use explicit perfection, rank-five and still-open ACF J-completeness inputs
 This proves the corrected counterpart of the operation/TOT part of
 \cref{thm:total-field-graphs}. Common denominators must be existential:
 a specified denominator can put a nonzero numerator sum inside $\acl_k(a)$.
-A named transported field structure is formalized next. Graph naturality and reconstruction
-remain open. The literal graph description and argument below retain their historical/open status.
+% Earlier progress scope 6 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% A named transported field structure is formalized next. Graph naturality and reconstruction
+% remain open. The literal graph description and argument below retain their historical/open status.
+A named transported field structure is formalized next. Conditional carrier and graph
+transport is proved later with the canonical image-base equality and carrier inputs
+explicit. Image-base discharge and reconstruction remain open. The literal graph
+description and argument below retain their historical/open status.
 
 \subsection{The named transported field structure in Lean}
 
@@ -2832,8 +2864,13 @@ $\operatorname{RatioMulGraph}(r,s,t)$ holds exactly when $t=rs$.
 
 This proves the corrected conditional field-transport obligation after
 \cref{lem:decode-equiv}, under explicit perfection, rank-five and still-open ACF
-J-completeness inputs, over arbitrary base fields. Geometric graph naturality,
-unconditional completeness, R1/R2 and interpreted reconstruction remain open.
+% Earlier progress scope 7 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% J-completeness inputs, over arbitrary base fields. Geometric graph naturality,
+% unconditional completeness, R1/R2 and interpreted reconstruction remain open.
+J-completeness inputs, over arbitrary base fields. Conditional carrier and graph
+transport is proved later with the canonical image-base equality and carrier inputs
+explicit. Image-base discharge, unconditional completeness, R1/R2 and interpreted
+reconstruction remain open.
 The following literal construction and argument retain their historical/open status.
 
 \subsection{Geometric graphs of addition and multiplication}
@@ -2936,9 +2973,14 @@ These proofs use only joins, meets, order, finite rank and point quantifiers. Th
 % interpretation-relation transport, quotient-carrier and geometric operation-graph
 % naturality, and interpreted reconstruction remain open (issues 8 and 23).
 no perfection, semantic completeness, rank-five bound or fresh element. Corrected
-interpretation-relation transport is proved in the following subsections. Quotient-carrier
-and geometric operation-graph naturality and interpreted reconstruction remain open
-(issues 8 and 23).
+% Earlier configuration progress scope (before the conditional carrier/graph checkpoint):
+% interpretation-relation transport is proved in the following subsections. Quotient-carrier
+% and geometric operation-graph naturality and interpreted reconstruction remain open
+% (issues 8 and 23).
+interpretation-relation transport is proved in the following subsections. Conditional
+carrier and operation-graph transport is also proved below, with a supplied canonical
+image-base equality and explicit carrier inputs. Discharging that equality, the induced
+ring isomorphism and interpreted reconstruction remain open (issues 8 and 23).
 The original interpreted reconstruction statement and argument are preserved above;
 this first stage does not discharge the literal source predicates, unconditional
 completeness, base recovery or the scalar-one input.
@@ -2975,10 +3017,16 @@ for later carrier transport, and supply no global Frobenius setoid.
 % totalization and ratio transport, quotient-carrier and geometric operation-graph
 % naturality, interpreted reconstruction, unconditional completeness, base recovery
 % and the scalar-one input remain open (issues 8 and 23).
+% Earlier Frobenius progress scope (before the conditional carrier/graph checkpoint):
+% Coupled arithmetic and corrected totalization/ratio transport are proved in the
+% following subsections. Quotient-carrier and geometric operation-graph naturality,
+% interpreted reconstruction, unconditional completeness, base recovery and the scalar-one
+% input remain open (issues 8 and 23).
 Coupled arithmetic and corrected totalization/ratio transport are proved in the
-following subsections. Quotient-carrier and geometric operation-graph naturality,
-interpreted reconstruction, unconditional completeness, base recovery and the scalar-one
-input remain open (issues 8 and 23).
+following subsections, followed by conditional carrier and operation-graph transport
+with the canonical image-base equality and carrier inputs explicit. Image-base discharge,
+the induced ring isomorphism, interpreted reconstruction, unconditional completeness,
+base recovery and the scalar-one input remain open (issues 8 and 23).
 All original source statements and proofs retain their provenance.
 
 \subsection{Coupled arithmetic naturality in Lean}
@@ -3005,9 +3053,14 @@ total negation/nonzero addition, ratio equivalence and full-carrier graph preser
 % Totalization/ratio transport, quotient-carrier and operation-graph naturality,
 % interpreted reconstruction, unconditional completeness, base recovery and scalar-one
 % inputs remain open (issues 8 and 23). Original statements and proofs are preserved.
-Corrected totalization/ratio transport is proved in the following subsection.
-Quotient-carrier and operation-graph naturality, interpreted reconstruction, unconditional
-completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+% Earlier coupled progress scope (before the conditional carrier/graph checkpoint):
+% Corrected totalization/ratio transport is proved in the following subsection.
+% Quotient-carrier and operation-graph naturality, interpreted reconstruction, unconditional
+% completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+Corrected totalization/ratio transport is proved in the following subsection, followed
+by conditional carrier and operation-graph transport with the image-base equality explicit.
+Discharging that equality, the induced ring isomorphism, interpreted reconstruction,
+unconditional completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
 Original statements and proofs are preserved.
 
 \subsection{Corrected totalization and ratio naturality in Lean}
@@ -3030,9 +3083,46 @@ Frobenius, coupled arithmetic and rank-three iff laws transfer the conjuncts. No
 genericity, completeness, perfection, rank-five, exponential-characteristic or freshness
 input or global Frobenius setoid is assumed. The named consumers are class-pair quotient
 well-definedness and full-carrier graph preservation.
-Quotient-carrier and operation-graph naturality, interpreted reconstruction, unconditional
-completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+% Earlier totalization/ratio progress scope (before the conditional carrier/graph checkpoint):
+% Quotient-carrier and operation-graph naturality, interpreted reconstruction, unconditional
+% completeness, base recovery and scalar-one inputs remain open (issues 8 and 23).
+Conditional carrier and operation-graph transport is proved in the following subsection,
+with the canonical image-base equality and carrier inputs explicit. Image-base discharge,
+the induced ring isomorphism, interpreted reconstruction, unconditional completeness,
+base recovery and scalar-one inputs remain open (issues 8 and 23).
 All original source statements and proofs are preserved.
+
+\subsection{Conditional carrier and graph naturality in Lean}
+
+\lean{Interpretation.Naturality} proves the geometric carrier/graph stage of
+\cref{prop:interpreted-reconstruction}, given an explicit equality identifying the image
+of the source canonical base tuple with the chosen target canonical base tuple.
+
+\lean{ratioClassMap} is the pointwise tuple equivalence restricted to the fixed
+Frobenius classes, with no perfection, rank or completeness input.
+\lean{ratioInterpMap} maps pairs componentwise, descends through the corrected ratio
+quotient and extends over the adjoined zero. It is the geometric map, not a map defined
+through decoding; zero, representative and pointwise class values are definitional.
+
+Addition is invariant by \lean{ratioAddGraph_map_iff}.
+Both zero clauses and the common-denominator clause transfer, including its opposite
+numerator and total nonzero sum branches.
+
+Multiplication is invariant by \lean{ratioMulGraph_map_iff}.
+The zero-factor branch and both generic products transfer, retaining all six class
+witnesses and both independence clauses.
+
+Target witnesses pull back by class-map surjectivity, and carrier equalities reflect
+by injectivity. Image-base rewriting is confined to propositions after restating the
+pointwise map, so no dependent carrier is rewritten.
+
+The actual carriers retain independent perfection, rank-five, exponential-characteristic
+and ACF-completeness inputs on both sides, across independent bases and universe levels.
+The named consumers are additivity/multiplicativity of the induced ring isomorphism and
+its composition with the decoding equivalences. Image-base existence, the named induced
+ring isomorphism and interpreted reconstruction remain open (issues 8 and 23), as do
+unconditional completeness, global Frobenius setoid, base recovery and scalar-one inputs.
+The original literal statements and proofs retain their exact provenance.
 
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which
@@ -3046,7 +3136,11 @@ The following proofs of \cref{prop:base-recovery,prop:scalar-one} use the litera
 audit (issue 23). Their propositions are retained as targets; their displayed
 proofs require the corrected interpretation and totalization in unconditional form.
 The accepted corrected total geometric graphs keep ACF completeness explicit;
-unconditional completeness, graph naturality and these recovery inputs remain open.
+% Earlier progress scope 8 (before the conditional carrier/graph checkpoint; reported on issue 23):
+% unconditional completeness, graph naturality and these recovery inputs remain open.
+conditional carrier and graph transport is proved above with the canonical image-base
+equality and carrier inputs explicit. Discharging that equality, unconditional
+completeness and these recovery inputs remain open.
 The scope update was reported on issues 9 and 23 before changing this qualification.
 The original propositions and proofs are preserved below.
 The conditional point propagation later in this section takes their outputs as
