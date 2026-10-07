@@ -123,6 +123,15 @@ of this guide. The current mathematical boundaries are:
   induced RingEquiv and composition with both decodings are proved.
   The canonical image base and conditional field-isomorphism endpoint are proved
   under explicit ACF completeness. General inducing reconstruction remains open (#23).
+- **The base-ratio corollary prerequisite is complete (#5/#9, R1a/C7b).**
+  `Reconstruct/Base` proves ratio algebraicity over arbitrary relative fields
+  with no rank, fresh-witness, perfection, completeness or characteristic
+  input. Adjoining a rational-function variable supplies freshness. The
+  original ratio-in-base orientation is proved with explicit `IsRAC` for the
+  base. Actual base recovery for `interpretedRingEquiv`, Compatible assembly,
+  scalar one and full Induces reconstruction remain open. The original
+  source proof’s incorrect correspondence-pair ordering is reported on #5
+  and preserved; the corrected formal proof uses `(u₁,u₂)` and `(b,b)`.
 - **Lemma 8.4 (affine action) has no Lean statement.** #13's curve
   prerequisites are proved: places, divisors, Riemann–Roch, genus, rationality
   in genus 0, Tate residues, rigidity of regular derivations in genus ≥ 1, and
@@ -137,7 +146,7 @@ Coverage at a glance (details and file:line references on #19):
 |---|---|
 | Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. The explicit `Induces` relation, intersection formula, compatible induced-map converse and the Frobenius fibre/uniqueness for supplied inducing maps are proved (#24/#9). Full reconstruction and literal/quotient functors remain open (#8–#10) |
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
-| Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
+| Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The no-fresh relative base-ratio corollary and its actual base-membership form under explicit IsRAC are proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
 | Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge, coupled meet/join arithmetic and corrected total/ratio invariance need no such input. Conditional class/carrier maps and graph transport are proved with a supplied canonical image-base equality and explicit carrier inputs. The same geometric map gives the induced RingEquiv and its actual K-to-L composite under those inputs. Canonical image-base and conditional field-isomorphism existence are proved with both ACF-completeness hypotheses explicit; source pair and target rank are derived inline. Unconditional recovery, full inducing reconstruction and functorial theorems remain open |
 
@@ -4209,3 +4218,72 @@ visual review of pages **1/2/3/33/34/35/38/40/41/42/43/44/45/46**. All 49
 original statements/44 proofs and the complete literal TOT/interpreted
 reconstruction arguments are byte-exact. Final serial library/book and
 exact staged-byte gates precede the nine-path checkpoint commit/push.
+
+
+## No-fresh relative base-ratio corollary (#5/#9, R1a/C7b)
+
+Two public theorems replace the empty `Reconstruct/Base` skeleton. Imports
+are only `Interpretation.Naturality` and Mathlib's `RatFunc.AsPolynomial`;
+there is no helper/private/global instance/evaluation declaration or local
+algebra structure. `base_ratio_rel` states ratio algebraicity over arbitrary
+k/K from the actual independent pair and both element/product
+interalgebraicity pairs. No fresh element in K, rank, perfection,
+completeness or exponential-characteristic input is assumed. The proof
+embeds K into the algebraic closure of K(X), enlarges the base algebraically,
+uses the transcendental variable as the required third element, applies
+the existing base-ratio correspondence lemma, and pulls algebraicity back.
+`base_ratio_mem_range` gives the original u₁/u₂ ratio in the actual image
+of k, with explicit IsRAC of the intermediate-field bottom. Its consumers
+are the literal corollary and actual R1b interpreted-ring base recovery.
+
+Claude froze `f66a0a45` against published `e7179bd`, with eleven peer/eleven
+root input hashes and an exact skeleton baseline. Original compilation and
+nine interfaces pass unchanged and warning-free in 8.00 s (peak 2.86 GiB,
+minimum 39.35 GiB available). A header/status-only final and before-main
+47-public-record capture pass in 14.00 s (peak 2.87 GiB, minimum 39.32 GiB).
+All two original/final types/docs/attributes/raw bodies and standard-axiom
+records are exact, with identical namespace bytes and nine fixture bytes.
+The checks cover minimal no-fresh/algebraicity signatures, inverse
+orientation, actual RAC-base range/witness/subfield membership, independent
+base/ambient universes, finite bases, characteristics zero/two and the
+original algebraically closed-base case without ambient closure. All nine
+new interfaces pass unchanged. No production proof/source repair is needed.
+
+The combined baseline harness initially imported only the old Base skeleton,
+which does not import Naturality/Transport. Root added an explicit
+Naturality import to that capture fixture; this was a harness import repair
+only, with no production change. The accepted original/final records and
+all 47 old records are captured after that correction. Root's prior
+RatFunc/algebraic-closure freshness and RAC-membership API probe uses
+existing global instances and passes in about 1 s (nested peak 2.85 GiB;
+the outer two-second sampler missed the RSS peak).
+
+Prior e7179bd exact CI37689183902 is fully green including library/book and
+deployment. The source proof discrepancy and intended scope were reported
+on #5 before code, and the five-path integration scope on #9 before source
+qualifications. The original corollary proof incorrectly names independent
+correspondence points (u₁,b)/(u₂,b); the formal core uses (u₁,u₂)/(b,b).
+All original 49 source statements/44 proofs and literal TOT/interpreted
+reconstruction arguments remain exact. Full library/book, shared
+two-record/nine-interface/47-old/49-total, hygiene, retained HTML and actual
+rendered-source/provenance plus exact five-path staged bytes precede push.
+
+This proves R1a/C7b, the base-ratio corollary prerequisite. Actual R1b
+`CrossBase.Compatible (interpretedRingEquiv …)`, scalar one, full Induces
+reconstruction, unconditional J completeness, the remaining C7/group/
+three-pair/tensor obligations and frozen M4a remain open/preserved. The
+separate three-public R1b plan is held until this checkpoint is published.
+
+The integrated full library/book pass in 40.22/8.04 s; the shared two-record,
+nine-interface and 47-old/49-total comparison passes in 12.07 s. All 47 prior
+compiled types/docs/attributes/raw bodies and axioms are exact; all 49
+combined public records use standard axioms. All ten prior root inputs
+except the replaced Base skeleton are byte-exact, including Naturality
+and the root import. Hygiene covers 244 files with no placeholders/project
+axioms. All 95 old HTML paths remain among 96 pages, with both new
+base-ratio docstrings and the open recovery boundaries checked. The source
+renders in four stable passes, still 63 pages; all six changed/reflowed
+pages (1, 2, 3, 26, 27, 28) were actually visually inspected and pass.
+No touched-module warning or mathematical source/proof repair is needed.
+The final serial library/book and exact five-path staging gate precede
+commit/push; CI for this new checkpoint is reported in the issues.

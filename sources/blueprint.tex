@@ -1849,6 +1849,30 @@ For a relatively algebraically closed base, perform the argument over $\bar k$; 
 lies both in $\bar k$ and in the ambient field, hence in $k$.
 \end{proof}
 
+\noindent\textbf{Lean status and proof qualification for the base-ratio corollary.}
+\lean{Reconstruct.Base} proves the relative corollary without a fresh-witness or rank
+hypothesis. The first theorem, \lean{base_ratio_rel}, concludes that $u_2/u_1$ is
+algebraic over the original base. It embeds $K$ into the algebraic closure of $K(X)$,
+where the image of the indeterminate supplies the fresh third element required by
+the existing algebraically closed correspondence lemma. Algebraic enlargement of
+the base preserves closure membership, and the embedding pulls algebraicity back.
+Only the existing global algebra and tower instances are used.
+
+\lean{base_ratio_mem_range} proves the original orientation $u_1/u_2\in k$ as actual
+membership in the image of $\operatorname{algebraMap}(k,K)$, with the relatively
+algebraically closed-base hypothesis \lean{IsRAC} explicit. Neither theorem assumes
+perfection, configuration completeness or an exponential characteristic, and finite
+bases and arbitrary characteristics are included. The named next consumer is base
+element recovery for \lean{interpretedRingEquiv}; that recovery, scalar one and the
+full inducing reconstruction remain open (issues 5 and 9).
+
+The correspondence inputs in the formal argument are $(u_1,u_2)$ and the degenerate
+pair $(b,b)$. The original proof above instead names $(u_1,b)$ and $(u_2,b)$; these do
+not satisfy the required independence between correspondence points. That proof
+qualification was reported on issue 5 before this addition. The statement is not
+refuted, and its original wording and proof are preserved exactly. The broader
+multiplicative/group and three-pair obligations remain open.
+
 \begin{lemma}[simultaneous additive--multiplicative cosets]\label{lem:simultaneous-coset}
 Suppose two independent finite-correspondence curves $C_1,C_2\subseteq\mathbb A^2$
 are cosets of one subgroup of $\Ga^2$ and, away from the axes, cosets of one subgroup of

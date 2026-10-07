@@ -5,6 +5,7 @@ Authors: Adam Topaz, Codex
 -/
 import VersoManual
 import AclGeom.Counterexamples.KernelRank
+import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Kernel
 import AclGeom.Reconstruct.Points
 import AclGeom.Reconstruct.TwoGeneric
@@ -25,6 +26,44 @@ The Frobenius kernel theorem supplies the kernel input to the blueprint's
 uniqueness argument.  The existence of a field isomorphism inducing a
 geometry isomorphism, and the base and point recovery needed for it, remain
 open ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
+
+# Relative base ratios
+%%%
+tag := "relative-base-ratio"
+%%%
+
+The base-ratio corollary supplies the prerequisite for base recovery.
+Suppose `u₁,t` are independent over an arbitrary base `k`, `u₂` is nonzero,
+and both the elements and their products with `t` are interalgebraic.
+The ratio is algebraic over `k`, with no fresh element in the original field:
+
+{docstring AclGeom.base_ratio_rel}
+
+The proof embeds the ambient field into the algebraic closure of `K(X)`.
+The image of the variable is transcendental over all of `K` and provides
+the fresh third element for the existing algebraically closed correspondence
+lemma. The pairs are `(u₁,u₂)` and the degenerate correspondence `(t,t)`.
+Algebraicity of the enlarged base preserves closure membership, and the
+embedding pulls the ratio's algebraicity back. All algebra/tower instances
+are the existing global instances; no local algebra structure is installed.
+
+If the original base is relatively algebraically closed, the inverse ratio
+lies in its actual algebra-map image, in the original corollary's orientation:
+
+{docstring AclGeom.base_ratio_mem_range}
+
+Neither theorem assumes rank, freshness, perfection, completeness or an
+exponential characteristic. Base membership names `IsRAC` explicitly. The
+statements include finite bases and characteristics zero/two, and the
+algebraically closed-base case needs no ambient closure assumption.
+This completes the base-ratio corollary prerequisite (R1a/C7b).
+
+Actual recovery for `interpretedRingEquiv`, the equality
+`CrossBase.Compatible`, scalar one and the full `Induces` direction remain
+open. The next named consumer is R1b's base-element membership and then
+compatible transport. The broader C7/group/three-pair/tensor obligations
+and frozen M4a scope are preserved. The original source proof is retained;
+its incorrect correspondence-pair ordering was reported on issue #5.
 
 # Two generic intersections
 %%%
