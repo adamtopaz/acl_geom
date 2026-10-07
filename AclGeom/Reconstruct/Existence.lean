@@ -34,9 +34,10 @@ corrected conditional R3/R4 in the perfect-field setting). Both relatively algeb
 bases, both perfections and separate exponential characteristics, source rank five and both
 still-open ACF J-completeness inputs remain explicit. The existence endpoint derives the source
 pair, target rank and actual image pair inline; no supplied pair, target rank or point/scalar oracle
-is assumed. Transport to original nonperfect fields through chosen perfections (including RAC of
-the perfected base), the assembled reconstruction theorem with uniqueness up to Frobenius and
-unconditional ACF J-completeness remain open. Literal RatioEq/TOT/scalar arguments, bypassed
+is assumed. Target proves perfected-base RAC and original-field inducing existence through
+arbitrary chosen perfections under explicit perfected ACF completeness. The assembled target
+theorem with Frobenius uniqueness and unconditional ACF J-completeness remain open. Literal
+RatioEq/TOT/scalar arguments, bypassed
 linear-disjointness and frozen M4a obligations retain their recorded provenance.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin

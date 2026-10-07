@@ -8,6 +8,7 @@ import AclGeom.Counterexamples.KernelRank
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Scalar
 import AclGeom.Reconstruct.Existence
+import AclGeom.Reconstruct.Target
 import AclGeom.Reconstruct.Kernel
 import AclGeom.Reconstruct.Points
 import AclGeom.Reconstruct.TwoGeneric
@@ -27,9 +28,11 @@ tag := "reconstruction"
 The Frobenius kernel theorem supplies the kernel input to the blueprint's
 uniqueness argument.  The existence of a field isomorphism inducing a
 geometry isomorphism is proved conditionally for perfect ambient fields with
-RAC bases and explicit ACF completeness. Original-field chosen-perfection
-reconstruction remains open. Base recovery, scalar one, outside-point recovery
-and the actual inducing/existence consumer are proved below ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
+RAC bases and explicit ACF completeness. Actual original-field existence through
+arbitrary chosen perfections is also proved with original-base RAC, source rank
+five and both perfected completeness inputs explicit. Final target assembly
+remains open. Base recovery, scalar one, outside-point recovery
+and both actual inducing/existence consumers are proved below ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
 
 # Relative base ratios
 %%%
@@ -159,8 +162,8 @@ J-completeness inputs and the actual canonical image-base equality remain
 explicit. No extra target genericity, freshness witness, scalar oracle,
 helper, global instance or generated declaration is introduced. The new
 module imports Base only. This accepts corrected conditional R2a/b/c;
-general unconditional R1/R2, original-field inducing/existence assembly,
-chosen-perfection reconstruction, unconditional completeness and global,
+general unconditional R1/R2, final target assembly,
+unconditional completeness and global,
 literal/TOT/three-pair/tensor/frozen M4a obligations remain open. The named
 next section proves its actual inducing direction under explicit RAC bases.
 
@@ -201,15 +204,54 @@ characteristics zero/two. Extension to arbitrary chosen perfections of
 these already-perfect input fields is also checked; it does not prove
 the original nonperfect-field statement.
 
-The next named consumer is original-field reconstruction through chosen
-perfection lattices, including RAC of the perfected base, actual
-Perfection.Induces existence and assembly with Frobenius uniqueness.
-Those steps remain open, as do unconditional completeness, general
+The next section proves original-field inducing existence through chosen
+perfection lattices, deriving RAC of the perfected base from original RAC.
+Final target assembly with Frobenius uniqueness remains open, as do
+unconditional completeness, general
 R1/R2/R3/R4, literal RatioEq/TOT/scalar arguments, bypassed
 linear-disjointness and the frozen M4a obligations. The original
 larger-freshness scalar argument is preserved. Exactly two public results
 are added in a focused module importing Points and Scalar only, with no
 helper, generated declaration, global instance or duplicate RingEquiv.
+
+# Conditional existence through chosen perfections
+%%%
+tag := "conditional-chosen-perfection-existence"
+%%%
+
+The original ambient fields need not be perfect. Choose arbitrary bundles
+`π` and `ρ`, and conjugate the supplied lattice map by their `latticeIso`.
+The perfected base is RAC by `Perfection.isRAC_basePerf` from original-base
+RAC, as displayed in the perfection chapter. The perfected source rank is
+derived from original source rank five. The perfect-field endpoint then
+constructs a compatible field isomorphism of the chosen perfections that
+actually induces the original map:
+
+{docstring AclGeom.Perfection.exists_induces}
+
+Both ORIGINAL bases are RAC, and both exact perfected ACF J-completeness
+hypotheses remain explicit. No original ambient perfection, perfected RAC,
+target rank, pair, image equality, point/scalar oracle or inducing endpoint
+is supplied. The bundles supply separate characteristic parameters; two
+local Prop-valued PerfectField witnesses add no global or local Algebra
+instance. The focused Target module imports Induces and Existence only.
+
+Independent typed behaviors check literal perfected-subfield equality,
+every intersection membership formula, the actual compatible perfected
+base RingEquiv, equality with the conjugated inducing map, Frobenius twists
+and the exact fibre for this constructed witness, finite original bases
+and characteristics zero/two across independent universes. The fibre is
+a private consumer check of the landed uniqueness API; no extra public
+assembler is added. Exactly two public results, with no helper, generated
+declaration, global instance or duplicate RingEquiv, are added.
+
+This accepts only conditional original-field inducing existence. The next
+named consumer is a public conditional target assembly combining rank,
+the base and intersection formulas, Frobenius uniqueness and the converse.
+Final Reconstructs/target assembly, general unconditional R1/R2/R3/R4,
+both completeness obligations, literal RatioEq/TOT/scalar arguments,
+bypassed linear-disjointness and broader group/three-pair/tensor/frozen M4a
+obligations remain open. Every original source statement and proof is preserved.
 
 # Two generic intersections
 %%%
@@ -352,7 +394,8 @@ every element outside the closure of one parameter. These are explicit
 outputs of base recovery and scalar elimination. Conditional base recovery
 and outside-point recovery are proved above under explicit carrier inputs.
 The actual perfect-field inducing/existence assembly is proved above.
-The original-field chosen-perfection direction remains open.
+The original-field chosen-perfection existence consumer is also proved above
+with both perfected completeness hypotheses explicit. Final target assembly remains open.
 The agreement then extends to every closed intermediate field:
 
 {docstring AclGeom.eq_closedIFMap_of_point_eq}
@@ -373,9 +416,9 @@ This conditional propagation also supplies the whole-lattice image
 formula. Its inputs for the actual interpreted ring equivalence are now
 proved under explicit completeness/carrier hypotheses, with RAC for
 compatibility. On perfected lattices the existing conjugacy and inducing-map
-APIs can transport it back to the original fields, a separate open step.
-The actual perfect-field inducing/existence consumer is proved above.
-General unconditional R1/R2, chosen-perfection reconstruction and unconditional
+APIs transport it back to the original fields in the conditional chosen-perfection
+existence consumer above. Both perfected completeness hypotheses stay explicit.
+General unconditional R1/R2, final target assembly and unconditional
 completeness remain open ([issue #9](https://github.com/adamtopaz/acl_geom/issues/9)).
 The two-generic intersection remains a proved blueprint statement; the
 separate linear-disjointness obligations on

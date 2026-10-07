@@ -134,8 +134,9 @@ of this guide. The current mathematical boundaries are:
   recovery for the same map are proved without RAC under its explicit
   carrier/completeness inputs. Actual inducing equality and compatible
   inducing existence for perfect fields are proved with RAC/completeness
-  explicit. General unconditional R1/R2, original-field Induces assembly
-  and full reconstruction remain open. The original
+  explicit. Original-field inducing existence through arbitrary chosen perfections
+  is proved with original RAC and both perfected completeness inputs explicit.
+  General unconditional R1/R2, final target assembly and full reconstruction remain open. The original
   source proof’s incorrect correspondence-pair ordering is reported on #5
   and preserved; the corrected formal proof uses `(u₁,u₂)` and `(b,b)`.
 - **Lemma 8.4 (affine action) has no Lean statement.** #13's curve
@@ -154,7 +155,7 @@ Coverage at a glance (details and file:line references on #19):
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The no-fresh relative base-ratio corollary and its actual base-membership form under explicit IsRAC are proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge, coupled meet/join arithmetic and corrected total/ratio invariance need no such input. Conditional class/carrier maps and graph transport are proved with a supplied canonical image-base equality and explicit carrier inputs. The same geometric map gives the induced RingEquiv and its actual K-to-L composite under those inputs. Canonical image-base and conditional field-isomorphism existence are proved with both ACF-completeness hypotheses explicit; source pair and target rank are derived inline. Actual conditional base-range compatibility and inverse naturality are proved under explicit carrier/completeness and RAC inputs. Corrected conditional scalar one and outside-point recovery for the same map need no RAC. Actual compatible inducing equality and existence are proved in perfect fields under explicit RAC/completeness inputs, with no supplied pair or target rank. Original-field chosen-perfection reconstruction, unconditional recovery and functorial theorems remain open |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge, coupled meet/join arithmetic and corrected total/ratio invariance need no such input. Conditional class/carrier maps and graph transport are proved with a supplied canonical image-base equality and explicit carrier inputs. The same geometric map gives the induced RingEquiv and its actual K-to-L composite under those inputs. Canonical image-base and conditional field-isomorphism existence are proved with both ACF-completeness hypotheses explicit; source pair and target rank are derived inline. Actual conditional base-range compatibility and inverse naturality are proved under explicit carrier/completeness and RAC inputs. Corrected conditional scalar one and outside-point recovery for the same map need no RAC. Actual compatible inducing equality and existence are proved in perfect fields under explicit RAC/completeness inputs, with no supplied pair or target rank. Original-field chosen-perfection inducing existence is proved with original RAC and both perfected completeness inputs explicit. Final target assembly, unconditional recovery and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -162,9 +163,9 @@ Immediate priorities, in order:
    (#6/#7), with a full library build and rendered book; the measured #18
    build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
-   (#22/#25), and transport accepted perfect-field inducing/existence through
-   the chosen perfections of original fields, including RAC of basePerf
-   and actual Induces existence/uniqueness assembly (#23/#8/#9);
+   (#22/#25), and assemble the conditional target from accepted original-field
+   chosen-perfection Induces existence, rank, base/intersection formulas,
+   Frobenius uniqueness and converse (#23/#8/#9);
 3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
    refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
@@ -4492,3 +4493,64 @@ the named next consumers and remain open. General unconditional
 R1/R2/R3/R4, unconditional ACF completeness, literal RatioEq/TOT/scalar
 arguments, bypassed linear-disjointness and frozen M4a scope retain their
 recorded status. Historical checkpoint sections keep their earlier scope.
+
+
+## Actual conditional original-field existence through chosen perfections (#9)
+
+The focused new Reconstruct/Target imports Perfection.Induces and
+Reconstruct.Existence only. Exactly two public results in namespace
+Perfection, no helper/private/generated/global-instance/evaluation/duplicate
+RingEquiv: isRAC_basePerf derives perfected-base RAC from ORIGINAL-base RAC
+with no rank or completeness. exists_induces constructs a compatible map
+of arbitrary chosen perfections inducing the original lattice isomorphism.
+The original fields need not be perfect. Only original source rank five,
+both original RAC bases, the bundles and both exact perfected ACF
+J-completeness hypotheses are supplied. Perfected source rank, perfected-base
+RAC and conjugation are derived inline; separate bundle characteristic
+parameters stay separate. Two local Prop-valued PerfectField witnesses are
+necessary because the bundle supplies PerfectRing; no local Algebra instance,
+pair, target rank, point/scalar or inducing oracle is supplied.
+
+Claude froze 1dbeb730 against dab374c (16 peer inputs, 24 root inputs and
+four exact baseline copies). Frozen production source compiles with two local haveI style warnings. Root
+initially missed these in private logs; the full warning gate caught them before
+staging. Only two local Prop-valued haveI commands are replaced by Mathlib-
+preferred have, agreed by peer4021, with warned source/proof/log evidence
+preserved. Accepted original/header-only final pass14.00/14.01s, peaks2.91GiB
+and minimum available38.01/37.98GiB. Frozen signatures/docs/attributes/types
+and standard axioms are exact; accepted original/final raw bodies match. Two types/docs/attributes/raw bodies,
+namespace bytes and standard-axiom records are exact. No other production repair.
+One new root fixture's unused existential compatibility binder was renamed
+_hPhi; source-success/fixture-warning evidence is retained. A root preflight
+declaration scanner misread header prose and was corrected before actual
+Lean compilation, retaining failed guard/missing-directory evidence.
+
+Twelve new warning-free typed behaviors and all45 byte-exact previous
+interfaces pass (57 total): minimal RAC and actual algebraic membership,
+minimal original-field existence, literal perfected-subfield equalities,
+every intersection formula, actual compatible base RingEquiv, inducing-map
+conjugacy, all Frobenius twists and exact fibre for this constructed witness,
+finite bases and characteristics zero/two across independent universes.
+The fibre is a private consumer check, not an extra public assembler.
+Before-main capture passes8.00s with all57 prior records exact and main clean.
+
+Scope and stale source status were reported on issue9 before main/source
+edits (6048732435). Existence and Induces change only current headers with
+full namespaces exact; root adds Target only. All nine changed current source scopes preserve earlier wording; every original49 statements/44 proofs and literal interpretation,
+TOT and proposed assembly proof remain exact. Prior dab374c CI37699869146 is
+fully green for library/book/deploy. Full serial library/book, shared two-record,
+57-interface/57-old/59-total comparison, hygiene, retained HTML, stable PDF,
+actual affected/context visual review, final serial library/book and exact
+scoped staging precede commit/push.
+
+Only conditional original-field chosen-perfection inducing existence is
+accepted. The next named consumer is a public conditional target assembly
+combining rank, base/intersection formulas, Frobenius uniqueness and converse.
+Final Reconstructs/target assembly, general unconditional R1/R2/R3/R4,
+unconditional completeness, literal/TOT/scalar, bypassed linear-disjointness
+and broader group/three-pair/tensor/frozen obligations remain open. Historical
+checkpoint sections retain their earlier scope; peer assembly drafting remains
+held until this checkpoint is published.
+
+Actual source review also found crowded double-digit subsection numbers in
+the table of contents; the number column alone is widened before final rendering.

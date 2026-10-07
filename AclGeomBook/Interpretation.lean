@@ -495,7 +495,9 @@ inputs. Its inverse is the swapped construction pointwise by reflexivity.
 The same chapter proves corrected conditional scalar one and outside-point
 recovery without RAC, and assembles actual inducing equality and compatible
 inducing existence in perfect fields under RAC bases and explicit completeness.
-General unconditional R1/R2 and original-field inducing assembly remain open.
+Conditional original-field inducing existence through chosen perfections is
+proved in the reconstruction chapter with both perfected completeness inputs
+explicit. General unconditional R1/R2 and final target assembly remain open.
 
 # Conditional image-base and field-isomorphism existence
 %%%
@@ -560,7 +562,9 @@ genericity clause; the refuted literal projections retain their provenance.
 This proves corrected generic fixed-class semantics. The following
 sections construct the corrected ratio quotient and its nonzero decoding.
 Corrected total graphs are proved later under the explicit input.
-Unconditional ACF completeness, unconditional R1/R2 and reconstruction existence remain open.
+Unconditional ACF completeness, unconditional R1/R2 and unconditional
+reconstruction existence remain open; conditional chosen-perfection existence
+is proved in the reconstruction chapter.
 
 
 # Corrected ratio semantics

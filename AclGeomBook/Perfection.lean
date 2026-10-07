@@ -8,6 +8,7 @@ import AclGeom.Perfection.Lattice
 import AclGeom.Perfection.Existence
 import AclGeom.Perfection.Naturality
 import AclGeom.Perfection.Induces
+import AclGeom.Reconstruct.Target
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -72,6 +73,15 @@ argument of blueprint Proposition 5.1, executed with polynomial transport
 along the Frobenius ring homomorphism and descent along the inclusion.
 
 {docstring AclGeom.Perfection.isRAC_perfIF}
+
+If the ORIGINAL base is relatively algebraically closed, this also proves
+RAC of the perfected base, with no rank or completeness hypothesis:
+
+{docstring AclGeom.Perfection.isRAC_basePerf}
+
+Its named consumer is conditional original-field inducing existence in
+the reconstruction chapter. That consumer derives perfected-base RAC;
+it does not assume it.
 
 Together with the two pullback equations (5.1) and (5.2) —
 
@@ -191,10 +201,12 @@ Integral Frobenius twists induce the same lattice map:
 
 {docstring AclGeom.Perfection.Induces.trans_frobZPow}
 
-These complete the foundational carryovers in issue #24. The existence of a
-field map inducing an arbitrary lattice isomorphism and the literal/quotient
-functorial assembly remain open in
-issues #8–#10.
+These complete the foundational carryovers in issue #24. Conditional
+original-field inducing existence through arbitrary chosen perfections is
+proved in Reconstruct.Target with both original RAC bases, source rank five
+and both perfected ACF completeness hypotheses explicit. The public target
+assembly, unconditional completeness and literal/quotient functorial assembly
+remain open in issues #8–#10.
 
 
 For two supplied inducing maps and source transcendence degree at least five,

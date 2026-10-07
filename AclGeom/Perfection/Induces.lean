@@ -26,15 +26,18 @@ closed `M` (`Perfection.Induces`; blueprint §type-correct statement, the defini
   fields is induced by the identity, which does not carry `ℚ` onto `ℚ(√2)` (issue #24);
 * Frobenius twists of an inducing isomorphism induce the same map (`Induces.trans_frobZPow`), the
   forward half of the fibre clause of Thm `target`. The converse for supplied inducing maps is
-  proved in `Reconstruct.Uniqueness`; reconstruction existence remains open;
+  proved in `Reconstruct.Uniqueness`; conditional original-field existence is proved in
+  `Reconstruct.Target`, with both perfected ACF completeness inputs explicit;
 * an isomorphism `σ : K ≃+* L` compatible with the bases induces, through its unique extension to
   the chosen perfections, the direct transport of closed fields (`induces_liftEquiv`).  With `σ`
   the identity this is the blueprint's statement that the comparison `u_K` between two chosen
   perfections induces the identity of `𝒢(K/k)`.
 
 **Status:** the inducing relation, intersection formula, compatible converse and
-forward Frobenius invariance are proved (#24, #10). Reconstruction existence
-remains open. The uniqueness-up-to-Frobenius fibre for supplied maps is proved in
+forward Frobenius invariance are proved (#24, #10). Target proves actual original-field
+inducing existence through arbitrary chosen perfections under original-base RAC, source rank
+five and both perfected ACF completeness inputs. Final target assembly and unconditional
+completeness remain open. The uniqueness-up-to-Frobenius fibre for supplied maps is proved in
 `Reconstruct.Uniqueness`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
