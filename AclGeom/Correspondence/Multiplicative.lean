@@ -651,7 +651,7 @@ theorem JointRel.zpow_rho_support_eq_one [IsAlgClosed k]
 
 /-- Intermediate fields are closed under integer powers (helper avoiding a
 slow instance search). -/
-private theorem zpow_mem_racl {A : Set Ω} {x : Ω} (hx : x ∈ racl k A)
+theorem zpow_mem_racl {A : Set Ω} {x : Ω} (hx : x ∈ racl k A)
     (n : ℤ) : x ^ n ∈ racl k A := by
   rcases n with n | n
   · rw [Int.ofNat_eq_natCast, zpow_natCast]

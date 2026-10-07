@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import AclGeom.Closure.Basic
+import AclGeom.Closure.RationalFunctions
 import AclGeom.Closure.Ambient
 import AclGeom.Closure.ClosedLattice
 import AclGeom.Geometry.Points
@@ -72,6 +73,8 @@ import AclGeom.Curves.Specialty
 import AclGeom.Curves.TateResidue
 import AclGeom.Tate.FinitePotent
 import AclGeom.Correspondence.Multiplicative
+import AclGeom.Correspondence.MultiplicativeQuotient
+import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Config.Language
 import AclGeom.Config.Semantic

@@ -5,6 +5,9 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Config.Correctness
+import AclGeom.Closure.RationalFunctions
+import AclGeom.Correspondence.WeightedSupport
+import AclGeom.Correspondence.MultiplicativeQuotient
 import AclGeomBook.Configurations.GroupChunkRecord
 
 open Verso.Genre Manual
@@ -270,5 +273,28 @@ completeness direction of `Q` actually uses:
 {docstring AclGeom.QCompletenessACF}
 
 {docstring AclGeom.qGeom_iff_qSem}
+
+The arbitrary-field Q/Q′ consequences are mathematically refuted by the
+rational-function-field example in #25; their Lean refutations remain
+open. The following proved prerequisites support that specific example:
+algebraic elements of a multivariate rational function field are
+constants, and a nonzero constant times a variable cannot be a square:
+
+{docstring AclGeom.mem_range_algebraMap_of_isAlgebraic_fractionRing}
+
+{docstring AclGeom.not_isSquare_algebraMap_C_mul_X}
+
+A `(2,1)`-weighted-homogeneous relation makes `s/u²` algebraic. Dividing
+two multiplicative coset equations with common nonzero exponents makes
+the coordinate quotients interalgebraic:
+
+{docstring AclGeom.isAlgebraic_div_sq_of_isWeightedHomogeneous}
+
+{docstring AclGeom.interalgebraic_div_of_coset_equations}
+
+{docstring AclGeom.MulCorrSetup.interalgebraic_div}
+
+These facts do not descend arbitrary geometric witnesses; the concrete
+witness and semantic contradiction still need their separate proof.
 
 {include 0 AclGeomBook.Configurations.GroupChunkRecord}

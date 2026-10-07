@@ -2470,3 +2470,39 @@ Fixed-class/Frobenius correctness, extension to all input pairs, totalized
 field operations and ratio semantics remain open. This checkpoint proves
 the generic coordinate computations and preserves the corrected
 configuration completeness boundary.
+
+## Specific Q/Q′ counterexample prerequisites (#25)
+
+Three focused modules support the named `Counterexamples.QDescent`
+targets over ℚ(s,t,e₁,e₂,e₃): `Closure/RationalFunctions` proves that
+algebraic elements over the coefficient field are constants and that a
+nonzero constant times a variable is not a square;
+`Correspondence/WeightedSupport` proves algebraicity of `s/u²` from a
+`(2,1)`-weighted-homogeneous equation and its support-pair criterion;
+`Correspondence/MultiplicativeQuotient` derives interalgebraic coordinate
+quotients from common nonzero coset exponents, and applies the existing
+multiplicative correspondence theorem with its ACF/freshness hypotheses.
+The integer-power closure helper is made public for that named consumer;
+its type and proof are unchanged. No second correspondence classification
+or duplicated helper is introduced. These facts are prerequisites; the
+concrete Q/Q′ geometric witnesses, semantic contradiction and general
+completeness statements are not proved by this checkpoint.
+
+Claude prepared the lemmas. Codex independently compiled all four modules
+(6.03 s, peak 2.30 GiB, minimum available 40.57 GiB) and verified nine
+standard-axiom reports including the promoted helper. The strict
+71→79 signature and 68→76 body comparisons have exactly eight new
+lemmas and no existing type/body change; only the single helper privacy
+flag changes, and exported deny-list metadata is unchanged. Subsequent
+source edits are module documentation only. The book identifies the
+remaining concrete-witness and semantic-contradiction obligations.
+The shared full `lake build` passed in 52.30 s (peak family RSS 10.27 GiB,
+minimum available 37.45 GiB), and `lake exe book` passed in 8.04 s
+(peak 1.53 GiB, minimum available 40.02 GiB). Fresh shared 79-record
+signature and 76-record body comparisons match the independent review
+without exceptions; all nine selected theorem axiom reports match,
+and each new lemma's authored module placement is checked. The existing
+`Multiplicative` source changes only at the single visibility word. Hygiene
+covers 213 library/root Lean files. All prior HTML paths remain (65 pages
+total); the new prerequisite prose and remaining obligations are checked.
+Touched modules have no deprecation diagnostics.
