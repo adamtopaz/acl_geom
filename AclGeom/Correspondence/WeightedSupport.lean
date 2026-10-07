@@ -19,11 +19,12 @@ fixed weight.
 
 The hypothesis is reached from coefficient characters of support pairs: if every pair of support
 monomials satisfies `2(m₁₀ - m₂₀) + (m₁₁ - m₂₁) = 0`, then `F` is weighted homogeneous
-(`isWeightedHomogeneous_of_support_pairs`).  In the planned #25 refutation (`not_qSem_rat`), these are the
-characters `t^{2d+e} ∈ M` of the curve of `(s, u₀)` from the C′ scaled-locus lemma.
+(`isWeightedHomogeneous_of_support_pairs`). In the #25 semantic obstruction
+(`isAlgebraic_div_sq_of_qLocus`), these are the characters `t^{2d+e} ∈ M` of the curve of
+`(s, u₀)` from the scaled-locus lemma.
 
-**Status:** the displayed prerequisite lemmas are proved. The specific Q/Q′ refutations
-remain open (#25).
+**Status:** the displayed prerequisites and their concrete Q/Q′ refutation consumers are
+proved (#25); the consumers are in Counterexamples/QSemantic and QRefutation.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

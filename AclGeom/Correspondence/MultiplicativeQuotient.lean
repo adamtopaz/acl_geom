@@ -23,8 +23,8 @@ The reusable integer-power helper `MulCorrSetup.zpow_mem_racl` is public in
 `AclGeom.Correspondence.Multiplicative`; it avoids a slow instance search. This module consumes
 that helper directly, with no duplicate copy.
 
-**Status:** the displayed prerequisite lemmas are proved. The specific Q/Q′ refutations
-remain open (#25).
+**Status:** the displayed prerequisites and their concrete Q/Q′ refutation consumers are
+proved (#25); the consumers are in Counterexamples/QSemantic and QRefutation.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

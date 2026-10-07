@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import VersoManual
 import AclGeom.Config.Correctness
 import AclGeom.Config.JAssembly
+import AclGeom.Counterexamples.QRefutation
 import AclGeom.Closure.RationalFunctions
 import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.MultiplicativeQuotient
@@ -303,10 +304,30 @@ completeness direction of `Q` actually uses:
 
 {docstring AclGeom.qGeom_iff_qSem}
 
-The arbitrary-field Q/Q′ consequences are mathematically refuted by the
-rational-function-field example in #25; their Lean refutations remain
-open. The following proved prerequisites support that specific example:
-algebraic elements of a multivariate rational function field are
+Both arbitrary-field Q/Q′ consequences are refuted in Lean by the
+rational-function-field example in #25. Over k(X₀,…,X₄) for every
+characteristic-zero field k, the displayed tuples satisfy the actual
+geometric predicates and have no semantic representatives.
+
+The explicit table and quadrangle witnesses descend from an algebraic
+closure through the supplied-instance reflection:
+
+{docstring AclGeom.qGeom_rat}
+
+{docstring AclGeom.qPrimeGeom_rat}
+
+The semantic obstruction fixes one curve polynomial before both
+scalings. Characteristic zero forces the ratio, and (2,1)-weighted
+homogeneity makes s/x² algebraic:
+
+{docstring AclGeom.isAlgebraic_div_sq_of_qLocus}
+
+The Q′ ratio uses the multiplicative-quotient theorem with a fresh
+independent element:
+
+{docstring AclGeom.point_div_eq_of_q'Pair}
+
+Algebraic elements of a multivariate rational function field are
 constants, and a nonzero constant times a variable cannot be a square:
 
 {docstring AclGeom.mem_range_algebraMap_of_isAlgebraic_fractionRing}
@@ -323,7 +344,17 @@ the coordinate quotients interalgebraic:
 
 {docstring AclGeom.MulCorrSetup.interalgebraic_div}
 
-These facts do not descend arbitrary geometric witnesses; the concrete
-witness and semantic contradiction still need their separate proof.
+Their concrete consumer makes X₀/x² transcendental for every
+nonzero x, giving both refutations with no completeness hypothesis:
+
+{docstring AclGeom.not_isAlgebraic_X_div_sq}
+
+{docstring AclGeom.not_forall_qGeom_imp_qSem}
+
+{docstring AclGeom.not_forall_q'Geom_imp_q'Sem}
+
+The reflection applies to these supplied table and quadrangle witnesses.
+General witness descent and algebraically closed geometric completeness
+remain open. The four-way J target retains its explicit ACF inputs.
 
 {include 0 AclGeomBook.Configurations.GroupChunkRecord}

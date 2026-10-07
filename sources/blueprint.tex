@@ -2124,8 +2124,16 @@ $n$. The same sum equation as above then gives a contradiction.
 
 These mathematical counterexamples were independently checked during the 2026-10-06
 audit and are tracked in \url{https://github.com/adamtopaz/acl_geom/issues/25}.
-Their Lean formalizations remain open. Lean proves the semantic $\Jrel$ assembly and the
-point-level arrows $(1)\Leftrightarrow(2)$ and $(4)\Rightarrow(3)$; rank-five soundness
+Both refutations are now formalized in Lean over $k(X_0,\ldots,X_4)$ for any
+characteristic-zero base $k$, using the original geometric predicates. The geometric proof
+reflects the explicit table and quadrangle witnesses over an algebraic closure. The semantic
+proof fixes one curve polynomial before both scalings; the signed-character theorem in
+characteristic zero fixes the ratio, and $(2,1)$-weighted homogeneity makes $s/x^2$
+algebraic. In a rational function field this is a constant, contradicting the nonsquare
+property of a nonzero constant times $s$. The $\Qprel$ proof supplies the ratio using the
+multiplicative-correspondence quotient theorem and an independent fresh element.
+General witness descent remains a separate obligation. Lean also proves the semantic
+$\Jrel$ assembly and the point-level arrows $(1)\Leftrightarrow(2)$ and $(4)\Rightarrow(3)$; rank-five soundness
 $(1)\Rightarrow(4)$ also allows finite bases. The four-way theorem remains conditional on
 algebraically closed $\Jrel$ completeness, which the semantic assembly reduces to the still-open
 algebraically closed $\Qrel/\Qprel$ completeness inputs. The interpretation arguments using

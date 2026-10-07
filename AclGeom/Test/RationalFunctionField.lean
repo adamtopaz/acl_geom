@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import AclGeom.Geometry.FiniteRank
+import AclGeom.Closure.RationalFunctions
 import AclGeom.Perfection.Lattice
 
 /-!
@@ -53,12 +54,8 @@ def t (i : Fin n) : RatFn k n :=
   algebraMap (MvPolynomial (Fin n) k) (RatFn k n) (X i)
 
 /-- The variables are algebraically independent over `k`. -/
-theorem algebraicIndependent_t : AlgebraicIndependent k (t k n) := by
-  have h := (MvPolynomial.algebraicIndependent_X (Fin n) k).map
-    (f := IsScalarTower.toAlgHom k (MvPolynomial (Fin n) k) (RatFn k n))
-    (Set.injOn_of_injective
-      (IsFractionRing.injective (MvPolynomial (Fin n) k) (RatFn k n)))
-  exact h
+theorem algebraicIndependent_t : AlgebraicIndependent k (t k n) :=
+  algebraicIndependent_algebraMap_X k (Fin n)
 
 /-- Each variable is transcendental over `k`. -/
 theorem transcendental_t (i : Fin n) : Transcendental k (t k n i) := by

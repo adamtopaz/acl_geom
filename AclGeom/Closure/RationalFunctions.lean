@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
 import Mathlib.RingTheory.Algebraic.Integral
+import Mathlib.RingTheory.AlgebraicIndependent.Basic
 import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
 import Mathlib.RingTheory.Localization.FractionRing
 import Mathlib.RingTheory.Polynomial.RationalRoot
@@ -13,8 +14,8 @@ import Mathlib.RingTheory.Polynomial.UniqueFactorization
 /-!
 # Multivariate rational function fields: algebraic elements and squares
 
-Two elementary facts about `K = FractionRing (MvPolynomial σ F)`, prerequisites for the planned #25 refutation of
-arbitrary-field `Q` and `Q′` correctness (`AclGeom.Counterexamples.QDescent`).
+Two elementary facts about `K = FractionRing (MvPolynomial σ F)`, prerequisites for the #25
+refutation of arbitrary-field `Q` and `Q′` correctness (`AclGeom.Counterexamples.QRefutation`).
 
 * (M1) `F` is relatively algebraically closed in `K`
   (`mem_range_algebraMap_of_isAlgebraic_fractionRing`).  An element algebraic over `F` is integral
@@ -24,8 +25,10 @@ arbitrary-field `Q` and `Q′` correctness (`AclGeom.Counterexamples.QDescent`).
 * (M2) A nonzero constant times a variable is not a square in `K`
   (`not_isSquare_algebraMap_C_mul_X`), because the `X i`-degree of a square is even.
 
-**Status:** the displayed prerequisite lemmas are proved. The specific Q/Q′ refutations
-remain open (#25).
+The independent-variable and transcendental-square-quotient lemmas below apply M1/M2 directly
+in Counterexamples/QRefutation.
+
+**Status:** the displayed lemmas and their specific Q/Q′ refutation consumers are proved (#25).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
@@ -34,6 +37,8 @@ theorem; the source of truth is `sources/blueprint.tex`.
 namespace AclGeom
 
 open MvPolynomial
+
+section AlgebraicElements
 
 variable {σ F : Type*} [Field F]
 
@@ -122,5 +127,45 @@ theorem not_isSquare_algebraMap_C_mul_X {c : F} (hc : c ≠ 0) (i : σ) :
     degreeOf_mul_eq hC (X_ne_zero i), degreeOf_mul_eq hb0 hb0, degreeOf_C,
     degreeOf_X_self] at hdeg
   omega
+
+end AlgebraicElements
+
+section RationalFunctionField
+
+variable (k : Type*) [Field k]
+
+/-- The variables of `k(X_σ)` are algebraically independent over `k`. -/
+theorem algebraicIndependent_algebraMap_X (σ : Type*) :
+    AlgebraicIndependent k fun i : σ ↦
+      algebraMap (MvPolynomial σ k) (FractionRing (MvPolynomial σ k)) (MvPolynomial.X i) := by
+  have h := (MvPolynomial.algebraicIndependent_X σ k).map
+    (f := IsScalarTower.toAlgHom k (MvPolynomial σ k) (FractionRing (MvPolynomial σ k)))
+    (Set.injOn_of_injective
+      (IsFractionRing.injective (MvPolynomial σ k) (FractionRing (MvPolynomial σ k))))
+  exact h
+
+/-- **`X i / x²` is transcendental** in `k(X_σ)` for every `x ≠ 0`.  Otherwise it is a constant
+`c` (M1, `mem_range_algebraMap_of_isAlgebraic_fractionRing`), so `x² = c⁻¹ X i`, which is not a
+square (M2, `not_isSquare_algebraMap_C_mul_X`). -/
+theorem not_isAlgebraic_X_div_sq {σ : Type*} (i : σ) (x : FractionRing (MvPolynomial σ k))
+    (hx : x ≠ 0) :
+    ¬ IsAlgebraic k
+      (algebraMap (MvPolynomial σ k) (FractionRing (MvPolynomial σ k)) (MvPolynomial.X i) /
+        x ^ 2) := by
+  intro h
+  obtain ⟨c, hc⟩ := mem_range_algebraMap_of_isAlgebraic_fractionRing h
+  have hs0 : algebraMap (MvPolynomial σ k) (FractionRing (MvPolynomial σ k))
+      (MvPolynomial.X i) ≠ 0 :=
+    (map_ne_zero_iff _ (IsFractionRing.injective _ _)).2 (MvPolynomial.X_ne_zero i)
+  have hc0 : c ≠ 0 := by
+    rintro rfl
+    rw [map_zero, eq_comm, div_eq_zero_iff] at hc
+    exact hc.elim hs0 (pow_ne_zero 2 hx)
+  refine not_isSquare_algebraMap_C_mul_X (inv_ne_zero hc0) i ⟨x, ?_⟩
+  rw [map_mul, ← MvPolynomial.algebraMap_eq,
+    ← IsScalarTower.algebraMap_apply k (MvPolynomial σ k) (FractionRing (MvPolynomial σ k)),
+    map_inv₀, hc, inv_div, div_mul_cancel₀ _ hs0, sq]
+
+end RationalFunctionField
 
 end AclGeom

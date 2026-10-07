@@ -60,7 +60,9 @@ this guide. Its main conclusions:
 - **The arbitrary-field Q/Q′ consequences are false.** In the rank-five
   extension ℚ(s,t,e₁,e₂,e₃), geometric Q and Q′ can hold without K-valued
   semantic representatives. Both mathematical counterexamples were independently
-  checked; their Lean refutations remain open (#25). The four-way J target is
+  checked; both are now refuted in Lean over every characteristic-zero
+  rational function field in five variables (#25), with explicit geometric
+  witness reflection and a semantic square obstruction. The four-way J target is
   separate. The source withdraws the invalid projection consequence.
 - **The Frobenius-class, generic-arithmetic and ratio sections need a correction.** `SumPoint` and `MulPoint` allow
   independent changes of representatives. The literal JAdd/JMul definitions
@@ -105,7 +107,7 @@ Coverage at a glance (details and file:line references on #19):
 | Layer | Status |
 |---|---|
 | Foundations, perfection | Lattice, atoms, point geometry, perfection iso and finite representative calculus proved. Missing on main: char-p `Perfection` constructor, cross-base equivariance, `Induces`, transport of independence/rank along order isos; reviewed private drafts cover several carryovers; explicit `Induces` packaging remains open (#24) |
-| Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence is refuted mathematically (#25), with concrete Lean refutations open |
+| Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
 | Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. Fixed-class correctness, totalization, ratio-field, recovery, kernel and functorial theorems remain open; checked private drafts are tracked separately |
@@ -117,8 +119,8 @@ Immediate priorities, in order:
    measured #18 build gate is satisfied by the focused-module checkpoint;
 2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
    (#22/#25), and prove the coupled arithmetic/quotient semantics (#23);
-3. formalize the #25 counterexamples with explicit witness descent and the
-   existing correspondence/character results; do not claim general descent;
+3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
+   refutations; retain the explicit-instance boundary and general descent obligation;
 4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
 5. work that does not depend on M4: M5 arrows (#7), the
    foundational carryovers (#24), the Frobenius kernel, two-generic
@@ -1928,8 +1930,8 @@ and post on #13.
   lifts, point-level (1)⇔(2), (4)⇒(3), semantic J assembly and finite-base
   soundness are on main. Conditional four-way packaging names the open
   ACF completeness (3)⇒(2) input, which still needs M4. The old
-  arbitrary-field Q/Q′ consequences are refuted mathematically; the
-  concrete Lean refutations remain open (#25).
+  arbitrary-field Q/Q′ consequences have concrete Lean refutations over
+  characteristic-zero rational function fields in five variables (#25).
 - **M6–M8** (#8–#10, #23): Frobenius classes and generic arithmetic (after
   corrected §10–12 operation predicates), ratio-field interpretation, base/point
   recovery, the Frobenius kernel, public theorem variants, and the
@@ -2639,3 +2641,71 @@ The revised blueprint renders to 54 pages without undefined/overfull
 diagnostics; its changed status across pages 32–33 is visually checked.
 The four new modules have no diagnostics. The preceding semantic J
 assembly/point-transfer commit a8233d8 now has successful full CI.
+
+
+## Concrete Q/Q′ refutations (#25)
+
+Counterexamples/QDescent reflects the explicit table-7.1 and table-7.2
+witnesses and the eight-point multiplication diagram from an algebraic
+closure. All supplied points arise by images, inverses or squares of
+elements of K. Its Q/Q′ consumers need five independent elements over
+the base; no geometric completeness hypothesis or general witness
+descent theorem is used.
+
+Counterexamples/QSemantic proves the characteristic-zero obstruction:
+semantic representatives for ([s],[st²],[s(1+t)²],[t]) force s/x² to be
+algebraic. It fixes one curve polynomial before both scaled loci,
+derives characters at one support pair, and uses the signed-character
+result at exponential characteristic one to fix y/x=t. Applying the
+first character to every support pair gives (2,1)-weighted homogeneity.
+The Q′ ratio follows from the multiplicative-quotient theorem with an
+explicit fresh independent element. Algebraic-base invariance and
+ambient transport return the obstruction to the original fields.
+
+Counterexamples/QRefutation combines the explicit geometric witnesses
+with the semantic obstruction. Both correctness assertions fail over
+FractionRing (MvPolynomial (Fin 5) k) for every characteristic-zero k.
+Closure/RationalFunctions contains the generic independent-variable
+lemma and proves X_i/x² transcendental for nonzero x from its existing
+constant-element/nonsquare theorems. Test/RationalFunctionField now uses
+that generic independence lemma instead of duplicating its proof.
+The original geometric definitions and withdrawn statement provenance
+remain; both specific refutations are proved, while general witness
+descent, corrected arbitrary-field semantics and ACF completeness are
+separate open obligations.
+
+Claude supplied source-only drafts and a source fidelity/dependency
+audit. Codex independently compiled owned copies against 4b66682. The
+geometric draft needed two finite-vector elaboration repairs; the
+semantic/refutation draft was immediately proof-green. The final
+focused chain fixes the three style diagnostics, removes the JArith
+import by direct membership rewrites, and drops unused algebraic-closure
+assumptions on exactly four pure helper statements. The independent
+artifact ledger preserves every other statement, all module placements,
+and only the nine corresponding new proof edits plus the one existing
+acceptance-test deduplication. All 28 new authored public theorems use
+standard axioms; typed interfaces verify both generic characteristic-zero
+and rational concrete refutations, perfection, rank at least five and
+relatively algebraically closed constants. For the private rational
+specialization probe, the canonical coefficient-field algebra instance
+is selected explicitly; the two Mathlib rational-algebra instances are
+propositionally equal but not definitionally equal.
+The final independent focused chain passed in 12.00 s (peak family RSS
+2.76 GiB, minimum available 39.76 GiB) without diagnostics. A strict
+40→40 signature/body ledger includes the existing nine-declaration
+rational-function acceptance module: four helper statements strengthen,
+exactly ten proof edits match the reviewed scope, and no declarations
+are added or removed relative to the compiled draft/test baseline. All
+40 public declarations have standard axiom reports; the 28 new authored
+theorems occupy the intended modules. The seven typed interfaces pass.
+The shared full build passed in 42.01 s (peak 10.83 GiB, minimum available
+37.76 GiB); the book passed in 8.00 s (peak 1.53 GiB, minimum available
+39.55 GiB). Fresh shared signatures, proof bodies, all axiom reports
+and typed interfaces match the independent artifacts exactly (6.00 s,
+peak 2.60 GiB, minimum available 40.00 GiB). Hygiene covers 224
+library/root files. All 66 existing HTML paths remain; both refutations,
+their seven docstrings, open general-descent/ACF boundaries and the
+frozen M4a notice are checked. The revised blueprint renders to 54
+pages without undefined/overfull diagnostics, and pages 31–32 are
+visually reviewed. The final prerequisite documentation reflow and
+this validation record receive the mandatory repeated build/book gates.
