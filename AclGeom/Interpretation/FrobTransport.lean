@@ -31,11 +31,12 @@ on the target side are pulled back by the bijections `Point.map e` and
 
 **Status:** geometric Frobenius-link transport is complete (#23/#8, I6b2a).
 Conditional class/carrier and graph transport, the same geometric map bundled as a RingEquiv,
-and its composition with both decodings are proved in `Naturality`, given the canonical
-image-base
-equality and actual carrier inputs. Image-base existence, unconditional completeness,
-base/scalar
-recovery and general interpreted reconstruction remain open.
+and its composition with both decodings are proved in `Naturality` under explicit carrier inputs.
+Canonical image-base existence and conditional field-isomorphism existence are also proved there;
+the source pair and target rank are derived inline from source rank five and the lattice map.
+Both perfections, separate exponential characteristics and both ACF-completeness inputs remain
+explicit. Unconditional completeness, base/scalar recovery, `Induces` and full reconstruction
+remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

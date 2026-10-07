@@ -28,6 +28,11 @@ its addition and multiplication laws. `interpretedRingEquiv` composes it with th
 ring equivalences to obtain `K ≃+* L`. Their named consumers are conditional existence and the
 later base/scalar recovery inputs.
 
+`exists_map_jTupleOf_eq` supplies the canonical image base using target completeness, while
+`nonempty_ringEquiv_of_closedIF_orderIso` chooses the source pair inline and applies the decoded
+field isomorphism. This existence theorem does not assert that the resulting field isomorphism
+induces the supplied lattice map or carries the base field to the target base field.
+
 Both maps are the geometric ones and are not defined through the decodings.  Witnesses on the target
 side are pulled back by the surjectivity of the class map, and equalities in the target carrier
 are reflected by the injectivity of the carrier map.  The adjoined zero and the class of a pair of
@@ -39,9 +44,12 @@ are explicit on both sides; the bases, the ambient fields and the exponents `q`,
 independent.
 
 **Status:** geometric class/carrier maps, graph transport, the induced ring isomorphism and
-corrected interpreted reconstruction are complete (#23/#8), given the explicit image-base equality
-and carrier inputs above. Image-base existence, unconditional completeness, base recovery and
-full reconstruction remain open.
+its decoded field isomorphism are complete (#23/#8) under the stated carrier inputs. The canonical
+image base and conditional field-isomorphism existence are also proved: target rank and the source
+independent pair are derived from the source rank-five bound and the lattice isomorphism. Both
+ACF-completeness inputs, both perfections and separate exponential characteristics remain explicit.
+Base recovery, scalar one, `Induces`, unconditional completeness, full reconstruction and literal
+source obligations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -264,6 +272,52 @@ def interpretedRingEquiv [PerfectField K] (q : ℕ) [ExpChar K q]
   (ratioInterpRingEquiv q htr hcomp h₀).symm.trans
     ((ratioInterpMapRingEquiv q htr hcomp q' htr' hcomp' e h₀ h₀' hφ).trans
       (ratioInterpRingEquiv q' htr' hcomp' h₀'))
+
+/-- **The image base exists**: a closed-lattice isomorphism carries the base tuple `j(x₀, a)` of a
+field of rank at least five to the base tuple `j(x₀', a')` of an independent pair of `L`.  The
+image is a geometric `J`-tuple, which is semantic by ACF J-completeness over `L`.  The rank of `L`
+is read off from the lattice isomorphism. -/
+theorem exists_map_jTupleOf_eq [PerfectField L] (q' : ℕ) [ExpChar L q']
+    (hcomp' : JCompletenessACF (↥(algebraicClosure l (AlgebraicClosure L))) (AlgebraicClosure L))
+    (e : ClosedIF k K ≃o ClosedIF l L) (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a]) :
+    ∃ (x₀' a' : L) (h₀' : AlgebraicIndependent l ![x₀', a']),
+      Point.map e ∘ jTupleOf x₀ a h₀ = jTupleOf x₀' a' h₀' := by
+  -- The rank of `L` is at least five, across universes.
+  have htr' : (5 : Cardinal) ≤ Algebra.trdeg l L :=
+    Cardinal.ofNat_le_lift_iff.1 <| (Cardinal.ofNat_le_lift_iff.2 htr).trans
+      (lift_trdeg_le_of_orderIso e)
+  have : ExpChar l q' := (algebraMap l L).expChar (algebraMap l L).injective q'
+  -- The image is a geometric `J`-tuple, hence semantic, hence a literal `j`-tuple.
+  have hJ : IsJTuple (Point.map e ∘ jTupleOf x₀ a h₀) :=
+    (isJTuple_map_iff e).2 (isJTuple_jTupleOf htr h₀)
+  obtain ⟨x₀', a', h₀', hc⟩ := jSem_iff_jCoords.1 ((jGeom_iff_jSem q' htr' hcomp').1 hJ)
+  exact ⟨x₀', a', h₀', jCoords_injective (hc.trans (jCoords_jTupleOf h₀').symm)⟩
+
+/-- **The corrected interpreted reconstruction, existence form** (the corrected counterpart of
+blueprint Prop `interpreted-reconstruction`): a closed-lattice isomorphism between perfect fields,
+the first of rank at least five, whose algebraic-closure pairs satisfy ACF J-completeness, induces
+a field isomorphism `K ≃+* L`.  The base pair of `K` is chosen fresh, and the image base exists by
+`exists_map_jTupleOf_eq`.  Both completeness inputs are explicit hypotheses. -/
+theorem nonempty_ringEquiv_of_closedIF_orderIso [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    [PerfectField L] (q' : ℕ) [ExpChar L q']
+    (hcomp' : JCompletenessACF (↥(algebraicClosure l (AlgebraicClosure L))) (AlgebraicClosure L))
+    (e : ClosedIF k K ≃o ClosedIF l L) : Nonempty (K ≃+* L) := by
+  -- An independent base pair `x₀, a` of `K`: `a` fresh over `∅`, then `x₀` fresh over `a`.
+  obtain ⟨a, ha⟩ := fresh_three_of_five_le_trdeg htr ∅ (by simp)
+  obtain ⟨x₀, hx⟩ := fresh_three_of_five_le_trdeg htr {a} (by simp)
+  have ha' : a ∉ racl k (∅ : Set K) := by simpa using ha
+  have hx' : x₀ ∉ racl k ({a} : Set K) := by simpa using hx
+  have h₀ : AlgebraicIndependent k ![x₀, a] :=
+    algebraicIndependent_pair hx' fun h ↦ hx' (racl_exchange_singleton ha' h)
+  -- The rank of `L` and the image base.
+  have htr' : (5 : Cardinal) ≤ Algebra.trdeg l L :=
+    Cardinal.ofNat_le_lift_iff.1 <| (Cardinal.ofNat_le_lift_iff.2 htr).trans
+      (lift_trdeg_le_of_orderIso e)
+  obtain ⟨x₀', a', h₀', hφ⟩ := exists_map_jTupleOf_eq q' hcomp' e htr h₀
+  exact ⟨interpretedRingEquiv q htr hcomp q' htr' hcomp' e h₀ h₀' hφ⟩
 
 end
 
