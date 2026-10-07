@@ -172,15 +172,17 @@ multiplicative endgame, so no linear-disjointness theory is needed:
 The universal atom clauses (iv) are proved by a *specialization
 argument* replacing the blueprint's derivation calculation: a relation
 over the atom's closure collapses to a one-variable polynomial identity,
-which specializes at two base points and recovers both line coefficients
-inside the atom — contradicting their independence:
+which specializes at two distinct points of the atom's closure and recovers
+both line coefficients inside that closure — contradicting their independence.
+The closure is an infinite field because it contains a transcendental element:
+
+{docstring AclGeom.infinite_racl_singleton}
 
 {docstring AclGeom.line_relation_specialize}
 
 {docstring AclGeom.notMem_racl_line}
 
-Consequently every clause holds with only an infinite base field — no
-algebraic closure enters the soundness direction. The packaged statement
+Consequently every clause holds over any base field. The packaged statement
 produces the witness generators from any semantic quadruple by a greedy
 fresh chain:
 
@@ -218,7 +220,7 @@ follows from the same normalization calculus:
 
 With this, the soundness half of the configuration layer is complete:
 `QSem → QGeom`, `Q'Sem → Q'Geom`, and `JSem → JGeom` all hold over any
-infinite base field, given a supply of fresh elements over small sets.
+base field, given a supply of fresh elements over small sets.
 
 # The affine-grid extraction boundary
 %%%

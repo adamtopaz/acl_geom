@@ -902,7 +902,7 @@ variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
 direction): every semantic quadruple is geometric — the ratio point
 supplies the `Q`-witness, and a fresh parameter builds the
 multiplication diagram converting it into the product point. -/
-theorem q'Geom_of_q'Sem [Infinite k] {X Y Z W : Point k K}
+theorem q'Geom_of_q'Sem {X Y Z W : Point k K}
     (hfresh : ∀ S : Finset K, S.card ≤ 4 → ∃ z, z ∉ racl k (S : Set K))
     (h : Q'Sem X Y Z W) : Q'Geom X Y Z W := by
   classical
@@ -944,7 +944,7 @@ variable {k : Type*} {K : Type*} [Field k] [Field K] [Algebra k K]
 direction): the value of the `j`-map at an independent pair satisfies the
 three-conjunct geometric identity — using the normalizations
 `[x/(xa)] = [1/a] = [a]`, `[a+1] = [a]`, and `x(a+1) = x + xa`. -/
-theorem jGeom_of_jSem [Infinite k] {X : Fin 5 → Point k K}
+theorem jGeom_of_jSem {X : Fin 5 → Point k K}
     (hfresh : ∀ S : Finset K, S.card ≤ 4 → ∃ z, z ∉ racl k (S : Set K))
     (h : JSem X) : JGeom (X 0) (X 1) (X 2) (X 3) (X 4) := by
   classical

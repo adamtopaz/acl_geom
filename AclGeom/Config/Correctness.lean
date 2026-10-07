@@ -14,13 +14,13 @@ import AclGeom.Transfer.Transcendence
 
 Rank-five assembly of the configuration layer (blueprint Thms q-correct,
 qp-correct, j-acf-correct, j-descent).  Proved here: the soundness arrows
-`QSem → QGeom`, `Q'Sem → Q'Geom` and `JSem → JGeom` under `trdeg ≥ 5` over an
-infinite base, and, over algebraically closed fields, the `Q` equivalence
+`QSem → QGeom`, `Q'Sem → Q'Geom` and `JSem → JGeom` under `trdeg ≥ 5` over any
+base field, and, over algebraically closed fields, the `Q` equivalence
 conditional on the open witness-level completeness `QCompletenessACF` (see
 `Config/AffineGrid.lean`, issue #22).
 
 Not yet formalized: ACF completeness of `Q′` (converse of Lemma mul-diagram)
-and `J`, the geometric projection identities, the removal of `[Infinite k]`,
+and `J`, the geometric projection identities,
 and the full four-way J descent theorem (issue #7). The arbitrary-field Q/Q′ equivalence
 consequences have been refuted mathematically (issue #25); their Lean
 refutations remain open.
@@ -39,14 +39,14 @@ variable {k K : Type*} [Field k] [Field K] [Algebra k K]
 
 /-- Rank-five soundness of `Q`: the blueprint's transcendence-degree
 hypothesis supplies the fresh elements needed by the explicit table. -/
-theorem qGeom_of_qSem_of_five_le_trdeg [Infinite k]
+theorem qGeom_of_qSem_of_five_le_trdeg
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {P D Y I : Point k K} (h : QSem P D Y I) :
     QGeom P D Y I :=
   qGeom_of_qSem (fresh_four_of_five_le_trdeg htr) h
 
 /-- Rank-five soundness of `Q′`. -/
-theorem q'Geom_of_q'Sem_of_five_le_trdeg [Infinite k]
+theorem q'Geom_of_q'Sem_of_five_le_trdeg
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {X Y Z W : Point k K} (h : Q'Sem X Y Z W) :
     Q'Geom X Y Z W :=
@@ -55,7 +55,7 @@ theorem q'Geom_of_q'Sem_of_five_le_trdeg [Infinite k]
 /-- **The `(1) ⇒ (4)` soundness arrow of blueprint Theorem
 `j-descent`**: a semantic j-tuple is geometric under the stated rank-five
 hypothesis, with no fresh-element oracle left in the public statement. -/
-theorem jGeom_of_jSem_of_five_le_trdeg [Infinite k]
+theorem jGeom_of_jSem_of_five_le_trdeg
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {X : Fin 5 → Point k K} (h : JSem X) :
     JGeom (X 0) (X 1) (X 2) (X 3) (X 4) :=

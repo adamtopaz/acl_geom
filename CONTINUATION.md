@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-07; audit #19 and performance #18)
+## Current status (2026-10-07; audit #19, performance #18 and carryovers #24)
 
 Read the audit on #19 before starting new work. This cleanup checkpoint
 integrates the reviewed target/refutation and source/book corrections, with
@@ -102,7 +102,7 @@ Coverage at a glance (details and file:line references on #19):
 | Layer | Status |
 |---|---|
 | Foundations, perfection | Lattice, atoms, point geometry, perfection iso and finite representative calculus proved. Missing on main: char-p `Perfection` constructor, cross-base equivariance, `Induces`, transport of independence/rank along order isos; reviewed private drafts cover several carryovers; explicit `Induces` packaging remains open (#24) |
-| Configurations | Soundness of Q, Q′, J proved (currently needs `[Infinite k]`; a reviewed private repair is ready in #24). ACF completeness: Q conditional (#22); Q′ and J open. Arbitrary-field Q/Q′ equivalence refuted mathematically (#25) |
+| Configurations | Soundness of Q, Q′, J proved over any base field, with fresh elements supplied by the rank-five hypothesis (#24). ACF completeness: Q conditional (#22); Q′ and J open. Arbitrary-field Q/Q′ equivalence refuted mathematically (#25) |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and the full one-quantifier transfer proved; j-descent (2)⇒(1) at element level. Several further arrows can be done now |
 | Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction and literal arithmetic/ratio refutations proved. Corrected arithmetic, ratio-field, recovery, kernel and functorial theorems are absent on main; checked private drafts are tracked separately |
@@ -2343,3 +2343,40 @@ Final shared gates for this measurement-documentation checkpoint pass:
 40.84 GiB) and `lake exe book` takes 8.05 s (1.51 GiB, 40.52 GiB), with no
 memory stop. The 206-file hygiene audit and final staged diff check also pass.
 Only this continuation guide changes in the measurement checkpoint.
+
+## Finite-base soundness checkpoint (#24)
+
+The atom-clause specialization argument now works over any base field. It
+specializes the zero substitution polynomial at two distinct elements of
+`racl k {t}`, which is infinite because `t` is transcendental over `k`.
+Both values and their nonzero difference lie in that closure, so division
+recovers the line coefficients there. This contradicts their independence.
+The new `infinite_racl_singleton` has the named consumer
+`exists_two_specializations`; no new freshness assumption enters the
+configuration soundness statements.
+
+The witness proof, semantic Q/Q′/J soundness, their rank-five wrappers,
+affine-grid-to-Psi implication and geometric sum/product wrappers no longer
+require `[Infinite k]`. The audited three-join/fifteen-point extraction
+interface and literal-table refutation remain intact. ACF completeness
+still requires the explicit unproved hypothesis, the arbitrary-field
+Q/Q′ Lean refutations in #25 remain open, and the blueprint derivation
+calculation remains a separate obligation. The book describes the actual
+specialization field.
+
+Claude supplied the original private repair. Codex rebased it onto the
+audited targets, independently compiled the exact 17-module reverse
+chain with Mathlib standard linters (20.11 s, peak 2.65 GiB, minimum
+available 40.71 GiB), checked all 22 selected strengthened/boundary
+theorems for standard axioms, and compiled the revised book module
+without warnings (10.05 s, peak 4.01 GiB, minimum available 40.36 GiB).
+The integrated full `lake build` passed in 52.29 s (peak family RSS
+8.35 GiB, minimum available 38.34 GiB), and `lake exe book` passed in
+8.04 s (peak 1.55 GiB, minimum available 40.13 GiB). A fresh shared
+probe checks all 22 theorem axioms and public statements; it finds only
+standard axioms and no infinite-base binder. All 206 library/root Lean
+files pass the placeholder/project-axiom scan. All 64 rendered HTML page
+paths are preserved, the specialization prose is checked, and the frozen
+group-chunk notice remains present. Touched modules have no deprecation
+diagnostics. This is the finite-base item in #24, not completion of its
+remaining foundational carryovers.

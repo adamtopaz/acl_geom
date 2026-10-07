@@ -21,15 +21,17 @@ note on the project tracker): exchange converts the hypothesis into
 `uw + v ∈ racl_{K₀}{w}` over the closed base `K₀ = racl{t}`; a nonzero
 two-variable relation `G` over `K₀` then vanishes identically under the
 substitution `X₁ ↦ uT + v` because `w` is transcendental over
-`racl{u, v}`; specializing `T` at two base points `ξ₁ ≠ ξ₂` of `k` where
-the `Y`-collapse of `G` stays nonzero puts `uξᵢ + v` into `racl{t}`, and
+`racl{u, v}`; specializing `T` at two distinct points `ξ₁ ≠ ξ₂` of
+`racl{t}` where the `Y`-collapse of `G` stays nonzero puts `uξᵢ + v`
+into `racl{t}`, and
 differencing recovers `u` and `v` there — contradicting the independence
 of the coefficients, since `t` is interalgebraic with a rank-one closure.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M4, checklist G3 soundness, clause (iv)).
+**Status:** clause (iv) proved over any base field; the blueprint
+derivation argument remains a separate obligation (#6).
 -/
 
 namespace AclGeom
@@ -119,15 +121,14 @@ variable {u v w t : K}
 
 /-- **The substitution collapse**: a relation over `racl{t}` that vanishes
 at `(w, uw+v)` with `w` transcendental over `racl{u, v}` vanishes at every
-base-field specialization `(ξ, uξ+v)` — because the one-variable
+specialization `(z, uz+v)` with `z ∈ K` — because the one-variable
 substitution sends it to the zero polynomial. -/
 theorem line_relation_specialize
     (hw : w ∉ racl k ({u, v} : Set K))
     (ht : t ∈ racl k ({u, v} : Set K))
     {G : MvPolynomial (Fin 2) ↥(racl k ({t} : Set K))}
-    (hG : MvPolynomial.aeval ![w, u * w + v] G = 0) (ξ : k) :
-    MvPolynomial.aeval
-      ![algebraMap k K ξ, u * algebraMap k K ξ + v] G = 0 := by
+    (hG : MvPolynomial.aeval ![w, u * w + v] G = 0) (z : K) :
+    MvPolynomial.aeval ![z, u * z + v] G = 0 := by
   classical
   have hle : racl k ({t} : Set K) ≤ racl k ({u, v} : Set K) :=
     racl_le_of_subset_racl (Set.singleton_subset_iff.2 ht)
@@ -164,8 +165,8 @@ theorem line_relation_specialize
     transcendental_racl_of_notMem hw
   have hzero : lineCollapse f ⟨u, hu⟩ ⟨v, hv⟩ G = 0 :=
     transcendental_iff.1 htr _ hPw
-  -- Specialize the identity at `ξ`.
-  rw [← hsq (algebraMap k K ξ), hzero, map_zero]
+  -- Specialize the identity at `z`.
+  rw [← hsq z, hzero, map_zero]
 
 end Collapse
 
@@ -208,7 +209,7 @@ private theorem finite_bad_eval {R : Type*} [Field R]
     {P : Polynomial (Polynomial R)} (hP : P ≠ 0) :
     {c : R | Polynomial.eval (Polynomial.C c) P = 0}.Finite := by
   have hroots : {q : Polynomial R | Polynomial.IsRoot P q}.Finite :=
-    Polynomial.finite_setOf_isRoot hP
+    Polynomial.finite_setOfPred_isRoot hP
   have hsub : {c : R | Polynomial.eval (Polynomial.C c) P = 0} ⊆
       Polynomial.C ⁻¹' {q : Polynomial R | Polynomial.IsRoot P q} :=
     fun c hc ↦ hc
@@ -217,86 +218,80 @@ private theorem finite_bad_eval {R : Type*} [Field R]
 
 variable {u v w t : K}
 
-/-- At a specialization point where the `Y`-collapse stays nonzero, the
-line value is algebraic over the atom closure. -/
+/-- At a specialization point `ξ` of the atom closure where the
+`Y`-collapse stays nonzero, the line value is algebraic over the atom
+closure. -/
 theorem line_value_mem
     (hw : w ∉ racl k ({u, v} : Set K))
     (ht : t ∈ racl k ({u, v} : Set K))
     {G : MvPolynomial (Fin 2) ↥(racl k ({t} : Set K))}
-    (hG : MvPolynomial.aeval ![w, u * w + v] G = 0) {ξ : k}
-    (hQ : Polynomial.eval
-        (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
-        (nestEquiv ↥(racl k ({t} : Set K)) G) ≠ 0) :
-    u * algebraMap k K ξ + v ∈ racl k ({t} : Set K) := by
-  have hspec := line_relation_specialize hw ht hG ξ
+    (hG : MvPolynomial.aeval ![w, u * w + v] G = 0) {ξ : ↥(racl k ({t} : Set K))}
+    (hQ : Polynomial.eval (Polynomial.C ξ) (nestEquiv ↥(racl k ({t} : Set K)) G) ≠ 0) :
+    u * (ξ : K) + v ∈ racl k ({t} : Set K) := by
+  have hspec := line_relation_specialize hw ht hG (ξ : K)
   have hsq := DFunLike.congr_fun (nestEval_square
-    (algebraMap ↥(racl k ({t} : Set K)) K)
-    (algebraMap k ↥(racl k ({t} : Set K)) ξ)
-    (u * algebraMap k K ξ + v)) G
+    (algebraMap ↥(racl k ({t} : Set K)) K) ξ (u * (ξ : K) + v)) G
   simp only [RingHom.comp_apply] at hsq
-  have htow : algebraMap ↥(racl k ({t} : Set K)) K
-      (algebraMap k ↥(racl k ({t} : Set K)) ξ) = algebraMap k K ξ :=
-    (IsScalarTower.algebraMap_apply k ↥(racl k ({t} : Set K)) K ξ).symm
-  rw [htow] at hsq
   have hzero : Polynomial.eval₂RingHom
       (algebraMap ↥(racl k ({t} : Set K)) K)
-      (u * algebraMap k K ξ + v)
-      (Polynomial.eval
-        (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
-        (nestEquiv ↥(racl k ({t} : Set K)) G)) = 0 := by
+      (u * (ξ : K) + v)
+      (Polynomial.eval (Polynomial.C ξ) (nestEquiv ↥(racl k ({t} : Set K)) G)) = 0 := by
     have h1 : Polynomial.eval₂RingHom
         (algebraMap ↥(racl k ({t} : Set K)) K)
-        (u * algebraMap k K ξ + v)
-        (Polynomial.eval
-          (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
-          (nestEquiv ↥(racl k ({t} : Set K)) G)) =
+        (u * (ξ : K) + v)
+        (Polynomial.eval (Polynomial.C ξ) (nestEquiv ↥(racl k ({t} : Set K)) G)) =
         MvPolynomial.eval₂Hom
           (algebraMap ↥(racl k ({t} : Set K)) K)
-          ![algebraMap k K ξ, u * algebraMap k K ξ + v] G := hsq
+          ![(ξ : K), u * (ξ : K) + v] G := hsq
     have h3 : MvPolynomial.eval₂Hom
         (algebraMap ↥(racl k ({t} : Set K)) K)
-        ![algebraMap k K ξ, u * algebraMap k K ξ + v] G =
-        MvPolynomial.aeval
-          ![algebraMap k K ξ, u * algebraMap k K ξ + v] G := rfl
+        ![(ξ : K), u * (ξ : K) + v] G =
+        MvPolynomial.aeval ![(ξ : K), u * (ξ : K) + v] G := rfl
     rw [h1, h3, hspec]
-  have halg : IsAlgebraic ↥(racl k ({t} : Set K))
-      (u * algebraMap k K ξ + v) := ⟨_, hQ, hzero⟩
+  have halg : IsAlgebraic ↥(racl k ({t} : Set K)) (u * (ξ : K) + v) := ⟨_, hQ, hzero⟩
   exact IsRAC.mem_of_isAlgebraic (isRAC_racl _) halg
 
+/-- The relative closure of a transcendental element is an infinite field. -/
+theorem infinite_racl_singleton (ht0 : t ∉ racl k (∅ : Set K)) :
+    Infinite ↥(racl k ({t} : Set K)) := by
+  have htr : Transcendental k t := fun h ↦ ht0 (mem_racl_empty_of_isAlgebraic h)
+  set τ : ↥(racl k ({t} : Set K)) := ⟨t, subset_racl k _ rfl⟩
+  refine Infinite.of_injective (fun p : Polynomial k ↦ Polynomial.aeval τ p) ?_
+  intro p p' h
+  apply transcendental_iff_injective.1 htr
+  have h' := congrArg (fun x : ↥(racl k ({t} : Set K)) ↦ (x : K)) h
+  change Polynomial.aeval (τ : K) p = Polynomial.aeval (τ : K) p'
+  rw [IntermediateField.aeval_coe, IntermediateField.aeval_coe]
+  exact h'
+
 /-- Two distinct specializations with algebraic line values exist: the
-collapse is nonzero at all but finitely many base points, and the base
-field is infinite. -/
-theorem exists_two_specializations [Infinite k]
+collapse is nonzero at all but finitely many points of the atom closure,
+which is an infinite field because it contains the transcendental `t`.
+No hypothesis on the size of the base field is needed. -/
+theorem exists_two_specializations
     (hw : w ∉ racl k ({u, v} : Set K))
-    (ht : t ∈ racl k ({u, v} : Set K))
+    (ht : t ∈ racl k ({u, v} : Set K)) (ht0 : t ∉ racl k (∅ : Set K))
     {G : MvPolynomial (Fin 2) ↥(racl k ({t} : Set K))} (hG0 : G ≠ 0)
     (hG : MvPolynomial.aeval ![w, u * w + v] G = 0) :
-    ∃ ξ₁ ξ₂ : k, ξ₁ ≠ ξ₂ ∧
-      u * algebraMap k K ξ₁ + v ∈ racl k ({t} : Set K) ∧
-      u * algebraMap k K ξ₂ + v ∈ racl k ({t} : Set K) := by
+    ∃ ξ₁ ξ₂ : ↥(racl k ({t} : Set K)), ξ₁ ≠ ξ₂ ∧
+      u * (ξ₁ : K) + v ∈ racl k ({t} : Set K) ∧
+      u * (ξ₂ : K) + v ∈ racl k ({t} : Set K) := by
   classical
+  have := infinite_racl_singleton ht0
   have hĜ0 : nestEquiv ↥(racl k ({t} : Set K)) G ≠ 0 := by
     intro h0
     exact hG0 ((nestEquiv _).injective (by rw [h0, map_zero]))
-  have hfin := finite_bad_eval hĜ0
-  have hbadk : {ξ : k | Polynomial.eval
-      (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
-      (nestEquiv ↥(racl k ({t} : Set K)) G) = 0}.Finite := by
-    refine (hfin.preimage (Set.injOn_of_injective ?_)).subset fun ξ hξ ↦ hξ
-    exact (algebraMap k ↥(racl k ({t} : Set K))).injective
-  have hgood : {ξ : k | Polynomial.eval
-      (Polynomial.C (algebraMap k ↥(racl k ({t} : Set K)) ξ))
+  have hgood : {ξ : ↥(racl k ({t} : Set K)) | Polynomial.eval (Polynomial.C ξ)
       (nestEquiv ↥(racl k ({t} : Set K)) G) = 0}ᶜ.Infinite :=
-    Set.Finite.infinite_compl hbadk
+    Set.Finite.infinite_compl (finite_bad_eval hĜ0)
   obtain ⟨ξ₁, hξ₁, ξ₂, hξ₂, hne⟩ := hgood.nontrivial
-  exact ⟨ξ₁, ξ₂, hne, line_value_mem hw ht hG hξ₁,
-    line_value_mem hw ht hG hξ₂⟩
+  exact ⟨ξ₁, ξ₂, hne, line_value_mem hw ht hG hξ₁, line_value_mem hw ht hG hξ₂⟩
 
 /-- **The atom clause, elementwise** (blueprint clause (iv), by the
 specialization route): no transcendental parameter `t` algebraic over the
 independent line coefficients `u, v` can make the generic direction `w`
 algebraic over `{t, uw + v}`. -/
-theorem notMem_racl_line [Infinite k]
+theorem notMem_racl_line
     (hu0 : u ∉ racl k (∅ : Set K))
     (hvu : v ∉ racl k ({u} : Set K))
     (hw : w ∉ racl k ({u, v} : Set K))
@@ -305,25 +300,18 @@ theorem notMem_racl_line [Infinite k]
     w ∉ racl k ({t, u * w + v} : Set K) := by
   intro hmem
   obtain ⟨G, hG0, hG⟩ := exists_line_relation (line_mem_of_mem hw ht hmem)
-  obtain ⟨ξ₁, ξ₂, hne, h1, h2⟩ := exists_two_specializations hw ht hG0 hG
+  obtain ⟨ξ₁, ξ₂, hne, h1, h2⟩ := exists_two_specializations hw ht ht0 hG0 hG
   -- Differencing the two values recovers `u`.
+  have hξ : ((ξ₁ : K) - ξ₂) ∈ racl k ({t} : Set K) := sub_mem ξ₁.2 ξ₂.2
+  have hξ0 : ((ξ₁ : K) - ξ₂) ≠ 0 := sub_ne_zero.2 (fun h ↦ hne (Subtype.ext h))
   have hu : u ∈ racl k ({t} : Set K) := by
     have hsub := sub_mem h1 h2
-    have harith : (u * algebraMap k K ξ₁ + v) -
-        (u * algebraMap k K ξ₂ + v) = u * algebraMap k K (ξ₁ - ξ₂) := by
-      rw [map_sub]
-      ring
-    rw [harith] at hsub
-    have hinv : algebraMap k K (ξ₁ - ξ₂)⁻¹ ∈ racl k ({t} : Set K) :=
-      IntermediateField.algebraMap_mem _ _
-    have h := MulMemClass.mul_mem hsub hinv
-    rwa [mul_assoc, ← map_mul, mul_inv_cancel₀ (sub_ne_zero.2 hne),
-      map_one, mul_one] at h
+    rw [show u * (ξ₁ : K) + v - (u * (ξ₂ : K) + v) = u * ((ξ₁ : K) - ξ₂) by ring] at hsub
+    have h := mul_mem hsub (inv_mem hξ)
+    rwa [mul_assoc, mul_inv_cancel₀ hξ0, mul_one] at h
   -- Then the constant term recovers `v`.
   have hv : v ∈ racl k ({t} : Set K) := by
-    have hux : u * algebraMap k K ξ₁ ∈ racl k ({t} : Set K) :=
-      MulMemClass.mul_mem hu (IntermediateField.algebraMap_mem _ _)
-    have h := sub_mem h1 hux
+    have h := sub_mem h1 (mul_mem hu ξ₁.2)
     rwa [add_sub_cancel_left] at h
   -- Exchange the transcendental `u` against `t`.
   have hu' : u ∈ racl k (insert t (∅ : Set K)) := by
@@ -342,7 +330,7 @@ variable {u v w t : K}
 /-- The value form of the atom clause: the line value is not algebraic
 over the parameter and the direction. One more exchange reduces it to
 `notMem_racl_line`. -/
-theorem line_value_notMem [Infinite k]
+theorem line_value_notMem
     (hu0 : u ∉ racl k (∅ : Set K))
     (hvu : v ∉ racl k ({u} : Set K))
     (hw : w ∉ racl k ({u, v} : Set K))
@@ -470,7 +458,7 @@ theorem mem_of_le_point_sup {z q : K} {P : Point k K}
 
 /-- Clause (iv), first universal statement: no atom of `A` captures the
 correspondence from `Y` to `X`. -/
-theorem qWitness_X_free [Infinite k] :
+theorem qWitness_X_free :
     ∀ A' : Point k K, A'.1 ≤ (qWitness hind).A →
       ¬ (qWitness hind).X.1 ≤ A'.1 ⊔ (qWitness hind).Y.1 := by
   intro A' hA' hle
@@ -483,7 +471,7 @@ theorem qWitness_X_free [Infinite k] :
 
 /-- Clause (iv), second universal statement: no atom of `B` captures the
 correspondence from `Y` to `Z`. -/
-theorem qWitness_Z_freeB [Infinite k] :
+theorem qWitness_Z_freeB :
     ∀ B' : Point k K, B'.1 ≤ (qWitness hind).B →
       ¬ (qWitness hind).Z.1 ≤ B'.1 ⊔ (qWitness hind).Y.1 := by
   intro B' hB' hle
@@ -496,7 +484,7 @@ theorem qWitness_Z_freeB [Infinite k] :
 
 /-- Clause (iv), third universal statement: no atom of `C` captures the
 correspondence from `X` to `Z`. -/
-theorem qWitness_Z_freeC [Infinite k] :
+theorem qWitness_Z_freeC :
     ∀ C' : Point k K, C'.1 ≤ (qWitness hind).C →
       ¬ (qWitness hind).Z.1 ≤ C'.1 ⊔ (qWitness hind).X.1 := by
   intro C' hC' hle

@@ -121,7 +121,7 @@ end FrobEq
 
 /-- Semantic sums give geometric sum points under the rank-five
 hypothesis. -/
-theorem sumPoint_of_qSem_of_five_le_trdeg [Infinite k]
+theorem sumPoint_of_qSem_of_five_le_trdeg
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {U V W R : Point k K} (h : QSem U V W R) :
     SumPoint U V W :=
@@ -129,7 +129,7 @@ theorem sumPoint_of_qSem_of_five_le_trdeg [Infinite k]
 
 /-- Semantic products give geometric product points under the rank-five
 hypothesis. -/
-theorem mulPoint_of_q'Sem_of_five_le_trdeg [Infinite k]
+theorem mulPoint_of_q'Sem_of_five_le_trdeg
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {U V S W : Point k K} (h : Q'Sem U V S W) :
     MulPoint U V W :=

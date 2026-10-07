@@ -110,7 +110,7 @@ end QWitness
 
 /-- **The literal reading of table (8.5) is false** as soon as one table
 witness exists: no extraction theorem can pin the six generator points. -/
-theorem not_forall_psi_hasLiteralTableCoordinates [Infinite k]
+theorem not_forall_psi_hasLiteralTableCoordinates
     {a b c d x : K} (hind : AlgebraicIndependent k ![a, b, c, d, x]) :
     ¬ ∀ w : QWitness k K, w.Psi → w.HasLiteralTableCoordinates := fun h ↦
   QWitness.not_hasLiteralTableCoordinates_swapA hind
@@ -168,9 +168,9 @@ theorem hasAffineGridCoordinates_swapA {a b c d x : K}
   (hasAffineGridCoordinates_qWitness hind).swapA
 
 /-- The easy implication: every witness with affine-grid coordinates
-satisfies `Psi` (over an infinite base, where the table witness is
-verified).  The converse is the open extraction theorem. -/
-theorem HasAffineGridCoordinates.psi [Infinite k] {w : QWitness k K}
+satisfies `Psi` over any base field, by soundness of the explicit table
+witness. The converse is the open extraction theorem. -/
+theorem HasAffineGridCoordinates.psi {w : QWitness k K}
     (h : w.HasAffineGridCoordinates) : w.Psi := by
   obtain ⟨a, b, c, d, x, hind, hA, hB, hC, hD, hE, hF, hG, hH, hI, hP, hQ, hR,
     hS, hT, hU, hX, hY, hZ⟩ := h

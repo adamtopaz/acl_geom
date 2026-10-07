@@ -11,7 +11,7 @@ import AclGeom.Config.Semantic
 
 The assembly of blueprint Theorem q-correct, soundness direction, at the
 witness level: for any five algebraically independent elements
-`a, b, c, d, x` of `K` over an infinite base `k`, the table-7.1 witness
+`a, b, c, d, x` of `K` over `k` (of any size), the table-7.1 witness
 `qWitness` satisfies all seven clauses of `Ψ`. Consequently the semantic
 quadruple `([b], [ax], [ax+b], [ax/b])` — that is,
 `([u], [v], [u+v], [u/v])` for `u = b`, `v = ax` — is in the geometric
@@ -20,7 +20,8 @@ relation `QGeom`.
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M4, checklist G3 soundness assembly).
+**Status:** soundness proved over any base field, assuming the stated
+supply of fresh elements. Completeness remains open (#6).
 -/
 
 namespace AclGeom
@@ -36,7 +37,7 @@ include hind
 /-- **The witness satisfies Ψ** (blueprint Thm q-correct, soundness
 direction, witness verification): all seven clauses hold at the
 table-7.1 points. -/
-theorem qWitness_psi [Infinite k] : (qWitness hind).Psi where
+theorem qWitness_psi : (qWitness hind).Psi where
   rank_ABC := qWitness_rank_ABC hind
   rank_AB := qWitness_rank_AB hind
   rank_BC := qWitness_rank_BC hind
@@ -64,7 +65,7 @@ theorem qWitness_psi [Infinite k] : (qWitness hind).Psi where
 
 /-- The geometric `Q` holds at the four free outputs of the witness:
 `([b], [ax], [ax+b], [ax/b])`. -/
-theorem qGeom_of_table [Infinite k] :
+theorem qGeom_of_table :
     QGeom (Point.mk' k b (qtable_b_notMem_bot hind))
       (Point.mk' k (a * x) (qtable_mul_ax_notMem_bot hind))
       (Point.mk' k (a * x + b) (qtable_Y_notMem_bot hind))
@@ -218,7 +219,7 @@ theorem qtable_indep_of_fresh {u v a c d : K}
 direction): every semantic quadruple is geometric, given a supply of
 fresh elements over small sets — available whenever the extension has
 relative transcendence degree at least five. -/
-theorem qGeom_of_qSem [Infinite k] {X Y Z W : Point k K}
+theorem qGeom_of_qSem {X Y Z W : Point k K}
     (hfresh : ∀ S : Finset K, S.card ≤ 4 → ∃ z, z ∉ racl k (S : Set K))
     (h : QSem X Y Z W) : QGeom X Y Z W := by
   classical
