@@ -12,7 +12,11 @@ import AclGeom.Interpretation.FrobClass
 their semantic correctness on independent representatives
 (blueprint Lemmas generic-arithmetic, total-nonzero-add).
 
-**Status:** skeleton (M0); contents arrive with M6 (checklist I3).
+**Status:** historical skeleton, superseded by the corrected implementation (#23).
+`JArith`, `JArithSem` and `ClassArithmetic` implement coupled generic/fixed-class arithmetic;
+`TotalOps` and `Field` give corrected totalization and the named transported field structure
+under explicit completeness inputs. The literal projected arithmetic is refuted; unconditional
+completeness, naturality and full reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

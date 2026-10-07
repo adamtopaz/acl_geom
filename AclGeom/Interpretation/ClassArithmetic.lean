@@ -30,8 +30,8 @@ ACF J-completeness inputs (#23). Corrected ratio semantics is proved in `Ratio` 
 inputs. `Decode` packages its geometric ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
 `TotalOps` proves corrected negation and nonzero addition detours under the same inputs.
-`Field` proves corrected total geometric graphs on the ratio carrier under the same inputs.
-Transported field structure and graph naturality remain open.
+`Field` proves corrected total geometric graphs, a named transported field structure and
+its actual decoding ring equivalence under the same inputs. Graph naturality remains open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

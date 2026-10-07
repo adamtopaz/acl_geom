@@ -17,8 +17,9 @@ coordinate bijection `μ` (Lemma mu-bij).
 characterization and fixed-class description under explicit ACF J-completeness.
 The conditional coordinate bijection is proved in `ClassCoordinates`.
 Corrected generic class arithmetic is proved in `ClassArithmetic` under the same inputs.
-Unconditional completeness, setoid laws and non-generic operations remain open
-(M6, checklist I1).
+`Field` proves corrected total geometric graphs, a named transported field structure and the
+actual decoding ring equivalence under the same explicit inputs. Unconditional completeness,
+global Frobenius setoid laws, naturality and reconstruction remain open (M6, checklist I1).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

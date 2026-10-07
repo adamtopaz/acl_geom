@@ -35,7 +35,9 @@ in `ClassCoordinates`, and corrected generic class arithmetic in `ClassArithmeti
 Corrected ratio semantics is proved in `Ratio` under the same inputs.
 `Decode` packages the geometric ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
-Unconditional completeness and non-generic totalization remain open.
+`Field` proves corrected total geometric graphs, a named transported field structure and the
+actual decoding ring equivalence under the same explicit inputs. Unconditional completeness,
+graph naturality and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

@@ -90,7 +90,9 @@ of this guide. The current mathematical boundaries are:
   carrier decoding equivalence. The corrected two-addition negation detour
   and corrected total nonzero addition are proved under the same inputs.
   Corrected total geometric graphs on the full ratio carrier are proved
-  under the same inputs. Transported field structure and naturality remain open (#23).
+  under the same inputs. The named transported field structure, actual decoding ring
+  equivalence and geometric graph/operation characterizations are proved under the same
+  inputs. Naturality and reconstruction remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -3661,3 +3663,81 @@ field structure/decoding equivalence, preserving the named zero.
 No carrier Field instance or corresponding declaration is installed.
 That blueprint obligation remains even if a later route bypasses it.
 The frozen M4a chain is untouched.
+
+## Named interpreted field structure and geometric operations (#23/#8)
+
+`Interpretation/Field` now proves the corrected conditional
+field-transport obligation after the full geometric graphs. The named
+reducible `ratioInterpField` uses Mathlib's `Function.Injective.field`
+and the existing carrier zero, with Mathlib equivalence-transfer data
+for all other operations, scalar actions and casts. It is not a global
+instance. Its zero value and Zero structure agree definitionally with
+the geometric adjoined zero, checked using Mathlib's instance-diamond
+standard `with_reducible_and_instances rfl`. The stricter
+`with_reducible rfl` alone cannot unfold the native instance constant.
+There is no zero bridge lemma or additional helper chain.
+
+`ratioInterpRingEquiv` is the actual decoding ring equivalence onto
+all of `K`, built using Mathlib's `Equiv.ringEquiv`. Its map and
+inverse are exactly the existing decoding equivalence. The two
+`ratioAddGraph_iff_eq_add` and `ratioMulGraph_iff_eq_mul` theorems
+identify the geometry-only graphs with the installed field operations.
+They supply the named consumer for field transport in blueprint
+`decode-equiv` and I5c; later graph-preserving carrier transport and
+interpreted reconstruction consume these structures and laws.
+
+Claude supplied frozen Field `afe43877` against published
+`266cbfb`, with eleven exact project/Mathlib dependency hashes and
+an exact base copy. Codex compiled the source unchanged in 12 s
+(peak 2.66 GiB, minimum available 38.78 GiB). Two new-proof references
+were deprecated in Mathlib. The final replaces them by the literal
+Mathlib alias body `Equiv.eq_symm_apply.symm`, without changing their
+types/docs/attributes. No source proof failure or mathematical repair
+was needed. The final ten-second compilation is warning-free.
+
+All ten original/final signatures/types/docs/attributes are exact.
+Eight raw bodies are exact; only the two new theorem proof references
+change as ledgered. All six existing graph declarations retain their
+source, signatures and raw bodies. Four public declarations are new,
+with no private helpers, generated declarations or global instances.
+All ten axiom reports are standard, including the Field and RingEquiv
+definitions. Eleven other touched library modules change only headers,
+with their namespaces exact. The incidence module also reflows one existing
+overlong docstring; its five types/attributes/raw bodies stay exact, with
+only that whitespace doc hash changing. The final status audit found six older
+blueprint paragraphs and six upstream headers with stale scope: accepted
+conditional work was listed as open, a historical empty skeleton was not
+marked superseded, and supplied-witness rigidity was omitted. This stale-scope finding was
+reported on issue 23 before correction; all six earlier source wordings
+are retained in TeX comments. These status corrections do not change any
+mathematical statement or proof.
+
+Twenty-nine byte-identical independent original/final interfaces pass:
+arbitrary and finite bases, characteristic zero, actual Field/RingEquiv
+and both graph/operation signatures, native-zero value and structure
+coherence, decoding/inverse equality, actual field laws/inversion,
+natural and rational casts, characteristic-two actual zero-sum and its
+geometric graph, both installed operation outputs, and absence of a
+global Field instance. Initial interface attempts needed proof-context
+instances and Mathlib's standard reducible-and-instance transparency;
+these were harness changes, not source repairs.
+
+The warning-free full library build passes in 44.01 s (peak family
+7.46 GiB, minimum available 35.82 GiB); the book passes in 10 s.
+Shared acceptance takes 12 s and matches the final ten Field and five
+incidence signature/raw-body/axiom records, plus the identical 29
+interfaces. Fifteen compiled declarations have standard axioms.
+Hygiene checks 239 library files without proof placeholders or project
+axioms. The book has 88 HTML pages and retains all 87 prior paths,
+including the frozen 117-item page and all four new declaration docs.
+Four stable source passes produce 60 pages without unresolved labels,
+overflow or rerun warnings. Actual final pages 1, 2, 34, 35, 36, 37, 38
+and 40 pass visual review. All original 49 statements/44 proofs and the
+literal TOT/interpreted-reconstruction argument remain exact; all six
+prior status qualifications are preserved. Final documentation
+library/book and exact sixteen-path staged-byte checks remain required
+before commit and push. Perfection, uniform rank five and still-open ACF J
+completeness remain explicit over any base field. Geometric naturality,
+unconditional completeness, global Frobenius setoid, simultaneous
+representatives, R1/R2 and full reconstruction remain open. The literal
+source statements/proofs and frozen M4a chain remain unchanged.

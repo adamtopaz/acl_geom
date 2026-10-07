@@ -30,7 +30,9 @@ closed subfields.  This file transports them to five-tuples of points of the geo
 `Ratio` proves corrected ratio semantics under the same explicit inputs.
 `Decode` packages the ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
-Non-generic totalization and quotient field operations remain open.
+`Field` proves corrected total geometric graphs, a named transported field structure and the
+actual decoding ring equivalence under the same explicit inputs. Unconditional completeness,
+graph naturality and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

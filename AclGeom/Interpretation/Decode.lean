@@ -24,8 +24,9 @@ Surjectivity: for `z ≠ 0` take `t` outside `racl_k {a, z, x₀}`; then `t` and
 **Status:** the corrected geometric ratio quotient decodes bijectively to the nonzero field
 elements under explicit perfection, rank-five and ACF J-completeness inputs (#23).
 `Interp` adjoins zero and decodes the full carrier bijectively to `K` under the same inputs.
-`Field` proves corrected total geometric operation graphs under the same inputs.
-Transported field structure, graph naturality and reconstruction remain open.
+`Field` proves corrected total geometric graphs, a named transported field structure and the
+actual decoding ring equivalence under the same inputs. Graph naturality and reconstruction remain
+open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

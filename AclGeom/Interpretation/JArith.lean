@@ -22,8 +22,11 @@ The only geometric input is that two distinct lines meet in at most a point
 (`inf_line_eq_point`): no correctness or completeness of `Q`/`Q′` is used.  The coordinate order
 is `(X, P, Q, R, A)`, so `j(x, a) = ([x], [x + a], [x a], [x + x a], [a])`.
 
-**Status:** the generic coordinate computations are proved (#23). Totalization, fixed-class
-correctness and ratio semantics remain open.
+**Status:** the generic coordinate computations are proved (#23). `ClassArithmetic` proves
+corrected fixed-class correctness, `Ratio` proves corrected ratio semantics, and `Field` proves
+corrected total graphs, a named transported field structure and the actual decoding ring
+equivalence under explicit perfection, rank-five and ACF J-completeness inputs. Unconditional
+completeness, naturality and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

@@ -27,8 +27,9 @@ Corrected generic fixed-class operations are proved in `ClassArithmetic` under t
 Corrected ratio semantics is proved in `Ratio` under the same explicit inputs.
 `Decode` packages the corrected geometric ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
-`Field` proves corrected total geometric graphs under the same explicit inputs; transported
-field structure and naturality remain open. The public `pair_of_notMem` supplies class encoding
+`Field` proves corrected total geometric graphs, a named transported field structure and the
+actual decoding ring equivalence under the same explicit inputs. Naturality remains open.
+The public `pair_of_notMem` supplies class encoding
 and the two generic product triples, with no rank-five, perfection or completeness input.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction

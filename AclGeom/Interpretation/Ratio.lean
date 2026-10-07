@@ -34,7 +34,8 @@ presents class members with the literal parameter `a` and defines `μ`.
 explicit perfection, rank-five and ACF J-completeness inputs (#23). `Decode` constructs its
 setoid/quotient and bijective nonzero decoding under the same inputs. `Interp` adjoins zero
 and decodes the full carrier bijectively to `K`. `Field` proves corrected total geometric
-operation graphs under the same inputs. Transported field structure and naturality remain open.
+operation graphs, a named transported field structure and the actual decoding ring equivalence
+under the same inputs. Naturality remains open.
 The public `mul_fresh_notMem` supplies the existing ratio witnesses and both operation-graph
 converses in `Field`; its type and proof use no rank-five or completeness input.
 

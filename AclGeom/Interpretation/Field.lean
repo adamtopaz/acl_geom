@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import AclGeom.Interpretation.Interp
 import AclGeom.Interpretation.TotalOps
+import Mathlib.Algebra.Field.TransferInstance
 
 /-!
 # The interpreted field and its geometric operation graphs
@@ -34,12 +35,19 @@ The converses rescale the nonzero decoded values `c, d` by fresh elements.
 The addition's inner detour may use a fifth independent element; the uniform rank bound
 remains five. No sixth independent element is used.
 
+Transport along the decoding gives the named field structure `ratioInterpField`, which is not a
+global instance, and the ring isomorphism `ratioInterpRingEquiv` onto `K`.  Its zero is the
+carrier's own adjoined zero, so the zero clauses of the graphs refer to the field zero
+definitionally.  The two graphs are exactly the graphs of the transported operations
+(`ratioAddGraph_iff_eq_add`, `ratioMulGraph_iff_eq_mul`).
+
 `K` is perfect of rank at least five, and completeness over `k̄ ⊆ K̄` (`hcomp`) stays explicit.
 
 **Status:** both corrected geometric graphs are total and functional on the full ratio carrier,
-with exact decoded-operation semantics under explicit perfection, rank-five and ACF J-completeness
-inputs (#23). Transported field structure, graph naturality and interpreted reconstruction remain
-open. The blueprint's literal graphs and argument retain their historical/open status.
+with exact decoded-operation semantics, and they are the graphs of the transported field structure,
+under explicit perfection, rank-five and ACF J-completeness inputs (#23). Graph naturality and
+interpreted reconstruction remain open. The blueprint's literal graphs and argument retain their
+historical/open status.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -323,6 +331,70 @@ theorem ratioMulGraph_existsUnique [PerfectField K] (q : ℕ) [ExpChar K q]
     ((ratioMulGraph_iff q htr hcomp h₀).2 (Equiv.apply_symm_apply _ _)) fun _t ht ↦
       (ratioInterpDecode q htr hcomp h₀).injective
         (((ratioMulGraph_iff q htr hcomp h₀).1 ht).trans (Equiv.apply_symm_apply _ _).symm)
+
+/-- **The transported field structure** on the interpreted carrier (blueprint Lemma `decode-equiv`
+and the following paragraph: transport the field structure of `K` across the decoding).  Every
+operation is transported along `ratioInterpDecode`, except that the zero is the carrier's own
+adjoined zero, which decodes to `0` definitionally (`ratioInterpDecode_zero`).  Under this
+structure `0` is therefore definitionally the adjoined zero used by `RatioAddGraph` and
+`RatioMulGraph`; Mathlib's `Equiv.field` would instead use the transported zero, which is only
+propositionally equal to it.  This is a named reducible structure, not an instance. -/
+abbrev ratioInterpField [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a]) : Field (RatioInterp q htr hcomp h₀) := by
+  let e := ratioInterpDecode q htr hcomp h₀
+  let add := e.add
+  let neg := e.Neg
+  let sub := e.sub
+  let one := e.one
+  let mul := e.mul
+  let inv := e.Inv
+  let div := e.div
+  let nsmul := e.smul ℕ
+  let zsmul := e.smul ℤ
+  let nnqsmul := e.smul ℚ≥0
+  let qsmul := e.smul ℚ
+  let npow := e.pow ℕ
+  let zpow := e.pow ℤ
+  let natCast : NatCast (RatioInterp q htr hcomp h₀) := ⟨fun n ↦ e.invFun n⟩
+  let intCast : IntCast (RatioInterp q htr hcomp h₀) := ⟨fun n ↦ e.invFun n⟩
+  let nnratCast := e.nnratCast
+  let ratCast := e.ratCast
+  apply e.injective.field _ (ratioInterpDecode_zero q htr hcomp h₀) <;> intros <;>
+    exact e.apply_symm_apply _
+
+/-- **The decoding is a ring isomorphism** for the transported field structure `ratioInterpField`
+(blueprint Lemma `decode-equiv`, with the transported structure). -/
+def ratioInterpRingEquiv [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a]) :
+    letI := ratioInterpField q htr hcomp h₀
+    RatioInterp q htr hcomp h₀ ≃+* K :=
+  (ratioInterpDecode q htr hcomp h₀).ringEquiv
+
+/-- **The corrected addition graph is the graph of the transported addition** (blueprint: transport
+the field structure via decoding and characterize its graph geometrically): `RatioAddGraph r s t`
+holds exactly when `t = r + s` in `ratioInterpField`. -/
+theorem ratioAddGraph_iff_eq_add [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a]) {r s t : RatioInterp q htr hcomp h₀} :
+    RatioAddGraph q htr hcomp h₀ r s t ↔ (letI := ratioInterpField q htr hcomp h₀; t = r + s) :=
+  (ratioAddGraph_iff q htr hcomp h₀).trans
+    (ratioInterpDecode q htr hcomp h₀).eq_symm_apply.symm
+
+/-- **The corrected multiplication graph is the graph of the transported multiplication**
+(blueprint: transport the field structure via decoding and characterize its graph geometrically):
+`RatioMulGraph r s t` holds exactly when `t = r * s` in `ratioInterpField`. -/
+theorem ratioMulGraph_iff_eq_mul [PerfectField K] (q : ℕ) [ExpChar K q]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcomp : JCompletenessACF (↥(algebraicClosure k (AlgebraicClosure K))) (AlgebraicClosure K))
+    {x₀ a : K} (h₀ : AlgebraicIndependent k ![x₀, a]) {r s t : RatioInterp q htr hcomp h₀} :
+    RatioMulGraph q htr hcomp h₀ r s t ↔ (letI := ratioInterpField q htr hcomp h₀; t = r * s) :=
+  (ratioMulGraph_iff q htr hcomp h₀).trans
+    (ratioInterpDecode q htr hcomp h₀).eq_symm_apply.symm
 
 end
 

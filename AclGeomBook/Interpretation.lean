@@ -35,8 +35,9 @@ The interpretation layer (milestone M6) aims to quotient the
 geometric `J`-locus by Frobenius ambiguity and construct a field. The quotient
 by a global Frobenius setoid remains open (#8). The corrected geometric ratio
 quotient, full carrier decoding and total operation graphs are proved below
-under explicit ACF completeness. Transported field structure and naturality
-remain open. The historical addition and multiplication incidences are projections
+under explicit ACF completeness. A named transported field structure and
+the actual decoding ring equivalence are proved below under the same inputs.
+Graph naturality remains open. The historical addition and multiplication incidences are projections
 of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
 can give different outputs. Corrected generic fixed-class semantics for the
@@ -191,7 +192,8 @@ inputs. Exact corrected ratio semantics is also proved below under these
 inputs. The geometric ratio quotient and bijective nonzero decoding are
 proved below, followed by the full adjoined-zero carrier equivalence.
 Corrected total geometric graphs are proved below under the same inputs.
-Transported field structure and naturality remain open
+A named transported field structure and its actual decoding ring equivalence
+are proved below. Graph naturality remains open
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Refutations of the literal generic operation graphs
@@ -262,8 +264,9 @@ they have the unique outputs `j(x+y,a)` and `j(xy,a)`:
 The output is semantic; geometric `J` membership follows from the
 rank-five soundness theorem over any base field. The class-level computation
 under explicit completeness is displayed next, followed by the ratio quotient
-and corrected total geometric graphs. Transported field structure and
-naturality remain open (#23/#8).
+and corrected total geometric graphs, then a named transported field
+structure and its actual decoding ring equivalence. Naturality remains
+open (#23/#8).
 
 # Generic arithmetic on the fixed class
 %%%
@@ -402,10 +405,10 @@ Both evaluation laws reduce by definition:
 
 This proves the full corrected blueprint `decode-equiv` under explicit
 perfection, rank five and still-open ACF `JCompletenessACF`.
-The carrier is the geometric ratio quotient with its new zero. No quotient
-field structure is installed. Corrected total operation graphs are proved below;
-transported field structure, naturality, global Frobenius setoid, unconditional
-completeness, R1/R2 and reconstruction remain open. The original literal
+The carrier is the geometric ratio quotient with its new zero. A named
+transported field structure and actual decoding ring equivalence are proved
+below after the total geometric graphs. Naturality, global Frobenius setoid,
+unconditional completeness, R1/R2 and reconstruction remain open. The original literal
 construction and its counterexample remain preserved.
 
 
@@ -448,8 +451,9 @@ counterpart of the blueprint's two-addition negation detour.
 The original literal negation/totalization derivation retains its
 historical/open status; no separate negation counterexample is claimed.
 The corrected nonzero-addition detour is displayed next, followed by total
-ratio-carrier graphs. Transported field structure, global Frobenius setoid,
-unconditional completeness, naturality, R1/R2 and reconstruction remain open.
+ratio-carrier graphs. The named transported field structure is proved below. Global Frobenius
+setoid, unconditional completeness, naturality, R1/R2 and reconstruction
+remain open.
 
 
 # Corrected total nonzero addition
@@ -490,8 +494,9 @@ Perfection, uniform rank five and still-open ACF `JCompletenessACF`
 remain explicit. This establishes the corrected class-level detour,
 and the following section gives the full ratio-carrier graphs.
 The historical literal negation/TOT derivation retains its open status and
-exact provenance. Transported field structure, global Frobenius setoid,
-unconditional completeness, naturality, R1/R2 and reconstruction remain open.
+exact provenance. The named transported field structure is proved below. Global Frobenius
+setoid, unconditional completeness, naturality, R1/R2 and reconstruction
+remain open.
 
 
 # Corrected total geometric field graphs
@@ -548,7 +553,43 @@ Graph representative invariance comes from the geometric ratio quotient.
 The common denominator is chosen existentially: an arbitrary choice
 can put the numerator sum inside `racl k {a}`.
 
-Transported field structure, graph naturality, global Frobenius setoid,
+The following section installs a named transported field structure with
+these exact geometric graphs. Graph naturality, global Frobenius setoid,
 unconditional completeness, simultaneous representatives, R1/R2 and
 reconstruction remain open. The literal TOT argument retains its
 historical/open status and exact provenance.
+
+
+# Named interpreted field structure
+%%%
+tag := "named-interpreted-field"
+%%%
+
+The corrected full-carrier total graphs characterize the operations of a
+named transported Field structure. It uses Mathlib's injective-field
+constructor with the carrier's existing adjoined zero and the decoding
+transfer data for every other operation:
+
+{docstring AclGeom.ratioInterpField}
+
+This structure is reducible and installed explicitly when needed, with
+no global Field instance. Its zero agrees definitionally with the native
+geometric zero. The actual decoding is a ring equivalence onto the whole
+field:
+
+{docstring AclGeom.ratioInterpRingEquiv}
+
+The geometric graphs agree exactly with the installed sum and product:
+
+{docstring AclGeom.ratioAddGraph_iff_eq_add}
+
+{docstring AclGeom.ratioMulGraph_iff_eq_mul}
+
+This completes the corrected conditional field-transport part of
+blueprint `decode-equiv` and I5c, under explicit perfection, rank five
+and still-open ACF J completeness over arbitrary base fields. It supplies
+the field structures for later interpreted reconstruction; geometric
+graph naturality, unconditional completeness, the global Frobenius
+setoid, simultaneous representatives, R1/R2 and full reconstruction
+remain open. The literal source construction and TOT argument retain
+their historical/open status.

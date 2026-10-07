@@ -21,8 +21,8 @@ Mathlib's `WithZero.withZeroUnitsEquiv : WithZero Kˣ ≃* K`.
 
 **Status:** the corrected ratio quotient with an adjoined zero decodes bijectively to the field,
 under explicit perfection, rank-five and ACF J-completeness inputs (#23). `Field` proves
-corrected total geometric addition/multiplication graphs under the same inputs. Transported
-field structure, graph naturality and reconstruction remain open.
+corrected total geometric graphs, a named transported field structure and the actual decoding
+ring equivalence under the same inputs. Graph naturality and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

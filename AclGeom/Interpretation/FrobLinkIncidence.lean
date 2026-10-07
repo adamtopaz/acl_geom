@@ -14,8 +14,9 @@ lies on the three lines joining corresponding `X`, `Q` and `R` coordinates of th
 which is the incidence configuration of EH95 Lemma 2.8 (Fig. 3).  No correctness or completeness of
 `Q`/`Q′` is used.
 
-**Status:** complete (the incidence reduction, #23). Semantic correctness of
-the Frobenius link and bridge completeness remain open.
+**Status:** the incidence reduction is proved (#23). `FrobLinkSemantic` proves direct-link
+rigidity for supplied semantic endpoint witnesses over arbitrary base fields. Unconditional
+geometric bridge completeness remains open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
@@ -45,8 +46,8 @@ theorem MulDiagram.X_le_sup {X Y V E A₀ B₀ C₀ D₀ : Point k K}
   rw [heq]
   exact le_sup_left
 
-/-- **The first factor lies on the line through the second factor and the product.** The points `V, U`
-are automatically distinct, by the distinctness clause of the multiplication diagram. -/
+/-- **The first factor lies on the line through the second factor and the product.** The points
+`V, U` are automatically distinct, by the distinctness clause of the multiplication diagram. -/
 theorem MulPoint.le_sup {C V U : Point k K} (h : MulPoint C V U) : C.1 ≤ V.1 ⊔ U.1 := by
   obtain ⟨_, _, _, _, _, _, _, hdiag⟩ := h
   exact hdiag.X_le_sup

@@ -35,8 +35,8 @@ being nonzero in `K`.
 
 **Status:** both corrected geometric detours have exact coordinate semantics under explicit
 perfection, rank-five and ACF J-completeness inputs (#23). `Field` proves corrected total
-geometric graphs on the ratio carrier under the same inputs. Transported field structure,
-graph naturality and reconstruction remain open.
+geometric graphs, a named transported field structure and the actual decoding ring equivalence
+on the ratio carrier under the same inputs. Graph naturality and reconstruction remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
