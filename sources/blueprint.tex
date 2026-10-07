@@ -2939,6 +2939,33 @@ this first stage does not discharge the literal source predicates, unconditional
 completeness, base recovery or the scalar-one input.
 
 
+\subsection{Frobenius-link naturality in Lean}
+
+\lean{Interpretation.FrobTransport} proves the next relation stage of
+\cref{prop:interpreted-reconstruction}, across arbitrary bases and independent universes.
+
+The derived product relation is invariant by \lean{mulPoint_map_iff}.
+This invariance does not make the historically refuted relation functional.
+
+Membership in the geometric $\Jrel$ locus transports by \lean{isJTuple_map_iff}.
+
+The rank-three clause is invariant by \lean{pointTripleIndependent_map_iff}.
+
+The directed links transfer by \lean{directFrobLink_map_iff}. All five fields are
+preserved, with one common multiplier for all three rigid coordinates.
+
+The bridge relation is invariant by \lean{frobEq_map_iff}. Its tuple witness and
+both edge orientations are preserved. Point and tuple bijections pull back target witnesses;
+Mathlib's dependent-function equivalence handles the tuple quantifier.
+
+These proofs require no semantic completeness, perfection, rank-five bound,
+exponential characteristic or freshness input. They provide invariant class membership
+for later carrier transport, and supply no global Frobenius setoid.
+Coupled arithmetic, corrected totalization and ratio transport, quotient-carrier and
+geometric operation-graph naturality, interpreted reconstruction, unconditional
+completeness, base recovery and the scalar-one input remain open (issues 8 and 23).
+All original source statements and proofs retain their provenance.
+
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which
 % are still open; the accepted generic class semantics keeps ACF completeness explicit. This dependency was reported on issues 9 and 23 before adding this

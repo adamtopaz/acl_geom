@@ -92,8 +92,10 @@ of this guide. The current mathematical boundaries are:
   Corrected total geometric graphs on the full ratio carrier are proved
   under the same inputs. The named transported field structure, actual decoding ring
   equivalence and geometric graph/operation characterizations are proved under the same
-  inputs. Pure geometric Q/Q′/J configuration transport is proved across arbitrary
-  bases/universes. Corrected-relation and carrier naturality and reconstruction remain open (#23).
+  inputs. Pure geometric Q/Q′/J configuration and J-locus/Frobenius-link/bridge
+  transport are proved across arbitrary bases/universes, with no completeness or
+  perfection input. Coupled arithmetic, total/ratio and carrier/operation-graph
+  naturality and reconstruction remain open (#23).
   The JAdd, JMul and full-class RatioEq refutations have an
   independently checked Lean proof in `Counterexamples/GenericArithmetic`;
   all 26 public declarations use standard axioms. They record the literal
@@ -128,7 +130,7 @@ Coverage at a glance (details and file:line references on #19):
 | Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
 | Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
 | Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Corrected-relation/carrier naturality, unconditional recovery, reconstruction existence and functorial theorems remain open |
+| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link and bridge invariance need no such input. Coupled arithmetic, total/ratio and carrier/operation-graph naturality, unconditional recovery, reconstruction existence and functorial theorems remain open |
 
 Immediate priorities, in order:
 
@@ -3800,3 +3802,66 @@ geometric operation-graph naturality and interpreted reconstruction
 remain open. Perfection/rank-five/ACF completeness stay explicit for
 the earlier interpreted-field route; unconditional completeness, the
 global Frobenius setoid, literal source arguments and R1/R2 remain open.
+
+## Geometric Frobenius-link naturality (#23/#8, I6b2a)
+
+`Interpretation/FrobTransport` proves five purely geometric iff laws
+for an arbitrary `ClosedIF k K ≃o ClosedIF l L`: the derived product
+relation, geometric J-locus, point-triple independence, directed links
+and the two-edge bridge relation. All five directed-link fields
+transport in both directions, including a single common multiplier
+across all three rigid coordinates. The bridge tuple and both edge
+orientations are preserved. The original relations and all existing
+library declarations are unchanged. Invariance supplies neither
+FrobEq reflexivity/transitivity nor functionality of the refuted
+MulPoint relation. SumPoint is omitted because the corrected route
+has no named consumer for a separate transport declaration.
+
+The named consumers are directed-link transport, bridge transport,
+corrected totalization/ratio transport and the later class/carrier map
+in blueprint `interpreted-reconstruction`. There are no duplicate
+`.map` or public direct-edge lemmas. Mathlib's `Equiv.piCongrRight`
+supplies the tuple bijection; the edge iff is local to the bridge proof.
+
+Claude supplied frozen source `4bd522d1` against published `47bd9f1`,
+with eight exact project/Mathlib input hashes and two exact baselines.
+Codex compiled it unchanged and warning-free in 6.04 s (peak 2.61 GiB,
+minimum 38.47 GiB available). The final changes only its module status
+and passes in 8.06 s. Five authored public declarations and one
+generated `PointTripleIndependent.eq_1` equation lemma are present,
+with no private helper or global instance. All six original/final
+signatures/types/docs/attributes/raw bodies and standard-axiom reports
+are exact. No source or interface-harness repair was needed.
+
+Twelve byte-identical original/final independent interfaces pass:
+five exact cross-universe signatures, an actual arbitrary raw-class
+bijection via Mathlib `Equiv.subtypeEquiv`, its RFL pointwise map
+and inverse round trip, a single-multiplier output, composition over
+six universe levels, finite bases and characteristic two. This raw
+class bijection uses invariant predicates and does not assume a
+global Frobenius equivalence relation. The separate existing Mathlib
+tuple-quantifier/inverse/parameter-equality API probe also passes.
+
+The prior configuration checkpoint `47bd9f1` has full library/book
+and deployment CI success in run 37672585265. The warning-free full library passes in 46.29 s (peak family
+8.18 GiB, minimum 36.47 GiB available); the book passes in 10.07 s.
+Shared acceptance passes in 6.04 s, matching all six compiled records
+and the identical twelve interfaces. Hygiene checks 241 library files
+without proof placeholders or project axioms. The book has 90 HTML
+pages, retaining all 89 prior paths and all five declaration docs,
+including the frozen 117-item record. Four stable source passes produce
+60 pages without undefined labels, overflow or rerun warnings. Actual
+final pages 1, 2, 3, 41, 42 and 43 pass visual review. Final
+documentation library/book and exact five-path staged-byte checks are
+required before commit and push. Original 49 source statements and
+44 proofs, literal TOT/interpreted reconstruction arguments and the
+frozen 117-item M4a record remain exact.
+
+This relation stage takes no semantics, completeness, perfection,
+rank-five, exponential-characteristic, Infinite or freshness input.
+N2b coupled arithmetic and N2c totalization/ratio transport remain
+held, as do the quotient-carrier and operation-graph naturality and
+interpreted reconstruction. Earlier interpreted-field semantics keep
+perfection/rank-five/ACF completeness explicit. Unconditional
+completeness, the global Frobenius setoid, literal source obligations,
+base recovery and scalar-one inputs remain open.

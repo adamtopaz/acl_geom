@@ -6,6 +6,7 @@ Authors: Adam Topaz
 import VersoManual
 import AclGeom.Config.JCoordinates
 import AclGeom.Interpretation.FrobClass
+import AclGeom.Interpretation.FrobTransport
 import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.FrobLinkIncidence
@@ -37,7 +38,9 @@ by a global Frobenius setoid remains open (#8). The corrected geometric ratio
 quotient, full carrier decoding and total operation graphs are proved below
 under explicit ACF completeness. A named transported field structure and
 the actual decoding ring equivalence are proved below under the same inputs.
-Graph naturality remains open. The historical addition and multiplication incidences are projections
+Geometric J-locus and Frobenius-link/bridge transport are proved below with
+no completeness input. Operation-graph and carrier naturality remain open.
+The historical addition and multiplication incidences are projections
 of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
 can give different outputs. Corrected generic fixed-class semantics for the
@@ -124,6 +127,49 @@ soundness and require no completeness hypothesis:
 {docstring AclGeom.frobEq_jTupleOf_of_common}
 
 {docstring AclGeom.frobEq_of_frobenius_twist}
+
+# Frobenius-link naturality
+%%%
+tag := "frobenius-link-naturality"
+%%%
+
+An arbitrary closed-lattice order isomorphism preserves and reflects the
+geometric J-locus and Frobenius-link language. Its product relation
+transports as a relation; its historical functionality is still refuted:
+
+{docstring AclGeom.mulPoint_map_iff}
+
+The tuple locus and rank-three independence clause are invariant,
+across independent bases and universe levels:
+
+{docstring AclGeom.isJTuple_map_iff}
+
+{docstring AclGeom.pointTripleIndependent_map_iff}
+
+All five directed-link fields transfer. In particular one common
+multiplier serves the three rigid coordinates; no separate multipliers
+are substituted:
+
+{docstring AclGeom.directFrobLink_map_iff}
+
+The two-edge bridge transfers with its tuple witness and the given
+orientations of both edges. Mathlib's dependent-function equivalence
+pulls back arbitrary tuple witnesses:
+
+{docstring AclGeom.frobEq_map_iff}
+
+This completes I6b2a, the Frobenius-relation stage of blueprint
+`interpreted-reconstruction`. The proofs need only Field/Algebra
+structures and the lattice isomorphism, with no perfection, semantic
+completeness, rank-five bound, exponential characteristic or freshness
+premise. They supply class-membership invariance for later quotient
+carrier transport; they do not supply a global Frobenius setoid.
+
+Coupled arithmetic, corrected totalization and ratio transport,
+quotient-carrier and geometric operation-graph naturality, interpreted
+reconstruction, unconditional completeness and R1/R2 remain open
+(#23/#8). The literal source obligations and frozen M4a record are
+preserved.
 
 # Conditional Frobenius classes
 %%%
