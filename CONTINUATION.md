@@ -6916,3 +6916,141 @@ completeness remain open; #11/frozen117 independent. No global I != P
 removal, generator constraint, common shift or uniqueness.
 Final required full build/book AFTER this actual factual append
 precede commit/push. The durable goal continues.
+
+
+## ACF-base tensor-domain brick (#11)
+
+Pinned to clean published 069b9646ca84ac7803a1a9b24d0daae58e592cf4; exact CI37790456501
+FULL GREEN at every build/book/deployment step. This literal independent
+blueprint obligation is resumed after P6; frozen M4a remains unchanged.
+PLAN4934/ACK4936 and Claude4942/4943 find the finite-subalgebra
+specialization route feasible. #11 scopes6062120850/6062231058/6062315943
+precede the isolated API and SOURCE-ONLY GO4947/ACK4948 respectively.
+Root remains sole Lean/Lake compiler and main integrator.
+
+THIRD four-example API probe passes standard Mathlib/default kernel,
+2.00 s, minimum available 37.02 GiB, EMPTY log. It checks the Jacobson/
+Zariski quotient field and algebraic lift, the basis-coordinate identity,
+finite-type finite subalgebras and tensor-flat injectivity. FIRST fails
+for missing explicit Jacobson base arguments and basis-index decidability
+in the statement. SECOND needs an explicit radical prime-bottom proof,
+and standard local-instance/unused-simp style repairs. Both retained;
+no checking option or resource budget change.
+
+Immutable freeze4949 supplies one new RegularACF source, 177 lines,
+all lines <=100. All five artifact hashes/manifest and immutable modes,
+the exact new-file diff against /dev/null, and all22 ledger records
+(21 SHA1 including the GO pin file, one APIProbe SHA256) are verified
+before copying or Lean. The peer's PLAN read ranges/greps and actual
+DRAFT reads are recorded separately. DRAFT reads the compiled root API
+and acceptance/scope records, with no Mathlib source reads. It does not
+open AGENTS, Basis.VectorSpace, or root ledger/preflight beyond hashing.
+Root reads AGENTS/CONT and the original source/API independently.
+
+FIRST production fails ONLY because the point-helper call needs
+explicit k. Exact source/log/metrics retained; root adds ONLY (k := k)
+at that private call, with TYPE/docs/imports/options/budgets unchanged.
+SECOND production passes standard Mathlib/default kernel in 4.00 s,
+minimum available 35.95 GiB/RSS 2.52 GiB, EMPTY log.
+FIRST scoped metadata passes 6.00 s, minimum available 36.11 GiB:
+FOUR SIG/proof records, ONE PUBLIC AX record, one public/three private,
+generated0 in the NEW audited scope, standard Lean axioms only there.
+The old Regular baseline has THIRTEEN SIG/AX/proof records, including
+its old fwd.eq_1; those must stay exact. No whole-library certificate.
+
+The public producer covers arbitrary field extensions E/F over ACF k,
+with no caller finite-generation, point-density, regularity or domain
+oracle. Finite left legs lie in a finitely generated SUBALGEBRA A of E,
+never an FG intermediate field assumed finite type. Jacobson/Zariski
+derives a k-valued point avoiding a nonzero coefficient product. A basis
+of F preserves nonzero coefficients under specialization; flatness
+injects A tensor F into E tensor F. All three private helpers are
+consumed by the public producer. No new definitions/instances/aliases.
+
+FIRST actual PRIVATE GenericCommonField14 passes standard/default,
+2.00 s, minimum available 36.10 GiB, EMPTY log. One example/no helpers
+derives the domain instance before Mathlib's common-field construction,
+obtaining linearly disjoint images of arbitrary E/F at independent
+universes. No FG/finite-type/point/regularity/domain hypothesis.
+Claude4959 ACCEPTS the exact one-argument repair, metadata and consumer.
+
+Claude4953 independently confirms the historical proof-sketch gap:
+independent-left tensor relations are impossible over ANY base field,
+which does not imply absence of zero divisors. Complex tensor complex
+over real numbers refutes that inference, not the ACF target statement.
+#11 comment6062594506 reports the gap before the new concordance; the
+original source statement and proof wording remain untouched.
+
+Exactly SIX paths are proposed: new RegularACF, ONLY the old Regular
+module-level superseded Status, ONE root import, Book.HardKernel
+import/account/public docstring, ONE source concordance paragraph with
+a clear page FROM ITS FIRST proposal, and append-only CONT. The new
+proof route is identified; all older mathematical declarations stay
+exact. Canonical root/Book/source/visual, full library/book, all106
+earlier fixture bytes/scoped records and seven additional checks,
+hygiene and peer six-path review precede commit/push. The final full/
+book pair AFTER actual factual CONT acceptance append is required.
+Only #11's tensor-domain brick is discharged by the producer. Full
+generic points, correspondence composition, arbitrary initial charts,
+actions/classification/scheme bridges, extraction and all completeness
+remain separate obligations. Frozen117 and dependencies stay exact.
+The durable goal continues.
+
+
+Actual #11 acceptance: Claude4959 ACCEPTS the producer/consumer and
+4963 ACCEPTS the SIX paths. Actual full lake build passes 58.03 s,
+minimum available 32.07 GiB/RSS 8.29 GiB; lake exe book passes
+14.01 s, minimum available 33.73 GiB/RSS 1.51 GiB.
+All113 strict actual-main checks pass 198.08 s, minimum available
+33.52 GiB/RSS 2.91 GiB. ALL106 earlier fixture bytes and scoped
+TYPE/RAW/ATTR/DOC/AX/proof/deny-list records stay exact. The old
+Regular's THIRTEEN SIG/AX/proof records, including its old generated
+fwd.eq_1, stay exact. The new scope's FOUR SIG/proof and ONE PUBLIC
+AX records reproduce private acceptance: one public/three consumed
+private, generated0 IN THIS NEW audited scope, standard Lean axioms
+only there. These are scoped audits, not a whole-library certificate.
+
+The FIRST actual GenericCommonField14 remains exact: arbitrary E/F,
+base ACF, fields/algebras only, derived domain BEFORE a common-field
+realization with linearly disjoint images. No finite-generation,
+finite-type, point-density, regularity or tensor-domain oracle.
+All260 other old math/Main sources and dependencies stay exact;
+old Regular changes ONLY module-level Status, preserving every
+mathematical declaration byte and scoped record. Root and Book each
+gain ONE focused import. Hygiene263 passes, and HTML102 retains all101
+old paths plus one tensor-domain section with the public docstring.
+The older charted-grid and frozen M4a pages remain visible.
+
+SECOND canonical root/Book passes 26.01 s, minimum available
+35.41 GiB/RSS 6.13 GiB, ONLY TWO CHECK/PASS pairs, warning-free.
+FIRST is retained/excluded: root's partial namespace overlay shadows
+fallback imports but lacks old cached project objects. Full Math/Book
+source trees and ALL cached artifacts are supplied; every artifact
+symlink of a compiled source is unlinked before writing. No source
+TYPE/proof/doc/options/resource-budget repair at this gate.
+FIRST four-pass source rendering is stable76 pages with SIXTEEN
+current accepted views: THIRTEEN prior ACTUAL byte-exact, plus
+pages3/75/76 ACTUALLY inspected. Contents, the complete new paragraph
+and bibliography are clear/complete/unclipped, with no layout repair.
+The new paragraph's clearpage is attached from its FIRST proposal.
+All49 active source statements/original provenance/44 proofs/listings/
+literals stay exact. The old independent-left tensor-relation proof
+gap is reported before concordance edits; original wording retained.
+
+Historical full/book warning totals remain711: all703 OTHER warning
+headers stay byte-exact. ONLY the eight old Regular style notices
+move by EXACTLY +4 source lines because of its module Status; their
+complete style payloads stay exact. They are retained, with no warning
+suppression. New mathematics and actual examples are warning-free.
+No checking option or resource budget change, and no old proof repair.
+The only new production repair is the explicit private-call k argument,
+whose FIRST failure remains preserved. Frozen117 remains unchanged.
+
+The tensor-domain brick of #11 is now proved for arbitrary field
+extensions of an algebraically closed base. It is independent of the
+charted P6 result and does not discharge the full generic-point
+statement, correspondence composition, arbitrary-witness charts,
+actions/classification/scheme bridges, extraction or reconstruction
+completeness. Those remain separate obligations. Final required full
+library/book AFTER this ACTUAL factual append precede commit/push.
+The durable goal continues.

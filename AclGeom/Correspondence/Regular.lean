@@ -29,7 +29,11 @@ This file provides the first reduction:
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M3a, toward checklist C2/C3 prerequisites).
+**Status:** superseded scaffolding for issue #11. The general tensor-domain
+brick over an algebraically closed base is proved in
+`AclGeom.Correspondence.RegularACF` by finite-subalgebra specialization.
+The declarations here are retained unchanged; current project routes have
+no consumers of them outside this module and the root import.
 -/
 
 namespace AclGeom

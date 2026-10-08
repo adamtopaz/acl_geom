@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Correspondence.JRigidity
+import AclGeom.Correspondence.RegularACF
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -76,6 +77,36 @@ ideal have coordinates in exactly the same `racl`-relations:
 {docstring AclGeom.mem_racl_image_of_idealOf_eq}
 
 {docstring AclGeom.transcendental_of_idealOf_eq}
+
+# Tensor-domain regularity
+%%%
+tag := "tensor-domain-regularity"
+%%%
+
+Over an algebraically closed base k, the tensor product of any two field
+extensions is a domain. This is the scalar-extension domain brick in
+blueprint Lemma 8.1(a), tracked separately in issue #11:
+
+{docstring AclGeom.isDomain_tensorProduct_of_isAlgClosed}
+
+The proof places finite tensor coefficients in a finitely generated subalgebra.
+Jacobson and Zariski lemmas derive a k-valued algebra map avoiding a nonzero
+product of coefficients. A basis of the other field shows both tensors stay
+nonzero after specialization; flatness injects the finite subalgebra tensor
+product into the original one. All three private helpers are consumed.
+This uses finite generation as an algebra, rather than as an intermediate field.
+
+An actual PRIVATE consumer derives the tensor-domain instance and applies
+Mathlib's common-field construction to obtain linearly disjoint field images.
+This discharges the tensor-domain obligation of #11; the full generic-point
+statement, correspondence composition and reconstruction completeness are
+separate obligations. The earlier regularity scaffolding is marked superseded
+with an issue reference, and its mathematical declarations remain unchanged.
+The proof route differs from the blueprint's separating-basis sketch.
+Its independent-left tensor relation argument does not establish absence
+of zero divisors; that proof-sketch gap is reported on issue #11, and the
+original wording is retained.
+Frozen M4a sources remain unchanged.
 
 # Relocation of generic points
 %%%

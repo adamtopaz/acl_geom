@@ -5649,6 +5649,25 @@ This discharges the generic recursion obligation previously bypassed by concrete
 configuration transport; it proves no extraction or completeness result.
 
 \clearpage
+\paragraph{Tensor-domain regularity in Lean.}
+The scalar-extension domain step in Lemma~\ref{lem:generic-extension}
+is proved in \lean{AclGeom.Correspondence.RegularACF} (issue~11):
+for algebraically closed $k$ and arbitrary field extensions $E,F$,
+$E\otimes_k F$ is a domain. Finite tensor coefficients lie in a finitely generated
+subalgebra, where the Jacobson and Zariski lemmas give a $k$-valued point
+avoiding a nonzero product of coefficients. A basis preserves both tensors
+under specialization, and flatness injects this subalgebra tensor product
+into the original one. An actual private check derives the domain instance
+before obtaining a common field with linearly disjoint images.
+This specialization proof differs from the separating-basis sketch above.
+The original independent-left linear-relation argument does not establish
+absence of zero divisors; this proof-sketch gap is recorded in issue~11,
+with the original wording retained.
+The older regularity declarations are unchanged and marked superseded.
+The full generic-point statement, correspondence composition and reconstruction
+completeness remain separate obligations; frozen M4a sources stay unchanged.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}
