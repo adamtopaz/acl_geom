@@ -19,8 +19,9 @@ The named consumer is the finite-component selection in the corrected blueprint
 `affine-grid-extraction` argument (#27, L2). No geometric primality after extending coefficients,
 stabilizer, action, linearity, fresh-input existence or guarded completeness is assumed or proved.
 
-**Status:** shared prime multiplier equation over k(f) proved (#27, L2b).
-Larger-base genericity, component/stabilizer linearity and guarded completeness remain open.
+**Status:** shared prime multiplier equation and finite-stage scale genericity under supplied
+sequential freshness proved (#27, L2b/L2c). Fresh-input existence, ambient enlargement/descent,
+component/stabilizer linearity and guarded completeness remain open.
 -/
 
 namespace AclGeom
@@ -90,6 +91,61 @@ theorem exists_prime_multiplier_curve_of_joint_ideal {a b x c p δ f a' b' x' : 
     (by rw [hs, hs]; exact hI)
   rw [Matrix.range_cons_empty] at he
   exact ⟨F, hF, hspan, he.trans hspan⟩
+
+/-- **The scale stays generic over fresh multipliers.**  Let `a, b, x, c` be independent and
+`f ∈ acl(a c, x) \ acl(a c)`.  If each `a' i` with `i < n` is fresh over `a, b, x, c` and the
+earlier `a' j`, then `c` is not algebraic over `a`, `f` and the `a' i` with `i < n`.  So every
+multiplier `a' i * c` stays generic over the final coefficient field. -/
+theorem scale_notMem_racl_of_fresh_multipliers {a b x c f : K} {a' : ℕ → K} {n : ℕ}
+    (hind : AlgebraicIndependent k ![a, b, x, c])
+    (hfm : f ∈ racl k ({a * c, x} : Set K)) (hfu : f ∉ racl k ({a * c} : Set K))
+    (hfresh : ∀ i < n, a' i ∉ racl k ({a, b, x, c} ∪ a' '' Set.Iio i)) :
+    c ∉ racl k ({a, f} ∪ a' '' Set.Iio n) := by
+  -- The original data generate `a`, `c` and `f`.
+  have hmem : ∀ z ∈ ({a, b, x, c} : Set K), z ∈ racl k ({a, b, x, c} : Set K) :=
+    fun z hz ↦ subset_racl k _ hz
+  have hac : a * c ∈ racl k ({a, b, x, c} : Set K) :=
+    mul_mem (hmem a (by simp)) (hmem c (by simp))
+  have hf : f ∈ racl k ({a, b, x, c} : Set K) := by
+    have hsub : ({a * c, x} : Set K) ⊆ racl k ({a, b, x, c} : Set K) :=
+      Set.insert_subset_iff.2 ⟨hac, Set.singleton_subset_iff.2 (hmem x (by simp))⟩
+    exact racl_le_of_subset_racl hsub hfm
+  -- Base: `c ∉ acl(a, f)`, since `a c ∉ acl(a, b, f)`.
+  have hbase : c ∉ racl k ({a, f} : Set K) := by
+    obtain ⟨-, hM, -⟩ :=
+      multiplier_projection_genericity (multiplier_tuple_independent hind) hfm hfu
+    intro hc
+    have ha : a ∈ racl k ({a, b, f} : Set K) := subset_racl k _ (by simp)
+    have hc' : c ∈ racl k ({a, b, f} : Set K) :=
+      racl_mono (Set.insert_subset_insert (Set.subset_insert _ _)) hc
+    exact hM (mul_mem ha hc')
+  -- Step: exchange against the freshness of `a' n`.
+  induction n with
+  | zero =>
+    have h0 : a' '' Set.Iio 0 = ∅ := by
+      ext z
+      simp
+    rwa [h0, Set.union_empty]
+  | succ n ih =>
+    intro hc
+    have hIio : a' '' Set.Iio (n + 1) = insert (a' n) (a' '' Set.Iio n) := by
+      have h : Set.Iio (n + 1) = insert n (Set.Iio n) := by
+        ext j
+        simp only [Set.mem_Iio, Set.mem_insert_iff]
+        constructor <;> intro h <;> omega
+      rw [h, Set.image_insert_eq]
+    rw [hIio, Set.union_insert] at hc
+    have hex := racl_exchange hc (ih fun i hi ↦ hfresh i (by omega))
+    have hTn : ∀ z ∈ ({a, b, x, c} : Set K),
+        z ∈ racl k ({a, b, x, c} ∪ a' '' Set.Iio n) :=
+      fun z hz ↦ racl_mono Set.subset_union_left (hmem z hz)
+    have hsub : insert c ({a, f} ∪ a' '' Set.Iio n) ⊆
+        racl k ({a, b, x, c} ∪ a' '' Set.Iio n) := by
+      refine Set.insert_subset_iff.2 ⟨hTn c (by simp), Set.union_subset ?_ ?_⟩
+      · exact Set.insert_subset_iff.2 ⟨hTn a (by simp),
+          Set.singleton_subset_iff.2 (racl_mono Set.subset_union_left hf)⟩
+      · exact fun z hz ↦ subset_racl k _ (Set.mem_union_right _ hz)
+    exact hfresh n (by omega) (racl_le_of_subset_racl hsub hex)
 
 end
 

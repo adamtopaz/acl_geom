@@ -5382,6 +5382,21 @@ their producers, ambient enlargement/descent, component/stabilizer
 linearity and guarded completeness remain open.
 No geometric primality after scalar extension is assumed.
 
+\paragraph{Finite-stage multiplier genericity in Lean.}
+The module \lean{AclGeom.Correspondence.MultiplierPrimeCurve} proves
+$c\notin\acl(a,f,a'_0,\ldots,a'_{n-1})$ for a \emph{supplied}
+sequence, each fresh over the original $a,b,x,c$ and its predecessors.
+Actual private checks combine this with the literal fixed-five joint
+ideals: over the relatively closed final coefficient field $L$,
+each $a'_i c$ is transcendental and $x'_i$ is algebraic over $L(a'_i c)$.
+One prime equation $F$ with its original pair-ideal span is fixed
+before all family sizes and choices. After coefficient extension,
+the common color set has cardinality at most $\operatorname{totalDegree}F$.
+These checks are private; the public result proves scale non-membership.
+Fresh-input existence, ambient enlargement/descent, finite translation
+stabilizers, conjugation in every characteristic, linearity and guarded
+completeness remain open. No geometric primality is asserted.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

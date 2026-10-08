@@ -5293,3 +5293,121 @@ the final precommit library/book pair and exact six-path staging/push.
 Only shared-prime/uniform-color prerequisites are proved; geometric
 genericity producers, ambient/descent, stabilizers, linearity and all
 guarded/unconditional reconstruction remain open.
+
+
+## L2c finite-stage scale genericity and a fixed-equation private consumer
+
+Pinned to clean published L2b 35d6d97, with CI37730759281 fully green
+including every library/book/deployment job and step. Claude's SOURCE-ONLY
+GO4451 produces an immutable, uncompiled 151-line MultiplierPrimeCurve
+draft (+55 lines, old 93-line prefix and final namespace closes exact).
+All eight project/toolchain inputs, four Mathlib API files and five draft
+SHA1 values are checked. The first actual standard-lint/default-kernel
+check passes 2.00s warning-free, minimum available 39.40GiB, without any
+proof repair. The private multiplier_tuple_independent gains a second
+consumer; there is ONE new public theorem, no new private or generated
+declaration. The old five scoped TYPE/RAW/ATTR/DOC/AX and proof records
+remain exact; only the new scale theorem is added, with standard axioms.
+Metadata passes 6.00s, minimum available 39.10GiB.
+
+The theorem proves c outside acl(a,f,finite selected multipliers), from
+AI(a,b,x,c), f in acl(ac,x) but not acl(ac), and each supplied a'_i fresh
+over original a,b,x,c plus earlier selected multipliers. Direct exchange
+induction supplies the bounded finite-stage result; no infinite family
+or existence/enlargement theorem is inserted. The library module's real
+Status text is qualified accordingly; its imports and every old declaration
+remain unchanged. The root file remains WHOLE byte-exact.
+
+A genuine generic-field bridge passes 2.00s standard-lint/default-kernel,
+minimum available 39.47GiB: c outside the relatively closed L, nonzero a
+inside L and x in acl(ac,f), with f in L, imply transcendence of ac over
+L and algebraicity of x over L(ac). The actual colored literal-relocation
+consumer uses L=acl(original a,f,all selected a'_i), not just new multipliers.
+Keeping original a supports the next original-versus-i L1a consumer.
+The separate delta outside acl(a) hypothesis needed for L1a remains
+explicit; it is not silently treated as an L1b input.
+
+Claude's READ-ONLY review4463 caught a PRIVATE STATEMENT defect before any
+main integration: an existential prime F with no original pair-ideal span
+could give a vacuous bound by an unrelated high-degree prime. The earlier
+green proof selected the right F but its statement failed to require it.
+The earlier fixture/output/acceptance are retained and EXCLUDED, and
+#27 reports the defect before changes. The strengthened actual consumer
+takes F, Prime F and the ORIGINAL pair-ideal span as inputs before all
+future family sizes and choices. Its final example first obtains such F
+from the published producer, then quantifies over EVERY supplied finite
+fresh literal-relocation family. It gives one common relatively closed L
+and a color Finset bounded by THAT ORIGINAL totalDegree F, via actual
+injective coefficient-map degree preservation. It passes 4.00s warning-free,
+minimum available 39.13GiB/RSS 2.64GiB. Two actual examples and two consumed
+private fixture helpers are accepted; production scale source is unchanged.
+Claude's renewed READ-ONLY review4470 ACCEPTS the corrected quantifier
+order and original span, resolving the defect.
+
+Earlier letI style warnings are retained and excluded; local let instances
+give standard Mathlib lint with no weakened checking option. Diagnostic
+metadata keeps its historical checking genre. No public color-composition
+theorem is claimed: these are actual PRIVATE consumers of the public scale,
+shared-equation and uniform-color producers. Given sequential freshness,
+larger-base genericity in this composition is now derived. Existence of
+fresh relocation inputs, stronger fresh relocation output from L1b,
+ambient enlargement/descent, finite translation stabilizers and conjugation
+in every characteristic, linearity, coordinate extraction and all guarded
+or unconditional reconstruction/completeness remain open. The separate
+#11 blueprint geometric-primality obligation remains open.
+
+This proposal changes FOUR paths only: the existing mathematical module,
+one book docstring/qualified account, ONE source concordance paragraph and
+this append-only record. All 253 other earlier mathematical module/Main
+sources, whole root, 49 active source statements and historical provenance,
+44 proofs/listings/literal content and frozen 117 remain byte-exact.
+Private canonical book/source rendering, current visual acceptance,
+renewed four-path peer review and actual-main gates precede commit/push.
+
+
+Private canonical mathematical/book chain passes 24.01s warning-free,
+minimum available 38.46GiB/RSS 4.37GiB. The first four-pass source rendering
+has a 29.14pt overfull new module-name lead; its PDF/log are retained and
+failed page 69 actually viewed. A normal-word lead fixes layout only;
+this failed render is excluded from acceptance. Source rerender follows.
+
+
+Claude's four-path review4475/4476 ACCEPTS. The source now names L(a'_i c)
+explicitly and uses consistent totalDegree notation. A warning-free stable
+71-page render is actually inspected (changed 3,69,70,71); its two-line
+tail on 70 is excluded from final visual acceptance. Concision of ONLY the
+new paragraph repairs that tail without altering any mathematical claim.
+
+
+Final source rendering passes four stable runs/70 pages, with no overflow,
+undefined/rerun request or two-line tail. All ten current selected pages
+are accepted: nine byte-identical to earlier actual views and changed 69
+newly inspected after the final wording/layout repairs. The bibliography
+and its contents entry are whole byte-identical to earlier actual views.
+The final four-path proposal is hash-pinned; actual main gates follow.
+
+
+Final peer refresh4483 ACCEPTS all four current paths after source concision.
+Actual-main full library/book pass 98.04s/8.00s, minimum available 36.87GiB
+(full-family RSS 8.38GiB); no memory stop. The strict 49-check family passes
+62.02s, minimum available 38.94GiB/RSS 3.19GiB. All 44 older fixture inputs
+remain byte-exact, and every old scoped TYPE/RAW/ATTR/DOC/AX/proof and deny-list
+record remains exact. ONLY the named scale theorem is permitted as an extra
+in the three combined curve metadata fixtures; old five rows remain exact.
+The new six combined records/two actual examples match the accepted private
+baseline with standard mathematical/behavior lint and default kernel.
+Historical diagnostic checking genres remain unchanged. Untouched historical
+warning replay is retained; the touched mathematical/book sources are clean.
+
+All 255 mathematical sources pass placeholder/project-axiom hygiene.
+All 101 HTML paths remain with the new scale docstring and earlier entries.
+The root is WHOLE byte-exact, as are all 253 other mathematical module/Main
+sources, toolchain/manifest/lakefile, 49 active source blocks and historical
+provenance, 44 proofs/listings/literal content and frozen 117. Whole old source
+recovery permits ONLY the one new concordance paragraph; whole old CONT
+prefix is exact. Source final four stable runs/70 pages and ten current visual
+selections pass, nine exact earlier views and changed 69 newly inspected.
+These actual gates precede the final required library/book pair and guarded
+four-path stage/commit/push. Supplied finite-family scale genericity only
+is accepted; ambient/fresh-input existence, stabilizers/linearity, extraction
+and all guarded/unconditional completeness remain open.

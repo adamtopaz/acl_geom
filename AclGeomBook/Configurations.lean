@@ -535,6 +535,26 @@ primality after scalar extension is asserted:
 
 {docstring AclGeom.finite_curve_ideals_of_relation}
 
+
+Finite-stage scale genericity is now proved (L2c, #27). For a supplied
+sequence of multipliers fresh over the original a,b,x,c and all earlier
+multipliers, c stays outside the relatively closed final coefficient field
+L=acl(a,f,all selected multipliers). This theorem proves non-membership;
+it does not supply the fresh sequence:
+
+{docstring AclGeom.scale_notMem_racl_of_fresh_multipliers}
+
+Actual private checks now derive each multiplier's transcendence and its
+target's algebraic dependence over that same L from this non-membership,
+sequential freshness and the literal fixed-five joint ideals. They fix one
+prime equation F and the ORIGINAL pair-ideal span before every family size
+and family choice, then bound the common color set by totalDegree F after
+coefficient extension. The original equation is part of the conclusion;
+an unrelated prime of arbitrarily large degree cannot supply the bound.
+These composition checks are private, rather than additional library
+theorems. Fresh relocation existence, ambient enlargement/descent,
+stabilizers, linearity and guarded completeness remain open.
+
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:
 
