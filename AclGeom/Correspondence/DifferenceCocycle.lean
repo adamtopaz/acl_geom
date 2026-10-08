@@ -22,9 +22,11 @@ hypotheses are explicit data.  In the intended consumer the second presentation 
 relocation of the first that fixes `p`, the common value and `δ`; that relocation and the
 linearity argument that uses this cocycle are not part of this module.
 
-**Status:** difference-cocycle data lemma proved (#27, L1a). Fixed-five relocation with a
-supplied fresh parameter is proved separately in `AffineRelocation` (#27, L1b). Linearity
-and guarded extraction/completeness remain open.
+**Status:** difference-cocycle data and concurrent-P interalgebraicity proved (#27, L1a/P1).
+Fixed-five relocation is proved separately in `AffineRelocation` (#27, L1b). Original-P
+shift transfer over algebraically closed k is privately checked for supplied input families.
+Q normalization, the combined generator presentation, remaining meets, ambient input existence/
+descent, actions, linearity and guarded extraction/completeness remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -120,6 +122,61 @@ theorem sub_mem_racl_of_affine_value_eq {a b x a' b' x' p δ : K}
     apply ha'
     rwa [Set.insert_comm x a, Set.pair_comm x b] at ha'x
   exact mem_racl_of_mem_racl_insert hP hD hδP
+
+/-- **Concurrent presentations recover the point `P`** (#27).  Let `p ∈ acl(ai, bi)` lie outside
+`acl(ai)`, let `p ∈ acl(aj, bj)`, and let `aj` be generic over `ai, p`.  If the two affine
+presentations are concurrent at a centre `t` algebraic over `k`, so that
+`w = bi + (ai - 1) t = bj + (aj - 1) t`, then `p` and `w` are interalgebraic: `p ∈ acl(ai, w)`
+and `p ∈ acl(aj, w)`, and the independent-variable intersection (8.9a) leaves `acl(w)`. -/
+theorem racl_singleton_eq_of_concurrent {ai bi aj bj p t : K}
+    (ht : t ∈ racl k (∅ : Set K))
+    (hpi : p ∈ racl k ({ai, bi} : Set K)) (hpa : p ∉ racl k ({ai} : Set K))
+    (hpj : p ∈ racl k ({aj, bj} : Set K)) (haj : aj ∉ racl k ({ai, p} : Set K))
+    (hconc : bi + (ai - 1) * t = bj + (aj - 1) * t) :
+    racl k ({p} : Set K) = racl k ({bi + (ai - 1) * t} : Set K) := by
+  obtain ⟨w, hw⟩ : ∃ w, w = bi + (ai - 1) * t := ⟨_, rfl⟩
+  rw [← hw]
+  have hwj : w = bj + (aj - 1) * t := hw.trans hconc
+  -- `p` is algebraic over `ai, w` and over `aj, w`, since `t` is algebraic over `k`.
+  have hpiw : p ∈ racl k ({ai, w} : Set K) := by
+    have ha : ai ∈ racl k ({ai, w} : Set K) := subset_racl k _ (by simp)
+    have hw' : w ∈ racl k ({ai, w} : Set K) := subset_racl k _ (by simp)
+    have hb : bi ∈ racl k ({ai, w} : Set K) := by
+      have h : bi = w - (ai - 1) * t := by
+        rw [hw]
+        ring
+      rw [h]
+      exact sub_mem hw' (mul_mem (sub_mem ha (one_mem _)) (racl_mono (Set.empty_subset _) ht))
+    exact racl_le_of_subset_racl (Set.insert_subset_iff.2 ⟨ha, Set.singleton_subset_iff.2 hb⟩) hpi
+  have hpjw : p ∈ racl k ({aj, w} : Set K) := by
+    have ha : aj ∈ racl k ({aj, w} : Set K) := subset_racl k _ (by simp)
+    have hw' : w ∈ racl k ({aj, w} : Set K) := subset_racl k _ (by simp)
+    have hb : bj ∈ racl k ({aj, w} : Set K) := by
+      have h : bj = w - (aj - 1) * t := by
+        rw [hwj]
+        ring
+      rw [h]
+      exact sub_mem hw' (mul_mem (sub_mem ha (one_mem _)) (racl_mono (Set.empty_subset _) ht))
+    exact racl_le_of_subset_racl (Set.insert_subset_iff.2 ⟨ha, Set.singleton_subset_iff.2 hb⟩) hpj
+  -- `w ∉ acl(ai, aj)`: otherwise `p ∈ acl(ai, aj)`, and exchange puts `aj` in `acl(ai, p)`.
+  have hw2 : w ∉ racl k ({ai, aj} : Set K) := by
+    intro hwa
+    have hp2 : p ∈ racl k ({ai, aj} : Set K) := by
+      refine racl_le_of_subset_racl ?_ hpiw
+      exact Set.insert_subset_iff.2 ⟨subset_racl k _ (by simp), Set.singleton_subset_iff.2 hwa⟩
+    exact haj (mem_racl_pair_of_mem_racl_pair hp2 hpa)
+  -- So `aj ∉ acl(ai, w)`, and the intersection leaves `p ∈ acl(w)`.
+  have haj1 : aj ∉ racl k ({ai} : Set K) :=
+    fun h ↦ haj (racl_mono (Set.singleton_subset_iff.2 (Set.mem_insert _ _)) h)
+  have haw : aj ∉ racl k ({ai, w} : Set K) :=
+    fun h ↦ hw2 (mem_racl_pair_of_mem_racl_pair h haj1)
+  have hpw : p ∈ racl k ({w} : Set K) := mem_racl_of_mem_racl_insert hpiw hpjw haw
+  -- Conversely `w ∈ acl(p)`, by exchange over `∅`.
+  have hp0 : p ∉ racl k (∅ : Set K) := fun h ↦ hpa (racl_mono (Set.empty_subset _) h)
+  have hwp : w ∈ racl k (insert p (∅ : Set K)) := racl_exchange (by simpa using hpw) hp0
+  refine le_antisymm (racl_le_of_subset_racl ?_) (racl_le_of_subset_racl ?_)
+  · exact Set.singleton_subset_iff.2 hpw
+  · exact Set.singleton_subset_iff.2 (by simpa using hwp)
 
 end
 

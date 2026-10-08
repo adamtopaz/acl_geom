@@ -5466,6 +5466,24 @@ Only pairwise cocycles are a new public theorem; constant centers are
 private checks. P/Q normalization and compatibility, ambient
 existence/descent, action extraction and guarded completeness remain open.
 
+\paragraph{Concurrent-P closure in Lean.}
+For explicit pair memberships, non-membership, freshness and concurrence,
+the module \lean{AclGeom.Correspondence.DifferenceCocycle} proves that
+$p$ is interalgebraic with $b'_i+(a'_i-1)t$ when $t$ is algebraic over
+$k$ (P1, issue~27). This conditional closure lemma works in every
+characteristic without an algebraic-closedness hypothesis.
+The actual private family check derives every input from constructed
+relocations and a selected triple, with the original $F$ fixed before
+every supplied fresh input family. Under explicit algebraic closedness of
+$k$ and the ambient field, the derived center lies in $k$; an actual
+$k$-polynomial image of the joint ideal gives
+$\acl_k(p)=\acl_k(b+(a-1)t)$ for the original presentation.
+No original-P or shifted-P oracle is supplied, and
+$\delta\notin\acl(a)$ remains explicit. Only the conditional closure lemma
+is a new public theorem; the original-P transfer is private. Q
+normalization, the combined generator presentation, ambient input
+existence/descent, actions, extraction and completeness remain open.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

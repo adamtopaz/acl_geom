@@ -643,6 +643,32 @@ completeness remain open. Transferring an affine shift back to a k-joint
 ideal needs the center in k; algebraic closedness of k is still to be used
 in that separate P-normalization consumer.
 
+The concurrent-P closure statement is now proved (P1, #27). Given an
+original-base algebraic center, p membership at both pairs, p outside the
+first multiplier's closure, later freshness over the first multiplier and
+p, and actual shifted concurrence, exchange and the independent-variable
+intersection give p interalgebraic with the shifted first intercept.
+Every hypothesis is explicit; this closure lemma is characteristic-free
+and needs no algebraic-closedness or joint ideal:
+
+{docstring AclGeom.racl_singleton_eq_of_concurrent}
+
+The actual private 575-line family consumer derives every public input
+from constructed relocation outputs and its selected triple. It retains
+the original F/span before every supplied fresh INPUT family. Under
+explicit algebraic closedness of both k and the ambient field, the derived
+original-base algebraic center comes from a constant in k. An actual
+k-polynomial image of the literal fixed-five joint ideal then transfers
+both closure directions to the original: p is interalgebraic with
+b + (a - 1) times that constant. No original-P or shifted-P normal-form
+oracle is supplied. The separate δ outside acl(a) remains explicit, and
+both orders of the selected later indices are handled.
+Only the conditional concurrent-P closure lemma is a new public theorem;
+the original-P transfer and full-family chain remain PRIVATE. Q
+normalization and the combined generator presentation, remaining meets,
+ambient input existence/enlargement/descent, actions, linearity, extraction
+and all completeness remain open.
+
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:
 

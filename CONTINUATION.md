@@ -5845,3 +5845,144 @@ and corrected to a multiset comparison; no source or checking-option change.
 Final required full-library/book checks follow this append before guarded
 four-path commit/push. P/Q, ambient inputs/descent, actions/extraction and
 all completeness obligations remain open; the durable goal continues.
+
+
+## P1 concurrent-P closure and private original-P shift transfer
+
+Pinned to clean published a2b76f0, exact CI37744568032 FULLGREEN at every
+library/book/deployment job and step. All five owned reports/bodies and
+eleven current body-owner references are synchronized. Claude4612 audits
+the minimal closure target and actual k-valued shift transfer. Source-only
+GO4615 and the concrete #27 scope precede every draft; ownership remains
+peer source-only under that GO and root sole compiler/main integrator.
+
+Claude's immutable uncompiled freeze4617 appends ONE public theorem to
+DifferenceCocycle: 126 -> 181 lines, 55-line append, 45-line proof, no new
+imports/helpers/options. All thirteen project inputs, the pinned genuine
+490-line consumer, two allowed Mathlib API hashes and five draft hashes/
+read-only modes are verified. Old whole 122-line prefix and four closes
+are byte-exact. FIRST standard-Mathlib-lint/default-kernel production check
+passes UNCHANGED 2.00 s, EMPTY log, minimum available 39.06 GiB. Existing
+private exchange helper is reused; no new generated declaration.
+
+Scoped metadata passes 4.00 s, minimum available 38.71 GiB/RSS 2.41 GiB.
+All three old SIG/proof records and the one old PUBLIC AX record remain
+exact, plus the new public record; the four-record scope has two old
+private helpers and two public theorems, standard Lean axioms only.
+TYPE/RAW/ATTR/DOC/AX/proof/deny-list comparisons are scoped. An initial
+metadata harness incorrectly expected three PUBLIC AX records; its failure
+is retained/excluded. The unchanged AX fixture intentionally exposes only
+public declarations (one old, two new). ONLY the expected AX count was
+repaired; all Lean diagnostic fixture bytes/proofs/checking options stay
+exact. A generic printed old3 label was subsequently corrected to the
+actual count without another compiler run; acceptance fields record the
+precise three SIG/proof and one public AX counts.
+
+The public closure theorem has explicit original-base algebraic t,
+p memberships at the two pairs, p outside acl(ai), later aj outside
+acl(ai,p), and actual shifted concurrence. Exchange shows the common
+shifted intercept w is outside acl(ai,aj); then aj is outside acl(ai,w).
+The independent-variable intersection puts p in acl(w), and exchange over
+the empty set gives w in acl(p). It is characteristic-free, with no ACF or
+literal-joint-ideal hypothesis. Non-vacuity is the linear t=0, bi=bj=p model.
+The actual full-family chain below derives every one of those raw inputs.
+
+Root's PRIVATE 72-line consumer combines the public closure theorem with
+the actual k-polynomial image of a fixed-five joint ideal. With a specified
+constant in k, it derives relocated-P closure equality from explicit raw
+membership/freshness/concurrence, then transports BOTH closure directions
+to original b+(a-1)t. No original-P or shifted-P normal-form oracle.
+ONE actual example and one consumed private transfer helper pass FIRST
+2.00 s unchanged, standard lint/default kernel/EMPTY log, minimum available
+39.03 GiB.
+
+The genuine PRIVATE 575-line consumer extends accepted B3 full490,
+retaining one original prime F/span BEFORE ALL supplied fresh INPUT
+families of size 2*totalDegree F+1. It constructs relocations, derives OUTPUT
+freshness/literal joint ideals/p and delta memberships/values/common-field
+colors, selects a same-color triple, derives all pairwise cocycles and
+concurrence, and the original-base algebraic center in BOTH later-index
+orders. Actual joint-ideal transport gives p outside acl(ai); later output
+freshness plus original p membership gives aj outside acl(ai,p). Field
+algebra derives shifted concurrence. The public theorem gives relocated-P
+interalgebraicity. Explicit [IsAlgClosed k] turns the derived center into
+a constant in k using existing BaseChange API; actual k-polynomial-image/
+joint-ideal transfer gives original P interalgebraic with b+(a-1)t.
+No constant-center/cocycle/shifted-P/original-P oracle is supplied. Ambient
+algebraic closedness and separate delta outside acl(a) remain explicit.
+ONE actual example consumes ELEVEN private helpers. Its FIRST compiler
+check passes 6.00 s, standard lint/default kernel/EMPTY log, minimum
+available 38.51 GiB/RSS 2.87 GiB. A single 105-character new example header
+was wrapped during uncompiled source preflight; no failed Lean check or
+proof/fixture/option repair. Claude4629 ACCEPTS both private consumers,
+signed shift, quantifier order, non-vacuity and a four-path checkpoint.
+
+Only the conditional concurrent-P closure lemma is a new public result.
+The original-P k-valued shift transfer per supplied fresh input family
+under k/ambient ACF is an actual PRIVATE composition. Q normalization,
+the combined generator presentation, remaining meets, ambient input
+existence/enlargement/descent, action presentation, linearity, extraction
+and guarded/unconditional completeness remain open. The independent #11
+and frozen117 obligations are untouched. A uniqueness remark and any
+claim about using one common shift are research, not additional theorems.
+
+This FOUR-path proposal updates the existing DifferenceCocycle theorem/
+real Status, ONE Book docstring/account, ONE source concordance paragraph
+and append-only CONT. Whole root and all 254 OTHER math/Main sources,
+toolchain/dependencies, 49 active source statements/original provenance,
+44 proofs/listings/literals and frozen117 stay exact. Private canonical
+Book/source/current-visual gates, peer four-path review, actual library/
+book and 77 strict regressions precede final full/book and commit/push.
+
+
+Private canonical DifferenceCocycle/Book compilation passes 24.01 s,
+minimum available 37.96 GiB/RSS 4.43 GiB, no warning/error. FIRST source
+render passes all four stable runs: 72 pages, no overflow/undefined/rerun.
+All twelve current selected views are accepted: eight byte-identical prior
+ACTUAL views plus pages 3,70,71,72 newly ACTUALLY inspected. Page 71 has a
+complete paragraph, not an orphan tail; bibliography/contents are correct.
+No source layout repair. Claude4634 ACCEPTS all four exact paths.
+
+Research-only Claude4632 confirms that independent k-translations of
+x,y,z preserve the chosen generator/table presentation when both P/Q
+normalizations are known; a common shift is not required by the corrected
+statement. H/G/Q coupled normalization still needs proof; the I-meet alone
+does not force H=a/b (the proposed h=ab alternative is a warning about that
+inference, not a new refutation theorem). No common-shift, uniqueness or
+H/G/Q theorem is added, and no guard sufficiency claim is made. Actual-main
+full/book and 77 strict checks are pending.
+
+
+Actual-main gates pass after guarded exact-four-path application and
+Claude4638 refresh acceptance: full library 62.02 s (minimum available
+35.68 GiB/RSS 9.67 GiB), book 8.00 s, all 77 strict scoped checks
+104.02 s (minimum available 38.47 GiB/RSS 2.91 GiB). All 72 earlier
+fixture inputs and every old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list
+record stay exact. Only the named P1 record is added in the three older
+DifferenceCocycle metadata scopes; new four-record scope matches accepted
+private results (SIG/proofs three old plus new, PUBLIC AX one old plus new).
+Both new actual private consumers and all old actual behaviors are
+warning-free under standard Mathlib lint/default kernel; historical
+diagnostic genres/options are unchanged.
+
+256-source hygiene finds no placeholder/project axiom. All 101 HTML paths
+and earlier docs remain, with accurate P1 docstring and private original-P
+account visible. Whole root/all 254 OTHER mathematical module/Main
+sources/toolchain/dependencies, all 49 active source statements and
+original provenance, all 44 proofs/listings/literals, frozen117 and whole
+historical CONT prefix are exact. Four source runs are stable at 72 pages;
+all twelve current selected views are accepted (eight exact prior ACTUAL
+views, changed 3,70,71,72 newly ACTUALLY viewed). No source layout repair.
+The 707 historical full/book warning-header MULTISETS remain byte-exact;
+touched mathematics and all actual behaviors have no warnings.
+
+Tracking-body cleanup is prepared for publication after push: retire ONLY
+the repeated owned Current-checkpoint lead paragraphs (11 in #27,9 in #6),
+keep every existing work-item checklist byte and historical progress
+comment, add the concrete P1 status, and synchronize all twelve body-owner
+references after live-body guards. No issue closure or broader L2/G3/G4/G5
+completion is inferred. Final required full-library/book checks follow
+this factual append before guarded four-path commit/push. Original-P
+composition stays PRIVATE under explicit k/ambient ACF and supplied INPUT
+families; Q/combined generator presentation/ambient/actions/extraction/
+completeness stay open. Durable goal remains active.
