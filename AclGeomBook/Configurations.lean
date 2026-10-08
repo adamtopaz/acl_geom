@@ -448,6 +448,17 @@ is hand-only and is not a formal result:
 
 {docstring AclGeom.QWitness.Psi.Q_ne_T}
 
+The ratio guard also puts D outside the full parameter join A∨B∨C, hence
+D≠S, and gives F≠U. The first supplies L1a's shared-point non-membership;
+the second supplies the multiplier projection prerequisite for the proposed
+finite-fibre/linearity argument. They construct no relocation or curve action:
+
+{docstring AclGeom.QWitness.Psi.D_not_le_ABC}
+
+{docstring AclGeom.QWitness.Psi.D_ne_S}
+
+{docstring AclGeom.QWitness.Psi.F_ne_U}
+
 The unchanged pure rank bridge now lives in Geometry.FiniteRank, so this
 module imports only Config.Psi:
 

@@ -11,12 +11,19 @@ import AclGeom.Config.Psi
 The meet-elimination part of the corrected blueprint Lemma `affine-grid-extraction` (#27)
 starts from incidences that EH95 Corollary 3.4 assumes ("`P, Q, R` points of `A, B, C`") but
 the blueprint's `Psi` omits.  They follow from `Psi` by rank counting alone, with no
-coordinates; two of them need the guard `I ≠ D`:
+coordinates. Here the ratio guard is `I ≠ D`. The first four incidence consequences are:
 
 * `QWitness.Psi.P_le_A`: `P ≤ A`, under the guard;
 * `QWitness.Psi.P_ne_S`: `P ≠ S`, which needs no guard;
 * `QWitness.Psi.Q_le_B`: `Q ≤ B`, which needs no guard either;
 * `QWitness.Psi.Q_ne_T`: `Q ≠ T`, under the guard.
+
+Three further necessary consequences use `I ≠ D`:
+* `QWitness.Psi.D_not_le_ABC`: `D ≰ A ∨ B ∨ C`;
+* `QWitness.Psi.D_ne_S`: `D ≠ S`, supplying the difference-cocycle non-membership;
+* `QWitness.Psi.F_ne_U`: `F ≠ U`, for the proposed multiplier-curve argument.
+
+They construct no relocation, curve action or linearity.
 
 The guard is necessary for `Q ≠ T`: the degenerate witness of `Counterexamples.QDegenerate`
 satisfies `Psi` with `Q = T`. A hand-checked, unformalized degenerate witness with
@@ -27,7 +34,7 @@ The proofs use a small rank calculus in the algebraic-independence matroid: subm
 the rank of closed elements, the resulting meet computation `inf_eq_of_rankEq`, the rank of
 a join with a new point, and exchange of points across a closed element of finite rank.
 
-**Status:** necessary lattice consequences proved (#27, L0). Meet elimination, guarded
+**Status:** necessary lattice consequences proved (#27, L0/L0b). Meet elimination, guarded
 extraction/completeness and group/action classification remain open; frozen M4a is unused.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
@@ -463,6 +470,56 @@ theorem Psi.Q_le_B (hw : w.Psi) : w.Q.1 ≤ w.B := by
     hQRG.trans (sup_le (hRC.trans le_sup_right) (Psi.G_le_AC hw))
   rw [← Psi.BY_inf_AC hw]
   exact le_inf hQBY hQAC
+
+
+/-- **`D` is generic over the parameter join under the ratio guard.** If `D` lay in
+`A ∨ B ∨ C`, meet `D` and exchange would give `D = S`. Since `P ≤ A` and `P ≠ S`,
+the same meet would put `Y` below `A`, a contradiction. This supplies the non-membership
+needed at the first-meet elimination seam. -/
+theorem Psi.D_not_le_ABC (hw : w.Psi) (hID : w.I ≠ w.D) :
+    ¬ w.D.1 ≤ w.A ⊔ w.B ⊔ w.C := by
+  intro hD
+  have hDSX : w.D.1 ≤ w.S.1 ⊔ w.X.1 := by
+    rw [← hw.meet_D]
+    exact inf_le_right
+  have hDS : w.D.1 ≤ w.S.1 := by
+    by_contra h
+    have hX := le_sup_point_of_le_sup_point (Point.rankEq_one w.S) hDSX h
+    exact hw.X_notLe (hX.trans
+      (sup_le (hw.S_le.trans (le_sup_left.trans le_sup_left)) hD))
+  have hDS' : w.D = w.S := Point.eq_of_le hDS
+  have hDP : ¬ w.D.1 ≤ w.P.1 := fun h ↦
+    hw.P_ne_S ((Point.eq_of_le h).symm.trans hDS')
+  have hDPY : w.D.1 ≤ w.P.1 ⊔ w.Y.1 := by
+    rw [← hw.meet_D]
+    exact inf_le_left
+  have hY := le_sup_point_of_le_sup_point (Point.rankEq_one w.P) hDPY hDP
+  exact hw.Y_notLe ((hY.trans (sup_le (hw.P_le_A hID)
+    (hDS.trans hw.S_le))).trans (le_sup_left.trans le_sup_left))
+
+/-- **`D ≠ S` under the ratio guard.** This is the missing shared-point non-membership
+for the difference-cocycle data lemma when affine coordinates are supplied. -/
+theorem Psi.D_ne_S (hw : w.Psi) (hID : w.I ≠ w.D) : w.D ≠ w.S := by
+  intro hDS
+  apply hw.D_not_le_ABC hID
+  rw [hDS]
+  exact hw.S_le.trans (le_sup_left.trans le_sup_left)
+
+/-- **`F ≠ U` under the ratio guard.** Meet `F` would otherwise put `D` on the line
+`T ∨ U` inside `A ∨ B ∨ C`. In the proposed first-meet linearity argument this ensures
+the `F`-curve has a generic multiplier projection, rather than a vertical degeneration.
+It proves no curve action or linearity. -/
+theorem Psi.F_ne_U (hw : w.Psi) (hID : w.I ≠ w.D) : w.F ≠ w.U := by
+  intro hFU
+  have hUTD : w.U.1 ≤ w.T.1 ⊔ w.D.1 := by
+    rw [← hFU, ← hw.meet_F]
+    exact inf_le_right
+  have hUT : ¬ w.U.1 ≤ w.T.1 := fun h ↦
+    Psi.T_ne_U hw (Point.eq_of_le h).symm
+  have hDTU := le_sup_point_of_le_sup_point (Point.rankEq_one w.T) hUTD hUT
+  exact hw.D_not_le_ABC hID (hDTU.trans
+    (sup_le (hw.T_le.trans (le_sup_right.trans le_sup_left))
+      (hw.U_le.trans le_sup_right)))
 
 end QWitness
 

@@ -5325,6 +5325,13 @@ and $P\ne S$, $Q\le B$ without a guard, by finite-rank counting and exchange
 \lean{Geometry.FiniteRank}; no transfer import is used.  These are prerequisites
 of meet elimination; guarded extraction and completeness remain open.
 
+\paragraph{Further first-meet genericity in Lean.}
+Under $I\ne D$, \lean{AclGeom.Config.PsiLattice} also proves
+$D\nleq A\vee B\vee C$, hence $D\ne S$, and $F\ne U$ (L0b, issue 27).
+These supply the shared-point non-membership and multiplier projection
+prerequisites for the still-open first-meet relocation and linearity argument.
+No relocation, curve action or completeness is constructed.
+
 \paragraph{Difference-cocycle data lemma in Lean.}
 \lean{AclGeom.Correspondence.DifferenceCocycle} proves $b-b'\in\acl(a,a')$
 for two presentations $a'x'+b'=ax+b$ with independent $a,b,x$, fresh $a'$,

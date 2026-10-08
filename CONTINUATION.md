@@ -4940,3 +4940,56 @@ orphan or overflow occurs. All 49 active statement blocks/original provenance,
 44 proof blocks/listings and the literal ratio/TOT content remain exact.
 Only a concordance status paragraph is added. These gates precede exact
 five-path staging and commit/push; completeness and relocation remain open.
+
+## D/F genericity prerequisites for first-meet elimination (#27, L0b)
+
+The existing PsiLattice gains three necessary consequences under Psi and
+I≠D: D lies outside A∨B∨C, hence D≠S, and F≠U. D≠S supplies the shared-point
+non-membership required by L1a when affine coordinates are supplied. F≠U is
+the generic multiplier projection prerequisite for the proposed finite-fibre
+linearity argument. Neither coordinates, literal relocation, a curve action
+nor linearity/extraction/completeness is constructed.
+
+Root proves them using only existing point exchange, P≤A/P≠S and the literal
+D/F meets. D inside the parameter join would force D=S and then Y≤A; F=U
+would put D on T∨U inside that join. The first production check passes
+2.00s with standard lint/default kernel; no proof repair, new helper or
+checking option is used. The first scoped/actual-consumer check passes
+8.01s. All 84 earlier type/body/attribute/docstring/axiom records stay exact;
+the new scoped total is 87. The module has 40 authored theorems, seven public
+and 33 private, with no generated additions. All checked axioms are standard
+Lean axioms; this remains a scoped audit. Two actual consumers are the exact
+abstract guarded interface and the canonical independent table.
+
+L1a is published at cae7151, with its one public/two private data theorems
+and exact earlier source/Main/frozen provenance. The first fixed-three
+relocation plan would not preserve c/f literally. The corrected source-only
+L1b plan fixes p,y,δ,c,f, with f∈racl{c,δ} and δ∈racl{p,y} keeping the fixed
+base closure inside {p,y,c}. That constructive proof remains unaccepted.
+The genuine group/action/classification, guarded completeness and multiplication
+converse remain open; the frozen 117-item M4a is unchanged.
+
+Claude's read-only review accepts all three proofs and all four paths. The
+actual-main full library/book pass 102.05s/18.01s (minimum available 35.05GiB,
+peak full-family RSS 8.34GiB), with no memory stop. The 30-check actual-main
+family passes 56.03s: all 26 earlier fixture inputs and prior scoped records
+remain exact, including the old 84 lattice records; the sole lattice addition
+is the three named theorems. The new 87-record audit and two actual consumers
+match the accepted private baseline. Old 72 fixtures/62 public records,
+guarded 125/ten behaviors, generic 163/six and cocycle three/two stay exact.
+New production/behaviors use standard lint/default checking; historical
+fixtures retain exact bytes and their established diagnostic scope. All 251
+Lean sources pass placeholder/project-axiom hygiene; every 249 other old
+module/Main source and the entire root import file remain byte-exact.
+
+All 101 HTML paths remain with the D/F and prior L0/L1a/G1c docstrings visible.
+The source passes four stable runs/70 pages, with ten selected pages visually
+accepted: eight are byte-identical to previous actual views, and changed
+pages 68/69 are newly viewed. All 49 active statement blocks/original
+provenance, 44 proofs/listings and literal ratio/TOT content remain exact;
+only one concordance paragraph is added. Frozen 117 M4a remains unchanged.
+These actual gates precede exact four-path staging and commit/push. Both
+prior L0/L1a exact CI runs are fully green, including every build/book/deploy
+job and step. L1b and all completeness/action/classification obligations
+remain unaccepted; its original private source passes standard production
+without repair, but inventory/consumer/integration gates are still pending.
