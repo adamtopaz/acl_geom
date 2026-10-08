@@ -5362,6 +5362,26 @@ The coordinate $X$ may lie in that parameter field, as when $f=X$.
 Component/stabilizer linearity, iterated fresh relocation and guarded
 extraction/completeness remain open; no curve action is assumed.
 
+\paragraph{Uniform curve-locus bound in Lean.}
+Under the explicit field hypotheses, the module
+\lean{AclGeom.Correspondence.FiniteCurveLoci} bounds all generic
+dependent pair ideals on a nonzero planar equation $F$ by a finite set
+of cardinality at most $\operatorname{totalDegree}F$ (L2b, issue~27).
+Its consumed factor-count argument bounds the number of prime factors
+by the degree. Injective coefficient extension preserves that degree;
+this standard fact is verified separately in the private consumer checks.
+The shared-equation module
+\lean{AclGeom.Correspondence.MultiplierPrimeCurve} starts with the
+original independence of $a,b,x,c$, derives independent $a,b,ac,x$ and
+combines L2a with the existing common-parameter theorem to give the same
+prime pair ideal over $k(f)$ after a literal fixed-five relocation.
+The degree bound can therefore be fixed before selecting the larger
+coefficient field used for component colors.
+Genericity and dependence over that larger field remain explicit inputs;
+their producers, ambient enlargement/descent, component/stabilizer
+linearity and guarded completeness remain open.
+No geometric primality after scalar extension is assumed.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

@@ -5175,3 +5175,121 @@ actual gates precede exact five-path staging and commit/push. Same joint
 k-locus is the precise proved equality; fixed-parameter relative-locus and
 finite-color/base-change/stabilizer arguments remain obligations. All four
 prior exact CI runs are fully green including every build/book/deploy step.
+
+
+## Shared prime multiplier equation and uniformly bounded curve loci (#27, L2b)
+
+Correspondence.MultiplierPrimeCurve starts from the original L1b independence
+of a,b,x,c, derives independence of a,b,ac,x, and combines L2a with the
+existing FamilyCover common-parameter theorem. A literal fixed-five
+relocation has the same prime pair ideal over the actual field k(f).
+One public theorem and one consumed private tuple-independence helper give
+this genuine producer; all larger-base genericity and stabilizers remain
+open. The first isolated source check lacked the focused
+Geometry.Representatives import; that diagnostic is retained. Adding that
+import gives standard-lint/default-kernel success in 2.00s, minimum
+available 39.38GiB, without changing the proof or checking options.
+
+Correspondence.FiniteCurveLoci supplies two public theorems: all generic
+dependent pair ideals on one nonzero planar equation F lie in one Finset
+with cardinality at most totalDegree F, hence form a finite set. One
+consumed private helper bounds the number of prime factors counted with
+multiplicity by total degree. This is the finite-component selection input
+for corrected affine-grid meet elimination, without any geometric-primality,
+action, stabilizer, linearity or guarded completeness hypothesis.
+
+Claude's immutable 102-line replacement is pinned to 761fd99 and root's
+immutable input. All 8 source/toolchain inputs, 8 Mathlib API files and 5
+draft hashes verify; the earlier finite theorem's TYPE text remains exact.
+Its first actual standard-lint/default-kernel check passes unchanged in
+2.00s, minimum available 39.40GiB. No weaker option or proof repair is used.
+The earlier root 53-line finite-only proof, its post-review explicit K,
+author/doc clarity changes and all prior accepted/failed fixtures are kept
+outside git. The API audit finds the literal fixed-parameter pair transfer
+already proved in FamilyCover; a redundant FixedParameterLocus draft is
+cancelled before any source is produced. That discovery supersedes the
+earlier relative pair-ideal audit gap, while larger-base geometric producers
+and the separate #11 blueprint obligation remain open.
+
+The actual uniform shared-equation consumer has five examples and all five
+scoped records (three public/two private, no generated declaration) checked
+with only standard Lean axioms. It passes 8.00s warning-free, minimum
+available 38.99GiB: an arbitrary family finite range, two distinct horizontal
+loci on the reducible X1(X1−1), actual constructive L1b from AI(a,b,x,c) to
+the public shared prime equation, mapped shared-equation finite loci with
+explicit larger-base genericity, and a color Finset bounded by the ORIGINAL
+equation degree after coefficient extension. This is a scoped axiom audit.
+
+The quantitative route chooses n=3D+1 before relocations, D=totalDegree F.
+The earlier plan-only 4N−3 formula fails for small N and is superseded.
+No corresponding theorem or source statement was changed. Mere finiteness
+is sufficient for an alternate route that first supplies one infinite
+independent ambient family, then fixes its single relatively closed
+coefficient field and uses infinite pigeonhole. The finite-n route instead
+uses the uniform degree bound. Both require genuine ambient enlargement
+and descent, which this checkpoint does not prove. The proposed common
+final field may avoid geometric primality in this engine; original #11
+remains an independent blueprint obligation. Pairwise L1a, larger-base
+genericity, finite translation stabilizers and conjugation in every
+characteristic, linearity, ambient/descent, coordinate extraction and all
+guarded completeness remain open, with no hidden oracle.
+
+Private diagnostic findings are retained and excluded from acceptance:
+a pre-compiler quoted-argv wrapper failure; original fixture implicit K
+before .subset and two unnecessarySimpa warnings; a dependent coefficient
+subtype rewrite needing typed parameter/rw; private doc long lines; a
+tuple-AI simplifier rewriting the closure range without resolving the
+displayed coordinate; and an incomplete Book cache namespace before any
+book elaboration. The latter is corrected by complete cached Book links.
+A precheck assertion after optional nits stopped before hash refresh, but
+a dependent book call incorrectly proceeded; it is retained. A subsequent
+call selected the Mathlib submission linter for Verso's mandatory #doc;
+that genre finding is excluded. The final book uses canonical Verso/lake
+lint; mathematical sources and actual fixtures use the standard Mathlib
+set/default kernel, with no checking-option weakening.
+
+L2a 761fd99 is cleanly committed/pushed and CI37727164446 is fully green,
+including every library/book/deployment job and step. All five prior
+owned current body references are synchronized. This six-path private
+proposal adds two focused modules/imports, three book docstrings, ONE source
+concordance paragraph and this record. Every 252 earlier module/Main source,
+49 active mathematical blocks and historical provenance, 44 original
+proofs/listings/literal content, all public reconstruction assumptions and
+frozen 117 remain unchanged. Final private book/source/visual gates, renewed
+peer review and actual-main acceptance precede application and commit/push.
+
+
+Claude's refreshed six-path and all actual-fixture review is ACCEPT after
+the two source accuracy qualifications and optional final spacing repair.
+The canonical mathematical/book chain passes 24.01s warning-free, minimum
+available 38.39GiB. Mathematical modules retain standard lint/default kernel;
+Verso uses its canonical checking genre. Final source rendering has four
+stable runs/70 pages with no overflow or undefined/rerun request. Ten selected
+current pages are accepted: nine byte-identical to previous actual views
+and changed 69 newly viewed, including all three long module names. This
+precedes hash-guarded main application and actual library/book/regressions.
+
+
+Actual-main full library/book pass 58.02s/8.00s, minimum available 36.84GiB
+(full-family RSS 8.38GiB), with no memory stop. The 44-check regression family
+passes 86.04s, minimum available 38.09GiB/RSS 2.90GiB. All 38 earlier fixture
+inputs and scoped TYPE/RAW/ATTR/DOC/AX records remain exact, including
+old 72 fixtures/62 public records, guarded 125/ten, generic 163/six,
+lattice 87/six plus two D/F, cocycle 3/two, relocation 1/two and multiplier 3/three.
+The new five-record/five-example checks match the accepted private baseline.
+All 255 Lean sources pass placeholder/project-axiom hygiene. Every 252 earlier
+module/Main source is byte-exact; root adds exactly two imports. The uniform
+module is exact to Claude's immutable original, and the shared-prime source
+is exact to the accepted root proof except its real module-status text.
+
+All 101 HTML paths remain, with the three new docstrings and prior
+L0/L0b/L1a/L1b/L2a/G1c entries visible. Source passes four stable runs/70
+pages and ten current selected visual checks: nine exact earlier actual
+views and changed 69 newly viewed. All 49 active statements/provenance,
+44 proofs/listings/literal ratio/TOT and frozen 117 remain exact; whole old
+source recovery permits only ONE added concordance paragraph. The entire
+historical CONT prefix is preserved exactly. These actual gates precede
+the final precommit library/book pair and exact six-path staging/push.
+Only shared-prime/uniform-color prerequisites are proved; geometric
+genericity producers, ambient/descent, stabilizers, linearity and all
+guarded/unconditional reconstruction remain open.

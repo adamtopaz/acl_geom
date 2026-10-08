@@ -17,6 +17,8 @@ import AclGeom.Correspondence.MultiplicativeQuotient
 import AclGeom.Correspondence.DifferenceCocycle
 import AclGeom.Correspondence.AffineRelocation
 import AclGeom.Correspondence.MultiplierCurve
+import AclGeom.Correspondence.FiniteCurveLoci
+import AclGeom.Correspondence.MultiplierPrimeCurve
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -508,6 +510,30 @@ The finite-component/stabilizer and iterated-freshness arguments remain open:
 {docstring AclGeom.affine_multiplier_curve_of_joint_ideal}
 
 {docstring AclGeom.multiplier_projection_genericity}
+
+The shared prime multiplier equation and uniform curve-locus bound are
+now proved (L2b, #27). From L1b's original independence of a,b,x,c,
+the derived multiplier coordinates a,b,ac,x are independent. L2a and the
+existing FamilyCover common-parameter theorem give the same prime pair
+ideal over the actual field k(f) for a literal fixed-five relocation:
+
+{docstring AclGeom.exists_prime_multiplier_curve_of_joint_ideal}
+
+For a fixed nonzero planar equation F, all generic dependent pair ideals
+lie in a finite set whose cardinality is at most totalDegree F. Each prime
+generator is associated to a factor of F, and the number of factors is
+bounded by that degree. Injective coefficient extension preserves the
+degree, so the bound can be fixed before selecting a larger coefficient
+field. Actual private checks compose the published shared-equation producer
+with the color bound after extension. Transcendence and algebraic dependence
+over that larger field remain explicit inputs; their geometric producers,
+ambient enlargement/descent, stabilizers and linearity remain open.
+A reducible equation can have distinct curve ideals, so no geometric
+primality after scalar extension is asserted:
+
+{docstring AclGeom.exists_curve_ideal_colors}
+
+{docstring AclGeom.finite_curve_ideals_of_relation}
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:
