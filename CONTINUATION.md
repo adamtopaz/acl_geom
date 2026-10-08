@@ -7054,3 +7054,148 @@ actions/classification/scheme bridges, extraction or reconstruction
 completeness. Those remain separate obligations. Final required full
 library/book AFTER this ACTUAL factual append precede commit/push.
 The durable goal continues.
+
+
+## Prime polynomial ideals after scalar extension (#5)
+
+Pinned to clean published f5df7f73bd4bad5238e9e655b8757a26a9230dd3.
+Regularity CI37802455841 is FULL GREEN at every build/book/deployment
+step; six owned reports/bodies and twenty #6/#27 body-owner references
+are reconciled with history/checklists preserved. #11 is closed completed
+for ONLY its tensor-domain obligation. Full generic extension remains #5.
+Chit5021 reports that checkpoint. PLAN5025 and supplements5034/5043
+lead to concrete review request5044, ACK5048 and Claude5051 ACCEPT.
+Peer AUDIT.md SHA1 ddf66b128a7da960542d5b5eef93a8a5a35e3295 is verified.
+Its actual reads are FunctionField40-80/greps, the named project
+module declaration greps, BaseChange955-975, source1268-1277 plus
+inherited1240-1286, full producer/actual consumer/contraction and
+source diffs, expected scope and acceptance heads. It does NOT read
+Mathlib, AGENTS/CONT/Book/AffineRelocation or root ledgers in this audit.
+The peer owns only read-only audit notes; root remains sole Lean/main
+owner. No new source GO has been assigned to the peer. Only the author
+credit and private helper wording change after its nonblocking nits;
+TYPE/proof/public-doc/import/option/budget bytes remain unchanged.
+
+The original22 PLAN pins stay exact. Root's post-plan actual reads are
+recorded in separate ledgers. The two-example API with one consumed
+private domain helper passes SECOND, 4.00 s/min32.66 GiB, EMPTY log.
+FIRST source/log/metrics retained: quotient-prime statement arguments,
+RingHom coercions for ideal map composition, explicit aeval factorization.
+The independent contraction API passes THIRD, 4.00 s/min33.80 GiB,
+EMPTY log, for ANY ideal over ANY field extension, no ACF/prime premise.
+Its first two coercion/rewrite failures are retained. No option or
+resource-budget change at any gate.
+
+The temporary named producer and tuple-based consumer APIs pass SECOND,
+4.00 s each/min33.76 and33.58 GiB, EMPTY logs. Their first long-line
+notices are retained; only declaration-line wrapping repairs them.
+The actual private production source passes FIRST, 4.00 s/min33.82 GiB,
+EMPTY log, standard Mathlib/default kernel. It has85 lines, four focused
+imports, ONE public theorem and ONE consumed private domain helper.
+The theorem covers arbitrary prime ideals, arbitrary variable type and
+arbitrary field extensions E of ACF k, with no finite-type, geometric
+primality, point-density or tensor-domain oracle.
+The quotient domain embeds into its fraction field; flatness preserves
+the embedding after tensoring with E. RegularACF supplies the field
+tensor domain. Tensor quotient and polynomial equivalences transfer
+domain-ness to the extended ideal's quotient, proving primeness.
+
+FIRST metadata passes6.00 s/min33.02 GiB: TWO SIG/proof records and
+ONE PUBLIC AX, one public/one private, generated0 in the NEW audited
+scope and only standard Lean axioms there. No whole-library certificate.
+FIRST actual PRIVATE GenericScalarPoint consumer passes4.00 s,
+min33.98 GiB, EMPTY log. One example/two consumed private FIXTURE helpers
+start from ANY tuple in ANY field F/k, at independent universes u/v/w/z.
+The extended ideal's primeness is DERIVED, then its quotient-fraction
+field K:Type(max v z) gives a tuple b with EXACT k and E ideals.
+Algebraic independence of the original affine-space tuple over k implies
+independence of b over E. No prime/domain/density/point/regularity oracle.
+Its only change from the green API consumer is the production import.
+These fixture helpers are private validation code, never production.
+
+Claude5051 independently confirms root's infinite-cardinal inference
+counterexample, reported BEFORE
+any concordance on #5 comment6064168573. For independent t_i, E=ACF of
+k(t_i), V=A1, v=t0 in E, absolute trdeg is aleph0=aleph0+1 while v is
+algebraic over E. This refutes that inference, not the lemma's valid
+generic-over-E premise. Original statement/proof wording stays exact.
+The Book's stale final prose that #11 remains open is corrected, while
+its full generic-extension and other obligations remain visible.
+
+Exactly FIVE paths are proposed: GeometricPrime, one root import, Book
+import/account/public docstring and named stale-status prose repair,
+one source concordance paragraph with its clearpage FROM FIRST proposal,
+and append-only CONT. All existing mathematical declarations stay exact.
+Canonical root/Book/source/visual, full library/book, all113 earlier
+fixture bytes/scoped records, four new checks, hygiene and final actual
+factual acceptance append precede commit/push. General locus-relative
+bases, ambient automorphisms, composition, arbitrary initial charts,
+actions/classification/schemes, extraction and completeness stay open.
+Frozen117/dependencies unchanged. The durable goal continues.
+
+
+Actual scalar-extension acceptance: Claude5051 ACCEPTS the producer,
+real consumer and source-gap scope;5059 ACCEPTS all FIVE paths.
+Actual full lake build passes 56.02 s,
+minimum available 32.46 GiB/RSS 8.32 GiB;
+lake exe book passes 18.01 s,
+minimum available 34.15 GiB/RSS 1.57 GiB.
+All117 strict actual-main checks pass 170.04 s,
+minimum available 33.61 GiB/RSS 2.93 GiB.
+ALL113 earlier fixture bytes and scoped TYPE/RAW/ATTR/DOC/AX/proof/
+deny-list records stay exact, including the old Regular13 and new
+RegularACF4/1 records and derived common-field consumer. The NEW scope
+has TWO SIG/proof records and ONE PUBLIC AX, one public/one consumed
+private, generated0 IN THIS audited scope, standard Lean axioms only
+there. These are scoped audits, not a whole-library certificate.
+
+The actual PRIVATE GenericScalarPoint one-example/two-helper fixture
+starts from ANY tuple over ACF k and arbitrary E/F, at independent
+universes. Its extended prime ideal is DERIVED; the canonical quotient-
+fraction-field tuple has EXACT k/E ideals. Whole-tuple independence
+over k implies independence over E. No prime/domain/regularity/density/
+point oracle. General subfamily/transcendence-basis/field-freeness
+independence is a separate obligation, proposed by Claude5051 finding4.
+
+All262 old mathematical/Main source bytes and dependencies stay exact;
+root and Book each gain ONE focused import. Book adds the account and
+public docstring and repairs ONLY the named stale #11-open sentence.
+Hygiene264 passes; HTML103 preserves all102 prior paths and adds one
+prime-ideal section. The charted-grid and frozen117 pages remain visible.
+All711 historical full/book warning headers stay BYTE-EXACT, with no
+source-position change or suppression. New mathematics and actual
+examples are warning-free under standard Mathlib/default kernel.
+
+FIRST canonical root/Book passes30.01 s/min33.50 GiB; SECOND after
+the peer's private-doc/header nits passes24.01 s/min34.35 GiB. Both
+have ONLY TWO CHECK/PASS pairs, warning-free with proper Book genre.
+Full Math/Book namespace sources and ALL cached artifacts are supplied;
+every compiled-source cache symlink is unlinked before writing.
+The source is85 lines, one public/one private. The ONLY post5051 source
+changes are author credit and the private helper docstring. Recheck
+passes2.00 s/min34.68 GiB; second metadata6.00 s/min34.67 GiB proves
+ALL TYPE/raw/attributes/public DOC/AX/proofs exact, with ONLY the
+private DOC hash changed. No checking option or budget change.
+The first API failures and the two first long-line notices are retained;
+wrapping declaration lines is their only style repair. Private docs
+preparation also retains its initial missing-directory failure, repaired
+only by creating its own source-output directory, with no main effect.
+
+FIRST four-pass source rendering is stable77 pages, SEVENTEEN current
+accepted views: FOURTEEN prior ACTUAL byte-exact, plus pages3/76/77
+ACTUALLY inspected. Contents, the entire new paragraph and bibliography
+are clear/complete/unclipped, with no layout repair. Its clearpage is
+attached FROM FIRST proposal. Removing the one new paragraph recovers
+ENTIRE prior source bytes: all49 active statements/original provenance,
+all44 proofs/listings/literals exact. The infinite-cardinal inference
+gap is reported on #5 BEFORE any concordance and independently confirmed
+by Claude5051; it refutes an inference, not the generic-over-E target.
+The original source statement/proof wording remains unchanged.
+
+The coordinate-ring prime-extension brick is now proved. #11 remains
+closed with exactCI37802455841 FULL GREEN. Full generic extension,
+ambient automorphisms, composition, arbitrary initial charts, actions/
+classification/schemes, extraction and all reconstruction completeness
+remain open. Frozen117 is unchanged. Final required full library/book
+AFTER this ACTUAL factual append precede commit/push. The durable goal
+continues.

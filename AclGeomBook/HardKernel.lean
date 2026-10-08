@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import VersoManual
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Correspondence.RegularACF
+import AclGeom.Correspondence.GeometricPrime
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -107,6 +108,38 @@ Its independent-left tensor relation argument does not establish absence
 of zero divisors; that proof-sketch gap is reported on issue #11, and the
 original wording is retained.
 Frozen M4a sources remain unchanged.
+
+# Prime ideals after scalar extension
+%%%
+tag := "geometric-prime"
+%%%
+
+The coordinate-ring step of blueprint Lemma `generic-extension` (a)
+holds for any prime polynomial ideal over an algebraically closed base
+and any field extension, with arbitrary variable type:
+
+{docstring AclGeom.isPrime_map_of_isAlgClosed}
+
+The quotient domain embeds in its fraction field. Tensoring that
+embedding with the extension field preserves injectivity by flatness;
+the tensor-domain theorem above supplies the target domain. Existing
+tensor quotient and polynomial equivalences then give the extended
+prime ideal. The one private domain helper is consumed by this theorem.
+
+The private checked consumer `GenericScalarPoint` starts from an arbitrary
+tuple, derives the extended quotient domain and constructs its canonical
+fraction-field point. Its ideals over the original and extension fields
+are exact, and independent affine-space coordinates remain independent
+over the extension. No domain, prime-ideal, density or point oracle is
+supplied by the caller. The general locus-relative transcendence-basis
+and ambient-automorphism formulations remain separate obligations.
+
+The original proof's absolute transcendence-degree equality does not
+by itself give independence when the coefficient extension has infinite
+transcendence degree. Issue #5 records the counterexample to that inference;
+the generic-over-extension premise and original proof wording are retained.
+Frozen M4a and the composition, chart, action and completeness obligations
+remain unchanged.
 
 # Relocation of generic points
 %%%
@@ -427,6 +460,6 @@ $`\lambda = 1`:
 The elementwise correspondence results, simultaneous-coset classification,
 and `j_rigidity` are proved uniformly in the exponential characteristic,
 meeting M3's rigidity acceptance test.  The literal three-pair additive
-packaging and abstract subgroup/coset statements remain open in #5, the
-general tensor-domain statement in #11, and the rational group and affine
-action construction in #12 and #21.
+packaging, abstract subgroup/coset statements and the full generic-extension
+lemma remain open in #5. The tensor-domain obligation #11 is proved above;
+the rational group and affine action construction remain open in #12 and #21.

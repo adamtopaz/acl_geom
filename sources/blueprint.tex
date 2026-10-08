@@ -5668,6 +5668,24 @@ The full generic-point statement, correspondence composition and reconstruction
 completeness remain separate obligations; frozen M4a sources stay unchanged.
 
 \clearpage
+\paragraph{Prime polynomial ideals after scalar extension.}
+Lean additionally proves that every prime ideal in $k[X_i]$ remains prime
+in $E[X_i]$ for any field extension $E/k$ of an algebraically closed field $k$,
+with arbitrary variable type. The theorem is
+\texttt{AclGeom.isPrime\_map\_of\_isAlgClosed}.
+The quotient domain embeds after scalar extension into a tensor product
+of fields; flatness and the preceding tensor-domain theorem supply the domain.
+Tensor quotient and polynomial equivalences identify the extended ideal.
+A private checked consumer starts from any tuple and constructs a fraction-field
+point with its exact $k$-ideal and the extended $E$-ideal; independent affine-space
+coordinates remain independent over $E$, with no caller domain or point oracle.
+The absolute transcendence-degree equality in the original proof of
+Lemma~\ref{lem:generic-extension} does not alone imply independence for infinite
+transcendence degree; issue~5 records that inference gap, retaining the original
+wording. General locus-relative bases, ambient automorphisms, composition and
+reconstruction completeness remain separate obligations; frozen M4a is unchanged.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}
