@@ -14,6 +14,7 @@ import AclGeom.Geometry.Equivalence
 import AclGeom.Geometry.FiniteRank
 import AclGeom.Geometry.Representatives
 import AclGeom.Geometry.Transport
+import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Perfection.Subfield
 import AclGeom.Perfection.Existence
 import AclGeom.Perfection.Lattice

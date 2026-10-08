@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Config.Correctness
 import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
+import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Counterexamples.QDegenerate
 import AclGeom.Closure.RationalFunctions
@@ -27,8 +28,8 @@ tag := "configurations"
 
 The configuration layer (blueprint §§6–7, milestone M4) defines the finite
 geometric predicates through which the field structure will be recovered
-from the geometry alone. Soundness, semantic J assembly and concrete geometric
-invariance are proved. Unguarded Q completeness/extraction and geometric Q
+from the geometry alone. Soundness, semantic J assembly, generic finite-formula
+invariance and concrete geometric invariance are proved. Unguarded Q completeness/extraction and geometric Q
 projection are refuted even over ACF pairs; guarded Q completeness and ACF
 Q′/J completeness remain open (#27). Conditional
 interpretation and the public lattice-form target keep both perfected
@@ -58,6 +59,40 @@ foundation layers:
 {docstring AclGeom.col_iff_memCl}
 
 {docstring AclGeom.memCl_iff_mem_pointCl}
+
+The blueprint's generic recursion method is now formalized. Finite lattice terms
+and formulas cover equality/order, finite ranks, Boolean operations and point
+quantifiers; assignments extend at index zero under each quantifier. This avoids
+encoding the full countable algebraic-closure language:
+
+{docstring AclGeom.GeometryTerm}
+
+{docstring AclGeom.GeometryFormula}
+
+{docstring AclGeom.GeometryTerm.eval}
+
+{docstring AclGeom.GeometryFormula.Holds}
+
+Term evaluation commutes with a lattice isomorphism. Structural recursion on
+formulas then preserves satisfaction, using the bijection of points in the
+existential and universal cases. The proved presentation bridge gives the same
+result for a closure-preserving equivalence of point geometries:
+
+{docstring AclGeom.GeometryTerm.eval_map}
+
+{docstring AclGeom.GeometryFormula.holds_map_iff}
+
+{docstring AclGeom.GeometryFormula.holds_pointEquiv_iff}
+
+Tuple incidence and collinearity are actual instances of this recursion theorem:
+
+{docstring AclGeom.memCl_map_iff}
+
+{docstring AclGeom.col_map_iff}
+
+This completes G1c (#6). The separate concrete transport of partial quadrangles,
+Psi and Q/Q′/J remains proved by its existing route. Guarded extraction and the
+group/action engine remain open; the frozen M4a chain is unchanged.
 
 # The partial quadrangle
 %%%

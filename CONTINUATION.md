@@ -4641,10 +4641,11 @@ Status discrepancies and the scope were reported before edits on issue 6
 Claude's read-only G1 audit 4068 confirms Language's incidence/collinearity,
 partial quadrangle and named-triple permutation, FiniteRank's finite-rank
 interfaces and concrete invariance in Geometry/Config Transport. Broad G1
-stays open with explicit unimplemented generic-formula recursion and named
-MemCl/Col invariance interfaces. The accepted concrete per-predicate route
-bypasses the blueprint's proposed generic recursion method; no bypassed
-obligation is silently closed. General ACF Q/Q′/J completeness, corrected
+remained open at ed61c33 with unimplemented generic-formula recursion and named
+MemCl/Col invariance interfaces. That historical gap is addressed in the G1c
+checkpoint below; the earlier concrete per-predicate route had bypassed the
+blueprint's proposed generic recursion method. No bypassed obligation is silently
+closed. General ACF Q/Q′/J completeness, corrected
 extraction, geometric projection identities, general witness descent and
 group/action integration remain open. The completeness-engine audit is
 read-only; no new source draft, Lean/main ownership, child agents or frozen
@@ -4734,3 +4735,71 @@ refuted/guarded/open status and the frozen 117 record visible. Full source/byte 
 and exact 13-path stage/commit/push complete the checkpoint. Only the refutations,
 necessary guards and conditional reduction are accepted; both guarded completeness
 inputs, multiplication converse, ACF Q′/J completeness and group/action extraction remain open.
+
+
+## Generic finite-formula invariance and incidence consumers (#6, G1c)
+
+Geometry/FormulaInvariance implements the blueprint's generic recursion theorem
+in the small geometry language. GeometryTerm has point variables, bottom/top,
+finite point joins and binary joins/meets. GeometryFormula has equality/order,
+exact/bounded finite rank, negation/conjunction/disjunction/implication and both
+point quantifiers. Quantification extends the assignment with Fin.cons, with the
+bound variable at index zero. Term evaluation commutes with every closed-lattice
+order isomorphism; structural recursion proves satisfaction invariant, using
+point-map surjectivity for both quantifiers. The proved presentation bridge
+supplies the same theorem for closure-preserving point equivalences.
+
+memCl_map_iff and col_map_iff are actual instances of generic formula invariance,
+not a restatement of the old concrete configuration transport. The only module
+imports are Geometry.Transport and Config.Language. No ACF, completeness,
+perfection, transcendence-degree bound, fresh element or field semantics occurs
+in this proof. Together with the accepted G1a/G1b interfaces, this discharges
+G1 small-language transport. The separate group/action and guarded configuration
+obligations remain open (G3–G5). Main, all old Lean declarations, the corrected guarded
+boundary and the frozen 117-item M4a are unchanged.
+
+The actual inventory has 25 authored public declarations: two inductive types,
+sixteen constructors, two evaluation definitions and five transport/consumer
+theorems. It also has 138 compiler-generated declarations, including eighteen
+private auxiliaries; these are counted separately. The scoped signature,
+proof-body and axiom audit allows only the standard Lean axioms. Actual external
+behaviors exercise nested quantifiers, rank and Boolean atoms, the empty finite
+join, the point-geometry bridge, arbitrary-arity incidence and collinearity.
+
+Root's first two production elaboration attempts failed on an automatically
+generalized assignment and vector-index simplification; the exact failures are
+retained outside git. The corrected production module passes standard lint with
+default checking. The first four nested-quantifier behavior harnesses had finite
+assignment simplification errors; their exact bytes/logs are retained, with no
+production proof change or weakened checking. Source concordance adds only a
+progress paragraph: all current 49 active statement blocks, the 49 original
+statements' explicit provenance, all 44 original proof blocks, every listing and
+the literal ratio/TOT section remain exact. Broad extraction/completeness,
+multiplication converse and genuine group/action integration remain open (#27).
+
+
+The first applied full library build passed 46.01s (minimum available 35.87GiB,
+sampled family RSS7.77GiB). The first TeX render found a 1.47pt overflow in the
+new concordance paragraph; that failed render is retained and the prose was
+reflowed before acceptance. No source mathematical block changed.
+
+
+Final shared acceptance preserves all 72 earlier fixture bytes and their 62
+combined public signature/proof/axiom records, the guarded checkpoint's 125
+scoped records and ten actual behaviors, and the new module's 163 scoped records
+and six actual behaviors. New records match private types/bodies/metadata/axioms
+exactly. The serial shared run passed 22.00s (minimum available 37.91GiB,
+sampled RSS2.89GiB); old diagnostic fixtures retain their historical lint scope,
+new behaviors and production use standard lint, and kernel checking is default.
+This is a scoped audit rather than whole-library axiom certification.
+
+The full library/book gates passed 46.01s/8.00s before final documentary QA.
+All 101 HTML paths remain, with all nine incidence-language docstrings and the
+open-engine qualification visible. The corrected source has four stable passes,
+69 pages and no overflow/undefined label. Nine current selected pages are
+accepted visually: eight exact images were previously actually viewed and the
+changed page 68 was actually viewed after reflow. All 247 previous Lean module
+sources, Main, all 49 current active statements and original provenance, all
+44 proofs/listings/literal interpretation remain exact. G1 small-language
+transport is accepted through G1a/G1b/G1c; guarded extraction/Q completeness, multiplication converse, unconditional J
+completeness and group/action integration remain open.

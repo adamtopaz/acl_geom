@@ -5318,6 +5318,19 @@ necessary nondegeneracy in their $\Qrel$ formula.  The counterexample satisfies 
 EH95's extra $P\leq A$, $Q\leq B$ incidences.  It does not refute their $\Jrel$
 configuration, whose distinctness already supplies the guards.
 
+\paragraph{Generic finite-formula invariance in Lean.}
+The recursion obligation in the small geometry language is proved in
+\lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).
+\lean{GeometryTerm} covers point variables, bottom/top, finite point joins
+and binary joins/meets.  \lean{GeometryFormula} covers equality/order, finite rank,
+Boolean operations and point quantifiers.  Term evaluation commutes with a
+lattice isomorphism, and satisfaction is invariant by structural recursion,
+using the point bijection for both quantifiers.  The proved presentation bridge
+also gives invariance for closure-preserving point equivalences.
+\lean{memCl_map_iff} and \lean{col_map_iff} are actual instances of that theorem.
+This discharges the generic recursion obligation previously bypassed by concrete
+configuration transport; it proves no extraction or completeness result.
+
 \clearpage
 \section{Bibliography}
 
