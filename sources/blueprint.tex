@@ -5612,6 +5612,29 @@ scheme bridges, extraction and all completeness remain open. Issue~11 and
 frozen117 remain independent; no global guard, generator, common-shift or
 uniqueness claim is changed.
 
+\clearpage
+\paragraph{Ambient affine-grid descent in Lean.}
+The charted affine-grid theorem now works for any ambient field $K$
+over algebraically closed $k$ (P6, issue~27), without ambient algebraic
+closedness or a transcendence-degree bound. The proof derives the 25 raw
+field facts from the actual $\Psi$, $I\ne D$ and independent initial chart
+in $K$. Only those facts and independence are embedded into the algebraic
+closure of $\operatorname{Frac}(K[X_0,X_1,\ldots])$; the globally quantified
+$\Psi$ is not transported. Its polynomial variables provide at least countable
+transcendence degree over $k$. Each original prime curve precedes construction of
+its fresh input family. Both translation constants remain in the original
+base $k$, and closure absoluteness descends all nine remaining rows into $K$.
+The existing assembler gives all three joins and fifteen points there;
+an actual private check derives the grid before Q semantics.
+This supersedes the earlier enlargement/descent-open checkpoint accounts
+for the explicit charted theorem. The fresh-sequence theorem keeps its
+public name in a focused module; the older public P4/P5 statements stay exact.
+Base algebraic closedness, $\Psi$, $I\ne D$, independence and all nine chart
+equalities remain explicit. Initial charts for arbitrary witnesses,
+actions, classification/scheme bridges, extraction and all completeness
+remain open; issue~11 and frozen117 are independent. No global guard,
+generator constraint, common shift or uniqueness is claimed.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

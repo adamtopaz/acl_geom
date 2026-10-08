@@ -4,32 +4,31 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex, Claude
 -/
 import AclGeom.Config.AffineGridNormalization
-import AclGeom.Transfer.Transcendence
+import AclGeom.Geometry.FreshSequences
 import Mathlib.Data.Set.Finite.Basic
 
 /-!
 # Affine-grid coordinates over an ambient field of infinite transcendence degree
 
 When `K` has infinite transcendence degree over `k`, the two supplied families of fresh inputs of
-`QWitness.Psi.hasAffineGridCoordinates_of_chart_supplied_inputs` can be constructed.
+`QWitness.Psi.hasAffineGridCoordinates_of_chart_supplied_inputs` can be constructed in `K` by
+`exists_fresh_sequence_of_aleph0_le_trdeg`, which now lives in `AclGeom.Geometry.FreshSequences`.
 
-* `exists_fresh_sequence_of_aleph0_le_trdeg`: if `ℵ₀ ≤ trdeg_k K` and `S` is finite, there is a
-  sequence `t` such that each `t n` lies outside `acl(S ∪ {t m | m < n})`.  No algebraic
-  closedness is needed.
 * `QWitness.Psi.hasAffineGridCoordinates_of_chart_of_aleph0_le_trdeg`: a `Ψ`-witness with
   `I ≠ D`, over algebraically closed `k ⊆ K` with `ℵ₀ ≤ trdeg_k K`, has affine-grid coordinates
   once an explicit independent initial chart for `A, B, C, S, T, U, X, Y, Z` is given.  Both
-  input families are constructed by the first theorem, each after the corresponding original
-  prime curve is fixed.
+  input families are constructed by the fresh-sequence theorem, each after the corresponding
+  original prime curve is fixed.
 
 **Status:** fresh inputs constructed for an ambient field of infinite transcendence degree
 (#27, P5). The actual PRIVATE consumer derives the grid before applying Q semantics.
-The witness `Ψ`, the guard `I ≠ D`, the independent initial chart with its nine
-equalities and base/ambient algebraic closedness remain explicit hypotheses.  The initial chart
-for an arbitrary witness, enlargement/descent for an ambient field of finite transcendence
-degree, the action, classification and scheme bridges, extraction and completeness, #11 and
-frozen117 remain open.  No guard `I ≠ P` is removed globally, and no common shift, uniqueness or
-constraint on the six generator points is claimed.
+The theorem is subsumed by `QWitness.Psi.hasAffineGridCoordinates_of_chart` (#27, P6), which
+assumes neither the bound on the transcendence degree nor algebraic closedness of `K`.  There,
+`Ψ`, the guard `I ≠ D`, the independent initial chart with its nine equalities and algebraic
+closedness of `k` remain explicit hypotheses.  The initial chart for an arbitrary witness, the
+action, classification and scheme bridges, extraction and completeness, #11 and frozen117 remain
+open.  No guard `I ≠ P` is removed globally, and no common shift, uniqueness or constraint on the
+six generator points is claimed.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -38,19 +37,6 @@ reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 namespace AclGeom
 
 variable {k K : Type*} [Field k] [Field K] [Algebra k K]
-
-/-- **Fresh sequences** (#27, P5).  If `K` has infinite transcendence degree over `k`, then for
-a finite parameter set `S` there is a sequence whose `n`-th term is not algebraic over `S`
-together with the earlier terms. -/
-theorem exists_fresh_sequence_of_aleph0_le_trdeg
-    (htr : Cardinal.aleph0 ≤ Algebra.trdeg k K) {S : Set K} (hS : S.Finite) :
-    ∃ t : ℕ → K, ∀ n, t n ∉ racl k (S ∪ t '' Set.Iio n) := by
-  refine Set.seq_of_forall_finite_exists (P := fun z T ↦ z ∉ racl k (S ∪ T)) fun T hT ↦ ?_
-  have hfin := hS.union hT
-  obtain ⟨z, hz⟩ := exists_notMem_racl_of_card_lt_trdeg (n := hfin.toFinset.card)
-    (Cardinal.natCast_lt_aleph0.trans_le htr) hfin.toFinset le_rfl
-  rw [Set.Finite.coe_toFinset] at hz
-  exact ⟨z, hz⟩
 
 namespace QWitness
 

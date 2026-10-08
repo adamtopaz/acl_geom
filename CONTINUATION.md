@@ -6762,3 +6762,157 @@ unconditional extraction and ALL completeness remain open;
 six-generator constraint, common shift or uniqueness. Final required
 full build/book AFTER this actual factual append precede commit/push.
 The durable goal continues.
+
+
+
+## P6 affine-grid enlargement and descent for an explicit chart
+
+Pinned to clean published 803df49ff2cbcfb07d611d29220de05cf28bfae4;
+exact CI37782219474 FULL GREEN at every build/book/deployment step.
+All five owned issue reports/bodies and eighteen body-owner references
+reconciled. PLAN4863 and Claude4870/4873 find finite-ambient chart
+descent sound, including removal of ambient ACF. Base ACF remains.
+#27 scope6061006717 precedes the isolated root API checks; concrete
+source scope6061078158 precedes SOURCE-ONLY GO4884/ACK4886.
+Root remains sole Lean/Lake compiler and main integrator.
+
+The isolated THIRD API probe passes standard Mathlib/default kernel,
+2.00 s, minimum available 36.03 GiB, EMPTY log. Four canonical
+algebra/tower instances, injective polynomial-to-fraction-to-closure,
+countable trdeg and pair/singleton closure reflection are checked.
+FIRST failure: instance-valued example needs noncomputable section,
+and lift_id does not remove a universe-zero lift. SECOND failure:
+missing closing end of that diagnostic section. Both retained;
+THIRD uses lift_id prime and the closed noncomputable section.
+These affect only the isolated diagnostic, with no checking/resource
+option changes or main edits.
+
+Immutable freeze4892 has exactly THREE math sources: FreshSequences43,
+AffineGridInfinite74 and AffineGridNormalization917, all lines <=100.
+All 32 input entries (24 source SHA1, seven root records SHA1, root
+APIProbe SHA256), all nine artifact hashes/manifest/immutable modes
+and three exact-base diffs are verified before copying or Lean.
+All twenty other P4 blank-line mathematical blocks stay byte-exact.
+The old guarded_two_family_rows TYPE/doc remains exact; its 25 typed
+haves move byte-exact into guarded_raw_inputs. Only its proof changes.
+The fresh-sequence declaration moves byte-exact with its public name,
+TYPE/proof/docstring into Geometry.FreshSequences. The P5 chart
+public declaration stays byte-exact and its Status marks it subsumed.
+
+Peer PLAN reads Ambient, part of Base and four Mathlib files via
+exact ranges/greps; DRAFT reads main P4/P5 and the seven root records.
+The five additional allowed Mathlib API pins are verified, not read
+by the peer; the checked root API probe supplies those facts.
+Transcendence and Shifted/Remaining meets/P4/P5 work are inherited.
+During PLAN/DRAFT the peer does not reopen blueprint, Book, AGENTS
+or CONT. Root's actual
+separate API/source/status reads are recorded in root_read_ledger.
+Root clarifies TWO NEW doc passages BEFORE the first project compiler:
+at least countable trdeg over k, since K itself may have larger trdeg.
+Claude4898 agrees. No old declaration DOC/TYPE/proof or budget change.
+
+FIRST three-source production passes standard Mathlib/default kernel,
+8.00 s, minimum available 36.17 GiB/RSS 2.77 GiB, EMPTY log.
+FIRST exact scoped metadata passes 6.00 s, minimum available
+36.13 GiB/RSS 1.32 GiB: 24 SIG/proof records, FOUR PUBLIC AX records;
+P4 two public/twenty private, P5 one public/zero private, Fresh one
+public/zero private, zero generated records IN EACH audited scope.
+The exact named migrations are the old private guarded RAW proof and
+the fresh declaration module column. ALL other old scoped TYPE/RAW/
+ATTR/DOC/AX/proof records stay exact. Standard Lean axioms only in
+these scopes, diagnostic genres/options unchanged; no whole-library
+axiom certificate and no TYPE/proof/options/resource repair.
+
+The raw conditions are derived in K with no ACF or independence
+needed for that derivation. Only the 25 facts and AI5 are embedded
+into the canonical algebraically closed countable-variable extension;
+the globally quantified Psi is NEVER transported. The original FP
+precedes construction of tP, and kappa and original FQ precede tQ.
+Both constants remain in ORIGINAL k. Nine singleton closure rows
+reflect to ORIGINAL K through mutual memberships and ambient
+absoluteness. Final AI is derived DIRECTLY in K by the old table
+shift and Q-shift lemmas from hind/kappa/eta. The old final-row
+assembler gives all three joins and fifteen points there.
+
+The actual PRIVATE FiniteChartQSem has ONE example/no helpers and
+FIRST passes standard/default in 2.00 s, minimum available 36.07 GiB,
+EMPTY log. It derives the grid BEFORE QSem under ONLY base ACF,
+actual Psi/I != D, AI5 and all nine initial-chart equalities.
+No ambient ACF/trdeg bound, caller input family/raw field/grid/
+normal-form/OUTPUT-freshness oracle. The earlier canonical24 joint
+chart and all older actual consumers remain required checks.
+
+The proposed SEVEN paths are the three math modules, ONE root import,
+ONE Book import/account/new public docstring, ONE source concordance
+paragraph with a clear page attached FROM ITS FIRST proposal, and
+append-only CONT. Book/source supersede older enlargement/descent-open
+checkpoint scope lines ONLY for the explicit charted theorem.
+Initial charts for arbitrary witnesses, actions, classification/scheme
+bridges, guarded/unconditional extraction and ALL completeness remain
+open; #11/frozen117 independent. No global I != P removal,
+six-generator constraint, common shift or uniqueness.
+Peer actual consumer/seven-path review, canonical Book/source/visual,
+actual full library/book, all 102 older fixture bytes with precisely
+named scope migrations, hygiene, and the final full/book pair AFTER
+actual factual CONT acceptance append precede commit/push.
+The durable goal continues.
+
+
+Actual P6 acceptance: Claude4901 ACCEPTS FiniteChartQSem25,
+4903/4908 ACCEPT the exact SEVEN paths and precise doc repairs.
+All 258 other math/Main sources stay exact; root/Book each gain
+ONLY ONE focused import. The fresh declaration is byte-exact rehomed,
+all older public math TYPE/proof/docstrings stay exact, and only the
+named old private guarded RAW proof changes through fact extraction.
+Actual full lake build passes 114.04 s,
+minimum available 34.13 GiB/RSS 10.96 GiB;
+lake exe book passes 14.00 s,
+minimum available 35.95 GiB/RSS 1.59 GiB.
+All 106 strict actual-main checks pass 222.09 s,
+minimum available 37.13 GiB/RSS 2.90 GiB.
+ALL 102 older fixture bytes remain exact. The precisely named
+guarded-proof/fresh-module migrations and P4 additions reproduce
+accepted private records; EVERY OTHER old scoped TYPE/RAW/ATTR/DOC/
+AX/proof/deny-list record stays exact. The three new combined metadata
+suites and actual no-KACF/no-htr consumer match private acceptance.
+ONE new public and FIVE consumed private declarations; P4 scope2/20,
+P5 scope1/0, Fresh scope1/0, generated0 IN EACH audited scope.
+Standard Lean axioms only there; no whole-library axiom certificate.
+Mathematics/actual examples use standard Mathlib/default kernel;
+historical diagnostic genres/options remain exact.
+
+SECOND canonical root/Book passes 42.02 s, minimum available
+35.32 GiB/RSS 6.43 GiB, ONLY two CHECK/PASS pairs, warning-free.
+FIRST retained/excluded: the NEW Book literal polynomial brackets
+parse as a Verso link; root's harness also applied inappropriate
+Mathlib hashCommand lint to Book. Only NEW account prose is repaired,
+and Book's existing canonical Verso diagnostic genre restored.
+The failed generated-doc sorry warning is excluded; no source sorry.
+No mathematical TYPE/proof/options/resource-budget repair.
+SECOND source render gives four stable75-page runs and FIFTEEN
+accepted current views: ELEVEN prior ACTUAL byte-exact plus
+pages3/73/74/75 ACTUALLY inspected, all clear/complete/unclipped.
+FIRST render retained/excluded for the NEW paragraph's countable-
+degree factual wording; it now states at least countable over k.
+No layout repair; the clearpage was attached ONLY to the new P6
+paragraph from its FIRST proposal. Historical full/book warning-line
+MULTISETS remain exact: 707 Lean source headers plus four cached lines.
+Touched mathematics and all actual examples remain warning-free.
+
+Hygiene passes262 files, HTML101 paths and new/older docstrings remain.
+Source49 active statements/original provenance/44 proofs/listings/
+literals, dependencies, all other258 math/Main sources and frozen117
+remain exact. The charted result now works for ANY ambient extension K
+of algebraically closed k: raw facts derived in K, only they and AI5
+embedded into a fresh ACF extension, each original curve preceding
+its constructed INPUT family, constants in ORIGINAL k, nine rows
+descended into ORIGINAL K, final AI by old shifts in K, all three
+joins/fifteen points derived BEFORE QSem. Psi is NEVER transported.
+No ambient ACF/trdeg bound, caller INPUT/raw/normal-form/grid oracles.
+Base ACF, actual Psi/I != D, AI5 and NINE initial-chart equalities
+remain explicit. Initial charts for arbitrary witnesses, actions,
+classification/schemes, guarded/unconditional extraction and ALL
+completeness remain open; #11/frozen117 independent. No global I != P
+removal, generator constraint, common shift or uniqueness.
+Final required full build/book AFTER this actual factual append
+precede commit/push. The durable goal continues.

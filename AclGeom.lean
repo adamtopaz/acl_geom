@@ -149,6 +149,7 @@ import AclGeom.Config.MeetEquations
 import AclGeom.Config.ShiftedAffineMeets
 import AclGeom.Config.RemainingAffineMeets
 import AclGeom.Config.AffineGridNormalization
+import AclGeom.Geometry.FreshSequences
 import AclGeom.Config.AffineGridInfinite
 import AclGeom.Config.AtomClause
 import AclGeom.Config.Soundness

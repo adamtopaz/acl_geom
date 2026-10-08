@@ -11,6 +11,7 @@ import AclGeom.Config.PsiLattice
 import AclGeom.Config.ShiftedAffineMeets
 import AclGeom.Config.RemainingAffineMeets
 import AclGeom.Config.AffineGridNormalization
+import AclGeom.Geometry.FreshSequences
 import AclGeom.Config.AffineGridInfinite
 import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Counterexamples.QRefutation
@@ -554,6 +555,40 @@ arbitrary witnesses, actions, classification/scheme bridges,
 guarded/unconditional extraction and all completeness remain open.
 Issue #11 and frozen117 remain independent; no global I≠P guard is
 removed and no six-generator, common-shift or uniqueness claim is made.
+
+The charted theorem now holds for any ambient field K over an
+algebraically closed base k (P6, #27). It needs neither ambient
+algebraic closedness nor a transcendence-degree lower bound:
+
+{docstring AclGeom.QWitness.Psi.hasAffineGridCoordinates_of_chart}
+
+The proof first derives all 25 raw field facts in K from the actual
+Ψ/I≠D and the independent initial chart. Only those facts and
+independence are embedded into the algebraic closure of the fraction
+field of the polynomial ring over K in countably many variables;
+the globally quantified Ψ is not transported.
+The polynomial variables prove that this extension has at least
+countable transcendence degree. The existing raw two-family producer
+fixes each original prime curve before constructing its input family.
+Both translation constants remain in the original base k. Closure
+absoluteness descends all nine remaining singleton rows into K;
+the original final-row assembler derives all three joins and fifteen
+points there. Five new private helpers have these actual consumers.
+The fresh-sequence declaration is rehomed byte-exact in the focused
+Geometry.FreshSequences module with its original public name.
+
+An actual PRIVATE consumer derives this grid before Q semantics,
+without ambient ACF, htr, caller input families, raw conditions or
+an assumed grid. This P6 result supersedes the earlier checkpoint
+accounts that leave input existence/enlargement/descent open for the
+explicit charted theorem. The P4/P5 public mathematical declarations
+remain unchanged; the weaker P5 chart result is marked subsumed.
+Base algebraic closedness, actual Ψ/I≠D, AI5 and all nine initial-chart
+equalities remain explicit. Initial charts for arbitrary witnesses,
+actions, classification/scheme bridges, guarded/unconditional extraction
+and all completeness remain open. Issue #11 and frozen117 are independent.
+No global I≠P guard removal, generator constraint, common shift or
+uniqueness is claimed.
 
 The unchanged pure rank bridge now lives in Geometry.FiniteRank, so this
 module imports only Config.Psi:
