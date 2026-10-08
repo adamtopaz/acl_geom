@@ -10,6 +10,7 @@ import AclGeom.Config.Transport
 import AclGeom.Config.PsiLattice
 import AclGeom.Config.ShiftedAffineMeets
 import AclGeom.Config.RemainingAffineMeets
+import AclGeom.Config.AffineGridNormalization
 import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Counterexamples.QDegenerate
@@ -490,6 +491,38 @@ Only the two necessary lattice guards are newly public. Initial chart
 existence, INPUT existence/enlargement/descent, combined generators,
 actions, linearity, extraction and all completeness remain open;
 #11 and frozen117 are independent obligations.
+
+A full affine-grid presentation is now derived conditionally from the
+actual configuration (P4, #27). Given Ψ, I≠D, base/ambient ACF, an explicit
+independent initial chart for A/B/C/S/T/U/X/Y/Z and two supplied fresh
+INPUT families, the new producer derives all three joins and fifteen
+points. Every raw field membership, non-membership and nonconstancy is
+derived from the guarded witness and chart; no normal-form or
+OUTPUT-freshness oracle is supplied:
+
+{docstring AclGeom.QWitness.Psi.hasAffineGridCoordinates_of_chart_supplied_inputs}
+
+The original F prime curve/span precedes ALL first INPUT families.
+After the first family the producer obtains κ in k and the original
+H-inverse prime curve/span, which precedes ALL second INPUT families.
+After the second family it obtains η in k and the chart
+a, b+(a-1)κ-η, c, d+(c-1)κ+(c-1)η, x-κ. Constant translates give
+P/R/X/Y/Z; triangular changes of the second generators give A/B/C.
+The other rows and final independence come from the guarded two-family
+composition. All fifteen private helpers are consumed; the old guarded
+consumer's TYPE/proof is byte-exact after naming it.
+
+An actual PRIVATE consumer applies the existing Q-semantic theorem
+only after deriving this full grid, with the same hypotheses and
+curve/span-before-ALL-INPUT nesting. A separate canonical-table example
+jointly realizes Ψ, I≠D and all nine initial-chart equalities without
+ACF. This checks a genuine initial chart, without constructing the
+fresh INPUT families or a chart for an arbitrary witness. The six
+generator points of A/B/C are not constrained; no common-shift or
+uniqueness theorem is claimed. Initial chart existence, INPUT
+existence/enlargement/descent, actions, classification and scheme bridges,
+guarded and unconditional extraction and all completeness remain open.
+Issue #11 and frozen117 remain independent obligations.
 
 The unchanged pure rank bridge now lives in Geometry.FiniteRank, so this
 module imports only Config.Psi:

@@ -6509,3 +6509,136 @@ existence, INPUT existence/enlargement/descent, combined generators, actions,
 linearity, extraction, all completeness, #11 and frozen117 remain open.
 Final required full build/book AFTER this actual factual append precede
 commit/push. The durable goal continues.
+
+
+
+## P4 conditional full affine-grid presentation from an actual guarded chart
+
+Pinned to clean published c2ca770, exact CI37770932869 FULL GREEN at
+every library/book/deployment job and step. All five owned records and
+sixteen tracking-body owners are synchronized. Peer4812 PLAN-ONLY audit
+checks all eighteen rows and reports the initial-chart dependencies.
+Concrete #27 scope6059264967 and exact ONE public TYPE precede
+SOURCE-ONLY GO4814/ACK4815. Root remains sole compiler/main integrator.
+
+The source's historical fixed-point evaluation-map claim near lines
+1765-1770 is false by dimension: a two-dimensional group maps to a
+one-dimensional orbit, with affine fibre {(a,y-at): a != 0}.
+Peer4813 confirms both fixed- and varying-point interpretations.
+Issue #21 comment6059251162 reports this BEFORE any original statement
+change. A graph/germ parameter map or two-point evaluation with the
+appropriate kernel/stabilizer proof may repair the historical sketch;
+no such bridge is proved here, and the original wording remains exact.
+An unaudited Mathlib genus/Riemann-Roch assertion is explicitly excluded.
+
+Immutable freeze4816 adds AffineGridNormalization669 with EXACT SEVEN
+imports (the old guarded414 imports plus AffineGrid), ONE public TYPE
+and FIFTEEN consumed private helpers. All seventeen read pins, five
+artifact hashes and immutable modes are verified before copying or Lean.
+All old guarded414 namespace/variables/math-region bytes remain exact,
+except naming its example guarded_two_family_rows. The old seven
+helpers, two_family_remaining_rows and point_rep_notMem_of_ne are exact.
+No definitions, aliases, instances, options, show, haveI, sorry or budgets.
+PLAN opened AffineGrid, part of WitnessTable/Closure.Basic, a ClosedLattice
+grep and blueprint sections. DRAFT opened the actual414 and TYPE file;
+other permitted project/actual274/NOTE context was inherited only.
+No earlier freeze-format artifacts reopened; Mathlib reads are NONE.
+
+The public TYPE keeps actual Psi, I != D, ACF, AI5 and all NINE initial
+chart equalities explicit. It derives every raw field input internally.
+The original FP prime/span precedes ALL supplied first INPUT families;
+after the family, kappa and original FQ prime/span precede ALL second
+INPUT families. After both, the conclusion is HasAffineGridCoordinates.
+There is no caller normal-form or OUTPUT-freshness oracle.
+The five new consumed bricks convert representative singleton closures
+to points, transport constant translates and triangular joins, assemble
+a variable-level grid, and apply those bricks to final atom coordinates.
+The actual final chart is
+(a, b+(a-1)kappa-eta, c, d+(c-1)kappa+(c-1)eta, x-kappa).
+All THREE joins and FIFTEEN closed points are derived. The six original
+generator points are not constrained; no common shift or uniqueness.
+I != P is unnecessary for THIS explicitly charted supplied-input result;
+no global extraction guard is removed or arbitrary-w chart constructed.
+
+FIRST unchanged standard-lint/default-kernel production passes 4.00 s,
+EMPTY log, minimum available 39.07 GiB/RSS 2.76 GiB. FIRST scoped
+metadata passes 6.00 s, minimum available 39.07 GiB/RSS 2.69 GiB:
+exact SIXTEEN SIG/proof records and ONE PUBLIC AX record, one public/
+fifteen consumed private, zero generated records IN THIS SCOPE,
+standard Lean axioms only. Expected counts precede the first metadata.
+Historical diagnostic genres/options remain exact. No whole-library
+axiom certificate; no proof/TYPE/options/budget repair.
+
+Root's ACTUAL ChartSuppliedInputsQSem41 preserves the public hypotheses
+and full prime/span-before-ALL-INPUT nesting. ONE example and no helpers
+derive the full grid before QWitness.qSem_of_hasAffineGridCoordinates.
+FIRST unchanged standard/default check passes 2.00 s, EMPTY log,
+minimum available 39.31 GiB. Root's actual CanonicalInitialChart24
+jointly realizes Psi, I != D and all nine chart equalities in qWitness,
+using the existing grid/QSem ratio_ne API. ONE example, no helpers,
+no ACF; FIRST unchanged standard/default check passes 2.00 s, EMPTY,
+minimum available 39.33 GiB. This proves a canonical joint chart only:
+fresh INPUT existence and arbitrary-w chart existence are still open.
+
+The exact FIVE paths add the module/real Status, ONE root import,
+ONE Book import/account/public docstring, ONE source concordance
+paragraph and append-only CONT. All 258 prior math/Main sources,
+dependency pins, source49 active statements/original provenance/44
+proofs/listings/literals and frozen117 stay exact. Private canonical
+Book/source/current visual, peer consumers/five-path review, actual
+full library/book, strict scoped checks and final full/book precede
+commit/push. Initial chart existence, input existence/enlargement/descent,
+actions, classification and scheme bridges, guarded/unconditional
+extraction and ALL completeness remain open; #11/frozen117 independent.
+The durable goal continues; broader L2/G3/G4/G5 remain open.
+
+
+Actual P4 acceptance: Claude4818 ACCEPTS both actual consumers;
+4820 ACCEPTS the initial FIVE paths; 4822/4824 ACCEPT only the new
+source long-token and attached-paragraph page-break repairs. Every
+prior mathematical source remains exact. The private canonical module,
+root and Book checks pass FIRST 34.01 s, minimum available 38.04 GiB/
+RSS 4.52 GiB, with ONLY the expected three CHECK/PASS pairs.
+Actual full lake build passes 82.03 s, minimum available
+36.72 GiB/RSS 8.40 GiB; lake exe book passes
+10.00 s, minimum available 38.51 GiB/RSS 1.59 GiB.
+All 98 strict actual-main checks pass 178.07 s, minimum available
+38.64 GiB/RSS 2.90 GiB. ALL 93 older fixture bytes and
+EVERY old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stay exact,
+with NO old-scope additions. The three new metadata suites and two
+actual consumers match their accepted private sources/records.
+ONE new public and FIFTEEN consumed private theorems, zero generated
+records IN THIS SCOPE, standard Lean axioms only. Mathematics and
+actual behaviors use standard Mathlib lint/default kernel; historical
+diagnostic genres/options stay exact. No whole-library axiom certificate.
+
+Hygiene passes 260 files without proof placeholders/project axioms.
+All 101 HTML paths remain, with the new public docstring and older
+prerequisites visible. All 258 prior math/Main sources, dependencies,
+source49 active statements/original provenance/44 proofs/listings/
+literals and frozen117 remain exact. Root/Book each gain ONLY ONE
+new module import. The FIRST source four-pass render is retained/
+excluded for one long-module-token overfull box; the SECOND stable
+74-page render is retained/excluded after actual inspection found
+the older generic-invariance paragraph split across pages72/73.
+ONLY the NEW paragraph loses that long token and gains one attached
+clearpage. THIRD four-pass rendering is stable at 74 pages, with all
+FOURTEEN current selected views accepted: TEN prior ACTUAL byte-exact,
+pages3/72/73/74 newly ACTUALLY inspected. Both P4 and the older generic
+paragraph are complete, clear and unclipped; no original source bytes
+change. Historical full/book warning-line MULTISETS stay exact:
+707 Lean-source warning headers plus four other cached warning lines.
+Touched mathematics and all actual examples are warning-free.
+No Lean proof, TYPE, checking option or resource budget repair.
+
+The full grid is conditional on actual Psi, I != D, explicit AI5 and
+all nine initial-chart equalities, base/ambient ACF and supplied fresh
+INPUT families. Every raw field condition is derived. Both original
+prime curves/spans precede ALL corresponding inputs. The actual
+consumer derives the grid before QSem; canonical non-vacuity covers
+the joint Psi/ratio-guard/initial chart, not INPUT existence.
+Initial chart existence, INPUT existence/enlargement/descent, actions,
+classification/scheme bridges, guarded/unconditional extraction and
+ALL completeness remain open; #11/frozen117 are independent.
+Final required full build/book AFTER this actual factual append precede
+commit/push. The durable goal continues.

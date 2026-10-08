@@ -148,6 +148,7 @@ import AclGeom.Config.Quadrangle
 import AclGeom.Config.MeetEquations
 import AclGeom.Config.ShiftedAffineMeets
 import AclGeom.Config.RemainingAffineMeets
+import AclGeom.Config.AffineGridNormalization
 import AclGeom.Config.AtomClause
 import AclGeom.Config.Soundness
 import AclGeom.Config.AffineGrid
