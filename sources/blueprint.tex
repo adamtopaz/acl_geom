@@ -5531,6 +5531,30 @@ the initial action chart, ambient enlargement/descent, actions,
 extraction and completeness remain open. No uniqueness or common shift
 is claimed; issue~11 and frozen117 remain independent obligations.
 
+\clearpage
+\paragraph{Remaining affine meets in Lean.}
+The module \lean{AclGeom.Config.RemainingAffineMeets} proves the
+conditional G/H/I/E rows (P3b, issue~27), with no algebraic-closedness
+hypothesis. For $t\in k$, the shift
+$(a,b,c,d,x)\mapsto(a,b-t,c,d+(c-1)t,x)$ preserves independence.
+Given normalized P/Q/R and explicit raw incidences and nonconstancy, it gives
+\[
+ G=[(b-t)c],\quad H=[a/(b-t)],\quad
+ I=[ax/(b-t)],\quad E=[c(ax+b-t)].
+\]
+The existing soundness meets determine G, then H, then I, and separately E.
+The actual private two-family check first derives P, D/F/R and Q, then
+transports original raw I/E incidences to the P-shifted chart and derives
+these four rows and final independence. Both original prime curves precede
+all corresponding input choices. No normal-form or output-freshness oracle;
+base/ambient algebraic closedness, supplied input families and raw
+non-memberships remain explicit. An actual zero-origin check uses arbitrary
+raw representatives without algebraic closedness.
+Only the conditional shift/meet statements are public. Initial chart,
+actual guarded-$\Psi$ input derivation, input existence/enlargement/descent,
+combined generators, actions, extraction and completeness remain open;
+no uniqueness or common shift is claimed. Issue~11 and frozen117 are untouched.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

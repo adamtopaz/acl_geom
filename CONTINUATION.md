@@ -6233,3 +6233,149 @@ input existence/enlargement/descent obligations, actions, extraction,
 all completeness, #11 and frozen117 stay open. Scoped checks give no
 whole-library axiom certificate. Final full build/book AFTER this factual
 append precede commit/push. The durable goal continues.
+
+
+## P3b conditional remaining G/H/I/E meets and actual nested family consumer
+
+Pinned to clean published 2f49a59, exact CI37761551954 FULLGREEN at every
+library/book/deployment job and step; all five owned reports/bodies and
+fourteen current tracking-body references reconciled. Claude4749 audits
+the Q-origin shift, raw A-plane in H, meet order, signs and non-vacuity.
+Concrete #27 scope6057695445 and exact public TYPEs precede SOURCE-ONLY
+GO4758/ACK4759. Root remains sole compiler/main integrator.
+
+Immutable freeze4765 has 295 lines, EXACT TWO imports, TWO public TYPEs
+and SEVEN consumed private helpers: two byte-copied P2 element/pair bricks,
+one variable-level soundness bundle, four typed-atom transports. No public
+ACF hypothesis, definitions/aliases/instances/options/resource changes.
+Both public TYPEs match the proposed instruction exactly after whitespace
+normalization. All twelve project pins, allowed private215 and TYPE pins,
+five artifact hashes and immutable modes are verified. Mathlib source
+reads are truthfully NONE.
+
+The peer disclosed extra reads of its OWN earlier freeze artifacts for
+format conventions. Root asked4767 BEFORE copy/Lean, received4768 exact
+paths/hashes and verified SIX opened formatting artifacts plus THREE
+inherited NOTE summaries (not reopened while drafting). Reads were a
+directory listing, first-five-line diff/copyright header, hash ledgers and
+short ledger segments; the peer's nonmathematical read-boundary reminder
+was also used. No extra project/Mathlib source or API was read. The scope
+correction was posted6057865259 BEFORE ANY copy or first compiler; frozen
+295/five artifacts remain unchanged. No hidden mathematical input expansion.
+
+FIRST standard-Mathlib-lint/default-kernel production check passes
+UNCHANGED 2.00 s, EMPTY log, minimum available 38.96 GiB. No production
+proof, TYPE, fixture, checking option or budget repair. FIRST scoped
+metadata passes 4.00 s, minimum available 38.69 GiB/RSS 2.42 GiB:
+NINE exact named SIG/proof records, TWO PUBLIC AX records, two public/
+seven private theorems, zero generated records IN THIS SCOPE, standard
+Lean axioms only. The exact nine/two expectations precede the first
+metadata check. Diagnostic genres/options stay unchanged. Both byte-copied
+helper TYPE/RAW/ATTR/DOC/AX/proof records match P2 except the module column.
+No whole-library axiom certificate is claimed.
+
+The first public theorem preserves AI5 at (a,b-eta,c,d+(c-1)*eta,x).
+The second explicitly assumes normalized P/Q/R and raw G/H/I/E incidences
+and nonconstancy. Existing soundness meets on that shifted table yield
+G=[(b-eta)c], H=[a/(b-eta)], I=[ax/(b-eta)], E=[c(ax+b-eta)].
+G is derived first, H from G and its RAW A-plane, I from H; E uses its
+own two joins. Every transport uses typed atom-coordinate memberships
+with explicit linking equalities. Neither public theorem needs ACF.
+The canonical model is non-vacuous for every base constant eta.
+
+Root's actual PRIVATE TwoFamilyRemainingMeets 274 extends accepted215.
+The whole namespace/variable block and all SIX old helper blocks remain
+BYTE-EXACT. ONE new consumed pair_translate helper transports four raw
+X/Y/Z incidences. The original FP/span precedes ALL supplied P INPUTs;
+the SAME producer derives kappa/P, then P2 gives D/F/R and starred AI.
+Raw Q/G/H incidences are transported via the DERIVED closures, and the
+inverse producer fixes ORIGINAL FQ/span BEFORE ALL second Q INPUTs,
+then derives eta/Q. Actual original raw I/E incidences and nonconstancy
+are transported to the kappa-absorbed chart; BOTH new public theorems
+derive final AI and G/H/I/E. No normalized-input or OUTPUT-freshness
+oracle; explicit k/ambient ACF, both supplied INPUT families, strong
+Q-producer non-memberships and raw I/E nonconstancy remain. FIRST check
+passes UNCHANGED 2.00 s, EMPTY log, minimum available 39.01 GiB.
+
+The actual PRIVATE ZeroOriginRemainingMeets 30 has ONE example/no helper:
+arbitrary raw G/H/I/E representatives, canonical P=b/Q=d/R=bc+d, eta=0.
+No ACF or remaining-row normal-form input. FIRST check passes UNCHANGED
+2.00 s, EMPTY log, minimum available 38.99 GiB. Both actual consumers
+have default kernel/standard Mathlib lint; no failed Lean check/repair.
+
+Only the conditional origin-shift/four-meet statements are newly public;
+the genuine full two-family chain stays PRIVATE. Initial action chart,
+actual guarded-Psi input derivation, fresh INPUT existence/enlargement/
+descent, combined generator presentation, actions, linearity, extraction
+and guarded/unconditional completeness remain open. #11 and frozen117
+are independent obligations. No uniqueness/common-shift theorem.
+
+FIRST private source rendering passes four stable runs in 8.00 s at
+73 pages without TeX warnings. Actual views show the old generic-formula
+paragraph split after its heading/two lines on 71, with a short continuation
+on 72. That initial layout is retained/excluded. ONE page break attached
+ONLY to the newly added P3b concordance paragraph keeps both paragraphs
+complete. No original source statement/proof or older paragraph byte is
+changed. Second four-pass rendering/current visual acceptance follows.
+
+Second four stable source runs pass 8.00 s at 73 pages after that ONE
+new-paragraph page break. All THIRTEEN current views are accepted: nine
+prior ACTUAL byte-exact plus changed 3,71,72,73 newly ACTUALLY inspected.
+Both new and generic paragraphs are complete; contents/bibliography match.
+Private canonical module/root/Book passes 28.01 s, minimum available
+38.05 GiB/RSS 5.92 GiB, only CHECK/PASS lines. Claude4776 accepts both
+actual consumers and 4780 the initial five paths. Updated source/CONT
+layout/factual pins are sent for refresh before guarded integration.
+
+Cross-reference follow-up: the untouched older P2/P3a module Status
+lists still refer to their open actual guarded-Psi rows. P3b proves the
+conditional rows under the explicit raw/normalization hypotheses; the
+actual-Psi rows remain open. A later accurate pointer can reconcile those
+older Status lists without changing their theorems; no seven-path scope
+expansion is made here. Combined presentation is NOT yet a theorem.
+
+The exact FIVE paths add this focused module/real Status, ONE root import,
+ONE Book import/account/TWO public docstrings, ONE source concordance
+paragraph, and append-only CONT. All 257 prior math/Main sources,
+dependency pins, source49 active statements/original provenance/44 proofs/
+listings/literals and frozen117 stay exact. Private canonical Book/source/
+current visual, peer consumer/five-path review, actual full library/book,
+92 strict scoped checks and final full/book precede commit/push.
+The durable goal continues; broader L2/G3/G4/G5 remain open.
+
+
+Actual P3b acceptance: Claude4776 ACCEPTS both actual consumers; 4780
+accepts the initial five paths and 4784 the two source/CONT refresh pins.
+Guarded integration leaves all 257 prior math/Main sources exact.
+Actual full lake build passes 66.01 s, minimum available 37.32 GiB/
+RSS 8.30 GiB; lake exe book passes 10.00 s, minimum available 39.11 GiB/
+RSS 1.55 GiB. All 92 strict actual-main checks pass 126.03 s, minimum
+available 39.18 GiB/RSS 2.86 GiB. All 87 older fixture bytes and EVERY old
+scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stay exact with NO
+old-scope additions. New nine-record scopes/two PUBLIC AX and both actual
+consumers match accepted private results. Mathematics/actual behaviors use
+standard Mathlib lint/default kernel; historical diagnostic genres/options
+stay exact. Scoped records give no whole-library axiom certificate.
+
+Hygiene passes 259 files without proof placeholders/project axioms.
+All 101 HTML paths remain; both new public docstrings are visible.
+Root changes only by ONE import. All 257 prior math/Main sources,
+toolchain/dependencies, source 49 active statements/original provenance/
+44 proofs/listings/literals and frozen117 stay byte-exact. SECOND four
+stable 73-page source runs and all THIRTEEN current selected views pass
+(nine prior ACTUAL byte-exact, changed 3/71/72/73 newly ACTUALLY inspected),
+after ONE page break attached only to the new P3b paragraph. The FIRST
+technically-green layout remains retained/excluded. All older paragraph
+bytes are exact and both final paragraphs are complete.
+Historical full/book warning-line MULTISETS remain exact: 707 Lean-source
+warning headers plus four other cached warning lines. Touched mathematics
+and all actual examples are warning-free.
+
+Only conditional Q-origin independence/G/H/I/E statements are public;
+the full two-family P/DFR/Q/remaining-row chain stays PRIVATE with explicit
+k/ambient ACF, supplied INPUTs and raw non-memberships/nonconstancy.
+Initial chart, actual guarded-Psi input derivation, input existence/
+enlargement/descent, combined generator presentation, actions, linearity,
+extraction, all completeness, #11 and frozen117 stay open. No uniqueness
+or common-shift theorem. Final required full build/book AFTER this factual
+append precede commit/push. The durable goal continues.

@@ -9,6 +9,7 @@ import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
 import AclGeom.Config.PsiLattice
 import AclGeom.Config.ShiftedAffineMeets
+import AclGeom.Config.RemainingAffineMeets
 import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Counterexamples.QDegenerate
@@ -732,6 +733,36 @@ degree. The remaining E/G/H/I rows, combined generator presentation,
 initial action chart, ambient enlargement/descent, actions, extraction
 and all completeness remain open. No common-shift or uniqueness theorem
 is added; #11 and frozen117 remain independent obligations.
+
+The remaining G/H/I/E rows are now proved conditionally (P3b, #27).
+For η in k the coordinate change sends b to b - η and d to
+d + (c - 1)η, preserving original five-variable independence and the
+closures of P/R/Y/Z. Given the normalized P/Q/R closures, raw G/H/I/E
+incidences and nonconstancy determine the four singleton closures.
+The soundness meets give G first, H from G, I from H, and E from its
+separate joins. H uses the raw A-plane. Neither public theorem needs
+algebraic closedness:
+
+{docstring AclGeom.algebraicIndependent_table_Q_shift}
+
+{docstring AclGeom.racl_shifted_G_H_I_E_of_normalized_P_Q}
+
+The genuine PRIVATE 274-line two-family consumer derives κ/P, then
+P2 D/F/R, then η/Q by the SAME producer at the inverse tuple. Each
+original prime curve/span precedes ALL corresponding supplied INPUT
+families. It transports original raw I/E incidences by base translations
+to the κ-absorbed chart before deriving G/H/I/E and final independence.
+All six older helper blocks remain byte-exact; one consumed pair-translate
+helper supplies four raw transports. No P/Q/H or remaining-row normal-form
+or OUTPUT-freshness oracle is supplied. k/ambient ACF, both supplied INPUT
+families, strong Q-producer non-memberships and raw I/E nonconstancy stay
+explicit. A separate actual zero-origin example handles arbitrary raw
+G/H/I/E representatives without ACF or helpers.
+Only the conditional shift/meet statements are public; the two-family
+chain remains PRIVATE. Initial chart, actual guarded-Ψ input derivation,
+fresh INPUT existence/enlargement/descent, combined generator presentation,
+actions, linearity, extraction and all completeness remain open.
+No uniqueness or common-shift theorem; #11 and frozen117 are untouched.
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:
