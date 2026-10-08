@@ -8,6 +8,7 @@ import AclGeom.Config.Correctness
 import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
 import AclGeom.Counterexamples.QRefutation
+import AclGeom.Counterexamples.QDegenerate
 import AclGeom.Closure.RationalFunctions
 import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.MultiplicativeQuotient
@@ -27,11 +28,13 @@ tag := "configurations"
 The configuration layer (blueprint §§6–7, milestone M4) defines the finite
 geometric predicates through which the field structure will be recovered
 from the geometry alone. Soundness, semantic J assembly and concrete geometric
-invariance are proved; ACF Q/Q′/J completeness remains open. Conditional
+invariance are proved. Unguarded Q completeness/extraction and geometric Q
+projection are refuted even over ACF pairs; guarded Q completeness and ACF
+Q′/J completeness remain open (#27). Conditional
 interpretation and the public lattice-form target keep both perfected
 J-completeness inputs explicit. The arbitrary-field Q/Q′ versions have
 concrete characteristic-zero Lean refutations. This chapter distinguishes
-these results from the still-open corrected extraction and group/action engine.
+these results from the still-open guarded extraction and group/action engine.
 
 # The incidence language
 %%%
@@ -192,7 +195,7 @@ quotient-carrier and geometric operation-graph naturality are proved in the
 interpretation chapter; actual inducing existence and the public lattice-form
 target are proved conditionally in the reconstruction chapter. Both exact
 perfected ACF J-completeness inputs remain explicit. Unconditional R1/R2,
-completeness/reconstruction, geometric projection identities and broader
+completeness/reconstruction, guarded geometric projection completeness and broader
 point/automorphism/functorial variants remain open. The frozen M4a record
 and literal source obligations are preserved.
 
@@ -303,15 +306,17 @@ rigidity and the shifted-binomial identity:
 {docstring AclGeom.jSem_of_qSem_q'Sem}
 
 This proves the semantic assembly. Geometric `J` completeness still
-requires geometric `Q` and `Q′` completeness over the algebraically
+requires guarded geometric `Q` completeness and geometric `Q′` completeness over the algebraically
 closed pair as explicit hypotheses:
 
 {docstring AclGeom.JCompletenessACF}
 
 {docstring AclGeom.jCompletenessACF_of_completeness}
 
-Neither completeness input is discharged here. The arbitrary-field
-Q/Q′ counterexamples in #25 do not supply or contradict those ACF inputs.
+Neither input is discharged. The previous unguarded Q input is refuted even
+over ACF pairs (#27). Its replacement names both necessary ratio inequalities,
+already supplied by multiplication distinctness in J. JCompletenessACF and
+the public conditional reconstruction target have unchanged types.
 
 # The affine-grid extraction boundary
 %%%
@@ -349,18 +354,64 @@ defines the same closed point:
 
 {docstring AclGeom.QWitness.qSem_of_hasAffineGridCoordinates}
 
-None of this proves completeness.  The open geometric content of Lemma 8.5,
-over algebraically closed fields, is stated without being assumed or
-axiomatized, together with the weaker witness-level completeness that the
-completeness direction of `Q` actually uses:
+The generator-swap repair did not resolve all degeneracies. Change only
+`Q=E=G=T`, `H=S`, and `I=D` in the independent table. The actual Psi still
+holds, with ratio output equal to its denominator. Semantic Q requires
+that point to differ from both inputs:
+
+{docstring AclGeom.QSem.ratio_ne}
+
+{docstring AclGeom.QSem.ratio_ne_fst}
+
+{docstring AclGeom.qWitnessDegenerate}
+
+{docstring AclGeom.qWitnessDegenerate_psi}
+
+{docstring AclGeom.not_forall_qGeom_imp_qSem_of_five_indep}
+
+Thus the legacy unguarded ACF targets are refuted (#27), rather than open.
+They remain as explicit refuted propositions for the negative lemmas and
+original-source provenance:
 
 {docstring AclGeom.AffineGridExtraction}
 
-{docstring AclGeom.affineGridExtraction_iff}
-
 {docstring AclGeom.QCompletenessACF}
 
-{docstring AclGeom.qGeom_iff_qSem}
+{docstring AclGeom.not_qCompletenessACF}
+
+{docstring AclGeom.not_affineGridExtraction}
+
+The unguarded geometric Q projection to J also fails: J's actual
+multiplication diagrams separate the ratio from each input. This example
+does not refute JCompletenessACF, whose distinctness already gives both guards:
+
+{docstring AclGeom.Q'Geom.ne}
+
+{docstring AclGeom.Q'Geom.snd_ne_fst}
+
+{docstring AclGeom.not_forall_qGeom_imp_exists_jGeom_of_five_indep}
+
+The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
+sufficiency is unproved. These are open propositions, with no project axiom:
+
+{docstring AclGeom.GuardedAffineGridExtraction}
+
+{docstring AclGeom.GuardedQCompletenessACF}
+
+{docstring AclGeom.GuardedAffineGridExtraction.guardedQCompletenessACF}
+
+Guarded correctness and projection follow conditionally from the explicit
+open guarded completeness input and proved soundness:
+
+{docstring AclGeom.qGeom_and_ne_iff_qSem_of_five_le_trdeg}
+
+{docstring AclGeom.qGeom_and_ne_iff_exists_jGeom}
+
+Original q-correct and extraction wording from ed61c33 is preserved in the
+blueprint as refuted historical provenance. All 44 original proof blocks
+remain byte-exact, with explicit qualifications before the affected sketches.
+No guarded extraction, multiplication converse or J completeness proof is
+claimed. The frozen 117-item M4a record remains frozen.
 
 Both arbitrary-field Q/Q′ consequences are refuted in Lean by the
 rational-function-field example in #25. Over k(X₀,…,X₄) for every

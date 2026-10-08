@@ -864,8 +864,36 @@ Then define
 \lean{QWitness} with named fields rather than a 21-tuple; this makes the intersection
 equations readable and prevents permutation errors.
 
-The central correctness result is:
+\begin{remark}[Degenerate $\Psi$ witness and the necessary guards]\label{rem:psi-degenerate}
+Clause (vii) requires the seven meets to be points, but does not impose $I\ne D$.
+In table (7.1), change only $Q,E,G$ to $[c]$, $H$ to $[a]$, and $I$ to $[ax]$.
+The changed $E,G,H$ meets are
+\[
+\begin{aligned}
+([c]\vee[ax+b])\wedge([c]\vee[c(ax+b)+d])&=[c],\\
+([b]\vee[c])\wedge([c]\vee[bc+d])&=[c],\\
+([ac]\vee[c])\wedge([a]\vee[b])&=[a].
+\end{aligned}
+\]
+They follow from the independent-variable intersections in (8.9a); the $I$ meet is
+exactly the unchanged $D$ meet with its factors reversed.  Thus $\Psi$ holds with
+free outputs $([b],[ax],[ax+b],[ax])$.  Semantic $\Qrel$ cannot have its ratio point
+equal to either input: $[u/v]=[v]$ puts $u$ in $\acl_k(v)$, and the symmetric
+argument excludes $[u/v]=[u]$.
 
+This refutes the unguarded completeness and extraction statements, even over
+algebraically closed pairs with five independent elements.  The proof uses the actual
+predicates, with no completeness hypothesis:
+\lean{AclGeom.Counterexamples.QDegenerate}.  It also refutes the unguarded geometric
+projection of $\Qrel$ to $\Jrel$.  Both guards below are necessary; their sufficiency
+is still open (issue 27).  The witness also has $P\leq A$ and $Q\leq B$, the extra
+incidences in the published EH95 formulation.
+\end{remark}
+
+The corrected candidate correctness result is:
+
+% Original unguarded q-correct from ed61c33, refuted in issue 27.
+\iffalse
 \begin{theorem}[configuration correctness for $\Qrel$]\label{thm:q-correct}
 In an algebraically closed extension of algebraically closed fields of transcendence degree
 at least five,
@@ -873,6 +901,26 @@ at least five,
   \Qrel_{\rm geom}=\Qrel_{\rm sem}.
 \]
 \end{theorem}
+\fi
+\begin{theorem}[configuration correctness for $\Qrel$]\label{thm:q-correct}
+In an algebraically closed extension of algebraically closed fields of transcendence degree
+at least five,
+\[
+  \Qrel_{\rm sem}(P,D,Y,I)\Longleftrightarrow
+  \Qrel_{\rm geom}(P,D,Y,I)\land I\ne D\land I\ne P.
+\]
+\end{theorem}
+\begin{remark}[Original statement and current completeness obligation]
+The original statement in commit \texttt{ed61c33} was
+$\Qrel_{\rm geom}=\Qrel_{\rm sem}$, without the two inequalities.  Its completeness
+half is false by \cref{rem:psi-degenerate}; the full original statement is retained
+in the source immediately above as historical provenance.  Soundness and both
+necessary inequalities are proved.  The guarded reverse implication is an open
+formalization target, not a theorem established by the proof sketch below.
+\lean{GuardedQCompletenessACF} and \lean{GuardedAffineGridExtraction} name its explicit
+open inputs.  The original proof is retained unchanged as a historical sketch;
+its completeness step applies the extraction lemma (now guarded, still unproved).
+\end{remark}
 \begin{proof}
 We first work over algebraically closed $k\subseteq K$.
 
@@ -1050,6 +1098,14 @@ Define
 Over algebraically closed fields of relative transcendence degree at least five,
 $\Qprel_{\rm geom}=\Qprel_{\rm sem}$.
 \end{theorem}
+\begin{remark}[Guarded input and proof status]
+Every geometric $\Qrel$ occurrence used here has its ratio point different from
+its first and second points by multiplication-diagram distinctness.  The statement
+is not refuted by \cref{rem:psi-degenerate}; its completeness direction remains an
+open obligation depending on guarded \cref{thm:q-correct} and the multiplication
+converse.  The original proof below is retained unchanged as a historical sketch.
+The semantic $\Jrel$ assembly is proved separately with these inputs explicit.
+\end{remark}
 \begin{proof}
 If $\Qprel_{\rm geom}(X,Y,S,E)$ holds, \cref{thm:q-correct} supplies independent
 $x,y$ with
@@ -1090,6 +1146,14 @@ $x(a+1)=x+xa$.
 \]
 over algebraically closed $k\subseteq K$ of relative transcendence degree at least five.
 \end{theorem}
+\begin{remark}[Guarded input and proof status]
+Every geometric $\Qrel$ occurrence used here has its ratio point different from
+its first and second points by multiplication-diagram distinctness.  The statement
+is not refuted by \cref{rem:psi-degenerate}; its completeness direction remains an
+open obligation depending on guarded \cref{thm:q-correct} and the multiplication
+converse.  The original proof below is retained unchanged as a historical sketch.
+The semantic $\Jrel$ assembly is proved separately with these inputs explicit.
+\end{remark}
 \begin{proof}
 If $(X,P,Q,R,A)=j(x,a)$, then
 \[
@@ -1132,8 +1196,18 @@ addressed in \cref{thm:j-descent}.  The semantic projection identity
 \]
 holds over every field: from a semantic $\Qrel$ witness in the form
 $([x],[xa],[x+xa],[a])$ take $P=[x+a]$, and the reverse implication is its semantic
-$\Qrel$ projection.  Over algebraically closed fields the configuration correctness
-theorems transport this to a geometric projection identity.  Over arbitrary perfect
+$\Qrel$ projection.  For the geometric predicates, multiplication-diagram distinctness
+unconditionally gives
+\[
+ \exists P\;\Jrel_{\rm geom}(X,P,Q,R,A)\Longrightarrow
+ \Qrel_{\rm geom}(X,Q,R,A)\land A\ne Q\land A\ne X.
+\]
+The converse is conditional on the open guarded $\Qrel$ completeness in
+\cref{thm:q-correct}; its Lean reduction is \lean{qGeom_and_ne_iff_exists_jGeom}.
+The unguarded geometric implication is false by \cref{rem:psi-degenerate}.
+The original sentence in commit \texttt{ed61c33}, claiming that ACF configuration
+correctness transports the semantic identity to an unguarded geometric identity,
+is withdrawn (issue 27).  Over arbitrary perfect
 relatively algebraically closed fields, geometric and semantic $\Qrel$ and $\Qprel$
 need not agree. The original extension of that conclusion is withdrawn; see
 \cref{rem:q-descent-audit}.
@@ -1575,8 +1649,36 @@ $(c,d)$ gives exactly (8.4a).  Every cover used above is finite, so old and new 
 coordinates are algebraic over one another.
 \end{proof}
 
+% Original unguarded affine-grid-extraction from ed61c33, refuted in issue 27.
+\iffalse
 \begin{lemma}[affine grid and meet extraction]\label{lem:affine-grid-extraction}
 Assume all clauses of $\Psi$ over algebraically closed $k\subseteq\Omega$.
+There are algebraically independent $a,b,c,d,x$ such that
+$A=\acl(a,b)$, $B=\acl(c,d)$, $C=\acl(ac,bc+d)$ and, after replacing
+representatives of the fifteen remaining points by interalgebraic representatives,
+those points are given by (8.5).  Its first row defines new generator pairs for
+these joins; it imposes no condition on the six original generator points.
+\[
+\begin{gathered}
+\begin{array}{c|cccccc}
+\text{chosen generator}&A_1^*&A_2^*&B_1^*&B_2^*&C_1^*&C_2^*\\ \midrule
+\text{representative}&a&b&c&d&ac&bc+d
+\end{array}\\[1.5mm]
+\begin{array}{c|cccccccc}
+\text{point}&S&T&U&X&Y&Z&P&Q\\ \midrule
+\text{representative}&a&c&ac&x&ax+b&c(ax+b)+d&b&d
+\end{array}\\[1.5mm]
+\begin{array}{c|ccccccc}
+\text{point}&R&D&E&F&G&H&I\\ \midrule
+\text{representative}&bc+d&ax&c(ax+b)&acx&bc&a/b&ax/b
+\end{array}
+\end{gathered}                                                   \tag{8.5}
+\]
+\end{lemma}
+\fi
+\begin{lemma}[affine grid and meet extraction]\label{lem:affine-grid-extraction}
+Assume all clauses of $\Psi$ over algebraically closed $k\subseteq\Omega$,
+and assume $I\ne D$ and $I\ne P$.
 There are algebraically independent $a,b,c,d,x$ such that
 $A=\acl(a,b)$, $B=\acl(c,d)$, $C=\acl(ac,bc+d)$ and, after replacing
 representatives of the fifteen remaining points by interalgebraic representatives,
@@ -1606,9 +1708,14 @@ and used $A_1,A_2,B_1,B_2,C_1,C_2$ in the first row of (8.5).
 That conclusion is false: swapping $A_1$ and $A_2$ preserves every clause of $\Psi$,
 while the canonical table requires $A_1=S$ and its swap has $A_1=P\ne S$.
 The corrected conclusion allows new generators for the same rank-two joins and
-preserves the fifteen remaining closed points.  Its extraction implication remains
-an open formalization target; the argument below has not yet been verified in Lean.
-The Lean refutation is \texttt{not\_forall\_psi\_hasLiteralTableCoordinates}.
+preserves the fifteen remaining closed points.  Even that unguarded conclusion is
+false by \cref{rem:psi-degenerate}: the original unguarded statement from
+\texttt{ed61c33} is retained in the source above.  Issue 27 adds the necessary
+$I\ne D$ and $I\ne P$ guards.  Their sufficiency is an open formalization target;
+the original proof below is retained as a historical sketch and does not establish
+the corrected statement.  Its action-origin and meet normalization steps still need proof.
+The literal-target refutation is \texttt{not\_forall\_psi\_hasLiteralTableCoordinates};
+the unguarded corrected conclusion is refuted by \lean{not_affineGridExtraction}.
 \end{remark}
 \begin{proof}
 We spell out the algebraic-action argument normally hidden under the phrase ``apply the
@@ -4893,7 +5000,8 @@ configuration or interpretation file.  This is the go/no-go milestone for the pr
 
 \begin{milestone}[M4: configurations]
 Formalize $\Psi$, multiplication, and $\Jrel$ over algebraically closed fields.
-Acceptance: both directions of \cref{thm:q-correct} and the exact semantic theorem for
+Acceptance: both directions of guarded \cref{thm:q-correct} (the reverse remains open,
+issue 27) and the exact semantic theorem for
 $\Jrel$ have no project axioms or placeholder proofs.
 \end{milestone}
 
@@ -5173,7 +5281,7 @@ EH95, Lemma 2.8 & Frobenius equivalence configuration &
 \lean{DirectFrobLink}, \lean{FrobEq}\\
 EH95, Lemma 2.11 & generic operations &
 \lean{JAdd}, \lean{JMul}, totalization\\
-EH95, Lemma 3.1 and Corollary 3.4 & $\Psi$ correctness &
+EH95, Lemma 3.1 and Corollary 3.4 & $\Psi$ correctness, guarded audit (issue 27) &
 \cref{sec:psi,lem:affine-grid-extraction,thm:q-correct}\\
 Gismatullin, Proposition 3.1 & finite union of subfields &
 \cref{lem:no-field-cover}\\
@@ -5190,6 +5298,27 @@ Theorem~\ref{thm:functorial-reconstruction}\\
 \bottomrule
 \end{longtable}
 
+\subsection{Guarded configuration audit in Lean}
+The witness of \cref{rem:psi-degenerate} refutes unguarded geometric $\Qrel$
+completeness and projection over any field with five independent elements.  With
+both actual ACF assumptions it also refutes the legacy \lean{QCompletenessACF}
+and \lean{AffineGridExtraction}; their unguarded correctness wrappers are superseded.
+
+The corrected candidates require $I\ne D$ and $I\ne P$.  Both are necessary;
+guarded extraction/completeness, the multiplication converse and unconditional
+$\Jrel$ completeness remain open.  Multiplication distinctness supplies the
+guards to $\Qprel$ and $\Jrel$, so conditional $\Jrel$ assembly uses guarded
+$\Qrel$ completeness with no extra hypothesis on $\Jrel$.
+\lean{JCompletenessACF} and every \lean{AclGeom.Main} target have unchanged types.
+All forty-four original proof blocks and the refuted statements retain historical
+provenance; the frozen 117-item M4a and literal interpretation obligations are untouched.
+
+EH95 Corollary 3.4 and Gismatullin's ACF sketch of Theorem 4.1 appear to omit the
+necessary nondegeneracy in their $\Qrel$ formula.  The counterexample satisfies even
+EH95's extra $P\leq A$, $Q\leq B$ incidences.  It does not refute their $\Jrel$
+configuration, whose distinctness already supplies the guards.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}

@@ -23,8 +23,10 @@ constant times `X₀`, which is impossible. The corollaries apply the actual geo
 semantic predicates, with no completeness hypothesis.
 
 **Status:** both concrete characteristic-zero refutations and their generic sufficient
-conditions are proved (#25). General witness descent and ACF geometric completeness remain
-separate obligations. The original withdrawn blueprint consequence retains its provenance.
+conditions are proved (#25). Its unguarded `Q` conclusion is superseded by the any-field
+degenerate refutation in Counterexamples.QDegenerate (#27); the independent `Q′` refutation
+remains relevant. General descent, guarded ACF `Q` completeness and ACF `Q′` completeness
+remain open. The original withdrawn blueprint consequence retains its provenance.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

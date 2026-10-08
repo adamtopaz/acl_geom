@@ -52,7 +52,8 @@ of this guide. The current mathematical boundaries are:
   `QGeom ↔ QSem` held only vacuously. Blueprint table (8.5) has the same
   imprecision. This checkpoint retains the literal-target refutation and
   corrects the interface to three joins and fifteen points (#22). The ACF
-  extraction and witness-level Q completeness statements remain open.
+  unguarded extraction and Q completeness were subsequently refuted even over ACF pairs
+  (#27); the corrected candidate requires I≠D and I≠P and remains open.
 - **The M4a group-chunk chain (historical items 1–117 below) is frozen.** It
   did not converge toward a blueprint statement: no `Config/Chunk*` module is
   upstream of `AffineGrid`, `Correctness` or `Main`, and several headline
@@ -2144,8 +2145,9 @@ all existing proved mathematics. The 117-step M4a record remains frozen.
   foundational carryovers in #24 remain open or privately reviewed.
 - `Config/AffineGrid` retains the literal-target refutation and constrains
   only three joins and fifteen points in the corrected target. Extraction
-  and `QCompletenessACF` are open; the conditional correctness statements
-  name the latter and require algebraically closed fields.
+  and `QCompletenessACF` were subsequently refuted by an actual degenerate witness (#27).
+  Guarded extraction/completeness require I≠D and I≠P and remain open; current
+  conditional correctness uses the guarded input over algebraically closed fields.
 - `Counterexamples/GenericArithmetic` records the literal JAdd/JMul and
   full-class RatioEq refutations (26 public theorems), with every witness's
   geometric class membership proved. Corrected class operations, totalization
@@ -4527,14 +4529,14 @@ _hPhi; source-success/fixture-warning evidence is retained. A root preflight
 declaration scanner misread header prose and was corrected before actual
 Lean compilation, retaining failed guard/missing-directory evidence.
 
-Twelve new warning-free typed behaviors and all45 byte-exact previous
+Twelve new warning-free typed behaviors and all 45 byte-exact previous
 interfaces pass (57 total): minimal RAC and actual algebraic membership,
 minimal original-field existence, literal perfected-subfield equalities,
 every intersection formula, actual compatible base RingEquiv, inducing-map
 conjugacy, all Frobenius twists and exact fibre for this constructed witness,
 finite bases and characteristics zero/two across independent universes.
 The fibre is a private consumer check, not an extra public assembler.
-Before-main capture passes8.00s with all57 prior records exact and main clean.
+Before-main capture passes 8.00s with all 57 prior records exact and main clean.
 
 Scope and stale source status were reported on issue9 before main/source
 edits (6048732435). Existence and Induces change only current headers with
@@ -4583,7 +4585,7 @@ item, global/local instance, evaluation or duplicate relation is added.
 Main imports only Target and Uniqueness; the root already imports Main and
 Functorial separately and stays byte-exact.
 
-Fifteen new warning-free independent typed behaviors plus all57 previous
+Fifteen new warning-free independent typed behaviors plus all 57 previous
 byte-exact fixtures pass (72 total). They check minimal public existence,
 the actual perfected-base Subfield image, actual set intersection inside
 the ORIGINAL target field, both directions of the fibre, actual ∃! integral
@@ -4591,13 +4593,13 @@ exponent, literal ∃! reconstruction in ORIGINAL characteristic zero and
 unique exponent in ORIGINAL characteristic two for arbitrary bundles,
 finite bases, independent universes, compatible converse and uniqueness of
 the induced lattice map without rank/completeness. Before-main59 capture
-passes6.03s with all59 prior compiled records exact and main clean.
+passes 6.03s with all 59 prior compiled records exact and main clean.
 
 Conditional scope/current source status corrections were reported on issue9
 before integration (6049028844). Only four old Lean headers change; their full
 namespaces remain byte-exact. Every original49 mathematical statements and
 44 proof blocks, literal interpretation/TOT, assembly listing/proposed proof
-and frozen117-item M4a remain exact; earlier current progress wording is
+and frozen 117-item M4a remain exact; earlier current progress wording is
 preserved in source comments. Full serial library/book, shared3-record/
 72-interface/59-old/62-total comparison, hygiene, retained HTML, stable PDF
 with actual affected/context visual inspection, final full library/book and
@@ -4616,10 +4618,11 @@ open. The next bounded public consumer is chosen only after publication.
 The public lattice-form target is now conditional on both exact perfected
 ACF J-completeness inputs. The next mathematical priority is discharging
 those inputs, rather than adding public wrappers. Semantic J assembly
-reduces each rank-five ACF input to completeness of Q and Q′. Corrected
-AffineGridExtraction implies witness-level Q completeness; the latter
-needs only the four free output points and does not require pinning all
-witness coordinates. The frozen 117-item M4a stays frozen.
+now reduces each rank-five ACF input to guarded Q completeness and Q′ completeness (#27).
+The old unguarded AffineGridExtraction and QCompletenessACF were subsequently refuted
+even for ACF pairs with five independent elements. Guarded extraction requires
+I≠D and I≠P; both guards come from J multiplication distinctness. Guarded Q
+completeness needs only the four outputs and remains open. The frozen 117-item M4a stays frozen.
 
 The audit found stale current prose: Config.Correctness and issues 6/22
 still called the accepted concrete arbitrary-field Q/Q′ refutations open;
@@ -4646,3 +4649,88 @@ extraction, geometric projection identities, general witness descent and
 group/action integration remain open. The completeness-engine audit is
 read-only; no new source draft, Lean/main ownership, child agents or frozen
 bookkeeping expansion is delegated.
+
+
+## Degenerate Psi refutation and guarded completeness repair (#27/#6/#22)
+
+The literal Psi allows Q=E=G=T=[c], H=S=[a], I=D=[ax] in the independent
+five-coordinate table. The four changed meets are proved, not assumed; all
+remaining clauses use the verified table witness. QSem.ratio_ne and
+ratio_ne_fst prove both necessary output inequalities. The counterexample
+refutes unguarded geometric Q completeness over any field with five independent
+elements, and the exact legacy QCompletenessACF and AffineGridExtraction with
+both actual ACF assumptions. It also refutes the unguarded geometric Q
+projection to J. The old #25 unguarded Q conclusion is superseded; the
+independent arbitrary-field Q′ refutation remains relevant.
+
+GuardedAffineGridExtraction and GuardedQCompletenessACF require both I≠D and
+I≠P. They are explicit OPEN propositions, never axioms or proved classification
+interfaces. Actual multiplication distinctness supplies both outer guards in J.
+The two existing JAssembly inputs are retyped to guarded Q completeness;
+JCompletenessACF and every Main public target are unchanged. Guarded correctness
+and geometric projection are conditional on the explicit guarded input. The
+three vacuous unguarded correctness wrappers are removed; legacy target definitions
+remain marked refuted with this issue reference for their negative consumers.
+
+The source error and concrete scope were reported BEFORE main/source edits on
+issues 6/22/12, then both guards on 27/6. All 49 original full mathematical statement
+blocks remain in the source, including the two refuted statements in explicitly
+labelled historical false branches from ed61c33. Of the 49 active statements,
+47 stay exact; q-correct and affine-grid-extraction gain both guards and explicit
+OPEN completeness qualification. All 44 proof blocks, original listings and the
+literal ratio/TOT section stay byte-exact. Q′/J statements are unchanged and
+qualified as completeness obligations using guarded Q. No supplied private paper
+is committed or reproduced. Frozen 117-item M4a remains untouched.
+
+Claude supplied the source-only degeneration and read-only guard/consumer audit.
+The first frozen draft failed 28.14s on a namespace call and full-record kernel
+comparison. The private repair uses one opaque witness helper, the explicit
+namespace call and omit hind in; the second run failed 2.01s on that section binder,
+and the third passed 2.00s. Seven public/four private authored declarations and
+four actual behaviors passed independently with standard axioms. The original
+frozen bytes and both failures remain outside git. The repaired guarded nine-module
+chain passes 16.00s warning-free. The previous run compiled with six touched
+show→change warnings, one unused Fin.snoc simp argument, and five new long lines;
+those exact style repairs are recorded, with no weakened checking. Normalized
+proof bodies for every old declaration remain exact except the two deliberately
+retyped JAssembly theorems. The diagnostic harness initially expected 18 additions;
+its actual 24 authored additions (20 public/four private) and all ten genuine
+behaviors passed; the count assertion was corrected with no source/fixture repair.
+
+The separate origin-shift refutation privately passed default checking with two
+public/two private declarations and two actual behaviors, but is deferred from
+this focused checkpoint. It refutes action-origin uniqueness, not guarded
+completeness. Next work is the genuine guarded extraction/group-action engine
+and multiplication converse; no new frozen bookkeeping is authorized.
+
+
+Final shared QA for the guarded checkpoint: full library/book compilation is green
+80.02s (minimum available 35.93GiB, sampled family RSS10.91GiB); website generation
+is green 8.00s (minimum 37.65GiB/RSS1.56GiB). The initial applied fullbuild stopped
+98.03s at 29.22GiB as required; its evidence is retained and excluded from acceptance.
+The serialized warm retry passed 10.00s (minimum 35.30GiB/RSS3.30GiB). Root waited for
+each actual process exit before the next Lean/Lake family; the guarded slot stayed exclusive.
+
+All 72 earlier actual fixtures and their62 combined public signatures/proofs/axioms
+remain exact against the final main imports. The nine touched modules'125 scoped
+declarations and ten new actual guarded/refutation behaviors also match the private
+acceptance, with standard axioms only. This is a scoped audit, not a whole-library
+axiom audit. The first shared harness added production style lint to the historical
+external fixtures and found old whitespace diagnostics; that failed evidence is retained.
+The fixtures are byte-exact and use their historical diagnostic lint scope; new actual
+behaviors and production use standard lint, and every kernel invocation uses default
+checking. No fixture or production proof was repaired for that harness mismatch.
+The corrected shared run passed 20.00s (minimum 37.30GiB/RSS2.90GiB).
+
+Claude's read-only final review found a nolinkurl escaping bug, clearer naming of both
+source refutations, historical-sketch wording, missing spaces and two grammar nits.
+These were fixed with no mathematics change. Source PDF now has 69pages after four
+stable passes with no overflow/undefined label. All 20 selected current pages are visually
+accepted: 13 current image bytes match previously actually viewed renders, and seven
+changed/new pages were actually viewed after final repairs. Actual review caught an
+orphaned final bibliography entry; two failed layouts remain outside git, and the
+bibliography now starts on its own page. All 101 HTML pages remain, with current
+refuted/guarded/open status and the frozen 117 record visible. Full source/byte guards
+and exact 13-path stage/commit/push complete the checkpoint. Only the refutations,
+necessary guards and conditional reduction are accepted; both guarded completeness
+inputs, multiplication converse, ACF Q′/J completeness and group/action extraction remain open.

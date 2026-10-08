@@ -172,6 +172,7 @@ import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic
 import AclGeom.Counterexamples.KernelRank
 import AclGeom.Counterexamples.QRefutation
+import AclGeom.Counterexamples.QDegenerate
 import AclGeom.Interpretation.GenericOps
 import AclGeom.Interpretation.Ratio
 import AclGeom.Interpretation.Decode

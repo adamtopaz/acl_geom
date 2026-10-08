@@ -8,41 +8,21 @@ import AclGeom.Config.Soundness
 /-!
 # The affine-grid extraction boundary
 
-Blueprint Lemma `affine-grid-extraction` (8.5) says that, over algebraically
-closed `k ⊆ Ω`, every witness satisfying `Psi` has, after interalgebraic
-changes of representatives, the affine-grid coordinates of the explicit table
-with independent `a, b, c, d, x`.
+The literal twenty-one-field table target is refuted by exchanging generators (#22).
+Constraining only the three joins and fifteen remaining points removes that defect, but the
+unguarded extraction and `Q` completeness targets are still false (#27): the actual `Psi`
+admits a witness with `I = D` (`Counterexamples.QDegenerate`). Semantic `Q` requires `I ≠ D`.
 
-`Psi` sees the six generator points `A₁, A₂, B₁, B₂, C₁, C₂` only through the
-rank-two joins `A = A₁ ∨ A₂`, `B`, `C` (`QWitness.Psi.of_eq`).  The generator
-rows of the blueprint's table (8.5) therefore cannot be forced: exchanging
-`A₁` and `A₂` preserves `Psi`.  This module
+This module retains `AffineGridExtraction` and `QCompletenessACF` as refuted legacy propositions
+for their refutations and original-source provenance. Their unguarded correctness wrappers are
+superseded. `GuardedAffineGridExtraction` and `GuardedQCompletenessACF` state the corrected
+candidate boundary with `I ≠ D` and `I ≠ P`; both are open propositions. No sufficiency theorem or
+axiom. Affine-grid coordinates imply semantic `Q`, and guarded completeness yields the
+conditional equivalence `QGeom ∧ I ≠ D ∧ I ≠ P ↔ QSem`. Both guards come from the multiplication
+diagrams in geometric `J`.
 
-* records that the literal reading of table (8.5), equality with the table
-  witness in all twenty-one fields, is refutable as soon as one table witness
-  exists (`not_forall_psi_hasLiteralTableCoordinates`);
-* defines the corrected coordinate interface
-  `QWitness.HasAffineGridCoordinates`, which constrains the three joins and
-  the fifteen remaining points, proves the easy implication (affine-grid
-  coordinates give a `Psi`-witness), and checks that the swapped table witness
-  has corrected coordinates;
-* states the open geometric content over algebraically closed fields as
-  `AffineGridExtraction`, together with the weaker witness-level completeness
-  `QCompletenessACF`, which is all that the completeness direction of `Q`
-  uses;
-* proves that affine-grid coordinates force the four free outputs to satisfy
-  `QSem`, and assembles the conditional equivalence `QGeom ↔ QSem`.
-
-Nothing here proves completeness: `AffineGridExtraction` and
-`QCompletenessACF` are open propositions, neither assumed nor axiomatized.
-The swapped-witness check only shows that the corrected interface is not
-refuted by the counterexample to the literal one. The configuration
-completeness targets here are restricted to algebraically closed fields;
-the blueprint's arbitrary-field Q/Q′ consequences have independent
-mathematical counterexamples (issue #25), whose Lean formalization is open.
-
-**Status:** coordinate interface stated; the extraction theorem (blueprint
-Lemma 8.5 over algebraically closed fields) is open (issue #22).
+**Status:** soundness and refutations proved; guarded ACF extraction/completeness remain open
+(#27). The frozen M4a chain is not part of their proof.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -169,7 +149,7 @@ theorem hasAffineGridCoordinates_swapA {a b c d x : K}
 
 /-- The easy implication: every witness with affine-grid coordinates
 satisfies `Psi` over any base field, by soundness of the explicit table
-witness. The converse is the open extraction theorem. -/
+witness. The unguarded converse is refuted (#27); the guarded extraction remains open. -/
 theorem HasAffineGridCoordinates.psi {w : QWitness k K}
     (h : w.HasAffineGridCoordinates) : w.Psi := by
   obtain ⟨a, b, c, d, x, hind, hA, hB, hC, hD, hE, hF, hG, hH, hI, hP, hQ, hR,
@@ -226,52 +206,73 @@ theorem qSem_of_hasAffineGridCoordinates {w : QWitness k K}
 
 end QWitness
 
-/-- The open geometric core of blueprint Lemma 8.5, in corrected form, over
-algebraically closed `k ⊆ K`: every `Psi`-witness has affine-grid
-coordinates.  This is an open proposition, not a theorem. -/
+/-- **Refuted legacy extraction target**: every `Psi`-witness has affine-grid coordinates.
+`not_affineGridExtraction` refutes it even over algebraically closed pairs with five independent
+elements (#27). Retained for that refutation and provenance; use `GuardedAffineGridExtraction`
+for the open corrected candidate. -/
 def AffineGridExtraction (k K : Type*) [Field k] [Field K] [Algebra k K]
     [IsAlgClosed k] [IsAlgClosed K] : Prop :=
   ∀ w : QWitness k K, w.Psi → w.HasAffineGridCoordinates
 
-/-- Given the easy implication `HasAffineGridCoordinates.psi`, the open
-extraction target is equivalent to the statement that `Psi`-witnesses are
-exactly the witnesses with affine-grid coordinates.  Both sides are open. -/
+/-- An equivalent formulation of the refuted legacy extraction target (#27).
+Both sides are refuted when five independent elements exist; retained as provenance. -/
 theorem affineGridExtraction_iff [IsAlgClosed k] [IsAlgClosed K] :
     AffineGridExtraction k K ↔
       ∀ w : QWitness k K, w.Psi ↔ w.HasAffineGridCoordinates :=
   ⟨fun h w ↦ ⟨h w, QWitness.HasAffineGridCoordinates.psi⟩,
     fun h w ↦ (h w).1⟩
 
-/-- Witness-level completeness of `Q` over algebraically closed `k ⊆ K`: the
-four free outputs of every `Psi`-witness form a semantic `Q`-quadruple.  This
-open proposition is all that the completeness direction `QGeom → QSem` uses;
-it is the acceptance boundary for the corrected blueprint Lemma 8.5. -/
+/-- **Refuted legacy witness-level `Q` completeness**: every `Psi`-witness has semantic outputs.
+`not_qCompletenessACF` refutes it even over algebraically closed pairs with five independent
+elements (#27). Its corrected candidate is `GuardedQCompletenessACF`. -/
 def QCompletenessACF (k K : Type*) [Field k] [Field K] [Algebra k K]
     [IsAlgClosed k] [IsAlgClosed K] : Prop :=
   ∀ w : QWitness k K, w.Psi → QSem w.P w.D w.Y w.I
 
-/-- Affine-grid extraction gives witness-level completeness. -/
+/-- The refuted legacy extraction implies the refuted legacy completeness.
+The named consumer is `not_affineGridExtraction`; this is not an acceptance target (#27). -/
 theorem AffineGridExtraction.qCompletenessACF [IsAlgClosed k] [IsAlgClosed K]
     (h : AffineGridExtraction k K) : QCompletenessACF k K :=
   fun w hw ↦ QWitness.qSem_of_hasAffineGridCoordinates (h w hw)
 
-/-- Witness-level completeness gives the completeness direction
-`QGeom → QSem`. -/
-theorem qSem_of_qGeom [IsAlgClosed k] [IsAlgClosed K]
-    (hcompl : QCompletenessACF k K)
-    {P D Y I : Point k K} (h : QGeom P D Y I) : QSem P D Y I := by
-  obtain ⟨w, hpsi, rfl, rfl, rfl, rfl⟩ := h
-  exact hcompl w hpsi
+/-- **Open guarded extraction target** (corrected blueprint Lemma 8.5, #27): a `Psi`-witness
+whose ratio output differs from its first and second outputs has affine-grid coordinates. The guards
+are necessary; their sufficiency is unproved. This is a proposition, not an assumed theorem. -/
+def GuardedAffineGridExtraction (k K : Type*) [Field k] [Field K] [Algebra k K]
+    [IsAlgClosed k] [IsAlgClosed K] : Prop :=
+  ∀ w : QWitness k K, w.Psi → w.I ≠ w.D → w.I ≠ w.P → w.HasAffineGridCoordinates
 
-/-- Conditional correctness of `Q` over algebraically closed fields:
-witness-level completeness plus the proved fresh-element soundness gives
-`QGeom ↔ QSem`. -/
-theorem qGeom_iff_qSem [IsAlgClosed k] [IsAlgClosed K]
-    (hcompl : QCompletenessACF k K)
+/-- **Open guarded witness-level `Q` completeness** (#27): the outputs of a `Psi`-witness
+with `I ≠ D` and `I ≠ P` are semantic. These guards exclude the degenerate counterexample;
+their sufficiency remains unproved. The consumer is the guarded geometric correctness/`J` route. -/
+def GuardedQCompletenessACF (k K : Type*) [Field k] [Field K] [Algebra k K]
+    [IsAlgClosed k] [IsAlgClosed K] : Prop :=
+  ∀ w : QWitness k K, w.Psi → w.I ≠ w.D → w.I ≠ w.P → QSem w.P w.D w.Y w.I
+
+/-- Guarded affine-grid extraction implies guarded witness-level completeness.
+Both inputs remain explicit open obligations (#27). -/
+theorem GuardedAffineGridExtraction.guardedQCompletenessACF [IsAlgClosed k] [IsAlgClosed K]
+    (h : GuardedAffineGridExtraction k K) : GuardedQCompletenessACF k K :=
+  fun w hw hID hIP ↦ QWitness.qSem_of_hasAffineGridCoordinates (h w hw hID hIP)
+
+/-- Conditional guarded completeness of geometric `Q`, used by correctness and `J` assembly.
+The input is the open `GuardedQCompletenessACF`, not the refuted unguarded target. -/
+theorem qSem_of_qGeom_of_ne [IsAlgClosed k] [IsAlgClosed K]
+    (hcompl : GuardedQCompletenessACF k K)
+    {P D Y I : Point k K} (h : QGeom P D Y I) (hID : I ≠ D)
+    (hIP : I ≠ P) : QSem P D Y I := by
+  obtain ⟨w, hpsi, rfl, rfl, rfl, rfl⟩ := h
+  exact hcompl w hpsi hID hIP
+
+/-- Conditional guarded correctness of `Q`: semantic `Q` already has the necessary guard;
+its converse uses the explicit open guarded completeness input (#27). -/
+theorem qGeom_and_ne_iff_qSem [IsAlgClosed k] [IsAlgClosed K]
+    (hcompl : GuardedQCompletenessACF k K)
     (hfresh : ∀ S : Finset K, S.card ≤ 4 → ∃ z, z ∉ racl k (S : Set K))
     {P D Y I : Point k K} :
-    QGeom P D Y I ↔ QSem P D Y I :=
-  ⟨qSem_of_qGeom hcompl, qGeom_of_qSem hfresh⟩
+    QGeom P D Y I ∧ I ≠ D ∧ I ≠ P ↔ QSem P D Y I :=
+  ⟨fun h ↦ qSem_of_qGeom_of_ne hcompl h.1 h.2.1 h.2.2,
+    fun h ↦ ⟨qGeom_of_qSem hfresh h, h.ratio_ne, h.ratio_ne_fst⟩⟩
 
 end
 

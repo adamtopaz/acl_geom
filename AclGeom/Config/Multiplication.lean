@@ -62,12 +62,36 @@ structure MulDiagram (X Y V E A₀ B₀ C₀ D₀ : Point k K) : Prop where
   /-- Nondegeneracy: `X, Y, A₀` are in general position. -/
   rank_XYA : RankEq 3 (X.1 ⊔ (Y.1 ⊔ A₀.1))
 
+/-- The product point differs from the second point of a multiplication diagram.
+This supplies the outer `Q` guard in geometric `J` assembly and projection. -/
+theorem MulDiagram.product_ne {X Y V E A₀ B₀ C₀ D₀ : Point k K}
+    (h : MulDiagram X Y V E A₀ B₀ C₀ D₀) : E ≠ Y := by
+  simpa using h.distinct.ne (show (3 : Fin 8) ≠ 1 by decide)
+
+/-- The second point differs from the first in a multiplication diagram.
+This supplies the other outer `Q` guard in `J` assembly and projection (#27). -/
+theorem MulDiagram.snd_ne_fst {X Y V E A₀ B₀ C₀ D₀ : Point k K}
+    (h : MulDiagram X Y V E A₀ B₀ C₀ D₀) : Y ≠ X := by
+  simpa using h.distinct.ne (show (1 : Fin 8) ≠ 0 by decide)
+
 /-- The geometric relation `Q′` (blueprint §multiplication diagram):
 a `Q`-witness produces the ratio point `V` from `(X, Y, S)`, and a
 multiplication diagram converts it into the product point `E`. -/
 def Q'Geom (X Y S E : Point k K) : Prop :=
   ∃ V A₀ B₀ C₀ D₀ : Point k K,
     QGeom X Y S V ∧ MulDiagram X Y V E A₀ B₀ C₀ D₀
+
+/-- The product output of geometric `Q′` differs from its second point.
+Its named consumers are the guarded `J` assembly and geometric projection audit. -/
+theorem Q'Geom.ne {X Y S E : Point k K} (h : Q'Geom X Y S E) : E ≠ Y := by
+  obtain ⟨V, A₀, B₀, C₀, D₀, -, hmul⟩ := h
+  exact hmul.product_ne
+
+/-- The second point of geometric `Q′` differs from its first point.
+The multiplication diagram supplies this guard to the outer `Q` in geometric `J`. -/
+theorem Q'Geom.snd_ne_fst {X Y S E : Point k K} (h : Q'Geom X Y S E) : Y ≠ X := by
+  obtain ⟨V, A₀, B₀, C₀, D₀, -, hmul⟩ := h
+  exact hmul.snd_ne_fst
 
 /-- The geometric relation `J` — the Evans–Hrushovski identity reproduced
 by Gismatullin (blueprint §geometric definition of J):

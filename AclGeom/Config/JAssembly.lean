@@ -17,7 +17,7 @@ on the semantic side: over algebraically closed `k ⊆ Ω` of transcendence
 degree at least five, a five-tuple whose `Q`-projection `(X, Q, R, A)` and
 `Q′`-projections `(X, A, P, Q)`, `(X, A, P, R)` are semantic is a semantic
 `j`-tuple (`jSem_of_qSem_q'Sem`).  Consequently completeness of geometric
-`J` reduces to completeness of geometric `Q` and `Q′`
+`J` reduces to guarded completeness of geometric `Q` and completeness of `Q′`
 (`jSem_of_jGeom_of_completeness`).
 
 The blueprint's sketch puts the additive relation (from `P`) and the
@@ -41,8 +41,8 @@ proof here compares three witnesses: the shifted `Q` witness
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** complete (the semantic assembly); completeness of geometric `Q`
-and `Q′` over algebraically closed fields remains open.
+**Status:** complete (the semantic assembly); guarded ACF `Q` completeness and ACF `Q′`
+completeness remain open (#27). The former unguarded `Q` input is refuted and superseded.
 -/
 namespace AclGeom
 
@@ -934,11 +934,11 @@ theorem jSem_of_qSem_q'Sem [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ) [ExpChar k
     exact ptEq (hsum.symm.trans (hνeq.symm.trans hshift.symm))
 
 /-- **Completeness of geometric `J` over algebraically closed fields**,
-reduced to completeness of geometric `Q` and `Q′` (the remaining
-configuration-milestone inputs) by the semantic assembly. -/
+reduced to guarded completeness of geometric `Q` and completeness of `Q′`. The necessary
+outer `Q` guard comes from the first multiplication diagram, not a new hypothesis on `J` (#27). -/
 theorem jSem_of_jGeom_of_completeness [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ)
     [ExpChar k q] (htr : (5 : Cardinal) ≤ Algebra.trdeg k Ω)
-    (hQc : ∀ P D Y I : Point k Ω, QGeom P D Y I → QSem P D Y I)
+    (hQc : ∀ P D Y I : Point k Ω, QGeom P D Y I → I ≠ D → I ≠ P → QSem P D Y I)
     (hQ'c : ∀ X Y S E : Point k Ω, Q'Geom X Y S E → Q'Sem X Y S E)
     {X : Fin 5 → Point k Ω} (h : JGeom (X 0) (X 1) (X 2) (X 3) (X 4)) :
     JSem X := by
@@ -946,8 +946,8 @@ theorem jSem_of_jGeom_of_completeness [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ)
     funext i
     fin_cases i <;> rfl
   rw [hX]
-  exact jSem_of_qSem_q'Sem q htr (hQc _ _ _ _ h.1) (hQ'c _ _ _ _ h.2.1)
-    (hQ'c _ _ _ _ h.2.2)
+  exact jSem_of_qSem_q'Sem q htr (hQc _ _ _ _ h.1 h.2.1.ne.symm h.2.1.snd_ne_fst)
+    (hQ'c _ _ _ _ h.2.1) (hQ'c _ _ _ _ h.2.2)
 
 end Assembly
 
@@ -960,12 +960,13 @@ algebraically closed pair `k̄ ⊆ K̄`. -/
 def JCompletenessACF (k K : Type*) [Field k] [Field K] [Algebra k K] : Prop :=
   ∀ X : Fin 5 → Point k K, JGeom (X 0) (X 1) (X 2) (X 3) (X 4) → JSem X
 
-/-- `JCompletenessACF` follows from completeness of geometric `Q` and `Q′`
-over the same algebraically closed pair of rank at least five. -/
+/-- `JCompletenessACF` follows from guarded geometric `Q` completeness and geometric `Q′`
+completeness over the same ACF pair of rank at least five. Both remain explicit open inputs
+(#27); the necessary guard is already forced by `JGeom`. -/
 theorem jCompletenessACF_of_completeness {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
     [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ) [ExpChar k q]
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k Ω)
-    (hQc : ∀ P D Y I : Point k Ω, QGeom P D Y I → QSem P D Y I)
+    (hQc : ∀ P D Y I : Point k Ω, QGeom P D Y I → I ≠ D → I ≠ P → QSem P D Y I)
     (hQ'c : ∀ X Y S E : Point k Ω, Q'Geom X Y S E → Q'Sem X Y S E) :
     JCompletenessACF k Ω :=
   fun _ h ↦ jSem_of_jGeom_of_completeness q htr hQc hQ'c h

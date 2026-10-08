@@ -21,7 +21,8 @@ This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
 **Status:** soundness proved over any base field, assuming the stated
-supply of fresh elements. Completeness remains open (#6).
+supply of fresh elements. Unguarded completeness is refuted; guarded ACF completeness
+remains open (#27).
 -/
 
 namespace AclGeom
@@ -212,7 +213,7 @@ theorem qtable_indep_of_fresh {u v a c d : K}
   have heq : ((Fin.snoc (Fin.snoc (Fin.snoc (Fin.snoc ![a] u) (v / a)) c) d)
       ∘ (![0, 1, 3, 4, 2] : Fin 5 → Fin 5)) = ![a, u, c, d, v / a] := by
     funext i
-    fin_cases i <;> simp [Fin.snoc]
+    fin_cases i <;> simp
   rwa [heq] at h6
 
 /-- **Soundness of the geometric `Q`** (blueprint Thm q-correct, one
@@ -259,19 +260,19 @@ theorem qGeom_of_qSem {X Y Z W : Point k K}
       Y := by
     refine Subtype.ext ?_
     rw [hY]
-    show ClosedIF.point k (a * (v / a)) = ClosedIF.point k v
+    change ClosedIF.point k (a * (v / a)) = ClosedIF.point k v
     rw [harith]
   have e3 : Point.mk' k (a * (v / a) + u) (qtable_Y_notMem_bot hind) =
       Z := by
     refine Subtype.ext ?_
     rw [hZ]
-    show ClosedIF.point k (a * (v / a) + u) = ClosedIF.point k (u + v)
+    change ClosedIF.point k (a * (v / a) + u) = ClosedIF.point k (u + v)
     rw [harith, add_comm]
   have e4 : Point.mk' k (a * (v / a) / u) (qtable_axb_notMem_bot hind) =
       W := by
     refine Subtype.ext ?_
     rw [hW]
-    show ClosedIF.point k (a * (v / a) / u) = ClosedIF.point k (u / v)
+    change ClosedIF.point k (a * (v / a) / u) = ClosedIF.point k (u / v)
     rw [harith, ClosedIF.point_div_symm]
   rw [e1, e2, e3, e4] at hq
   exact hq

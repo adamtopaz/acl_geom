@@ -82,6 +82,22 @@ def QSem (X Y Z W : Point k K) : Prop :=
     X.1 = point k x ∧ Y.1 = point k y ∧
     Z.1 = point k (x + y) ∧ W.1 = point k (x / y)
 
+/-- **The ratio point of a semantic `Q`-quadruple differs from its second point**: in
+`([x], [y], [x+y], [x/y])` with `x, y` independent, `[x/y] = [y]` would put `x = (x/y) y` in
+the closure of `y`. -/
+theorem QSem.ratio_ne {X Y Z W : Point k K} (h : QSem X Y Z W) : W ≠ Y := by
+  obtain ⟨x, y, hind, -, hY, -, hW⟩ := h
+  intro hWY
+  have hpt : ClosedIF.point k (x / y) = ClosedIF.point k y :=
+    hW.symm.trans ((congrArg Subtype.val hWY).trans hY)
+  have hxy : x / y ∈ racl k ({y} : Set K) :=
+    ClosedIF.mem_point.1 (ClosedIF.point_eq_point_iff.1 hpt).1
+  have hy : y ∈ racl k ({y} : Set K) := subset_racl k _ rfl
+  have hy0 : y ≠ 0 := hind.ne_zero 1
+  have hx := MulMemClass.mul_mem hxy hy
+  rw [div_mul_cancel₀ x hy0] at hx
+  exact AlgebraicIndependent.notMem_racl_pair' hind hx
+
 /-- The semantic relation `Q′` (blueprint Def semantic-configs): the four
 points are `([x], [y], [x+y], [xy])` for some pair `x, y` algebraically
 independent over `k`. -/
@@ -112,6 +128,11 @@ theorem QSem.swap {X Y Z W : Point k K} (h : QSem X Y Z W) :
   refine ⟨y, x, hind', hY, hX, ?_, ?_⟩
   · rwa [add_comm]
   · rw [hW, point_div_symm]
+
+/-- The ratio point of semantic `Q` also differs from its first point.
+Together with `QSem.ratio_ne`, this supplies both necessary extraction guards (#27). -/
+theorem QSem.ratio_ne_fst {X Y Z W : Point k K} (h : QSem X Y Z W) : W ≠ X :=
+  h.swap.ratio_ne
 
 /-- `Q'Sem` is symmetric in its first two arguments. -/
 theorem Q'Sem.swap {X Y Z W : Point k K} (h : Q'Sem X Y Z W) :
@@ -169,16 +190,16 @@ theorem qSem_iff_exists_jSem {X Q R A : Point k K} :
       have h2 := sub_mem hsum hu
       rwa [add_sub_cancel_left] at h2
     refine ⟨Point.mk' k (u + v / u) hP0, u, v / u, hpair', hX, rfl, ?_, ?_, ?_⟩
-    · show Q.1 = point k (u * (v / u))
+    · change Q.1 = point k (u * (v / u))
       rw [hQ]
       have harith : u * (v / u) = v := mul_div_cancel₀ v hune
       rw [harith]
-    · show R.1 = point k (u + u * (v / u))
+    · change R.1 = point k (u + u * (v / u))
       rw [hR]
       have harith : u + u * (v / u) = u + v := by
         rw [mul_div_cancel₀ v hune]
       rw [harith]
-    · show A.1 = point k (v / u)
+    · change A.1 = point k (v / u)
       rw [hA]
       exact point_div_symm u v
   · rintro ⟨P, x, a, hpair, h0, h1, h2, h3, h4⟩

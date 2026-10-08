@@ -36,8 +36,9 @@ The arrow `(1) ⇒ (4)` is `jGeom_of_jSem_of_five_le_trdeg`.  The arrow
 `jGeom_iff_jSem_of_lift` takes it as the explicit hypothesis
 `JCompletenessACF K₀ Ω` and assembles the equivalence of geometric and
 semantic `J` over `K/k`.  By `jCompletenessACF_of_completeness` that
-hypothesis reduces to completeness of geometric `Q` and `Q′` over
-algebraically closed fields.
+hypothesis reduces to guarded completeness of geometric `Q` and completeness of `Q′`
+over algebraically closed fields (#27). The guard is already forced by multiplication-diagram
+distinctness; the former unguarded `Q` input is refuted.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
