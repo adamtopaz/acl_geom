@@ -66,6 +66,7 @@ import AclGeom.Correspondence.AffineRelocation
 import AclGeom.Correspondence.MultiplierCurve
 import AclGeom.Correspondence.FiniteCurveLoci
 import AclGeom.Correspondence.MultiplierPrimeCurve
+import AclGeom.Correspondence.AffineLocusCommutation
 import AclGeom.Curves.Adeles
 import AclGeom.Curves.Approximation
 import AclGeom.Curves.Canonical

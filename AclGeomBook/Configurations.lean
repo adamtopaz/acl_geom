@@ -19,6 +19,7 @@ import AclGeom.Correspondence.AffineRelocation
 import AclGeom.Correspondence.MultiplierCurve
 import AclGeom.Correspondence.FiniteCurveLoci
 import AclGeom.Correspondence.MultiplierPrimeCurve
+import AclGeom.Correspondence.AffineLocusCommutation
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -593,6 +594,29 @@ remains explicit. This checks zero L-coefficient translations at every
 equal-color pair; it does not select equal colors or prove commutators,
 common centers, linearity, ambient input existence/descent or completeness.
 Only the finite-fibre theorem is a new public library result.
+
+The concrete affine-locus commutation balance is now a library theorem
+(B2, #27). Two maps with coefficients in the same L preserve the SAME
+pair ideal, x is algebraic over L(m), and one multiplier is transcendental
+over the ORIGINAL k. Three polynomial-image transfers derive a preserving
+vertical translation; finite fibres and the characteristic-free power orbit
+force it to vanish. No action or commutator oracle is supplied:
+
+{docstring AclGeom.affine_locus_commutation_balance}
+
+An actual private full-family check fixes the original prime F/span BEFORE
+every supplied fresh INPUT family. At size 2 totalDegree F + 1, it constructs
+the relocations and derives OUTPUT freshness, original-a cocycles, common-L
+colors, and a selected equal-color triple with the least index as common base.
+Both preserving maps, coefficient membership, larger-base algebraicity and
+the transcendental ratio are derived from this data. The balance gives
+the same affine intersection center for the two pairs, so these three
+relocated lines are concurrent. The separate δ outside acl(a) input stays
+explicit. This is one selected triple for each supplied input family.
+Such a family may not exist at small transcendence degree. Selection and
+common centers are actual PRIVATE compositions; the new public theorem is
+the concrete commutation balance. Ambient input existence/enlargement/descent,
+four-point/C4 linearity, extraction and completeness remain open.
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:

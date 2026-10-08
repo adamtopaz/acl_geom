@@ -5623,3 +5623,118 @@ translations at every equal-color pair in the constructed family are
 private derived checks; pigeonhole selection, commutators, common centers,
 linearity, ambient fresh-input existence/enlargement/descent, extraction and
 all guarded/unconditional completeness remain open.
+
+
+## B2 actual affine-locus commutation and privately selected family centers
+
+Pinned to clean published 11e185c, whose exact CI37738517910 is fully green
+at every library/book/deployment job and step; all nine owned issue-body
+references are synchronized. Claude's SOURCE-ONLY GO4556 freezes a 211-line
+new focused AffineLocusCommutation module. All ten project/toolchain/private
+inputs, two Mathlib API files and six immutable draft SHA1 values are checked.
+The FIRST actual standard-Mathlib-lint/default-kernel check passes unchanged
+2.00s warning-free, minimum available 39.17GiB. No production proof/option
+repair. ONE public theorem and FOUR consumed private helpers, no generated
+declarations; the only import is the existing MultiplierPrimeCurve.
+The three private characteristic-free power/orbit/conjugation proofs are
+byte-exact copies of the accepted B1 consumer; its last actual zero-translation
+example becomes the fourth private bridge. The scoped five-record metadata
+audit passes 4.00s warning-free, minimum available 38.86GiB/RSS 2.66GiB,
+standard Lean axioms only. Historical diagnostic genre remains unchanged.
+
+For two concrete coefficient-L affine maps preserving the SAME pair ideal,
+x algebraic over L(m), lambda transcendental over ORIGINAL k and rho != 0,
+the public theorem proves lambda*(rho-1)*nu = rho*(lambda-1)*omega in L.
+Three existing polynomial-image transfers produce the actual preserving
+vertical translation; no action, commutator or stability oracle is supplied.
+The private finite-fibre/conjugation/orbit bridge forces that translation
+to vanish in every characteristic. This is a genuine commutation balance;
+with both multipliers != 1 it gives equal fixed centers.
+
+Root's genuine PRIVATE source-data consumer derives coefficient membership
+from original-a cocycles, both actual preserving maps from shared affine
+values and same-color pair ideals, and lambda transcendence from sequential
+output freshness. It concludes (b_i-b_j)/(a_j-a_i)=(b_i-b_r)/(a_r-a_i):
+the three relocated affine lines are concurrent. Its first private zero-index
+projection failure is retained/excluded; an explicit coordinate change ONLY
+repairs the fixture. The actual second check passes 2.00s warning-free,
+minimum available 39.18GiB, standard lint/default kernel. Claude4567 ACCEPTS
+its faithful, characteristic-free, non-vacuous statement and mathematics.
+
+The private Mathlib pigeonhole bridge selects a color triple at size 2D+1,
+with its least index i as the common base and i<j,i<r,j!=r. The first exit0
+has an unused DecidableEq typeclass warning and is retained/excluded;
+removing that redundant binder leaves its existing classical proof intact.
+The second actual standard/default check passes 2.00s warning-free, minimum
+available 39.18GiB. Claude4562 ACCEPTS its mathematics. An early peer message
+wrongly called the first exit0 warning-free; immediate correction4559 and
+verified second-only acceptance4560 preserve the truthful record.
+
+The combined genuine PRIVATE 377-line consumer fixes ONE original prime
+F and its ORIGINAL span before ALL supplied fresh ambient INPUT choices.
+Its family size is 2*totalDegree F+1. It constructs the literal relocations
+and derives OUTPUT freshness, shared values, original-a cocycles and colors
+bounded by THAT original degree over ONE common relatively closed final L.
+The Mathlib selector gives an ACTUAL equal-color triple; actual scale/curve
+producers give the needed pair algebraicity over L, and both preserving maps,
+ratio transcendence, commutation balance and the common center are derived.
+There is no literal-joint-ideal, output-freshness, equal-color, action or
+center oracle. The separate delta outside acl(a) input stays explicit.
+ONE actual example consumes eight private fixture helpers. Its first exit0
+long renamed-header warning is retained/excluded; wrapping-only repair
+passes 6.00s warning-free, minimum available 38.70GiB/RSS 2.78GiB.
+Claude4571 ACCEPTS the full consumer: one selected triple per supplied input
+family, not all triples. The supplied family may not exist at small
+transcendence degree; ambient existence/enlargement/descent remains open.
+All production proof bytes stay exact.
+
+Only the concrete commutation balance is a new public result; selected
+triples and common centers are actual PRIVATE compositions. Four-point/C4
+linearity, ambient input existence/enlargement/descent, coordinate extraction
+and all guarded/unconditional completeness remain open. Original #11 and
+frozen117 stay independent obligations; no arbitrary-curve action is claimed.
+
+This FIVE-path proposal adds the focused mathematical module and one root
+import, one Book docstring/account and import, ONE source concordance
+paragraph, and this append-only record. All 254 prior mathematical module/
+Main sources remain byte-exact; root differs ONLY by the one new import.
+All 49 active source statements/provenance and 44 proofs/listings/literals
+remain exact. Renewed peer five-path review, private canonical book/source/
+current visuals, actual-main library/book and strict regressions precede
+guarded commit/push.
+
+
+Claude's exact five-path review4574 ACCEPTS. The private mathematical/root/
+canonical Verso book chain passes 26.01s warning-free, minimum available
+38.04GiB/RSS 4.41GiB, standard mathematical lint/default kernel and canonical
+book genre. Source FIRST rendering passes four stable runs/71 pages with
+no overflow, undefined/rerun request or orphan tail. All eleven current
+selected pages are accepted: ten byte-identical to prior ACTUAL views and
+changed70 newly inspected. Both the new balance account and whole generic
+invariance account fit intact on 70; bibliography and contents remain exact.
+Current five-path hashes are pinned; actual-main gates follow.
+
+
+Final peer refresh4577 ACCEPTS all five current paths. Actual-main full
+library/book pass 58.01s/8.00s, minimum available 36.56GiB/full-family RSS
+7.50GiB, no memory stop. The strict 67-check family passes 88.02s, minimum
+available 37.69GiB/RSS 2.91GiB. All 61 earlier fixture inputs remain byte-exact;
+every old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stays exact,
+with NO old-scope addition. The new five-record audit and three genuine
+actual private examples match the accepted baselines. The full constructed
+consumer has eight consumed private helpers. Math/behaviors retain standard
+lint/default kernel, and diagnostic genres stay unchanged. All 707 historical
+warning headers are exact to the prior full run; touched sources are clean.
+
+All 256-source placeholder/project-axiom hygiene, 101 HTML paths/new and prior
+docstrings, four stable source runs/71 pages and eleven current visual gates
+pass: ten exact prior ACTUAL views, changed page 70 newly inspected. All 254
+prior mathematical module/Main sources stay exact; root differs ONLY by one
+new import. Source whole recovery permits ONE added concordance paragraph;
+all 49 active statements/provenance, 44 proofs/listings/literals and frozen117
+stay exact. Entire old CONT prefix is exact. These actual gates precede the
+required final library/book pair and guarded five-path stage/commit/push.
+Only concrete commutation balance is public. The selected common-center
+triple for each supplied fresh input family is a PRIVATE derived composition;
+ambient existence/enlargement/descent, four-point/C4 linearity, extraction
+and all guarded/unconditional completeness remain open.
