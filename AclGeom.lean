@@ -25,6 +25,7 @@ import AclGeom.Correspondence.FunctionField
 import AclGeom.Correspondence.Regular
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.GeometricPrime
+import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.Composition
 import AclGeom.Correspondence.CurveEquation

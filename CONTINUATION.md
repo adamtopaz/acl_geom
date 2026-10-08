@@ -7199,3 +7199,181 @@ classification/schemes, extraction and all reconstruction completeness
 remain open. Frozen117 is unchanged. Final required full library/book
 AFTER this ACTUAL factual append precede commit/push. The durable goal
 continues.
+
+
+## Constructive generic points and coordinate subfamilies (#5)
+
+Pinned to clean published999a9e251aa59f8969204fc502dffd0f83dabdff.
+Geometric-prime CI37810708544 is FULL GREEN in both jobs and EVERY
+library/book/deployment step. Six owned reports/bodies and all21 current
+#6/#27 body-owner references are reconciled; #5 stays open, #11 closed.
+Chit5065/5068 report that checkpoint. The durable goal remains active.
+
+PLAN5069 initially referred to a pin harness that failed on nonexistent
+lakefile.lean before producing artifacts. Correction5071 precedes reads;
+guarded5072 confirms22 SHA256 pins with inventoried lakefile.toml instead.
+No main/source change. Claude5073 confirms the flatness route true/minimal.
+Its first pin hashing attempt used SHA1, then reran SHA256. Its precise
+actual read ledger, including inherited reads and explicit NOT-read files,
+is copied to the private lane. Hashes do not imply files were read.
+Root's actual bounded reads/searches are in separate private ledgers.
+Root alone owns Lean/Lake/main; peer remains independent read-only with
+no source/build GO. No children or frozen-wrapper normalization chain.
+
+ONE public exists_genericPoint_baseChange constructs K:Type(max v z),
+an E/k field tower and b from ANY original tuple a:ι→F over ACF k.
+E/F/variables are arbitrary with independent universes. Its E ideal is
+EXACTLY the extended original ideal and its k ideal EXACTLY the original.
+EVERY coordinate subfamily independent over k remains independent over E.
+The caller supplies no prime/domain/exact-ideal/density/point/freeness
+oracle. Three private helpers are consumed: kernel_fraction_tuple,
+contraction and independent_tensor. The latter permits commutative-ring
+E/A over field k: flatness preserves E⊗aeval injectivity, and polynomial
+tensor equivalence gives independence of1⊗x. In the public proof the
+quotient coordinate subfamily is k-independent via kerLiftAlg; quotient
+and polynomial tensor equivalences carry it to the fraction-field tuple.
+Primeness comes from the preceding checked GeometricPrime theorem.
+There is no infinite-cardinal cancellation.
+
+API SEVENTH passes4.00 s/min35.09 GiB, EMPTY log. SIX failed source/
+log/metric triples remain retained. Repairs use E-linear identity on
+the left tensor map, explicit k evaluation arguments, function equalities
+and quotient/coercion boundaries, and the missing unnamed-section end.
+No checking option or heartbeat budget changes. The production source
+FIRST passes2.00 s/min37.23 GiB, EMPTY. It adds only header/module docs
+and four declaration docstrings to the accepted mathematical source.
+
+The PRIVATE actual GenericSubfamilies consumer has TWO examples and ONE
+consumed private FIXTURE helper, never production. It derives maximal
+coordinate independence via cross-ambient ideal equality/comap(rename)
+and restrictScalars. It also starts from the explicit repeated tuple(x,x),
+derives an E-independent singleton, retains b0=b1 and proves BOTH original
+and new WHOLE tuples not independent. No caller prime/domain/exact-ideal/
+point/freeness oracle or cross-ambient call to the old racl lemma.
+FIRST failure and eight letI style notices are retained; composition/set
+types and singleton proofs are made explicit and letI becomes plain let.
+SECOND passes2.00 s/min35.72 GiB, EMPTY. Actual production-import consumer
+passes2.00 s/min37.35 GiB, EMPTY, with ONLY its API import replaced.
+
+Claude5080 ACCEPTS full205-line producer/full93-line consumer and the
+API-to-producer diff. Its new4pins are verified; Maps is NOT read. The
+only nits are the already-prepared production import and an apparently
+unused MvPolynomial.Ideal import. Removing ONLY that import gives204
+lines, all at most100 wide, rechecked2.00 s/min37.55 GiB EMPTY.
+Scoped metadata FIRST failed its Python harness's stale1-private flag
+count, with correct4theorem SIG rows. Harness/source/log retained; ONLY
+the count is repaired to3private/1public. SECOND passes4.00 s/min37.55
+GiB: FOUR SIG/proof records, ONE PUBLIC AX, generated0 IN THE NEW audited
+scope and only standard Lean axioms there. This is not a whole-library
+certificate. Post-import-trim metadata4.00 s/min37.41 GiB proves ALL
+TYPE/RAW/ATTR/DOC/AX/proof rows BYTE-EXACT. All diagnostic genres/options
+are unchanged; new source and actual examples are warning-free under
+standard Mathlib lint and default kernel. Book uses canonical Verso genre.
+
+Exactly FIVE paths are proposed: new GenericExtension, ONE aggregate
+import, Book import/account/public docstring and ONLY the named old
+coordinate-basis status prose, ONE concordance paragraph with clearpage
+FROM FIRST proposal, and append-only CONT. All263 earlier Math/Main
+sources/dependencies/frozen117 remain exact. Original whole source bytes
+are recovered by removing the new concordance: source49/provenance,
+44proofs/listings/literals exact. The previously reported absolute
+transcendence-degree inference gap remains documented with original wording.
+
+The coordinate form of generic-extension(a) is proved. Explicit rank/
+dimension, rational-field freeness and algebraically closed ambient
+bridges, automorphisms(b), rational identity(c), the full lemma, C2
+composition, arbitrary initial charts, actions/classification/schemes,
+extraction and all reconstruction completeness remain open. Frozen117
+unchanged. Canonical root/Book/source/views, all117 earlier fixture bytes/
+scoped records and four new checks, full library/book, actual factual
+acceptance append, peer review and final full/book precede commit/push.
+The durable goal continues.
+
+
+FIRST four-pass source rendering is stable78 pages but fails one overfull
+hbox82.4625pt in ONLY the new paragraph5690-5706: its long theorem identifier
+runs past the right margin. First source/pins/PDF/logs and actual page77
+image are retained; page77 was ACTUALLY inspected before any repair.
+ONLY the new identifier is put on its own line with paragraph breaks.
+Original whole source bytes remain recoverable, clearpage from FIRST
+proposal stays, and no old statement/proof/other-page text is edited.
+Re-render/current visual acceptance follows; no failed view is accepted.
+
+
+SECOND four-pass source render is stable78 pages with no overfull/undefined
+errors. EIGHTEEN current selected views are accepted: FIFTEEN prior ACTUAL
+page images BYTE-EXACT, plus pages3/77/78 ACTUALLY inspected after the repair.
+Contents, the entire new paragraph/identifier and bibliography are clear,
+complete and unclipped. The FIRST failed source/page77 is excluded from
+acceptance and retained; only new identifier paragraph breaks repair layout.
+
+
+Actual constructive generic-point acceptance: Claude5080 ACCEPTS the
+producer and both real consumers;5083 resolves the two import notes;
+5086 ACCEPTS the initial five paths and5090 the final new-layout/CONT
+deltas. Actual full lake build passes54.02 s,
+minimum available33.15 GiB/RSS8.42 GiB;
+lake exe book passes10.00 s,
+minimum available35.01 GiB/RSS1.54 GiB.
+ALL121 strict actual-main checks pass162.04 s,
+minimum available33.23 GiB/RSS2.92 GiB.
+ALL117 older fixture BYTES and scoped TYPE/RAW/ATTR/DOC/AX/proof/deny
+records stay EXACT, including Regular13, RegularACF4/1 and geometric-prime
+2/1 records and both earlier actual point/common-field consumers.
+The NEW audited scope has FOUR SIG/proofs and ONE PUBLIC AX,
+one public/three CONSUMED private, generated0 IN THIS audited scope
+and standard Lean axioms only there. No whole-library certificate.
+
+The public constructive theorem derives exact ideals over k/E and
+preserves EVERY coordinate-independent subfamily, over ACF k and
+arbitrary E/F/variables at independent universes. It uses the checked
+geometric-prime producer, faithful flat contraction and flat tensor
+evaluation, not caller prime/domain/exact-ideal/density/point/freeness
+oracles. The PRIVATE TWO-example/ONE-helper fixture derives maximal
+coordinate independence over E and tests(x,x): its singleton remains
+independent, b0=b1 is retained, and BOTH whole tuples are proved NOT
+independent. The fixture helper is never production. Subfamily ideal
+comparison is cross-ambient; the old single-ambient racl lemma is not
+used across fields. No infinite-cardinal cancellation or TYPE changes
+to older declarations.
+
+All263 older mathematical/Main sources, dependencies and frozen117
+stay exact. Root/Book each add ONE import. Book adds the new account
+and public docstring and repairs ONLY the named old coordinate-basis
+status. Hygiene265 has no placeholders/project axioms. HTML104 retains
+all103 old paths and adds the coordinate-subfamily section, with actual
+new docstring and chart/frozen pages visible. ALL711 historical full/book
+warning headers remain BYTE-EXACT with no source-position change or
+suppression. New mathematics and actual examples are warning-free under
+standard Mathlib/default kernel; diagnostics keep their prior genres.
+
+Canonical FIRST root/Book passes32.02 s/min35.18 GiB, only TWO CHECK/
+PASS pairs with proper Verso Book genre. Complete Math263+ALL1315cache
+and Book15+ALL75cache namespaces are supplied, with compiled-source
+cache links unlinked before writing. The final producer has204 lines,
+one public/three private, all at most100 wide. The peer's unused-import
+trim rechecks2.00 s and all4/1 metadata records remain BYTE-EXACT at
+4.00 s. The SIX failed API attempts, first consumer failure/eight letI
+notices and stale-count metadata harness failure stay retained; explicit
+scalar/evaluation/coercion/subtype boundaries, section closure and plain
+let/count repairs suffice, without weakened checking options or budgets.
+
+Source SECOND four-pass rendering is stable78 pages. EIGHTEEN current
+views are accepted: FIFTEEN older ACTUAL PNGs BYTE-EXACT and3/77/78
+ACTUALLY inspected after repair, clear/complete/unclipped. FIRST source
+is stable78 pages but its new identifier overflows82.4625pt; source/PDF/
+logs/page77 are retained and ACTUALLY inspected before the repair,
+excluded from acceptance. ONLY new identifier paragraph breaks repair
+it; clearpage is attached FROMFIRSTproposal. RemovingONEconcordance
+recovers ENTIRE previous source bytes, all49 active/original-provenance
+statements and44 proofs/listings/literals exact. The original absolute
+transcendence-degree inference gap remains reported and wording retained.
+
+The coordinate form of generic-extension(a) is proved. Explicit rank/
+dimension, rational-field freeness and algebraically closed ambient
+bridges, automorphisms(b), rational identity(c), full generic-extension,
+C2 composition, arbitrary initial charts, actions/classification/schemes,
+extraction and all reconstruction completeness remain open. #5 remains
+open and #11 closed; frozen117 unchanged. Peer final actual-append review
+and mandatory final full library/book AFTER this actual factual append
+precede commit/push. The durable goal continues.

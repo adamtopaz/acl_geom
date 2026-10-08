@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.GeometricPrime
+import AclGeom.Correspondence.GenericExtension
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -131,8 +132,9 @@ tuple, derives the extended quotient domain and constructs its canonical
 fraction-field point. Its ideals over the original and extension fields
 are exact, and independent affine-space coordinates remain independent
 over the extension. No domain, prime-ideal, density or point oracle is
-supplied by the caller. The general locus-relative transcendence-basis
-and ambient-automorphism formulations remain separate obligations.
+supplied by the caller. The coordinate-subfamily form is proved in the
+next section; explicit rank/dimension, rational-field freeness and ambient
+automorphisms remain separate obligations.
 
 The original proof's absolute transcendence-degree equality does not
 by itself give independence when the coefficient extension has infinite
@@ -140,6 +142,40 @@ transcendence degree. Issue #5 records the counterexample to that inference;
 the generic-over-extension premise and original proof wording are retained.
 Frozen M4a and the composition, chart, action and completeness obligations
 remain unchanged.
+
+# Generic points and coordinate subfamilies
+%%%
+tag := "generic-subfamilies"
+%%%
+
+Blueprint Lemma `generic-extension` (a) has a constructive coordinate form
+over any field extension of an algebraically closed base:
+
+{docstring AclGeom.exists_genericPoint_baseChange}
+
+The constructed point lives in the fraction field of the extended
+coordinate ring. Its vanishing ideal over the extension is exactly the
+extended original ideal, and its base-field ideal is exactly the original
+one. Primeness is derived from the preceding theorem; faithful flatness
+gives contraction. No prime, domain, exact-ideal, density or point oracle
+is supplied by the caller. Three private helpers are consumed.
+
+Every coordinate subfamily independent over the base remains independent
+over the extension. Flatness preserves the injectivity of polynomial
+evaluation; tensor polynomial and quotient equivalences identify this
+with evaluation at the new point. This proves relative independence
+directly, without cancelling infinite cardinal sums.
+
+The two actual private consumers derive maximal coordinate independence
+and test the dependent tuple (x,x): its singleton remains independent,
+the repeated-coordinate relation survives, and both whole tuples are
+proved dependent. Subfamily ideal comparison works across ambient fields;
+the old single-ambient closure lemma is not used across fields.
+
+Explicit rank/dimension, rational-field freeness and algebraically closed
+ambient bridges, automorphisms and the full generic-extension lemma remain
+separate obligations. Composition, charts, actions and reconstruction
+completeness remain open; frozen M4a is unchanged.
 
 # Relocation of generic points
 %%%

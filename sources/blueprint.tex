@@ -5686,6 +5686,27 @@ wording. General locus-relative bases, ambient automorphisms, composition and
 reconstruction completeness remain separate obligations; frozen M4a is unchanged.
 
 \clearpage
+\paragraph{Generic points and coordinate-independent subfamilies.}
+Lean constructs scalar-extension points with exact vanishing ideals over
+both $k$ and $E$, for arbitrary tuples and arbitrary extension fields $E$ and $F$
+over algebraically closed $k$. The theorem is
+\par\noindent
+\texttt{AclGeom.exists\_genericPoint\_baseChange}.
+\par\noindent
+Primeness of the extended ideal is derived, and its quotient-fraction field
+gives the point. Faithful flatness contracts the extended ideal exactly.
+Every coordinate subfamily independent over $k$ remains independent over $E$:
+flatness preserves polynomial-evaluation injectivity, and tensor polynomial
+and quotient equivalences identify it with evaluation at the new point.
+A private consumer derives maximal coordinate independence over $E$; another
+tests a dependent repeated tuple with an independent singleton and retains
+its relation. This proves the coordinate form of
+Lemma~\ref{lem:generic-extension}(a) directly, without infinite-cardinal
+cancellation. Explicit rank/dimension, rational-field freeness and algebraically
+closed ambient bridges, automorphisms, composition and reconstruction
+completeness remain separate obligations; frozen M4a is unchanged.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}
