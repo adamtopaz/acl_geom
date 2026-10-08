@@ -5083,8 +5083,95 @@ L0/L0b/L1a/G1c entry visible. The source has four stable runs/70 pages and
 ten selected current pages accepted: eight exact previous actual views
 and final changed68/69 newly viewed. All 49 active mathematical statements
 and original provenance, 44 proofs/listings/literal ratio/TOT content and
-frozen117 M4a remain exact. Whole old source recovery permits only the new
+frozen 117 M4a remain exact. Whole old source recovery permits only the new
 concordance paragraph and two current status sentences. These actual gates
 precede exact six-path staging and commit/push; supplied fresh a₀/original
 coordinates, iterated ambient freshness, component/stabilizer linearity,
 genuine action/classification and guarded completeness remain explicit.
+
+
+## Multiplier-curve and generic finite-fibre prerequisites (#27, L2a)
+
+Correspondence.MultiplierCurve proves three plain-field raw-data prerequisites:
+equality of vanishing ideals transfers the same polynomial map; L1b's literal
+fixed-five joint ideal transfers the same (f,a′c,x′) locus and f's closure
+membership/non-membership, hence x′∈racl{a′c,f}; independent A,B,M,X with
+f∈racl{M,X} outside racl{M} gives X∈racl{M,f}, M∉racl{A,B,f} and
+f∉racl{A,B}. The source projection is M; X need not be generic over that
+parameter field (f=X is a counterexample). The genuine named consumers are
+the proposed first-meet multiplier-curve argument and the existing
+CurveIdeal.exists_prime_span_idealOf over k(A,B,f), with tower conversions.
+No component action, stabilizer or linearity is assumed or proved. Iterated
+ambient freshness, coordinate extraction, genuine group/action/classification
+and guarded Q/Q′ completeness remain open; frozen 117 M4a is unchanged.
+
+Claude's immutable source-only freeze is pinned to 091acbd. Root verifies
+six input hashes (including Lean/toolchain/Lake), all three draft/base/root
+hashes and the explicit published-commit annotation. The original source is
+164 lines, three public theorems and no private helper/generated addition.
+Its first actual standard-lint/default-kernel source elaboration passes
+2.00s unchanged, minimum available 39.16GiB, without proof repair or option.
+An earlier root parser treated the commit annotation as a file path after
+all six actual file hashes were verified; a missequenced missing-overlay
+invocation then failed before any Lean elaboration. Both infrastructure
+failures remain recorded outside git and excluded from acceptance. The
+strict manifest parser is repaired; immutable source/main were unchanged.
+
+All three scoped type/body/attribute/docstring/axiom records pass with only
+standard Lean axioms. Three genuine examples and their consumed prime-curve
+helper pass 8.00s with standard lint/default checking: actual constructed
+relocation yields the same multiplier locus/fibre; the horizontal f=X and
+shifted f=M(X−1) models produce prime equations over the actual parameter
+field through the raw genericity theorem and existing CurveIdeal API.
+The latter is characteristic-free and exercises a nonzero origin. No new
+fixture/proof repair is needed. This is a scoped audit, not a whole-library
+axiom certification. Actual-main/library/book/source/integration acceptance
+is still pending in this five-path private proposal.
+
+L1b 091acbd is committed/pushed with one constructive fixed-five relocation
+theorem and all earlier source/Main/frozen provenance exact. Its exact CI is now fully green; together with L0, L1a and L0b,
+all four prior exact runs are verified including every library/book/deploy
+job and step. This proposal adds one module/import,
+three book docstrings, a source concordance paragraph and this record only;
+all previous mathematical declaration/source blocks remain unchanged.
+
+Claude accepts the five-path mathematical/documentary scope and all genuine
+consumers, but finds a literal backslash-n in root’s new module-status text.
+The first private chain exits zero with a long-line warning; that diagnostic
+finding is retained and excluded from acceptance. The actual line break is
+repaired. Published AffineRelocation/DifferenceCocycle contain no such escape.
+No declaration proof/type/attribute/docstring or checking option changes.
+The first source render also retains a 42.30pt new-paragraph overflow; source
+layout acceptance remains pending until actual reflow and visual checks.
+
+The repaired private mathematical/book chain passes 30.01s warning-free,
+minimum available38.52GiB, with standard mathematical/default checking and
+canonical Verso scope. The final source render passes four stable runs/70
+pages without overflow or undefined/rerun requests. Ten selected current
+pages are accepted: nine are byte-identical to previous actual views and
+final changed69 is newly viewed. Only a new concordance paragraph changes;
+all old mathematical source blocks/provenance remain exact. Actual-main
+integration and the five-path commit gates remain pending before application.
+
+Claude's refreshed five-path/consumer review is ACCEPT after the status
+escape correction and prose reflow. Actual full library/book pass76.03s/10.00s
+(minimum available36.78GiB, full-family RSS10.74GiB), no memory stop.
+The38-check actual-main family passes60.02s: all34 previous fixture inputs
+and scoped type/body/attribute/docstring/axiom records remain exact, including
+old72 fixtures/62 public records, guarded125/ten behaviors, generic163/six,
+lattice87/six plus two D/F examples, cocycle three/two and relocation one/two.
+New three-record/three-example checks match the accepted private baseline.
+All253 Lean sources pass placeholder/project-axiom hygiene. Every251 earlier
+module/Main source remains byte-exact; root adds exactly one import. The new
+source equals the immutable peer original except the real module-status text.
+
+All101 HTML paths remain, with new three docstrings and all prior
+L0/L0b/L1a/L1b/G1c entries visible. The source passes four stable runs/70 pages
+with ten current selected pages accepted: nine exact previous actual views
+and final changed69 newly viewed. All49 active statement blocks and original
+provenance,44 proofs/listings/literal ratio/TOT and frozen117 remain exact;
+whole old source recovery permits only the new concordance paragraph. These
+actual gates precede exact five-path staging and commit/push. Same joint
+k-locus is the precise proved equality; fixed-parameter relative-locus and
+finite-color/base-change/stabilizer arguments remain obligations. All four
+prior exact CI runs are fully green including every build/book/deploy step.

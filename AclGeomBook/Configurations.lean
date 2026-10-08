@@ -16,6 +16,7 @@ import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.MultiplicativeQuotient
 import AclGeom.Correspondence.DifferenceCocycle
 import AclGeom.Correspondence.AffineRelocation
+import AclGeom.Correspondence.MultiplierCurve
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -490,6 +491,23 @@ consumer; it also preserves the same c/f fibre relation for the proposed
 linearity step. No curve action, linearity or guarded completeness is proved:
 
 {docstring AclGeom.exists_affine_relocation}
+
+
+The multiplier-curve prerequisites are also proved (L2a, #27). Equality of
+joint vanishing ideals transfers polynomial images, so a literal fixed-five
+relocation keeps the same locus of (f,a′c,x′), including f∈acl(a′c,x′),
+f∉acl(a′c) and x′∈acl(a′c,f). For independent A,B,M,X and
+f∈acl(M,X) outside acl(M), the source projection M is generic over A,B,f.
+This supplies the existing prime-curve equation theorem over k(A,B,f).
+The target X may belong to that parameter field (for example f=X);
+no target-genericity or component/action/linearity assumption is used.
+The finite-component/stabilizer and iterated-freshness arguments remain open:
+
+{docstring AclGeom.idealOf_aeval_comp_eq_of_idealOf_eq}
+
+{docstring AclGeom.affine_multiplier_curve_of_joint_ideal}
+
+{docstring AclGeom.multiplier_projection_genericity}
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:

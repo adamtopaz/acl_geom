@@ -5350,6 +5350,18 @@ and algebraic over $p,y,c,a_0$. It need not equal $a_0$.
 With $D\ne S$ this supplies L1a; no existence of $a_0$, coordinate extraction,
 curve action, linearity or guarded completeness is supplied.
 
+\paragraph{Multiplier-curve prerequisites in Lean.}
+Under the explicit field hypotheses, the module
+\lean{AclGeom.Correspondence.MultiplierCurve} proves polynomial-image
+transfer of vanishing ideals and preserves the same literal $(f,a'c,x')$ locus
+and generic finite fibre through a fixed-five relocation (L2a, issue~27).
+For independent $A,B,M,X$ and $f\in\operatorname{acl}(M,X)$ outside
+$\operatorname{acl}(M)$, the projection $M$ is generic over $A,B,f$ and
+$X\in\operatorname{acl}(M,f)$, supplying a prime curve equation over $k(A,B,f)$.
+The coordinate $X$ may lie in that parameter field, as when $f=X$.
+Component/stabilizer linearity, iterated fresh relocation and guarded
+extraction/completeness remain open; no curve action is assumed.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).
