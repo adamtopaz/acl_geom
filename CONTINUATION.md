@@ -6642,3 +6642,123 @@ classification/scheme bridges, guarded/unconditional extraction and
 ALL completeness remain open; #11/frozen117 are independent.
 Final required full build/book AFTER this actual factual append precede
 commit/push. The durable goal continues.
+
+
+
+## P5 constructed fresh inputs over an ambient field of infinite transcendence degree
+
+Pinned to clean published 7c063071, exact CI37777667633 FULL GREEN at
+every library/book/deployment job and step. All five owned records and
+seventeen body-owner references reconciled. Peer4832 PLAN-ONLY audit
+finds both public TYPEs true and the existing API sufficient. Concrete
+#27 scope6060174271 precedes SOURCE-ONLY GO4834/ACK4836. Root remains
+sole Lean/Lake compiler and main integrator.
+
+Immutable freeze4837 adds AffineGridInfinite87, EXACT THREE imports,
+TWO public theorems and no private helpers/definitions/aliases/instances/
+options/show/haveI/sorry/resource changes. Both TYPEs match the proposed
+instruction after whitespace. All FOURTEEN input pins (ten project/
+two Mathlib SHA1, old actualQSem41 SHA256, TYPE SHA1), five artifact
+hashes and immutable modes are verified before copying or Lean.
+PLAN/DRAFT open Transfer.Transcendence and exact segments/greps of
+Mathlib Data.Set.Finite.Basic and SetTheory.Cardinal.Basic. P4/AffineGrid/
+Psi/Point/Closure and NOTE format are inherited only. WitnessTable,
+Representatives, Closure.Basic, blueprint, AGENTS, CONT and old freezes
+are not reopened by the peer. The optional actualQSem41 is hash-verified,
+not reopened for drafting. Root's earlier Fintype.Basic alternative
+read was unused next-research context, not a P4 or P5 proof input.
+
+The first theorem constructs a whole sequence fresh over finite S and
+all previous entries, without ACF, under explicit countable lower bound
+on trdeg(k,K). It uses Mathlib's seq_of_forall_finite_exists with
+P z T := z notin racl(S union T). A finite union has cardinal less than
+aleph0, so the existing finite-cardinality fresh-element theorem supplies
+the next entry. No bespoke recursion/choice or new rank helper.
+The second theorem consumes it TWICE. The original FP curve precedes
+construction of tP over {a,b,x,c}; kappa and the original FQ curve precede
+construction of tQ over {c,d+(c-1)map kappa,b+(a-1)map kappa,(ac)^-1}.
+Explicit finite-insert/singleton proofs use only verified API.
+The public theorem then derives HasAffineGridCoordinates, with NO caller
+freshness/normal-form/OUTPUT-freshness or grid hypothesis.
+Actual Psi, I != D, AI5, all NINE initial-chart equalities and base/
+ambient ACF remain explicit, as does countable ambient transcendence degree.
+
+FIRST unchanged standard-lint/default-kernel production passes 2.00 s,
+EMPTY log, minimum available 37.33 GiB. FIRST scoped metadata passes
+6.00 s, minimum available 37.29 GiB/RSS 2.55 GiB: exact TWO SIG/proof
+and TWO PUBLIC AX records, two public/zero private/zero generated records
+IN THIS SCOPE, standard Lean axioms only. Exact counts precede first
+metadata; diagnostic genres/options are unchanged. No whole-library
+axiom certificate and no Lean proof/TYPE/options/budget repair.
+
+The ACTUAL PRIVATE InfiniteChartQSem27 has ONE example/no helpers,
+same countable-trdeg/ACF/Psi/guard/AI5/nine-chart hypotheses, and derives
+the grid before applying qSem_of_hasAffineGridCoordinates.
+No caller INPUT family or grid/normal-form oracle. An uncompiled root
+formatting join is applied BEFORE the first compiler and retained.
+FIRST unchanged standard/default check passes 2.00 s, EMPTY log,
+minimum available 37.11 GiB. The earlier canonical24 joint chart remains
+accepted; this checkpoint does not construct an arbitrary-w chart.
+
+The exact FIVE paths add the module/real Status, ONE root import,
+ONE Book import/account/TWO public docstrings, ONE source concordance
+paragraph and append-only CONT. All 259 prior math/Main sources,
+dependencies, source49 active statements/original provenance/44 proofs/
+listings/literals and frozen117 stay exact. All98 old actual-main fixture
+bytes/scoped records must remain exact, with NO old-scope additions.
+Private canonical Book/source/current visual, peer actual consumer/
+five-path review, actual full library/book, strict scoped checks and final
+full/book precede commit/push. Fresh INPUTs are constructed ONLY for the
+explicit infinite-trdeg ambient case. Finite-trdeg enlargement/descent,
+initial chart existence for arbitrary witnesses, actions, classification/
+scheme bridges, guarded/unconditional extraction and ALL completeness
+remain open; #11/frozen117 independent. No global I != P guard removal,
+six-generator constraint, common shift or uniqueness. The goal continues.
+
+
+Actual P5 acceptance: Claude4842 ACCEPTS the actual27-line consumer,
+4845 ACCEPTS the exact FIVE proposed paths. All 259 prior math/Main
+sources remain exact; root/Book each gain ONLY ONE import.
+FIRST private canonical module/root/Book checks pass 40.02 s,
+minimum available 35.47 GiB/RSS 6.27 GiB, ONLY three CHECK/PASS pairs.
+Actual full lake build passes 96.04 s, minimum available
+33.96 GiB/RSS 8.39 GiB; lake exe book passes
+14.01 s, minimum available 35.83 GiB/RSS 1.53 GiB.
+All 102 strict actual-main checks pass 230.09 s, minimum available
+35.12 GiB/RSS 2.90 GiB. ALL 98 older fixture bytes and
+EVERY old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stay exact,
+with NO old-scope additions. Three new metadata suites and ONE actual
+consumer match their accepted private sources/records. TWO new public
+theorems, zero private/generated declarations IN THIS SCOPE, standard
+Lean axioms only. Both fresh sequences are actually constructed before
+the grid and QSem. Mathematics/actual behaviors use standard Mathlib
+lint/default kernel; historical diagnostic genres/options stay exact.
+No whole-library axiom certificate.
+
+Hygiene passes 261 files without proof placeholders/project axioms.
+All 101 HTML paths remain, with both new public docstrings and older
+prerequisites visible. All 259 prior math/Main sources, dependency pins,
+source49 active statements/original provenance/44 proofs/listings/
+literals and frozen117 remain exact. FIRST source rendering gives
+four stable 74-page runs and all FOURTEEN current views accepted:
+THIRTEEN prior ACTUAL byte-exact, page73 newly ACTUALLY inspected.
+All P4/P5/generic paragraphs on that page are complete, clear and
+unclipped; no source layout repair or additional page break.
+Historical full/book warning-line MULTISETS remain exact: 707 Lean
+source headers plus four other cached warning lines. Touched mathematics
+and all actual examples are warning-free; no proof/TYPE/options/budget
+repair. The root consumer's uncompiled formatting-only join preceded
+its FIRST compiler and is retained.
+
+Fresh INPUTs are constructed only under explicit countable lower
+bound on ambient transcendence degree. Actual Psi/I != D, base/ambient
+ACF, AI5 and all NINE initial-chart equalities remain explicit.
+Each original prime curve/span is fixed before its corresponding
+family is constructed. No caller family/grid/normal-form/OUTPUT-freshness
+oracle. Finite-trdeg ambient enlargement/descent, arbitrary-w initial
+chart existence, actions, classification/scheme bridges, guarded and
+unconditional extraction and ALL completeness remain open;
+#11/frozen117 remain independent. No global I != P guard removal,
+six-generator constraint, common shift or uniqueness. Final required
+full build/book AFTER this actual factual append precede commit/push.
+The durable goal continues.

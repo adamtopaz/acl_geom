@@ -11,6 +11,7 @@ import AclGeom.Config.PsiLattice
 import AclGeom.Config.ShiftedAffineMeets
 import AclGeom.Config.RemainingAffineMeets
 import AclGeom.Config.AffineGridNormalization
+import AclGeom.Config.AffineGridInfinite
 import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Counterexamples.QDegenerate
@@ -523,6 +524,36 @@ uniqueness theorem is claimed. Initial chart existence, INPUT
 existence/enlargement/descent, actions, classification and scheme bridges,
 guarded and unconditional extraction and all completeness remain open.
 Issue #11 and frozen117 remain independent obligations.
+
+The two fresh INPUT families can now be constructed when the ambient
+transcendence degree is at least countable (P5, #27). For any finite
+parameter set S, the first theorem constructs t with each t n outside
+acl(S together with its earlier entries), using the existing
+finite-cardinality fresh-element theorem and Mathlib's sequence
+constructor. This theorem requires no algebraic closedness:
+
+{docstring AclGeom.exists_fresh_sequence_of_aleph0_le_trdeg}
+
+The second theorem constructs the first family over a/b/x/c after
+the original F curve is fixed. It then obtains κ and the original
+H-inverse curve before constructing the second family over the
+κ-translated four parameters. The existing P4 theorem now yields
+all three joins and fifteen points, without any caller INPUT family:
+
+{docstring AclGeom.QWitness.Psi.hasAffineGridCoordinates_of_chart_of_aleph0_le_trdeg}
+
+The actual PRIVATE consumer derives this grid before the existing
+Q-semantic theorem, with no assumed grid or field normal forms.
+The countable transcendence-degree lower bound, Ψ/I≠D,
+base/ambient ACF and the explicit independent initial chart with
+all nine equalities remain hypotheses. The earlier canonical-table
+joint-chart check remains accepted. Fresh inputs are constructed
+only in this ambient case; an arbitrary field of finite transcendence
+degree still needs enlargement/descent. Initial chart existence for
+arbitrary witnesses, actions, classification/scheme bridges,
+guarded/unconditional extraction and all completeness remain open.
+Issue #11 and frozen117 remain independent; no global I≠P guard is
+removed and no six-generator, common-shift or uniqueness claim is made.
 
 The unchanged pure rank bridge now lives in Geometry.FiniteRank, so this
 module imports only Config.Psi:

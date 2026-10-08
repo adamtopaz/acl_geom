@@ -5593,6 +5593,25 @@ existence/enlargement/descent, actions, classification/scheme bridges,
 guarded and unconditional extraction and completeness remain open;
 issue~11 and frozen117 remain independent obligations.
 
+\paragraph{Constructed affine-grid inputs in Lean.}
+For a finite parameter set $S$, an explicit bound
+$\aleph_0\le\operatorname{trdeg}_k K$ yields a sequence with
+$t_n\notin\acl(S\cup\{t_m:m<n\})$ (P5, issue~27).
+This construction needs no algebraic closedness. For an actual
+$\Psi$-witness with $I\ne D$, base/ambient algebraic closedness and an
+explicit independent initial chart, it constructs the first input family
+after the original F curve is fixed, then the second after obtaining
+$\kappa$ and the original H-inverse curve. The existing producer gives
+all three joins and fifteen points, without caller input families or
+normal forms. An actual private check derives the grid before Q semantics.
+The module \lean{AclGeom.Config.AffineGridInfinite} proves these results.
+The countable transcendence-degree bound and initial chart remain explicit.
+Finite ambient transcendence degree still needs enlargement/descent;
+initial chart existence for arbitrary witnesses, actions, classification/
+scheme bridges, extraction and all completeness remain open. Issue~11 and
+frozen117 remain independent; no global guard, generator, common-shift or
+uniqueness claim is changed.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).
