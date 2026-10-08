@@ -5758,6 +5758,34 @@ remain separate obligations; frozen M4a is unchanged. The original source
 statement and proof are retained.
 
 \clearpage
+\paragraph{Ambient automorphisms of finite generic points.}
+Lean proves the second field clause of Lemma~\ref{lem:generic-extension}(b):
+\par\noindent
+\texttt{AclGeom.exists\_ambientAutomorphism\_of\_idealOf\_eq}.
+\par\noindent
+For finite tuples with equal vanishing ideals in a common algebraically
+closed ambient, over any base field, the automorphism extends the entire
+existing isomorphism of the generated rational fields and sends every
+coordinate to its counterpart. Their equal finite transcendence degrees
+can be cancelled in the tower formula, even for infinite ambient degree.
+Relative bases then have equal cardinalities. The existing semilinear
+independent-adjoin equivalence extends the isomorphism across these bases;
+the existing algebraic-closure equivalence extends it to the ambient.
+The base equation gives linearity over $k$ and the coordinate equations.
+No complement-basis, rank or automorphism premise is supplied by the caller.
+An actual relocation consumer derives the second point and exact ideal
+from the existing explicit independence, containment and algebraicity
+hypotheses, and retains its algebraicity while obtaining the automorphism.
+A further example derives equal ideals from an actual endomorphism in a
+nonclosed ambient, embeds the finite points in its algebraic closure, and
+obtains an automorphism there. No enlargement is needed in a closed ambient.
+This supersedes earlier open-status descriptions of the finite field
+clause only; infinite tuples in an unchanged ambient are not claimed.
+Explicit rank/dimension, the packaged variety-level lemma, composition,
+charts, actions and reconstruction completeness remain separate obligations;
+frozen M4a is unchanged. Original source statements and proofs are retained.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}

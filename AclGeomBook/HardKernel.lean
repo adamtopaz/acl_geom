@@ -9,6 +9,7 @@ import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.Family
+import AclGeom.Correspondence.AmbientAutomorphism
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -135,7 +136,8 @@ are exact, and independent affine-space coordinates remain independent
 over the extension. No domain, prime-ideal, density or point oracle is
 supplied by the caller. The coordinate-subfamily form is proved in the
 next section, and the full field-freeness implication follows below.
-Explicit rank/dimension and ambient automorphisms remain separate obligations.
+Explicit rank/dimension remains separate; finite-tuple ambient automorphisms
+are proved below.
 
 The original proof's absolute transcendence-degree equality does not
 by itself give independence when the coefficient extension has infinite
@@ -174,9 +176,10 @@ proved dependent. Subfamily ideal comparison works across ambient fields;
 the old single-ambient closure lemma is not used across fields.
 
 Full field freeness and a closed ambient are proved in the next section.
-Explicit rank/dimension, automorphisms and the full generic-extension lemma
-remain separate obligations. Composition, charts, actions and reconstruction
-completeness remain open; frozen M4a is unchanged.
+Explicit rank/dimension and the packaged variety-level generic-extension
+lemma remain separate obligations; finite-tuple ambient automorphisms follow
+below. Composition, charts, actions and reconstruction completeness remain
+open; frozen M4a is unchanged.
 
 # Every generic point has field freeness
 %%%
@@ -211,9 +214,9 @@ supplied by the caller in the constructive consumer.
 
 Together these results cover the relation and independence content of
 part (a), including existence in a closed ambient and the universal
-implication. Explicit rank/dimension statements, ambient automorphism
-extension and the full lemma remain separate obligations. The existing
-function-field isomorphism and rational-identity clauses are accounted for below.
+implication. Explicit rank/dimension statements and the packaged variety-level
+lemma remain separate obligations. The existing function-field isomorphism,
+rational identities and finite-tuple ambient automorphisms are accounted for below.
 Composition, charts, actions and reconstruction completeness remain
 open; frozen M4a is unchanged.
 
@@ -232,9 +235,9 @@ The existing coordinate equation sends each coordinate to its counterpart;
 the reflexivity, symmetry and composition equations give coherent choices.
 These results allow arbitrary fields and index types, without algebraic
 closedness. An actual private consumer derives equal ideals from an
-algebra embedding and checks the resulting coordinate equation. This
-does not extend the isomorphism to an ambient automorphism: that second
-clause of (b), with the source's possible enlargement, remains open.
+algebra embedding and checks the resulting coordinate equation. The
+finite-tuple ambient extension, the second clause of (b), is proved in
+the next section, including a checked enlargement consumer.
 
 Mathlib already proves the literal rational-identity clause (c): canonical
 fraction evaluation at an independent tuple is an isomorphism onto its
@@ -248,16 +251,59 @@ fractions and zero reflection under the canonical fraction lift. Both
 evaluated denominators are derived nonzero from independence and polynomial
 nonzero; the caller supplies no injectivity or field-isomorphism oracle.
 
-This audit adds no mathematical declarations, changes no mathematical
-source or dependency, and reuses both existing APIs. The three examples
-are freshly checked with standard Mathlib lint and the default kernel.
-The 125 earlier fixture inputs and outputs are retained byte for byte;
-they are not rerun for this documentation checkpoint.
+The existing-clause audit in checkpoint `58bdf10` added no mathematical
+declarations or mathematical source/dependency changes and reused both APIs.
+Its three examples were checked with standard Mathlib lint and the default
+kernel. Its 125 earlier fixture inputs and outputs were retained byte for
+byte and were not rerun for that documentation checkpoint.
 
-Explicit rank/dimension statements, ambient automorphism extension, the
-full generic-extension lemma, correspondence composition over a nonclosed
-base, initial charts, actions and reconstruction completeness remain open.
-Frozen M4a is unchanged.
+Explicit rank/dimension statements, the packaged variety-level lemma,
+correspondence composition over a nonclosed base, initial charts, actions
+and reconstruction completeness remain open. Finite-tuple ambient
+automorphisms are proved below; frozen M4a is unchanged.
+
+# Ambient automorphisms of finite generic points
+%%%
+tag := "generic-ambient-automorphism"
+%%%
+
+The second clause of blueprint Lemma `generic-extension` (b) is proved
+for finite tuples in an algebraically closed common ambient, over any
+base field. The automorphism extends the entire existing isomorphism of
+the generated rational fields and sends every coordinate to its counterpart.
+
+{docstring AclGeom.exists_ambientAutomorphism_of_idealOf_eq}
+
+The generated fields have equal finite transcendence degrees. Applying
+the tower formula and cancelling this finite summand gives equal degrees
+of their ambient complements, even when the ambient degree is infinite.
+Relative transcendence bases therefore have equal cardinalities. The
+existing semilinear independent-adjoin equivalence extends the generated-
+field isomorphism across these matching bases. Both relative generated
+fields have the same ambient as an algebraic closure, so Mathlib's existing
+closure-equivalence theorem extends that isomorphism to the ambient field.
+Its base equation proves linearity over the original base and every
+coordinate equation. One new public theorem uses zero new helpers;
+no caller rank, complement basis or automorphism premise is supplied.
+
+An actual private consumer uses the existing relocation theorem with
+its explicit independence, containment and algebraicity hypotheses.
+It derives the second point and ideal equality, then obtains the full
+field extension and automorphism at that same point while retaining
+algebraicity over the prescribed relocated coordinate field. A second
+example starts in an arbitrary nonclosed ambient with an actual algebra
+endomorphism. It derives equal ideals after embedding the finite tuple
+into the ambient's algebraic closure and obtains an automorphism there.
+No exact ideal, rank or automorphism is supplied by the caller; the second
+point comes from the relocation theorem or from the given endomorphism.
+
+For a closed ambient no enlargement is needed. The finite hypothesis is
+essential for the cancellation argument and for extension inside the
+unchanged ambient. The theorem makes no claim for infinite tuples.
+The field content of (a), finite (b) and literal (c) now has formal proofs;
+explicit rank/dimension, the packaged variety-level lemma, correspondence
+composition over a nonclosed base, initial charts, actions and
+reconstruction completeness remain open. Frozen M4a is unchanged.
 
 # Relocation of generic points
 %%%

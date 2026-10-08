@@ -7675,3 +7675,173 @@ initial charts/actions/classification/schemes/extraction and ALL
 reconstruction completeness remain open. #5 open/#11 closed; frozen117
 unchanged. Peer actual-append review and mandatory final full/book AFTER
 this actual factual append precede commit/push. Durable goal continues.
+
+
+## Ambient automorphisms of finite generic points (#5)
+
+Base clean published 58bdf10198161c1200e310825ae9772693b611dd;
+exact CI37827082206 succeeded in both jobs/every step. Six owned
+reports/bodies and all24 current owners are reconciled. #5 open/#11
+closed. Root owns sole main/Lean/Lake; aclgeom.claude is read-only,
+with no source/compiler GO. The durable goal continues.
+
+READ-ONLY PLAN5179 has14 SHA256 pins. Claude5185 verifies all14 before
+bounded reads and confirms the target TRUE for FINITE index types,
+ANY base field and a common ACF ambient: equal ideals give a full
+generated-field-isomorphism extension to an ambient k-automorphism.
+The cancelled transcendence-degree summand is FINITE. No cancellation
+of an infinite base summand occurs. No source error or infinite-index
+target is proposed. The source's finite-dimensional variety supports
+finite tuples; the packaged variety-level statement remains separate.
+
+Supplement5181 verifies4 NEW paths, with FG/EssFiniteType and polynomial
+coefficient/rename APIs. Claude5188 accepts the finite-field route.
+Supplement5186 has TWO EXISTING paths with NEW bounded scopes, NOT two
+new paths: Family280-350 and TranscendenceBasis230-252. Claude5189
+confirms the EXISTING adjoinIndependentEquivOfEquiv and its FULL base
+law already provide the semilinear relative-field bridge. The proposed
+new coefficient/renaming bridge is DROPPED BEFORE drafting.
+
+Two separate264-source hash manifests authorize ONLY five and then
+three exact repo-wide name/occurrence inventories. Claude5192/5195
+performs the same inventories and finds no duplicate in those literal
+forms; automorphisms written with other variable names are not covered
+by those patterns. Supplement5190 gives4 NEW paths: bounded lattice-rank
+Transport and abstract normal-closure FiniteCover hits, Cardinal.eq and
+transcendence-basis comp_equiv. Supplement5196 givesONE NEW FamilyCover
+path with230-335 consumer scope; Claude5197 confirms its only old bridge
+consumer proves pair-ideal transport, not an ambient automorphism.
+Precise root/peer ledgers distinguish pin checks, actual/NOT-read scopes
+and inherited continuation context. THREE tool packets fail SyntaxError
+before ANY nested tool runs; temporary script/message files repair the
+orchestration only, with no source/build effect. One earlier guessed
+Closure/AlgebraicClosureTransport path is absent; rg exits2, then the
+correct Correspondence path is located via rg --files before actual reads.
+
+Root-private producer/compiler GO5201. Full CURRENT-main overlay is
+Math264/ALL1320cache and Book15/ALL75cache. Adding the private probe and
+its compiled olean gives265 sources/1321 cached files, NOT1325 yet;
+all current main sources/cache are retained. Root/Book compiled-source
+links are unlinked BEFORE writing. No write-through or partial shadow.
+
+ONE new public exists_ambientAutomorphism_of_idealOf_eq, ZERO helpers:
+finite FG/EssFiniteType derives finite degree; the existing field iso
+gives equal degree; the tower formula and FINITE cardinal cancellation
+give equal relative-basis cardinality. Bases are chosen and reindexed
+by Cardinal.eq/comp_equiv. Existing adjoinIndependentEquivOfEquiv extends
+the field iso across them. isAlgebraic_field makes the common ambient an
+algebraic closure of each relative field; IsAlgClosure.equivOfEquiv and
+its base equation give a k-algebra automorphism extending the ENTIRE old
+field iso and carrying every coordinate. No caller rank, basis, algebraic
+extension or automorphism oracle; no ACF assumption on the base.
+
+API FIRST fails2.00s on the implicit ambient argument of trdeg_add_eq,
+with3 Prop-instance letI style notices; source/log/metrics retained.
+Explicit A := Omega and plain let repair ONLY those boundaries. SECOND
+passes2.00s/min36.09GiB EMPTY. Production FIRST4.00s/min34.94GiB EMPTY.
+Metadata FIRST4.00s/min34.71GiB: ONE SIG/proof/public AX, ZERO generated
+records in the new audited scope, standard Lean axioms only there.
+Diagnostic genres/options are preserved except target module; no whole-
+library certificate. No set_option or increased checking/heartbeat budget.
+
+TWO real private examples/ZERO helpers,45 lines. Existing relocation
+uses EXPLICIT ht/hle/halg/hs; its basis, independence and algebraicity
+premises are not silently derived. It DERIVES the second point and exact
+ideal, then full field extension/coordinate automorphism at SAME point,
+retaining algebraicity over the prescribed relocated field. Second example:
+an actual endomorphism of ANY nonclosed ambient supplies equal relations;
+embedding into AlgebraicClosure derives equal ideals there and obtains
+an automorphism matching the FINITE displayed points. No caller second
+point/exact ideal/rank/automorphism oracle in the relocation consumer.
+FIRST consumer fails ONLY on missing concrete AlgebraicClosure import;
+failed source/log/metrics retained. ONE import repairs; SECOND2.00s/
+min35.16GiB EMPTY. New mathematics/examples standard lint/default kernel.
+
+Claude5206 ACCEPTS all10 actual pins, FULL86-line producer/FULL45-line
+consumer, single AX/SIG rows, top-level production/consumer JSON keys,
+and line widths. Proofs TSV body, metadata/read-ledger/overlay JSON bodies
+are NOT read. Root adopts ONLY the suggested module source-of-truth/
+Status prose:95 lines, all declaration blocks and1SIG/AX/proof EXACT.
+Production SECOND4s and unchanged consumer THIRD2s pass EMPTY. Metadata
+SECOND4s has only THREE PASS lines, warning-free; all mathematical/type/
+docstring/attribute/proof records stay exact.
+
+Exactly FIVE proposed paths: NEW AmbientAutomorphism, aggregate root
+ONE import, Book ONE import/new account/SIX named status or historical-
+tense clauses, source ONE concordance, append-only CONT. All264 older
+mathematical/Main sources, dependencies and frozen117 stay byte-exact.
+Removing ONE concordance recovers the ENTIRE old source and all49 active/
+original-provenance/historic statements,44 proofs/listings/literals exact.
+The source's finite field content of(b) is covered; explicit rank/dimension,
+the packaged variety-level lemma, C2 over nonclosed k(W), initial charts,
+actions/classification/schemes/extraction and ALL reconstruction completeness
+remain open. Canonical root/Verso Book/source views, full library/book,
+ALL126 older actual-main fixtures/scoped records plus FOUR new checks,
+factual append/peer/final full/book AFTER append precede commit/push.
+Frozen M4a is unchanged. The durable goal continues.
+
+
+Actual ambient-automorphism checkpoint acceptance: Claude5211 verifies
+all10 five-path pins and ACCEPTS the producer +9 module-prose-only delta,
+ONE root import, Book ONE import/account/SIX named clauses, source ONE
+concordance and104-line prefix-exact CONT append. It reads those diffs
+and widths, NOT queued/proposed/metadata/production/consumer JSON bodies.
+Only its precise Book sentence is adopted: the second point comes from
+relocation or the given endomorphism; no caller exact ideal/rank/auto.
+No mathematical declaration changes follow Claude5206.
+
+Canonical FIRST root/proper Verso Book passes20.00s; after that ONE
+Book prose sentence, SECOND passes20.00s/min35.83GiB/
+RSS3.55GiB, only TWO CHECK/PASS pairs. No weakened lint/options,
+Book hash-command lint or increased checking budgets. Source FIRST
+four-pass render is stable81 pages with NO layout/undefined/rerun error
+and NO repair. ALL21 current selected views are accepted:18 older
+ACTUALLY viewed PNGs byte-exact[1,2,4,5,6,67-79], plus3/80/81 ACTUALLY
+inspected clear/complete/unclipped. Removing ONE concordance recovers
+ENTIRE58bdf10 source, all49 active/original-provenance/raw historic
+statements and44 proofs/listings/literals BYTE-exact. Prior gaps remain.
+
+Exact FIVE paths integrated on clean58bdf10 AFTER peer/canonical/source
+acceptance and fresh issue instruction check with unknown0. A preflight
+ledger-heading assertion fails BEFORE copying any source; the exact
+case-sensitive existing heading repairs ONLY that gate. One further
+functions.exec packet fails SyntaxError BEFORE nested tools (FOUR total
+in this lane); temporary files repair orchestration only. One too-broad
+tmp filename inventory returns permission-denied exit2; no unrelated
+file contents, credentials or account state are read/changed. Subsequent
+inventories are restricted to task-prefixed top-level temporary files.
+
+Full lake build passes54.01s/min33.99GiB/
+RSS8.41GiB; lake exe book passes10.00s/
+min36.00GiB/RSS1.52GiB. ALL711 historical
+warning headers stay BYTE-exact in BOTH logs. Hygiene266 has no proof
+placeholders/project axioms. HTML107 retains all106 old paths, the new
+literal full-field-extension docstring, both old generic-clause
+docstrings, chart/frozen pages. Old264 mathematics/Main/dependencies
+and frozen117 remain BYTE-exact. Current-main compiled artifacts now
+give Math265/ALL1325cache and Book15/ALL75cache; earlier1321 private
+count is historical, NOT falsely described as1325 before compilation.
+
+ALL130 FRESH actual-main sequential checks pass176.04s/
+min35.95GiB/RSS3.20GiB. ALL126 older
+fixture inputs and scoped TYPE/RAW/ATTR/DOC/AX/proof/deny records are
+BYTE-exact, with no exception or stale private namespace. FOUR new
+checks reproduce accepted ONE SIG/AX/proof and the EMPTY actual
+45-line TWO-example consumer. ZERO helpers/generated records in the
+new audited scope; standard Lean axioms only THERE, not a whole-library
+certificate. Actual consumers use standard lint/default kernel; old
+diagnostic genres/options stay exact. Relocation's ht/hle/halg/hs
+basis/independence/algebraicity inputs remain EXPLICIT. The nonclosed
+endomorphism consumer obtains a closure automorphism at the FINITE
+tuple only, not an extension of the whole original endomorphism.
+
+Finite field content of(b) is now proved: full existing rational-field
+iso extends to a coordinate-preserving ambient k-automorphism for
+FINITE tuples over ANY base in a common ACF. In a nonclosed ambient,
+the checked consumer enlarges to its algebraic closure. No unchanged-
+ambient infinite-tuple claim. Rank/dimension, packaged variety-level
+lemma, C2 over nonclosed k(W), initial charts/actions/classification/
+schemes/extraction and ALL reconstruction completeness remain OPEN.
+#5 stays open/#11 closed; frozen117 exact; root sole main/compiler owner,
+peer read-only. Actual-append peer review and mandatory final full/book
+AFTER this factual append precede commit/push. Durable goal continues.
