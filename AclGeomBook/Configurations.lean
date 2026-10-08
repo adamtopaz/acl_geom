@@ -467,6 +467,30 @@ finite-fibre/linearity argument. They construct no relocation or curve action:
 
 {docstring AclGeom.QWitness.Psi.F_ne_U}
 
+Two further necessary consequences of the same ratio guard are now proved
+(L0c, #27): G≠T and H≠S. G=T forces H=S and then I=D; H=S alone makes
+the defining meets of I and D equal. Neither theorem needs a coordinate
+chart or algebraic closedness:
+
+{docstring AclGeom.QWitness.Psi.G_ne_T}
+
+{docstring AclGeom.QWitness.Psi.H_ne_S}
+
+The actual PRIVATE guarded two-family consumer uses these two guards
+along with P≠S, D≠S, F≠U and Q≠T. Given an explicit independent initial
+chart for A/B/C/S/T/U/X/Y/Z, it derives all 16 raw memberships, six
+non-memberships and three nonconstancies from the actual Ψ equations
+and point representatives. Every raw field input of the accepted
+two-family remaining-row composition is derived; none is supplied.
+Its seven old helper blocks and original TYPE/proof remain byte-exact
+after naming the original example. One new consumed private point bridge
+handles the six non-memberships. Both original curves precede ALL supplied
+fresh INPUT families; base/ambient ACF and those families stay explicit.
+Only the two necessary lattice guards are newly public. Initial chart
+existence, INPUT existence/enlargement/descent, combined generators,
+actions, linearity, extraction and all completeness remain open;
+#11 and frozen117 are independent obligations.
+
 The unchanged pure rank bridge now lives in Geometry.FiniteRank, so this
 module imports only Config.Psi:
 

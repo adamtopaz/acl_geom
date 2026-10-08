@@ -5555,6 +5555,20 @@ actual guarded-$\Psi$ input derivation, input existence/enlargement/descent,
 combined generators, actions, extraction and completeness remain open;
 no uniqueness or common shift is claimed. Issue~11 and frozen117 are untouched.
 
+\paragraph{Guarded configuration inputs in Lean.}
+The module \lean{AclGeom.Config.PsiLattice} now proves $G\ne T$ and
+$H\ne S$ from $\Psi$ and $I\ne D$ (L0c, issue~27), without coordinates
+or algebraic closedness. An actual private two-family check uses these
+guards, the earlier necessary incidences and the point representatives.
+Given an explicit independent initial chart for A/B/C/S/T/U/X/Y/Z, all
+16 raw memberships, six non-memberships and three nonconstancies are
+derived from the actual configuration. Both original curves still precede
+all supplied fresh input choices; base/ambient algebraic closedness and
+those choices remain explicit. Only the two necessary lattice guards are
+newly public. Initial chart existence, input existence/enlargement/descent,
+combined generators, actions, extraction and completeness remain open;
+issue~11 and frozen117 remain independent obligations.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

@@ -18,10 +18,13 @@ coordinates. Here the ratio guard is `I ≠ D`. The first four incidence consequ
 * `QWitness.Psi.Q_le_B`: `Q ≤ B`, which needs no guard either;
 * `QWitness.Psi.Q_ne_T`: `Q ≠ T`, under the guard.
 
-Three further necessary consequences use `I ≠ D`:
+Five further necessary consequences use `I ≠ D`:
 * `QWitness.Psi.D_not_le_ABC`: `D ≰ A ∨ B ∨ C`;
 * `QWitness.Psi.D_ne_S`: `D ≠ S`, supplying the difference-cocycle non-membership;
 * `QWitness.Psi.F_ne_U`: `F ≠ U`, for the proposed multiplier-curve argument.
+* `QWitness.Psi.G_ne_T`: `G ≠ T`, supplying a non-membership of the reciprocal `Q`
+  normalization.
+* `QWitness.Psi.H_ne_S`: `H ≠ S`, supplying another non-membership of that normalization.
 
 They construct no relocation, curve action or linearity.
 
@@ -34,8 +37,11 @@ The proofs use a small rank calculus in the algebraic-independence matroid: subm
 the rank of closed elements, the resulting meet computation `inf_eq_of_rankEq`, the rank of
 a join with a new point, and exchange of points across a closed element of finite rank.
 
-**Status:** necessary lattice consequences proved (#27, L0/L0b). Meet elimination, guarded
-extraction/completeness and group/action classification remain open; frozen M4a is unused.
+**Status:** necessary lattice consequences proved (#27, L0/L0b/L0c), without ACF. The actual
+PRIVATE guarded two-family consumer derives every raw field input from `Ψ`, `I ≠ D` and an
+explicit independent initial chart. It retains base/ambient ACF and supplied fresh INPUT families.
+Initial chart existence, input existence/enlargement/descent, combined generator presentation,
+actions, extraction and completeness remain open; #11 and frozen M4a are independent.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -520,6 +526,21 @@ theorem Psi.F_ne_U (hw : w.Psi) (hID : w.I ≠ w.D) : w.F ≠ w.U := by
   exact hw.D_not_le_ABC hID (hDTU.trans
     (sup_le (hw.T_le.trans (le_sup_right.trans le_sup_left))
       (hw.U_le.trans le_sup_right)))
+
+/-- **`G ≠ T` under the ratio guard.** `G = T` forces `H = S` and then `I = D`. In the chart
+`T = [c]` this is the non-membership `g ∉ acl(c)` of the reciprocal `Q` normalization. -/
+theorem Psi.G_ne_T (hw : w.Psi) (hID : w.I ≠ w.D) : w.G ≠ w.T :=
+  fun hGT ↦ hID (Psi.I_eq_D_of_G_eq_T hw hGT)
+
+/-- **`H ≠ S` under the ratio guard.** If `H = S`, the meets `I` and `D` are the same meet, so
+`I = D`. In the chart `S = [a]` this is the non-membership `h ∉ acl(a)` of the reciprocal `Q`
+normalization. -/
+theorem Psi.H_ne_S (hw : w.Psi) (hID : w.I ≠ w.D) : w.H ≠ w.S := by
+  intro hHS
+  apply hID
+  apply Subtype.ext
+  rw [← hw.meet_I, ← hw.meet_D, hHS]
+  exact inf_comm _ _
 
 end QWitness
 

@@ -6379,3 +6379,133 @@ enlargement/descent, combined generator presentation, actions, linearity,
 extraction, all completeness, #11 and frozen117 stay open. No uniqueness
 or common-shift theorem. Final required full build/book AFTER this factual
 append precede commit/push. The durable goal continues.
+
+
+## L0c ratio-guard consequences and an actual guarded configuration consumer
+
+Pinned to clean published 6bcf918, exact CI37766201900 FULL GREEN at
+every library/book/deployment job and step. All five owned records and
+all fifteen current body-owner references are reconciled. Peer4799
+PLAN-ONLY audit finds G_ne_T and H_ne_S true and the actual raw-input
+bridge feasible. Concrete #27 scope6058485548 and exact TWO public TYPEs
+precede SOURCE-ONLY GO4800/ACK4801. Root remains sole compiler/integrator.
+
+Immutable freeze4802 adds TWO public guards to PsiLattice after F_ne_U,
+with no imports/private helpers/options/budgets/definitions/aliases/instances.
+G=T uses the existing private I_eq_D_of_G_eq_T; H=S rewrites the defining
+meets of I and D using inf_comm. Every existing declaration/proof/docstring
+stays byte-exact. The module documentation and real Status are accurate.
+All thirteen input pins (eleven project SHA1, actual274 SHA256, TYPE SHA1),
+five artifact hashes and immutable modes are verified. PLAN opened only
+PsiLattice, Psi, Points, Equivalence, ClosedLattice and AtomClause; draft
+opened the pinned PsiLattice base and TYPE file. The remaining sources,
+actual274 and NOTE-format context were inherited only. No older freeze
+format artifacts reopened; Mathlib source reads are truthfully NONE.
+
+FIRST default-kernel/standard-lint production passes UNCHANGED 2.00 s,
+EMPTY log, minimum available 39.26 GiB. The first metadata run is retained
+and excluded: root's comparator incorrectly expected theorem reducibility
+irred; the actual/default value is semi, also recorded for old Q_ne_T.
+ONLY that comparator expectation is corrected. No producer proof/TYPE,
+fixture byte, checking option or budget changes. Second metadata passes
+4.00 s, minimum available 39.18 GiB/RSS 2.23 GiB: all 87 old SIG/proof
+and 54 old PUBLIC AX records exact, with ONLY TWO named public additions.
+No new private/generated records in this scope; standard Lean axioms only.
+No whole-library axiom certificate is claimed.
+
+Root's actual PRIVATE GuardedTwoFamilyRemainingMeets414 preserves all
+SEVEN old helper blocks BYTE-EXACT. The old274 example is only named
+two_family_remaining_rows; its original TYPE/proof stay byte-exact.
+One uncompiled name-prefix line wrap meets the existing 100-column style
+before the FIRST compiler; the overlong uncompiled version is retained.
+ONE new private point-nonmembership bridge is consumed SIX times.
+ONE actual example derives ALL 25 raw inputs at actual Point.rep values:
+16 memberships from actual Psi meets/incidences, SIX non-memberships
+from P_ne_S/D_ne_S/F_ne_U/Q_ne_T/G_ne_T/H_ne_S and THREE nonconstancies
+from point representatives. No raw field incidence/non-membership/
+nonconstancy is supplied. All NINE initial chart equalities and AI5 are
+explicit and consumed; chart existence is NOT proved.
+The named old producer then derives P, D/F/R, Q, G/H/I/E and final AI.
+Both ORIGINAL prime/spans precede ALL corresponding supplied INPUT
+families. Base/ambient ACF and supplied families remain explicit.
+FIRST actual consumer passes UNCHANGED 4.00 s, EMPTY log, minimum
+available 39.04 GiB/RSS 2.73 GiB. No Lean proof/TYPE/options/budget repair.
+
+Only TWO necessary lattice guards are newly public, without ACF/chart.
+The genuine conditional guarded-chart two-family chain remains PRIVATE.
+Initial action-chart existence, fresh INPUT existence/enlargement/descent,
+combined generator presentation, actions, linearity, extraction and every
+completeness statement remain open; #11 and frozen117 are independent.
+Older P2/P3a/P3b Status lists still name open actual-Psi extraction/chart
+obligations; this conditional private bridge supplies their raw inputs
+only once the initial chart is given. No expanded old-module Status scope.
+
+The exact FOUR paths update PsiLattice/module Status, the Book account/
+TWO public docstrings, ONE source concordance paragraph and append-only
+CONT. Root/Book imports are byte-exact. Every other 257 math/Main sources,
+dependency pins, source49 active statements/original provenance/44 proofs/
+listings/literals and frozen117 stay exact. Private canonical Book/source/
+current visual, peer consumer/four-path review, actual full library/book,
+strict scoped checks and final full/book precede commit/push.
+The durable goal continues; broader L2/G3/G4/G5 remain open.
+
+
+Private canonical first run is retained/excluded after the unchanged root
+source symlink resolved outside the overlay -R. The focused producer had
+already passed. Root materializes only the private root source BYTE-EXACT;
+no main/math TYPE/proof/option/budget change. SECOND canonical module/root/
+Book passes 34.01 s, minimum available 38.05 GiB/RSS 4.72 GiB, only CHECK/
+PASS lines. Peer4804 ACCEPTS the actual414 and all 25 derivations/nesting.
+FIRST source rendering passes four stable runs 8.00 s at 73 pages, no
+TeX warnings; all THIRTEEN current selected views accepted: TWELVE prior
+ACTUAL byte-exact, changed72 newly ACTUALLY inspected. All three page72
+paragraphs remain complete. No source layout repair or new page break.
+
+Before integration, root's historical-fixture inventory finds TWO legacy
+suites querying the SAME three-module lattice scope: Lattice* and
+PsiGeneric*. The THREE metadata GENRES (SIG, proof, PUBLIC AX) therefore
+gain the SAME TWO named public guards in SIX fixture outputs. Every old
+record/deny-list and all other scopes remain exact, and every earlier
+fixture byte/diagnostic genre is unchanged. This concrete clarification is
+recorded on the owned #27 scope before integration/shared checking. No
+mathematical source, import, theorem or guard scope is expanded.
+
+
+Actual L0c acceptance: Claude4804 ACCEPTS the actual guarded414 and
+4806 ACCEPTS the initial FOUR paths. Guarded integration leaves all
+257 other math/Main sources exact, with no root/Book import change.
+Actual full lake build passes 84.03 s, minimum available
+36.85 GiB/RSS 8.28 GiB; lake exe book passes
+10.00 s, minimum available 38.55 GiB/RSS 1.61 GiB.
+All 93 strict actual-main checks pass 162.07 s, minimum available
+38.72 GiB/RSS 2.90 GiB. All 92 older fixture bytes and
+EVERY old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stay exact.
+ONLY TWO named public guard additions appear in the SIX expected outputs
+of the two legacy lattice metadata suites; all other scopes stay exact.
+New guard records match accepted private metadata. No new private/
+generated records in this scope; standard Lean axioms only. Mathematics/
+actual behaviors use standard Mathlib lint/default kernel; historical
+diagnostic genres/options stay exact. No whole-library axiom certificate.
+
+Hygiene passes 259 files without proof placeholders/project axioms.
+All 101 HTML paths remain; both new public docstrings are visible.
+All 257 other math/Main sources, every older production declaration/
+TYPE/proof/docstring, root/Book imports, toolchain/dependencies, source
+49 active statements/original provenance/44 proofs/listings/literals and
+frozen117 stay byte-exact. FIRST four stable 73-page source runs and all
+THIRTEEN current views pass: TWELVE prior ACTUAL byte-exact, changed72
+newly ACTUALLY inspected. All page72 paragraphs are complete; no source
+layout repair or new page break. Historical full/book warning-line
+MULTISETS stay exact: 707 Lean-source headers plus four other cached
+warning lines. Touched mathematics and every actual example are warning-free.
+
+Only TWO necessary lattice guards G_ne_T/H_ne_S are newly public, under
+Psi/I≠D without chart or ACF. The actual guarded two-family composition
+remains PRIVATE under explicit initial AI5/chart/base-ambient ACF and
+supplied INPUT families. It derives ALL 25 raw field inputs from the actual
+witness; no field-level membership/non-membership/nonconstancy hypothesis.
+Both original curves precede ALL corresponding inputs. Initial action-chart
+existence, INPUT existence/enlargement/descent, combined generators, actions,
+linearity, extraction, all completeness, #11 and frozen117 remain open.
+Final required full build/book AFTER this actual factual append precede
+commit/push. The durable goal continues.
