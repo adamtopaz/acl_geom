@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Config.Correctness
 import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
+import AclGeom.Config.PsiLattice
 import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Counterexamples.QDegenerate
@@ -425,6 +426,28 @@ does not refute JCompletenessACF, whose distinctness already gives both guards:
 {docstring AclGeom.Q'Geom.snd_ne_fst}
 
 {docstring AclGeom.not_forall_qGeom_imp_exists_jGeom_of_five_indep}
+
+The first necessary incidences for genuine meet elimination are now proved
+by finite-rank counting and exchange. Every Psi witness has P≠S and Q≤B;
+I≠D also gives P≤A and Q≠T. The actual degeneration has Q=T, so the last
+guard cannot be dropped. The separate proposed P-incidence degeneration
+is hand-only and is not a formal result:
+
+{docstring AclGeom.QWitness.Psi.P_le_A}
+
+{docstring AclGeom.QWitness.Psi.P_ne_S}
+
+{docstring AclGeom.QWitness.Psi.Q_le_B}
+
+{docstring AclGeom.QWitness.Psi.Q_ne_T}
+
+The unchanged pure rank bridge now lives in Geometry.FiniteRank, so this
+module imports only Config.Psi:
+
+{docstring AclGeom.rankEq_iff_eRk}
+
+These are necessary lattice consequences (L0, #27). Meet elimination,
+linearity and action presentation/classification remain open.
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:

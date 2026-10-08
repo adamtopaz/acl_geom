@@ -4803,3 +4803,77 @@ sources, Main, all 49 current active statements and original provenance, all
 44 proofs/listings/literal interpretation remain exact. G1 small-language
 transport is accepted through G1a/G1b/G1c; guarded extraction/Q completeness, multiplication converse, unconditional J
 completeness and group/action integration remain open.
+
+
+## Necessary Psi incidences for genuine meet elimination (#27, L0)
+
+Config.PsiLattice proves four coordinate-free consequences of actual Psi:
+P≤A and Q≠T under I≠D, and unconditional P≠S and Q≤B. They supply the
+incidences/distinctness needed at the meet-elimination seam of the corrected
+blueprint extraction proof. Finite rank, matroid submodularity and exchange
+prove them without an action/group/classification or completeness input.
+The actual QDegenerate witness has Q=T, so Q-distinctness needs the guard.
+The proposed P-incidence counterexample remains hand-only and is not accepted.
+Guarded extraction, action presentation/linearity, multiplication converse
+and unconditional J completeness remain open; frozen M4a is untouched.
+
+Claude supplied two immutable source-only drafts. Root independently checked
+all nine pinned inputs against 7482885 and the unchanged current imports.
+The first original compilation failed 8.00s at the default 200k elaborator
+limit. Explicit sets and a typed intermediate exposed the swapped convention
+of add_le_add_left in the second 2.00s failure. The corresponding inequality
+repairs only the submodularity proof, with every v2 statement and default
+checker option unchanged. Both freezes and both failures remain outside git.
+The v2 source minimizes Q≤B to an unconditional consequence and deletes the
+now-unused AT_inf_C helper. The repaired production passed 2.00s warning-free.
+
+The actual inventory is four public/thirty-three private authored theorems,
+with no generated additions. All 84 scoped signature/proof/axiom records
+(47 earlier and 37 new) and five real abstract/table/degeneration consumers
+passed 4.00s with standard axioms. The existing rankEq_iff_eRk theorem moves
+unchanged from Transfer.Lift to Geometry.FiniteRank; Config.PsiLattice then
+imports only Config.Psi. The private three-module chain passed 4.00s, and
+all 84 compiled types, normalized bodies, attributes, docstrings and axiom
+records stayed exact except that single theorem's module location. The five
+actual consumers plus an isolated FiniteRank-only rank-bridge consumer pass
+8.00s. An initial narrowed diagnostic still requested Transfer.Lift without
+explicitly importing it; its failed bytes/log are retained and the audit
+harness alone now imports all three audited modules. No production proof,
+actual fixture or kernel option changed for that harness correction.
+
+G1c's published generic recursion proof has Claude's read-only fidelity
+acceptance and exact CI37713273164 fully green for library/book/deploy.
+Both generic and pre-existing concrete transport mechanisms remain visible.
+This L0 checkpoint accepts only the four necessary consequences and the pure
+rank-bridge relocation. Every original public Main target and guarded
+completeness proposition stays unchanged. Source concordance adds one status
+paragraph; all 49 current active statements and original provenance, all
+44 proof blocks/listings and the literal ratio/TOT content remain exact.
+
+Claude's read-only review accepts all seven paths. Its documentary correction
+is applied: the P-incidence degeneration is hand-checked, unformalized and not
+accepted; the Q=T necessity witness is formally proved. Root's actual shared
+cold full build passes 1020.41s (minimum available 35.00GiB, peak family RSS
+12.36GiB). After that comment-only qualification, full build/book pass
+88.04s/16.01s, with no memory stop. Untouched frozen modules replay earlier
+warnings; the three touched production modules were independently warning-free.
+
+Actual main imports pass the 22-check shared family in 42.02s: all 72 old
+fixtures/62 public records, guarded 125 records/ten behaviors, generic 163
+records/six behaviors and lattice 84 records/six consumers stay exact to their
+accepted baselines. The old rank bridge's module location is the sole scoped
+metadata difference from its original baseline. New production and behaviors
+use standard lint/default checking; old fixtures retain exact bytes and their
+historical diagnostic lint scope. This is a scoped axiom/body audit, not a
+whole-library axiom certification. All 250 Lean sources pass placeholder and
+project-axiom hygiene; the 246 other prior module/Main/G1 sources stay exact.
+
+All 101 book HTML paths remain, with the four new necessary-incidence and
+existing pure-rank docstrings visible alongside all nine G1c entries. Source
+rendering passes four stable runs/69 pages without overflow or undefined
+labels. Nine selected current pages are visually checked: eight are byte-exact
+to previously actually viewed images and changed page 68 is actually viewed.
+All 49 current active statements and original provenance, 44 proof blocks,
+listings and literal ratio/TOT content stay exact; only the concordance status
+paragraph is added. The isolated rank-bridge consumer confirms the narrowed
+import. These gates precede exact seven-path staging and commit/push.

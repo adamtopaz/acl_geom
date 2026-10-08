@@ -5318,6 +5318,13 @@ necessary nondegeneracy in their $\Qrel$ formula.  The counterexample satisfies 
 EH95's extra $P\leq A$, $Q\leq B$ incidences.  It does not refute their $\Jrel$
 configuration, whose distinctness already supplies the guards.
 
+\paragraph{Necessary configuration incidences in Lean.}
+\lean{AclGeom.Config.PsiLattice} proves $P\le A$ and $Q\ne T$ under $I\ne D$,
+and $P\ne S$, $Q\le B$ without a guard, by finite-rank counting and exchange
+(L0, issue 27).  The unchanged \lean{rankEq_iff_eRk} bridge now lives in
+\lean{Geometry.FiniteRank}; no transfer import is used.  These are prerequisites
+of meet elimination; guarded extraction and completeness remain open.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

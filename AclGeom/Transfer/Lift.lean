@@ -21,7 +21,8 @@ Hence the closed lattice of `K/k` embeds in that of `Ω/K₀`:
   joins, and principal closures (`liftClosed_point`), so it sends points to
   points (`liftPoint`);
 * rank is absolute: the matroid rank of `liftClosed E` equals that of `E`
-  (`eRk_liftClosed`), so `RankEq n` is preserved and reflected;
+  (`eRk_liftClosed`), so `RankEq n` is preserved and reflected; the pure
+  `rankEq_iff_eRk` bridge lives in `Geometry.FiniteRank`;
 * if `Ω` is algebraically closed, binary meets are preserved as well
   (`liftClosed_inf`), by the finite intersection generator of blueprint
   Lemma `finite-intersection-generator`;
@@ -43,53 +44,6 @@ open IntermediateField
 
 noncomputable section
 
-section Rank
-
-variable {k K : Type*} [Field k] [Field K] [Algebra k K]
-
-/-- `RankEq n E` says exactly that `E` has rank `n` in the algebraic
-independence matroid. -/
-theorem rankEq_iff_eRk {n : ℕ} {E : ClosedIF k K} :
-    RankEq n E ↔ (AlgebraicIndependent.matroid k K).eRk (E : Set K) = n := by
-  classical
-  set M := AlgebraicIndependent.matroid k K
-  have hcl : ∀ S : Set K, M.closure S = (racl k S : Set K) :=
-    algebraicMatroid_closure_eq_racl
-  constructor
-  · rintro ⟨f, hf, rfl⟩
-    let s : Set K := Set.range fun i ↦ (f i).rep
-    have hfrep : AlgebraicIndependent k fun i ↦ (f i).rep :=
-      algebraicIndependent_rep_of_pointIndep hf
-    have hsind : M.Indep s :=
-      AlgebraicIndependent.matroid_indep_iff.2 hfrep.to_subtype_range
-    have hsencard : s.encard = n := by
-      apply le_antisymm
-      · simpa [s, ← Set.image_univ] using
-          (Set.encard_image_le (fun i ↦ (f i).rep) (Set.univ : Set (Fin n)))
-      · simpa [s] using hfrep.injective.encard_range.ge
-    have hsclosure : M.closure s = ((⨆ i, (f i).1 : ClosedIF k K) : Set K) := by
-      rw [hcl]
-      exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
-        (iSup_point_val f).symm
-    rw [← hsclosure, M.eRk_closure_eq, hsind.eRk_eq_encard, hsencard]
-  · intro hrk
-    obtain ⟨I, hI⟩ := M.exists_isBasis (E : Set K) (by simp [M])
-    have hIcard : I.encard = n := hI.encard_eq_eRk.trans hrk
-    obtain ⟨m, v, hvinj, hvrange⟩ := (Set.finite_of_encard_eq_coe hIcard).fin_param
-    have hm : m = n := by
-      have h1 : (Set.range v).encard = m := by simpa using hvinj.encard_range
-      rw [hvrange, hIcard] at h1
-      exact_mod_cast h1.symm
-    subst hm
-    have hv : AlgebraicIndependent k v :=
-      (AlgebraicIndependent.of_subtype_range hvinj)
-        (AlgebraicIndependent.matroid_indep_iff.1 (hvrange ▸ hI.indep))
-    refine rankEq_of_coe_eq_racl hv (SetLike.coe_injective ?_)
-    rw [hvrange, ← hcl, hI.closure_eq_closure, hcl]
-    exact congrArg (fun L : IntermediateField k K ↦ (L : Set K))
-      (isRAC_iff_racl_eq.1 E.2).symm
-
-end Rank
 
 variable {k K Ω : Type*} [Field k] [Field K] [Field Ω] [Algebra k K]
   [Algebra k Ω]
