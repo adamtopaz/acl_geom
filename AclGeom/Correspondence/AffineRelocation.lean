@@ -5,6 +5,8 @@ Authors: Adam Topaz, Claude
 -/
 import AclGeom.Correspondence.GenericPoints
 import AclGeom.Geometry.Representatives
+import AclGeom.Correspondence.Family
+import AclGeom.Correspondence.DifferenceCocycle
 
 /-!
 # Relocating an affine presentation with five fixed parameters
@@ -26,9 +28,10 @@ The relocated multiplier `a'` need not equal `a₀`.  The proof is the joint rel
 `acl(p, y, c)`; the transfers are the vanishing-ideal transfers of `Correspondence.FunctionField`.
 The existence of `a₀` is left to the caller.
 
-**Status:** fixed-five relocation and freshness over supplied extra data proved (#27, L1b/L2d).
-Fresh-input existence, ambient enlargement/descent, coordinate extraction, linearity and guarded
-completeness remain open.
+**Status:** fixed-five relocation, freshness over supplied extra data, and pairwise relocation
+cocycles proved (#27, L1b/L2d/B3). The selected-family original-base algebraic-center argument
+is privately checked. Fresh-input existence, ambient enlargement/descent, P/Q normalization,
+coordinate extraction, linearity and guarded completeness remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -258,6 +261,72 @@ theorem exists_affine_relocation_fresh_over [IsAlgClosed K] {a b x c p δ f a₀
   intro hT
   refine ha₀ (racl_le_of_subset_racl ?_ (racl_exchange halg' hnew'))
   exact Set.insert_subset_iff.2 ⟨hT, fun z hz ↦ racl_mono Set.subset_union_left (hpyc hz)⟩
+
+/-- **Pairwise difference cocycle of two relocations** (#27).  Let `(ai, bi, xi)` be a literal
+fixed-five relocation of `y = a x + b` (same joint vanishing ideal) with `p ∈ acl(ai, bi)` and
+`δ ∈ acl(ai, xi)`, and let `(aj, bj, xj)` be a second presentation of the same value with
+`p ∈ acl(aj, bj)` and `δ ∈ acl(aj, xj)`.  If `aj` is fresh over `a, b, x, ai`, then `bi - bj` is
+algebraic over `ai, aj`.  The first relocation inherits independence and `p, δ ∉ acl(ai)` from
+the original through the joint ideal, so `sub_mem_racl_of_affine_value_eq` applies with it as
+base. -/
+theorem sub_mem_racl_of_two_relocations {a b x c p δ f ai bi xi aj bj xj : K}
+    (hind : AlgebraicIndependent k ![a, b, x])
+    (hp : p ∈ racl k ({a, b} : Set K)) (hpa : p ∉ racl k ({a} : Set K))
+    (hδx : δ ∈ racl k ({a, x} : Set K)) (hδa : δ ∉ racl k ({a} : Set K))
+    (hJi : idealOf k (Sum.elim ![p, a * x + b, δ, c, f] ![ai, bi, xi]) =
+      idealOf k (Sum.elim ![p, a * x + b, δ, c, f] ![a, b, x]))
+    (hpi : p ∈ racl k ({ai, bi} : Set K)) (hδi : δ ∈ racl k ({ai, xi} : Set K))
+    (hvi : ai * xi + bi = a * x + b)
+    (hpj : p ∈ racl k ({aj, bj} : Set K)) (hδj : δ ∈ racl k ({aj, xj} : Set K))
+    (hvj : aj * xj + bj = a * x + b)
+    (hfresh : aj ∉ racl k (({a, b, x} : Set K) ∪ {ai})) :
+    bi - bj ∈ racl k ({ai, aj} : Set K) := by
+  -- The first relocation is independent, by projecting the joint ideal.
+  have hJ3 := idealOf_comp_eq_of_idealOf_eq hJi Sum.inr
+  rw [Sum.elim_comp_inr, Sum.elim_comp_inr] at hJ3
+  have hindi : AlgebraicIndependent k ![ai, bi, xi] :=
+    (idealOf_eq_bot_iff k).1 (hJ3.trans ((idealOf_eq_bot_iff k).2 hind))
+  -- `p, δ ∉ acl(ai)`, transferred from `p, δ ∉ acl(a)`.
+  have hpai : p ∉ racl k ({ai} : Set K) := by
+    have h : Sum.elim ![p, a * x + b, δ, c, f] ![a, b, x] (Sum.inl 0) ∉
+        racl k (Sum.elim ![p, a * x + b, δ, c, f] ![a, b, x] '' {Sum.inr 0}) := by
+      simpa using hpa
+    have h' := notMem_racl_image_of_idealOf_eq k hJi.symm h
+    simpa using h'
+  have hδai : δ ∉ racl k ({ai} : Set K) := by
+    have h : Sum.elim ![p, a * x + b, δ, c, f] ![a, b, x] (Sum.inl 2) ∉
+        racl k (Sum.elim ![p, a * x + b, δ, c, f] ![a, b, x] '' {Sum.inr 0}) := by
+      simpa using hδa
+    have h' := notMem_racl_image_of_idealOf_eq k hJi.symm h
+    simpa using h'
+  -- Exchange: `bi ∈ acl(ai, p)` and `xi ∈ acl(ai, δ)`, so `aj` is fresh over `ai, bi, xi`.
+  have hbi : bi ∈ racl k ({ai, p} : Set K) := by
+    have h : p ∈ racl k (insert bi ({ai} : Set K)) := by
+      rwa [Set.pair_comm] at hpi
+    have h' := racl_exchange h hpai
+    rwa [Set.pair_comm] at h'
+  have hxi : xi ∈ racl k ({ai, δ} : Set K) := by
+    have h : δ ∈ racl k (insert xi ({ai} : Set K)) := by
+      rwa [Set.pair_comm] at hδi
+    have h' := racl_exchange h hδai
+    rwa [Set.pair_comm] at h'
+  have hai : ai ∈ racl k (({a, b, x} : Set K) ∪ {ai}) :=
+    subset_racl k _ (Set.mem_union_right _ rfl)
+  have hP : p ∈ racl k (({a, b, x} : Set K) ∪ {ai}) :=
+    racl_mono (Set.subset_union_of_subset_left
+      (Set.insert_subset_insert (Set.singleton_subset_iff.2 (by simp))) _) hp
+  have hD : δ ∈ racl k (({a, b, x} : Set K) ∪ {ai}) :=
+    racl_mono (Set.subset_union_of_subset_left
+      (Set.insert_subset_insert (Set.singleton_subset_iff.2 (by simp))) _) hδx
+  have hsub : ({ai, bi, xi} : Set K) ⊆ racl k (({a, b, x} : Set K) ∪ {ai}) := by
+    refine Set.insert_subset_iff.2 ⟨hai, Set.insert_subset_iff.2 ⟨?_, ?_⟩⟩
+    · exact racl_le_of_subset_racl
+        (Set.insert_subset_iff.2 ⟨hai, Set.singleton_subset_iff.2 hP⟩) hbi
+    · exact Set.singleton_subset_iff.2 (racl_le_of_subset_racl
+        (Set.insert_subset_iff.2 ⟨hai, Set.singleton_subset_iff.2 hD⟩) hxi)
+  have haj : aj ∉ racl k ({ai, bi, xi} : Set K) :=
+    fun h ↦ hfresh (racl_le_of_subset_racl hsub h)
+  exact sub_mem_racl_of_affine_value_eq hindi haj hpi hpai hδi hδai hpj hδj (hvj.trans hvi.symm)
 
 end
 

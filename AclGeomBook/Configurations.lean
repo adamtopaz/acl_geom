@@ -618,6 +618,31 @@ common centers are actual PRIVATE compositions; the new public theorem is
 the concrete commutation balance. Ambient input existence/enlargement/descent,
 four-point/C4 linearity, extraction and completeness remain open.
 
+Pairwise relocation differences are now proved (B3, #27). The first
+presentation has the actual fixed-five joint ideal, both tuples have the
+explicit p/δ memberships and shared affine value, and the later multiplier
+is fresh over the original a,b,x plus the first multiplier. Joint-ideal
+transport derives independence and p/δ non-memberships at the first tuple;
+exchange and L1a give the difference algebraic over the two multipliers
+alone. A second joint ideal or separate first freshness is not needed:
+
+{docstring AclGeom.sub_mem_racl_of_two_relocations}
+
+The actual private full-family consumer derives all those inputs from the
+constructed relocations, then every ordered pairwise cocycle. Its selected
+equal-color triple has the common center algebraic over the ORIGINAL k.
+The third pair shares the same center by field algebra; three independent
+closure intersections remove every multiplier. Both orders of the later
+selected indices are handled. No pairwise-cocycle or constant-center oracle
+is supplied. The original F/span still precedes every supplied fresh INPUT
+family of size 2 totalDegree F + 1, and δ outside acl(a) remains explicit.
+Only pairwise cocycles are a new public theorem; constant centers are
+PRIVATE compositions. P/Q normalization and compatibility, the remaining
+meets, ambient input existence/enlargement/descent, action extraction and
+completeness remain open. Transferring an affine shift back to a k-joint
+ideal needs the center in k; algebraic closedness of k is still to be used
+in that separate P-normalization consumer.
+
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:
 

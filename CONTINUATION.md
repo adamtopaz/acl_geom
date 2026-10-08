@@ -5738,3 +5738,110 @@ Only concrete commutation balance is public. The selected common-center
 triple for each supplied fresh input family is a PRIVATE derived composition;
 ambient existence/enlargement/descent, four-point/C4 linearity, extraction
 and all guarded/unconditional completeness remain open.
+
+
+## B3 pairwise relocation cocycles and private original-base algebraic centers
+
+Pinned to clean published 21683e5, exact CI37741230346 FULLGREEN at every
+library/book/deployment job and step; all ten owned body references are
+synchronized. The initial source-only GO4587 had a WRONG import-closure
+premise: Family's existing projection API was absent from AffineRelocation.
+Claude4590 stopped BEFORE any draft or main change; #27 records the error
+and concrete correction BEFORE revisedGO4591. Two existing imports, Family
+and DifferenceCocycle, replace the false one-import scope. No projection
+API is duplicated. This is an implementation-scope correction; the audited
+mathematical target is unchanged and sufficient/non-vacuous.
+
+Claude's immutable uncompiled freeze4594 appends ONE public theorem:
+old 264 -> 332 lines, two imports plus 66-line append. All eight inputs,
+two Mathlib API files and five frozen draft SHA1 values/modes are checked;
+old header, whole body/proofs/module docs and closes remain byte-exact after
+removing ONLY the two imports/new append. FIRST actual standard-Mathlib-lint/
+default-kernel check passes UNCHANGED 2.00s warning-free, minimum available
+39.12GiB. ONE new public/no helpers/generated declarations. The old two
+scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list records stay exact, only the new
+third public record added, standard Lean axioms. Metadata passes 4.00 s,
+minimum available 38.79 GiB/RSS 2.42 GiB, warning-free; diagnostic genre unchanged.
+
+The public pairwise cocycle uses original AI(a,b,x), explicit p/δ memberships
+and nonmemberships, the FIRST actual fixed-five joint ideal, the actual
+p/δ/value outputs for BOTH tuples, and later aj fresh over original a,b,x
+plus ai. It derives independence and p/δ nonmemberships at the first tuple
+by existing Family/FunctionField transport. Exchange places its bi/xi in
+the original-data-plus-ai closure, deriving the later freshness needed by
+published L1a. Thus bi-bj lies in acl(ai,aj), removing the original a from
+the difference closure. No second joint ideal, separate first freshness or
+delta membership in acl(p,y) is needed by this theorem. Those raw outputs
+are derived from the actual relocation producer in the genuine consumer.
+
+Root's private constant-center bridge passes FIRST 2.00 s unchanged, standard
+lint/default kernel/EMPTY log, minimum available 39.15 GiB. Given pairwise
+cocycles and actual concurrence, field algebra makes the THIRD pair share
+the same center; no second B2 call at base j or inverse-ratio transcendence
+is needed. Three uses of the 8.9a closure brick put the center in racl k ∅,
+hence algebraic over ORIGINAL k, in every characteristic. The bridge's
+pairwise inputs were initially explicit, and Claude4598 ACCEPTS its scope,
+non-vacuity and mathematics; they are DERIVED in the full consumer below.
+
+The genuine PRIVATE 490-line consumer fixes ONE original prime F/span before
+ALL supplied fresh INPUT families of size 2*totalDegree F+1. It constructs
+the relocations, derives OUTPUT freshness and their actual p/δ/value outputs,
+original-a cocycles, larger-base pair algebraicity and degree-bounded colors
+over ONE common final L. Actual selection gives one same-color triple;
+actual maps and B2 give concurrence. B3 derives ALL ordered pairwise
+cocycles from the actual outputs, and j<r OR r<j cases order the three closure
+intersections correctly. The selected center is therefore algebraic over
+ORIGINAL k; there is no pairwise-cocycle or constant-center oracle.
+ONE actual example consumes ten private fixture helpers. Its FIRST 6.00 s
+standard/default check is UNCHANGED warning-free, minimum available 38.59 GiB/
+RSS 2.79 GiB. No proof, fixture or checking-option repair. Claude4601 ACCEPTS
+the full statement, fixed-F quantifier order and both-order composition.
+
+Only pairwise relocation cocycles are a new public result. One selected
+triple's original-base algebraic center per supplied input family is an
+actual PRIVATE composition. This does not yet put the center in k or
+transfer an affine shift back along a k-joint ideal: that separate consumer
+needs k algebraically closed, as the guarded blueprint assumes. P/Q
+normalization/compatibility, remaining meets, ambient input existence/
+enlargement/descent, the action presentation and all guarded/unconditional
+completeness remain open. Original #11 and frozen117 remain obligations.
+
+This FOUR-path proposal changes the existing AffineRelocation module's
+two imports/appended theorem/real Status, adds one Book docstring/account,
+ONE source concordance paragraph and this append-only record. Whole root
+and all 254 OTHER mathematical module/Main sources remain exact; 49 active
+source statements/provenance and 44 proof/listings/literals remain exact.
+Renewed peer four-path review, private canonical book/source/current visual
+gates, actual-main library/book and strict regressions precede commit/push.
+
+Private canonical AffineRelocation/Book compilation passes 24.01 s, minimum
+available 38.23 GiB/RSS 4.42 GiB, with no warning/error. Four source passes
+are stable, 71 pages, no overflow/undefined/rerun. All eleven selected
+current pages are accepted: ten byte-identical earlier ACTUAL views plus
+changed page 70 newly ACTUALLY inspected, with no orphan tail. No source
+layout repair. Claude4605 accepts all four paths; optional spacing nits
+in this new append alone are corrected. Actual-main gates remain pending.
+
+Actual-main gates pass after exact four-path/hash application and peer4609
+refresh acceptance: full library 58.02 s (minimum available 36.63 GiB/RSS
+7.81 GiB), book 8.00 s, all 72 strict scoped checks 96.02 s (minimum
+available 38.59 GiB/RSS 2.90 GiB), default kernel/standard lint for math
+and actual behaviors. All 67 earlier fixture inputs and every old scoped
+TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stay exact. Only the named B3
+record is added in the six older AffineRelocation metadata scopes; new
+three-record scope matches accepted private results. Two actual private
+examples and the ten consumed full-family helpers are warning-free.
+
+256-source placeholder/project-axiom hygiene is clear. All 101 HTML paths
+and prior docs remain; new B3 docstring and accurate private original-base
+center account are visible. Whole root and all 254 OTHER math/Main sources,
+toolchain/dependencies, all 49 active source statements and original
+provenance, all 44 proofs/listings/literals, frozen117 and historical CONT
+prefix are exact. The 707 historical full/book warning HEADER MULTISETS
+are byte-exact; parallel output ordering is not constrained. Touched math
+and all actual behaviors have no warnings. An initial order-sensitive log
+comparison was rejected (707/707 identical multiset, no additions/removals)
+and corrected to a multiset comparison; no source or checking-option change.
+Final required full-library/book checks follow this append before guarded
+four-path commit/push. P/Q, ambient inputs/descent, actions/extraction and
+all completeness obligations remain open; the durable goal continues.

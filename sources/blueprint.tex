@@ -5449,6 +5449,23 @@ Only the commutation balance is a new public theorem; ambient input
 existence/enlargement/descent, four-point linearity, extraction and guarded
 completeness remain open.
 
+\paragraph{Pairwise relocation cocycles in Lean.}
+For two presentations with the stated joint-ideal and freshness data, the
+module \lean{AclGeom.Correspondence.AffineRelocation} proves
+$b'_i-b'_j\in\acl_k(a'_i,a'_j)$ (B3, issue~27), removing the original $a$
+from the earlier difference closure. The actual private family check
+derives every pairwise cocycle from constructed relocation outputs.
+For one selected same-color triple, field algebra identifies the third
+pair's center, and three independent closure intersections show that the
+common center is algebraic over the \emph{original} $k$.
+Both orders of the later indices are handled; no pairwise-cocycle or
+constant-center oracle is supplied. The original $F$ precedes every
+supplied fresh input family of size $2\operatorname{totalDegree}F+1$,
+with $\delta\notin\acl(a)$ explicit.
+Only pairwise cocycles are a new public theorem; constant centers are
+private checks. P/Q normalization and compatibility, ambient
+existence/descent, action extraction and guarded completeness remain open.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).
