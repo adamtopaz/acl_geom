@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex, Claude
 -/
 import AclGeom.Correspondence.GeometricPrime
+import AclGeom.Closure.Ambient
+import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
 import AclGeom.Correspondence.FunctionField
 import Mathlib.RingTheory.Flat.FaithfullyFlat.Algebra
 import Mathlib.FieldTheory.LinearDisjoint
@@ -35,13 +37,15 @@ closedness assumption on the base or ambient fields.
 Every private helper is consumed. The private validation consumers derive maximal
 coordinate independence, test a dependent duplicated tuple, and derive genericity
 from the constructive theorem before embedding the same point into an algebraic
-closure and applying the universal field-freeness implication there. Explicit
-rank/dimension bridges, ambient automorphisms and the full generic-extension lemma
-remain separate obligations.
+closure and applying the universal field-freeness implication there.
+Finite-tuple ambient automorphisms are proved in `AmbientAutomorphism`. The relative
+transcendence-degree equality is derived below from the same genericity premise.
+Geometric rank, the packaged variety-level lemma and reconstruction remain separate.
 
 **Status:** constructive scalar-extension points with exact ideals and preservation
 of every coordinate-independent subfamily, and the universal relation/field-freeness
-implication for points generic over an extension (#5, `generic-extension` (a)).
+implication and relative dimension equality for points generic over an extension
+(#5, `generic-extension` (a)); other hard-kernel obligations remain separate.
 -/
 
 namespace AclGeom
@@ -321,6 +325,72 @@ theorem isGeneric_baseChange {k E Ω : Type*}
     (LinearIndependent.iff_fractionRing (Algebra.adjoin k (Set.range b))
       (IntermediateField.adjoin k (Set.range b))).mp hring
   exact IntermediateField.LinearDisjoint.of_basis_left a hfield
+
+/-- **Generic scalar-extension points have the original relative dimension.**
+The sole premise is the same exact extended ideal as in `isGeneric_baseChange`;
+field freeness, a transcendence basis and the relative degree are derived.
+All fields and index types are arbitrary: no closedness, finiteness or
+cardinal cancellation is required (blueprint generic-extension (a)). -/
+theorem trdeg_adjoin_of_isGeneric {k E Ω : Type*}
+    [Field k] [Field E] [Field Ω] [Algebra k E] [Algebra k Ω] [Algebra E Ω]
+    [IsScalarTower k E Ω] {ι : Type*} {b : ι → Ω} {I : Ideal (MvPolynomial ι k)}
+    (hgen : idealOf E b = I.map (MvPolynomial.map (algebraMap k E))) :
+    Algebra.trdeg E ↥(IntermediateField.adjoin E (Set.range b)) =
+      Algebra.trdeg k ↥(IntermediateField.adjoin k (Set.range b)) := by
+  classical
+  let F := IntermediateField.adjoin k (Set.range b)
+  let G := IntermediateField.adjoin E (Set.range b)
+  have H := ((isGeneric_baseChange hgen).2).symm'
+  have hf : IsScalarTower.toAlgHom k F Ω = F.val := by
+    ext z
+    rfl
+  rw [hf, IntermediateField.fieldRange_val] at H
+  obtain ⟨α, t, ht⟩ := exists_isTranscendenceBasis' k F
+  let x : α → Ω := F.val ∘ t
+  have hmono : LinearIndependent k
+      ((MvPolynomial.aeval t).toLinearMap ∘ MvPolynomial.basisMonomials α k) :=
+    (MvPolynomial.basisMonomials α k).linearIndependent.map'
+      (MvPolynomial.aeval t).toLinearMap (LinearMap.ker_eq_bot.mpr ht.1)
+  have hmonoE := H.linearIndependent_left hmono
+  have hx : AlgebraicIndependent E x := by
+    change Function.Injective (MvPolynomial.aeval x : MvPolynomial α E →ₐ[E] Ω).toLinearMap
+    apply LinearMap.injective_of_linearIndependent (MvPolynomial.basisMonomials α E).span_eq
+    convert hmonoE using 1
+    ext d
+    simp [x, Function.comp_def, MvPolynomial.aeval_monomial, Finsupp.prod]
+  have hbase (S : Set Ω) : (IntermediateField.adjoin k S : Set Ω) ⊆
+      IntermediateField.adjoin E S := by
+    apply (IntermediateField.adjoin_subset_adjoin_iff k).mpr
+    constructor
+    · rintro _ ⟨c, rfl⟩
+      rw [IsScalarTower.algebraMap_apply k E Ω]
+      exact IntermediateField.algebraMap_mem _ _
+    · exact IntermediateField.subset_adjoin E S
+  have hFG : (F : Set Ω) ⊆ G := hbase (Set.range b)
+  let y : α → G := fun i ↦ ⟨x i, hFG (t i).2⟩
+  have hy : AlgebraicIndependent E y := AlgebraicIndependent.of_comp G.val hx
+  have himage : G.val '' Set.range y = Set.range x := by
+    rw [← Set.range_comp]
+    rfl
+  have hspan : G ≤ racl E (Set.range x) := by
+    apply IntermediateField.adjoin_le_iff.mpr
+    rintro _ ⟨i, rfl⟩
+    have hz : (⟨b i, IntermediateField.subset_adjoin k _ (Set.mem_range_self i)⟩ : F) ∈
+        racl k (Set.range t) :=
+      (mem_racl_iff_isAlgebraic_adjoin k).mpr (ht.isAlgebraic.isAlgebraic _)
+    have hz' := (algHom_mem_racl_image_iff F.val).mpr hz
+    rw [← Set.range_comp] at hz'
+    obtain ⟨p, hp, hzero, hcoeff⟩ := mem_racl_iff_exists_poly.mp hz'
+    exact mem_racl_iff_exists_poly.mpr ⟨p, hp, hzero, fun n ↦ hbase _ (hcoeff n)⟩
+  have halg : Algebra.IsAlgebraic (Algebra.adjoin E (Set.range y)) G := by
+    constructor
+    intro z
+    apply (mem_racl_iff_isAlgebraic_adjoin E).mp
+    apply (algHom_mem_racl_image_iff G.val).mp
+    rw [himage]
+    exact hspan z.2
+  have hty : IsTranscendenceBasis E y := hy.isTranscendenceBasis_iff_isAlgebraic.mpr halg
+  exact hty.cardinalMk_eq_trdeg.symm.trans ht.cardinalMk_eq_trdeg
 
 end
 

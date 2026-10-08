@@ -23,7 +23,8 @@ the source of truth is `sources/blueprint.tex`.
 **Status:** the finite-tuple field content of generic-extension (b) is proved
 in a common algebraically closed ambient, with no enlargement there.
 An actual consumer passes a nonclosed ambient to its algebraic closure.
-Explicit rank/dimension, the packaged variety-level lemma, correspondence
+Numerical relative field degree is proved in `GenericExtension`. Geometric
+rank, Krull dimension, the packaged variety-level lemma, correspondence
 composition and reconstruction completeness remain open (#5).
 -/
 

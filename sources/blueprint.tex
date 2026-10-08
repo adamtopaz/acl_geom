@@ -5786,6 +5786,36 @@ charts, actions and reconstruction completeness remain separate obligations;
 frozen M4a is unchanged. Original source statements and proofs are retained.
 
 \clearpage
+\paragraph{Generic-point field dimensions after scalar extension.}
+Lean proves the numerical field degree equality in the proof of
+Lemma~\ref{lem:generic-extension}(a):
+\par\noindent
+\texttt{AclGeom.trdeg\_adjoin\_of\_isGeneric}.
+\par\noindent
+For any fields and coordinate type, the exact extended-ideal premise
+gives $\trdeg_E E(b)=\trdeg_k k(b)$, with no closedness, finiteness or
+cardinal cancellation. The existing universal theorem derives full
+field freeness. A basis of $k(b)/k$ remains independent over $E$ by
+monomial linear independence and an existing mapped-basis injectivity
+criterion. Existing ambient closure transport and the same annihilator
+with coefficients in the larger field prove that it spans $E(b)/E$.
+Both degrees are its cardinality; one new theorem uses no new helpers.
+Two actual examples construct the same point and derive its ideals.
+In a shared universe, existing coordinate-ring and fraction-field
+equivalences identify its generated field with that of the original
+point; the tower formula gives the displayed absolute degree equation
+with the original locus degree. A further four-universe example checks
+the lifted equation, measuring the locus at the constructed point.
+No point, exact ideal, independence, basis or rank conclusion is supplied
+by the caller. Algebraic closedness of the base is used only by the
+existing point construction. Locus dimension here means function-field
+transcendence degree, as in the existing dictionary; no Krull or geometric
+dimension bridge or packaged variety lemma is claimed. The reported
+independence-inference gap and original source proof are retained.
+Composition, charts, actions and reconstruction completeness remain
+separate obligations; frozen M4a is unchanged.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}

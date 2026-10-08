@@ -7845,3 +7845,200 @@ schemes/extraction and ALL reconstruction completeness remain OPEN.
 #5 stays open/#11 closed; frozen117 exact; root sole main/compiler owner,
 peer read-only. Actual-append peer review and mandatory final full/book
 AFTER this factual append precede commit/push. Durable goal continues.
+
+
+## Numerical generic-point degree after scalar extension (#5)
+
+Base clean published da0144b424f4a7b921665b5df2ceea08aced5304,
+exactCI37833355112 SUCCESS BOTHjobs/EVERYstep; sixownedreports/bodies
+and ALL25 current body-owner refs reconciled. #5open/#11closed.
+Root sole main/Lean/Lake; peer readonly, no source/compiler GO.
+
+READONLYPLAN5220:14 actual pins,265-source hash-only manifest authorizing
+ONLY four-pattern trdeg/ringKrullDim/krullDim/dimension inventory.
+Claude5224 verifies all14+265hashes, finds same396hits/no duplicate,
+and confirms TRUE for ANY fields/index, noACF/finiteness/cancellation.
+Precise actual/inherited/NOTread ledger retained. Actual bounded reads
+include old universal producer, LI/basis APIs and dimension dictionary.
+CONTlast250/AGENTS/source1244-1286/Familylater scopes and selected older
+Mathlib scopes are INHERITED, not falsely described as fresh rereads.
+Before/readledger JSON and full396hit files are NOTread by peer.
+Mathlib literal trdeg file inventory in RingTheory/FieldTheory/
+AlgebraicGeometry has FOUR hits; combined LD-trdeg/Krull-trdeg name
+inventory zero, NOT proof of absence in other terminology.
+
+Supplement5222 verifies4 NEWpaths, Claude5225: Composition395-455
+is ONLY a five-generator racl/AI fiber-product count, not generic
+base-change degree; monomial basis, field algebraicity and nested-adjoin
+APIs checked. Root prefers a SHORTER existing-closure route.
+Supplement5230 has4 further NEWpaths, Claude5232 ACCEPT: old
+LinearMap.injective_of_linearIndependent drops the proposed Finsupp/
+basis-repr expansion BEFOREdraft. Old Closure.Ambient annihilator and
+embedding-closure transport drop new nested-adjoin algebraic-tower
+scaffolding BEFOREdraft. No Geometry.Transport import or new transport/
+normalization/closure wrapper. Peer Closure.Ambient read1-98 only;
+its proof ends99, so no full-proof read claim; root reads83-102 separately.
+
+Root-privateGO5233. Full current namespace startsMath265/ALL1325cache,
+Book15/ALL75cache. ALL GenericExtension source/cache links unlinked
+BEFOREwrite. Other264sources/ALL1320cache preserved; modified397line
+source+one compiledolean ->Math265/1321cached, NOT1325 untilmainLake
+compile. No partial namespace or write-through. TWO orchestration
+functions.exec packets SyntaxError BEFOREANY nestedtool; tempfiles
+repair onlyorchestration, no source/build effect. Two guessed absent
+paths Geometry/Basic and FieldTheory/Transcendence returnrgexit2;
+actual RingTheory/AlgebraicIndependent paths are then located/read.
+
+ONE new public trdeg_adjoin_of_isGeneric, ZEROnewhelpers. hgenDERIVES
+FULLLD via oldisGeneric_baseChange; symmprime/fieldRange_val identify
+the generated field's disjointness over E. A chosen k(b)-basis gives
+monomial k-linear independence, preserved over E; OLD mapped-spanning-
+family injectivity derives polynomial independence INLINE. OLD
+ambient closure equivalence maps basis algebraicity into Omega. The
+SAME ambient-coefficient annihilator, with coefficients in the larger
+adjoin, gives algebraicity over E. OLD closure equivalence back into
+E(b) and ring/fraction membership give a basis there. Both degrees are
+the SAME cardinality. NoACF/finiteness/cardinal cancellation or caller
+rank/basis/LD/algebraic-extension oracle. AllOLD6 mathematical
+declaration/docstring blocks remain BYTEexact.
+
+ProducerFIRST4.00s fails ONLY AI goal unfolding and the explicit basek
+argument of the old adjoin_subset_adjoin_iff; failedsource/log/metrics
+retained. ONLY those boundary repairs; SECOND4.00s/min37.43GiB/
+RSS2.58GiB EMPTY. MetadataFIRST4.00s/min37.49GiB/RSS2.51GiB has THREE
+PASS lines: fullmodule7SIG/7proof/3AX; ALL6oldTYPE/RAW/ATTR/DOC/proofs
+and2AX EXACT. New1SIG/AX/proof/0generated in AUDITEDscope, standard
+axioms only THERE; no wholelibrarycertificate. Diagnostic sources/
+genres/options BYTEexact to prior UniversalGeneric files.
+
+TWO real51line privateexamples/ZEROhelpers. Both START old actual
+point construction, DERIVE hgen/baseideal, and use SAMEpoint. Shared-
+universe example uses EXISTING coordinate-ring equivalences/quotient
+equality/fraction-field primitive to derive a CROSS-AMBIENT field iso
+to ORIGINALtuple. Relative degree equals ORIGINALlocus degree; the old
+tower formula gives source absolute line. Four-universe example
+derives relative degree atb and lifted absolute tower equation there.
+No ALLuniverse original-a comparison is claimed in that second case.
+ACFk is EXPLICITONLYfor oldconstruction; numericalproducer anybase.
+No callerpoint/exactideal/LD/basis/rank/dimension oracle.
+ConsumerFIRST2s missingopenAclGeom; SECOND2s onlyimplicitk stuck;
+both failedtriples retained. ONEopen then explicitk repairs only;
+THIRD2.00s/min36.46GiB EMPTY. Standardlint/defaultkernel, no
+weakenedchecking options or increased budgets.
+
+Claude5238 verifies10 actualpins/oldsource cmpmain and ACCEPTS new
+producer diff2imports/prose/newblock328-393 + context34-49, FULL51line
+consumer, ONEnewSIG/AX rows, keylists3acceptanceJSONs/widths.
+Rest397line oldblocks, ProofsTSV body, readledger/overlay/failure
+directories and acceptanceVALUES are NOTread. Root adopts ONLY prose
+nits: drop leftover Explicit and tick two API names. ProducerTHIRD4s/
+metadataSECOND4s/unchangedconsumerFOURTH2s pass; ALL7mathTYPE/AX/proof/
+attrs exact, ONLYNEWtheoremDOC hash intentionally changes. All6old
+DOCs exact. No mathematics changes after peer5238.
+
+Exactly FIVE proposedpaths instead of initialfour: GenericExtension
+2imports/moduleprose/ONEpublic theorem; AmbientAutomorphism ONLYone
+module-status clause distinguishing numerical field degree from still-
+open geometric/Krull dimension; Book newaccount/FIVE named status
+clauses/NOimport; sourceONEconcordance; append-onlyCONT.
+ALL Ambient mathematical blocks stay BYTEexact. Root/dependencies/
+frozen117 unchanged; other263Math/Main sources BYTEexact.
+Removing ONE concordance recovers ENTIREoldsource/all49active/
+originalprovenance/rawhistoric statements/44proofs/listings/literals.
+
+The numerical FIELDdegree of(a) is covered under the existing locus
+dimension convention, not Krull/geometric dimension, packaged variety
+frontend or a repair of the original independence inference. The
+reported gaps/original proofs remain. C2overnonclosedk(W), initial
+charts/actions/classification/schemes/extraction and ALL reconstruction
+completeness OPEN. Canonical/root/Verso/sourceviews/fullbook/ALL130
+older fresh checks plusFOURnew ->134checks, oldSCOPEDrecords exact
+with ONLYtheONEnew accepted declaration added to existing Generic-
+Extension module dumps, factualappend/peer/finalfullbook AFTERappend
+precedecommitpush. Durablegoal continues.
+
+
+
+Actual numerical-degree checkpoint acceptance: Claude5245 verifies
+all10 five-path pins and ACCEPTS imports/prose/ONEnewpublic block,
+AmbientAutomorphism ONLYmodule-status, Book ONEnewaccount/FIVE named
+clauses/NOimport, source ONEconcordance +30/0, CONT111line whole-prefix
+exact append. Reads producer accepted-to-proposed prose-only diff and
+main diffs/AM19-30 context, CONTappend/widths/clearpages; NOT queued/
+proposed/acceptance JSON bodies (hash-only). All peer scope/inherited/
+NOTread references accurate. ONLY three nonblocking prose nits adopted:
+lowercase original in Book, precise linear independence of evaluated
+monomials rather than loose basis-preservation phrasing, and ticks on
+GenericExtension in AMstatus. NO math/consumer change after Claude5238.
+
+AMprose FIRST/SECOND2.00s EMPTY normal standardlint. Canonical FIRST
+root/proper Verso Book passes20.01s; after prose nits SECOND passes
+20.01s/min37.74GiB/RSS3.61GiB, TWO CHECK/PASS pairs.
+No weakened lint/options, Book hash-command lint or increased budgets.
+Source FIRST four-pass render is stable82pages, with NO undefined/
+layout/rerun error and NO repair. ALL22selected current pages accepted:
+19 older ACTUALLY viewed PNGs byte-exact[1,2,4,5,6,67-80], plus3/81/82
+ACTUALLY inspected clear/complete/unclipped. Removing ONE concordance
+recovers ENTIREda0144b source, all49active/original-provenance/raw
+historic statements, all44proofs/listings/literals BYTEexact.
+Reported original source gaps and proofs remain retained.
+
+Exact FIVE paths integrated on clean da0144b AFTER peer/canonical/
+source acceptance and fresh issue-instruction check with unknown0.
+One broad /tmp filename-only rg returns exit2 for unrelated denied
+directories and unrelated filenames; NO unrelated contents, credentials
+or account state read/changed. Later inventories restricted to task-
+prefixed top-level paths. FIRST fixture prep copies verified130older
+fixtures/outputs plus newmetadata, then fails for misnamed consumer
+log BEFORE pending/acceptance claim. Retained bytes checked BEFORE
+retry; correct log from consumer acceptance. ONLY orchestration,
+no Lean source/build effect. TWO earlier JS SyntaxErrors BEFOREtools
+and two guessed missing paths remain recorded, not silently dropped.
+
+Full lake build passes48.01s/min35.79GiB/
+RSS7.48GiB; lake exe book passes8.00s/
+min37.47GiB/RSS1.55GiB. ALL711 historical
+warning headers BYTEexact in BOTH logs. Hygiene266 no proof placeholder/
+project axiom. HTML108 retains ALL107 older paths and literal newdegree
+docstring, previous generic-clause/field-freeness/finite-automorphism
+docstrings, chart/frozen pages. Root/dependencies/frozen117 and other
+263Math sources exact; ALL6older GenericExtension mathematical/docstring
+blocks and ALL AmbientAutomorphism mathematics exact.
+Before docs the Gen-only private phase was265/1321cache; unlinked
+AMsource/ALL5cache then ownAMolean gave265/1317, NOT1325 before main
+compile. Actual current main compile nowMath265/ALL1325cache and Book
+15/ALL75cache; ownprivateoleans retained, missing metadata links restored.
+
+FIRST fresh runner70.02s/min37.23GiB fails ONLYharness inference:
+AX firstcolumn is AX, not module. Actual added record is precisely
+the accepted named public. Explicit SIX oldmodulefixtures repair
+that gate, retaining ALLold record/acceptednew row comparisons.
+FIRST partialfixtures/outputs/log/metrics retained; no Lean change.
+ALL134 SECOND FRESH actual-main sequential checks pass176.04s/
+min37.75GiB/RSS2.92GiB. ALL130 older
+INPUTbytes and scoped TYPE/RAW/ATTR/DOC/AX/proof/deny records exact;
+ALL260 original baseline INPUT/OUTPUT files preserved. SIX older full-
+module dumps (GenericExtension and UniversalGeneric, SIG/AX/proof)
+add ONLY named accepted AclGeom.trdeg_adjoin_of_isGeneric row. No
+false wholeTSV exact claim; no other addition/removal/record exception.
+FOURnew fixtures reproduce accepted7SIG/3AX/7proof full-module records
+and EMPTY actual51line TWO-example consumer; ONEnew SIG/AX/proof,
+ZEROnew helpers/generated records in AUDITEDscope, standard Lean axioms
+only THERE, not whole-library certificate. Defaultkernel/standardlint
+actualconsumers; all older diagnostic genres/options unchanged.
+
+Numerical FIELDdegree of generic-extension(a) proved over ANY fields/
+indices from hgen; LD/basis/algebraicity derived, no finiteness/ACF/
+cardinal cancellation. Real consumers construct SAMEpoint, derive
+genericity/ideals; shareduniverse obtains ORIGINALlocus degree via old
+cross-ambient coordinate/fraction equivalences and source absolute
+line. Four independent universes yield lifted equation ATb only.
+ACFk used ONLYby earlier point construction. No callerpoint/exactideal/
+LD/basis/rank/dimension oracle. No Krull/geometric dimension bridge,
+packaged variety frontend or repair of source's own independence
+inference is claimed. The separate freeness route proves independence.
+C2overnonclosedk(W), charts/actions/classification/schemes/extraction
+and ALL reconstruction completeness OPEN; #5open/#11closed, frozen117
+exact. Root sole main/compiler; peer readonly. Actualappend peerreview
+and mandatory finalfull/book AFTER this append precedecommitpush.
+Durablegoal continues.

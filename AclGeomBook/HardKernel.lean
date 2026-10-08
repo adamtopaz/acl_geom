@@ -136,8 +136,8 @@ are exact, and independent affine-space coordinates remain independent
 over the extension. No domain, prime-ideal, density or point oracle is
 supplied by the caller. The coordinate-subfamily form is proved in the
 next section, and the full field-freeness implication follows below.
-Explicit rank/dimension remains separate; finite-tuple ambient automorphisms
-are proved below.
+Numerical field dimension and finite-tuple ambient automorphisms are proved
+below; geometric rank and Krull dimension remain separate.
 
 The original proof's absolute transcendence-degree equality does not
 by itself give independence when the coefficient extension has infinite
@@ -176,10 +176,10 @@ proved dependent. Subfamily ideal comparison works across ambient fields;
 the old single-ambient closure lemma is not used across fields.
 
 Full field freeness and a closed ambient are proved in the next section.
-Explicit rank/dimension and the packaged variety-level generic-extension
-lemma remain separate obligations; finite-tuple ambient automorphisms follow
-below. Composition, charts, actions and reconstruction completeness remain
-open; frozen M4a is unchanged.
+Numerical field dimension and finite-tuple ambient automorphisms follow
+below. Geometric rank, Krull dimension and the packaged variety-level lemma
+remain separate. Composition, charts, actions and reconstruction completeness
+remain open; frozen M4a is unchanged.
 
 # Every generic point has field freeness
 %%%
@@ -214,9 +214,10 @@ supplied by the caller in the constructive consumer.
 
 Together these results cover the relation and independence content of
 part (a), including existence in a closed ambient and the universal
-implication. Explicit rank/dimension statements and the packaged variety-level
-lemma remain separate obligations. The existing function-field isomorphism,
-rational identities and finite-tuple ambient automorphisms are accounted for below.
+implication. The numerical field degree equality is proved below; geometric
+rank, Krull dimension and the packaged variety-level lemma remain separate.
+The existing function-field isomorphism, rational identities and finite-tuple
+ambient automorphisms are accounted for below.
 Composition, charts, actions and reconstruction completeness remain
 open; frozen M4a is unchanged.
 
@@ -257,10 +258,11 @@ Its three examples were checked with standard Mathlib lint and the default
 kernel. Its 125 earlier fixture inputs and outputs were retained byte for
 byte and were not rerun for that documentation checkpoint.
 
-Explicit rank/dimension statements, the packaged variety-level lemma,
+Geometric rank, Krull dimension, the packaged variety-level lemma,
 correspondence composition over a nonclosed base, initial charts, actions
 and reconstruction completeness remain open. Finite-tuple ambient
-automorphisms are proved below; frozen M4a is unchanged.
+automorphisms and numerical field dimension are proved below; frozen M4a
+is unchanged.
 
 # Ambient automorphisms of finite generic points
 %%%
@@ -301,9 +303,55 @@ For a closed ambient no enlargement is needed. The finite hypothesis is
 essential for the cancellation argument and for extension inside the
 unchanged ambient. The theorem makes no claim for infinite tuples.
 The field content of (a), finite (b) and literal (c) now has formal proofs;
-explicit rank/dimension, the packaged variety-level lemma, correspondence
-composition over a nonclosed base, initial charts, actions and
-reconstruction completeness remain open. Frozen M4a is unchanged.
+the numerical field degree follows below. Geometric rank, Krull dimension,
+the packaged variety-level lemma, correspondence composition over a nonclosed
+base, initial charts, actions and reconstruction completeness remain open.
+Frozen M4a is unchanged.
+
+# Generic-point dimensions after scalar extension
+%%%
+tag := "generic-field-dimension"
+%%%
+
+The numerical field dimension in the proof of blueprint Lemma
+generic-extension (a) is derived for every point with the exact extended
+vanishing ideal, over arbitrary fields and with arbitrary coordinate type:
+
+{docstring AclGeom.trdeg_adjoin_of_isGeneric}
+
+The existing universal theorem derives full field freeness from that
+same genericity premise. A transcendence basis of k(b) therefore remains
+independent over E: linear disjointness preserves the linear independence of the evaluated
+monomials, and Mathlib's existing injectivity criterion for a mapped spanning family
+reflects polynomial evaluation. No new independence helper is introduced.
+
+Every coordinate is algebraic over this basis over k. Existing ambient
+closure transport moves that fact into the common ambient. The same
+annihilating polynomial, with its coefficients regarded in the larger
+generated field, proves algebraicity over E. Existing closure transport
+back into E(b) makes the family a transcendence basis there. Both relative
+degrees equal its cardinality. One new public theorem uses zero new
+helpers, with no closedness, finiteness, cardinal cancellation, or caller
+rank, basis or freeness premise.
+
+Two real private examples construct the same point using the earlier
+existence theorem and derive its genericity and original ideal. In a
+shared universe, the existing coordinate-ring equivalences, quotient
+equality and fraction-field equivalence give a cross-ambient isomorphism
+with the original point's generated field. The relative degree is thus
+the original locus degree, and Mathlib's tower formula gives the source's
+absolute degree equation at that point. A second example checks four
+independent universes and the lifted absolute equation, measuring the
+locus degree at the constructed point. It does not claim the original
+point's degree comparison across all four universes.
+
+The locus dimension convention is the existing transcendence degree of
+its generated rational field. No Krull or geometric dimension bridge,
+packaged variety-level lemma or repair of the source's own independence
+inference is claimed. That reported gap and the original proof remain
+retained; field independence is proved by the separate freeness route.
+Composition, charts, actions and reconstruction completeness remain
+open; frozen M4a is unchanged.
 
 # Relocation of generic points
 %%%
