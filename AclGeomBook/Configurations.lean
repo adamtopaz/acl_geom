@@ -15,6 +15,7 @@ import AclGeom.Closure.RationalFunctions
 import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.MultiplicativeQuotient
 import AclGeom.Correspondence.DifferenceCocycle
+import AclGeom.Correspondence.AffineRelocation
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -471,11 +472,24 @@ The first difference-cocycle data lemma is also proved (L1a, #27). Two affine
 presentations of one value sharing p and δ have translation difference
 algebraic over their multipliers. Independence, freshness and the shared
 closure memberships and non-memberships are explicit hypotheses; this theorem
-does not construct
-the second presentation. Literal parameter-fixing relocation and the ensuing
-linearity/extraction argument remain open:
+does not construct the second presentation. The separate fixed-five relocation
+below supplies it when a fresh parameter is given; the ensuing linearity and
+coordinate-extraction argument remain open:
 
 {docstring AclGeom.sub_mem_racl_of_affine_value_eq}
+
+
+Literal relocation is now proved for a supplied affine presentation (L1b, #27).
+Under independence of a,b,x,c and the explicit p,δ,f closure conditions,
+a given a₀ fresh over those four yields a′x′+b′=ax+b with p,ax+b,δ,c,f
+literally fixed and their joint vanishing ideal with the moved triple unchanged.
+The new multiplier is algebraic over p,ax+b,c,a₀ and fresh over a,b,x,c;
+a′ need not equal a₀. The existence of a₀ and the original affine coordinates
+remain caller obligations. Together with D≠S this supplies L1a's constructed
+consumer; it also preserves the same c/f fibre relation for the proposed
+linearity step. No curve action, linearity or guarded completeness is proved:
+
+{docstring AclGeom.exists_affine_relocation}
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:

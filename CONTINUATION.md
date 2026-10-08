@@ -4993,3 +4993,98 @@ prior L0/L1a exact CI runs are fully green, including every build/book/deploy
 job and step. L1b and all completeness/action/classification obligations
 remain unaccepted; its original private source passes standard production
 without repair, but inventory/consumer/integration gates are still pending.
+
+
+## Literal fixed-five affine relocation (#27, L1b)
+
+Correspondence.AffineRelocation constructs a second presentation a′x′+b′=ax+b
+from independent a,b,x,c, p∈racl{a,b} outside racl{a}, δ∈racl{a,x}∩racl{p,ax+b},
+f∈racl{c,δ}, and a given a₀ fresh over a,b,x,c. It literally fixes p,ax+b,δ,c,f
+and preserves their joint vanishing ideal with the moved triple. The new a′
+is algebraic over p,ax+b,c,a₀ and fresh over a,b,x,c. No a′=a₀ or existence
+of a₀ is asserted. Together with D≠S this constructs the actual L1a consumer;
+literal c/f fibre preservation is the named prerequisite for proposed L2
+linearity. Coordinate extraction, curve action, linearity, guarded Q/Q′
+completeness, multiplication converse and unconditional reconstruction remain
+open. This supersedes the earlier checkpoint's pending L1b status only.
+
+Claude's immutable one-theorem source-only freeze is pinned to cae7151. Root
+verifies five imported/root input hashes, all draft/base hashes and the three
+Lean/toolchain/Lake pins. L0b's four-path checkpoint 13529c9 changes none of
+these inputs. The original standard-lint/default-kernel production passes
+4.00s without proof repair, warning or checking option. The scoped inventory
+is one public theorem, no private helper or generated addition; its exact
+type/body/attributes/docstring/axiom records use standard Lean axioms.
+
+Two genuine consumers pass 18.01s with standard lint/default checking:
+constructing the full fixed-five/controlled-fresh presentation supplies the
+published L1a difference-cocycle theorem; the canonical table p=b,δ=ax,f=c(ax)
+preserves the same literal c/f fibre equation through the joint ideal.
+A first new external canonical fixture omitted the result type of a closure
+subtraction, leaving membership metavariables. Its source/log and green scoped
+records are retained outside git; only that explicit fixture type changed.
+No production proof, old fixture or checker option changed. This remains a
+scoped audit, not a whole-library axiom certification. Integration acceptance
+and actual-main/library/book/source gates are still pending at this proposal.
+
+The private six-path proposal adds one module/import, status-only text in
+DifferenceCocycle, book exposition, a source concordance paragraph and two
+concordance status corrections, plus this record. All mathematical statements,
+proof blocks, historical provenance and literal source content remain exact;
+all older declaration types/proofs/attributes/docstrings remain unchanged.
+Frozen 117 M4a and all public Main targets are unchanged. L0b 13529c9 is
+committed/pushed and locally green; its exact CI is pending, while both prior
+L0/L1a exact runs are fully green including every build/book/deploy job/step.
+
+Claude accepts all six paths and both actual consumers. The first private
+book import failed before book elaboration because this overlay lacked the
+cached Configurations/GroupChunkRecord object link; both mathematical modules
+passed standard lint. The first four-pass TeX run retained a 5.94pt overflow
+in the new long module name. The cache lookup and prose wrapping are repaired
+without any production proof, fixture or checking-option change. Failed
+source/logs are retained outside git and excluded from acceptance.
+
+The second prose reflow still overflowed by 72.20pt because the separate
+namespace was unbreakable. That failed source/render is also retained;
+the new paragraph now uses the existing breakable Lean-name macro. The
+second private mathematical/book chain passes 42.02s warning-free/default
+checking after the cached import link repair. Source layout acceptance is
+still pending, with all production proofs and checking options unchanged.
+
+The third new-paragraph reflow still overflowed by 6.48pt: actual PDF
+inspection locates it in the run-in heading plus long module name. That
+failed source/render is retained. A short prose lead now gives TeX a normal
+break before the module name; no mathematical or checker change is made.
+
+The final source render passes four stable runs/70 pages without overflow,
+undefined labels or rerun requests. Ten selected current pages are visually
+accepted: eight are byte-identical to the previous actually viewed images;
+changed pages 68/69 are newly viewed. All original mathematical blocks and
+whole source recovery, except the new paragraph/two concordance status
+sentences, remain exact. All three earlier L0/L1a/L0b exact CI runs are now
+fully green, including every library/book/deploy job and step. Actual-main
+integration and commit acceptance remain pending before application.
+
+Actual-main full library/book pass 94.03s/16.01s, with minimum available
+36.69GiB and full-family RSS8.23GiB, no memory stop. The 34-check actual-main
+family passes 70.04s: all 30 prior fixture inputs and their scoped
+type/body/attribute/docstring/axiom records remain exact, including old72
+fixtures/62 public records, guarded125/ten behaviors, generic163/six,
+lattice87/six plus two D/F consumers, and cocycle three/two. The new
+one-record/two genuine consumers stay exact to the accepted private baseline.
+All 252 Lean sources pass placeholder/project-axiom hygiene. All 249 other
+old module/Main sources stay byte-exact; DifferenceCocycle changes only
+module-status text and retains all declaration metadata/proofs. The root
+adds exactly one import. The new proof source is byte-exact to the peer's
+immutable original except its module-status text.
+
+All 101 HTML paths remain, with the new relocation and every previous
+L0/L0b/L1a/G1c entry visible. The source has four stable runs/70 pages and
+ten selected current pages accepted: eight exact previous actual views
+and final changed68/69 newly viewed. All 49 active mathematical statements
+and original provenance, 44 proofs/listings/literal ratio/TOT content and
+frozen117 M4a remain exact. Whole old source recovery permits only the new
+concordance paragraph and two current status sentences. These actual gates
+precede exact six-path staging and commit/push; supplied fresh a₀/original
+coordinates, iterated ambient freshness, component/stabilizer linearity,
+genuine action/classification and guarded completeness remain explicit.

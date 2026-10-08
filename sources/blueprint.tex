@@ -5329,7 +5329,7 @@ of meet elimination; guarded extraction and completeness remain open.
 Under $I\ne D$, \lean{AclGeom.Config.PsiLattice} also proves
 $D\nleq A\vee B\vee C$, hence $D\ne S$, and $F\ne U$ (L0b, issue 27).
 These supply the shared-point non-membership and multiplier projection
-prerequisites for the still-open first-meet relocation and linearity argument.
+prerequisites for first-meet relocation and the still-open linearity argument.
 No relocation, curve action or completeness is constructed.
 
 \paragraph{Difference-cocycle data lemma in Lean.}
@@ -5338,7 +5338,17 @@ for two presentations $a'x'+b'=ax+b$ with independent $a,b,x$, fresh $a'$,
 and explicit shared $p,\delta$ closure memberships and non-memberships
 (L1a, issue 27).
 This is a prerequisite for first-meet elimination, using exchange and (8.9a).
-Literal parameter-fixing relocation, linearity and guarded extraction remain open.
+This data lemma constructs no second presentation; linearity and guarded extraction remain open.
+
+\paragraph{Literal fixed-five affine relocation in Lean.}
+The module \lean{AclGeom.Correspondence.AffineRelocation} proves relocation of a supplied
+independent affine presentation $y=ax+b$, with explicit $p,\delta,f$ closure
+conditions and a given $a_0$ fresh over $a,b,x,c$ (L1b, issue~27).
+The parameters $p,y,\delta,c,f$ stay literally fixed, their joint vanishing
+ideal with the moved triple stays equal, and $a'$ is fresh over $a,b,x,c$
+and algebraic over $p,y,c,a_0$. It need not equal $a_0$.
+With $D\ne S$ this supplies L1a; no existence of $a_0$, coordinate extraction,
+curve action, linearity or guarded completeness is supplied.
 
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in

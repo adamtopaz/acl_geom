@@ -22,8 +22,9 @@ hypotheses are explicit data.  In the intended consumer the second presentation 
 relocation of the first that fixes `p`, the common value and `δ`; that relocation and the
 linearity argument that uses this cocycle are not part of this module.
 
-**Status:** difference-cocycle data lemma proved (#27, L1a). Literal parameter-fixing
-relocation, linearity and guarded extraction/completeness remain open.
+**Status:** difference-cocycle data lemma proved (#27, L1a). Fixed-five relocation with a
+supplied fresh parameter is proved separately in `AffineRelocation` (#27, L1b). Linearity
+and guarded extraction/completeness remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

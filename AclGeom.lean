@@ -62,6 +62,7 @@ import AclGeom.Correspondence.GroupConfiguration
 import AclGeom.Correspondence.AffineAction
 import AclGeom.Correspondence.Additive
 import AclGeom.Correspondence.DifferenceCocycle
+import AclGeom.Correspondence.AffineRelocation
 import AclGeom.Curves.Adeles
 import AclGeom.Curves.Approximation
 import AclGeom.Curves.Canonical
