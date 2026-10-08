@@ -5502,3 +5502,124 @@ required final library/book pair and exact four-path stage/commit/push.
 Only the supplied-extra-data freshness producer is accepted; ambient input
 existence/enlargement/descent, stabilizers/conjugation, linearity, extraction
 and guarded/unconditional completeness remain open.
+
+
+## B1 finite equal-ideal fibres and characteristic-free private stabilizer consumer
+
+Pinned to clean published 05e9aeb, whose exact CI37735173995 is fully green
+at every library/book/deployment job and step; all eight owned issue-body
+references are synchronized. Claude's SOURCE-ONLY GO4519 freezes an
+immutable 199-line MultiplierPrimeCurve draft with a 47-line append.
+All eight project/toolchain inputs, six Mathlib API files and five draft
+SHA1 values are checked; old 148-line prefix and four closes are exact.
+The FIRST actual standard-Mathlib-lint/default-kernel check passes unchanged
+2.00s warning-free, minimum available 39.30GiB. No production proof or option
+repair. ONE new public theorem, no helpers/imports/generated declarations.
+For arbitrary fields k,K, x algebraic over k(m) makes the actual set of z
+with idealOf_k(m,z)=idealOf_k(m,x) finite, by the minimal polynomial's root
+set over k(m). No genericity, ACF, action or geometric primality is assumed.
+Existing polynomial-image transfer appends zero; existing common-parameter
+transfer then supplies the relative pair ideal. No redundant polynomial
+specialization API is added. All six older scoped TYPE/RAW/ATTR/DOC/AX/proof
+records remain exact; the new seven-record audit passes 4.00s warning-free,
+minimum available 39.00GiB/RSS 2.65GiB, with standard Lean axioms only.
+
+The actual PRIVATE power-orbit bridge uses transcendence over ORIGINAL k,
+not merely lambda != 1, to prove powers injective in every characteristic.
+Actual polynomial-image conjugation gives z -> z*lambda without an action
+or stability oracle. Finite equal-ideal fibres then force every preserving
+vertical translation whose coefficient belongs to L to be zero. This does
+not assert vanishing of all ambient-K translation coefficients. The genuine
+same-color relocation consumer derives lambda=a'_j/a'_i and its original-k
+transcendence from sequential output freshness; original-a cocycles put
+nu=(b'_i-b'_j)/a'_j in L, and the shared affine value gives the actual map
+between pair coordinates. Its point-ideal preservation comes from the
+actual equal-color hypothesis. No scaling-preservation/conjugation/order
+oracle is supplied. Each standalone actual consumer passes 2.00s warning-free
+with standard lint/default kernel; Claude4530/4535 ACCEPT their mathematics.
+Initial parser, coercion/arithmetic and style findings are retained/excluded
+and repaired only in PRIVATE consumers; the production proof stays exact.
+
+The combined actual PRIVATE 395-line consumer starts from the supplied
+upfront sequentially fresh INPUT family and constructs each relocation.
+It derives OUTPUT freshness, literal joint ideals, all original-a cocycles,
+larger-base pair algebraicity and original-degree-bounded colors over ONE
+common relatively closed final field L. The original prime F/span precedes
+ALL family sizes and input choices. Its explicit separate delta outside
+acl(a) input supplies L1a; it is not hidden as a relocation hypothesis.
+At EVERY actual equal-color pair i<j it derives zero L-coefficient vertical
+translations; all scaling, conjugation and orbit ingredients are derived.
+ONE actual example consumes nine private fixture helpers. The first merged
+fixture omitted the MvPolynomial namespace and had two long lines; it is
+retained/excluded. Namespace/style-only repair passes 6.00s warning-free,
+minimum available 38.56GiB/RSS 2.77GiB. Claude's READ-ONLY review 4541
+ACCEPTS the full consumer and unchanged finite-fibre producer; equal-color
+selection remains explicitly open.
+
+Only the finite-fibre producer is a new public library theorem; all
+stabilizer and full-family compositions remain PRIVATE actual checks.
+Equal-color pigeonhole selection, commutators, common centers, linearity,
+ambient fresh-input existence/enlargement/descent, coordinate extraction
+and all guarded/unconditional completeness remain open. Original #11 is
+an independent blueprint obligation, and frozen 117 remains unchanged.
+
+This FOUR-path proposal changes the existing mathematical module's appended
+theorem/accurate Status, adds one book docstring and qualified account, ONE
+source concordance paragraph and this append-only record. Whole root and
+all 253 other mathematical module/Main sources remain exact; 49 active source
+statements/provenance and 44 proofs/listings/literals remain exact.
+Private canonical book/source rendering, current visual acceptance, renewed
+peer four-path review and actual-main full/library/book/strict regressions
+precede guarded commit/push.
+
+
+Claude's four-path READ-ONLY review4546 ACCEPTS all four current proposals.
+Its wrapping nit is corrected only in this append. The private mathematical/
+canonical Verso book chain passes 24.01s warning-free, minimum available
+38.11GiB/RSS 4.50GiB. The first four-pass source render has a 36.25pt
+overfull module-name lead on page 70; failed PDF/log/source are retained,
+the failed page is actually viewed, and this render is excluded. A longer
+ordinary-word lead in ONLY the new paragraph repairs layout without
+changing any mathematical claim. Final source rendering follows.
+
+
+The second source lead reduces the overflow to 2.09pt but is still excluded;
+its source/PDF/log remain retained. Only the new lead and its grammar are
+corrected for the next render; mathematical claims remain identical.
+
+
+Final source rendering passes four stable runs/71 pages with no overflow,
+undefined/rerun request or orphan tail. All eleven current selected pages
+are accepted: ten byte-identical to earlier ACTUAL views and changed page
+70 newly inspected after the final lead/grammar repair. Generic invariance
+is intact below the new paragraph; bibliography and contents are byte-exact
+to prior actual views. The current four-path proposal is hash-pinned;
+actual-main full/library/book/strict acceptance follows.
+
+
+Final peer refresh4550 ACCEPTS all four current paths. Actual-main full
+library/book pass 58.01s/8.00s, minimum available 36.63GiB/full-family RSS
+8.40GiB, no memory stop. The strict 61-check family passes 78.02s, minimum
+available 38.62GiB/RSS 2.91GiB. All 53 earlier fixture inputs remain
+byte-exact, every old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list record
+stays exact. ONLY the named finite-fibre theorem is permitted as an extra
+in the six old combined curve/scale metadata scopes. The new seven-record
+audit and five actual private consumer examples match the accepted
+baselines; full constructed consumer has nine consumed private helpers.
+Mathematics/actual behaviors retain standard lint/default kernel, and the
+historical diagnostic genres remain unchanged. All 707 historical warning
+replay headers are exact to the prior full run; touched sources are clean.
+
+All 255-source placeholder/project-axiom hygiene, 101 HTML paths/new and
+prior docstrings, four stable source runs/71 pages and eleven current
+visual gates pass: ten exact prior ACTUAL views, changed70 newly inspected.
+Whole root and all 253 other mathematical module/Main sources stay exact.
+Source whole recovery permits ONE added concordance paragraph; all 49
+active statements/provenance, 44 proofs/listings/literals and frozen117
+stay exact. Entire old CONT prefix remains exact. These actual gates precede
+the required final library/book pair and guarded four-path stage/commit/push.
+Only finite equal-ideal fibres are a new public theorem. Zero L-coefficient
+translations at every equal-color pair in the constructed family are
+private derived checks; pigeonhole selection, commutators, common centers,
+linearity, ambient fresh-input existence/enlargement/descent, extraction and
+all guarded/unconditional completeness remain open.

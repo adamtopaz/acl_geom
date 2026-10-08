@@ -5411,6 +5411,24 @@ Fresh-input existence, ambient enlargement/descent, finite translation
 stabilizers, conjugation in every characteristic, linearity and guarded
 completeness remain open. No geometric primality is asserted.
 
+\paragraph{Finite equal-ideal fibres in Lean.}
+For an arbitrary field $k$ and $x\in\acl_k(m)$, the module
+\lean{AclGeom.Correspondence.MultiplierPrimeCurve} proves the set
+$\{z:\operatorname{idealOf}_k(m,z)=\operatorname{idealOf}_k(m,x)\}$
+is finite: it lies in the root set of the minimal polynomial over $k(m)$
+(B1, issue~27). No genericity or algebraic closure hypothesis is needed.
+An actual private check constructs relocations from supplied fresh
+\emph{inputs}, derives output freshness and original-$a$ cocycles,
+and fixes the original $F$ before every family size and choice.
+For equal-color pairs over the same final field $L$, it derives
+polynomial conjugation and a multiplier ratio transcendental over the
+original $k$. A finite power orbit then eliminates all $L$-coefficient
+vertical translations in every characteristic.
+The separate $\delta\notin\acl(a)$ input remains explicit.
+Only finite fibres are a new public theorem; equal-color selection,
+commutators, centers, linearity, ambient existence/descent and
+guarded completeness remain open.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

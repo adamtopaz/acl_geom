@@ -574,6 +574,26 @@ These composition checks are private, rather than additional library
 theorems. Fresh relocation existence, ambient enlargement/descent,
 stabilizers, linearity and guarded completeness remain open.
 
+Finite equal-ideal fibres are now proved without a genericity or algebraic
+closure hypothesis (B1, #27). If x is algebraic over k(m), all z with
+the same pair ideal as (m,x) belong to the finite root set of its minimal
+polynomial over k(m):
+
+{docstring AclGeom.finite_same_fibre_ideals}
+
+An actual private check derives finite coefficient-field vertical translations,
+polynomial conjugation by same-color relocation maps, and a transcendental
+ratio over the original base field. The finite power orbit forces every such
+translation to vanish in every characteristic. Its full-family consumer
+constructs the relocations from supplied fresh ambient INPUTS, derives OUTPUT
+freshness and original-a cocycles, and fixes the original F/span before every
+family size and choice. All pair algebraicity and scaling-preservation data
+are derived over the same common L. The separate δ outside acl(a) input
+remains explicit. This checks zero L-coefficient translations at every
+equal-color pair; it does not select equal colors or prove commutators,
+common centers, linearity, ambient input existence/descent or completeness.
+Only the finite-fibre theorem is a new public library result.
+
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:
 

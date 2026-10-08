@@ -19,9 +19,11 @@ The named consumer is the finite-component selection in the corrected blueprint
 `affine-grid-extraction` argument (#27, L2). No geometric primality after extending coefficients,
 stabilizer, action, linearity, fresh-input existence or guarded completeness is assumed or proved.
 
-**Status:** shared prime multiplier equation and finite-stage scale genericity under supplied
-sequential freshness proved (#27, L2b/L2c). Fresh-input existence, ambient enlargement/descent,
-component/stabilizer linearity and guarded completeness remain open.
+**Status:** shared prime multiplier equation, finite-stage scale genericity under supplied
+sequential freshness, and finite equal-ideal fibres proved (#27, L2b/L2c/B1).
+The characteristic-free same-color translation argument is privately checked; fresh-input
+existence, ambient enlargement/descent, full stabilizer/linearity extraction and guarded
+completeness remain open.
 -/
 
 namespace AclGeom
@@ -146,6 +148,53 @@ theorem scale_notMem_racl_of_fresh_multipliers {a b x c f : K} {a' : ℕ → K} 
           Set.singleton_subset_iff.2 (racl_mono Set.subset_union_left hf)⟩
       · exact fun z hz ↦ subset_racl k _ (Set.mem_union_right _ hz)
     exact hfresh n (by omega) (racl_le_of_subset_racl hsub hex)
+
+/-- **Finitely many points share a fibre locus.**  If `x` is algebraic over `m`, then only
+finitely many `z` give `(m, z)` the same vanishing ideal as `(m, x)`: each such `z` is a root of
+the minimal polynomial of `x` over `k(m)`.  No genericity of `m` is needed.  In particular only
+finitely many vertical translations `z = x + μ` preserve the locus of `(m, x)`. -/
+theorem finite_same_fibre_ideals {m x : K} (hx : x ∈ racl k ({m} : Set K)) :
+    {z : K | idealOf k ![m, z] = idealOf k ![m, x]}.Finite := by
+  -- Reading a polynomial over any coefficient field in the first variable.
+  have key : ∀ (E : IntermediateField k K) (P : Polynomial ↥E) (u : K),
+      aeval ![u, 0] (Polynomial.aeval (X 0 : MvPolynomial (Fin 2) ↥E) P) =
+        Polynomial.aeval u P := by
+    intro E P u
+    have h := Polynomial.aeval_algHom_apply
+      (aeval ![u, 0] : MvPolynomial (Fin 2) ↥E →ₐ[↥E] K) (X 0) P
+    rw [aeval_X] at h
+    exact h.symm
+  have hint : IsIntegral ↥(adjoin k ({m} : Set K)) x := ((mem_racl_iff k).1 hx).isIntegral
+  refine (Polynomial.rootSet_finite (minpoly ↥(adjoin k ({m} : Set K)) x) K).subset
+    fun z hz ↦ Polynomial.mem_rootSet'.2 ⟨Polynomial.map_ne_zero (minpoly.ne_zero hint), ?_⟩
+  -- Append a zero coordinate, then descend the equal ideals to `k(m)`.
+  have hz' : idealOf k ![m, z, 0] = idealOf k ![m, x, 0] := by
+    have h := idealOf_aeval_comp_eq_of_idealOf_eq (hz : idealOf k ![m, z] = idealOf k ![m, x])
+      (![X 0, X 1, 0] : Fin 3 → MvPolynomial (Fin 2) k)
+    have hl : (fun j ↦ aeval ![m, z] ((![X 0, X 1, 0] : Fin 3 → MvPolynomial (Fin 2) k) j)) =
+        ![m, z, 0] := by
+      funext j
+      fin_cases j <;> simp
+    have hr : (fun j ↦ aeval ![m, x] ((![X 0, X 1, 0] : Fin 3 → MvPolynomial (Fin 2) k) j)) =
+        ![m, x, 0] := by
+      funext j
+      fin_cases j <;> simp
+    rwa [hl, hr] at h
+  have hs (u : K) :
+      (Fin.snoc (Fin.snoc (![m] : Fin 1 → K) u) 0 : Fin 3 → K) = ![m, u, 0] := by
+    funext i
+    fin_cases i <;> rfl
+  have he := pairIdeal_eq_over_commonParameter_of_familyIdeal_eq (k := k)
+    (p := (![m] : Fin 1 → K)) (x := z) (y := 0) (x' := x) (y' := 0)
+    (by rw [hs, hs]; exact hz')
+  rw [Matrix.range_cons_empty] at he
+  -- The minimal polynomial, read in the first variable, vanishes at `(x, 0)`, hence at `(z, 0)`.
+  have hmem : Polynomial.aeval (X 0 : MvPolynomial (Fin 2) ↥(adjoin k ({m} : Set K)))
+      (minpoly ↥(adjoin k ({m} : Set K)) x) ∈ idealOf ↥(adjoin k ({m} : Set K)) ![z, 0] := by
+    rw [he, mem_idealOf_iff, key]
+    exact minpoly.aeval _ x
+  rw [mem_idealOf_iff, key] at hmem
+  exact hmem
 
 end
 
