@@ -47,6 +47,7 @@ import AclGeom.Correspondence.PartialQuadrangle
 import AclGeom.Correspondence.Moebius
 import AclGeom.Correspondence.CurveIdeal
 import AclGeom.Correspondence.BaseChange
+import AclGeom.Correspondence.AffinePointNormalization
 import AclGeom.Correspondence.Binomial
 import AclGeom.Correspondence.TranslationDescent
 import AclGeom.Correspondence.GroupChunk

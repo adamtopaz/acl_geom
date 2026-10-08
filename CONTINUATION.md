@@ -6108,3 +6108,128 @@ cached warning lines); touched mathematics and actual examples are
 warning-free. Scoped checks establish no whole-library axiom certificate.
 Final full build/book after this append are required before commit/push.
 The durable goal continues; no additional completeness claim.
+
+
+## P3a reusable supplied-input point producer and private nested P/Q chain
+
+Pinned to clean published 65b9a6a, exact CI37755299430 FULLGREEN at every
+library/book/deployment job and step. All thirteen owned tracking-body
+references are synchronized. Concrete #27 research scope and corrected
+reciprocal plan precede SOURCE-ONLY GO4715. Claude4709/4711 audits the
+inverse substitution (c,d,b,(ac)^-1,q,g,h^-1): it reuses the existing
+negative-covariance pipeline, with no positive-covariance/rational-image
+API or new curve/scale/relocation lemma. Root remains sole compiler/main
+integrator; the peer is source-only under the GO and otherwise read-only.
+
+Immutable uncompiled freeze4718 has 599 lines, exactly the SIX old575
+imports, ALL ELEVEN byte-copied consumed private helper blocks, and ONE
+public racl_normalized_P_of_supplied_fresh_inputs. Its proof is the old575
+actual example body, with only the final tuple narrowed to the derived
+constant and original-P closure. All 21 project input pins, the old575
+copy source and explicitly allowed old598 consumer, and five artifact
+hashes/read-only modes are verified. No Mathlib source was read for this
+copy. Root's first input preflight initially omitted the explicitly
+allowed598 path from its checker allowlist; that failed before ANY copy or
+Lean check. Only the checker allowlist was corrected to the actual GO.
+No peer source-read violation or production proof/options repair occurred.
+
+FIRST standard-Mathlib-lint/default-kernel producer passes UNCHANGED
+6.00 s, EMPTY log, minimum available 38.38 GiB/RSS 2.87 GiB.
+FIRST scoped metadata passes 4.00 s, minimum available 38.63 GiB/
+RSS 2.65 GiB: twelve exact named SIG/proof records, ONE PUBLIC AX record,
+one public and eleven consumed private theorems, zero generated records
+in this scope, standard Lean axioms only. Diagnostic genres/options stay
+exact. The twelve/one counts were fixed before the first metadata check.
+This is a scoped audit, not a whole-library axiom certificate.
+
+The public producer has explicit k/ambient algebraic closedness,
+AI(a,b,x,c), raw p/delta/f incidences and non-memberships. It fixes the
+ORIGINAL prime F/span BEFORE ALL supplied fresh INPUT families of size
+2*totalDegree F+1. Every relocation output, output freshness, literal joint
+ideal, color, selected triple, pairwise cocycle, concurrence, original-base
+algebraic center, k-valued constant and original-P joint transfer is
+DERIVED internally. No output-freshness or P normal-form oracle.
+
+Root's actual PRIVATE ReciprocalQNormalization 96 has ONE example and
+TWO consumed private helpers. AI(c,d,b,(ac)^-1) is DERIVED from AI5 and
+closed-field generation; inverse memberships/non-memberships and
+c*(ac)^-1=a^-1 are DERIVED. Raw q in acl(c,d), g in acl(c,b) intersection
+acl(q,bc+d), h in acl(ac,g) intersection acl(a,b), with explicit q/g
+outside acl(c) and h outside acl(a), feed the SAME public producer.
+The original Q-side prime locus (a^-1,b) over k(h^-1) precedes ALL second
+fresh INPUT families. It derives q interalgebraic with d+(c-1)*eta,
+eta in k. FIRST standard/default check passes UNCHANGED 2.00 s,
+EMPTY log, minimum available 38.96 GiB. Claude4727 ACCEPTS.
+
+The genuine PRIVATE TwoFamilyPQNormalization 215 has ONE example and
+SIX consumed private helpers. Original AI5 projects to P AI4; the first
+producer derives kappa/P, then P2 derives D/F/R and starred independence.
+Let B=b+(a-1)*kappa, D=d+(c-1)*kappa. Actual pair-closure equalities
+transport q into acl(c,D) and h into acl(a,B); the DERIVED P/R rows
+transport raw g incidences into acl(B,c) intersection acl(q,Bc+D).
+The R expression differs from Bc+D by the base constant kappa.
+THEN the inverse Q consumer at this starred table fixes its original
+prime curve before ALL second supplied INPUT families and derives eta/Q.
+The nested order is original FP, every P INPUT family, kappa, original
+FQ, every Q INPUT family, eta. No P/Q/H normal-form or output-freshness
+oracle. Constants may depend on supplied families; no common-shift or
+uniqueness claim is needed or added.
+
+FIRST two-family check failed 2.00 s at an untyped singleton-subset
+membership alignment in the PRIVATE affine-pair shift helper. Its exact
+source/log/metrics are retained and excluded. ONLY an explicit typed
+membership have is inserted before singleton_subset; TYPEs, producer,
+inverse96 and all checking/resource options stay exact. SECOND check
+passes 2.00 s, EMPTY log, minimum available 38.96 GiB. Claude4734 ACCEPTS
+the actual nested chain and a five-path checkpoint. The canonical linear
+model is non-vacuous with both supplied INPUT families.
+
+The q/g/h non-memberships stay EXPLICIT raw guard consequences; deriving
+them from an ACTUAL Psi witness remains work. ONLY the reusable
+conditional P producer is a new public theorem. Reciprocal Q and the
+nested P/D/F/R/Q chain are PRIVATE under explicit k/ambient ACF and
+supplied inputs. Both input-existence/enlargement/descent obligations
+(which may fail at small transcendence degree), remaining E/G/H/I rows,
+combined generator presentation, initial action chart, actions, linearity,
+extraction, guarded/unconditional completeness, #11 and frozen117 remain.
+
+The exact FIVE paths are the focused module/real Status, ONE root import,
+ONE Book account/docstring/import, ONE source concordance paragraph and
+append-only CONT. All 256 prior math/Main sources, toolchain/dependencies,
+49 active source statements/original provenance/44 proofs/listings/
+literals and frozen117 stay exact. Peer five-path review, private
+canonical Book/source/current visual, actual full build/book, 87 strict
+scoped checks and final full/book precede commit/push. The durable goal
+continues; broader L2/G3/G4/G5 remain open.
+
+
+Actual P3a acceptance: Claude4740 ACCEPTS all five concrete paths; 4727
+and 4734 ACCEPT the reciprocal 96 and nested 215 actual private consumers.
+Guarded integration leaves all 256 prior math/Main sources exact.
+Actual full lake build passes 66.02 s, minimum available 35.63 GiB/
+RSS 10.85 GiB; lake exe book passes 10.00 s, minimum available
+38.39 GiB/RSS 1.58 GiB. All 87 strict actual-main checks pass 120.03 s,
+minimum available 38.55 GiB/RSS 2.91 GiB. All 82 older fixture bytes and
+EVERY old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stay exact,
+with NO old-scope additions. The new twelve-record scope/one PUBLIC AX
+and both actual examples match the accepted private records. Mathematics
+and actual behaviors use standard Mathlib lint/default kernel; historical
+diagnostic fixture genres/options remain exact.
+
+Hygiene passes 258 files without proof placeholders or project axioms;
+all 101 HTML paths remain and the new public docstring is visible.
+Root changes only by ONE import. All prior 256 math/Main sources,
+toolchain/dependencies, source 49 active statements/original provenance/
+44 proofs/listings/literals and frozen117 stay exact. FOUR stable
+72-page source runs and all twelve current selected views pass
+(eleven prior ACTUAL byte-exact, changed 71 newly ACTUALLY inspected),
+no layout repair. Historical full/book warning-line MULTISETS stay exact:
+707 Lean-source warning headers plus four other cached warning lines.
+Touched mathematics and all actual examples are warning-free.
+Only the conditional supplied-input P producer is newly public; inverse
+Q and nested P/D/F/R/Q stay PRIVATE. Actual guarded-Psi non-memberships,
+remaining E/G/H/I, combined presentation, initial chart, both supplied
+input existence/enlargement/descent obligations, actions, extraction,
+all completeness, #11 and frozen117 stay open. Scoped checks give no
+whole-library axiom certificate. Final full build/book AFTER this factual
+append precede commit/push. The durable goal continues.

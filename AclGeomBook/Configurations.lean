@@ -21,6 +21,7 @@ import AclGeom.Correspondence.MultiplierCurve
 import AclGeom.Correspondence.FiniteCurveLoci
 import AclGeom.Correspondence.MultiplierPrimeCurve
 import AclGeom.Correspondence.AffineLocusCommutation
+import AclGeom.Correspondence.AffinePointNormalization
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -697,6 +698,40 @@ family chain remains PRIVATE and supplied INPUT existence may fail at
 small transcendence degree. E/G/H/I/Q, the combined generator
 presentation, ambient existence/enlargement/descent, actions, linearity,
 extraction and all completeness remain open.
+
+The reusable supplied-input P producer is now public (P3a, #27).
+For four independent coordinates and explicit raw p/δ/f incidences and
+non-memberships, it fixes the original prime multiplier equation BEFORE
+every supplied fresh INPUT family of size twice its total degree plus one.
+Under explicit algebraic closedness of k and the ambient field it
+constructs relocations, selects an actual equal-color triple, derives all
+cocycles, concurrence and the original-base algebraic center, and then
+transports the derived normalization to the original P:
+
+{docstring AclGeom.racl_normalized_P_of_supplied_fresh_inputs}
+
+The actual PRIVATE 96-line reciprocal-Q consumer derives the independent
+inverse tuple and all inverse-closure conversions, then applies the SAME
+producer to c, d, b, inverse(ac), q, g, inverse(h). It fixes the original
+Q-side curve of (inverse(a), b) over k(inverse(h)) before ALL second
+fresh INPUT families and derives q interalgebraic with d + (c - 1)η.
+No Q or H normal-form hypothesis is supplied.
+
+The actual PRIVATE 215-line two-family composition first derives κ and
+P from the first family, then derives the P2 D/F/R rows and starred
+independence. It transports the raw q/g/h incidences using these DERIVED
+closures before the second producer gives η and Q. Its nested quantifier
+order is original P curve, every P INPUT family, κ, original Q curve,
+every Q INPUT family, η. Neither an output-freshness nor a P/Q/H normal-form
+oracle is supplied. The q/g/h non-memberships remain EXPLICIT raw
+consequences of the guard; deriving them from an actual Ψ witness is still
+required. Only the reusable conditional P producer is a new public result.
+The reciprocal and two-family chains are PRIVATE, with k/ambient ACF and
+supplied INPUT families. Input existence may fail at small transcendence
+degree. The remaining E/G/H/I rows, combined generator presentation,
+initial action chart, ambient enlargement/descent, actions, extraction
+and all completeness remain open. No common-shift or uniqueness theorem
+is added; #11 and frozen117 remain independent obligations.
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:
