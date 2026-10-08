@@ -544,6 +544,25 @@ it does not supply the fresh sequence:
 
 {docstring AclGeom.scale_notMem_racl_of_fresh_multipliers}
 
+
+The literal relocation producer also preserves freshness over arbitrary
+supplied extra data T (L2d, #27), when the given input a₀ is fresh over
+the original a,b,x,c together with T. The same joint ideal, controlled
+algebraicity, p/δ memberships and affine value are returned:
+
+{docstring AclGeom.exists_affine_relocation_fresh_over}
+
+An actual private consumer now starts with one supplied sequentially fresh
+INPUT family. It constructs each relocation independently, derives freshness
+of the OUTPUT multipliers over all earlier outputs from their controlled
+algebraicity, and applies the scale and original-equation color producers.
+One original prime F/span is fixed before all sizes and input families.
+The same check also derives every original-versus-relocated translation
+difference in the common final field L, using L1a with its separate explicit δ outside acl(a) input.
+No literal joint ideals or output-freshness oracle are supplied in that
+consumer; its ambient input-family existence and descent remain open.
+Only the stronger single-relocation producer is a new library theorem.
+
 Actual private checks now derive each multiplier's transcendence and its
 target's algebraic dependence over that same L from this non-membership,
 sequential freshness and the literal fixed-five joint ideals. They fix one

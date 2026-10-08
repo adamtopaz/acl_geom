@@ -5350,6 +5350,20 @@ and algebraic over $p,y,c,a_0$. It need not equal $a_0$.
 With $D\ne S$ this supplies L1a; no existence of $a_0$, coordinate extraction,
 curve action, linearity or guarded completeness is supplied.
 
+\paragraph{Relocation fresh over extra data in Lean.}
+The module \lean{AclGeom.Correspondence.AffineRelocation} strengthens
+its actual producer: a supplied $a_0$ fresh over the original
+$a,b,x,c$ and arbitrary extra data $T$ gives a literal fixed-five
+relocation whose multiplier is fresh over that same data.
+An actual private check starts with one supplied sequentially fresh
+\emph{input} family, constructs the relocations and derives
+\emph{output} freshness. It obtains original-equation degree-bounded
+colors and original-$a$ differences in one common final field;
+the latter use the separate explicit hypothesis $\delta\notin\acl(a)$.
+Only the stronger single-relocation producer is a new library theorem.
+Ambient input-family existence/descent, stabilizers, linearity and all
+guarded completeness remain open.
+
 \paragraph{Multiplier-curve prerequisites in Lean.}
 Under the explicit field hypotheses, the module
 \lean{AclGeom.Correspondence.MultiplierCurve} proves polynomial-image

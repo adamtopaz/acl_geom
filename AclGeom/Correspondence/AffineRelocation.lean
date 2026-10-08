@@ -26,8 +26,9 @@ The relocated multiplier `a'` need not equal `a₀`.  The proof is the joint rel
 `acl(p, y, c)`; the transfers are the vanishing-ideal transfers of `Correspondence.FunctionField`.
 The existence of `a₀` is left to the caller.
 
-**Status:** fixed-five relocation with a supplied fresh parameter proved (#27, L1b).
-Coordinate extraction, linearity and guarded completeness remain open.
+**Status:** fixed-five relocation and freshness over supplied extra data proved (#27, L1b/L2d).
+Fresh-input existence, ambient enlargement/descent, coordinate extraction, linearity and guarded
+completeness remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -219,6 +220,44 @@ theorem exists_affine_relocation [IsAlgClosed K] {a b x c p δ f a₀ : K}
   refine ⟨v 0, v 1, v 2, ?_, hv0', hfresh, hp', hδ', hval⟩
   rw [hv]
   exact hideal
+
+/-- **Affine relocation fresh over extra data** (#27).  If the supplied parameter `a₀` is fresh
+over `a, b, x, c` together with an arbitrary set `T`, then the relocated multiplier `a'` of
+`exists_affine_relocation` is fresh over the same data.  Taking `T` to be earlier inputs of one
+family makes the relocated multipliers sequentially fresh. -/
+theorem exists_affine_relocation_fresh_over [IsAlgClosed K] {a b x c p δ f a₀ : K} (T : Set K)
+    (hind : AlgebraicIndependent k ![a, b, x, c])
+    (hp : p ∈ racl k ({a, b} : Set K)) (hpa : p ∉ racl k ({a} : Set K))
+    (hδx : δ ∈ racl k ({a, x} : Set K)) (hδy : δ ∈ racl k ({p, a * x + b} : Set K))
+    (hf : f ∈ racl k ({c, δ} : Set K)) (ha₀ : a₀ ∉ racl k ({a, b, x, c} ∪ T)) :
+    ∃ a' b' x' : K,
+      idealOf k (Sum.elim ![p, a * x + b, δ, c, f] ![a', b', x']) =
+        idealOf k (Sum.elim ![p, a * x + b, δ, c, f] ![a, b, x]) ∧
+      a' ∈ racl k ({p, a * x + b, c, a₀} : Set K) ∧ a' ∉ racl k ({a, b, x, c} ∪ T) ∧
+      p ∈ racl k ({a', b'} : Set K) ∧ δ ∈ racl k ({a', x'} : Set K) ∧
+      a' * x' + b' = a * x + b := by
+  obtain ⟨a', b', x', hJ, halg, hnew, hp', hδ', hval⟩ :=
+    exists_affine_relocation (a₀ := a₀) hind hp hpa hδx hδy hf
+      fun h ↦ ha₀ (racl_mono Set.subset_union_left h)
+  refine ⟨a', b', x', hJ, halg, ?_, hp', hδ', hval⟩
+  -- `p, y, c` lie in `acl(a, b, x, c)`, so `a'` is transcendental over them.
+  have hA : a ∈ racl k ({a, b, x, c} : Set K) := subset_racl k _ (by simp)
+  have hB : b ∈ racl k ({a, b, x, c} : Set K) := subset_racl k _ (by simp)
+  have hX : x ∈ racl k ({a, b, x, c} : Set K) := subset_racl k _ (by simp)
+  have hC : c ∈ racl k ({a, b, x, c} : Set K) := subset_racl k _ (by simp)
+  have hP : p ∈ racl k ({a, b, x, c} : Set K) :=
+    racl_le_of_subset_racl (Set.insert_subset_iff.2 ⟨hA, Set.singleton_subset_iff.2 hB⟩) hp
+  have hpyc : ({p, a * x + b, c} : Set K) ⊆ racl k ({a, b, x, c} : Set K) :=
+    Set.insert_subset_iff.2 ⟨hP, Set.insert_subset_iff.2
+      ⟨add_mem (mul_mem hA hX) hB, Set.singleton_subset_iff.2 hC⟩⟩
+  have hnew' : a' ∉ racl k ({p, a * x + b, c} : Set K) :=
+    fun h ↦ hnew (racl_le_of_subset_racl hpyc h)
+  -- Exchange: otherwise `a₀ ∈ acl(a', p, y, c)` would lie in `acl(a, b, x, c, T)`.
+  have halg' : a' ∈ racl k (insert a₀ ({p, a * x + b, c} : Set K)) := by
+    rwa [Set.insert_comm a₀ p, Set.insert_comm a₀ (a * x + b), Set.pair_comm a₀ c]
+  intro hT
+  refine ha₀ (racl_le_of_subset_racl ?_ (racl_exchange halg' hnew'))
+  exact Set.insert_subset_iff.2 ⟨hT, fun z hz ↦ racl_mono Set.subset_union_left (hpyc hz)⟩
 
 end
 

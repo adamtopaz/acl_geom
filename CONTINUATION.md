@@ -5411,3 +5411,94 @@ These actual gates precede the final required library/book pair and guarded
 four-path stage/commit/push. Supplied finite-family scale genericity only
 is accepted; ambient/fresh-input existence, stabilizers/linearity, extraction
 and all guarded/unconditional completeness remain open.
+
+
+## L2d literal relocation fresh over supplied extra data
+
+Pinned to clean published 2c1fd36, with exact CI37733565596 fully green:
+every library/book/deployment job and step verified, all seven owned
+current issue-body references synchronized. Claude's SOURCE-ONLY GO4493
+freezes a 263-line uncompiled AffineRelocation draft, +38 append-only lines.
+All eight project/toolchain inputs, two Mathlib API files and five draft
+SHA1 values are checked; old 221-line prefix and four closes are exact.
+The FIRST actual standard-Mathlib-lint/default-kernel check passes unchanged
+2.00s warning-free, minimum available 39.38GiB. No proof or option repair.
+ONE new public theorem, no helpers/imports/generated declarations; the old
+L1b TYPE/RAW/ATTR/DOC/AX/proof/deny-list records remain exact. Metadata passes
+4.00s, minimum available 39.04GiB. Its consumed old producer returns the
+same literal joint ideal, controlled algebraicity, p/δ memberships and value,
+now with freshness over original a,b,x,c PLUS arbitrary supplied T.
+
+The genuine PRIVATE consumer starts with ONE upfront supplied input family
+t_i fresh over the original data and earlier inputs. Each relocation is
+constructed independently via the new producer with T=earlier inputs;
+controlled algebraicity places all earlier OUTPUTS in that input closure,
+so OUTPUT sequential freshness follows. There is no recursion, literal
+joint-ideal or output-freshness oracle. One prime F and its ORIGINAL span
+are fixed before ALL n/input-family choices. Published scale/shared-equation/
+color producers give a common relatively closed final field L and colors
+bounded by THAT original degree. Actual L1a also gives every b−b'_i in L,
+with delta outside acl(a) explicitly added to the consumer, not hidden as
+an L1b hypothesis. The actual single example/three consumed private fixture
+helpers pass 4.00s standard/default warning-free, minimum available
+38.96GiB/RSS 2.69GiB. The first private fixture has a final untyped Set
+inclusion inference error and one long docstring; findings retained/excluded,
+fixed only in the private consumer. Production proof remains unchanged.
+
+The library publishes ONLY the stronger single-relocation producer;
+all family/color/cocycle compositions are actual PRIVATE checks.
+Existence of the upfront fresh input family, ambient enlargement/descent,
+finite vertical translation stabilizers, characteristic-free conjugation,
+linearity, coordinate extraction and all guarded/unconditional completeness
+remain open. The next substantive target is the measured finite vertical
+translation stabilizer; no assumed action/linearity is introduced. Original
+#11 remains a blueprint obligation. The root stays WHOLE unchanged.
+
+This FOUR-path proposal changes the existing mathematical module's appended
+theorem/real Status, adds one book docstring with accurate scope, ONE source
+concordance paragraph and this append-only record. All 253 other mathematical
+module/Main sources, root, source 49 active statements/provenance, 44 proofs/
+listings/literal content and frozen 117 stay exact. Renewed peer consumer/
+four-path review, canonical private book/source/visual and actual-main
+full/library/book/strict regressions precede guarded commit/push.
+
+
+Claude's READ-ONLY consumer review4501 ACCEPTS the construction, output
+freshness, fixed original equation/quantifier order and explicit L1a delta
+hypothesis. The first private canonical book chain fails only on an
+unescaped underscore in new plain prose; the mathematical source passes.
+The finding is retained/excluded and fixed by ordinary words in book prose.
+
+
+Final private mathematical/canonical Verso book chain passes 24.01s
+warning-free, minimum available 38.30GiB/RSS 4.39GiB, with mathematical
+standard lint/default kernel and canonical book genre. Source passes four
+stable runs/71 pages with no overflow, undefined/rerun request or orphan tail.
+All eleven current selected pages are accepted: seven byte-identical to
+earlier actual views and changed 3,69,70,71 actually inspected. Generic
+invariance starts intact on 70; bibliography and contents reflect page 71.
+These gates precede hash-guarded main application and actual acceptance.
+
+
+Claude's exact four-path review4508 ACCEPTS. Actual-main full library/book
+pass 58.02s/8.00s, minimum available 36.73GiB/full-family RSS 8.39GiB,
+with no memory stop. The strict 53-check family passes 68.02s, minimum
+available 38.78GiB/RSS 2.90GiB. All 49 earlier fixture inputs remain
+byte-exact, every old scoped TYPE/RAW/ATTR/DOC/AX/proof/deny-list row stays
+exact; ONLY the named stronger relocation is allowed as an extra in the
+three old relocation metadata fixtures. New two-record/one actual constructed
+family check matches the accepted private baseline. The diagnostic genres
+stay unchanged; actual mathematics/behaviors retain standard lint/default
+kernel. Untouched historical warning replay is retained, touched sources clean.
+
+All 255-source placeholder/project-axiom hygiene, 101 HTML paths/new and prior
+docstrings, four stable source runs/71 pages and eleven current visual gates
+pass: seven exact earlier views and changed 3,69,70,71 newly inspected.
+Root WHOLE and all 253 other mathematical module/Main sources stay exact.
+Source whole recovery permits ONE added concordance paragraph; all 49 active
+statements/provenance, 44 proofs/listings/literal content and frozen 117 stay
+exact. Entire old CONT prefix remains exact. These actual gates precede the
+required final library/book pair and exact four-path stage/commit/push.
+Only the supplied-extra-data freshness producer is accepted; ambient input
+existence/enlargement/descent, stabilizers/conjugation, linearity, extraction
+and guarded/unconditional completeness remain open.
