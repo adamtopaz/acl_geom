@@ -7377,3 +7377,176 @@ extraction and all reconstruction completeness remain open. #5 remains
 open and #11 closed; frozen117 unchanged. Peer final actual-append review
 and mandatory final full library/book AFTER this actual factual append
 precede commit/push. The durable goal continues.
+
+
+## Universal genericity and rational-field freeness (#5)
+
+Base clean published e7a73565b8d7444f80aeae3d80f8901cf837c951,
+exactCI37817070674 fully green in both jobs/every step. Six owned reports/
+bodies and all22 current owners are reconciled; #5 open/#11 closed.
+The durable goal remains active. Root owns sole Lean/Lake/main, peer
+read-only; no children or frozen normalization/packaging chain.
+
+READ-ONLY PLAN5110 starts with27 SHA256 pins. Claude5112 confirms common
+ACF field existence feasible, but root5115 distinguishes existence from
+the original UNIVERSAL generic-over-E implication. Claude5116 agrees the
+universal implication true/preferable and requests fraction APIs BEFORE
+extra reads/drafting. Supplement5121 verifies four actual paths(twoNEW)
+before bounded reads: Localization/Module1-75/145-205, Adjoin/Algebra1-75,
+FieldLD235-261 and AdjoinDefs30-65. Claude5123 confirms NO ACF is needed:
+LinearIndependent.iff_fractionRing and scoped algebraAdjoinAdjoin provide
+the exact upgrade from coordinate-ring to rational-field independence.
+
+Structural route5124/5126 uses quotient evaluation to transport include_range
+linear disjointness, rather than a common-field packaging chain or hand
+clearing of finite denominators. Eval supplement5125 has ONE actual full
+path plus descriptive permitted-read key; Claude5127 verifies that full
+SHA256 and reads698-724. It is not a second missing source pin.
+The range_comp supplement5130 pins TWO actual files: Subalgebra/Lattice
+240-263 and Basic547-562. Root read them; peer did NOT read that optional
+supplement. Actual root and precise peer read ledgers, including inherited
+and NOT-read scopes, are copied privately. Pin checks do not imply reads.
+
+Root-only private probe GO5128. Its initially reported Math263/1315cache
+inventory was the previous-before-addition count; correction5129 precedes
+proof/review claims. Actual FULL current overlay is Math264/ALL1320cache
+and Book15/ALL75cache, with compiled-source cache links unlinked before
+writing. No main/cache write-through or partial namespace shadow.
+
+ONE new public isGeneric_baseChange has literal named genericity premise
+hgen: ideal_E(b)=I.map(coefficientMap). For EVERY such point, it DERIVES
+ideal_k(b)=I and linear disjointness of E-image from k(b), over ARBITRARY
+fields/variables and with NO ACF assumption. No primality/domain/dimension/
+freeness premise is hidden. Existing contraction is reused directly via
+co-location in GenericExtension; every old declaration SOURCE BLOCK and
+all old four SIG/proof plus one public AX TYPE/RAW/ATTR/DOC/deny records
+stay EXACT. No old declaration type, proof, docstring or flag changes.
+
+ONE new CONSUMED private subalgebra_disjoint_of_generic builds the tensor
+quotient/polynomial equivalence into E[X]/ideal_E(b), uses kerLiftAlg for
+injective evaluation, and calculates i(x tensor pbar)=x*p(b). The two
+factor images become E-image and Algebra.adjoin k(range b); include_range
+maps along the injective evaluation. A basis of E-image stays independent
+over the coordinate ring, then iff_fractionRing promotes it to k(b).
+IntermediateField.LinearDisjoint.of_basis_left concludes field freeness.
+
+API FOURTH passes4.00s/min32.29GiB, EMPTY. THREE failed sources/logs/metrics
+retained: explicit idealOf/kernel and mk_AlgHom coercion boundaries and
+range_comp rewrite direction are repaired; one unused-simp notice goes
+away by removing that argument. No kernel/lint option or heartbeat budget
+is weakened. Production FIRST passes4.00s/min32.73GiB EMPTY,327lines/all
+at most100 wide. Existing declarations stay byte-exact; only two imports,
+module prose and new declaration docstrings accompany the new mathematics.
+
+The PRIVATE real GenericClosedPoint consumer has TWO examples and ZERO
+fixture helpers. It DERIVES hgen via exists_genericPoint_baseChange,
+embeds SAMEb into AlgebraicClosure K, preserves E-ideal via E-algebra
+embedding, and applies the universal theorem IN that closed ambient.
+It derives both exact ideals and FULL rational-field LD, while preserving
+EVERY coordinate-independent subfamily, at four independent universes;
+Omega:Type(max v z). Caller supplies no prime/domain/exact-ideal/point/
+freeness oracle. Its second arbitrary-base-field affine-space example
+DERIVES hgen with I=bottom from independence over E, then derives k
+independence and LD. No ACF assumption in that universal consumer.
+FIRST consumer fails on implicit k; explicit k repairs it. SECOND checks
+2.00s with ONE long-line notice, retained; ONLY line wrapping repairs it.
+THIRD passes2.00s/min33.82GiB EMPTY. Actual PRODUCTION IMPORT consumer
+FIRST passes2.00s/min33.42GiB EMPTY; ONLY import differs from checked API.
+
+Metadata FIRST passes4.00s/min33.01GiB. Full co-located module totals
+SIX SIG/proofs and TWO public AX; the NEW audited scope is TWO SIG/proofs
+and ONE public AX(one public/one consumed private), generated0 there and
+standard Lean axioms only there. All four older SIG/proofs/one AX records
+and deny entries stay BYTE-EXACT. No whole-library certificate. Diagnostic
+genres/options stay exact; new producer/examples standard Mathlib/default
+kernel warning-free. Book uses canonical Verso genre, without Mathlib
+hash-command lint.
+
+Claude5136 ACCEPTS producer and both real consumers, no findings. Actual
+reads:9pins SHA256, producer DIFF against main(all added math/doc changes),
+FULL production consumer, heads of metadata/consumer acceptance and new
+signature TSV. API/production acceptance bodies, Axioms/Proofs TSV and
+optional range_comp supplement NOT read. Unchanged mathematics is not
+claimed reread. The precise ledger is retained.
+
+Exactly FOUR proposed paths: extend GenericExtension(no old declarations
+changed), Book new account/docstring plus TWO named obsolete status clauses,
+ONE source concordance with clearpage and identifier paragraph breaks FROM
+FIRST proposal, and append-only CONT. Aggregate/root imports already expose
+the co-located theorem; root bytes stay exact. All263 OTHER Math/Main
+sources, dependency pins/frozen117 exact. Removing ONE new concordance
+recovers the ENTIRE old source bytes: original49active/provenance/raw
+historic statements,44proofs/listings/literals exact. Both earlier reported
+proof-inference gaps remain visible; original wording is retained.
+
+Constructive existence plus this UNIVERSAL relation/field-freeness theorem
+cover source(a)'s content, including the SAMEpoint in an ACF ambient.
+Explicit rank/dimension statements, automorphisms(b), rational identity(c),
+the full generic-extension lemma, C2composition over nonACF k(W), arbitrary
+charts/actions/classification/schemes/extraction and ALL reconstruction
+completeness remain OPEN. Frozen117 unchanged. Canonical root/Book/source
+views, full library/book, all121 older fixture bytes/scoped records plus
+new scope/consumer, actual factual append/peer/finalfullbook precede commit/
+push. The durable goal continues.
+
+
+Actual universal-genericity acceptance: Claude5136 ACCEPTS the new producer
+and TWO real consumers;5139 ACCEPTS the four paths, no findings. Actual
+full lake build passes54.01s/min34.18GiB/
+RSS8.23GiB; lake exe book passes10.00s/
+min36.05GiB/RSS1.55GiB.
+ALL125 strict actual-main checks pass166.04s/
+min34.70GiB/RSS3.21GiB.
+ALL121 older fixture INPUT BYTES and SCOPED TYPE/RAW/ATTR/DOC/AX/proof/
+deny records stay EXACT. The older GenericExtension diagnostics retain
+all4SIG/proofs1AX exact; ONLY the TWO named new theorem records are added
+to its co-located module output. Full module6SIG/proofs2AX, NEWscope2SIG/
+proofs1AX(onepublic/oneCONSUMEDprivate), generated0/scopedstandardaxioms.
+No whole-library certificate. Existing declaration blocks are unchanged.
+
+The universal producer takes ONLY the literal named E-ideal genericity
+hypothesis and derives exact contracted k-relations/full rational-field
+linear disjointness for EVERY such point, over arbitrary fields/variables
+and with NO ACF assumption. It transports include_range along injective
+quotient evaluation, then promotes a basis via iff_fractionRing; existing
+contraction is directly reused. The private TWO-example/ZERO-helper real
+consumer DERIVEShgen from constructive existence, embeds SAMEb into an
+algebraic closure, and applies the universal implication IN that ambient.
+Both exact ideals/fullfieldLD/allcoordinateAI survive at independent four
+universes. Its arbitrary-base affine-space example DERIVEShgen from E-AI.
+No caller prime/domain/exactideal/point/freeness oracle in the constructive
+consumer. New producer/consumers default kernel/standardlint warning-free.
+
+Exactly FOUR paths: GenericExtension new math/module prose/TWOimports with
+ALL old declaration source blocks/records exact; Book newaccount/docstring
+and TWO named obsolete status clauses ONLY; ONEconcordance inserted before
+bibliography; append-onlyCONT. Root already imports the module and stays
+EXACT. All263OTHERMath/Main/dependencies/frozen117 exact. Hygiene265 has
+no placeholders/projectaxioms. HTML105 retainsALL104oldpaths, newdocstring
+and existingchart/frozen pages visible. ALL711oldfull/bookwarningheaders
+BYTE-EXACT; no suppression/source-position changes.
+
+Canonical root/Book FIRST20.01s/min35.40GiB, onlyTWO CHECK/PASSpairs,
+properVersoBookgenre/noMathlibhashCommandlint. Actual FULL overlay is
+Math264/ALL1320cache and Book15/ALL75cache; compiled-sourcecachelinks
+unlinked before writing. Producer327lines/allatmost100wide; metadata4s,
+old4/1exact/new2/1. THREEfailedAPI attempts/firstconsumerfailure/second
+longlinenotice retained; explicit kernel/quotient/map/scalar boundaries,
+explicitk and wrapping repair them, with no weaker checking options.
+
+FIRST source four-pass render stable79pages, NO layout/undefined/rerun
+errors and no repair needed. ALL19 current selectedviews accepted:
+SIXTEEN older ACTUAL PNGs BYTE-EXACT[1,2,4,5,6,67-77], plus3/78/79
+ACTUALLYviewed contents/newconcordance/bibliography clear/complete/unclipped.
+Clearpage/identifierparagraphbreaks attached FROMFIRSTproposal. Removing
+ONEconcordance recovers ENTIREprevioussourcebytes/all49active and original
+provenance/rawhistoricstatements/all44proofs/listings/literals EXACT.
+Both reported source-inference gaps and original proofwording retained.
+
+Relation/independence content(a) covered: constructive existence,
+UNIVERSAL implication and SAMEpointACFambient. Explicit rank/dimension,
+automorphisms(b), rational identities(c), fullgeneric-extension/C2over
+nonACF k(W), arbitrary charts/actions/classification/schemes/extraction/
+ALLreconstructioncompleteness remainOPEN. #5open/#11closed; frozen117
+unchanged. Peeractualappendreview and mandatoryfinalfull/book AFTERthis
+actualappend precede commit/push. Durablegoal continues.
