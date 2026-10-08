@@ -5484,6 +5484,29 @@ is a new public theorem; the original-P transfer is private. Q
 normalization, the combined generator presentation, ambient input
 existence/descent, actions, extraction and completeness remain open.
 
+\paragraph{Shifted D/F/R meets in Lean.}
+The module \lean{AclGeom.Config.ShiftedAffineMeets} proves
+the conditional D/F/R rows (P2, issue~27).
+For $t\in k$, the triangular shift
+$(a,b,c,d,x)\mapsto(a,b+(a-1)t,c,d+(c-1)t,x-t)$ preserves independence.
+Given $\acl_k(p)=\acl_k(b+(a-1)t)$ and explicit raw incidences and
+non-memberships, it gives
+\[
+ \acl_k(\delta)=\acl_k(a(x-t)),\qquad
+ \acl_k(f)=\acl_k(ac(x-t)),\qquad
+ \acl_k(r)=\acl_k(bc+d+act).
+\]
+These public theorems require no algebraic closedness.
+The actual private family check derives the four-coordinate projection,
+the constant in $k$ and the original-P closure before using these rows,
+under explicit $k$/ambient algebraic closedness and supplied fresh inputs.
+The original $F$ is fixed before all input choices; no P or D/F/R
+normal-form oracle or output-freshness oracle is supplied.
+A separate zero-origin check uses arbitrary raw meet representatives.
+Only the shift/conditional-meet theorems are public.
+E/G/H/I/Q, the combined generator presentation, ambient existence/descent,
+actions, extraction and completeness remain open.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).

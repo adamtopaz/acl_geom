@@ -8,6 +8,7 @@ import AclGeom.Config.Correctness
 import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
 import AclGeom.Config.PsiLattice
+import AclGeom.Config.ShiftedAffineMeets
 import AclGeom.Geometry.FormulaInvariance
 import AclGeom.Counterexamples.QRefutation
 import AclGeom.Counterexamples.QDegenerate
@@ -668,6 +669,34 @@ the original-P transfer and full-family chain remain PRIVATE. Q
 normalization and the combined generator presentation, remaining meets,
 ambient input existence/enlargement/descent, actions, linearity, extraction
 and all completeness remain open.
+
+The shifted D/F/R rows are now proved conditionally (P2, #27). Starting
+with five independent original coordinates and a constant κ in k, the
+triangular table shift preserves algebraic independence. If P has the
+explicit closure of the shifted intercept, raw D/F/R incidences and
+non-memberships determine their singleton closures. The existing table
+soundness meets and exchange prove the three rows. No algebraic
+closedness is needed by these two public theorems:
+
+{docstring AclGeom.algebraicIndependent_table_shift}
+
+{docstring AclGeom.racl_shifted_D_F_R_of_normalized_P}
+
+The genuine PRIVATE 598-line family consumer derives the four-coordinate
+projection from original five-variable independence. It retains the
+original F/span before EVERY supplied fresh INPUT family, constructs the
+relocations, selects a same-color triple, and derives all cocycles,
+concurrence, the original-base center and the original-P closure as in P1.
+Under explicit k/ambient ACF it then derives the starred independence
+and D/F/R rows from the raw original incidences. No P, D/F/R normal-form
+or OUTPUT-freshness oracle is supplied. A separate actual zero-origin
+example uses arbitrary raw D/F/R representatives, with P equal to the
+point of b and the constant zero; it requires no ACF.
+Only the two conditional table-shift/meet theorems are public. The full
+family chain remains PRIVATE and supplied INPUT existence may fail at
+small transcendence degree. E/G/H/I/Q, the combined generator
+presentation, ambient existence/enlargement/descent, actions, linearity,
+extraction and all completeness remain open.
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:

@@ -5986,3 +5986,125 @@ this factual append before guarded four-path commit/push. Original-P
 composition stays PRIVATE under explicit k/ambient ACF and supplied INPUT
 families; Q/combined generator presentation/ambient/actions/extraction/
 completeness stay open. Durable goal remains active.
+
+
+## P2 conditional shifted D/F/R meets and private constructed-family rows
+
+Pinned to clean published 74fdcdd, exact CI37748038718 FULLGREEN at every
+library/book/deployment job and step. All twelve owned tracking-body
+references are synchronized; duplicate historical Current leads were
+retired without altering checked work items or earlier progress comments.
+
+Claude's SOURCE-ONLY GO4658 and the concrete #27 scope precede the first
+new ShiftedAffineMeets draft. The first draft disclosed an extra read of
+WitnessTable beyond its 22 input pins. Root verified its tracked hash and
+MeetEquations import closure, recorded 23 inputs and posted the correction
+BEFORE the first Lean check. A premature peer notification after a failed
+payload preparation was explicitly corrected in4666; actual posted
+correction6055989373 and verification precede any compiler. No unreported
+production change or input expansion is accepted.
+
+The immutable FIRST 213-line draft failed default/standard checking after
+8.00s with a 200000-heartbeat whnf timeout in the combined declaration.
+SECOND 213 lines added a consumed private opaque bundle of the THREE
+existing soundness meets; it still failed 8.00 s in the combined declaration.
+Both unchanged source trees and actual failure logs/metrics are retained
+and excluded from acceptance. A deliberately INVALID proof of the unchanged
+combined TYPE failed promptly 2.00 s with the expected type mismatch; that
+diagnostic is retained and excluded, not a proved mathematical result.
+No resource limit, checking option or public statement was changed.
+
+After concrete #27 report6056297711, source-only DEFAULT repair GO4682
+freezes THIRD 4686: 257 lines, EXACT same two imports and two public TYPEs.
+The whole SECOND 112-line prefix (first public proof, element-meet brick
+and table-meet bundle) and combined public docstring/TYPE stay exact.
+Three consumed private transport boundaries use atom coordinates and
+explicit linking equalities; a shared pair-closure helper is consumed
+six times. This avoids compound closure/coercion metavariables within
+one declaration's budget. All 23 project pins, six actually read extra
+pins, two allowed Mathlib API files and five immutable artifact hashes/
+read-only modes are verified. FIRST/SECOND trees remain exact.
+The actual THIRD standard-Mathlib-lint/default-kernel check passes
+UNCHANGED 2.00 s, EMPTY log, minimum available 38.94 GiB. No option/budget
+repair. Scoped metadata passes FIRST 4.00 s, minimum available 38.62 GiB/
+RSS 2.41 GiB: eight exact named SIG/proof records, two PUBLIC AX records,
+two public and six consumed private theorems, zero generated records
+in this scope, standard Lean axioms only. Diagnostic genres are unchanged.
+
+The first public theorem proves independence of the triangular shifted
+table from ORIGINAL AI5 and a constant in k by explicit forward/inverse
+closure memberships. The second has explicit original AI5, constant in k,
+P closure equality, raw delta/f/r incidences and non-memberships. It
+derives acl(delta)=acl(a(x-kappa)), acl(f)=acl(ac(x-kappa)) and
+acl(r)=acl(bc+d+ac*kappa) from the EXISTING table soundness meets and
+exchange. The last entry is the starred intercept modulo a base constant.
+Neither public theorem needs algebraic closedness. The shifted linear
+table provides a non-vacuous model. E/G/H/I/Q and compatibility with their
+presentation are not supplied as normalized inputs or claimed outputs.
+
+Root's actual PRIVATE ZeroOriginMeetConsumer 27 has one example, no helper:
+p=b and kappa=0 derive the P hypothesis, arbitrary raw delta/f/r meet
+memberships/non-memberships give all three original rows. No D/F/R
+normal-form hypothesis or ACF. FIRST standard/default check passes
+UNCHANGED 2.00 s EMPTY log, minimum available 38.94 GiB.
+
+The genuine PRIVATE ConstructedFamilyShiftedMeets 598 extends accepted
+P1 full575. All ELEVEN consumed private helper blocks remain BYTE-EXACT.
+Original AI5 and raw ORIGINAL R incidences are supplied; the Fin4-to-Fin5
+projection is DERIVED. ONE original prime F/span precedes EVERY supplied
+fresh INPUT family of size 2*totalDegree F+1. Constructed relocations give
+OUTPUT freshness, literal joint ideals, raw memberships/values and common-L
+colors; selection gives an actual triple. All pairwise cocycles,
+concurrence, original-base algebraic center in BOTH later-index orders,
+constant in k and ACTUAL k-polynomial-image/joint original-P transfer are
+DERIVED as in P1. THEN both new public theorems give starred independence
+and the D/F/R closure rows. No P/D/F/R normal-form or output-freshness
+oracle. Explicit k/ambient ACF, supplied fresh INPUTs and separate delta
+outside acl(a) remain. FIRST standard/default check passes UNCHANGED
+8.00s EMPTY log, minimum available 38.41 GiB/RSS 2.87 GiB. One actual example,
+eleven consumed helpers; supplied input existence may fail at small
+transcendence degree and is still an obligation.
+
+Only the two conditional table-shift/meet statements are public; the
+actual full-family chain remains PRIVATE. E/G/H/I/Q, the combined
+generator presentation, ambient input existence/enlargement/descent,
+the action presentation, linearity, extraction and guarded/unconditional
+completeness remain open. Original #11 and frozen117 are untouched.
+Independent origin shifts require no common-kappa/uniqueness theorem.
+
+This FIVE-path proposal adds the focused module and ONE root import,
+ONE Book account with TWO public docstrings and ONE import, ONE source
+concordance paragraph, and append-only CONT. All 255 prior math/Main
+sources, dependency pins, 49 active source statements/original provenance,
+44 proofs/listings/literals and frozen117 remain exact. Private source
+rendering already passes FIRST four stable 72-page runs with no layout
+repair; all 12 current selected views pass (eleven prior ACTUAL byte-exact,
+new 71 ACTUALLY inspected). Peer consumer/five-path review, private canonical
+Book, actual full library/book, strict 82 checks and final full/book gates
+precede commit/push. Prior tracking checklists remain exact.
+
+
+Actual P2 acceptance: Claude4692 ACCEPTS both private consumers; 4695
+ACCEPTS all five concrete paths, with optional spacing nits fixed only in
+the new CONT append. Guarded integration leaves every prior source exact.
+Actual full lake build passes 62.01 s, minimum available 36.28 GiB/RSS
+8.35 GiB; lake exe book passes 10.00 s, minimum available 38.20 GiB/RSS
+1.52 GiB. Strict 82 actual-main checks pass 114.03 s, minimum available
+38.26 GiB/RSS 2.91 GiB. All 77 older fixture bytes and every old scoped
+TYPE/RAW/ATTR/DOC/AX/proof/deny-list record stay exact, with NO old-scope
+additions. New eight-record scopes and both actual consumers match the
+accepted private results; math and actual behaviors use standard lint/
+default kernel, and historical diagnostic fixture genres stay exact.
+
+Hygiene passes 257 files without proof placeholders or project axioms.
+All 101 HTML paths remain; both new public docstrings are visible.
+All 255 prior math/Main sources, root except its ONE new import, dependency
+pins, source 49 active statements/original provenance/44 proofs/listings/
+literals and frozen117 are byte-exact. FOUR stable 72-page source runs and
+all 12 current selected views pass (eleven prior ACTUAL byte-exact ; 71 newly
+ACTUALLY viewed), no layout repair. Historical full/book warning-line
+multisets stay exact (707 Lean-source warning headers plus four other
+cached warning lines); touched mathematics and actual examples are
+warning-free. Scoped checks establish no whole-library axiom certificate.
+Final full build/book after this append are required before commit/push.
+The durable goal continues; no additional completeness claim.
