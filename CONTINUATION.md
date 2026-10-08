@@ -7550,3 +7550,128 @@ nonACF k(W), arbitrary charts/actions/classification/schemes/extraction/
 ALLreconstructioncompleteness remainOPEN. #5open/#11closed; frozen117
 unchanged. Peeractualappendreview and mandatoryfinalfull/book AFTERthis
 actualappend precede commit/push. Durablegoal continues.
+
+
+## Existing generic-point clauses: audit before new code (#5)
+
+Base clean published 0332dd3ae901e2c5215ab294d981a40abfa140d2;
+exact CI37822933827 succeeded in both jobs and every step. Six owned
+reports/bodies and all23 body owners are reconciled. #5 remains open,
+#11 remains closed; the durable goal continues. Root owns sole main/
+Lean/Lake; peer aclgeom.claude remains read-only, with no source/build GO.
+
+READ-ONLY PLAN5149 starts with18 SHA256 pins. The candidate new rational-
+field producer is DROPPED BEFORE ANY DRAFT after the existing-work audit.
+Supplement5151 pins FamilyCover/FunctionField/quotient Operations;
+Claude5154 reads FamilyCover1-70/390-420/745-800 and FunctionField1-15,
+NOT Operations. Supplement5156 pins Family1-38/130-269; Claude5157
+confirms that locusFunctionFieldEquivOfIdealEq and its coordinate law
+already prove (b)'s FIRST clause, for arbitrary fields/index types in the
+source's common ambient. Its refl/symm/trans laws are already proved.
+No cross-ambient generalization, new producer or TYPE migration is needed.
+
+Supplement5160 pins four actual paths; Claude5161 reads Mathlib's
+AlgebraicIndependent/Adjoin1-75 (actual file74 lines), GenericPoints1-125
+and RationalFunctions1-40. AlgebraicClosureTransport is NOT read.
+Mathlib's aevalEquivField already proves literal (c): canonical rational
+evaluation at an independent tuple is an isomorphism onto its generated
+field. GenericPoints already consumes it. Root reads Adjoin1-74 and the
+same two project spans. Root's first bounded reader fails IndexError on
+the short file before emitting API contents or writing its ledger;
+min(len) repairs the reader only, with no source/build failure. Precise
+root/peer ledgers distinguish pin verification, actual and NOT-read scopes.
+
+Root-private consumer/compiler GO5162. FULL overlay Math264/ALL1320cache
+and Book15/ALL75cache; compiled-source links unlinked before writing.
+The 52-line ExistingGenericClauses consumer has THREE real examples and
+ZERO helpers: (b)-FIRST derives equal ideals from an actual embedding
+then uses the existing equivalence and coordinate law; literal (c)
+reflects genuine fraction equality while DERIVING BOTH denominators
+nonzero from actual independence; the third reflects zero under the
+canonical fraction lift. Arbitrary fields/variables, no ACF assumption
+or caller injectivity/field-isomorphism oracle. FIRST check passes2.00s/
+min34.83GiB, EMPTY, default kernel and standard Mathlib lint; no repair.
+Claude5165 ACCEPTS after checking all3 pins and reading the FULL52-line
+consumer; acceptance/overlay JSON bodies are NOT read. Optional second-
+point suggestion is nonblocking; the accepted consumer is retained.
+
+ZERO mathematical source/dependency changes and ZERO new declarations.
+All264 Math/Main sources, aggregate root, dependency pins and frozen117
+stay byte-exact. The prior125 fixture INPUTS and scoped OUTPUTS are
+retained byte-exact, NOT rerun for this documentation-only checkpoint;
+Claude5165 agrees the gate policy. The newly checked three-example
+consumer is added to the future126-fixture baseline. Retention is not a
+claim of126 fresh checks or a whole-library mathematical certificate.
+
+Exactly THREE paths are proposed: Book adds citations of existing
+function-field/Mathlib APIs and updates ONE obsolete status clause;
+source inserts ONE concordance before bibliography, with clearpage and
+identifier paragraph breaks FROM FIRST proposal; CONT is append-only.
+Original49 active statements, all original provenance/historic statements,
+44 proofs/listings/literals and the reported source gaps stay unchanged.
+
+The source's (b)-FIRST field-isomorphism clause and literal (c) are
+accounted for by already proved APIs and fresh actual consumers. The
+ambient-automorphism/enlargement SECOND clause of (b), explicit rank/
+dimension, full generic-extension lemma, C2 composition over nonclosed
+k(W), initial charts, actions/classification/schemes/extraction and ALL
+reconstruction completeness remain open. Frozen M4a is unchanged.
+Canonical root/Verso Book, source rendering/views, full library/book,
+HTML/hygiene/retention, factual append/peer and final full/book AFTER the
+actual append precede commit/push. The durable goal continues.
+
+
+Actual existing-generic-clause audit acceptance: Claude5165 ACCEPTS the
+three real consumer examples;5172 ACCEPTS the three documentation paths;
+5174 ACCEPTS the ONE Book-only import repair. Full lake build passes
+44.01s/min33.78GiB/RSS8.36GiB;
+lake exe book passes10.00s/min35.68GiB/
+RSS1.51GiB. ALL711 historical warning headers stay BYTE-EXACT
+in both actual logs. Hygiene265 has no placeholders/project axioms;
+HTML106 retains all105 old paths and exposes both existing docstrings,
+with chart/frozen pages visible. All264 mathematical/Main sources,
+aggregate root/dependency pins/frozen117 are byte-exact.
+
+The prior125 fixture INPUTS and scoped OUTPUTS are retained byte-exact
+in both the original and copied future baseline, NOT rerun for this
+documentation-only checkpoint. ONE fresh actual check validates THREE
+real examples under unchanged production imports, default kernel and
+standard Mathlib lint: derived ideal equality and coordinate isomorphism,
+genuine fraction identity with BOTH denominators derived nonzero, and
+canonical fraction-lift zero reflection. Its first2.00s log is EMPTY.
+Future baseline126 includes that accepted consumer. No126-fresh-check
+or whole-library axiom certificate claim; ZERO new mathematical declarations.
+
+Canonical FIRST root passes, Book fails only because Family is not
+imported. Failed Book source/log/metrics are retained. ONE Book import
+AclGeom.Correspondence.Family repairs resolution; SECOND canonical root/
+proper Verso Book passes20.00s/min35.70GiB/
+RSS3.60GiB, only TWO CHECK/PASS pairs. No Mathlib hash-command lint
+on Verso Book, weakened checking options or source proof changes.
+Claude5174 reads only the one-line delta and failed-directory inventory;
+failed logs/metrics and queued/proposed JSON bodies are NOT read by peer.
+
+Source FIRST four-pass render is stable80 pages, with no layout/undefined/
+rerun errors and no repair. ALL20 current selected views are accepted:
+SEVENTEEN older ACTUAL PNGs byte-exact[1,2,4,5,6,67-78], plus3/79/80
+ACTUALLY inspected clear/complete/unclipped. Clearpage and identifier
+paragraph breaks attach FROM FIRST proposal. Removing ONE concordance
+recovers ENTIRE old source bytes, all49 active/original-provenance/raw
+historic statements and44 proofs/listings/literals exact. Original
+wording and the reported proof-inference gaps are retained.
+
+Exactly THREE paths: Book new account/TWO existing docstrings/ONE named
+obsolete status clause/ONE import; source ONE pure concordance insertion;
+CONT append-only. Claude5172 checks7 pins and reads the three diffs plus
+bounded context/citation greps; queued/proposed/read-ledger/copied-peer
+ledger bodies are NOT read, and transitive imports are not audited there.
+Pin verification is not a claim of full-file mathematical rereading.
+
+The already proved first(b) field-isomorphism and literal(c) rational-
+identity clauses are accounted for; the proposed duplicate was dropped
+BEFORE drafting. Second(b) ambient automorphism after possible enlargement,
+explicit rank/dimension, full generic-extension/C2 over nonclosed k(W),
+initial charts/actions/classification/schemes/extraction and ALL
+reconstruction completeness remain open. #5 open/#11 closed; frozen117
+unchanged. Peer actual-append review and mandatory final full/book AFTER
+this actual factual append precede commit/push. Durable goal continues.

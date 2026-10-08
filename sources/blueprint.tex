@@ -5729,6 +5729,35 @@ composition and reconstruction completeness remain separate obligations;
 frozen M4a is unchanged. The original source statement and proof are retained.
 
 \clearpage
+\paragraph{Existing function-field and rational-identity clauses.}
+The first clause of Lemma~\ref{lem:generic-extension}(b) is already proved
+by the project's existing equivalence:
+\par\noindent
+\texttt{AclGeom.locusFunctionFieldEquivOfIdealEq}.
+\par\noindent
+Equal vanishing ideals of two tuples in their common ambient field give
+an isomorphism of the generated rational fields, sending each coordinate
+to its counterpart, with coherent reflexivity, symmetry and composition
+laws. Arbitrary fields and index types are allowed. Extending this
+isomorphism to an ambient automorphism after possible enlargement, the
+second clause of (b), remains open.
+Mathlib already proves the rational-identity clause (c):
+\par\noindent
+\texttt{AlgebraicIndependent.aevalEquivField}.
+\par\noindent
+Canonical fraction evaluation at an independent tuple is an isomorphism
+onto its generated rational field. A checked private consumer derives
+equal ideals from an actual embedding; two further examples reflect
+equality of genuine fractions and zero under canonical fraction evaluation.
+Both evaluated denominators are derived nonzero from independence.
+No mathematical declaration, mathematical source or dependency is changed.
+This audit supersedes earlier open-status descriptions of these two
+clauses only. Explicit rank/dimension, ambient automorphism extension,
+the full lemma, composition, charts, actions and reconstruction completeness
+remain separate obligations; frozen M4a is unchanged. The original source
+statement and proof are retained.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}
