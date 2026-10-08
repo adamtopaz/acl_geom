@@ -4877,3 +4877,66 @@ All 49 current active statements and original provenance, 44 proof blocks,
 listings and literal ratio/TOT content stay exact; only the concordance status
 paragraph is added. The isolated rank-bridge consumer confirms the narrowed
 import. These gates precede exact seven-path staging and commit/push.
+
+## First-meet difference-cocycle data lemma (#27, L1a)
+
+Correspondence.DifferenceCocycle proves one plain-field prerequisite:
+two affine presentations a'x'+b'=ax+b sharing p and δ have b−b'∈racl{a,a'}.
+Its explicit inputs are independent a,b,x; a' fresh over their closure;
+p∈racl{a,b} outside racl{a}; δ∈racl{a,x} outside racl{a}; and the corresponding
+primed memberships. It constructs no second presentation. The genuine named
+consumers are corrected 8.5 first-meet elimination and its common-center step.
+Literal parameter-fixing relocation, linearity, guarded extraction/Q completeness,
+multiplication converse and unconditional J completeness remain open.
+
+Claude's immutable source-only freeze is pinned to 61b8b42; root verifies both
+input hashes, all draft/root hashes and the single-import root proposal. It
+imports only Closure.Basic. Its first actual source elaboration passes 2.00s
+warning-free/default checking with no proof/type repair. An earlier overlay
+lookup failed before source elaboration because cached project object links
+were missing; the source and failure remain preserved outside git.
+
+The inventory is one public/two private authored theorems, no generated
+additions. Both exchange helpers have actual consumers. All three scoped
+types/normalized bodies/attributes/docstrings/axiom records pass, with only
+standard Lean axioms; this is not a whole-library axiom certification. Two
+actual consumers pass 8.00s with standard lint: the exact plain-field interface
+and a nontrivially shifted presentation with four independent coordinates,
+valid in every characteristic. Two external fixture failures remain recorded:
+injectivity arity/qualified API/membership metavariables, then prefix-function
+equality and a residual field identity. Only those new external fixtures and
+their diagnostic count expectations changed; no production proof, historical
+fixture or checking option changed.
+
+The L0 checkpoint 61b8b42 is committed/pushed after full library/book and actual
+shared/source gates. G1 remains complete through G1a/b/c; frozen 117 M4a and
+all public Main targets/guarded completeness definitions stay unchanged.
+
+Claude's refreshed five-path read-only review is ACCEPT. Its optional clarity
+and spacing corrections are applied: shared closure memberships and
+non-memberships are explicit. The touched book receives a proper module
+header, removal of the display-only pp.rawOnError option and an old long-line
+wrap. A private attempt applied Mathlib submission linters to Verso's required
+#doc command; those genre findings are retained. The book uses canonical
+Verso/lake lint scope; new mathematical source and consumers keep all standard
+Mathlib linters and default kernel checking, with no checking option disabled.
+
+The actual shared full library/book pass 88.04s/16.01s (minimum available
+35.31GiB, peak family RSS 8.18GiB for the full build), without a memory stop.
+The 26-check actual-main family passes 50.02s: the earlier 22 check inputs and
+all their scoped types/normalized bodies/attributes/docstrings/axiom records
+stay exact, covering 72 old fixtures/62 public records, guarded 125 records
+and ten behaviors, generic 163 records and six behaviors, and lattice 84
+records and six consumers. The new three records/two actual consumers stay
+exact to their privately accepted baseline. All 251 Lean sources pass
+placeholder/project-axiom hygiene; all 249 prior module/Main sources stay exact.
+
+All 101 HTML paths remain, with the new data docstring and existing L0/G1c
+entries visible. The source has four stable passes and 70 pages; all ten
+selected current pages are visually accepted. Nine current images are
+byte-identical to previously actually viewed images, and final changed page
+68 is actually viewed. The bibliography is wholly on page 70; no single-line
+orphan or overflow occurs. All 49 active statement blocks/original provenance,
+44 proof blocks/listings and the literal ratio/TOT content remain exact.
+Only a concordance status paragraph is added. These gates precede exact
+five-path staging and commit/push; completeness and relocation remain open.

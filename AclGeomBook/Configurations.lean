@@ -14,12 +14,18 @@ import AclGeom.Counterexamples.QDegenerate
 import AclGeom.Closure.RationalFunctions
 import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.MultiplicativeQuotient
+import AclGeom.Correspondence.DifferenceCocycle
 import AclGeomBook.Configurations.GroupChunkRecord
+
+/-!
+# Configuration relations and their current formalization boundaries
+
+Verso exposition of the proved semantic and conditional configuration results.
+Guarded extraction, literal parameter-fixing relocation and completeness stay explicit.
+-/
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
-
-set_option pp.rawOnError true
 
 #doc (Manual) "Configurations: the geometric Q, Q′, and J" =>
 
@@ -30,7 +36,8 @@ tag := "configurations"
 The configuration layer (blueprint §§6–7, milestone M4) defines the finite
 geometric predicates through which the field structure will be recovered
 from the geometry alone. Soundness, semantic J assembly, generic finite-formula
-invariance and concrete geometric invariance are proved. Unguarded Q completeness/extraction and geometric Q
+invariance and concrete geometric invariance are proved. Unguarded Q
+completeness/extraction and geometric Q
 projection are refuted even over ACF pairs; guarded Q completeness and ACF
 Q′/J completeness remain open (#27). Conditional
 interpretation and the public lattice-form target keep both perfected
@@ -448,6 +455,16 @@ module imports only Config.Psi:
 
 These are necessary lattice consequences (L0, #27). Meet elimination,
 linearity and action presentation/classification remain open.
+
+The first difference-cocycle data lemma is also proved (L1a, #27). Two affine
+presentations of one value sharing p and δ have translation difference
+algebraic over their multipliers. Independence, freshness and the shared
+closure memberships and non-memberships are explicit hypotheses; this theorem
+does not construct
+the second presentation. Literal parameter-fixing relocation and the ensuing
+linearity/extraction argument remain open:
+
+{docstring AclGeom.sub_mem_racl_of_affine_value_eq}
 
 The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
 sufficiency is unproved. These are open propositions, with no project axiom:

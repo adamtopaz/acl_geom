@@ -5325,6 +5325,14 @@ and $P\ne S$, $Q\le B$ without a guard, by finite-rank counting and exchange
 \lean{Geometry.FiniteRank}; no transfer import is used.  These are prerequisites
 of meet elimination; guarded extraction and completeness remain open.
 
+\paragraph{Difference-cocycle data lemma in Lean.}
+\lean{AclGeom.Correspondence.DifferenceCocycle} proves $b-b'\in\acl(a,a')$
+for two presentations $a'x'+b'=ax+b$ with independent $a,b,x$, fresh $a'$,
+and explicit shared $p,\delta$ closure memberships and non-memberships
+(L1a, issue 27).
+This is a prerequisite for first-meet elimination, using exchange and (8.9a).
+Literal parameter-fixing relocation, linearity and guarded extraction remain open.
+
 \paragraph{Generic finite-formula invariance in Lean.}
 The recursion obligation in the small geometry language is proved in
 \lean{AclGeom.Geometry.FormulaInvariance} (G1c, issue 6).
