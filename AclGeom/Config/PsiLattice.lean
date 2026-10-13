@@ -40,8 +40,10 @@ a join with a new point, and exchange of points across a closed element of finit
 **Status:** necessary lattice consequences proved (#27, L0/L0b/L0c), without ACF. The actual
 PRIVATE guarded two-family consumer derives every raw field input from `Ψ`, `I ≠ D` and an
 explicit independent initial chart. It retains base/ambient ACF and supplied fresh INPUT families.
-Initial chart existence, input existence/enlargement/descent, combined generator presentation,
-actions, extraction and completeness remain open; #11 and frozen M4a are independent.
+The three parameter-rank facts are public for Config.ParameterField, whose actual-Psi
+producer recovers the full coefficient closures of all three incidence germs. Input
+existence/enlargement/descent for an explicit chart is covered by P6. Initial charts,
+actions, extraction and completeness remain open; frozen M4a stays separate.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -214,16 +216,16 @@ variable {w : QWitness k K}
 /-! ### Ranks and meets of the parameter joins -/
 
 /-- `A` has rank two. -/
-private theorem Psi.rankEq_A (hw : w.Psi) : RankEq 2 w.A :=
+theorem Psi.rankEq_A (hw : w.Psi) : RankEq 2 w.A :=
   rankEq_two_of_rankEq_four (eRk_le_two w.A₁ w.A₂) (eRk_le_two w.B₁ w.B₂) hw.rank_AB
 
 /-- `B` has rank two. -/
-private theorem Psi.rankEq_B (hw : w.Psi) : RankEq 2 w.B :=
+theorem Psi.rankEq_B (hw : w.Psi) : RankEq 2 w.B :=
   rankEq_two_of_rankEq_four (eRk_le_two w.B₁ w.B₂) (eRk_le_two w.A₁ w.A₂)
     (RankEq.congr (sup_comm w.A w.B) hw.rank_AB)
 
 /-- `C` has rank two. -/
-private theorem Psi.rankEq_C (hw : w.Psi) : RankEq 2 w.C :=
+theorem Psi.rankEq_C (hw : w.Psi) : RankEq 2 w.C :=
   rankEq_two_of_rankEq_four (eRk_le_two w.C₁ w.C₂) (eRk_le_two w.A₁ w.A₂)
     (RankEq.congr (sup_comm w.A w.C) hw.rank_AC)
 
