@@ -8042,3 +8042,51 @@ and ALL reconstruction completeness OPEN; #5open/#11closed, frozen117
 exact. Root sole main/compiler; peer readonly. Actualappend peerreview
 and mandatory finalfull/book AFTER this append precedecommitpush.
 Durablegoal continues.
+
+
+## Shared evolving project goal (2026-10-13)
+
+Adam requests a Markdown goal statement agreed by aclgeom.codex and
+aclgeom.claude, and explicitly authorizes updates as the project evolves.
+PROJECT_GOAL.md records the full blueprint objective, unconditional
+reconstruction endpoint and variants, evidence-based completion criteria,
+current completeness frontier, source fidelity and the shared update protocol.
+README and AGENTS link it for discovery and session-start use. Both agents
+may update the whole file after chit ownership coordination; no new routine
+approval gate or requirement to finish historical frozen wrappers is added.
+Actual source statements remain obligations even if a proof route bypasses them.
+
+The baseline is clean da7314fb718a833a2c3f7a00e589b85c879edead. Its exact
+CI37840274392 is SUCCESS, BOTHjobs/EVERYstep. The six owned checkpoint
+reports/bodies and ALL26 current body-owner references are reconciled on
+2026-10-13 before this documentation work; #5open/#11closed. No new
+mathematical producer GO. Source, library, Book, dependencies and frozen117
+remain byte-exact. No mathematical declaration or source statement changes.
+
+Claude5903 contributes the objective/criteria/frontier proposal, and5905
+agrees the file is living for both agents. Root5907 corrects the proposal:
+the generic absolute degree equation is TRUE at the constructed point;
+infinite cardinal arithmetic prevents its inference to independence.
+Tensor-domain sketch is a proof gap, not a false ACF domain statement.
+Conditional theorems ARE proved under named inputs, while unconditional
+obligations stay open. Initial chart existence is missing; P6 already
+derives all grid rows given that independent initial chart. The Qprime
+ACF multiplication converse stays open by Correctness11-26 and
+JAssembly936-975. The group/chunk/action route is a proposed dependency
+plan to audit, not a proved unique necessary route. Frozen117 is historical,
+not a demand to complete every wrapper. Final peer document review,
+full library/book validation, exact four-path commit/push and exact CI
+precede acceptance of this documentation checkpoint. The shared
+mathematical goal remains the full unconditional formalization.
+
+
+Claude5913 verifies allFIVE draft pins and reads FULL122line goal,
+README/AGENTS/CONT diffs, proposed bytes and bounded blueprint checks.
+Root adopts ALL R1-R5: implication-under-named-open-hypotheses wording,
+linked proof gaps, CI in baseline, current open issues versus historical
+#19 in README, and issue justification for proposed narrowing without
+an approval gate. Claude5915 verifies allFIVE revised pins, reads the
+FULL127line goal and README8-20, and FINAL ACCEPTS the four-doc checkpoint.
+The shared goal permits either agent to update the ENTIRE document.
+Actual final integration, full library/book and clean commit/push follow;
+the mathematical library and all original statements remain unchanged.

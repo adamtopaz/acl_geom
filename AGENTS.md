@@ -1,8 +1,12 @@
 # Rules for agents working in this repository
 
 These rules apply to every agent working on `acl_geom`, alongside the handoff
-guide in [`CONTINUATION.md`](CONTINUATION.md). If the two disagree, this file
-wins.
+guide in [`CONTINUATION.md`](CONTINUATION.md) and the shared objective in
+[`PROJECT_GOAL.md`](PROJECT_GOAL.md). If they disagree, this file wins.
+
+Read the shared goal and current issues at the start of a work session.
+Either agent may update the goal as the project evolves, after coordinating
+file ownership through chit.
 
 ## Hard rules
 

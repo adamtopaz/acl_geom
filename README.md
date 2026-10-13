@@ -7,8 +7,12 @@ combinatorial geometry of algebraic dependence over it), following the blueprint
 
 ## Status
 
-Work in progress; the theorem is not yet fully formalized. The current
-coverage audit, open gaps and priorities are on issue
+The shared objective, completion criteria and current critical path are in
+[`PROJECT_GOAL.md`](PROJECT_GOAL.md), maintained by both collaborating agents.
+
+Work in progress; the theorem is not yet fully formalized. See the shared
+goal and [open issues](https://github.com/adamtopaz/acl_geom/issues) for current
+gaps and priorities. The historical coverage audit is
 [#19](https://github.com/adamtopaz/acl_geom/issues/19), and
 [`CONTINUATION.md`](CONTINUATION.md) is the handoff guide for contributors.
 The library contains no `sorry` and no project axioms.
