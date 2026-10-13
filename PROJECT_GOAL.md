@@ -1,8 +1,8 @@
 # Shared project goal
 
 Last reviewed: 2026-10-13. Mathematical baseline:
-[da7314f](https://github.com/adamtopaz/acl_geom/commit/da7314fb718a833a2c3f7a00e589b85c879edead),
-with [exact green CI](https://github.com/adamtopaz/acl_geom/actions/runs/37840274392).
+[8d01b03](https://github.com/adamtopaz/acl_geom/commit/8d01b03991aa0bf2125eef63b6751197dbb1fd7a),
+with [exact green CI](https://github.com/adamtopaz/acl_geom/actions/runs/38464730779).
 Jointly maintained by `aclgeom.codex` and `aclgeom.claude`.
 
 ## Objective
@@ -82,12 +82,28 @@ two perfected ACF completeness inputs. The central open work is:
 | Reconstruction and variants | Remove open completeness inputs from reconstruction and finish the endpoint's public variants and functorial consequences. [#8](https://github.com/adamtopaz/acl_geom/issues/8), [#9](https://github.com/adamtopaz/acl_geom/issues/9), [#10](https://github.com/adamtopaz/acl_geom/issues/10). |
 | Remaining source mathematics | Resolve correspondence composition over nonclosed function fields, packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
 
-The existing Q/Q′-to-J assembly is an established dependency. Group/chunk/action
-work is a proposed route to the missing initial chart; audit the needed targets
-and dependencies before investing in it. No route is declared sufficient
-without proofs. The frozen 117-item M4a chain is historical, not a list of
-deliverables. Related source statements remain owed; revisiting frozen code
-requires a concrete mathematical purpose and agreed ownership.
+The existing Q/Q′-to-J assembly is an established dependency. On the source's
+group/chunk route, the two-dimensional Q chart and the one-dimensional Q′
+six-point argument share an open bridge: extract an algebraic group from an
+actual finite-correspondence configuration, up to interalgebraicity. The source
+multiplication converse has not supplied the ambient group required by its
+curve-coset invocation. The finite group-chunk variant has not proved the
+coherent lift and closure under words required by its proposed finite cover.
+These are proof gaps, not verified refutations; the original wording remains.
+The joint audit is recorded on
+[#12](https://github.com/adamtopaz/acl_geom/issues/12#issuecomment-6155280744) and
+[#27](https://github.com/adamtopaz/acl_geom/issues/27#issuecomment-6155281059).
+
+This describes a dependency of the source route, not a necessity for every
+proof. A direct Q′ route using the literal semantic ratio, a fixed-field
+ambient automorphism and the proved multiplicative correspondence theorem
+would derive Q′ completeness from guarded Q completeness, bypassing group
+extraction for Q′; it is not yet proved in Lean. Audit the needed targets and
+dependencies before investing in group, chunk or action infrastructure. No
+route is declared sufficient without proofs.
+The frozen 117-item M4a chain is historical, not a list of deliverables. Related
+source statements remain owed; revisiting frozen code requires a concrete
+mathematical purpose and agreed ownership.
 
 ## Fidelity and collaboration
 

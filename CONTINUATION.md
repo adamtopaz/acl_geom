@@ -8446,3 +8446,104 @@ Sourceorientation report6153067856 precededconcordance; all original
 proofs/gaps/frozen117 retained. #5open/#11closed. Root sole main/compiler,
 peer readonly. Actualappend review and finalfull/book AFTERthisappend
 precedecommitpush/exactCI. Fullsharedgoal continues unchanged.
+
+
+## Joint Q′ source-route audit and direct proof plan (#12/#27)
+
+Mathematical baseline remains clean8d01b03991aa0bf2125eef63b6751197dbb1fd7a,
+exactCI38464730779 workflow and BOTHjobs completedSUCCESS. Library/book/upload/
+deploy are verified by the completed archive; stale/empty step API details are
+not an observed every-step certificate. Six checkpoint reports and28body-owner
+references were reconciled. The full-blueprint durable goal remains ACTIVE.
+
+This checkpoint edits ONLY PROJECT_GOAL.md and appends this handoff. It adds
+ZERO mathematical declarations and changes ZERO existing source statements,
+proofs, imports, dependencies, Main signatures or frozen117 files. The142
+accepted mathematical probes remain the8d01 baseline; they are not rerun or
+described as a fresh whole-library certificate for this documentation audit.
+
+Root and Claude conduct the19pin read-only Qprime audit plus6supplement and
+4direct-bridge API pins. Precise ledger:
+/tmp/acl_geom_codex_qprime_8d0/root_read_ledger.json. A prior full cat of
+PartialQuadrangle was truncated; it is explicitly NOT a full-file read.
+Claude6027 AUDIT is actually read in full. Claude6031 BRIDGE_CHECK is inherited
+from the message, not falsely reported as a file read. Claude6035 complete
+CONVERSE_PROOF.md is actually read in full;6037 rechecks the specific steps.
+Only bounded ranges and the listed inventories are claimed as actual reads.
+
+Source proof gaps reported BEFORE any source change:
+#12comment6155280744 and #27comment6155281059. The multiplication converse
+invokes curve-coset before supplying its ambient connected group and actual
+generic product relation. The finite group-chunk paragraph has not justified
+one coherent finite lift and closure under all words. These are proof gaps,
+not refutations. The square-root candidate has inverse-composition outputs
+{+b,-b}, so it fails the literal identity-correspondence hypothesis. No false
+statement or proved corrected finite-chunk theorem is claimed. ALL original
+source bytes,49active/provenance/historical statements and44proofs/listings/
+literals remain exact. Its existing84page/24view source acceptance is reused,
+not rerendered or newly certified by this documentation change.
+
+Claude6033 and root independently check the multiplication sextuple
+(X,Y,V,C0,B0,A0): all16nonline triples close to allsix by the four named
+rank-two lines. This is a true optional source8.3-route input over any fields.
+Three private candidate attempts are retained: two default-budget timeouts
+and one split-script syntax failure. The optional leaf remains UNINTEGRATED
+and is deferred in favor of the direct multiplication converse. No checking
+budget or transparency restriction is weakened.
+
+Root6030 proposes fixed-prefix relocation with literal b,c,ratio; Claude6031
+corrects the construction to an actual ambient automorphism fixing acl(b,c).
+Root6034 supplies the D/E meet simplification. Claude6035/6037 give and recheck
+a COMPLETE HAND proof, NOT yet a Lean theorem:
+ - Pick a0 fresh over the actual rank-three tuple(a,b,c). An ambient automorphism
+   fixing acl(b,c) sends a to a0, fixes x/y literally and yields x0*y=x*y0.
+ - Over closed acl(a,a0), the actual incidences derive a real MulCorrSetup.
+   A fifth fresh element supplies the existing multiplicative theorem.
+ - The equal products force common exponents to sum to zero. A nonzero power
+   of x0/x lies in the base; existing mem_racl_empty_of_zpow makes the ratio
+   algebraic there. This avoids coprime-exponent/gcd bookkeeping entirely.
+ - Over acl(a0), that ratio is interalgebraic with a. The original corners
+   become interalgebraic with alpha*x and alpha*y for the SAME alpha.
+ - Two independent-variable product meets put D in acl_a0(alpha*x*y) and E
+   in acl_a0(x*y). Exchange removes a0, yielding the original E=[xy].
+There is no separability assumption, selected-branch oracle, original curve
+normalization or group-extraction conclusion supplied by the caller.
+
+Private complete overlay at /tmp/acl_geom_codex_qprime_8d0 mirrors all266
+mathematical and15book sources and ALL1330+75 current namespace artifacts.
+New leaf/root outputs have no links to main. No write-through or stale
+partial namespace is used. Root is sole source/compiler; Claude READONLY.
+Every compiler family uses the monitored lock, two Lean threads and30GiB
+available-memory stop. Actual sessions EXIT before source writes/next compile.
+
+New private MultiplicationConverse prefix is300lines/11private lemmas and
+ZEROpublic results. It checks intermediate/closed-base closure equivalences,
+equal-product common ratio, literal MulDiagram incidences, two product meets,
+closed-prefix independence and the ACTUAL fixed-b,c ambient automorphism.
+NINTH prefix check exits0 in2.00s, minavailable38.31GiB, default kernel/standard Mathlib lint, EMPTYlog. Earlier
+successful SECOND/THIRD source snapshots and all failed logs/metrics are retained.
+Not every failed source version was saved; no exact failed-input replay is claimed.
+Errors were field-motive/type/instance or set-order/lint fixes; FOURTH's bad
+subset orientation also timed out. No weaker checking/budget increase, axiom,
+sorry or admit is added. These are private prerequisite proofs only, not a
+formal proof of the full multiplication converse or a library axiom audit.
+
+Next: derive the genuine simultaneous scaling normalization from the actual
+fixed-field automorphism; assemble ONE public QSem+ACTUALMulDiagram -> QprimeSem
+under the genuine ACF/rank-five hypotheses; consume it to derive hQprimec
+from the stillOPEN guardedhQc in the existing J assembly. Only then run the
+full source/consumer/metadata/regression/book gates and integrate the result.
+Geometric Q, Qprime and J completeness and unconditional reconstruction remain
+OPEN. The source8.3 route and bypassed group/chunk/action statements remain owed.
+
+PROJECT_GOAL records a shared OPEN bridge on the SOURCE group/chunk route,
+not a necessity for every proof. It prioritizes the direct Qprime alternative
+after joint hand review without narrowing the mathematical endpoint. Claude
+review of its exact wording and this append, followed by mandatory full
+lake build and lake exe book AFTER actual append, precede commit/push/CI.
+
+Claude6040 accepts this TWO-path documentation checkpoint after verifying all
+10pins. Actual reads: full goal diff and95line append; full prospective CONT
+prefix/tail compared byte-exact. Other pinned artifacts are HASHONLY; unchanged
+goal context is inherited from the earlier full127line read. The requested
+neutral wording and recommended dependency wording/line wrap are applied.
