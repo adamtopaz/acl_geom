@@ -5845,6 +5845,44 @@ extraction, initial charts, completeness and unconditional reconstruction
 remain open; the reported proof gaps and frozen M4a remain retained.
 
 \clearpage
+\paragraph{Selected incidence germs over the common closed parameter field.}
+From the actual $\Psi$ and an algebraically closed ambient field, Lean proves
+the parameter form of the selected-germ identity in (8.6):
+\par\noindent
+\texttt{AclGeom.QWitness.Psi.exists\_composing\_closed\_incidence\_germs}.
+\par\noindent
+The three germs have the original endpoints $Y\to X$, $Y\to Z$ and $X\to Z$
+over the common relatively closed field $A\vee B$. Their canonical coefficient
+sets retain relative closures exactly $A,B,C$. Relative closedness in the
+ambient ACF makes the parameter planes algebraically closed. Equal rank four
+puts $C$ in $A\vee B$, and the literal nonincidence clauses keep all three
+endpoints generic over that field. Existing base change gives exact extension
+of each closed-germ ideal; monic uniqueness preserves the equation and ambient
+coefficient set. The preceding free-clause argument gives the full closures.
+
+The historical proof names $\Gamma_\alpha:Y\to X$ but writes (8.6) in the
+opposite direction. The corrected reading is
+$[\Gamma_\gamma]=[\Gamma_\beta]\circ[\Gamma_\alpha^{\mathsf T}]$,
+with the transposed first germ $X\to Y$ followed by $Y\to Z$.
+This notation discrepancy was reported before changes on
+\href{https://github.com/adamtopaz/acl_geom/issues/27}{issue 27},
+comment 6153067856. The original historical wording is retained.
+The selector identifies the same endpoints after the actual no-splitting
+and coefficient proof; it is not the substantive proof by itself.
+
+One new public theorem uses three consumed private helpers. Existing
+canonical equations and base-change API are reused; no public rank wrapper,
+field definition, chart, action or coefficient conclusion is supplied.
+Two real examples derive the actual common-field primes, exact ideals,
+original closures and composition, and the equation under a genuine
+common-field endomorphism. The globally quantified $\Psi$ is never transported.
+Finite-generator coefficient fields may split; this argument uses closed
+parameter fields. Closure equality is not literal generated-field equality.
+Composition over nonclosed function fields, group chunks, actions/classification,
+initial charts, completeness and unconditional reconstruction remain open;
+all reported proof gaps and frozen M4a are retained.
+
+\clearpage
 \section{Bibliography}
 
 \begin{thebibliography}{99}

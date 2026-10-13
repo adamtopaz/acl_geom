@@ -412,10 +412,65 @@ ideals and original parameter closures. An actual endomorphism fixing
 the displayed parameter field derives the same equation at the moved
 endpoints. It never transports the globally quantified Ψ.
 
-This covers the rank-two field-of-definition step; it does not construct
-a group, action or initial chart. Correspondence composition, group
-chunks, the chart/classification bridges, Q/Q′/J completeness and
-unconditional reconstruction remain open. Frozen M4a is unchanged.
+This covers the rank-two field-of-definition step. The common-closed-base
+composition step follows below. Composition over nonclosed function-field
+bases, group chunks, actions/classification, initial charts, Q/Q′/J
+completeness and unconditional reconstruction remain open. Frozen M4a
+is unchanged.
+
+# Composition over the common closed parameter field
+%%%
+tag := "psi-closed-germ-composition"
+%%%
+
+The parameter form of source equation (8.6) is derived from the actual Ψ
+in an algebraically closed ambient field, over an arbitrary base:
+
+{docstring AclGeom.QWitness.Psi.exists_composing_closed_incidence_germs}
+
+The three germs now share the relatively closed field A join B and keep
+their original endpoints Y to X, Y to Z and X to Z. Their canonical
+ambient coefficient sets still have relative closures exactly A, B and C.
+No chart, group, action, prime ideal, rank or coefficient conclusion is
+supplied by the caller.
+
+Relative closedness inside the algebraically closed ambient field makes
+each parameter plane algebraically closed. Equal rank four for A join B
+and A join B join C puts C in the common field; the literal notLe clauses
+keep all three point representatives generic over that field. Existing
+BaseChange proves exact extension of the three closed-germ ideals.
+Existing monic-generator uniqueness identifies the mapped equations,
+so their ambient coefficient sets are unchanged. The previous free-clause
+argument recovers the full parameter closures.
+
+The historical source calls the first arrow Y to X, while (8.6) uses it
+in the opposite direction. This was reported on #27, comment 6153067856,
+before source changes. The corrected selector transposes the A-germ to
+X to Y, follows it by the B-germ Y to Z and obtains the C-germ X to Z.
+This selector uses the same endpoints after the substantive no-splitting
+and coefficient proof.
+
+The closed-field route is essential to the argument. Finite-generator
+presentations may split on extension to their closed parameter planes.
+The existing FiniteCorrespondenceFamilyMember.pairOverIndependentExtension
+constructs pairs over an independent extension of a finite-generator
+parameter field. Here ambient closedness makes the closed parameter planes
+algebraically closed. Equality of coefficient CLOSURES
+does not assert literal equality of the generated fields.
+
+One new public theorem uses three consumed private helpers and the
+previous incidence/coefficient APIs. A native-field endpoint helper is
+consumed six times; it keeps the dependent field change out of the main
+proof and passes the default kernel limits. Two real private examples
+derive all three common-field prime equations, exact ideals, original
+closures and composition at the canonical witness, and derive the same
+equation at endpoints moved by an actual common-field endomorphism.
+The universally quantified Ψ is never transported.
+
+No new public rank wrapper, field definition, normalization interface or
+checking option is added. Nonclosed function-field composition, group
+chunks, actual actions/classification, initial charts, Q/Q′/J completeness
+and unconditional reconstruction remain open. Frozen M4a is unchanged.
 
 # The affine-grid extraction boundary
 %%%

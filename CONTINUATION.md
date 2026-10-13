@@ -8262,3 +8262,187 @@ Both guards, source proof gaps and frozen117 retained. #5open/#11closed.
 Root sole main/compiler; peer read-only. Actualappend review plus
 mandatory final full/book AFTER this append precede commit/push/CI.
 The shared full-blueprint durable goal continues unchanged.
+
+
+## Actual common-closed-base incidence composition (#27/#5)
+
+Base clean48dd789d913bc22abd1e7f4db968afb8797a5a58, exactCI38450348285
+BOTHjobs/EVERYstep SUCCESS; allSIXreports/bodies and27ownerrefs reconciled.
+PROJECT_GOAL unchanged/read; full unconditional blueprint objective ACTIVE.
+Root sole main/compiler; Claude read-only/no source/compilerGO.
+
+READONLY16pins+7supplement, precise actual/inherited/NOTread ledger.
+Root initial source1415-1535/1708-1790, Composition1-210/268-400/412-440,
+Family1-155/672-744/946-1020, FamilyCover1-110/646-724, FiniteRank190-207/
+225-294, PsiLattice138-174/215-256, Psi51-150 read. Supplement actual
+GeometricPrimeFULL85, BaseChange929-1018, CurveEquation72-126,
+CEqTransport238-282, ClosedLattice1-75, MathlibAlgClosure145-190.
+Other pins/inventory not falsely counted as full reads. Guessed missing
+IndependentPoints/PsiGeneric/TransferACF paths have no pins/read claims.
+
+Claude5986/5987 confirms source orientation notation inconsistency:
+historical A:YtoX requires transpose before B:YtoZ to get C:XtoZ.
+Canonical model X=x,Y=ax+b,Z=cY+d gives gamma=beta alpha-transpose.
+This is not a refutation of guarded completeness or a chart proof.
+Root reports FIRST #27comment6153067856, original source retained.
+Rank5 standalone producer is TRUE but duplicates old Composition
+fiber_product_rank_count; Claude5987 REJECT adopted, no new wrapper.
+FamilyMembers directly constructible; no new public family interface.
+Finite-generator parameter ideals can split; shared-endpoint rfl alone
+does not justify genuine coefficient/composite preservation.
+
+Claude5989 verifies7supplementpins/precise bounded actualreads. OLD
+BaseChange.idealOf_map_eq_span already supplies no-splitting overACF
+base and two-way generic larger field; proposed generic wrapper dropped.
+GeometricPrime is comparison-only, not imported/edited. Mathlib
+algebraicClosure_eq_bot_iff plus IsRAC makes closed planes ACF.
+ONE consumed private canonical-map helper reuses old monic uniqueness.
+Commonfield AjoinB containsC by equalrank4; notLe clauses keep endpoints
+generic. Old coefficientClosure_eq remains general and reused in same
+module. No PsiLattice promotion/new import/public Prop/field definition.
+Claude5991 ACCEPTS the strongest small actualPsi+ACFK commonfield
+three-germ/fullcoeffclosure/correctedComposes target; root5992 PRIVATEGO.
+
+Complete actualcurrent namespace/cache mirrored BEFOREwrite:
+Math266/ALL1330cache, Book15/ALL75. Modified source/ALLcache links
+unlinked BEFOREwrite. No write-through/partial namespace. Main clean.
+FIRST4.03s/min36.31GiB/RSS2.59GiB fails only explicit RingHom/field
+views/adjoin_self and current instance-proof style boundaries.
+SECOND4.03s/min35.76GiB only missing EXPLICITbase k on adjoin_self,
+longline and instance style. THIRD4.03s/min35.25GiB only final
+dependent common-field rewrite; FOURTH4.03s/min35.75GiB only field
+instance motive. ALLfour failed source/log/metrics triples retained.
+FIFTH38.26s/min33.29GiB/RSS5.58GiB reaches defaultkernel deterministic
+timeout on whole public proof after a broad field transport. Retained.
+NO checking-budget increase, weakened lint/kernel or checking option.
+
+Root factors only the new proof: exists_closed_incidencePair wraps OLD
+incidencePair at the whole closed field, native type/endpoints paid once
+inside a local proof motive. Consumed SIXtimes; no exported Prop/field
+definition. Public proof now native A/B/C/commonF fields, no broad final
+value transport. Claude5994 accepts this third consumed helper.
+SIXTH2.01s/min36.19GiB and SEVENTH2.01s/min36.17GiB EMPTY standard/
+default green. Three helpers: closed_isAlgClosed, native endpoint
+constructor, canonical coefficient base-change. ONE new public:
+Psi.exists_composing_closed_incidence_germs, actualPsi+ACFK ONLY.
+No ACFk/guards/chart/group/action/prime/rank/coefficient oracle.
+
+MetadataFIRST4.02s/min36.12GiB/RSS2.53GiB green. Old3SIG/proofs+1AX
+TYPE/RAW/ATTR/DOC/axiom/normalizedproof/deny exact; add ONLYnew4SIG/
+proofs and1publicAX, totals7/7/2. Old3diagnostic INPUTs/genres/options
+BYTEexact, old6baseline input/output files retained. Standard Lean
+axioms and0generated only in newauditedscope, not whole-library cert.
+TWOreal57line privateexamples/ZEROhelpers FIRST2.01s/min35.94GiB EMPTY.
+Canonical5-coordinate actualPsi derives all3commonfieldprimes/exact
+span ideals/original racl{a,b},{c,d},{ac,bc+d} and composition.
+Actual commonfield-linear endomorphism derives moved ideal/same
+equation; no universally quantified Psi transport.
+
+Claude5998 SOURCE ACCEPT verifies16pins/mainclean/originalcbedexact.
+Reads FULLnewsource diff/l160-342, FULL57consumer, fullSIG/AX/proof
+baseline-current diffs (addONLY4/1/4). NOTread acceptance JSON bodies,
+diagnostic .lean drivers or rootledger (hash-only). Newhelper proof
+shape/sourcehypotheses/actual coefficient derivation and corrected
+composition all verified. Adopt N1module status and N2parameter-plane
+wording now; N3canonical helper is a promotion candidate upon another
+independent consumer, kept private. Math/consumer untouched.
+
+Exactly FOUR proposed paths: existingParameterField newblock and
+explicit module prose/ONEnewpublic doc precision; Book ONEnewaccount
+and ONEscope clause, NOimport; sourceONEconcordance; append-onlyCONT.
+Root/PsiLattice/dependencies/Main/frozen117 and other265Math sources
+unchanged. Entire previous source/all49active/originalprovenance/raw
+historic statements/44proofs/listings/literals recovered by removing
+ONEconcordance. Old Gamma orientation/proof remains retained.
+This covers the common-closed-base germ parameter form of(8.6).
+Nonclosed-functionfield composition/C2, group chunks, actual actions/
+classification, initialcharts, Q/Qprime/J completeness and unconditional
+reconstruction remainOPEN. Local same-endpoint selector is not the
+substantive proof: exact ideal extension and coefficient preservation
+precede it. Shared fullgoal not narrowed to this source primitive.
+Canonical/book/source views, fullmainbook/fresh138older+FOURnewchecks,
+actualappend/peer/finalfullbook AFTERappend precede commitpush/exactCI.
+
+
+
+Actual common-closed-germ checkpoint acceptance: Claude6003 verifies9
+four-path pins/leaf351/CONT8364 with historical8264wholeprefix exact.
+Reads FIRST80 changed leaf lines plus docstring/declaration grep of
+rest; remaining helper/public proof lines were read FULL at5998.
+Bookdiff415-471, Texdiff5848-5885, FULL100lineCONTappend read. NOTread queued/proposed/acceptanceJSON bodies
+(hash-only). Math matches prior5998 read line-for-line, but peer did
+NOTbytecompare overwritten95e18549; exactness rests on root metadata.
+Root retains actual342line before_docs snapshot and BYTEcompares full
+mathematical source by reversing ONLYdeclared prose changes.
+
+Claude6006 corrects5989(5): pairOverIndependentExtension itself is
+purely transcendental, so it does not cause splitting. Splitting caveat
+is finite-generator presentation extended to CLOSEDparameter planes.
+Root changes onlynewPubDOC/Booknewaccount precision; actual API name
+FiniteCorrespondenceFamilyMember.pairOverIndependentExtension.
+No claim that its independent extension splits. NewPubDOC explicitly
+uses closed presentations; module header and status separate both
+proved clauses from nonclosed composition/group/chart/completeness.
+All math/57consumer BYTEexact against SOURCE-reviewed actualsnapshot.
+
+ProducerEIGHTH/NINTH/TENTH each2.01s EMPTY normalstandardlint/default
+kernel after prose changes; TENTHmin38.75GiB. MetadataSECOND/THIRD
+each4.02s; THIRDmin38.32GiB/RSS2.60GiB. Only NEWpublic DOChash changes
+with precision; old3SIG/proofs+1AX/attrs/docs/types/raw/deny exact,
+new4SIG/proofs+1AX totals7/7/2 reproduce accepted theorem/private
+helper records. No imports/math/helper/publictype changes.
+Canonical FIRST36.21s/min37.53GiB/RSS5.58GiB; after precision SECOND
+32.18s/min37.00GiB/RSS5.94GiB, rootstandard/default
+and properVersoBook genre. No mathematical hash-command lint on Book.
+No checking-budget increase or weakened checking despite retained
+FIFTH kernel timeout. Native endpoint helper consumed SIXtimes.
+
+Claude6010 bounded FINAL ACCEPT verifies ALL9finalprecision pins,
+leaf352, Book57c8408f, source/CONTunchanged from6003. Actually reads
+newpublicDOC/Book split/API wording diffs only; other reviewed scope
+inherited. Optional further module-header phrase deferred (true under
+base change as written). Actual source FIRST four stable passes84pages,
+24 selected accepted views,21older ACTUALLYviewed PNGs BYTEexact
+[1,2,4,5,6,67-82] plus3/83/84 ACTUALLYinspected clear/unclipped.
+No render repair/undefined/overfull/rerun error. Source ONE38line
+concordance; all49active/originalprovenance/rawhistoric statements,
+all44proofs/listings/literals BYTEexact, historicalorientation retained.
+
+Exactly FOUR paths integrated AFTER fresh repository issue instructions,
+Source5998/Doc6003/final6010 acceptance and canonical/source green.
+Full lake build passes72.40s/min36.18GiB/
+RSS8.62GiB; lake exe book passes10.06s/
+min37.95GiB/RSS1.63GiB. ALL711 historical
+warning headers exact in BOTHlogs. Hygiene267 no proof placeholder/
+projectaxiom; HTML110 retainsALL109oldpaths and first/newgerm docstrings,
+explicitnonclosed/group/chart/completeness limits, chart/frozenpages.
+Root/PsiLattice/Main/dependencies/frozen117/other265Math exact.
+ParameterField mathematical changes ONLYnewonepublic/threeconsumed
+helpers; older3mathematical blocks/imports/declarationdocs exact.
+BookONEnewaccount/ONEscopeclause NOimport; CONTappend-only.
+Compiled main Math266/ALL1330cache, Book15/ALL75cache; private own
+oleans retained, missing metadata links restored only, no write-through.
+
+ALL142 FIRST fresh actual-main sequential checks pass
+181.02s/min37.28GiB/RSS2.94GiB.
+ALL138 older INPUTbytes and276original baseline INPUT/OUTPUTfiles
+retained; allolder TYPE/RAW/ATTR/DOC/AX/proof/deny records exact.
+THREEold ParameterField fullmodule dumps add ONLYaccepted4newSIG/
+proofs and1publicAX; no false whole-output BYTEexact claim.
+FOURnew fixtures select ONLYnew4SIG/proof/1AX and EMPTY57line real
+consumer, same diagnostic genres/options/imports/module selectors
+with only named-row filters added; no duplicate fullmodule probes.
+Standard axioms/0generated only in NEWaudited scope, not wholelibrary
+certificate. Actual consumers standardlint/defaultkernel.
+
+ActualPsi+ACFK produces commonclosedF=AjoinB germs YtoX,YtoZ,XtoZ
+with coefficient CLOSURES A/B/C and correctedselectedComposes(A.swap,
+B,C). Closedgerms/no-splitting/monic transport stay inside proof;
+no extra public variant/Prop/fielddefinition/oracle. Original finite
+presentations can split on closed extension; literalgenerated-field
+equality is not claimed. Group/action/classification/initialchart,
+nonclosedC2, Q/Qprime/J and unconditional reconstruction remainOPEN.
+Sourceorientation report6153067856 precededconcordance; all original
+proofs/gaps/frozen117 retained. #5open/#11closed. Root sole main/compiler,
+peer readonly. Actualappend review and finalfull/book AFTERthisappend
+precedecommitpush/exactCI. Fullsharedgoal continues unchanged.
