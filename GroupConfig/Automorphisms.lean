@@ -10,8 +10,10 @@ import GroupConfig.Rank
 
 Blueprint `sources/group_configuration/01-universal-domain.tex`, `lem:equiv`:
 every `k`-automorphism of `K` preserves relative algebraic closures, ranks and
-independence.  (`lem:conj` is `AclGeom.exists_ambientAutomorphism_of_idealOf_eq`;
-`lem:orbit` is proved in the module on definable closure, where it is used.)
+independence. (`lem:conj` is `AclGeom.exists_ambientAutomorphism_of_idealOf_eq`.)
+The algebraic-to-finite direction of `lem:orbit` is `GroupConfig.finite_conjugates`
+in the separate conjugate-set layer, pending integration. Its converse and the
+transcendental orbit characterization remain obligations.
 
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.

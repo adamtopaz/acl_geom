@@ -133,6 +133,16 @@ theorem IsConstructibleOver.extend_base {L : Type*} [Field L] [Algebra k L]
   ext p
   simp [MvPolynomial.pointToPoint, f, MvPolynomial.aeval_map_algebraMap]
 
+/-- Enlarging an intermediate coefficient field along its inclusion preserves
+constructibility. Admissible word relations and their common sampling field
+use this form without choosing a separate algebra structure. -/
+theorem IsConstructibleOver.of_le_intermediateField
+    {E E' : IntermediateField k K} (h : E ≤ E') {X : Type*} {s : Set (X → K)}
+    (hs : IsConstructibleOver (↥E) s) : IsConstructibleOver (↥E') s := by
+  let _ : Algebra ↥E ↥E' := (IntermediateField.inclusion h).toRingHom.toAlgebra
+  have : IsScalarTower ↥E ↥E' K := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  exact hs.extend_base
+
 /-- Existential quantification over all ambient-field tuples `y : κ → K` preserves
 constructibility when `κ` is finite and the ambient field is algebraically closed.
 This is K-points Chevalley in formula form. -/

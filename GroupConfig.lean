@@ -38,4 +38,6 @@ import GroupConfig.Constructible.Admissible
 import GroupConfig.Constructible.InvertibleAdmissible
 import GroupConfig.Constructible.AdmissibleWords
 import GroupConfig.Constructible.FreshSamples
+import GroupConfig.Constructible.JointSamples
+import GroupConfig.Constructible.CommonSamples
 import GroupConfig.Germ.OrbitParameters

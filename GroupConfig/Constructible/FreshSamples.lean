@@ -16,9 +16,9 @@ prescribed small field. Thus the required majority samples are obtained
 internally, independently from that field.
 
 **Status:** fresh samples and the resulting common constructibility of Adm
-and Adm× are proved. A single fresh sampling field also serving germ equality
-and arbitrary finite word relations is a later assembly step. The constructible
-group is not asserted here.
+and Adm× are proved. `GroupConfig.Constructible.CommonSamples` also supplies
+a single fresh field for germ equality. A common fresh field for arbitrary
+finite word relations and the constructible group remain obligations.
 -/
 
 namespace GroupConfig

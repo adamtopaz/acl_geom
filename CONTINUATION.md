@@ -9806,3 +9806,31 @@ be assembled. The actual group domain with the generic stabilization condition,
 its surjection, quotient relations, stabilizer and action are not established
 by these modules. The source TeX, frozen chain and original reconstruction
 endpoint are unchanged.
+
+
+## A common fresh field for actual parameter relations (2026-10-14, #12/#29)
+
+`Constructible.JointSamples` chooses two generic sampling families over any
+prescribed small field, proves their cross-independence over that field and
+joint freshness from it. `Constructible.CommonSamples` uses one field generated
+by the two families for the actual Adm, Adm× and parameter-germ equality sets.
+The samples have size twice the number of equality parameters plus one; the
+source family serves equality and the target family serves admissibility and
+invertibility. The equality proof reduces the two one-letter word germs using
+composition with the identity. No sampling existence certificate is an input.
+This discharges the first sentence of supplemental `lem:adm-constructible`;
+a common fresh field for arbitrary finite word relations remains open.
+
+Intermediate-field monotonicity of constructibility is now public in `Closure`,
+used by both `AdmissibleWords` and `CommonSamples`; the duplicate private/local
+helpers are removed. The audit with Claude is tracked on #29. Automorphism and
+inverse module descriptions now distinguish the proved orbit direction and
+composition-code containments from their outstanding converse and heterogeneous
+rank statements. The finite-set code coefficient-vector presentation is not
+identified with the separate ideal/germ RREF code vector.
+
+The actual constructible group domain, surjection, quotient relations, stabilizer
+and action remain obligations. The supplemental main theorem and arbitrary-base
+change drafts await integration. Original algebraization, action classification,
+guarded charts and unconditional reconstruction are unchanged and open. The
+source TeX and frozen M4a chain are unchanged; the untracked PDF stays excluded.

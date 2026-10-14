@@ -77,14 +77,6 @@ def HasGenericSamples (L : IntermediateField k K) {κ : Type*} (b : κ → K) (N
       ∑ i, erk k ((⊥ : IntermediateField k K) : Set K) (range (t i)) ∧
     2 * N + 1 ≤ n ∧ ∀ i, range (t i) ⊆ L
 
--- Sole consumer: the constructibility theorems below, which work over a field of samples.
-private theorem isConstructibleOver_of_le {E E' : IntermediateField k K} (h : E ≤ E')
-    {X : Type*} {s : Set (X → K)} (hs : IsConstructibleOver (↥E) s) :
-    IsConstructibleOver (↥E') s := by
-  let _ : Algebra ↥E ↥E' := (IntermediateField.inclusion h).toRingHom.toAlgebra
-  have : IsScalarTower ↥E ↥E' K := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
-  exact hs.extend_base
-
 -- Sole consumer: the chain relation below. The graph of an expression read off arbitrary
 -- coordinates of a point.
 private theorem isConstructibleOver_graph_comp [IsAlgClosed K] {μ κ τ X : Type*} [Finite τ]
@@ -319,7 +311,7 @@ theorem isConstructibleOver_isGerm {κ : Type v} {b : κ → K} (w : Word k P a 
     exact eq_univ_of_forall fun u ↦ ⟨Germ.id a, rfl⟩
   | @fwd κ' τ μ _ _ _ b w c F ρ hdim ih =>
     obtain ⟨hw, n, t, ht, hind, hn, htL⟩ := hL
-    have hA := isConstructibleOver_of_le (adjoin_le_iff.2 (iUnion_subset htL))
+    have hA := IsConstructibleOver.of_le_intermediateField (adjoin_le_iff.2 (iUnion_subset htL))
       (F.isConstructibleOver_admissible b c hdim t ht hind (by rwa [Fintype.card_fin]))
     convert (ih hw).inter (hA.preimage_comp ρ) using 1
     ext u
@@ -331,7 +323,7 @@ theorem isConstructibleOver_isGerm {κ : Type v} {b : κ → K} (w : Word k P a 
       exact ⟨_, g₀, hu, hg₀, rfl⟩
   | @inv κ' τ μ _ _ _ b w c F ρ hdim ih =>
     obtain ⟨hw, n, t, ht, hind, hn, htL⟩ := hL
-    have hA := isConstructibleOver_of_le (adjoin_le_iff.2 (iUnion_subset htL))
+    have hA := IsConstructibleOver.of_le_intermediateField (adjoin_le_iff.2 (iUnion_subset htL))
       (F.isConstructibleOver_invertibleAdmissible c b hdim t ht hind (by rwa [Fintype.card_fin]))
     convert (ih hw).inter (hA.preimage_comp ρ) using 1
     ext u
@@ -353,7 +345,7 @@ theorem isConstructibleOver_germ_eq [Fintype P] {κ : Type v} [Finite κ] {b : �
     (φ := fun (v : (P ⊕ ι) → K) (z : κ → K) ↦
       w₁.Chain (v ∘ Sum.inl) (v ∘ Sum.inr) z ∧ w₂.Chain (v ∘ Sum.inl) (v ∘ Sum.inr) z)
   obtain ⟨n, t, ht, hind, hn, htL⟩ := ha
-  have hQ := isConstructibleOver_of_le (adjoin_le_iff.2 (iUnion_subset htL))
+  have hQ := IsConstructibleOver.of_le_intermediateField (adjoin_le_iff.2 (iUnion_subset htL))
     (QuasiRational.isConstructibleOver_forall_generic a t ht hind (by rwa [Fintype.card_fin]) hS)
   convert ((w₁.isConstructibleOver_isGerm h₁).inter (w₂.isConstructibleOver_isGerm h₂)).inter hQ
     using 1
@@ -376,12 +368,12 @@ theorem isConstructibleOver_isInvertiblyAdmissible {κ : Type v} {b : κ → K}
   | nil => exact IsConstructibleOver.univ
   | @fwd κ' τ μ _ _ _ b w c F ρ hdim ih =>
     obtain ⟨hw, n, t, ht, hind, hn, htL⟩ := hL
-    have hA := isConstructibleOver_of_le (adjoin_le_iff.2 (iUnion_subset htL))
+    have hA := IsConstructibleOver.of_le_intermediateField (adjoin_le_iff.2 (iUnion_subset htL))
       (F.isConstructibleOver_invertibleAdmissible b c hdim t ht hind (by rwa [Fintype.card_fin]))
     exact (ih hw).inter (hA.preimage_comp ρ)
   | @inv κ' τ μ _ _ _ b w c F ρ hdim ih =>
     obtain ⟨hw, n, t, ht, hind, hn, htL⟩ := hL
-    have hA := isConstructibleOver_of_le (adjoin_le_iff.2 (iUnion_subset htL))
+    have hA := IsConstructibleOver.of_le_intermediateField (adjoin_le_iff.2 (iUnion_subset htL))
       (F.isConstructibleOver_invertibleAdmissible c b hdim t ht hind (by rwa [Fintype.card_fin]))
     exact (ih hw).inter (hA.preimage_comp ρ)
 

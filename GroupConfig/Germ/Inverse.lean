@@ -22,10 +22,13 @@ This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** for `lem:inverse`, the uniqueness and equivariance of inverses,
-`Cb(g⁻¹) ⊆ acl(Cb g)` and `dim V = dim V'` are complete, as is `lem:comp-codes`(1). The
+`Cb(g⁻¹) ⊆ acl(Cb g)` and `dim V = dim V'` are complete. For
+`lem:comp-codes`(1), the containments `Cb(hg) ⊆ acl(Cb g, Cb h)` and
+`Cb h ⊆ acl(Cb(hg), Cb g)` are proved here. The third containment and
+the rank equalities for germs between different loci remain obligations. The
 equivalence with definability, clause (2), is in `GroupConfig.Germ.Definable`. The exact
 equality `Cb(g⁻¹) = Cb(g)` and the swapped graph ideal of the inverse await
-`GroupConfig.ConfigurationConverse`; those modules are not integrated yet.
+`GroupConfig.ConfigurationConverse`, pending integration.
 -/
 
 namespace GroupConfig
