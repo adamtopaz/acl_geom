@@ -8,11 +8,12 @@ import AclGeom.Config.Semantic
 import AclGeom.Config.MeetEquations
 import AclGeom.Correspondence.AmbientAutomorphism
 import AclGeom.Correspondence.Multiplicative
+import AclGeom.Correspondence.MultiplierDescent
 import AclGeom.Correspondence.PartialQuadrangle
 import AclGeom.Geometry.Representatives
 
 /-!
-# The product output of a multiplication diagram
+# The coordinates of a multiplication diagram
 
 Over an algebraically closed ambient field of transcendence degree at least
 five, an actual multiplication diagram whose ratio comes from a semantic `Q`
@@ -21,10 +22,11 @@ of two corners, relocates the auxiliary point, and applies the multiplicative
 correspondence theorem. Two product meets and exchange descend the result
 from the fresh parameter field to the original base.
 
-This proves the product-output part of blueprint Lemma `mul-diagram`.
-The source's full auxiliary-table classification over the original base and
-unconditional guarded geometric `Q` completeness remain open. No group
-extraction statement is assumed or discharged by this proof.
+Coherent specialization to the original base then produces the full auxiliary
+coordinate table when the base is algebraically closed. This proves both
+converse clauses of blueprint Lemma `mul-diagram` under the stated ACF and
+rank-five hypotheses. Guarded geometric `Q` completeness remains open. No
+group extraction statement is assumed or discharged by these proofs.
 -/
 
 namespace AclGeom
@@ -689,5 +691,152 @@ theorem q'Sem_of_qSem_of_mulDiagram [IsAlgClosed K]
   have hE : E.1 = ClosedIF.point k (x * y) :=
     ((ClosedIF.isAtom_point hnb).le_iff_eq E.2.1).mp hle
   exact ⟨x, y, hxy, hX, hY, hS, hE⟩
+
+/-- Convert the fresh closed-base normalization into finite closure relations
+over the original base, before choosing a specialization. -/
+private theorem exists_specializable_corners [IsAlgClosed K]
+    {a b c x y : K} (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (h : AlgebraicIndependent k ![a, x, y])
+    (hbx : b ∈ racl k {a, x}) (hxb : x ∈ racl k {a, b})
+    (hcy : c ∈ racl k {a, y}) (hyc : y ∈ racl k {a, c})
+    (hv : x / y ∈ racl k {b, c}) (hxb' : x ∉ racl k {b}) :
+    ∃ t α : K, t ∉ racl k {a, x, y} ∧ α ≠ 0 ∧ α ∈ racl k {t, a} ∧
+      b ∈ racl k {t, α * x} ∧ c ∈ racl k {t, α * y} := by
+  classical
+  obtain ⟨t, α, ht, hαi, ha, hb, hc⟩ :=
+    exists_normalized_corners htr h hbx hxb hcy hyc hv hxb'
+  have h4 := independent_four_of_fresh_three h ht
+  have hai : AlgebraicIndependent ↥(racl k {t}) ![a, x, y] :=
+    independent_over_closed_singleton (by
+      convert h4.comp (![1, 0, 2, 3] : Fin 4 → Fin 4) (by decide) using 1
+      ext i
+      fin_cases i <;> rfl)
+  have haempty : a ∉ racl ↥(racl k {t}) (∅ : Set K) :=
+    notMem_racl_empty_of_transcendental (hai.transcendental 0)
+  have hαa : α ∈ racl k {t, a} := by
+    have ham : a ∈ racl ↥(racl k {t}) (insert α (∅ : Set K)) := by simpa using ha
+    have hm := racl_exchange ham haempty
+    have hm' : α ∈ racl ↥(racl k {t}) {a} := by simpa using hm
+    rwa [mem_racl_closed_base_iff, Set.singleton_union] at hm'
+  have hb' : b ∈ racl k {t, α * x} := by
+    rwa [mem_racl_closed_base_iff, Set.singleton_union] at hb
+  have hc' : c ∈ racl k {t, α * y} := by
+    rwa [mem_racl_closed_base_iff, Set.singleton_union] at hc
+  exact ⟨t, α, ht, hαi.ne_zero 0, hαa, hb', hc'⟩
+
+/-- Specialize the corner relations while fixing the entire original closed
+coordinate field. The finite-type homomorphism produces the common multiplier. -/
+private theorem exists_descended_corner_memberships [IsAlgClosed K] [Infinite k]
+    {a b c x y : K} (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (h : AlgebraicIndependent k ![a, x, y])
+    (hbx : b ∈ racl k {a, x}) (hxb : x ∈ racl k {a, b})
+    (hcy : c ∈ racl k {a, y}) (hyc : y ∈ racl k {a, c})
+    (hv : x / y ∈ racl k {b, c}) (hxb' : x ∉ racl k {b}) :
+    ∃ β : K, β ≠ 0 ∧ β ∈ racl k {a} ∧
+      b ∈ racl k {β * x} ∧ c ∈ racl k {β * y} := by
+  obtain ⟨t, α, ht, hα0, hαa, hb', hc'⟩ :=
+    exists_specializable_corners htr h hbx hxb hcy hyc hv hxb'
+  let F := racl k ({a, x, y} : Set K)
+  let : IsAlgClosed F := isAlgClosed_closed_parameters _
+  have htF : Transcendental F t := by
+    intro halg
+    exact ht (isRAC_racl _ t halg)
+  have haF : a ∈ F := subset_racl k _ (by simp)
+  have hxF : x ∈ F := subset_racl k _ (by simp)
+  have hyF : y ∈ F := subset_racl k _ (by simp)
+  have hbF : b ∈ F := by
+    change b ∈ racl k ({a, x, y} : Set K)
+    exact racl_mono (k := k) (K := K) (S := {a, x}) (T := {a, x, y})
+      (Set.insert_subset (Set.mem_insert _ _) (Set.singleton_subset_iff.mpr
+        (Set.mem_insert_of_mem _ (Set.mem_insert _ _)))) hbx
+  have hcF : c ∈ F := by
+    change c ∈ racl k ({a, x, y} : Set K)
+    exact racl_mono (k := k) (K := K) (S := {a, y}) (T := {a, x, y})
+      (Set.insert_subset (Set.mem_insert _ _) (Set.singleton_subset_iff.mpr
+        (Set.mem_insert_of_mem _ (Set.mem_insert_of_mem _ rfl)))) hcy
+  exact exists_multiplier_descent (k := k) (K := K) (F := F) (t := t) (α := α)
+    (⟨a, haF⟩ : F) ⟨b, hbF⟩ ⟨c, hcF⟩ ⟨x, hxF⟩ ⟨y, hyF⟩ htF h
+    hα0 hαa hb' hc'
+
+/-- A descended multiplier is nonconstant by the actual corner distinctness;
+exchange and the original independent coordinates finish the normalization. -/
+private theorem exists_original_normalized_corners [IsAlgClosed K] [Infinite k]
+    {a b c x y : K} (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (h : AlgebraicIndependent k ![a, x, y])
+    (hbx : b ∈ racl k {a, x}) (hxb : x ∈ racl k {a, b})
+    (hcy : c ∈ racl k {a, y}) (hyc : y ∈ racl k {a, c})
+    (hv : x / y ∈ racl k {b, c}) (hxb' : x ∉ racl k {b}) :
+    ∃ β : K, AlgebraicIndependent k ![β, x, y] ∧
+      a ∈ racl k {β} ∧ b ∈ racl k {β * x} ∧ c ∈ racl k {β * y} := by
+  obtain ⟨β, -, hβa, hbβ, hcβ⟩ :=
+    exists_descended_corner_memberships htr h hbx hxb hcy hyc hv hxb'
+  have hβempty : β ∉ racl k (∅ : Set K) := by
+    intro hm
+    have hβx : β * x ∈ racl k {x} := mul_mem
+      (racl_mono (Set.empty_subset _) hm) (subset_racl k _ rfl)
+    have hbx' : b ∈ racl k {x} := racl_le_of_subset_racl
+      (Set.singleton_subset_iff.mpr hβx) hbβ
+    obtain ⟨habc, -⟩ := incidence_corners_independent h hbx hxb hcy hyc
+    have hbempty : b ∉ racl k (∅ : Set K) :=
+      notMem_racl_empty_of_transcendental (habc.transcendental 1)
+    have hex := racl_exchange (S := (∅ : Set K)) (by simpa using hbx') hbempty
+    exact hxb' (by simpa using hex)
+  have haβ : a ∈ racl k {β} := by
+    have hex := racl_exchange (S := (∅ : Set K)) (by simpa using hβa) hβempty
+    simpa using hex
+  refine ⟨β, ?_, haβ, hbβ, hcβ⟩
+  apply (algebraicIndependent_congr_racl (v := ![a, x, y]) (w := ![β, x, y]) ?_).mp h
+  intro i
+  fin_cases i
+  · exact racl_singleton_congr haβ hβa
+  · rfl
+  · rfl
+
+/-- A genuine point contained in a principal rank-one closure is that point.
+The point hypothesis supplies nontriviality of the target closure. -/
+private theorem point_eq_of_rep_mem {P : Point k K} {z : K}
+    (h : P.rep ∈ racl k {z}) : P.1 = ClosedIF.point k z := by
+  have hle : P.1 ≤ ClosedIF.point k z := by
+    rw [← P.point_rep]
+    exact ClosedIF.point_le_iff.mpr h
+  have hz : z ∉ (⊥ : ClosedIF k K) := by
+    intro hm
+    rw [ClosedIF.point_eq_bot_iff.mpr hm] at hle
+    exact P.2.1 (le_bot_iff.mp hle)
+  exact ((ClosedIF.isAtom_point hz).le_iff_eq P.2.1).mp hle
+
+/-- The full original-base coordinate table of a multiplication diagram.
+Over algebraically closed fields with ambient transcendence degree at least
+five, the actual bottom representatives and ratio determine one independent
+multiplier for all four auxiliary points and the original product point.
+No corner normalization, algebraic group or specialization oracle is assumed. -/
+theorem mulDiagram_coordinates [IsAlgClosed k] [IsAlgClosed K]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    {X Y V E A B C D : Point k K} {x y : K}
+    (hmul : MulDiagram X Y V E A B C D)
+    (hX : X.1 = ClosedIF.point k x) (hY : Y.1 = ClosedIF.point k y)
+    (hV : V.1 = ClosedIF.point k (x / y)) :
+    ∃ a : K, AlgebraicIndependent k ![a, x, y] ∧
+      A.1 = ClosedIF.point k a ∧ B.1 = ClosedIF.point k (a * x) ∧
+      C.1 = ClosedIF.point k (a * y) ∧ D.1 = ClosedIF.point k (a * x * y) ∧
+      E.1 = ClosedIF.point k (x * y) := by
+  obtain ⟨haxy, hb, hx, hc, hy, hv, hd₁, hd₂, he₁, he₂, hxb⟩ :=
+    multiplication_incidence_data hmul hX hY hV
+  obtain ⟨a, ha, hA, hB, hC⟩ :=
+    exists_original_normalized_corners htr haxy hb hx hc hy hv hxb
+  have hd₁' : D.rep ∈ racl k {a * x, y} := by
+    refine racl_le_of_subset_racl (S := {a * x, y}) (T := {B.rep, y}) ?_ hd₁
+    refine Set.insert_subset_iff.mpr ⟨?_, Set.singleton_subset_iff.mpr ?_⟩
+    · exact racl_mono (Set.singleton_subset_iff.mpr (Set.mem_insert _ _)) hB
+    · exact subset_racl k _ (Set.mem_insert_of_mem _ rfl)
+  have hd₂' : D.rep ∈ racl k {x, a * y} := by
+    refine racl_le_of_subset_racl (S := {x, a * y}) (T := {x, C.rep}) ?_ hd₂
+    refine Set.insert_subset_iff.mpr ⟨?_, Set.singleton_subset_iff.mpr ?_⟩
+    · exact subset_racl k _ (Set.mem_insert _ _)
+    · exact racl_mono (Set.subset_insert _ _) hC
+  have hD := mem_racl_product_meet ha hd₁' hd₂'
+  have hE := product_mem_of_normalized_corners ha hA hB hC hd₁ hd₂ he₁ he₂
+  exact ⟨a, ha, point_eq_of_rep_mem hA, point_eq_of_rep_mem hB,
+    point_eq_of_rep_mem hC, point_eq_of_rep_mem hD, point_eq_of_rep_mem hE⟩
 
 end AclGeom

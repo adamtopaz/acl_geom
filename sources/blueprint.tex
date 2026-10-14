@@ -1109,8 +1109,28 @@ The two independent-variable product meets put $d$ in the closure of
 $\alpha xy$ and $e$ in the closure of $xy$ over that fresh base.
 Exchange then removes $a_0$, proving the original-base equality $E=[xy]$.
 
-This does not classify all auxiliary representatives over the original base;
-that stronger clause and the bypassed group/chunk results remain obligations.
+When the original base is algebraically closed, the full auxiliary table is
+now proved by \lean{mulDiagram_coordinates}.  Put $F=\acl_k(a,x,y)$.
+The fresh parameter $a_0$ is transcendental over this algebraically closed
+field.  Choose nonzero equations over $k$ for
+$\alpha\in\acl_k(a_0,a)$, $b\in\acl_k(a_0,\alpha x)$ and
+$c\in\acl_k(a_0,\alpha y)$.  Each becomes the zero polynomial in its
+remaining variables for only finitely many values of $a_0$ in $k$.
+Adjoin $a_0,\alpha,\alpha^{-1}$ to $F$, together with the inverse of the
+product excluding those bad values.  Chevalley's theorem and the infinitude
+of $k$ give one homomorphism of this finite-type algebra to $F$ that sends
+$a_0$ into $k$.  This homomorphism fixes all original coordinates and
+preserves all three equations simultaneously.
+
+The specialized multiplier $\beta$ is nonzero and belongs to $\acl_k(a)$.
+Independence keeps $\beta x,\beta y$ transcendental over $k$, so the other
+two equations give $b\in\acl_k(\beta x)$ and $c\in\acl_k(\beta y)$.
+This is \lean{exists_multiplier_descent}.  If $\beta\in\acl_k(\varnothing)$,
+then $B=X$, contradicting nondegeneracy.  Exchange gives $A=[\beta]$ and
+independence of $\beta,x,y$; the original-base product meets then give
+$D=[\beta xy]$ and $E=[xy]$.  Thus one coherent specialization proves the
+full table without a supplied group or branch-choice hypothesis.
+The true bypassed group/chunk results remain obligations.
 The proved reductions
 \lean{q'Sem_of_q'Geom_of_guardedQCompleteness} and
 \lean{jCompletenessACF_of_guardedQCompleteness}

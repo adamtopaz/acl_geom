@@ -8624,3 +8624,81 @@ private MultiplicationQuadrangle dead-end is unimported and not integrated.
 The prior snapshot remains immutable; this continuation is appended ONCE from
 current main and copied outward. Final full build and book after this append
 must precede commit/push, exact CI observation and repository-issue reporting.
+
+
+## Full original-base multiplication coordinates by coherent specialization (#6)
+
+Starting from95c9e2ad24c2261ea40e51e195267b9be195d3c8, this checkpoint proves
+mulDiagram_coordinates in Config/MultiplicationConverse.lean. Under ACF k/K
+and ambient trdeg at least5, an ACTUAL MulDiagram with X=[x], Y=[y], V=[x/y]
+admits ONE independent multiplier a with A=[a], B=[ax], C=[ay], D=[axy],
+and E=[xy]. No normalization, algebraic-group or branch-choice conclusion is
+supplied by the caller. This finishes the original-base auxiliary-table clause
+of blueprint Lemma mul-diagram in the rank-five ACF setting. Guarded Q remains
+open; the existing reductions still make it the remaining input for Q′/J
+completeness. Main's conditional reconstruction inputs are unchanged. True
+bypassed group/chunk/action statements remain owed, and the full shared goal
+has not been narrowed. PROJECT_GOAL records only this changed frontier.
+
+Correspondence/Specialization.lean uses Mathlib Chevalley constructibility to
+find a principal open in an injective finitely presented spectrum image.
+An infinite subfield supplies a parameter value there, and the ACF residue
+field argument supplies an actual algebra homomorphism. The finite root
+bound shows that a nonzero polynomial in T,U,V becomes identically zero in
+U,V for only finitely many T-values in k. Inverting the product excluding
+those values lets ONE homomorphism preserve all chosen incidence equations.
+Its public finite-polynomial specialization theorem and evaluation identity
+are consumed by Correspondence/MultiplierDescent.lean, which derives beta
+nonzero in acl(a), b in acl(beta*x), and c in acl(beta*y). Independence keeps
+the last two first coordinates transcendental. The actual diagram then forces
+beta nonconstant (otherwise B=X), gives A=[beta] and independent beta,x,y by
+exchange, and supplies D/E through the proved original-base product meets.
+
+There are18 new declarations:4public and14 consumed private helpers. The
+canonical actual-diagram consumer checks every row and independence. All28
+older declarations in the affected converse/Correctness scope retain exact
+types, attributes, docstrings and raw/normalized proofs. Eight old public axiom
+rows are exact; the four new public rows use only propext, choice and quotient
+soundness. This is a scoped dependency audit, not a whole-library certificate.
+All other tracked sources, Main interfaces and frozen117 remain byte-exact.
+
+The private complete overlay is /tmp/acl_geom_codex_specialization_95c; new
+outputs never write through source/cache links. math_source_checks.json and
+Table{Signatures,Proofs,Axioms}.tsv record private acceptance. All three producers
+and the real table consumer pass default kernel/standard Mathlib lint with
+empty logs in10.00s/min40.14GiB. Metadata passes in4.00s/min40.32GiB. Several
+failed drafts and exact snapshots are retained. One default-heartbeat failure
+was repaired by explicit closure sets and field arguments, without increasing
+checking limits. The Verso module was validated with its normal configuration;
+forcing Mathlib's hash-command linter merely flagged its existing #doc command.
+
+Fresh actual-main validation: full lake build 114.04s/min38.62GiB;
+lake exe book 8.00s/min40.35GiB; all150 checks 190.04s/min40.49GiB.
+/tmp/acl_geom_table_shared_probes/acceptance.json records146 byte-exact old
+fixture inputs and292 retained old input/output baselines. ALL older scoped
+records are exact, without exceptions; four new fixtures add the three scoped
+diagnostics and one canonical full-table example. Actual behavior uses default
+kernel/standard Mathlib lint; historical diagnostic genres/options are retained.
+Hygiene finds no proof placeholders/project axioms in270 library/root files.
+Both full build and book retain all711 historical warning headers exactly.
+HTML keeps all111 prior page paths and shows the three new documented results.
+
+The source concordance retains all49 active statements, every historical
+statement and all44 proofs/listings byte-exact. Four stable TeX passes give
+85pages, with pages1,2,15,16,17,18,85 actually viewed and clear; evidence is
+/tmp/acl_geom_table_tex/visual_acceptance.json. No whole-document visual review
+is claimed. The book explains the finite bad-value set, coherent homomorphism,
+nonzero specialized multiplier, and the original-base table. The original
+source group-extraction proof gap remains recorded rather than silently erased.
+
+Collaboration: root remains sole editor/compiler and Claude read-only. The
+specialization truth audit and exact checked-source reviews were requested
+through chit6070/6072/6076/6078/6079, and matching goal/book/source review in6080.
+No reply has returned at this append; final acceptance is not inferred from
+silence. The prior product-converse tail review also remains pending. Root's
+kernel, real-consumer, regression and rendering gates pass. As requested,
+commit and push this green mathematical checkpoint after another full build
+and book AFTER this append, then observe exact CI and report on repository
+issues. Address any later peer correction with fresh affected validation.
+The single-family lock, two threads and30GiB available-memory stop remain in
+force; actual compiler exits precede source writes and subsequent builds.
