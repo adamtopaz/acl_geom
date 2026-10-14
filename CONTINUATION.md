@@ -9522,3 +9522,45 @@ chart target. The book and root import are synchronized in this change; the
 shared goal and source TeX are unchanged. Full final library/book and scoped
 axiom gates must pass after all edits before committing. Use one monitored
 family, two threads and the30GiB stop; exclude the supplemental PDF.
+
+
+## Complete actual Ψ six-point input (#12/#27)
+
+After `389cb3a`, `AclGeom/Config/ConfigurationInput.lean` derives the full
+supplemental `GroupConfig.GroupConfiguration` predicate from an actual Ψ
+witness in an ACF universal ambient, over an arbitrary original base.
+`QWitness.Psi.groupConfiguration` supplies every GC1–GC5 clause, and
+`groupConfiguration_with_ranks` records group rank2 and space rank1. The
+six public tuple definitions are the displayed parameter pairs and singleton
+space representatives; these two theorems are their named consumers.
+No configuration/group/chart/action/completeness premise is supplied by the caller.
+
+GC1/GC2 follow from equal finite ranks of comparable closed hulls. The nine
+plane-pair/space triples have rank5. Finite-set independence passes to the
+incidence closures to prove AYZ/BXZ/CXY; line replacement gives AXZ/BXY/CYZ;
+Z independent from acl(AY), containing X,Y, proves XYZ. The actual sixteen
+triples match `indep_of_sixteen` literally. Previously committed canonical-base
+identifications give GC4; rank2 gives GC5. All helpers are private with this
+construction as consumer. The existing Point.rankEq_one proof is exported,
+and the existing private point-adjoining proof is exported as
+RankEq.sup_point_of_not_le, with every proof body preserved and its old uses
+renamed. No new rank-calculus chain, checking-limit change or source edit.
+
+Frozen rootproducer `PsiConfigurationInputFrozen.lean` pin19e7a696 is276lines;
+default-limit/standard-lint check passes emptylog4.00s/min37.68GiB. Initial
+failures were point/field projection types, ENat normalization and the literal
+CB tuple/coercion conversion; the complete predicate and rank package now
+check. Peer strategy6360 accepted the mathematics and exact16 list; independent
+finalcode review requested6387/6388 with an immutable snapshot. Root actual-Ψ
+lane ownership and compiler reservation6386 are coordinated through chit.
+
+CanonicalBaseInput and the book are updated in the same change to remove
+stale fullinput-open wording. The previous entry's fullinput-open status is
+now superseded for the ACF universal-domain input only. The universal-ambient
+package, appropriate finite-ambient lift/descent, guarded chart (both output
+guards), group extraction/algebraization, action classification and unconditional
+reconstruction remain open. Reuse the existing QWitness.Psi.lift and lattice/
+rank/atom transfer APIs for the ambient package. The shared PROJECT_GOAL
+endpoint and both TeX sources are unchanged. Full final library/book and scoped
+axiom gates after every edit remain mandatory before the commit. One monitored
+family, two threads and the30GiB available-memory stop; exclude the PDF.

@@ -40,8 +40,10 @@ a join with a new point, and exchange of points across a closed element of finit
 **Status:** necessary lattice consequences proved (#27, L0/L0b/L0c), without ACF. The actual
 PRIVATE guarded two-family consumer derives every raw field input from `Ψ`, `I ≠ D` and an
 explicit independent initial chart. It retains base/ambient ACF and supplied fresh INPUT families.
-The three parameter-rank facts are public for Config.ParameterField, whose actual-Psi
-producer recovers the full coefficient closures of all three incidence germs. Input
+The parameter-rank facts are public for Config.ParameterField, whose actual-Psi
+producer recovers the full coefficient closures of all three incidence germs.
+The point-rank and point-adjoining rank proofs are also public for the complete
+actual six-point input in Config.ConfigurationInput. Input
 existence/enlargement/descent for an explicit chart is covered by P6. Initial charts,
 actions, extraction and completeness remain open; frozen M4a stays separate.
 
@@ -75,8 +77,8 @@ private theorem Point.not_le_bot (P : Point k K) : ¬ P.1 ≤ ⊥ :=
 private theorem Point.eq_of_le {P Q : Point k K} (h : P.1 ≤ Q.1) : P = Q :=
   Subtype.ext ((Q.2.le_iff_eq P.2.1).1 h)
 
-/-- A point has rank one. -/
-private theorem Point.rankEq_one (P : Point k K) : RankEq 1 P.1 := by
+/-- A point has rank one. Named consumer: the actual Ψ six-point input. -/
+theorem Point.rankEq_one (P : Point k K) : RankEq 1 P.1 := by
   have hind : AlgebraicIndependent k ![P.rep] := by
     rw [algebraicIndependent_unique_type_iff]
     intro halg
@@ -142,8 +144,9 @@ private theorem inf_eq_of_rankEq {m n j i : ℕ} {E F G : ClosedIF k K} (hE : Ra
       (hGle : (G : Set K) ⊆ ((E ⊓ F : ClosedIF k K) : Set K))
   exact (RankEq.eq_of_le hGle hG (rankEq_iff_eRk.2 (le_antisymm hle hge))).symm
 
-/-- Adding a point outside a closed element of rank `m` gives rank `m + 1`. -/
-private theorem rankEq_sup_point_of_not_le {m : ℕ} {E : ClosedIF k K} (hE : RankEq m E)
+/-- Adding a point outside a closed element of rank `m` gives rank `m + 1`.
+Named consumer: the incidence and independence clauses of the actual Ψ six-point input. -/
+theorem RankEq.sup_point_of_not_le {m : ℕ} {E : ClosedIF k K} (hE : RankEq m E)
     {P : Point k K} (hP : ¬ P.1 ≤ E) : RankEq (m + 1) (E ⊔ P.1) := by
   have hEr := rankEq_iff_eRk.1 hE
   have hPr := rankEq_iff_eRk.1 (Point.rankEq_one P)
@@ -180,8 +183,8 @@ private theorem le_sup_point_of_le_sup_point {m : ℕ} {E : ClosedIF k K} (hE : 
     {P Q : Point k K} (h : P.1 ≤ E ⊔ Q.1) (hP : ¬ P.1 ≤ E) : Q.1 ≤ E ⊔ P.1 := by
   have hQ : ¬ Q.1 ≤ E := fun hQ ↦ hP (h.trans (sup_le le_rfl hQ))
   have heq : E ⊔ P.1 = E ⊔ Q.1 :=
-    RankEq.eq_of_le (sup_le le_sup_left h) (rankEq_sup_point_of_not_le hE hP)
-      (rankEq_sup_point_of_not_le hE hQ)
+    RankEq.eq_of_le (sup_le le_sup_left h) (RankEq.sup_point_of_not_le hE hP)
+      (RankEq.sup_point_of_not_le hE hQ)
   rw [heq]
   exact le_sup_right
 
@@ -267,8 +270,8 @@ private theorem Psi.AX_inf_AC (hw : w.Psi) : (w.A ⊔ w.X.1) ⊓ (w.A ⊔ w.C) =
   have hXAC : ¬ w.X.1 ≤ w.A ⊔ w.C := by
     rw [Psi.AC_eq hw]
     exact hw.X_notLe
-  have h3 := rankEq_sup_point_of_not_le (Psi.rankEq_A hw) (Psi.X_not_le_A hw)
-  have h5 := rankEq_sup_point_of_not_le hw.rank_AC hXAC
+  have h3 := RankEq.sup_point_of_not_le (Psi.rankEq_A hw) (Psi.X_not_le_A hw)
+  have h5 := RankEq.sup_point_of_not_le hw.rank_AC hXAC
   have hj : (w.A ⊔ w.X.1) ⊔ (w.A ⊔ w.C) = (w.A ⊔ w.C) ⊔ w.X.1 := by
     apply le_antisymm
     · exact sup_le (sup_le (le_sup_left.trans le_sup_left) le_sup_right) le_sup_left
@@ -283,8 +286,8 @@ private theorem Psi.BY_inf_AC (hw : w.Psi) : (w.B ⊔ w.Y.1) ⊓ (w.A ⊔ w.C) =
     rw [Psi.AC_eq hw]
     exact hw.Y_notLe
   have hB := Psi.B_le_AC hw
-  have h3 := rankEq_sup_point_of_not_le (Psi.rankEq_B hw) (Psi.Y_not_le_B hw)
-  have h5 := rankEq_sup_point_of_not_le hw.rank_AC hYAC
+  have h3 := RankEq.sup_point_of_not_le (Psi.rankEq_B hw) (Psi.Y_not_le_B hw)
+  have h5 := RankEq.sup_point_of_not_le hw.rank_AC hYAC
   have hj : (w.B ⊔ w.Y.1) ⊔ (w.A ⊔ w.C) = (w.A ⊔ w.C) ⊔ w.Y.1 := by
     apply le_antisymm
     · exact sup_le (sup_le (hB.trans le_sup_left) le_sup_right) le_sup_left
@@ -315,7 +318,7 @@ private theorem Psi.U_le_ST (hw : w.Psi) : w.U.1 ≤ w.S.1 ⊔ w.T.1 := by
   have hTS : ¬ w.T.1 ≤ w.S.1 := fun h ↦ Psi.S_ne_T hw (Point.eq_of_le h).symm
   have heq : w.S.1 ⊔ w.T.1 = w.S.1 ⊔ (w.T.1 ⊔ w.U.1) :=
     RankEq.eq_of_le (sup_le_sup_left le_sup_left _)
-      (rankEq_sup_point_of_not_le (Point.rankEq_one w.S) hTS) hw.rank_STU
+      (RankEq.sup_point_of_not_le (Point.rankEq_one w.S) hTS) hw.rank_STU
   rw [heq]
   exact le_sup_right.trans le_sup_right
 
@@ -324,7 +327,7 @@ private theorem Psi.S_le_TU (hw : w.Psi) : w.S.1 ≤ w.T.1 ⊔ w.U.1 := by
   have hUT : ¬ w.U.1 ≤ w.T.1 := fun h ↦ Psi.T_ne_U hw (Point.eq_of_le h).symm
   have heq : w.T.1 ⊔ w.U.1 = w.S.1 ⊔ (w.T.1 ⊔ w.U.1) :=
     RankEq.eq_of_le le_sup_right
-      (rankEq_sup_point_of_not_le (Point.rankEq_one w.T) hUT) hw.rank_STU
+      (RankEq.sup_point_of_not_le (Point.rankEq_one w.T) hUT) hw.rank_STU
   rw [heq]
   exact le_sup_left
 

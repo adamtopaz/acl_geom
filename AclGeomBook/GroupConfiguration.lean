@@ -6,6 +6,7 @@ Authors: Adam Topaz
 import VersoManual
 import GroupConfig
 import AclGeom.Config.CanonicalBaseInput
+import AclGeom.Config.ConfigurationInput
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -323,8 +324,8 @@ hypotheses supplied by the caller.
 
 These are the three GC4 clauses for the proposed actual six-point input.
 The theorem statements retain ambient algebraic closedness and a universal
-domain; the original base field may be arbitrary. The full sixteen-triple
-input and the lift from a finite-rank ambient field remain open. These
+domain; the original base field may be arbitrary. The complete sixteen-triple input is assembled below. The universal-ambient
+package and the lift from a finite-rank ambient field remain open. These
 identifications do not extract the guarded chart, a group or its action.
 
 # Finite tuple codes
@@ -458,8 +459,42 @@ of the six tuples. Coordinate types may differ after replacement.
 This module imports the canonical-base layer directly. It proves the stated
 consequences and invariances of the configuration predicate. The remaining
 rank bounds, total-rank and point/line clauses, independent base change,
-construction of a configuration from the actual guarded-$`\Psi` witness,
-and extraction of a group remain obligations.
+the universal-ambient package and finite-ambient lift/descent for the actual
+$`\Psi` input, and extraction of a group remain obligations. The actual input
+in a universal domain is constructed below.
+
+# The complete actual Ψ six-point input
+%%%
+tag := "group-configuration-psi-input"
+%%%
+
+The actual twenty-one-point $`\Psi` witness now supplies the entire six-point
+configuration predicate. Its three parameter tuples use the displayed pairs
+of point representatives, and its three space tuples use representatives of
+$`X,Y,Z`. Equal finite ranks give the two parameter-plane incidences and the
+three space-line incidences. The rank and freeness clauses force each pair
+of space points to have rank two.
+
+Nine noncollinear triples contain two parameter planes and one space point;
+they have rank five. Independence from an incidence closure gives the
+$`AYZ`, $`BXZ` and $`CXY` triples. The three line equalities give
+$`AXZ`, $`BXY` and $`CYZ`. Finally, $`Z` is independent from the closure
+of $`A,Y`, which contains $`X,Y`, giving the $`XYZ` triple. These are exactly
+the sixteen triples required by the predicate. The canonical-base
+identifications above give all three GC4 clauses.
+
+{docstring AclGeom.QWitness.Psi.groupConfiguration}
+
+The resulting group rank is two and the space rank is one; the following
+package records those precise values along with the configuration.
+
+{docstring AclGeom.QWitness.Psi.groupConfiguration_with_ranks}
+
+Only the actual witness is supplied. Ambient algebraic closedness and a
+universal domain are explicit; the original base may be arbitrary. The
+universal-ambient package and finite-ambient lift/descent remain open. The
+initial chart still needs both output guards. Group extraction, algebraization,
+action classification and unconditional reconstruction remain separate targets.
 
 # Constructible sets
 %%%
