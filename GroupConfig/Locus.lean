@@ -7,6 +7,8 @@ import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.AmbientAutomorphism
 import GroupConfig.Rank
+import GroupConfig.Dimension
+import GroupConfig.Setting
 
 /-!
 # Loci and generic points
@@ -29,15 +31,25 @@ are independent from `M` (`IsGenericOver.indepOver`, `lem:dim`(1)); generic
 points over a larger field are generic over a smaller one
 (`IsGenericOver.of_le`); any two generic points over `M` are conjugate by an
 automorphism over `M` (`IsGenericOver.exists_algEquiv`, `lem:dim`(3)).
-Existence of generic points and the converse of `lem:dim`(2) are in the sequel.
+Existence of generic points over small subfields of a universal domain
+(`exists_isGenericOver`) is obtained by embedding the abstract generic point of
+`AclGeom.exists_genericPoint_baseChange` into `K` (relocating a transcendence
+basis to fresh elements and extending algebraically with `IsAlgClosed.lift`);
+with the dimension drop this gives the converse of `lem:dim`(2)
+(`isGenericOver_self_of_indepOver`) and `lem:fresh-conj`
+(`exists_algEquiv_indepOver`).
 
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** locus extension/contraction, primality over an algebraically closed
-base, and the stated implications from genericity are proved. Conjugacy requires
-finite tuples and an algebraically closed ambient field. Existence of generic
-points and the converse from independence to unchanged locus remain open.
+base, the stated implications from genericity, and (for finite tuples over small
+subfields of a universal domain with algebraically closed base and ambient
+fields) existence of generic points, the equivalence between independence from
+`M` and unchanged locus over `M`, and the existence of conjugates independent
+from a given small set are proved. Conjugacy requires finite tuples and an
+algebraically closed ambient field. The arbitrary-prime formulation of
+`lem:genexists`, beyond represented base loci, remains a separate obligation.
 -/
 
 namespace GroupConfig
@@ -209,6 +221,131 @@ theorem IsGenericOver.iff_idealOf_eq (h : IsGenericOver M a a') :
     IsGenericOver M a a'' ↔ idealOf (↥M) a'' = idealOf (↥M) a' := by
   unfold IsGenericOver at h ⊢
   rw [h]
+
+/-! ### Existence of generic points -/
+
+/-- A subfield of finite rank in a universal domain is itself the base of a
+universal domain. -/
+theorem universalDomain_of_isSmall [UniversalDomain k K] (M : IntermediateField k K)
+    (hM : IsSmall k (M : Set K)) : UniversalDomain (↥M) K := by
+  refine ⟨?_⟩
+  have htower := trdeg_add_eq k (↥M) (A := K)
+  have hsmall : Algebra.trdeg k ↥M < Cardinal.aleph0 := by
+    have h := hM
+    unfold IsSmall at h
+    rw [erk_empty_eq_toENat_trdeg, Cardinal.toENat_ne_top, adjoin_self] at h
+    exact h
+  by_contra hlt
+  push Not at hlt
+  have := Cardinal.add_lt_aleph0 hsmall hlt
+  rw [htower] at this
+  exact (not_le.2 this) UniversalDomain.aleph0_le_trdeg
+
+/-- `lem:genexists`: over a small subfield `M` of a universal domain, every locus over the
+algebraically closed base `k` has a generic point. -/
+theorem exists_isGenericOver [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K] [Finite ι]
+    {M : IntermediateField k K} (hM : IsSmall k (M : Set K)) (a : ι → K) :
+    ∃ a' : ι → K, IsGenericOver M a a' := by
+  classical
+  -- An abstract generic point in some extension `K₀` of `M`.
+  obtain ⟨K₀, _, _, _, _, b₀, hb₀, -, -⟩ :=
+    exists_genericPoint_baseChange (k := k) (E := ↥M) (F := K) a
+  let L₀ : IntermediateField (↥M) K₀ := IntermediateField.adjoin (↥M) (Set.range b₀)
+  -- A transcendence basis of `M(b₀)` over `M`; it is finite.
+  obtain ⟨ι', t, ht⟩ := exists_isTranscendenceBasis' (↥M) ↥L₀
+  have hfin : Algebra.trdeg (↥M) ↥L₀ < Cardinal.aleph0 := by
+    rw [← Cardinal.toENat_ne_top,
+      ← AlgebraicIndependent.matroid_eRk_eq_toENat_trdeg (↥M) (Set.range b₀)]
+    exact (((AlgebraicIndependent.matroid (↥M) K₀).eRk_le_encard _).trans_lt
+      (finite_range b₀).encard_lt_top).ne
+  have hι' : Finite ι' := by
+    rw [← Cardinal.lt_aleph0_iff_finite, ht.cardinalMk_eq_trdeg]
+    exact hfin
+  obtain ⟨n, ⟨e⟩⟩ := Finite.exists_equiv_fin ι'
+  -- A fresh tuple of the same size in `K`, independent over `M`.
+  obtain ⟨s₀, hs₀ind, hs₀inj⟩ := exists_fresh_tuple hM n
+  have hs₀ : AlgebraicIndependent (↥M) s₀ := by
+    have h1 : (AlgebraicIndependent.matroid (↥M) K).Indep (Set.range s₀) := by
+      rw [← rkMatroid_coe]
+      exact hs₀ind
+    exact (algebraicIndependent_subtype_range hs₀inj).1
+      (AlgebraicIndependent.matroid_indep_iff.1 h1)
+  have hsind : AlgebraicIndependent (↥M) (s₀ ∘ e) := hs₀.comp e e.injective
+  -- Relocate the transcendental part, then extend algebraically.
+  let φ₀ : ↥(IntermediateField.adjoin (↥M) (Set.range t)) →ₐ[↥M] K :=
+    ((IntermediateField.adjoin (↥M) (Set.range (s₀ ∘ e))).val.comp
+      hsind.aevalEquivField.toAlgHom).comp ht.1.aevalEquivField.symm.toAlgHom
+  have : Algebra.IsAlgebraic (↥(IntermediateField.adjoin (↥M) (Set.range t))) ↥L₀ :=
+    ht.isAlgebraic_field
+  let _ : Algebra (↥(IntermediateField.adjoin (↥M) (Set.range t))) K := φ₀.toAlgebra
+  have : IsScalarTower (↥M) (↥(IntermediateField.adjoin (↥M) (Set.range t))) K :=
+    IsScalarTower.of_algebraMap_eq fun c ↦ (φ₀.commutes c).symm
+  let ψ : ↥L₀ →ₐ[↥(IntermediateField.adjoin (↥M) (Set.range t))] K := IsAlgClosed.lift
+  let ψ' : ↥L₀ →ₐ[↥M] K := ψ.restrictScalars (↥M)
+  let b₀' : ι → ↥L₀ := fun i ↦ ⟨b₀ i, IntermediateField.subset_adjoin _ _ ⟨i, rfl⟩⟩
+  refine ⟨fun i ↦ ψ' (b₀' i), ?_⟩
+  unfold IsGenericOver
+  rw [← hb₀]
+  have h1 : idealOf (↥M) (⇑ψ' ∘ b₀') = idealOf (↥M) b₀' := idealOf_comp_algHom (↥M) ψ' b₀'
+  have h2 : idealOf (↥M) (⇑L₀.val ∘ b₀') = idealOf (↥M) b₀' :=
+    idealOf_comp_algHom (↥M) L₀.val b₀'
+  have h3 : (⇑L₀.val ∘ b₀') = b₀ := funext fun i ↦ rfl
+  rw [h3] at h2
+  exact h1.trans h2.symm
+
+/-- `lem:dim`(2), converse: a tuple independent from a small subfield `M` is a generic
+point over `M` of its own locus over `k`. -/
+theorem isGenericOver_self_of_indepOver [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K]
+    [Finite ι] {M : IntermediateField k K} (hM : IsSmall k (M : Set K)) {a : ι → K}
+    (h : IndepOver k ∅ (Set.range a) (M : Set K)) : IsGenericOver M a a := by
+  obtain ⟨b, hb⟩ := exists_isGenericOver hM a
+  have hle : idealOf (↥M) b ≤ idealOf (↥M) a := by
+    rw [hb, Ideal.map_le_iff_le_comap]
+    intro f hf
+    rw [Ideal.mem_comap, mem_idealOf_iff, MvPolynomial.aeval_map_algebraMap]
+    exact (mem_idealOf_iff k).1 hf
+  have herk : erk k (M : Set K) (Set.range a) = erk k (M : Set K) (Set.range b) := by
+    rw [hb.erk_coe_eq, hb.erk_empty_eq]
+    have h' := h (subset_refl _) (finite_range a)
+    rwa [empty_union] at h'
+  have heq := idealOf_eq_of_le_of_erk_eq M hle herk
+  unfold IsGenericOver at hb ⊢
+  rw [← heq, hb]
+
+/-- `lem:dim`(2): a tuple is a generic point over a small subfield `M` of its own locus iff
+it is independent from `M`. -/
+theorem isGenericOver_self_iff [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K] [Finite ι]
+    {M : IntermediateField k K} (hM : IsSmall k (M : Set K)) {a : ι → K} :
+    IsGenericOver M a a ↔ IndepOver k ∅ (Set.range a) (M : Set K) :=
+  ⟨fun h ↦ h.indepOver, isGenericOver_self_of_indepOver hM⟩
+
+/-- A set of finite rank over `k` has finite rank over every larger base subfield `M`. -/
+theorem isSmall_coe_of_isSmall (M : IntermediateField k K) {C : Set K} (hC : IsSmall k C) :
+    IsSmall (↥M) C := by
+  unfold IsSmall at hC ⊢
+  rw [← erk_coe_union (k := k) M ∅ C, union_empty]
+  exact fun htop ↦ hC (top_le_iff.1 (htop ▸ erk_base_mono k (empty_subset _) C))
+
+/-- `lem:fresh-conj`: over a small algebraically closed subfield `M` of a universal domain,
+every tuple has a conjugate over `M` independent (over `M`) from any given small set. -/
+theorem exists_algEquiv_indepOver [IsAlgClosed K] [UniversalDomain k K] [Finite ι]
+    {M : IntermediateField k K} [IsAlgClosed (↥M)] (hM : IsSmall k (M : Set K)) (a : ι → K)
+    {w : Set K} (hw : IsSmall k w) :
+    ∃ σ : K ≃ₐ[↥M] K, IndepOver k (M : Set K) (Set.range (fun i ↦ σ (a i))) w := by
+  have := universalDomain_of_isSmall M hM
+  -- Work over the base `M`: a generic point of the locus of `a` over `M` over the small field
+  -- `M(w)^{alg}`.
+  let M' : IntermediateField (↥M) K := racl (↥M) w
+  have hM' : IsSmall (↥M) (M' : Set K) := (isSmall_coe_of_isSmall M hw).racl
+  obtain ⟨b, hb⟩ := exists_isGenericOver (k := ↥M) hM' a
+  obtain ⟨σ, -, hσ⟩ := exists_ambientAutomorphism_of_idealOf_eq (k := ↥M) hb.idealOf_eq.symm
+  refine ⟨σ, ?_⟩
+  have hfun : (fun i ↦ σ (a i)) = b := funext hσ
+  rw [hfun]
+  have hind : IndepOver (↥M) ∅ (Set.range b) (M' : Set K) := hb.indepOver
+  have hind' : IndepOver (↥M) ∅ (Set.range b) w := hind.mono_right (subset_racl _ w)
+  have := (indepOver_coe_union_iff M ∅ (Set.range b) w).2 hind'
+  rwa [union_empty] at this
 
 end
 

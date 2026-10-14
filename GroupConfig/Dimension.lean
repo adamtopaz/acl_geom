@@ -38,7 +38,8 @@ transcendence degree over a field,
 and its consequence for finite tuples of `K` (a proper containment of vanishing
 ideals over a subfield strictly drops the rank), are proved for arbitrary
 fields. Locus and generic-point implications are covered separately in `Locus`;
-generic-point existence and the independent-base-extension converse remain open.
+existence for represented loci and the independence converse are proved there
+under its explicit universal-domain hypotheses.
 -/
 
 universe u

@@ -9203,3 +9203,47 @@ are narrowed to its actual dependencies. Evidence and frozen producers are in
 pass after all edits before committing. Keep the single monitored compiler
 family, two threads and30GiB available-memory stop. The PDF remains excluded;
 Claude develops the generic-point existence/converse sequel privately.
+
+
+## Generic points in the ambient universal domain and fresh conjugates (#12)
+
+After 063e02a, Locus constructs the generic points needed for represented base
+loci. With algebraically closed k and K, infinite transcendence degree of K/k,
+a finite tuple a, and a finite-rank intermediate field M, `exists_isGenericOver`
+constructs a tuple a' in K whose ideal over M is exactly the extended k-ideal
+of a. It embeds the earlier abstract generic point: take a finite transcendence
+basis of its generated field over M, relocate it to a fresh tuple in K, and
+extend algebraically by `IsAlgClosed.lift`. The final ideal is preserved by the
+injective field homomorphism. No genericity witness is assumed by the caller.
+
+Dimension drop then proves `isGenericOver_self_iff`: a tuple's locus is unchanged
+on extending the base to M exactly when it is independent from M, under the
+same universal-domain/smallness hypotheses. `exists_algEquiv_indepOver` supplies
+a conjugate over a small algebraically closed M independent from a given small
+set. The two base-change smallness lemmas also apply without unnecessary
+algebraic-closedness assumptions. The module, Dimension status and book are
+updated together to reflect these newly proved statements.
+
+Coverage remains precise: this supplies `lem:genexists` for a represented
+base locus. Its arbitrary-prime formulation (a prime P defined over M, without
+a previously supplied tuple representing P) remains a separate obligation.
+The original and supplemental TeX are unchanged. These are mathematical
+existence/converse results, not group extraction or a guarded chart;
+PROJECT_GOAL and the full reconstruction endpoint remain unchanged.
+
+Claude supplied final pin27470759 in chit6231. Codex independently reviewed the
+entire appended construction, requested the coverage/docstring clarifications
+in chit6233, and checked the frozen module against the exact committed
+dependencies with default checking and standard Mathlib lint: empty log,
+exit0,6.00s,minimum available41.90GiB. The integrated proof bodies are unchanged;
+only the stated docstrings/coverage boundary are clarified. Frozen sources and
+evidence are under `/tmp/acl_geom_group_configuration_audit/locus_exists_probe`.
+Full build/book gates must pass after all edits before committing, using one
+monitored family, two threads and the30GiB stop. The untracked PDF stays excluded.
+
+Codex has also privately proved three generic-quantifier prerequisites:
+a rank-drop count for a finite family of finite sets with additive total rank,
+constructibility of finite cardinality thresholds, and invariance of polynomial
+constructible sets under base-field automorphisms. These remain unintegrated
+pending the full generic-quantifier assembly and peer review; no source claim
+is marked complete by those private results.

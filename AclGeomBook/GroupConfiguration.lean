@@ -99,8 +99,26 @@ coefficient field.
 
 {docstring GroupConfig.IsGenericOver.exists_algEquiv}
 
-Generic-point existence and the converse from independence to equality of loci
-are still open. The implications above do not supply those missing witnesses.
+For finite tuples, the locus of an existing tuple over an algebraically closed
+base has a generic point over every finite-rank intermediate field in an
+algebraically closed universal domain. The proof embeds the abstract generic
+point into the ambient field: relocate a finite transcendence basis to fresh
+elements and extend the resulting embedding algebraically. Combining this witness
+with dimension drop proves that independence is equivalent to an unchanged locus.
+
+{docstring GroupConfig.exists_isGenericOver}
+
+{docstring GroupConfig.isGenericOver_self_iff}
+
+Every finite tuple also has a conjugate over a small algebraically closed subfield
+that is independent from any specified small set.
+
+{docstring GroupConfig.exists_algEquiv_indepOver}
+
+The arbitrary-prime formulation of the supplemental generic-point existence lemma
+remains an obligation; the theorem above constructs points of represented base
+loci. All universal-domain and smallness hypotheses are explicit. These results
+do not yet extract a group from a configuration.
 
 # Constructible sets
 %%%
