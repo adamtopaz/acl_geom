@@ -5,6 +5,7 @@ Authors: Adam Topaz
 -/
 import VersoManual
 import GroupConfig
+import AclGeom.Config.CanonicalBaseInput
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -295,6 +296,36 @@ use a universal domain and small algebraically closed coefficient fields. The
 original base field need not be algebraically closed. These results supply the
 canonical-base hypotheses of the configuration route; group extraction and
 unconditional reconstruction remain open.
+
+# Canonical bases of the actual Ψ incidences
+%%%
+tag := "group-configuration-psi-canonical-bases"
+%%%
+
+In an algebraically closed universal domain, the actual $`\Psi` witness's
+atom-freeness clauses force the canonical bases of the incidence pairs to
+recover the full parameter planes. The relative algebraic closures of
+$`\operatorname{Cb}(X,Y/A)`, $`\operatorname{Cb}(Y,Z/B)` and
+$`\operatorname{Cb}(X,Z/C)` are respectively $`A`, $`B` and $`C`.
+
+Cb1 and the finite-rank tower law first make the target point algebraic over
+the source point and the canonical base. A canonical base contained in an
+atom would then contradict the witness's freeness clause. The proved
+rank-two lattice criterion identifies its closure with the whole plane.
+The canonical-base containments are derived from $`\Psi`; they are not extra
+hypotheses supplied by the caller.
+
+{docstring AclGeom.QWitness.Psi.racl_canonicalBase_XY_eq_A}
+
+{docstring AclGeom.QWitness.Psi.racl_canonicalBase_YZ_eq_B}
+
+{docstring AclGeom.QWitness.Psi.racl_canonicalBase_XZ_eq_C}
+
+These are the three GC4 clauses for the proposed actual six-point input.
+The theorem statements retain ambient algebraic closedness and a universal
+domain; the original base field may be arbitrary. The full sixteen-triple
+input and the lift from a finite-rank ambient field remain open. These
+identifications do not extract the guarded chart, a group or its action.
 
 # Finite tuple codes
 %%%

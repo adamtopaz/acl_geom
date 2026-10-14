@@ -9493,3 +9493,32 @@ The full16-triple input, universal-ambient lift, guarded chart, group extraction
 algebraization and unconditional reconstruction remain open. PROJECT_GOAL and
 both TeX sources are unchanged. The excluded supplemental PDF stays untracked.
 Use one monitored two-thread family and stop below30GiB available memory.
+
+
+## Actual Ψ canonical-base clauses (#12/#27)
+
+After `e91729d`, `AclGeom/Config/CanonicalBaseInput.lean` derives the three
+GC4 identifications directly from the actual Ψ witness in an ACF universal
+ambient. The public results are `QWitness.Psi.racl_canonicalBase_XY_eq_A`,
+`racl_canonicalBase_YZ_eq_B`, and `racl_canonicalBase_XZ_eq_C`. Public signatures
+spell out the finite representative tuples. The original base need not be ACF.
+No caller-supplied canonical-base, group, chart or completeness premise is used.
+
+Cb1/rank cancellation captures the target over the source and canonical base;
+containment of that base in an atom contradicts the actual Ψ freeness clauses.
+The existing `RankEq.eq_of_le_of_not_le_point` identifies the closed hull with
+the rank-two plane. All new helpers are private with these three named consumers;
+no chain of normalization interfaces is added. Private pin `de3f256b` checked
+clean at default limits/standard lint: emptylog2.00s/min35.69GiB, after fixing
+noncomputability, a closed-field coercion, and the algebraic-closure lemma's
+namespace. No checking limit was increased. Peer ownership/strategy for the
+root actual-Ψ lane is coordinated through chit; final code review requested6380.
+
+This replaces the previous entry's unvalidated-draft status for these three
+clauses only. The complete16-triple GroupConfiguration input and universal-
+ambient lift remain open, as do guarded chart extraction, algebraization/actions
+and unconditional reconstruction. Both source guards remain on the downstream
+chart target. The book and root import are synchronized in this change; the
+shared goal and source TeX are unchanged. Full final library/book and scoped
+axiom gates must pass after all edits before committing. Use one monitored
+family, two threads and the30GiB stop; exclude the supplemental PDF.
