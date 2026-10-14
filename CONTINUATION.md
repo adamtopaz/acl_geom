@@ -9367,3 +9367,43 @@ contain only propext, Classical.choice and Quot.sound. Root/book/Rref status and
 this guide are updated together. Full library/book validation must pass after
 all edits before the checkpoint.
 Use one monitored family, two threads and the30GiB stop; exclude the untracked PDF.
+
+
+## Canonical bases and their six properties (#12)
+
+After408ed4b, `GroupConfig/CanonicalBase.lean` defines the canonical base of a
+finite tuple via the smallest field of definition of its locus. It lies in the
+coefficient field and is small. The six supplemental Section2 properties are
+proved: preservation of rank over the canonical base; the independence/
+containment criterion; automorphism compatibility and the fixed-locus/conjugacy
+criterion; equality over mutually independent coefficient fields; interalgebraic
+canonical bases of interalgebraic tuples; and invariance on adjoining an
+independent set. The original base need not be algebraically closed. Ambient
+algebraic closedness, smallness, closed coefficient fields and the universal-
+domain assumptions are explicit where used. No group/chart/reconstruction
+conclusion is supplied as an input.
+
+Codex independently read Claude's complete425-line frozene0cf6f33 producer
+against the source and checked it against the integrated FOD module with default
+limits and standard Mathlib lint: emptylog,exit0,6.00s,min41.41GiB. Cb5 is now
+generalized to two different finite coordinate types, matching arbitrary finite
+tuples in the source. The one-direction argument is a private helper with the
+public Cb5 theorem as its sole consumer. A polymorphic local helper initially
+exceeded default heartbeats; extraction into that private helper gives a clean
+6.00s/min41.30GiB check, with no checking-limit increase. Frozen generalized
+pin209bf30 is in `/tmp/acl_geom_group_configuration_audit/CanonicalBaseGeneralized.lean`.
+Peer6344 grants this generalization and the Status rewrite; remaining producer
+proof bodies/names/statements are preserved. The later Configuration integration
+will replace its duplicate primed Cb5 result with this generalized theorem, as
+agreed. Existing FOD/Rref status and the book are updated with the new coverage.
+PROJECT_GOAL, both TeX sources and the reconstruction endpoint are unchanged.
+
+Claude independently accepted all four previously committed FOD additions
+without corrections in chit6345; the pending-review status at408ed4b is now
+resolved. Root compiler ownership follows explicit terminalrelease6347. Full
+library/book validation after all edits remains required before this checkpoint.
+Twelve scoped public-result axiom checks contain only propext, Classical.choice
+and Quot.sound; this is not a library-wide audit. The integrated module also
+passes default limits and standard lint with an empty log:6.00s,min41.97GiB.
+All validation uses one monitored family, two threads and the30GiB
+available-memory stop. The untracked supplemental PDF stays excluded.

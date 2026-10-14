@@ -41,7 +41,8 @@ blueprint `sources/group_configuration_blueprint.tex`.
 many variables, its finite generators, and its compatibility with automorphisms
 are proved over arbitrary fields. All three degree-filtration clauses are proved,
 including monotonicity and the increasing-union description. The scalar-extension
-remark and canonical bases remain separate obligations.
+remark remains a separate obligation; canonical bases are developed in
+`GroupConfig.CanonicalBase`.
 -/
 
 namespace GroupConfig

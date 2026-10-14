@@ -151,8 +151,7 @@ It preserves the subspace exactly when it fixes the field of definition pointwis
 
 {docstring GroupConfig.map_eq_self_iff}
 
-The field of definition for polynomial ideals is constructed next. Canonical
-bases remain a separate obligation.
+Fields of definition of polynomial ideals and canonical bases are constructed below.
 
 # Fields of definition of polynomial ideals
 %%%
@@ -202,8 +201,60 @@ field of definition pointwise. These results hold over arbitrary fields.
 
 {docstring GroupConfig.ideal_map_eq_self_iff}
 
-The scalar-extension remark for fields of definition and the canonical-base
-construction remain obligations.
+The scalar-extension remark for fields of definition remains an obligation.
+
+# Canonical bases
+%%%
+tag := "group-configuration-canonical-base"
+%%%
+
+The canonical base of a finite tuple over a subfield is the field generated
+over the original base by the field of definition of its locus ideal. It lies
+in the coefficient field and has finite rank, because the ideal's field of
+definition has a finite generating set.
+
+{docstring GroupConfig.canonicalBase}
+
+{docstring GroupConfig.canonicalBase_le}
+
+{docstring GroupConfig.isSmall_canonicalBase}
+
+Over a small algebraically closed coefficient field, the tuple has the same
+rank over its canonical base as over that coefficient field. For a smaller
+algebraically closed field, independence from the coefficient field is
+therefore equivalent to containment of the canonical base in the smaller field.
+The proof compares locus ideals over the algebraic closure of the canonical
+base and uses the proved generic-point independence criterion.
+
+{docstring GroupConfig.erk_canonicalBase_eq}
+
+{docstring GroupConfig.indepOver_iff_canonicalBase_le}
+
+Canonical bases commute with automorphisms. An automorphism over the coefficient
+field fixes the canonical base exactly when it preserves the locus, equivalently
+when the image tuple is conjugate to the original tuple over that field.
+
+{docstring GroupConfig.canonicalBase_map}
+
+{docstring GroupConfig.fixes_canonicalBase_iff_exists_algEquiv}
+
+The remaining properties identify canonical bases under independent field
+extensions, give equality under mutual independence over two fields, and show
+that interalgebraic tuples have interalgebraic canonical bases. The two tuples
+may have different finite coordinate types. Adjoining an independent set to
+the coefficient field also preserves the canonical base.
+
+{docstring GroupConfig.canonicalBase_eq_of_indepOver_of_indepOver}
+
+{docstring GroupConfig.racl_canonicalBase_eq_of_racl_eq}
+
+{docstring GroupConfig.canonicalBase_racl_union_eq}
+
+The ambient field is algebraically closed and the rank/independence properties
+use a universal domain and small algebraically closed coefficient fields. The
+original base field need not be algebraically closed. These results supply the
+canonical-base hypotheses of the configuration route; group extraction and
+unconditional reconstruction remain open.
 
 # Constructible sets
 %%%
