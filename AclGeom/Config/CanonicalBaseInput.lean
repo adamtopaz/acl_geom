@@ -23,7 +23,8 @@ The existing rank-two lattice theorem then identifies its closure with the plane
 **Status:** the three actual Ψ canonical-base identifications are proved with
 ambient ACF and universal-domain hypotheses. The original base may be arbitrary.
 The complete sixteen-triple input is assembled in `Config.ConfigurationInput`;
-the universal-ambient package and finite-ambient lift remain open.
+the canonical universal-ambient package is in `Config.UniversalConfigurationInput`.
+Literal image-tuple comparison and finite-ambient chart/action descent remain open.
 Both output guards remain at the downstream chart target; no chart, algebraic
 group, action or reconstruction is extracted here.
 -/

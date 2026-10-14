@@ -9564,3 +9564,45 @@ rank/atom transfer APIs for the ambient package. The shared PROJECT_GOAL
 endpoint and both TeX sources are unchanged. Full final library/book and scoped
 axiom gates after every edit remain mandatory before the commit. One monitored
 family, two threads and the30GiB available-memory stop; exclude the PDF.
+
+
+## Canonical universal-ambient actual Ψ input (#12/#27)
+
+After `29f8ae8`, `AclGeom/Config/UniversalConfigurationInput.lean` constructs
+ConfigurationAmbient K = AlgebraicClosure(FractionRing(MvPolynomial ℕ K))
+and configurationBase k K = algebraicClosure k Ω. Its base is algebraically
+closed via Mathlib IsAlgClosure.isAlgClosed, applied to the standard relative
+algebraic-closure instance. The projection is deliberately not a general global
+ACA instance; the specific base instance is registered here. Countably many
+variables remain algebraically independent over the algebraic base, using
+Mathlib AlgebraicIndependent.algebraicClosure, so the specific UniversalDomain
+instance is proved and public. No infinitude or ACF premise is assumed of the
+original caller.
+
+QWitness.universalLift uses the canonical embedding and existing Ψ.lift,
+which transfers all ranks/incidences and the actual atom-freeness. The public
+Psi.groupConfiguration_universalLift returns the full configuration and its
+n=2,m=1 ranks. These definitions/instances have this direct consumer and the
+source group-extraction application. No generic extension oracle or duplicated
+transfer calculus is added.
+
+The first70-line coreproducer passes default/stdlint empty2s/min39.06GiB.
+An additional base-instance audit found that the IsAlgClosed/AlgebraicClosure
+import alone does not register ACA of the relative algebraic base. Importing
+Mathlib.FieldTheory.AlgebraicClosure supplies IsAlgClosure, and projecting
+IsAlgClosure.isAlgClosed k supplies the proved specific instance. Both target
+instances then synthesize cleanly with the full proof:4.00s/min38.98GiB.
+Final immutable producer UniversalConfigurationInputFinalFrozen.lean73lines,
+SHAfdb92b723845b80edaf84c9afa64c238f1d2af3f215f5eec05cf380d70440b1f.
+Peer review requested6391; root owns the actual-Ψ lane and retains compiler6386
+through the final gates. No checking limit changed. Full library/book gates and
+scoped axiom checks after all edits are mandatory before committing.
+
+This closes the canonical universal-ambient package and actual witness lift;
+previous fullinput/ambient-open entries are historical. Literal image-tuple
+comparison and finite-ambient chart/action descent, group extraction/algebraization,
+action classification and unconditional reconstruction remain open. Do not claim
+semantic representatives in the original field from this lifted configuration.
+Both output guards remain at the downstream chart target. PROJECT_GOAL and the
+source TeX remain unchanged. Use one monitored two-thread family/30GiB stop and
+exclude the untracked PDF.

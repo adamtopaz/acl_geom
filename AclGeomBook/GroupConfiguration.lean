@@ -7,6 +7,7 @@ import VersoManual
 import GroupConfig
 import AclGeom.Config.CanonicalBaseInput
 import AclGeom.Config.ConfigurationInput
+import AclGeom.Config.UniversalConfigurationInput
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -324,8 +325,8 @@ hypotheses supplied by the caller.
 
 These are the three GC4 clauses for the proposed actual six-point input.
 The theorem statements retain ambient algebraic closedness and a universal
-domain; the original base field may be arbitrary. The complete sixteen-triple input is assembled below. The universal-ambient
-package and the lift from a finite-rank ambient field remain open. These
+domain; the original base field may be arbitrary. The complete sixteen-triple input is assembled below. The canonical universal-ambient package is constructed below. Literal comparison
+with image tuples and finite-ambient chart/action descent remain open. These
 identifications do not extract the guarded chart, a group or its action.
 
 # Finite tuple codes
@@ -459,8 +460,8 @@ of the six tuples. Coordinate types may differ after replacement.
 This module imports the canonical-base layer directly. It proves the stated
 consequences and invariances of the configuration predicate. The remaining
 rank bounds, total-rank and point/line clauses, independent base change,
-the universal-ambient package and finite-ambient lift/descent for the actual
-$`\Psi` input, and extraction of a group remain obligations. The actual input
+literal image-tuple comparison and finite-ambient chart/action descent for the
+actual $`\Psi` input, and extraction of a group remain obligations. The actual input
 in a universal domain is constructed below.
 
 # The complete actual Ψ six-point input
@@ -492,9 +493,43 @@ package records those precise values along with the configuration.
 
 Only the actual witness is supplied. Ambient algebraic closedness and a
 universal domain are explicit; the original base may be arbitrary. The
-universal-ambient package and finite-ambient lift/descent remain open. The
+canonical ambient package below proves those ambient hypotheses internally.
+Literal image-tuple comparison and finite-ambient chart/action descent remain open. The
 initial chart still needs both output guards. Group extraction, algebraization,
 action classification and unconditional reconstruction remain separate targets.
+
+# A canonical universal ambient
+%%%
+tag := "group-configuration-universal-ambient"
+%%%
+
+For any original field extension, adjoin countably many variables to the
+ambient field and take the algebraic closure of the resulting fraction field.
+The algebraic closure of the original base inside this chosen ambient is
+itself algebraically closed. Mathlib supplies this from its algebraic-closure
+structure. The independent variables remain independent over that enlarged
+algebraic base, proving the universal-domain hypothesis there.
+
+{docstring AclGeom.ConfigurationAmbient}
+
+{docstring AclGeom.configurationBase}
+
+The existing geometric lift transfers every clause of the actual
+$`\Psi` witness, including atom-freeness. Applying the complete input theorem
+then gives the six-point configuration, with group rank two and space rank one.
+The caller supplies only the original witness. Original ambient algebraic
+closedness and a universal-domain hypothesis are unnecessary for this lift.
+
+{docstring AclGeom.QWitness.universalLift}
+
+{docstring AclGeom.QWitness.Psi.groupConfiguration_universalLift}
+
+The configuration lives in the chosen extension over its algebraic base.
+Literal comparison with image tuples and finite-ambient chart/action descent
+remain open. This construction supplies the input for group extraction; it
+produces no original-field semantic representatives, group, action or guarded
+initial chart. Algebraization, action classification and unconditional
+reconstruction remain separate targets.
 
 # Constructible sets
 %%%

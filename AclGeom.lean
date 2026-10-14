@@ -105,6 +105,7 @@ import AclGeom.Config.PsiLattice
 import AclGeom.Config.ParameterField
 import AclGeom.Config.CanonicalBaseInput
 import AclGeom.Config.ConfigurationInput
+import AclGeom.Config.UniversalConfigurationInput
 import AclGeom.Config.CompositionIdentity
 import AclGeom.Config.ChunkGermCoordinates
 import AclGeom.Config.ChunkGermChart

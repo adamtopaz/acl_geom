@@ -22,7 +22,8 @@ action or completeness conclusion is supplied by the caller.
 
 **Status:** the complete actual six-point input and its ranks are proved in
 an algebraically closed universal ambient field, over an arbitrary original base.
-The universal-ambient package, finite-ambient lift/descent, guarded initial chart,
+The canonical universal-ambient package is proved in Config.UniversalConfigurationInput.
+Literal comparison with image tuples and finite-ambient chart/action descent,
 group extraction/algebraization, action classification and unconditional
 reconstruction remain separate obligations. Both output guards remain at the
 chart target; they are unnecessary for this input alone.
