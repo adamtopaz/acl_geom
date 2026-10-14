@@ -33,7 +33,7 @@ blueprint `sources/group_configuration_blueprint.tex`.
 **Status:** the set-based rank and independence calculus, including finite character,
 the tower law, closure invariance, symmetry, transitivity, independent closure
 intersection and independent base change, is proved over arbitrary fields.
-The set-rank/transcendence-degree bridge supplies the next locus dimension lemma;
+The set-rank/transcendence-degree bridge supplies the locus dimension lemmas;
 no group configuration or extraction theorem is proved here.
 -/
 
@@ -623,7 +623,55 @@ theorem erk_empty_eq_toENat_trdeg (X : Set K) :
     erk k ∅ X = Cardinal.toENat (Algebra.trdeg k ↥(adjoin k X)) := by
   rw [erk_empty_eq, AlgebraicIndependent.matroid_eRk_eq_toENat_trdeg]
 
+/-- Over (the carrier of) a subfield `M` together with a set `B`, `rkMatroid` is the
+matroid over `M` with base `B`: change of base type. -/
+theorem rkMatroid_coe_union (M : IntermediateField k K) (B : Set K) :
+    rkMatroid k ((M : Set K) ∪ B) = rkMatroid (↥M) B := by
+  refine Matroid.ext_closure fun X ↦ ?_
+  rw [rkMatroid_closure_eq, rkMatroid_closure_eq]
+  ext x
+  simp only [SetLike.mem_coe]
+  rw [mem_racl_iff, mem_racl_iff]
+  have key : adjoin k ((M : Set K) ∪ B ∪ X) = (adjoin (↥M) (B ∪ X)).restrictScalars k := by
+    rw [restrictScalars_adjoin k M (B ∪ X), union_assoc]
+  rw [key]
+  exact ⟨fun h ↦ h, fun h ↦ h⟩
+
+theorem erk_coe_union (M : IntermediateField k K) (B X : Set K) :
+    erk k ((M : Set K) ∪ B) X = erk (↥M) B X := by
+  unfold erk
+  rw [rkMatroid_coe_union]
+
+/-- Independence over the base type `M` is independence over `k` with `M` adjoined to the
+base set. -/
+theorem indepOver_coe_union_iff (M : IntermediateField k K) (B A D : Set K) :
+    IndepOver k ((M : Set K) ∪ B) A D ↔ IndepOver (↥M) B A D := by
+  constructor
+  · intro h a ha hfin
+    have h' := h ha hfin
+    rwa [union_assoc, erk_coe_union, erk_coe_union] at h'
+  · intro h a ha hfin
+    rw [union_assoc, erk_coe_union, erk_coe_union]
+    exact h ha hfin
+
 end Bridges
+
+/-! ### Independence from rank equalities -/
+
+/-- A finite set with the same rank over `C ∪ B` as over `C` is independent from `B`
+over `C`. -/
+theorem indepOver_of_erk_eq {C B X : Set K} (hX : X.Finite)
+    (h : erk k (C ∪ B) X = erk k C X) : IndepOver k C X B := by
+  intro a ha hfin
+  have hsplit : X = a ∪ (X \ a) := (union_sdiff_cancel ha).symm
+  have t1 := erk_union_eq k (C ∪ B) a (X \ a)
+  have t2 := erk_union_eq k C a (X \ a)
+  rw [← hsplit] at t1 t2
+  have hle1 : erk k (C ∪ B) a ≤ erk k C a := erk_base_mono k subset_union_left a
+  have hle2 : erk k (C ∪ B ∪ a) (X \ a) ≤ erk k (C ∪ a) (X \ a) :=
+    erk_base_mono k (union_subset_union_left a subset_union_left) (X \ a)
+  exact (ENat.eq_of_add_eq_add_of_le hle1 hle2 (erk_ne_top k hfin C)
+    (erk_ne_top k (hX.subset sdiff_subset) _) (by rw [← t1, ← t2, h])).1
 
 end
 

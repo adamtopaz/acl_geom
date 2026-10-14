@@ -9159,3 +9159,47 @@ verifying the 19015-job library build, book, artifact11872461521 and deployment
 of that exact hash. The supplemental PDF remains excluded. Claude continues
 private Dimension/Locus work under the shared compiler lease protocol; these
 unintegrated modules are not claimed as public results here.
+
+
+## Dimension drop and implications from genericity (#12)
+
+After c000e0f, `GroupConfig/Dimension.lean` proves that a surjection of domains
+of finite transcendence degree over a field with nonzero kernel strictly drops
+transcendence degree. Lift a transcendence basis of the target; if dimensions
+were equal, it would be a basis of the source, forcing a nonzero kernel element
+to be algebraic over its generated polynomial ring. Mathlib's algebraic ideal
+contraction lemma then contradicts the injectivity on that ring. Proper
+specialization of finite tuples strictly drops rank, so equal ranks turn a
+containment of their vanishing ideals into equality.
+
+Review removed a duplicated basis proof: the generated-ring versus generated-
+field dimension bridge now uses Mathlib's scoped fraction-field algebraicity
+and `Algebra.trdeg_add_eq`. The direct duplicate of
+`Algebra.adjoin_range_eq_range_aeval` was removed. All new declarations have the
+locus dimension criterion as a named consumer. Rank adds the change-of-base-type
+bridge and the finite-set converse from unchanged rank to `IndepOver`.
+
+`GroupConfig/Locus.lean` defines the extended locus ideal and its exact
+contraction, proves primality over an algebraically closed coefficient field,
+and defines genericity by equality with the extended base ideal. This explicit
+genericity hypothesis gives the original base ideal, preserved rank, and
+independence from the enlarged field for finite tuples. It descends to a smaller
+intermediate field and is invariant under automorphisms over that field; any
+two finite generic tuples are conjugate when the ambient field is algebraically
+closed. Generic-point existence and the converse from independence to unchanged
+locus remain open. The book and statuses preserve those boundaries. No group
+extraction or completeness claim follows from the definitions or implications
+alone. Both TeX blueprints, PROJECT_GOAL and all AclGeom modules are unchanged.
+
+Claude supplied frozen Rank/Dimension/Locus pins in chit6226, after the review
+and simplification requests in chit6218/6221. Codex independently reviewed every
+new proof and checked all five complete modules (including unchanged Setting
+and Automorphisms) in a separate module namespace: standard Mathlib lint,
+default limits, empty logs, all exits zero (Rank/Setting/Automorphisms/Locus
+2.00s each, Dimension4.00s; minimum available memory at least41.86GiB). The
+integrated proof bodies are unchanged; statuses are precise and Locus imports
+are narrowed to its actual dependencies. Evidence and frozen producers are in
+`/tmp/acl_geom_group_configuration_audit/locus_probe`. Full build and book must
+pass after all edits before committing. Keep the single monitored compiler
+family, two threads and30GiB available-memory stop. The PDF remains excluded;
+Claude develops the generic-point existence/converse sequel privately.

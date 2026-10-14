@@ -20,7 +20,7 @@ The separate `GroupConfig` library follows the supplemental
 group-configuration proof and records the remaining algebraization and
 application boundaries. Its full Lean formalization remains open (#12).
 
-The library proves the following rank, universal-domain and constructibility
+The library proves the following rank, universal-domain, dimension, locus and constructibility
 foundations. These results do not extract a group from a configuration.
 
 # Rank, independence and fresh tuples
@@ -61,6 +61,46 @@ Automorphisms preserve the relative matroids, ranks and independence.
 {docstring GroupConfig.erk_image}
 
 {docstring GroupConfig.IndepOver.image}
+
+# Dimension and generic loci
+%%%
+tag := "group-configuration-locus"
+%%%
+
+A surjection of domains over a field with a nonzero kernel strictly decreases
+finite transcendence degree. Lifting a transcendence basis from the target and
+using algebraicity forces the kernel to meet the polynomial ring on that basis,
+contradicting its injectivity there. For finite tuples this proves that proper
+containment of vanishing ideals strictly lowers rank. Equal ranks therefore turn
+a containment of their vanishing ideals into equality.
+
+{docstring Algebra.trdeg_lt_of_surjective_of_ker_ne_bot}
+
+{docstring GroupConfig.erk_lt_of_idealOf_lt}
+
+The locus ideal extends a tuple's vanishing ideal to ambient-field coefficients.
+It contracts back to the original ideal, and is prime when its coefficient field
+is algebraically closed. Genericity over an intermediate field means that the
+vanishing ideal is exactly the extension of the original base ideal.
+
+{docstring GroupConfig.locusIdeal}
+
+{docstring GroupConfig.IsGenericOver}
+
+This exact-ideal premise implies equality of the base ideals, preservation of
+rank, and independence from the larger coefficient field for finite tuples.
+Genericity descends to smaller intermediate fields. In an algebraically closed
+ambient field, any two finite generic tuples are conjugate over their common
+coefficient field.
+
+{docstring GroupConfig.IsGenericOver.erk_coe_eq}
+
+{docstring GroupConfig.IsGenericOver.indepOver}
+
+{docstring GroupConfig.IsGenericOver.exists_algEquiv}
+
+Generic-point existence and the converse from independence to equality of loci
+are still open. The implications above do not supply those missing witnesses.
 
 # Constructible sets
 %%%
