@@ -9673,3 +9673,28 @@ original-field chart/action descent, group algebraization, action classification
 and unconditional reconstruction remain obligations. The full-Ψ canonical lift
 still returns a configuration in its chosen universal extension. The frozen M4a
 chain and source TeX are untouched.
+
+## Germ representative and automorphism foundations (2026-10-14, #12)
+
+`GroupConfig/Germ/Basic`, `Graph`, `Code` and `Action` now contain the reviewed
+representative quotient, graph ideal and canonical-base/automorphism layers.
+Every pre-existing producer declaration and proof is preserved. The unchanged
+`Representative.extend_equivalent` theorem moves from the later `Eval` producer
+into `Basic`, where the source extension clause is introduced. Remove the
+duplicate when integrating `Eval`; it is not present on main yet.
+
+The representative relation is a proved equivalence, using generic existence
+and quasi-rational agreement. Graph ideals have both coordinate projections,
+generic graph-point rank and injectivity on germs. Canonical bases are small
+and contained in representative fields. The chosen `codeSet` generates the
+canonical base, and automorphisms transport graphs and bases, fixing the germ
+exactly when they fix that base pointwise.
+
+The finite generating carrier is not a canonical indexed code vector. Its
+global naturality and injectivity are not asserted. The graph-rank theorem is
+not presented as an additional abstract ideal-dimension API. Canonical RREF
+codes, generic evaluation, composition, the group-theorem dependency chain and
+the actual constructible quotient remain later integration slices. Mathematical
+and independent standard-lint review passed for all four producer copies;
+source comparisons verify all original code and the unchanged moved theorem.
+The source TeX, frozen M4a chain and original reconstruction inputs are unchanged.

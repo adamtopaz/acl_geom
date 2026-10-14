@@ -329,6 +329,62 @@ domain; the original base field may be arbitrary. The complete sixteen-triple in
 with image tuples and finite-ambient chart/action descent remain open. These
 identifications do not extract the guarded chart, a group or its action.
 
+# Representatives, graph ideals and germ automorphisms
+%%%
+tag := "group-configuration-germ-foundations"
+%%%
+
+A representative is a quasi-rational expression over a small algebraically
+closed coefficient field, defined on every generic source point and sending
+it to a generic target point. Representatives are equivalent when they agree
+over the closure of both fields. Generic existence and polynomial agreement
+prove transitivity; their quotient is the type of germs. Enlarging the
+coefficient field gives an equivalent representative.
+
+{docstring GroupConfig.Representative}
+
+{docstring GroupConfig.Representative.Equivalent}
+
+{docstring GroupConfig.Representative.extend_equivalent}
+
+{docstring GroupConfig.Germ}
+
+The graph ideal is independent of the representative. Its contractions to the
+source and target variables are the corresponding locus ideals. Its generic
+graph point has the source dimension as its rank. Equality of graph ideals
+forces equality of germs, by a conjugation fixing the shared source point.
+These statements concern represented loci; a separate abstract ideal-dimension
+interface is not asserted.
+
+{docstring GroupConfig.Germ.graphIdeal}
+
+{docstring GroupConfig.Representative.erk_graphPoint}
+
+{docstring GroupConfig.Germ.graphIdeal_injective}
+
+The canonical base is the field generated over the base by the graph's field
+of definition. A chosen finite generating carrier gives rank and closure
+calculations. This carrier preserves the generated field; it is not the
+canonical indexed RREF vector and has no claimed global coordinate naturality
+or injectivity. That separate representation remains to be integrated.
+
+{docstring GroupConfig.Germ.cb}
+
+{docstring GroupConfig.Germ.codeSet}
+
+{docstring GroupConfig.Germ.adjoin_codeSet}
+
+Automorphisms genuinely transport representatives, graph ideals and canonical
+bases. They fix a germ exactly when they fix its canonical base pointwise.
+Evaluation, composition, the Hrushovski–Weil group and extraction from an actual
+configuration remain subsequent integration layers.
+
+{docstring GroupConfig.Germ.map}
+
+{docstring GroupConfig.Germ.cb_map}
+
+{docstring GroupConfig.Germ.map_eq_self_iff}
+
 # Finite tuple codes
 %%%
 tag := "group-configuration-finite-codes"

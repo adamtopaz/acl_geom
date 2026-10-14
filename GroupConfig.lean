@@ -17,3 +17,7 @@ import GroupConfig.Germ.Variety
 import GroupConfig.Contraction
 import GroupConfig.QuasiRational
 import GroupConfig.Constructible.QuasiRational
+import GroupConfig.Germ.Basic
+import GroupConfig.Germ.Graph
+import GroupConfig.Germ.Code
+import GroupConfig.Germ.Action
