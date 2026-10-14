@@ -1086,6 +1086,39 @@ form in the table.  All normalization steps are finite algebraic covers, so equa
 points, which is equality of algebraic closures, is unaffected.
 \end{proof}
 
+
+\begin{remark}[Direct product converse in Lean]
+The original proof of \cref{lem:mul-diagram} above is preserved.  Its use of
+\cref{lem:curve-coset} has not constructed the required ambient group; the
+proof gap is recorded at
+\href{https://github.com/adamtopaz/acl_geom/issues/12\#issuecomment-6155280744}{issue \#12}.
+The product-output assertion is now proved by
+\lean{q'Sem_of_qSem_of_mulDiagram}: over an algebraically closed ambient
+field of transcendence degree at least five, semantic $\Qrel$ together with
+an actual multiplication diagram gives semantic $\Qprel$.  No algebraic
+closedness of the original base is required by this implication.
+
+Choose $a_0$ fresh over the rank-three corner field.  An ambient automorphism
+fixing $\acl_k(b,c)$ sends $a$ to $a_0$ and fixes $x/y$.  Writing its images
+as $x_0,y_0$, the literal equality $x_0y=xy_0$ and the actual incidence
+clauses give a multiplicative correspondence over $\acl_k(a,a_0)$.
+The proved multiplicative correspondence theorem makes the common ratio
+$\alpha=x_0/x=y_0/y$ algebraic over this base.  Over $\acl_k(a_0)$,
+exchange gives $\alpha\sim a$, and $\alpha,x,y$ are independent.
+The two independent-variable product meets put $d$ in the closure of
+$\alpha xy$ and $e$ in the closure of $xy$ over that fresh base.
+Exchange then removes $a_0$, proving the original-base equality $E=[xy]$.
+
+This does not classify all auxiliary representatives over the original base;
+that stronger clause and the bypassed group/chunk results remain obligations.
+The proved reductions
+\lean{q'Sem_of_q'Geom_of_guardedQCompleteness} and
+\lean{jCompletenessACF_of_guardedQCompleteness}
+derive $\Qprel$ and $\Jrel$ completeness from the single remaining guarded
+$\Qrel$ completeness hypothesis.  This hypothesis and unconditional
+reconstruction remain open.
+\end{remark}
+
 Define
 \[
 \begin{split}
@@ -1102,9 +1135,11 @@ $\Qprel_{\rm geom}=\Qprel_{\rm sem}$.
 Every geometric $\Qrel$ occurrence used here has its ratio point different from
 its first and second points by multiplication-diagram distinctness.  The statement
 is not refuted by \cref{rem:psi-degenerate}; its completeness direction remains an
-open obligation depending on guarded \cref{thm:q-correct} and the multiplication
-converse.  The original proof below is retained unchanged as a historical sketch.
-The semantic $\Jrel$ assembly is proved separately with these inputs explicit.
+open obligation depending on guarded \cref{thm:q-correct}.  The direct product
+converse above now supplies the required multiplication step.  The original
+proof below is retained unchanged as a historical sketch.  The semantic
+$\Jrel$ assembly is proved separately, and the guarded $\Qrel$ input now
+supplies both of its completeness hypotheses.
 \end{remark}
 \begin{proof}
 If $\Qprel_{\rm geom}(X,Y,S,E)$ holds, \cref{thm:q-correct} supplies independent
@@ -1150,9 +1185,11 @@ over algebraically closed $k\subseteq K$ of relative transcendence degree at lea
 Every geometric $\Qrel$ occurrence used here has its ratio point different from
 its first and second points by multiplication-diagram distinctness.  The statement
 is not refuted by \cref{rem:psi-degenerate}; its completeness direction remains an
-open obligation depending on guarded \cref{thm:q-correct} and the multiplication
-converse.  The original proof below is retained unchanged as a historical sketch.
-The semantic $\Jrel$ assembly is proved separately with these inputs explicit.
+open obligation depending on guarded \cref{thm:q-correct}.  The direct product
+converse above now supplies the required multiplication step.  The original
+proof below is retained unchanged as a historical sketch.  The semantic
+$\Jrel$ assembly is proved separately, and the guarded $\Qrel$ input now
+supplies both of its completeness hypotheses.
 \end{remark}
 \begin{proof}
 If $(X,P,Q,R,A)=j(x,a)$, then

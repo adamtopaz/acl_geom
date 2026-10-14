@@ -8547,3 +8547,80 @@ Claude6040 accepts this TWO-path documentation checkpoint after verifying all
 prefix/tail compared byte-exact. Other pinned artifacts are HASHONLY; unchanged
 goal context is inherited from the earlier full127line read. The requested
 neutral wording and recommended dependency wording/line wrap are applied.
+
+
+## Direct multiplication product converse and guarded-Q reduction (#6/#27)
+
+This checkpoint starts from785e0ca028be427cbf7835b88f6cea14f1fcb80c. It proves
+one substantive new producer in Config/MultiplicationConverse.lean (693lines,
+20consumed private lemmas), with two short public consumers in Correctness:
+ - q'Sem_of_qSem_of_mulDiagram: ambient K algebraically closed, rank at least
+   five, actual QSem and MulDiagram imply Q'Sem with the product output.
+   The original base k may be arbitrary; no semantic corner, product,
+   group-extraction or separability conclusion is supplied by the caller.
+ - q'Sem_of_q'Geom_of_guardedQCompleteness: the actual diagram supplies both
+   ratio inequalities, so the still-open GuardedQCompletenessACF gives Q′.
+ - jCompletenessACF_of_guardedQCompleteness: the derived Q′ implication and
+   guarded Q feed the established J assembly. No separate Q′ oracle remains.
+All five old Correctness declarations retain exact scoped type, raw/normalized
+proof, attribute, docstring and axiom records. Main and JCompletenessACF types,
+dependencies, other265 pre-existing mathematical sources and frozen117 are exact.
+
+The proof fixes the entire closed field of the two corners b,c, relocates a
+to a fresh a0, and derives equal products from literal fixation of x/y.
+A real MulCorrSetup over acl(a,a0) supplies the common ratio alpha. Exchange
+and interalgebraic independence give the simultaneous corner normalization
+over acl(a0). Two existing product meets yield e in acl_a0(xy); final exchange
+removes a0. The original output is then the product point by its atom property.
+This proves the product-output clause, NOT the full original-base auxiliary
+representative classification. That stronger clause and all bypassed true
+source group/chunk/action statements remain obligations. Guarded Q, unconditional
+Q′/J completeness and unconditional reconstruction remain open. The full shared
+goal is unchanged; its critical path now records this proved dependency.
+
+Collaboration: Claude6035/6037 supplied and independently checked the complete
+hand proof,6045 reviewed the full300line prefix,6050 accepted the extended424
+prefix and full normalization plan. Root completed the Lean normalization,
+product meets, public theorem and real consumers. Final full-tail/consumer and
+goal/book/source reviews were requested in6063/6064, updated in6067. They have
+not yet returned at this append; no final peer acceptance is claimed. Ownership
+remains root sole editor/compiler and Claude read-only reviewer. The user asks
+for commits at natural green checkpoints; the checked checkpoint can be recorded
+while the final independent review remains an explicit follow-up, not inferred
+approval. Review corrections, if any, must receive fresh affected validation.
+
+Validation evidence: /tmp/acl_geom_codex_qprime_8d0/converse_math_acceptance.json,
+converse_documentation_acceptance.json and /tmp/acl_geom_converse_shared_probes/
+acceptance.json. All146 actual-main checks pass:142 exact old fixture inputs
+and284 preserved old input/output baselines, plus three scoped new diagnostics
+and one fixture with TWO real examples (canonical actual diagram and guarded-Q
+consumer of the existing J target). Every older scoped record stays exact;
+ONLY the two named new Correctness SIG/proof/AX rows enter three old Guarded
+dumps. New scope has23 declarations (20private/3public), no generated records;
+all three new public results use only choice, quotient soundness and propext.
+This is a scoped audit, not a whole-library axiom certificate. Real behaviors
+use standard Mathlib lint/default kernel; diagnostic genres/options are retained.
+
+Full lake build110.03s/min38.17GiB, book10.00s/min40.17GiB, fresh146checks186.05s/
+min40.19GiB. Both build logs preserve all711 historical warning headers exactly.
+Hygiene covers268library/root files with no proof placeholders/project axioms.
+HTML111 retains all110old page paths and shows all three new public docstrings.
+The frozen-route visibility check now checks its actual visible phrase rather
+than a raw117 substring, which could occur in unrelated tooltip identifiers.
+
+Source proof gaps were reported before annotation (#12comment6155280744 and
+#27comment6155281059). One new concordance and two current-status remarks retain
+all49active statements, every historical/provenance statement and all44proofs/
+listings byte-exact. Four stable source passes yield84pages;30selected views
+are accepted:23previous actual PNGs byte-exact, and2/13/14/15/16/17/18 actually
+viewed. One overfull URL was fixed with a linked issue label before acceptance.
+The book explains the closed-base normalization and final original-base descent;
+the goal records the new guarded-Q-to-J dependency without narrowing its endpoint.
+
+Failed private normalization/public drafts and logs are preserved, including
+Finset/coercion/set-order repairs and one default200000-heartbeat failure fixed
+by explicit closure-parameter types. No checking limit was increased. The optional
+private MultiplicationQuadrangle dead-end is unimported and not integrated.
+The prior snapshot remains immutable; this continuation is appended ONCE from
+current main and copied outward. Final full build and book after this append
+must precede commit/push, exact CI observation and repository-issue reporting.

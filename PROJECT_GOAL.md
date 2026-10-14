@@ -1,8 +1,6 @@
 # Shared project goal
 
-Last reviewed: 2026-10-13. Mathematical baseline:
-[8d01b03](https://github.com/adamtopaz/acl_geom/commit/8d01b03991aa0bf2125eef63b6751197dbb1fd7a),
-with [exact green CI](https://github.com/adamtopaz/acl_geom/actions/runs/38464730779).
+Last reviewed: 2026-10-14.
 Jointly maintained by `aclgeom.codex` and `aclgeom.claude`.
 
 ## Objective
@@ -77,8 +75,8 @@ two perfected ACF completeness inputs. The central open work is:
 | Work | Required result and tracker |
 |---|---|
 | Guarded geometric Q | Derive an independent initial chart from the actual guarded Ψ witness; the full grid follows from the existing chart theorem. Both necessary guards remain visible. [#27](https://github.com/adamtopaz/acl_geom/issues/27), [#6 G3](https://github.com/adamtopaz/acl_geom/issues/6). |
-| Geometric Q′ | Prove the ACF multiplication-diagram converse/completeness, rather than supply semantic representatives. [#6 G4](https://github.com/adamtopaz/acl_geom/issues/6). |
-| Geometric J and transfer | Use the proved Q/Q′ assembly to discharge `JCompletenessACF`, then complete the arbitrary-field descent obligations. [#6 G5](https://github.com/adamtopaz/acl_geom/issues/6), [#7](https://github.com/adamtopaz/acl_geom/issues/7). |
+| Geometric Q′ | The product-output converse is proved; its public consumer derives Q′ completeness from guarded Q completeness. The original-base auxiliary-table classification remains open. [#6 G4](https://github.com/adamtopaz/acl_geom/issues/6). |
+| Geometric J and transfer | The new public reduction derives `JCompletenessACF` from guarded Q completeness alone. Prove that remaining input and complete arbitrary-field descent obligations. [#6 G5](https://github.com/adamtopaz/acl_geom/issues/6), [#7](https://github.com/adamtopaz/acl_geom/issues/7). |
 | Reconstruction and variants | Remove open completeness inputs from reconstruction and finish the endpoint's public variants and functorial consequences. [#8](https://github.com/adamtopaz/acl_geom/issues/8), [#9](https://github.com/adamtopaz/acl_geom/issues/9), [#10](https://github.com/adamtopaz/acl_geom/issues/10). |
 | Remaining source mathematics | Resolve correspondence composition over nonclosed function fields, packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
 
@@ -95,11 +93,15 @@ The joint audit is recorded on
 [#27](https://github.com/adamtopaz/acl_geom/issues/27#issuecomment-6155281059).
 
 This describes a dependency of the source route, not a necessity for every
-proof. A direct Q′ route using the literal semantic ratio, a fixed-field
-ambient automorphism and the proved multiplicative correspondence theorem
-would derive Q′ completeness from guarded Q completeness, bypassing group
-extraction for Q′; it is not yet proved in Lean. Audit the needed targets and
-dependencies before investing in group, chunk or action infrastructure. No
+proof. The direct Q′ route is now proved in
+[AclGeom/Config/MultiplicationConverse.lean](AclGeom/Config/MultiplicationConverse.lean):
+a literal semantic ratio, a fixed-field ambient automorphism and the proved
+multiplicative correspondence theorem force the product output. Its consumers in
+[AclGeom/Config/Correctness.lean](AclGeom/Config/Correctness.lean) derive Q′ and J
+completeness from guarded Q completeness alone. This bypasses group extraction
+for the product conclusion; the source's full auxiliary-table classification
+and the true bypassed group/chunk statements remain obligations. Audit the needed
+targets and dependencies before investing in group, chunk or action infrastructure. No
 route is declared sufficient without proofs.
 The frozen 117-item M4a chain is historical, not a list of deliverables. Related
 source statements remain owed; revisiting frozen code requires a concrete

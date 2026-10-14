@@ -5,6 +5,8 @@ Authors: Adam Topaz, Claude
 -/
 import AclGeom.Config.AffineGrid
 import AclGeom.Config.MulDiagramCheck
+import AclGeom.Config.MultiplicationConverse
+import AclGeom.Config.JAssembly
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Transfer.OneQuantifier
 import AclGeom.Transfer.Transcendence
@@ -18,8 +20,9 @@ geometric projection to `J` are conditional on `GuardedQCompletenessACF` (#27).
 
 Unguarded `QCompletenessACF`, `AffineGridExtraction` and geometric `Q` projection are refuted
 by the actual degenerate `Psi` witness in Counterexamples.QDegenerate, even for ACF pairs
-with five independent elements. ACF `Q′` completeness (multiplication-diagram converse),
-`J` completeness and unconditional four-way `J` descent remain open. The existing conditional
+with five independent elements. The multiplication-diagram product converse is proved.
+It reduces ACF `Q′` and `J` completeness to the single open guarded `Q` input;
+unconditional completeness and four-way `J` descent remain open. The existing conditional
 public target still uses the unchanged `JCompletenessACF`. Counterexamples.QRefutation retains
 the characteristic-zero arbitrary-field `Q′` refutation and the earlier `Q` example (#25).
 
@@ -68,6 +71,31 @@ theorem qGeom_and_ne_iff_qSem_of_five_le_trdeg [IsAlgClosed k] [IsAlgClosed K]
     {P D Y I : Point k K} :
     QGeom P D Y I ∧ I ≠ D ∧ I ≠ P ↔ QSem P D Y I :=
   qGeom_and_ne_iff_qSem hcompl (fresh_four_of_five_le_trdeg htr)
+
+/-- The multiplication-diagram converse reduces geometric `Q′` completeness
+to the open guarded `Q` completeness input. Both necessary inner guards follow
+from the actual diagram's distinctness. -/
+theorem q'Sem_of_q'Geom_of_guardedQCompleteness [IsAlgClosed k] [IsAlgClosed K]
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcompl : GuardedQCompletenessACF k K)
+    {X Y S E : Point k K} (h : Q'Geom X Y S E) : Q'Sem X Y S E := by
+  obtain ⟨V, A, B, C, D, hq, hmul⟩ := h
+  have hVY : V ≠ Y := by
+    simpa using hmul.distinct.ne (show (2 : Fin 8) ≠ 1 by decide)
+  have hVX : V ≠ X := by
+    simpa using hmul.distinct.ne (show (2 : Fin 8) ≠ 0 by decide)
+  exact q'Sem_of_qSem_of_mulDiagram htr (qSem_of_qGeom_of_ne hcompl hq hVY hVX) hmul
+
+/-- Guarded `Q` completeness alone supplies the two completeness inputs of
+the established `J` assembly: `Q′` is derived by the multiplication converse.
+The guarded `Q` hypothesis remains open, so this does not prove unconditional
+`JCompletenessACF` or unconditional reconstruction. -/
+theorem jCompletenessACF_of_guardedQCompleteness [IsAlgClosed k] [IsAlgClosed K]
+    (q : ℕ) [ExpChar k q] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+    (hcompl : GuardedQCompletenessACF k K) : JCompletenessACF k K :=
+  jCompletenessACF_of_completeness q htr
+    (fun _ _ _ _ h h₁ h₂ ↦ qSem_of_qGeom_of_ne hcompl h h₁ h₂)
+    (fun _ _ _ _ h ↦ q'Sem_of_q'Geom_of_guardedQCompleteness htr hcompl h)
 
 /-- Conditional **guarded** geometric projection identity (#27): semantic projection and
 proved soundness supply `J`; the reverse guard comes from actual multiplication distinctness.

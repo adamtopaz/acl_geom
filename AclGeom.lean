@@ -161,6 +161,7 @@ import AclGeom.Config.Soundness
 import AclGeom.Config.AffineGrid
 import AclGeom.Config.MulDiagramCheck
 import AclGeom.Config.Multiplication
+import AclGeom.Config.MultiplicationConverse
 import AclGeom.Config.Transport
 import AclGeom.Transfer.FiniteUnion
 import AclGeom.Transfer.Intersections
