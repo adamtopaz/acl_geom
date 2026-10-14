@@ -29,6 +29,7 @@ import AclGeom.Correspondence.AffineLocusCommutation
 import AclGeom.Correspondence.AffinePointNormalization
 import AclGeom.Correspondence.CompositionAssociativity
 import AclGeom.Correspondence.TensorComponent
+import AclGeom.Correspondence.TensorRealization
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -629,9 +630,52 @@ by its transpose checks all three conclusions: its selected quotient is a
 field and its compositum is exactly `k(t)` for transcendental t.
 
 This proves the component selected by an actual shared-middle chain.
-Realizing every tensor component and connecting these fields to dominating
-components of geometric fiber products via coordinate rings and localization
-remain obligations. It supplies no group chunk or initial affine chart.
+Every tensor component has a realization by the theorem below. Connecting
+these fields to dominating components of geometric fiber products via
+coordinate rings and localization remains an obligation. These component
+results supply no group chunk or initial affine chart.
+
+# Realizing every function-field tensor component
+%%%
+tag := "correspondence-tensor-realization"
+%%%
+
+For the existing scalar branch representation, every minimal-prime tensor
+component yields an actual composite of the original germs in an algebraically
+closed ambient field. The base field can be arbitrary. First, the component
+is realized by two embeddings fixing the common middle field:
+
+{docstring AclGeom.FiniteCorrespondencePair.exists_tensor_component_embeddings}
+
+The tensor of the finite branch fields is Artinian, so its prime quotient is
+a finite field extension. Mathlib's algebraic-extension embedding theorem maps
+that quotient into the ambient ACF. Restricting along the two tensor inclusions
+gives the embeddings and recovers exactly the original component kernel.
+
+{docstring AclGeom.FiniteCorrespondencePair.exists_composite_of_tensor_component}
+
+Lift each branch's coordinates into its finite field, then transport them
+through the embedding. The existing closure and polynomial-ideal lemmas
+preserve genericity, interalgebraicity and the original pair ideals. Both
+embeddings fix the middle field, so the transported branches share the original
+middle coordinate. Their endpoint pair is an actual `Composes` witness.
+
+{docstring AclGeom.FiniteCorrespondencePair.tensor_component_endpoint_ideal_eq}
+
+Equal tensor kernels give identical polynomial relations on the two endpoint
+images. Thus a component determines its composite germ independently of the
+chosen embeddings. This does not assert injectivity from tensor components
+to endpoint germs. The uniqueness statement needs no ACF hypothesis.
+
+A concrete squaring branch followed by its transpose exercises an arbitrary
+minimal-prime component. Its embedded sources both square to the original
+middle coordinate; the derived composite has diagonal or antidiagonal
+endpoints. A second realization of that component has the same endpoint germ.
+The tests construct the branches and derive composition without an input oracle.
+
+The coordinate-ring/localization identification with geometric fiber-product
+components remains open. No group chunk, coherent cover, initial affine chart
+or reconstruction-completeness hypothesis is supplied by these results.
 
 # The affine-grid extraction boundary
 %%%

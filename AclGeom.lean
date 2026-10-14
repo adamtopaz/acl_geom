@@ -31,6 +31,7 @@ import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.Composition
 import AclGeom.Correspondence.CompositionAssociativity
 import AclGeom.Correspondence.TensorComponent
+import AclGeom.Correspondence.TensorRealization
 import AclGeom.Correspondence.CurveEquation
 import AclGeom.Correspondence.CurveEquationTransport
 import AclGeom.Correspondence.FiniteCover

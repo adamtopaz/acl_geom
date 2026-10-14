@@ -8876,3 +8876,62 @@ After this single append, rerun full build/book, commit/push the five-path
 checkpoint, observe exact CI and report on the repository issues. Keep the
 single monitored build family, two threads and 30 GiB available-memory stop.
 The durable goal remains active; the guarded-Q initial chart is still central.
+
+
+## Every tensor component gives a represented composite (#5)
+
+From 7a7b91a907997777de1eaabfd8568d88f0187c5e, the focused 181-line module
+Correspondence/TensorRealization.lean proves three public results for the
+existing scalar branch representation. Over arbitrary k in an ACF ambient,
+FiniteCorrespondencePair.exists_tensor_component_embeddings realizes every
+minimal-prime component of the shared-middle branch-field tensor by two
+embeddings fixing the middle field. exists_composite_of_tensor_component
+constructs an actual finite endpoint pair and Composes witness for the original
+germs, retaining the exact tensor kernel and both endpoint images.
+tensor_component_endpoint_ideal_eq proves that equal kernels give equal
+endpoint ideals; the composite germ is independent of the chosen embeddings.
+The uniqueness statement needs no ACF hypothesis. No injectivity from tensor
+components to endpoint germs is asserted.
+
+Three private helpers are consumed: embed the finite Artinian prime quotient
+using IsAlgClosed.lift; transport branch data and pair ideals through a field
+embedding; and compare polynomial relations through equal algebra kernels.
+All actual branch, closure and ideal data are derived, not supplied as a
+composition oracle. Concrete squaring/transpose consumers start from an
+arbitrary minimal prime, derive both source-square identities, obtain an
+actual diagonal-or-antidiagonal composite, and compare its germ with any
+other realization of the same component. The source's geometric
+coordinate-ring/localization bridge remains open. No group chunk, coherent
+cover, initial affine chart or reconstruction-completeness input is proved.
+
+Private producer/consumer pass default checking and standard Mathlib lint
+with empty logs (2.00s each; minimum available 40.68/41.04 GiB). Scoped metadata
+passes in 4.00s/minimum 40.57 GiB: six declarations, three public, with only the
+standard three axioms on the public rows. This is not a whole-library axiom
+certificate. Private book passes in 30.01s/minimum 39.97 GiB. Actual-main full
+build passes in 76.02s/minimum 38.57 GiB; book in 8.00s/minimum 40.36 GiB; four
+focused checks in 6.00s/minimum 40.61 GiB. All 162 prior fixtures and eight
+baselines (332 files) remain byte-exact, not rerun; the future corpus has 166.
+Hygiene is clean across 273 files. All 711 warning headers and 113 prior HTML
+paths are retained, with one new section. Every older math module and the entire blueprint stay exact;
+no new TeX rendering is needed. The book and PROJECT_GOAL state the exact scope.
+
+Integration initially stopped on three new untracked source paths:
+sources/group_configuration/, sources/group_configuration_blueprint.pdf and
+sources/group_configuration_blueprint.tex. They were preserved, unread and
+unmodified, and excluded from this five-path checkpoint. A preintegration
+unchanged-head build is archived separately and not counted as new validation.
+Tracked-file and explicit-stage guards then allowed integration to proceed.
+Provenance/ownership is pending via chit6138 and #1 comment6160540706; do not
+silently stage or delete these unrelated paths.
+
+Evidence: /tmp/acl_geom_codex_tensor_realization_7a7 and
+/tmp/acl_geom_realization_shared_probes. The original private embedding report
+is #5 comment6160354051; the strengthened target and exact source/book/goal
+review are in chit6133/6134/6137. Root remains sole editor/compiler and Claude
+read-only; no review reply has arrived, so acceptance is not inferred.
+After this single append, rerun full build/book, commit/push only the five
+reviewed paths, observe exact CI and report on the repository issues. Keep
+one monitored build family, two threads and the 30 GiB available-memory stop.
+The full durable goal remains active; guarded-Q initial chart extraction and
+unconditional reconstruction remain open.
