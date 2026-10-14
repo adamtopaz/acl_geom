@@ -28,6 +28,7 @@ import AclGeom.Correspondence.MultiplierPrimeCurve
 import AclGeom.Correspondence.AffineLocusCommutation
 import AclGeom.Correspondence.AffinePointNormalization
 import AclGeom.Correspondence.CompositionAssociativity
+import AclGeom.Correspondence.TensorComponent
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -596,6 +597,41 @@ germs with dominating components of geometric fiber products remains a
 separate C2 obligation, including the nonclosed function-field base case.
 This theorem supplies neither a component-selection operation nor a group
 chunk, initial chart or configuration-completeness input.
+
+# Selected function-field tensor components
+%%%
+tag := "correspondence-tensor-components"
+%%%
+
+The function-field part of blueprint §8.1 has a concrete component theorem.
+Given actual finite branches `(x,y)` and `(y,z)`, put `E = k(y)`,
+`F = E(x)` and `G = E(z)`. The multiplication map from `F ⊗[E] G` to the
+ambient field selects a minimal prime:
+
+{docstring AclGeom.FiniteCorrespondencePair.tensor_ker_mem_minimalPrimes}
+
+Both extensions of E are finite, so their tensor product is Artinian.
+The kernel is prime because the target is a field, and every prime in this
+Artinian ring is minimal. Its quotient is the compositum of F and G:
+
+{docstring AclGeom.FiniteCorrespondencePair.tensor_quotient_equiv_compositum}
+
+The image of the multiplication map is the compositum, and Mathlib's first
+isomorphism theorem gives the quotient equivalence. Restricting scalars
+identifies that compositum with the existing three-coordinate chain field:
+
+{docstring AclGeom.FiniteCorrespondencePair.tensor_compositum_eq_chainField}
+
+These results work over arbitrary base and ambient fields. In particular,
+the middle function field need not be algebraically closed, and the tensor
+product is not assumed to be a domain. A concrete squaring branch followed
+by its transpose checks all three conclusions: its selected quotient is a
+field and its compositum is exactly `k(t)` for transcendental t.
+
+This proves the component selected by an actual shared-middle chain.
+Realizing every tensor component and connecting these fields to dominating
+components of geometric fiber products via coordinate rings and localization
+remain obligations. It supplies no group chunk or initial affine chart.
 
 # The affine-grid extraction boundary
 %%%

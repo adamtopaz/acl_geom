@@ -8825,3 +8825,54 @@ After this single append, full build/book must pass again before the six-path
 commit/push, exact CI observation and issue reports. The full durable goal
 remains active, with the guarded-Q initial chart still central. Keep the
 single monitored family, two threads and 30 GiB available-memory stop.
+
+
+## Selected function-field tensor components (#5)
+
+From e497b353e2c5fa7b48b5cc2be875eb4f6db780f1, the focused module
+Correspondence/TensorComponent.lean proves three conclusions for actual
+shared-middle finite branches (x,y) and (y,z). Over E=k(y), put F=E(x), G=E(z).
+The ambient multiplication map from F tensor_E G has a minimal-prime kernel;
+its quotient is E-algebra equivalent to F join G; restricting that compositum
+to k gives the existing chainField, k(x,y,z). Public names are
+FiniteCorrespondencePair.tensor_ker_mem_minimalPrimes,
+tensor_quotient_equiv_compositum and tensor_compositum_eq_chainField.
+
+The first two consume one private generic finite-extension lemma: the tensor
+is Artinian, its kernel into a field is prime and hence minimal, its range is
+the compositum, and Mathlib's first isomorphism theorem identifies the quotient.
+No base or ambient ACF, tensor-domain assumption, extra field definition,
+instance or simp attribute is introduced. The actual squaring/transpose
+consumer derives minimality, a field quotient and compositum exactly k(t).
+The combined-conclusion draft exceeded default checking limits; separate
+mathematical conclusions pass without changing those limits. Failed drafts,
+consumer repairs and diagnostic logs are retained outside the repository.
+
+This identifies the component selected by an actual chain. Realization of
+every tensor component and the geometric coordinate-ring/localization bridge
+remain open, as do group chunks, guarded-Q charts and reconstruction.
+PROJECT_GOAL and the book state this boundary. The entire blueprint, every
+older mathematical module and all frozen M4a files remain byte-exact.
+
+Private producer/consumer pass default checking and standard Mathlib lint
+with empty logs (8.00s each; minimum available 40.40/40.78 GiB). Scoped metadata
+passes in 4.00s/minimum 40.76 GiB: exactly one private and three public
+results; public dependency rows contain only the standard three axioms.
+This is not a whole-library axiom certificate. Private book passes in
+30.01s/minimum 39.92 GiB. Actual-main full build passes in 78.02s/minimum
+38.29 GiB; book in 8.00s/minimum 40.27 GiB; four focused actual-main checks in
+12.00s/minimum 40.67 GiB. The 158 prior fixture inputs/outputs and baselines
+are retained byte-exact, not rerun; the future corpus is 162 fixtures.
+Hygiene is clean across 272 library/root files, all 711 warning headers and
+112 old HTML paths are retained, and one book section is added. Since the
+entire TeX source is unchanged, no new TeX rendering is needed.
+
+Evidence: /tmp/acl_geom_codex_tensor_component_e49 and
+/tmp/acl_geom_tensor_shared_probes. Scope is on #5 comment 6160156069.
+Chit6115 coordinated ownership; 6122/6123 discuss checking and scope; 6124
+provides exact source/book/goal review pins. Root remains sole editor/compiler
+and Claude read-only. No review reply has arrived; acceptance is not inferred.
+After this single append, rerun full build/book, commit/push the five-path
+checkpoint, observe exact CI and report on the repository issues. Keep the
+single monitored build family, two threads and 30 GiB available-memory stop.
+The durable goal remains active; the guarded-Q initial chart is still central.
