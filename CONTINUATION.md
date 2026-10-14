@@ -9444,3 +9444,52 @@ prerequisite is now privately checked: CanonicalBaseCapture.lean pinf04cc182,
 emptylog2.00s/min40.98GiB. It is not integrated until the coherent actual input
 construction assembles. No guarded-chart, group-algebraization or reconstruction
 claim is discharged by this plan. PROJECT_GOAL and both TeX sources are unchanged.
+
+
+## Finite codes, locus points and quasi-rational graphs (#12)
+
+After `5efa805`, the independently reviewed producer snapshots Codes
+`ba24ef10` (299 lines), Germ/Variety `ab0d31d0` (143), Contraction `9ca8d85e`
+(84), and QuasiRational `c1af8e1e` (334) integrate with every original name,
+statement and proof preserved. Only module documentation/status changes under
+chit ownership 6366. Complete independent default-limit/standard-lint checks
+pass with empty logs: Codes 2s/min38.63GiB, Variety 2s/min38.97GiB,
+Contraction 2s/min38.97GiB, QuasiRational 4s/min33.72GiB. The initial three-module
+full build passed 19037 jobs in44.02s/min31.60GiB; a new long documentation
+line was shortened before the final gates. Root compiler reservation 6377
+withdraws the unaccepted peer lease6375; the shared lock prevents overlap.
+
+The coding polynomial retains monomial indices and is injective over domains.
+Its finite scalar coefficient carrier is natural, has the pointwise-fixing/
+set-stabilizing criterion, lies in the coordinate ring, and generates the same
+relative algebraic closure as the coordinates. Equality of scalar carriers
+alone is not asserted to recover the tuple set. The literal degree-bounded
+coefficient-vector presentation and definable-closure/conjugate-set clauses
+remain obligations. Represented-locus point ranks are bounded by dimension,
+equality detects genericity, independence detects genericity over a larger
+small field, and algebraic adjoining preserves rank. Arbitrary-prime realization
+remains open. Polynomial extension/contraction commute along any injective
+variable renaming, with no algebraic closedness or finite-coordinate requirement.
+
+Quasi-rational expressions are evaluated in a perfect ambient field. Equivariance,
+coefficient-field inclusion, generic agreement on represented loci and
+Frobenius-twisted denominator-cleared composition are proved. The composite
+is defined on the natural composition domain and agrees there; equality of
+maximal expression domains is not claimed. The dcl characterization remains
+separate. Codex's new `Constructible/QuasiRational.lean` proves constructibility
+of finite-output domains and graphs. The graph has equations
+w_j^(p^e) Q_j(u)=P_j(u) and Q_j(u)≠0; domain needs no perfection, graph needs
+only ambient perfection, neither needs ACF/smallness/universal domain. Named
+consumers are the Section9 admissible-parameter and germ-word relations,
+whose complete construction remains open. The private producer check passed
+emptylog2.00s/min35.54GiB after supplying the sum coordinate type explicitly;
+no checking-limit increase. Full final library/book and scoped axiom gates
+must pass after every edit before committing.
+
+Root's actual Psi canonical-base clauses are drafted privately using the
+checked finite-tuple capture argument and existing
+`RankEq.eq_of_le_of_not_le_point`; they remain unvalidated at this entry.
+The full16-triple input, universal-ambient lift, guarded chart, group extraction,
+algebraization and unconditional reconstruction remain open. PROJECT_GOAL and
+both TeX sources are unchanged. The excluded supplemental PDF stays untracked.
+Use one monitored two-thread family and stop below30GiB available memory.
