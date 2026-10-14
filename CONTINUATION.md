@@ -9727,3 +9727,30 @@ CI, artifact and existing deployment passed. A source audit also distinguishes
 the represented-locus base-change API, which assumes representative tuples
 independent of the new field, from the arbitrary-extension source formulation.
 That generality must still be packaged; no source refutation is claimed.
+
+## Definable germ values and the generated group (2026-10-14, #12)
+
+`DefinableClosure`, `Germ/HW`, `Difference`, `Definable` and `Triple` now supply
+the next reviewed layers. Definable closure is the perfect closure and the
+fixed field; finite-tuple values are quasi-rational. Under the actual `IsHW`
+hypotheses the generated group consists of two orbit factors, with generic
+stabilization and rank criteria. Independent differences of invertible germs
+form one orbit. This does not yet derive those hypotheses from a configuration.
+
+Germ values are definable, representatives descend to every small ACF field
+containing the canonical base, and invertibility has its definable-fibre
+criterion. The composition theorem permits individually defined points with
+the first value in the second germ's domain. The word-evaluation clause is
+explicitly stated through automorphism invariance, whose class contains the
+seeds and is closed under composition and inversion; actual parameterized word
+relations and their constructibility remain later work. A definable triple
+constructs its unique germ, graph and canonical base, for Step I's consumer.
+
+All five producer copies were mathematically reviewed and independently
+checked under default project options and standard linters in the prior
+32-module check. The integration preserves every declaration and proof, with
+only the `HW` status text clarifying pending homogeneous-space and extraction
+layers. The source TeX, frozen M4a chain and original reconstruction inputs
+are unchanged. Full library/book gates after all edits are required before
+committing this slice. The peer's `AdmissibleWords` scratch family owns the
+compiler until its actual terminal release.
