@@ -12,6 +12,15 @@ functorial consequences. Produce unconditional public theorems under the
 blueprint's genuine hypotheses, a matching Verso exposition, and reproducible
 validation. Preserve the provenance and justified corrections of source errors.
 
+The project also formalizes, in the `GroupConfig` library, the group
+configuration theorem of
+[sources/group_configuration_blueprint.tex](sources/group_configuration_blueprint.tex),
+whose parts are in [sources/group_configuration/](sources/group_configuration/).
+That supplementary blueprint was written for this project to supply the group
+extraction that the source route needs. It adds obligations and removes none
+from the original blueprint; see
+[Group configuration theorem](#group-configuration-theorem) below.
+
 The shared goal is the mathematical result, rather than a particular proof
 route or a collection of interfaces. Alternative proofs are welcome; true
 blueprint statements bypassed by a route remain obligations.
@@ -49,6 +58,11 @@ All of the following must hold:
    provenance and a justified, proved corrected replacement. A source error or
    a bypass does not silently erase an obligation or narrow the final theorem.
    If a correction remains unresolved, the associated obligation remains open.
+   The same holds for the group configuration blueprint. Its main theorem
+   (`thm:main`), the constructible group (`thm:constructible`), descent
+   (`thm:descent`), the Ψ application (`prop:psi-gc`, `cor:psi`) and their
+   prerequisites must each be proved in the project or refuted with provenance.
+   Proofs may live in `GroupConfig` or in project bridges such as `AclGeom/Config`.
 3. The endpoint's variants and consequences above are proved. No conditional
    configuration or reconstruction theorem is presented as unconditional.
 4. No `sorry`, `admit` or project axiom occurs on main. Final public theorem
@@ -78,6 +92,7 @@ two perfected ACF completeness inputs. The central open work is:
 | Geometric Q′ | The product-output converse is proved under its stated ACF/rank-five hypotheses; the full original-base auxiliary table over ACF k/K now needs no rank bound. Q′ completeness reduces to guarded Q completeness. [#6 G4](https://github.com/adamtopaz/acl_geom/issues/6). |
 | Geometric J and transfer | The new public reduction derives `JCompletenessACF` from guarded Q completeness alone. Prove that remaining input and complete arbitrary-field descent obligations. [#6 G5](https://github.com/adamtopaz/acl_geom/issues/6), [#7](https://github.com/adamtopaz/acl_geom/issues/7). |
 | Reconstruction and variants | Remove open completeness inputs from reconstruction and finish the endpoint's public variants and functorial consequences. [#8](https://github.com/adamtopaz/acl_geom/issues/8), [#9](https://github.com/adamtopaz/acl_geom/issues/9), [#10](https://github.com/adamtopaz/acl_geom/issues/10). |
+| Group configuration theorem | Finish `thm:main` of the group configuration blueprint: Step III and the final assembly. Then prove the constructible group, descent, and `cor:psi` for the actual Ψ witness. This is the group-extraction bridge on the source route to the guarded Q chart. [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#27](https://github.com/adamtopaz/acl_geom/issues/27). |
 | Remaining source mathematics | Complete the coordinate-ring/localization bridge to geometric fiber products. In an ACF ambient over an arbitrary base, the existing scalar branch calculus realizes all minimal-prime tensor components as composite germs independent of the chosen embeddings, and relational germ composition is associative. Packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results remain owed. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
 
 The existing Q/Q′-to-J assembly is an established dependency. On the source's
@@ -109,6 +124,78 @@ action infrastructure. No route is declared sufficient without proofs.
 The frozen 117-item M4a chain is historical, not a list of deliverables. Related
 source statements remain owed; revisiting frozen code requires a concrete
 mathematical purpose and agreed ownership.
+
+## Group configuration theorem
+
+[sources/group_configuration_blueprint.tex](sources/group_configuration_blueprint.tex)
+was committed in c082e7e and is tracked on
+[#12](https://github.com/adamtopaz/acl_geom/issues/12). It gives an informal proof
+of Hrushovski's group configuration theorem in the language of fields. The fields
+are algebraically closed, $k\subseteq K$, and $K$ has infinite transcendence
+degree over $k$. The theorem says that, after a finite independent
+base extension, a six-point configuration is interalgebraic with the standard
+configuration of a group of germs of quasi-rational maps acting on a variety.
+Over a further generic extension that group is constructible
+(`thm:constructible`), and the descent theorem (`thm:descent`) controls the base
+fields. The application (`prop:psi-gc`, `cor:psi`) takes the actual Ψ witness
+with $n=2$ and $m=1$. Its output, a two-dimensional group acting on a curve, is
+the input of the original blueprint's Lemma `affine-action`
+([#21](https://github.com/adamtopaz/acl_geom/issues/21)).
+
+Part [12](sources/group_configuration/12-lean.tex) of the supplementary blueprint
+proposes the Lean architecture: a `lean_lib GroupConfig` in this package.
+
+Its scope section states three non-goals:
+
+- Weil's algebraization of constructible groups;
+- the classification of the resulting group;
+- elimination of imaginaries beyond the codes it constructs.
+
+These are non-goals of the supplementary blueprint alone. Weil algebraization and
+the group classification remain obligations of the original reconstruction
+blueprint and the shared endpoint. Those include the original group-chunk,
+six-point and action statements (`thm:rational-group-chunk`,
+`thm:six-point-group`, `lem:affine-action`) and the chart and reconstruction
+steps built on them. The supplementary non-goals cannot erase
+these obligations. Completing `GroupConfig` does not by itself make the original
+group, chunk, action, chart or reconstruction results complete, and it must not
+be described as doing so.
+
+On main are the following established layers. This lists layers; it does not
+certify every auxiliary statement in the corresponding source sections.
+
+- the universal-domain, rank, automorphism, locus and dimension foundations;
+- fields of definition and canonical bases;
+- codes, quasi-rational expressions and germ varieties;
+- the configuration predicate and its invariance;
+- constructible sets, with Chevalley's theorem and generic quantification;
+- the full-Ψ form of `prop:psi-gc`.
+
+For the last item, all configuration clauses with group rank two and space rank
+one are derived from the full `QWitness.Psi` record in a universal ACF ambient
+([AclGeom/Config/ConfigurationInput.lean](AclGeom/Config/ConfigurationInput.lean)).
+A canonical universal ACF lift
+([AclGeom/Config/UniversalConfigurationInput.lean](AclGeom/Config/UniversalConfigurationInput.lean))
+applies to a Ψ witness over arbitrary original fields. It produces the
+configuration in its chosen universal extension, not in the original $K$.
+
+Checked scratch drafts exist for germs, Hrushovski–Weil, bijections, the
+definability step, and Steps I and II. They are pending project review and
+integration.
+
+Open:
+
+- the source formulation of `prop:psi-gc`, which assumes only clauses (i)–(iv) of Ψ;
+- Step III and `thm:main`;
+- the homogeneous-space clause of `lem:hw-basechange`;
+- the constructible group;
+- descent;
+- `cor:psi`;
+- comparing the lifted tuples literally with the original ones;
+- descending the chart and action to the original fields.
+
+The proved Q′ route bypasses group extraction, but the group configuration
+statements remain obligations under the rules above.
 
 ## Fidelity and collaboration
 

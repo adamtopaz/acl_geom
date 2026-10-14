@@ -185,9 +185,12 @@ Immediate priorities, in order:
   the `question-for-adam` label.
 - Two agents work on the project: `aclgeom.claude` and `aclgeom.codex`.
   They coordinate through chit direct messages. File ownership is divided
-  explicitly before editing. In the shared checkout only one Lake build
-  family runs at a time, and builds stop if available memory drops below
-  30 GiB.
+  explicitly before editing. In the shared checkout only one Lean/Lake build
+  family runs at a time, with combined memory capped at 20 GB
+  (20,000,000,000 bytes), following Adam's
+  [updated instruction on #28](https://github.com/adamtopaz/acl_geom/issues/28#issuecomment-6174030382).
+  This replaces the former 30 GiB available-memory stop. Older measurements
+  below retain the rule in force when they were taken.
 - Issue map: #1 coordination; #2–#10 milestones M0–M8; #11 M3a regularity
   brick (open, off the critical path); #12 M4a design; #13 M4b curve
   library; #14–#16 historical M4a sub-steps; #18 build performance;
@@ -2076,8 +2079,9 @@ The host's previous compiler wrapper referenced a removed Nix path. For the
 migration measurements, GCC was supplied from
 `/nix/store/79mr0jw3qccq7hhf1hh62knxd88dwazc-gcc-wrapper-15.3.0/bin` on `PATH`.
 That path is a local workaround; another machine should use its installed
-compiler. The build monitor samples `MemAvailable` and process-family RSS
-every two seconds and interrupts only its own family below 30 GiB available.
+compiler. These migration measurements used a monitor sampling `MemAvailable`
+and process-family RSS every two seconds, interrupting only its own family below
+30 GiB available. The current policy is the 20 GB family cap described above.
 
 The compatibility changes update Mathlib lattice/rank, polynomial and
 category APIs, replace deprecated declarations, and expose scalar inclusions
@@ -9606,3 +9610,42 @@ semantic representatives in the original field from this lifted configuration.
 Both output guards remain at the downstream chart target. PROJECT_GOAL and the
 source TeX remain unchanged. Use one monitored two-thread family/30GiB stop and
 exclude the untracked PDF.
+
+## Joint goal review and revised memory policy (2026-10-14)
+
+`PROJECT_GOAL.md` now explicitly includes the supporting group-configuration
+blueprint. The two agents reviewed this additive update through chit. It
+preserves the original reconstruction endpoint and keeps the original
+algebraization, action, chart and reconstruction obligations. The supplemental
+non-goals bind that document alone. Its weaker clause-(i)–(iv) Ψ proposition,
+the main group theorem, constructibility, descent and original-field chart/action
+descent remain obligations until checked proofs are integrated.
+
+Adam replaced the available-memory rule with a maximum of **20 GB for the
+combined Lean/Lake family** on
+[#28](https://github.com/adamtopaz/acl_geom/issues/28#issuecomment-6174030382).
+Only one family runs, with two Lean threads. On this host a temporary user
+scope enforces the kernel cap; Linux rounds it down to a page boundary. For
+example, with the local compiler path configured as above:
+
+```sh
+LEAN_NUM_THREADS=2 systemd-run --user --scope --expand-environment=no \
+  --property=MemoryMax=20000000000 --property=MemorySwapMax=0 lake build
+LEAN_NUM_THREADS=2 systemd-run --user --scope --expand-environment=no \
+  --property=MemoryMax=20000000000 --property=MemorySwapMax=0 lake exe book
+```
+
+The shared monitor also holds the single-family lock, verifies the kernel cap
+before launching a child and samples family RSS. It stops its own family
+conservatively at 19 GB, within the 20 GB hard cap. This current policy supersedes
+the 30 GiB guards quoted in earlier checkpoint records; those records describe
+the measurements taken at the time. No mathematical checking limit changes.
+
+The next reviewed private producers cover the exact Ψ core, literal image
+tuples, orbit parameterization and actual admissibility. Claude's Step III and
+base-change drafts are also pending checking. Their mathematical reviews are
+progress evidence, not committed source coverage; see
+[#12](https://github.com/adamtopaz/acl_geom/issues/12#issuecomment-6173927110) and
+[#27](https://github.com/adamtopaz/acl_geom/issues/27#issuecomment-6173558980).
+The durable goal remains incomplete, and the untracked supplemental PDF stays
+excluded from commits.

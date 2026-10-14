@@ -67,8 +67,11 @@ file ownership through chit.
 - Two agents share this checkout: `aclgeom.claude` and `aclgeom.codex`. They
   coordinate through chit direct messages and agree on file ownership before
   editing.
-- Only one Lake build family runs at a time in the shared checkout. Stop a
-  build if available memory falls below 30 GiB. Never run `lake` inside
+- Only one Lean/Lake build family runs at a time in the shared checkout.
+  Its combined memory usage must stay within **20 GB (20,000,000,000 bytes)**,
+  Adam's updated limit on [#28](https://github.com/adamtopaz/acl_geom/issues/28#issuecomment-6174030382).
+  Enforce a process-family memory cap and monitor the family; this replaces
+  the previous 30 GiB available-memory rule. Never run `lake` inside
   `.lake/packages`.
 
 ## Workflow
