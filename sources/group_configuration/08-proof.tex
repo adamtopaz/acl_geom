@@ -1,0 +1,341 @@
+\section{Proof of the group configuration theorem}
+\label{sec:proof}
+
+Throughout, $\mathfrak c=(a,b,c,x,y,z)$ is a group configuration over $k$ with ranks
+$n=\rk(a)$, $m=\rk(y)$ (\cref{lem:gc-ranks}).  ``Over $k_1$'' means that the base field
+$k$ is replaced by $k_1$ in all of \cref{sec:ud,sec:fod,sec:codes,sec:germs,sec:hw,sec:bij,sec:gc};
+when the base changes we say so explicitly, and $\Gamma_{(k_1)}=\Aut(K/k_1)$.
+
+\subsection{Step I: making the lines definable}
+
+\begin{lemma}[definability step]\label{lem:defstep}
+Let $r$ be a space point of $\mathfrak c$, let $\ell_1=\{p_1,q_1,r\}$ be one of the two
+lines through $r$ ($p_1$ its group point, $q_1$ its other space point), let
+$\ell_2=\{p_2,q_2,r\}$ be the other line through $r$, and let $\ell_3=\{p_3,q_1,q_2\}$
+be the line through $q_1$ and $q_2$; so $\{p_1,p_2,p_3\}=\{a,b,c\}$.  Then there is a
+tuple $e$ with $e\ind{}abcxyz$, and tuples $p'_2,q'_2$, such that with $k_1=\acl(k,e)$:
+\begin{enumerate}[nosep]
+\item $p'_2\subseteq\acl(e\,p_1)$ and $q'_2\subseteq\acl(e\,q_1)$;
+\item with $L=k(p_1q_1p'_2q'_2)$ and $\tilde r=\code{\Gamma_L\,r}$: $\tilde r\subseteq\dcl(L)$
+  and $\tilde r\interalg r$;
+\item the tuple $\mathfrak c_1$ obtained from $\mathfrak c$ by replacing
+  $p_1\mapsto(p_1,p'_2)$, $q_1\mapsto(q_1,q'_2)$, $r\mapsto\tilde r$ is a group configuration
+  over $k_1$, pointwise interalgebraic over $k_1$ with $\mathfrak c$, and
+  $\tilde r\in\dcl\bigl(k_1,(p_1,p'_2),(q_1,q'_2)\bigr)$;
+\item if moreover $q_1\in\dcl(k,p_1,r)$ and $q_2\in\dcl(k,p_2,r)$, then
+  $(q_1,q'_2)\in\dcl\bigl(k_1,(p_1,p'_2),\tilde r\bigr)$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Let $e$ be a generic point of $\Loc(p_3)$ over $\acl(abcxyz)$ (\cref{lem:genexists}),
+so $e\ind{}abcxyz$.  By \cref{lem:gc-ranks}, $p_3\ind{}p_1q_1r$ (the line $\ell_1$ does
+not contain $p_3$), so $p_3$ and $e$ are both generic points of $\Loc(p_3)$ over
+$\acl(p_1q_1r)$ and there is $\sigma\in\Gamma_{\acl(p_1q_1r)}$ with $\sigma p_3=e$
+(\cref{lem:generic-char}(2)).  Put $p'_2=\sigma p_2$, $q'_2=\sigma q_2$.  Then
+$\sigma\mathfrak c$ is a group configuration (\cref{lem:gc-invariance}(1)) with points
+$p_1,q_1,r$ (fixed), $p'_2,q'_2,e$ and lines $\ell_1$, $\{p'_2,q'_2,r\}$, $\{e,q_1,q'_2\}$,
+$\{p_1,p'_2,e\}$.
+
+(1) \ref{GC:group} for the group line $\{p_1,p'_2,e\}$ of $\sigma\mathfrak c$ gives
+$p'_2\subseteq\acl(ep_1)$; \ref{GC:space} for the line $\{e,q_1,q'_2\}$ gives
+$q'_2\subseteq\acl(eq_1)$.
+(2) \Cref{lem:conjset-gc} applied to $\sigma\mathfrak c$, the space point $r$ and its lines
+$\ell_1$, $\{p'_2,q'_2,r\}$.
+(3) $\mathfrak c$ is a configuration over $k_1$ by \cref{lem:gc-invariance}(2); by (1),(2)
+the three replaced points are interalgebraic over $k_1$ with the originals, so
+$\mathfrak c_1$ is a configuration over $k_1$ by \cref{lem:gc-invariance}(3); and
+$\dcl(L)\subseteq\dcl(k_1,(p_1,p'_2),(q_1,q'_2))$.
+(4) $q'_2=\sigma q_2\in\sigma\dcl(k,p_2,r)=\dcl(k,p'_2,r)$ (\cref{cor:dcl-props}, $\sigma$
+fixes $r$).  So $w:=(q_1,q'_2)\in\dcl(L_0,r)$ with $L_0=k(p_1p'_2)\subseteq L$, and
+$w\subseteq L$; \cref{lem:conjcode} gives $w\in\dcl(L_0,\tilde r)$.
+\end{proof}
+
+\begin{proposition}[Step I]\label{prop:stepI}
+There is a tuple $e\ind{}abcxyz$ such that, over $k'=\acl(k,e)$, there is a group
+configuration $\mathfrak c'=(a',b',c',x',y',z')$ pointwise interalgebraic over $k'$ with
+$\mathfrak c$ and satisfying
+\[
+   z'\in\dcl(k',b',y'),\qquad y'\in\dcl(k',b',z').
+\]
+Consequently (over $k'$): with $V=\Loc_{k'}(y')$, $V'=\Loc_{k'}(z')$ (irreducible
+$k'$-varieties of dimension $m$), the triple $(b';y',z')$ determines by \cref{lem:triple}
+an invertible germ $g_{b'}:V\to V'$ with $g_{b'}(y')=z'$ and $b'\interalg\code{g_{b'}}$;
+replacing $b'$ by $\code{g_{b'}}$ we may assume $b'=\code{g_{b'}}$.  Then
+$\mathcal F:=\Gamma_{(k')}\cdot g_{b'}$ is a generically transitive generic set of
+invertible germs from $V$ to $V'$ of rank $n$ over $k'$.
+\end{proposition}
+\begin{proof}
+Apply \cref{lem:defstep} three times.
+\begin{enumerate}[nosep]
+\item To $\mathfrak c$ with $r=z$, $\ell_1=\{b,y,z\}$ ($p_1=b$, $q_1=y$),
+  $\ell_2=\{c,z,x\}$ ($p_2=c$, $q_2=x$), $\ell_3=\{a,x,y\}$, $p_3=a$.  Get $e_1$,
+  $k_1=\acl(k,e_1)$ and $\mathfrak c_1=(a,(b,c'),c,x,(y,x'),\tilde z)$ with
+  $\tilde z\in\dcl(k_1,b_1,y_1)$, where $b_1=(b,c')$, $y_1=(y,x')$.
+\item Over $k_1$, to $\mathfrak c_1$ with $r=x_1=x$, $\ell_1=\{a_1,x_1,y_1\}$,
+  $\ell_2=\{c_1,z_1,x_1\}$, $\ell_3=\{b_1,y_1,z_1\}$, $p_3=b_1$.  Get $e_2\ind{k_1}\mathfrak c_1$,
+  $k_2=\acl(k_1,e_2)$ and $\mathfrak c_2=((a,c''),b_1,c,\tilde x,(y_1,z''),z_1)$ with
+  $\tilde x\in\dcl(k_2,a_2,y_2)$.  Since $b_2=b_1$, $z_2=z_1$ and $y_2\supseteq y_1$, still
+  $z_2\in\dcl(k_2,b_2,y_2)$.
+\item Over $k_2$, to $\mathfrak c_2$ with $r=y_2$, $\ell_1=\{b_2,y_2,z_2\}$ ($p_1=b_2$,
+  $q_1=z_2$), $\ell_2=\{a_2,x_2,y_2\}$ ($p_2=a_2$, $q_2=x_2$), $\ell_3=\{c_2,z_2,x_2\}$,
+  $p_3=c_2$.  The hypotheses of \cref{lem:defstep}(4) hold: $z_2\in\dcl(k_2,b_2,y_2)$
+  and $x_2\in\dcl(k_2,a_2,y_2)$.  Get $e_3$, $k_3$ and
+  $\mathfrak c_3=(a_2,(b_2,a'),c_2,x_2,\tilde y,(z_2,x'''))$ with
+  $\tilde y\in\dcl(k_3,b_3,z_3)$ and, by (4), $z_3=(z_2,x''')\in\dcl(k_3,b_3,\tilde y)$.
+\end{enumerate}
+Let $e=(e_1,e_2,e_3)$ and $k'=k_3=\acl(k,e)$.  Since $e_1\ind{}\mathfrak c$,
+$e_2\ind{e_1}\mathfrak c_1$ with $\acl(e_1\mathfrak c_1)=\acl(e_1\mathfrak c)$, and
+$e_3\ind{e_1e_2}\mathfrak c_2$ similarly, \ref{R:trans} gives $e\ind{}\mathfrak c$.
+Interalgebraicity of $\mathfrak c_3$ with $\mathfrak c$ over $k'$ follows from the three
+pointwise interalgebraicities (each over a subfield of $k'$).  Put $\mathfrak c'=\mathfrak c_3$.
+
+For the consequences: over $k'$, $y'\ind{}b'$ and $z'\ind{}b'$ (pairs are independent),
+$y'$ is a generic point of $V$ and $z'$ of $V'$ (by definition of $\Loc$),
+$z'\in\dcl(b',y')$ and $y'\in\dcl(b',z')$; \cref{lem:triple} gives the invertible germ
+$g_{b'}$ with $\Cb(g_{b'})=\Cb(y'z'/b')$, and \ref{GC:cb} together with
+\cref{lem:triple}(3) gives $b'\interalg\code{g_{b'}}$; the replacement is allowed by
+\cref{lem:gc-invariance}(3), and the two $\dcl$ clauses survive it since
+$z'=g_{b'}(y')\in\dcl(\code{g_{b'}},y')$ and $y'=g_{b'}^{-1}(z')\in\dcl(\code{g_{b'}},z')$
+(\cref{lem:eval-dcl}).  Generic transitivity: let $f\in\mathcal F$ and $y''\in V_{\Gen}$
+with $y''\ind{}f$.  Both $(\code{g_{b'}},y')$ and $(\code f,y'')$ are independent pairs
+of generic points of $W\times V$ (the former because $b'\ind{}y'$), so
+\cref{lem:indep-conj} gives $\sigma\in\Gamma_{(k')}$ with
+$\sigma(\code{g_{b'}},y')=(\code f,y'')$; then $f=\sigma g_{b'}$ (\cref{rem:code-param})
+and $f(y'')=\sigma z'$ (\cref{lem:eval}(4)), which is independent from $\sigma y'=y''$
+because $z'\ind{}y'$ (pairs independent; \cref{lem:equiv}).  Its rank is $\rk(b')=n$.
+\end{proof}
+
+\subsection{Step II: the independence hypothesis}
+
+\begin{proposition}[Step II]\label{prop:stepII}
+In the situation at the end of \cref{prop:stepI} (base $k'$, written $k$ again;
+$\mathfrak c=(a,b,c,x,y,z)$ with $b=\code{g_b}$, $g_b\in\mathcal F$, $z=g_b(y)$),
+hypothesis \ref{F:rank} holds for $\mathcal F$: $\rk(\delta)=n$ for every
+$\delta\in\mathcal G(\mathcal F)$.
+\end{proposition}
+\begin{proof}
+Let $b'$ be a generic point of $\Loc(b)$ over $\acl(abcxyz)$, so $b'\ind{}abcxyz$, and
+let $g_{b'}\in\mathcal F$ be the germ with code $b'$.  By \cref{lem:gc-ranks},
+$b\ind{}cxz$, so $b,b'$ are generic points of $\Loc(b)$ over $\acl(xcz)$ and there is
+$\sigma\in\Gamma_{\acl(xcz)}$ with $\sigma b=b'$.  Put $y'=\sigma y$, $a'=\sigma a$.  Then
+$\sigma\mathfrak c=(a',b',c,x,y',z)$ is a group configuration, $g_{b'}=\sigma g_b$ and
+$z=\sigma z=g_{b'}(y')$ (\cref{lem:eval}(4)).
+
+\emph{Claim 1: $y'\ind{}bb'$.}  From $b'\ind{}bz$: $zb'\ind{b'}b$, hence (as
+$y'\in\acl(zb')$ by the line $\{b',y',z\}$ of $\sigma\mathfrak c$) $y'\ind{b'}b$; with
+$y'\ind{}b'$ (pairs in $\sigma\mathfrak c$) this gives $y'\ind{}bb'$.
+
+Now $y\ind{}bb'$ ($y\ind{}b$ and $b'\ind{}$ everything), so $y\in\operatorname{Dom}(g_b)$,
+$z=g_b(y)$, $z\ind{}b'$ puts $z\in\operatorname{Dom}(g_{b'}^{-1})$, and
+$g_{b'}^{-1}(z)=y'$ because $z=g_{b'}(y')$ with $y'\in\operatorname{Dom}(g_{b'})$.  Hence
+$\delta:=g_{b'}^{-1}g_b\in\mathcal G(\mathcal F)$ satisfies $\delta(y)=y'$
+(\cref{lem:comp-codes}(2)).  By \cref{lem:triple} applied to the triple $(bb';y,y')$
+(hypotheses: $y\ind{}bb'$, $y'\ind{}bb'$ by Claim 1, and $y'=\delta(y)\in\dcl(bb',y)$ by
+\cref{lem:eval-dcl} since $b,b'$ are the codes of $g_b,g_{b'}$), the germ with code in
+$\acl(bb')$ carrying $y$ to $y'$ is unique, hence equals $\delta$, and
+\[
+  \Cb(\delta)=\Cb(yy'/bb').
+\]
+\emph{Claim 2: $\Cb(yy'/bb')=\Cb(yy'/aa')$.}  By \cref{lem:gc-ranks}, $y\ind{}ab$ and
+$c\in\acl(ab)$, so $y\ind{}abc$; $b'\ind{}abcy$ gives $y\ind{abc}b'$, hence $y\ind{}abcb'$;
+and $a'\in\acl(cb')$ (group line of $\sigma\mathfrak c$) gives $y\ind{}aa'bb'$.  Also
+$y'\in\acl(a'x)\subseteq\acl(a'ay)$ (lines $\{a',x,y'\}$ of $\sigma\mathfrak c$ and
+$\{a,x,y\}$), so $\rk(yy'/aa'bb')=\rk(y/aa'bb')=m=\rk(y/aa')=\rk(yy'/aa')$, i.e.\
+$yy'\ind{aa'}bb'$; and $y'\in\acl(b'z)\subseteq\acl(b'by)$ gives likewise
+$yy'\ind{bb'}aa'$.  Now \ref{Cb:two} applies.
+
+\emph{Claim 3: $b\ind{}aa'$.}  $b'\ind{}bc$ gives $b'\ind{c}b$; since $a\in\acl(cb)$ and
+$a'\in\acl(cb')$, \ref{R:aclinv} gives $ab\ind{c}a'b'$, so $a'\ind{c}ab$; as $a'\ind{}c$
+(pairs in $\sigma\mathfrak c$), \ref{R:trans} gives $a'\ind{}abc$, so $a'\ind{}ab$, i.e.\
+$b\ind{a}a'$; with $b\ind{}a$ this is $b\ind{}aa'$.
+
+By Claims 2 and 3, $\Cb(\delta)\subseteq\acl(aa')$ and $b\ind{}aa'$, so $\delta\ind{}b$,
+i.e.\ $\delta\ind{}g_b$.  By \cref{lem:diff-basic}(2) (with $f_1=g_{b'}$, $f_2=g_b$,
+which are independent), $\rk(\delta)=n$.  Since $\mathcal G(\mathcal F)$ is a single
+$\Gamma$-orbit this holds for every element.
+\end{proof}
+
+\subsection{Base change of the group}
+
+\begin{lemma}[base change of a Hrushovski--Weil datum]\label{lem:hw-basechange}
+Let $\mathcal G$ be a generically transitive generic set of germs on $V$ over $k$ closed
+under inverse and generic composition, with group $G$, space $S=(G\times V_{\Gen})/E$
+and embedding $\iota$ (\cref{thm:hw}).  Let $e$ be any tuple, $k''=\acl(k,e)$.  Over
+$k''$, the set $\mathcal G''=\{\gamma\in\mathcal G:\gamma\ind{}e\}$ is a nonempty single
+$\Gamma_{(k'')}$-orbit of invertible germs of the $k''$-variety $V$ (same ideal $I_V$), it
+satisfies \ref{H:trans}--\ref{H:comp} over $k''$, it generates $G$, and the equivalence
+relation $E''$ of \cref{thm:hw}\ref{hw:space} computed over $k''$ coincides with $E$ on
+$G\times V''_{\Gen}$ where $V''_{\Gen}=\{y\in V_{\Gen}:y\ind{}e\}$.  Consequently $G$, its
+generic set $\mathcal G''$, and $S''=(G\times V''_{\Gen})/E''\subseteq S$ (a $G$-invariant
+subset on which $G$ acts transitively and faithfully, equal to $S$ by transitivity) are the
+structures produced by \cref{thm:hw} over $k''$.  Likewise, for a generically transitive
+generic set $\mathcal F$ of invertible germs $V\to V'$ satisfying \ref{F:rank},
+$\mathcal F''=\{f\in\mathcal F:f\ind{}e\}$ has the same properties over $k''$ and
+$\mathcal G(\mathcal F'')=\mathcal G''$.
+\end{lemma}
+\begin{proof}
+First, germs over $k$ and germs over $k''$ are the same objects: a representative
+$(M,f)$ over $k$ is equivalent to $(\acl(Me),f)$ (note after \cref{def:germ}), and two
+representatives over fields containing $k''$ are equivalent over $k''$ iff over $k$
+(both conditions quantify over the generic points of $V$ over $\acl(MM')$).  Hence
+graph ideals, $\FOD$, code tuples and values $g(y)$ (\cref{lem:eval}(2), independence
+of the field) are unchanged, while $\Cb''(g)=k''\cdot\Cb(g)$, $\rk''(g)=\rk(\code g/e)$,
+$V''_{\Gen}$ is as stated (\cref{lem:generic-char}(1)) and
+$\operatorname{Dom}''(g)=\{y\in V''_{\Gen}:y\ind{e}g\}$.
+Codes of elements of $\mathcal G''$ are the generic points of $W=\Loc(\code g)$ over
+$\acl(e)$, which exist and form one $\Gamma_{(k'')}$-orbit (\cref{lem:generic-char}), and
+$W$ is the same variety over $k''$ (\cref{lem:dim}(2)).
+Ranks over $k''$ of tuples independent from $e$ equal ranks over $k$
+(\ref{R:basechange}).  \ref{H:trans}: let $\gamma\in\mathcal G''$ and $y\in V_{\Gen}$ with
+$y\ind{e}\gamma$ (independence over $k''$, i.e.\ $y\ind{}e$ and $y\ind{e}\gamma$).  Then
+$y\ind{}e\gamma$, and with $\gamma\ind{}e$, \ref{R:swap} gives $e\ind{}\gamma y$, hence
+$e\ind{}\gamma\,y\,\gamma(y)$ ($\gamma(y)\in\acl(\gamma y)$); so $\rk(\gamma(y)/ey)=\rk(\gamma(y)/y)=m$.
+\ref{H:inv} is clear.  \ref{H:comp}: if $\gamma_1,\gamma_2\in\mathcal G''$ and
+$\gamma_1\ind{e}\gamma_2$ then $\gamma_1\ind{}e\gamma_2$, so $\gamma_1\gamma_2\in\mathcal G$,
+and $\rk(\gamma_1\gamma_2/e)\ge\rk(\gamma_1\gamma_2/e\gamma_2)=\rk(\gamma_1/e\gamma_2)=n$
+(\cref{lem:comp-codes}(1)), giving $\gamma_1\gamma_2\in\mathcal G''$.  Generation: for $\gamma\in G$ pick $h\in\mathcal G$ with
+$h\ind{}\gamma e$; then $h\gamma\in\mathcal G$ and $\rk(h\gamma/e)\ge\rk(h\gamma/e\gamma)=\rk(h/e\gamma)=n$,
+so $h,h\gamma\in\mathcal G''$ and $\gamma=h^{-1}(h\gamma)$.  $E''=E$: a witness $h$ for $E''$ is a
+witness for $E$, and $E$ may be tested with any admissible witness.  The statements for
+$\mathcal F$ are proved in the same way, using \cref{lem:diff-basic}(2) for
+$\mathcal G(\mathcal F'')=\mathcal G''$: if $f_1,f_2\in\mathcal F''$, $f_1\ind{e}f_2$, then
+$f_1\ind{}f_2$ and $\rk(f_1^{-1}f_2/e)\ge\rk(f_1^{-1}f_2/ef_1)=\rk(f_2/ef_1)=n$; conversely for
+$\delta\in\mathcal G''$ choose a representation $\delta=f_1^{-1}f_2$ with $f_1f_2\ind{\delta}e$
+(conjugating over $\acl(\Cb\delta)$, \cref{lem:fresh-conj}; the set of such pairs is
+$\Gamma_{\acl(\Cb\delta)}$-invariant by \cref{lem:germ-aut}).  Then $\delta\ind{}e$
+($\delta\in\mathcal G''$) and $e\ind{\delta}f_1f_2$ give $e\ind{}\delta f_1f_2$ by
+\ref{R:trans}, hence $f_1f_2\ind{}e$, i.e.\ $\rk(f_1f_2/e)=2n$; so $f_1\ind{}e$,
+$f_2\ind{}e$ and $\rk(f_1/ef_2)=n=\rk(f_1/e)$, i.e.\ $f_1\ind{e}f_2$, and
+$\delta=f_1^{-1}f_2\in\mathcal G(\mathcal F'')$.
+\end{proof}
+
+\subsection{Step III and the main theorem}
+
+\begin{theorem}[group configuration theorem for algebraically closed fields]\label{thm:main}
+Let $\mathfrak c=(a,b,c,x,y,z)$ be a group configuration over $k$ with ranks $n,m$.  Then
+there is a tuple $e$ with $e\ind{}abcxyz$ such that, over $k'=\acl(k,e)$ (all notions
+relative to $k'$), there exist
+\begin{enumerate}[nosep]
+\item irreducible $k'$-varieties $V$, $V'$ of dimension $m$;
+\item a generically transitive generic set $\mathcal F$ of invertible germs $V\to V'$ of
+  rank $n$ satisfying \ref{F:rank}, with code variety $W=\Loc_{k'}(\code f)$
+  ($f\in\mathcal F$), and its difference set $\mathcal G=\mathcal G(\mathcal F)$, a
+  generically transitive generic set of germs on $V$ of rank $n$ closed under inverse
+  and generic composition (\cref{thm:hw-bij}), with the group $G=\langle\mathcal G\rangle$,
+  the transitive faithful $G$-set $S$ and the embedding $\iota:V_{\Gen}\to S$ of
+  \cref{thm:hw};
+\item elements $g_a,g_b\in\mathcal G$ and $y'\in V_{\Gen}$ with $(g_a,g_b,y')$ independent,
+\end{enumerate}
+such that, with $x'=g_a(y')$, $z'=g_b(y')$ and $g_c=g_bg_a^{-1}\in G$,
+\[
+   a\interalg\code{g_a},\quad b\interalg\code{g_b},\quad c\interalg\code{g_c},\quad
+   x\interalg x',\quad y\interalg y',\quad z\interalg z'
+   \qquad(\text{interalgebraic over }k').
+\]
+The tuple $(\code{g_a},\code{g_b},\code{g_c},x',y',z')$ is a group configuration over $k'$
+(\cref{prop:converse}), with $x'=g_a\ast y'$, $z'=g_b\ast y'=g_c\ast x'$ and
+$g_b=g_cg_a$ in $G$, and $\iota(x')=g_a\cdot\iota(y')$, $\iota(z')=g_b\cdot\iota(y')=g_c\cdot\iota(x')$.
+\end{theorem}
+
+\begin{proof}
+By \cref{prop:stepI,prop:stepII} there is $e_0\ind{}abcxyz$ such that over
+$k_0=\acl(k,e_0)$ there is a configuration, which we rename $(a,b,c,x,y,z)$, pointwise
+interalgebraic over $k_0$ with the original one, with $b=\code{g_b}$, $g_b\in\mathcal F$,
+$z=g_b(y)$, where $\mathcal F$ is a generically transitive generic set of invertible
+germs $V\to V'$ ($V=\Loc_{k_0}(y)$, $V'=\Loc_{k_0}(z)$) of rank $n$ satisfying
+\ref{F:rank}.  \Cref{thm:hw-bij,thm:hw} give $\mathcal G=\mathcal G(\mathcal F)$, $G$, $S$,
+$\iota$ over $k_0$.  We now rename $k_0$ as $k$.
+
+\emph{Step III.1.}  Let $b'$ be a generic point of $\Loc(b)$ over $\acl(abcxyz)$ and
+$g_{b'}\in\mathcal F$ the germ with code $b'$.  Since $b\ind{}z$, there is
+$\sigma\in\Gamma_{\acl(z)}$ with $\sigma b=b'$; put $y'=\sigma y$, so $z=g_{b'}(y')$.
+Let $g=g_{b'}^{-1}g_b\in\mathcal G$ (independent pair).  As in the proof of
+\cref{prop:stepII}, $g(y)=y'$ (using $y'\ind{}b'$, a pair of the configuration
+$\sigma\mathfrak c$).  Moreover $\Cb(g)\subseteq\acl(bb')$ and
+$\Cb(g_b)\subseteq\acl(g_{b'},g)=\acl(b',g)$ (since $g_b=g_{b'}g$), so $b$ and $\code g$ are
+interalgebraic over $\acl(k,b')$; and $y'=g_{b'}^{-1}(z)\in\dcl(b',z)$, $z=g_{b'}(y')\in\dcl(b',y')$,
+so $z$ and $y'$ are interalgebraic over $\acl(k,b')$.  \textbf{Base change} to
+$k_1=\acl(k,b')$ ($b'\ind{}abcxyz$; \cref{lem:gc-invariance}(2) for the configuration and
+\cref{lem:hw-basechange} for $\mathcal F,\mathcal G,G,S$, noting $g\ind{}b'$ by
+\ref{F:rank}), and \textbf{replace} $b\mapsto\code g$, $z\mapsto y'$
+(\cref{lem:gc-invariance}(3)).  The new configuration is $(a,\code g,c,x,y,y')$ with
+$g\in\mathcal G$ (generic over $k_1$), $y,y'\in V_{\Gen}$ (both independent from $b'$) and
+$y'=g(y)$.
+
+\emph{Step III.2.}  Rename $k_1$ as $k$.  Let $c''$ be a generic point of $\Loc(c)$ over
+$\acl(abcxyy')$ (with $b=\code g$ now).  Since $c\ind{}axy$ (\cref{lem:gc-ranks}), there is
+$\sigma\in\Gamma_{\acl(axy)}$ with $\sigma c=c''$.  Put $g''=\sigma g\in\mathcal G$ and
+$z''=\sigma y'=\sigma(g(y))=g''(y)$ (\cref{lem:eval}(4), $\sigma y=y$).  The image
+$\sigma\mathfrak c=(a,\code{g''},c'',x,y,z'')$ is a configuration; its group line gives
+$\code{g''}\subseteq\acl(ac'')$ and $a\subseteq\acl(\code{g''}\,c'')$, and its line
+$\{c'',z'',x\}$ gives $x\interalg z''$ over $\acl(k,c'')$.  \textbf{Base change} to
+$k_2=\acl(k,c'')$ ($c''\ind{}abcxyy'$; \cref{lem:hw-basechange} again; $g$, $y$, $y'$
+are independent from $c''$ by the choice of $c''$, and $g''$, $z''$ are independent from
+$c''$ as pairs of $\sigma\mathfrak c$, so all of them survive the base change) and
+\textbf{replace} $a\mapsto\code{g''}$, $x\mapsto z''$.  The configuration is now
+$(\code{g''},\code g,c,z'',y,y')$ over $k_2$ with $g'',g\in\mathcal G$, $z''=g''(y)$,
+$y'=g(y)$.
+
+\emph{Step III.3.}  Rename $k_2$ as $k$ and write $g_a=g''$, $g_b=g$, $x'=z''$, $z'=y'$,
+$y'=y$ (so $x'=g_a(y')$, $z'=g_b(y')$).  Since $(\code{g_a},\code{g_b},y')$ is a
+non-collinear triple of the current configuration, it is independent, and $g_a\ind{}g_b$.
+Put $g_c=g_bg_a^{-1}\in G$.  By \cref{lem:gc-ranks}, $x'\ind{}\code{g_a}\code{g_b}$, so
+$x'\in\operatorname{Dom}(g_c)$ and $g_c(x')=g_b(g_a^{-1}(x'))=g_b(y')=z'$
+(\cref{lem:comp-codes}(2)).  By \cref{lem:triple} applied to the triple
+$(\code{g_a}\code{g_b};x',z')$ ($x'$ and $z'$ are independent from $\code{g_a}\code{g_b}$,
+and $z'=g_c(x')\in\dcl(\code{g_a}\code{g_b},x')$ by \cref{lem:eval-dcl}), $g_c$ is the unique germ with code in
+$\acl(g_ag_b)$ carrying $x'$ to $z'$, so $\Cb(g_c)=\Cb(x'z'/g_ag_b)$.  By \ref{GC:space},
+$\acl(cx')=\acl(cz')$, and by \ref{GC:group}, $c\in\acl(g_ag_b)$; hence
+$x'z'\ind{c}g_ag_b$ (both sides have rank $m$ over the respective bases, as
+$\rk(x'/cg_ag_b)=\rk(x'/g_ag_b)=m$) and trivially $x'z'\ind{g_ag_b}c$; so by \ref{Cb:two}
+$\Cb(g_c)=\Cb(x'z'/c)$.  Now \ref{GC:cb} for $c$ says $c\subseteq\acl(\Cb(x'z'/c))=\acl(g_c)$,
+and $\Cb(x'z'/c)\subseteq\acl(c)$; so $c\interalg\code{g_c}$.  \textbf{Replace}
+$c\mapsto\code{g_c}$.
+
+The resulting configuration is $(\code{g_a},\code{g_b},\code{g_c},x',y',z')$ over the
+final base $k'=\acl(k,e)$ with $e=(e_0,b',c'')$, and it is pointwise interalgebraic over
+$k'$ with the original configuration (each step replaced points by interalgebraic ones
+over a subfield of $k'$).  Here $e\ind{}abcxyz$: $e_0\ind{}abcxyz$; $b'$ was chosen
+generic over the closure of $k_0$ and of a configuration interalgebraic over $k_0$ with
+$abcxyz$, so $b'\ind{e_0}abcxyz$; likewise $c''\ind{e_0b'}abcxyz$; conclude by
+\ref{R:trans}.  Also $g_c\in G$ is in fact in $\mathcal G$ (\cref{thm:hw}\ref{hw:stab},
+as $g_b\ind{}g_a^{-1}$).  The family $\mathcal F$ of the statement is the family of
+\cref{prop:stepI} restricted along the two base changes (\cref{lem:hw-basechange}:
+$\mathcal F''=\{f\in\mathcal F:f\ind{}b'c''\}$, by \ref{R:trans}), which still satisfies
+\ref{F:rank} and has $\mathcal G(\mathcal F'')=\mathcal G$; its code variety is
+$W=\Loc_{k'}(b_0)$, where $b_0$ denotes the code $b=\code{g_b}$ of \cref{prop:stepI} (not
+the $g_b$ of the statement, which is the $g$ of Step III.1); $b_0$ is independent from
+$b'c''$ ($b_0\ind{}b'$ by choice of $b'$, and $c''$ is generic over a field containing
+$k_1$ and $b_0$), so $W$ is unchanged by the base changes (\cref{lem:dim}(2)).  The identities $x'=g_a(y')$, $z'=g_b(y')=g_c(x')$, $g_b=g_cg_a$
+hold by construction, and \cref{thm:hw}\ref{hw:space} translates them into the stated
+identities in $S$.  \Cref{prop:converse} confirms that the final tuple is a group
+configuration.
+\end{proof}
+
+\begin{remark}[parameters used]\label{rem:params}
+The tuple $e$ consists of five independent generic copies of group points: three in
+\cref{prop:stepI} (copies of $a$, of the enlarged $b$, of $c$) and two in Step III
+(copies of $b$ and $c$).  Each is chosen generic over the algebraic closure of
+everything constructed before, so $\rk(e)=5n$.  (This counts only the explicitly
+adjoined parameters; \cref{rem:finite-trdeg} explains why it does not yield a version
+of the theorem for ambient fields of finite transcendence degree.)
+\end{remark}
+
+\begin{remark}[faithfulness, connectedness, ranks]\label{rem:main-props}
+By \cref{thm:hw}, $G$ acts faithfully and transitively on $S$, the elements of $G$ of
+maximal rank $n$ form the single orbit $\mathcal G$ (connectedness), and $V_{\Gen}$ embeds
+in $S$ with $G$ acting generically on it in the sense of \ref{hw:action}
+(\cref{rem:connected}).  The hypothesis
+\ref{GC:cb} was used three times: in \cref{lem:gc-ranks} to see $m\ge1$ (any group
+point serves there), for $b$ in \cref{prop:stepI} (canonicity of
+$\mathcal F$, which is what makes the germs $g_{b'}$ determined by $b'$ and the rank of
+$\mathcal G$ equal to $n$) and for $c$ in Step III.3; the clause for $a$ is used only
+through the symmetry of the configuration (the proof could be run with the roles of
+$a$ and $c$ exchanged) and is in any case a consequence of the conclusion: the final
+tuple satisfies \ref{GC:cb} by \cref{prop:converse}, \cref{lem:gc-invariance}(3)
+transfers it to $a$ over $k'$, and \ref{Cb:basechange} with \ref{R:basechange} bring it
+back to $k$.  Without
+\ref{GC:cb} the theorem is false for the faithful conclusion (\cref{rem:cb-not-acl}; see
+also the example of a product group acting through one factor in
+\cref{rem:psi-hyp}(b)).
+\end{remark}

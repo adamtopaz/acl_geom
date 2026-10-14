@@ -1,0 +1,144 @@
+\section{Definable closure, quasi-rational functions, and codes of finite sets}
+\label{sec:codes}
+
+\subsection{Definable closure}
+
+\begin{lemma}[Galois characterisation of $\dcl$]\label{lem:dcl-galois}
+Let $L\subseteq K$ be a subfield containing $k$ and $x\in K$.  Then $x\in\dcl(L)$ (the
+perfect closure of $L$ in $K$) iff $\sigma x=x$ for every $\sigma\in\Gamma_L$.
+\end{lemma}
+\begin{proof}
+If $x^{p^e}=c\in L$ then $x$ is the unique root in $K$ of $X^{p^e}-c$ (in
+characteristic $0$, $e=0$ and $x=c$), and every $\sigma\in\Gamma_L$ permutes the roots of
+this polynomial, so fixes $x$.  Conversely suppose $x\notin\dcl(L)$.  If $x$ is
+transcendental over $L$, \cref{lem:orbit} (which only used \cref{lem:conj}, valid for
+any subfield $L$) provides $\sigma\in\Gamma_L$ with $\sigma x\ne x$.  If $x$ is
+algebraic over $L$, let $m\in L[X]$ be its minimal polynomial and $N=\deg m$.  If $x$
+were the only root of $m$ in $K$ then $m=(X-x)^N$; write $N=p^eN'$ with $p\nmid N'$
+(in characteristic $0$, $e=0$, $N'=N$), so $m=(X^{p^e}-x^{p^e})^{N'}$ and the
+coefficient of $X^{p^e(N'-1)}$ is $-N'x^{p^e}\in L$, whence $x^{p^e}\in L$ and
+$x\in\dcl(L)$, a contradiction.  So $m$ has a root $x'\ne x$; the vanishing ideals of $x$
+and $x'$ over $L$ are both $(m)$, and \cref{lem:conj} gives $\sigma\in\Gamma_L$ with
+$\sigma x=x'$.
+\end{proof}
+
+\begin{corollary}\label{cor:dcl-props}
+For sets $A,B$: $k(A)\subseteq\dcl(A)\subseteq\acl(A)$; $\dcl(A)$ is a field;
+$\dcl(\dcl(A))=\dcl(A)$; $A\subseteq B\Rightarrow\dcl(A)\subseteq\dcl(B)$; and for
+$\sigma\in\Gamma$, $\sigma(\dcl A)=\dcl(\sigma A)$.  If $\dcl(CA)=\dcl(CA')$ then
+$\acl(CA)=\acl(CA')$.
+\end{corollary}
+\begin{proof}
+All clear from the definition (perfect closure); the last from
+$\dcl\subseteq\acl$ and $\acl$ being a closure operator.
+\end{proof}
+
+\subsection{Quasi-rational functions}
+
+\begin{definition}[quasi-rational functions]\label{def:qr}
+Let $L$ be a subfield of $K$ containing $k$ and $U\subseteq K^n$.  A function
+$f:U\to K^{n'}$ is \emph{quasi-rational over $L$} if there are $e\ge0$ (with $e=0$ in
+characteristic $0$) and rational functions $R_1,\dots,R_{n'}\in L(X_1,\dots,X_n)$ whose
+denominators do not vanish on $U$, such that $f(u)_j=R_j(u)^{1/p^e}$ for all $u\in U$
+(the unique $p^e$-th root).  A \emph{quasi-rational expression} over $L$ is such a datum
+$(e,R_1,\dots,R_{n'})$; it defines a function on the set where the denominators are
+nonzero.
+\end{definition}
+
+\begin{lemma}\label{lem:qr-dcl}
+Let $L\supseteq k$ be a subfield and $u\in K^n$, $w\in K^{n'}$.  Then $w\in\dcl(L,u)$
+iff there is a quasi-rational expression $f$ over $L$ defined at $u$ with $f(u)=w$.
+Moreover, if $f$ is a quasi-rational expression over $L$ defined at $u$, then for
+every $\sigma\in\Gamma_L$ one has $f(\sigma u)=\sigma(f(u))$.  Compositions of
+quasi-rational expressions are quasi-rational expressions.
+\end{lemma}
+\begin{proof}
+$w_j\in\dcl(L,u)$ means $w_j^{p^e}\in L(u)$ for some $e$, i.e.\ $w_j^{p^e}=R_j(u)$
+with $R_j\in L(X)$ whose denominator does not vanish at $u$; a common $e$ can be
+chosen since $e$ may be increased by raising $R_j$ to a $p$-th power.  Equivariance:
+$\sigma$ fixes the coefficients of $R_j$ and commutes with $p^e$-th roots.
+Composition: $R_j\bigl(S_1(X)^{1/p^e},\dots\bigr)^{1/p^{e'}}
+=\bigl(R_j^{(p^e)}(S_1(X),\dots)\bigr)^{1/p^{e+e'}}$, where $R_j^{(p^e)}$ is $R_j$ with all
+coefficients raised to the power $p^e$ (Frobenius is a ring endomorphism of $K$).
+\end{proof}
+
+\begin{leannote}
+In characteristic $0$ (the only case in which \lean{PerfectClosure} is trivial) all of
+this collapses to $\dcl(A)=k(A)$ and rational functions.  In positive characteristic,
+Mathlib provides \lean{perfectClosure} (as an intermediate field) and
+\lean{IsPurelyInseparable}; \cref{lem:dcl-galois} is the statement that the fixed
+field of \lean{Aut(K/L)} is the perfect closure, to be proved from
+\lean{AclGeom.exists\_ambientAutomorphism\_of\_idealOf\_eq}.
+\end{leannote}
+
+\subsection{Codes of finite sets of tuples}
+
+\begin{definition}[code of a finite set]\label{def:code}
+Let $S=\{s^{1},\dots,s^{d}\}\subseteq K^m$ be a finite set of $d$ distinct tuples.
+Put
+\[
+  P_S(T,U_1,\dots,U_m)=\prod_{i=1}^{d}\Bigl(T-\sum_{j=1}^{m}s^{i}_jU_j\Bigr)\in K[T,U],
+\]
+a polynomial of degree $d$, and let $\code{S}\in K^{\mathcal N_{d,m}}$ be its vector of
+coefficients, indexed by the monomials $\mathcal N_{d,m}$ of degree $\le d$ in $T,U$.
+\end{definition}
+
+\begin{lemma}[properties of codes]\label{lem:code}
+Let $S,S'\subseteq K^m$ be finite sets with $|S|=|S'|=d$ and let $\sigma\in\Gamma$.
+\begin{enumerate}[nosep]
+\item $\sigma\code{S}=\code{\sigma S}$, and $\code{S}\subseteq k(S)$.
+\item $\code{S}=\code{S'}$ implies $S=S'$.  Hence $\sigma$ fixes $\code{S}$ pointwise
+  iff $\sigma S=S$.
+\item Every coordinate of every $s\in S$ lies in $\acl(\code{S})$; so
+  $\acl(\code{S})=\acl(S)$.
+\item If $L\supseteq k$ is a subfield and $\sigma S=S$ for all $\sigma\in\Gamma_L$, then
+  $\code{S}\subseteq\dcl(L)$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) is clear.  (2): in the polynomial ring $K[U][T]$ over the domain $K[U]$, $P_S$ is
+monic in $T$ and its roots in $K(U)$ are exactly the linear forms
+$\ell_i=\sum_j s^i_jU_j$, each with multiplicity one since the $s^i$ are distinct; a
+monic polynomial over a field determines its multiset of roots
+(\lean{Polynomial.roots}), and $\ell_i$ determines $s^i$.  Hence $S$ is determined by
+$P_S$.  The second sentence follows from (1).  (3): Let $F=k(\code{S})$, a small
+subfield.  For $\sigma\in\Gamma_F$ we have $\sigma\code{S}=\code{S}$, hence $\sigma S=S$
+by (2); so each coordinate $s^i_j$ has a finite $\Gamma_F$-orbit (contained in the set
+of coordinates of elements of $S$) and lies in $\acl(F)$ by \cref{lem:orbit}.  The
+inclusion $\code{S}\subseteq k(S)\subseteq\acl(S)$ gives the other direction.
+(4): by (2), $\Gamma_L$ fixes $\code{S}$ pointwise; apply \cref{lem:dcl-galois}.
+\end{proof}
+
+\begin{definition}[conjugate sets]\label{def:conjset}
+Let $L\supseteq k$ be a subfield and $z\in K^m$ a tuple with $z\subseteq\acl(L)$.  The
+\emph{conjugate set} of $z$ over $L$ is the orbit $\Gamma_L\cdot z$, a finite set by
+\cref{lem:orbit} (coordinatewise); its \emph{code} is $\code{\Gamma_L z}$.
+\end{definition}
+
+\begin{lemma}[codes of conjugate sets]\label{lem:conjcode}
+In the situation of \cref{def:conjset}, with $c=\code{\Gamma_L z}$:
+$c\subseteq\dcl(L)$, $\acl(c)=\acl(\Gamma_L z)$, and $z\subseteq\acl(c)$.
+Moreover, if $L_0\subseteq L$ is a subfield containing $k$, $w$ is a tuple with
+$w\in\dcl(L_0,z)$ and $w\subseteq L$, then $w\in\dcl(L_0,c)$.
+\end{lemma}
+\begin{proof}
+The first three claims are \cref{lem:code}(4),(3) ($\Gamma_L$ permutes its own orbit).
+For the last claim, write $w=f(z)$ with $f$ a quasi-rational expression over $L_0$
+(\cref{lem:qr-dcl}), and let $L_1=k(L_0,c)$.  For $\sigma\in\Gamma_{L_1}$,
+$\sigma$ fixes $c$ hence stabilises $\Gamma_Lz$ (\cref{lem:code}(2)), so
+$\sigma z=\tau z$ for some $\tau\in\Gamma_L$.  Then, using equivariance of $f$ over
+$L_0\subseteq L_1$ and over $L_0\subseteq L$,
+\[
+   \sigma w=\sigma f(z)=f(\sigma z)=f(\tau z)=\tau f(z)=\tau w=w,
+\]
+the last step because $w\subseteq L$ is fixed by $\tau\in\Gamma_L$.  So $w$ is fixed by
+$\Gamma_{L_1}$ and $w\in\dcl(L_1)=\dcl(L_0,c)$ by \cref{lem:dcl-galois}.
+\end{proof}
+
+\begin{leannote}
+Codes of finite sets of elements of $K$ (the case $m=1$) are the elementary symmetric
+functions (\lean{Multiset.esymm}, \lean{Multiset.prod\_X\_sub\_C\_coeff}).  For tuples
+the polynomial $P_S$ lives in \lean{MvPolynomial (Option (Fin m)) K} (or
+\lean{Polynomial (MvPolynomial (Fin m) K)}); the uniqueness of roots argument uses
+\lean{Polynomial.roots} over the fraction field of \lean{MvPolynomial (Fin m) K}.
+\end{leannote}

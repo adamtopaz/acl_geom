@@ -1,0 +1,54 @@
+\section{Descent of independent parameters}
+\label{sec:descent}
+
+The main theorem adjoins to the base a tuple $e$ independent from the configuration.
+First-order consequences of the theorem can be brought back to the original base $k$
+by the following lemma, which is the universal-domain form of the ``place''
+argument of Evans--Hrushovski (1991, Lemma 2.1.1) and of the coheir argument used by
+Bays--Zou.
+
+\begin{lemma}[density of $k$-points]\label{lem:kpoints-dense}
+Let $U$ be an irreducible $k$-variety and $f\in K[X]\setminus I_U$.  Then there is
+$u_0\in U(k)=U(K)\cap k^N$ with $f(u_0)\ne0$.
+\end{lemma}
+\begin{proof}
+Choose a $k$-basis $(\beta_j)$ of $K$ and write $f=\sum_j f_j\beta_j$ with $f_j\in k[X]$;
+since $I_U$ is defined over $k$, $f\notin I_U$ means some $f_j\notin I_U\cap k[X]=:J$,
+a prime ideal of $k[X]$.  If $f_j$ vanished on $U(k)=Z_k(J)$ then, by the Nullstellensatz
+over the algebraically closed field $k$ (\lean{MvPolynomial.vanishingIdeal\_zeroLocus\_eq\_radical}
+with both fields equal to $k$), $f_j\in\sqrt J=J$, a contradiction.  So some
+$u_0\in U(k)$ has $f_j(u_0)\neq0$; as the $\beta_j$ are linearly independent over $k$,
+$f(u_0)\ne0$.
+\end{proof}
+
+\begin{theorem}[descent]\label{thm:descent}
+Let $\Phi\subseteq K^{N}\times K^{M}$ be constructible over $k$, let $w\in K^M$ and let
+$e\in K^N$ with $e\ind{}w$ and $\Phi(e,w)$.  Then there is $e_0\in k^N$ with $\Phi(e_0,w)$.
+\end{theorem}
+\begin{proof}
+Let $U=\Loc(e)$ and $C=\{u\in U(K):\Phi(u,w)\}$, a set constructible over $k(w)$
+containing $e$.  Since $e\ind{}w$, $e$ is a generic point of $U$ over $\acl(w)$
+(\cref{lem:dim}(2)).  By \cref{lem:gen-constructible} (with $L=k(w)$), $C$ contains
+every generic point of $U$ over $\acl(w)$, so its complement $U(K)\setminus C$, which is
+constructible over $k(w)$ and contains no generic point, is contained in $Z(f)$ for some
+$f\in k(w)[X]\setminus I_U$.  By \cref{lem:kpoints-dense} there is $u_0\in U(k)$ with
+$f(u_0)\ne0$; then $u_0\in C$, i.e.\ $\Phi(u_0,w)$.
+\end{proof}
+
+\begin{remark}[how to use descent; its limits]\label{rem:descent-limits}
+Any consequence of \cref{thm:main} that can be written as ``$\Phi(e,abcxyz)$'' for a
+constructible $\Phi$ over $k$ (with $e$ the adjoined parameters, and all further
+witnesses existentially quantified) therefore holds with parameters in $k$.  Statements
+of the form ``$u\in\acl(k,e,v)$'' and ``$u\in\dcl(k,e,v)$'' are of this kind once a
+degree bound is fixed: they say that $u$ is a root of a nonzero polynomial (resp.\ a
+$p^d$-th power of $u$ equals a rational function) with coefficients that are rational
+functions of $(e,v)$ over $k$ of bounded degree, and the bound may be read off from the
+witnesses provided by the proof.  On the other hand ``$\rk(u/e)=r$'', ``$G$ is connected''
+and ``$\rk(G)=n$'' are not first-order in the parameter as stated; they are definable in
+families (definability of Morley rank and degree in $\mathrm{ACF}$), but we do not prove
+that here.  For the application in \cref{sec:application} this is harmless: the
+quantities that must be descended are interalgebraicity and interdefinability
+statements between tuples of the ambient field, and independence of the descended
+witnesses is recovered from rank equalities of the original configuration, which are
+unaffected by the descent.
+\end{remark}

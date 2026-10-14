@@ -1,0 +1,154 @@
+\documentclass[11pt,oneside]{article}
+
+\usepackage[a4paper,margin=26mm,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+%% Unicode characters used inside \lean{...} citations.
+\DeclareUnicodeCharacter{2192}{\ensuremath{\rightarrow}}
+\DeclareUnicodeCharacter{2295}{\ensuremath{\oplus}}
+\DeclareUnicodeCharacter{2090}{\ensuremath{{}_{\mathrm a}}}
+\DeclareUnicodeCharacter{2243}{\ensuremath{\simeq}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\le}}
+\DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb N}}
+\DeclareUnicodeCharacter{222A}{\ensuremath{\cup}}
+\DeclareUnicodeCharacter{2208}{\ensuremath{\in}}
+\DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}
+\DeclareUnicodeCharacter{21A5}{\ensuremath{\uparrow}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{listings}
+\usepackage{fancyhdr}
+
+\definecolor{leanblue}{HTML}{0B4F8A}
+\definecolor{darkgreen}{HTML}{246B45}
+\definecolor{brick}{HTML}{8B2E2E}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=leanblue,
+  citecolor=darkgreen,
+  urlcolor=leanblue,
+  pdftitle={The group configuration theorem for algebraically closed fields: a formalization blueprint},
+  pdfauthor={acl\_geom project}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Group configuration theorem for ACF}
+\rhead{Lean/Mathlib blueprint}
+\cfoot{\thepage}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{construction}[theorem]{Construction}
+\newtheorem{convention}[theorem]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+\newtheorem{leannote}[theorem]{Lean note}
+
+\newcommand{\acl}{\operatorname{acl}}
+\newcommand{\dcl}{\operatorname{dcl}}
+\newcommand{\trdeg}{\operatorname{trdeg}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\rk}{\operatorname{r}}
+\newcommand{\Loc}{\operatorname{Loc}}
+\newcommand{\FOD}{\operatorname{Fod}}
+\newcommand{\Cb}{\operatorname{Cb}}
+\newcommand{\Germ}{\operatorname{Germ}}
+\newcommand{\Gen}{\operatorname{gen}}
+\newcommand{\Fix}{\operatorname{Fix}}
+\newcommand{\code}[1]{\ulcorner #1\urcorner}
+\newcommand{\indep}{\mathrel{\raisebox{0.15ex}{$\downarrow$}\hspace{-0.63em}\raisebox{0.15ex}{$\smile$}}}
+\newcommand{\ind}[1]{\mathrel{\indep_{#1}}}
+\newcommand{\interalg}{\sim}
+\newcommand{\lean}[1]{\texttt{\color{leanblue}#1}}
+\newcommand{\Kv}{\mathbf{K}}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  frame=single,
+  framerule=0.3pt,
+  xleftmargin=4pt,
+  xrightmargin=4pt
+}
+
+\title{The group configuration theorem for algebraically closed fields\\[1ex]
+\large A self-contained formalization blueprint}
+\author{acl\_geom project}
+\date{October 2026 (draft)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document is a complete, self-contained proof of Hrushovski's group configuration
+theorem specialised to algebraically closed fields, in the form needed by the
+reconstruction blueprint \texttt{sources/blueprint.tex}: from six tuples forming a
+group configuration (three ``group'' points of rank $n$ and three ``space'' points
+of rank $m\le n$, lines given by algebraic closure, with the non-degeneracy condition
+that each group point is determined by the germ of the correspondence it induces)
+one obtains, after adjoining finitely many independent generic parameters, a
+connected group $G$ of rank $n$ and a transitive faithful $G$-set $S$ containing the
+generic points of a variety of dimension $m$, such that the configuration is pointwise
+interalgebraic with a generic configuration $(g,h,hg^{-1};\, g\cdot s,\, s,\, h\cdot s)$
+of $(G,S)$.
+
+The proof follows Hrushovski's argument in the exposition of Pillay and Bays
+(germs of definable functions, canonical bases, the Hrushovski--Weil theorem),
+but every model-theoretic notion is replaced by an explicit field-theoretic one:
+types by generic points of irreducible varieties, forking by transcendence degree,
+canonical bases by smallest fields of definition, definable functions by
+quasi-rational maps, and imaginaries by explicit codes.  The group is produced as
+a group of germs of quasi-rational self-maps of a variety, and is shown to be
+\emph{constructible} (definable) in the sense of a constructible set modulo a
+constructible equivalence relation with constructible operations.  Passing from a
+constructible group to an algebraic group (Weil's theorem) is outside the scope of
+this document and is not needed for the ``up to interalgebraicity'' statement.
+\end{abstract}
+
+\tableofcontents
+
+\input{group_configuration/00-scope}
+\input{group_configuration/01-universal-domain}
+\input{group_configuration/02-fields-of-definition}
+\input{group_configuration/03-codes}
+\input{group_configuration/04-germs}
+\input{group_configuration/05-hrushovski-weil}
+\input{group_configuration/06-bijections}
+\input{group_configuration/07-configurations}
+\input{group_configuration/08-proof}
+\input{group_configuration/09-constructibility}
+\input{group_configuration/10-descent}
+\input{group_configuration/11-application}
+\input{group_configuration/12-lean}
+
+\section*{References}
+\begin{enumerate}[label={[\arabic*]},leftmargin=8mm]
+\item M.~Bays, \emph{Geometric stability theory}, lecture notes (M\"unster, 2015; revised 2024), \S5--6, and the companion note ``The Hrushovski--Weil theorem''.
+\item E.~Bouscaren, \emph{The group configuration --- after E.~Hrushovski}, in: The Model Theory of Groups (Nesin, Pillay, eds.), Notre Dame Math.\ Lectures 11, 1989.
+\item D.~Evans, E.~Hrushovski, \emph{Projective planes in algebraically closed fields}, Proc.\ London Math.\ Soc.\ (3) 62 (1991), 1--24.
+\item D.~Evans, E.~Hrushovski, \emph{The automorphism group of the combinatorial geometry of an algebraically closed field}, J.\ London Math.\ Soc.\ (2) 52 (1995), 209--225.
+\item E.~Hrushovski, \emph{Contributions to stable model theory}, Ph.D.\ thesis, Berkeley 1986, \S3.1.
+\item E.~Hrushovski, S.~Rideau-Kikuchi, \emph{Valued fields, metastable groups}, Selecta Math.\ 25 (2019), \S3.4.
+\item A.~Pillay, \emph{Geometric stability theory}, Oxford 1996, Chapter 5, \S\S1, 4.
+\item B.~Poizat, \emph{Une th\'eorie de Galois imaginaire}, J.\ Symbolic Logic 48 (1983), 1151--1170.
+\item A.~Weil, \emph{On algebraic groups of transformations}, Amer.\ J.\ Math.\ 77 (1955), 355--391; \emph{On algebraic groups and homogeneous spaces}, ibid.\ 493--512.
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,168 @@
+\section{Group configurations}
+\label{sec:gc}
+
+\subsection{Definition and first consequences}
+
+\begin{definition}[group configuration]\label{def:gc}
+A \emph{group configuration over $k$} is a $6$-tuple $(a,b,c,x,y,z)$ of tuples of
+$K$ such that, with the \emph{lines}
+\[
+   L_1=\{a,b,c\},\quad L_2=\{a,x,y\},\quad L_3=\{b,y,z\},\quad L_4=\{c,z,x\},
+\]
+the following hold:
+\begin{enumerate}[label=\textup{(GC\arabic*)}]
+\item\label{GC:group} $\acl(ab)=\acl(ac)=\acl(bc)$;
+\item\label{GC:space} $\acl(ax)=\acl(ay)$, $\acl(by)=\acl(bz)$, $\acl(cx)=\acl(cz)$;
+\item\label{GC:indep} every triple of points not contained in a line is independent:
+  $\rk(pqr)=\rk(p)+\rk(q)+\rk(r)$ for all non-collinear $\{p,q,r\}$;
+\item\label{GC:cb} $a\subseteq\acl(\Cb(xy/a))$, $b\subseteq\acl(\Cb(yz/b))$, $c\subseteq\acl(\Cb(xz/c))$;
+\item\label{GC:rank} $\rk(a)\ge1$.
+\end{enumerate}
+The points $a,b,c$ are the \emph{group points}, $x,y,z$ the \emph{space points}.
+\end{definition}
+
+Two distinct lines meet in exactly one point ($L_1\cap L_2=\{a\}$, $L_1\cap L_3=\{b\}$,
+$L_1\cap L_4=\{c\}$, $L_2\cap L_3=\{y\}$, $L_2\cap L_4=\{x\}$, $L_3\cap L_4=\{z\}$), each
+point lies on exactly two lines, and any two points lie on at most one line (the three
+pairs $\{a,z\}$, $\{b,x\}$, $\{c,y\}$ lie on no line).  The group line $L_1$ is
+distinguished by the definition (\ref{GC:group} and \ref{GC:cb} concern group points
+only), and the definition is invariant under the six relabelings induced by
+permutations of the three space lines $L_2,L_3,L_4$: these permute $a,b,c$ and
+correspondingly $x,y,z$ (for instance $L_3\leftrightarrow L_4$ is $b\leftrightarrow c$,
+$y\leftrightarrow x$, $z$ fixed), and each of \ref{GC:group}--\ref{GC:cb} is symmetric in
+the two space points of a line and in the three group points (\ref{GC:cb} because $\FOD$
+is invariant under renaming variables, so $\Cb(xy/a)=\Cb(yx/a)$); \ref{GC:rank} is
+invariant because $\rk(a)=\rk(b)=\rk(c)$ by \cref{lem:gc-ranks}.
+
+\begin{lemma}[ranks]\label{lem:gc-ranks}
+Let $(a,b,c,x,y,z)$ be a group configuration.  Then $\rk(a)=\rk(b)=\rk(c)=:n$,
+$\rk(x)=\rk(y)=\rk(z)=:m$, $1\le m\le n$; all pairs of points are independent;
+$\rk(abc)=2n$; $\rk(axy)=\rk(byz)=\rk(cxz)=n+m$; $\rk(abcxyz)=2n+m$; and each point
+is independent from each line not through it: for instance $a\ind{}byz$, $a\ind{}cxz$,
+$b\ind{}axy$, $b\ind{}cxz$, $c\ind{}axy$, $c\ind{}byz$, $x\ind{}abc$, $x\ind{}byz$, and
+so on.  Moreover $m\ge 1$ follows from $n\ge1$.
+\end{lemma}
+\begin{proof}
+Every pair lies in a non-collinear triple (a triple containing a given pair and lying
+on a line lies on the unique line through that pair, if any; so any third point off that
+line works), so pairs are independent by \ref{GC:indep}.  By \ref{GC:group}, $\rk(ab)=\rk(ac)$, i.e.\ $n_b=n_c$,
+and similarly all three agree.  By \ref{GC:space}, $\rk(ax)=\rk(ay)$ so $\rk(x)=\rk(y)$,
+etc.  $\rk(axy)=\rk(ay)=n+m\ge\rk(xy)=2m$ gives $m\le n$.  For $\rk(abcxyz)$: $(a,b,y)$ is
+non-collinear, so $\rk(aby)=2n+m$, and $c\in\acl(ab)$, $x\in\acl(ay)$, $z\in\acl(by)$.
+Independence of a point $p$ from a line $\ell$ not through $p$: pick two points $q,r$
+of $\ell$, taking $q$ to be the group point of $\ell$ if $\ell$ is a space line; then
+$(p,q,r)$ is non-collinear (a line containing $q$ and $r$ is $\ell$, as two distinct
+lines share only one point, and $p\notin\ell$), so $p\ind{}qr$, and the third point of $\ell$ is algebraic over $qr$ by \ref{GC:group} (if
+$\ell=L_1$) or \ref{GC:space} (a space point is algebraic over the group point and the
+other space point of its line); hence $p\ind{}\ell$.  E.g.\ $a\ind{}by$ and
+$z\in\acl(by)$ give $a\ind{}byz$.  If $m=0$
+then $x,y\subseteq k$, $P_{\acl(a)}(xy)$ is a $k$-rational point and $\Cb(xy/a)=k$,
+contradicting \ref{GC:cb} and $n\ge1$.
+\end{proof}
+
+\begin{lemma}[invariance]\label{lem:gc-invariance}
+Let $\mathfrak c=(a,b,c,x,y,z)$ be a group configuration over $k$.
+\begin{enumerate}[nosep]
+\item For $\sigma\in\Gamma$, $\sigma\mathfrak c$ is a group configuration over $k$.
+\item (base change) If $e$ is a tuple with $e\ind{}abcxyz$, then $\mathfrak c$ is a group
+  configuration over $k'=\acl(k,e)$ (all notions of
+  \cref{def:closures,def:cb} now taken relative to the base $k'$; $K$ still has
+  infinite transcendence degree over $k'$).
+\item (interalgebraic replacement) If $a'\interalg a,\dots,z'\interalg z$ then
+  $(a',b',c',x',y',z')$ is a group configuration over $k$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) \cref{lem:equiv} and \ref{Cb:equiv}.
+(2) \ref{GC:group}, \ref{GC:space}: e.g.\ $c\in\acl(ab)\subseteq\acl(k'ab)$ and
+symmetrically.  \ref{GC:indep}: for a non-collinear triple, $\rk(pqr/e)=\rk(pqr)$ and
+$\rk(p/e)=\rk(p)$ etc.\ by \ref{R:basechange}.  \ref{GC:cb}: the canonical base over the
+new base is $\Cb'(xy/a)=k'\cdot\FOD(P_{\acl(k'a)}(xy))$ and
+$\FOD(P_{\acl(ea)}(xy))=\FOD(P_{\acl(a)}(xy))$ by \ref{Cb:basechange} (as
+$e\ind{}xya$); hence $\acl(\Cb'(xy/a))=\acl(k',\Cb(xy/a))\supseteq\acl(\Cb(xy/a))\ni a$.
+\ref{GC:rank}: $\rk(a/e)=\rk(a)$.
+(3) \ref{GC:group}--\ref{GC:indep} and \ref{GC:rank} are invariant under replacing
+points by interalgebraic ones (\ref{R:aclinv}).  For \ref{GC:cb}:
+$\Cb(x'y'/a')=\Cb(x'y'/\acl(a))$ and $\acl(\Cb(x'y'/\acl a))=\acl(\Cb(xy/\acl a))$ by
+\ref{Cb:interalg}, which contains $a$, hence $a'$.
+\end{proof}
+
+\begin{lemma}[conjugate sets of a space point]\label{lem:conjset-gc}
+Let $(a,b,c,x,y,z)$ be a group configuration and let $r$ be a space point with the two
+lines $\{p_1,q_1,r\}$ and $\{p_2,q_2,r\}$ through it, $p_1,p_2$ being their group points
+and $q_1,q_2$ their other space points.  Put $L=k(p_1q_1p_2q_2)$.  Then
+$r\subseteq\acl(L)$, every element of the conjugate set $\Gamma_L\cdot r$ lies in
+$\acl(r)$, and the code $\tilde r=\code{\Gamma_L r}$ satisfies $\tilde r\subseteq\dcl(L)$
+and $\tilde r\interalg r$.
+\end{lemma}
+\begin{proof}
+$r\in\acl(p_1q_1)\cap\acl(p_2q_2)$ by \ref{GC:space} (a space point is algebraic over
+the group point and the other space point of each line through it).  The group points
+$p_1,p_2$ lie on different lines through $r$, and the line through $p_1,p_2$ is $L_1$,
+which does not contain $r$; so $(r,p_1,p_2)$ is non-collinear, $p_1\ind{}rp_2$ and hence
+$p_1\ind{r}p_2$.  Since $q_1\in\acl(rp_1)$ and $q_2\in\acl(rp_2)$ (\ref{GC:space} again),
+\ref{R:aclinv} gives $p_1q_1\ind{r}p_2q_2$, and \ref{R:meet} gives
+$\acl(rp_1q_1)\cap\acl(rp_2q_2)=\acl(r)$.  For $\sigma\in\Gamma_L$ we have
+$\sigma r\in\sigma\acl(p_1q_1)\cap\sigma\acl(p_2q_2)=\acl(p_1q_1)\cap\acl(p_2q_2)\subseteq\acl(r)$.
+The claims about $\tilde r$ are \cref{lem:conjcode}.  (Note that a group point need
+\emph{not} be algebraic over the two space points of its line; only the space-point
+clauses of \ref{GC:space} were used.)
+\end{proof}
+
+\begin{remark}
+For a group point the same statement is false in general (cf.\ \cref{rem:cb-not-acl});
+this is why the definability step of \cref{sec:proof} only ever codes space points.
+\end{remark}
+
+\subsection{Configurations of a homogeneous space}
+
+\begin{proposition}[the converse]\label{prop:converse}
+Let $\mathcal G$ be a generically transitive generic set of germs on $V$ closed under
+inverse and generic composition, with group $G$ (\cref{thm:hw}), $n=\rk(\mathcal G)$,
+$m=\dim V\ge1$.  Let $g,h\in\mathcal G$ and $y\in V_{\Gen}$ with $(g,h,y)$ independent,
+and put $x=g(y)$, $z=h(y)$, $c=hg^{-1}\in G$.  Then
+\[
+  \bigl(\code g,\ \code h,\ \code c,\ x,\ y,\ z\bigr)
+\]
+is a group configuration over $k$ with $\rk(\code g)=n$ and $\rk(y)=m$; moreover
+$z=c(x)$ and $h=cg$.
+\end{proposition}
+\begin{proof}
+Write $a=\code g$, $b=\code h$ (so $\acl(a)=\acl(g)$ etc.).  Since $\Cb(hg^{-1})\subseteq\acl(g,h)$,
+$\Cb(h)\subseteq\acl(c,g)$ ($h=cg$) and $\Cb(g)\subseteq\acl(c,h)$ ($g=c^{-1}h$), \ref{GC:group}
+holds.  $x=g(y)\in\dcl(g,y)$ and $y=g^{-1}(x)$ ($x\in\operatorname{Dom}(g^{-1})$ because
+$x$ is generic over $\acl(\Cb g)$, \cref{lem:eval}(2)), so $\acl(ax)=\acl(ay)$; similarly
+$\acl(by)=\acl(bz)$.  Next, $x\ind{}gh$: $y\ind{}gh$ and $x\interalg y$ over $g$ give
+$\rk(x/gh)=\rk(y/gh)=m$.  Hence $x\in\operatorname{Dom}(c)$ and by \cref{lem:comp-codes}(2)
+$c(x)=h(g^{-1}(x))=h(y)=z$; so $z\in\dcl(c,x)$, $x=c^{-1}(z)$ and $\acl(cx)=\acl(cz)$.
+This proves \ref{GC:space}.
+
+\ref{GC:cb}: by \cref{lem:triple} the germ determined by the triple $(a;y,x)$ (with
+$y\ind{}a$ by hypothesis, $x\ind{}a$ by \cref{lem:genset-basic}(2), $x\in\dcl(a,y)$ by
+\cref{lem:eval-dcl}) is the unique germ with code in $\acl(a)$ sending $y$ to $x$, hence
+is $g$ itself; so $\Cb(yx/a)=\Cb(g)=k(a)$ and, as $\FOD$ is invariant under renaming the
+variables (\cref{thm:weil-fod}), $\Cb(xy/a)=\Cb(yx/a)$, whence
+$a\subseteq\acl(\Cb(xy/a))$.  Likewise for $b$ with $(y,z)$ and for $c$ with $(x,z)$
+(using $x\ind{}c$, $z\ind{}c$, which follow from $\rk(x/gh)=m$ and
+$\rk(z/gh)=\rk(y/gh)=m$).
+
+\ref{GC:indep}: all six points lie in $\acl(ghy)$, which has rank $2n+m$.  We check the
+$16$ non-collinear triples.  Since $\acl(ab)=\acl(ac)=\acl(bc)$ it suffices, for triples
+with two group points, to treat $(g,h,p)$ with $p\in\{x,y,z\}$: $\rk(ghy)=2n+m$ by
+hypothesis, and $\rk(x/gh)=\rk(z/gh)=m$ was shown above.  Triples with one group point
+and two space points not on its line: $(g,y,z)$, $(g,x,z)$, $(h,x,y)$, $(h,x,z)$,
+$(c,x,y)$, $(c,y,z)$.  From $g\ind{}hy$ and $z\in\acl(hy)$ we get $g\ind{}yz$, so
+$\rk(z/gy)=\rk(yz/g)-\rk(y/g)=\rk(yz)-m=m$, using $\rk(yz)=2m$ (which is \ref{H:trans}
+for $h$); hence $\rk(gyz)=n+2m$, and $\rk(gxz)=\rk(gyz)$ as $\acl(gx)=\acl(gy)$.
+Symmetrically $h\ind{}gy$ gives $\rk(hxy)=\rk(hxz)=n+2m$.  For $c$: $c$ and $h$ are
+interalgebraic over $g$, so $\rk(c/xyg)=\rk(h/xyg)=\rk(h/yg)=n$ (as $x\in\acl(gy)$);
+therefore $\rk(c/xy)=n$, $c\ind{}xy$ and $\rk(cxy)=n+2m$; similarly $c$ and $g$ are
+interalgebraic over $h$, $\rk(c/yzh)=\rk(g/yzh)=\rk(g/yh)=n$, so $\rk(cyz)=n+2m$.
+Finally $(x,y,z)$: $\rk(xyz)=\rk(y)+\rk(x/y)+\rk(z/xy)$ with $\rk(x/y)=m$ (\ref{H:trans})
+and $\rk(z/xy)=\rk(z/xyg)+\bigl(\rk(g/xy)-\rk(g/xyz)\bigr)$; here $\rk(z/xyg)=\rk(z/yg)=m$
+(shown above: $g\ind{}hy$ and $z\in\acl(hy)$ give $g\ind{}yz$, so $\rk(z/gy)=m$) and $\rk(g/xy)\ge\rk(g/xyz)$, so
+$\rk(z/xy)\ge m$, hence $=m$ and $\rk(xyz)=3m$.  \ref{GC:rank} is $n\ge1$, which holds
+since $\mathcal G$ consists of germs of rank $n$ moving generic points
+(\ref{H:trans} with $m\ge1$ forces $n\ge1$: a germ of rank $0$ is $\Gamma$-invariant and
+$g(y)\in\dcl(k,y)$ would then be interalgebraic with $y$, contradicting $g(y)\ind{}y$).
+\end{proof}

@@ -1,0 +1,394 @@
+\section{Germs of quasi-rational maps}
+\label{sec:germs}
+
+\subsection{Irreducible varieties and generic points}
+
+\begin{definition}[irreducible $k$-variety]\label{def:variety}
+An \emph{irreducible $k$-variety} $V$ in $n$ variables is a prime ideal
+$I_V\subseteq K[Y_1,\dots,Y_n]$ defined over $k$ (\cref{def:locus}).  Its set of
+$K$-points is $V(K)=\{y\in K^n: f(y)=0\ \forall f\in I_V\}$ and its dimension is
+$\dim V=\dim I_V$ (\cref{lem:dim}).  For a small algebraically closed $M$, a tuple
+$y$ is a \emph{generic point of $V$ over $M$} if $P_M(y)=I_V$.  Every tuple $y_0$
+determines the irreducible $k$-variety $\Loc(y_0)$ with ideal $P_k(y_0)$, of which
+$y_0$ is a generic point over $k$.
+\end{definition}
+
+\begin{lemma}\label{lem:generic-char}
+Let $V$ be an irreducible $k$-variety and $M\subseteq M'$ small algebraically closed
+subfields.
+\begin{enumerate}[nosep]
+\item Every $y\in V(K)$ has $\rk(y/M)\le\dim V$, and $y\in V(K)$ is generic over $M$
+  iff $\rk(y/M)=\dim V$.  A generic point over $M'$ is generic over $M$, and a generic
+  point $y$ over $M$ is generic over $M'$ iff $y\ind{M}M'$.
+\item Generic points of $V$ over $M$ exist, and they form a single $\Gamma_M$-orbit.
+\item If $y$ is generic over $M$ and $z\in\acl(M,y)$ then $\rk(yz/M)=\dim V$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) Let $y\in V(K)$.  Then $I_V\cap M[Y]\subseteq I_M(y)$, both prime ideals of $M[Y]$,
+and $\trdeg_M\operatorname{Frac}(M[Y]/(I_V\cap M[Y]))=\dim V$ (compute $\dim I_V$ with a
+generic point over $M$, \cref{lem:dim}; its vanishing ideal over $M$ is $I_V\cap M[Y]$ by
+\cref{lem:extcontr}) while $\trdeg_M\operatorname{Frac}(M[Y]/I_M(y))=\rk(y/M)$.  The
+non-strict form of \cref{lem:dimdrop} gives $\rk(y/M)\le\dim V$, and if equality holds
+the strict form forces $I_V\cap M[Y]=I_M(y)$, i.e.\ $I_V=P_M(y)$ (\cref{lem:extcontr}).
+Conversely if $P_M(y)=I_V$ then $\rk(y/M)=\dim P_M(y)=\dim V$ by \cref{lem:dim}.
+``Generic over $M'$ implies generic over $M$'' is the last clause of \cref{lem:genexists}
+($I_V$ is defined over $k\subseteq M$).  Finally, for $y$ generic over $M$: $y$ is
+generic over $M'$ iff $\rk(y/M')=\dim V=\rk(y/M)$ iff $y\ind{M}M'$.
+(2) is \cref{lem:genexists}.  (3) is \ref{R:add}.
+\end{proof}
+
+\begin{lemma}[agreement of quasi-rational expressions]\label{lem:qr-agree}
+Let $N$ be a small algebraically closed subfield, $V$ an irreducible $k$-variety, and
+$f,f'$ quasi-rational expressions over $N$ in the variables $Y$ with values in $K^{n'}$.
+If $f(y')=f'(y')$ for one generic point $y'$ of $V$ over $N$, then $f(y)=f'(y)$ for every
+$y\in V(K)$ at which both $f$ and $f'$ are defined.
+\end{lemma}
+\begin{proof}
+Write the $j$-th coordinates as $R_j^{1/p^e}$ and $R'^{1/p^{e'}}_j$ with
+$R_j=P_j/Q_j$, $R'_j=P'_j/Q'_j$, $P_j,Q_j,P'_j,Q'_j\in N[Y]$.  The polynomial
+$A_j=P_j^{p^{e'}}Q'^{\,p^e}_j-P'^{\,p^e}_jQ_j^{p^{e'}}\in N[Y]$ vanishes at $y'$, hence
+lies in $I_N(y')=I_V\cap N[Y]$, hence vanishes at every $y\in V(K)$.  If $Q_j(y)\ne0$
+and $Q'_j(y)\ne0$ this gives $R_j(y)^{p^{e'}}=R'_j(y)^{p^e}$, and taking the unique
+$p^{e+e'}$-th root in $K$, $R_j(y)^{1/p^e}=R'_j(y)^{1/p^{e'}}$.
+\end{proof}
+
+\subsection{Germs}
+
+Throughout this section $V\subseteq K^n$ and $V'\subseteq K^{n'}$ are irreducible
+$k$-varieties.
+
+\begin{definition}[representatives and germs]\label{def:germ}
+A \emph{representative} of a germ from $V$ to $V'$ is a pair $(M,f)$ where $M$ is a
+small algebraically closed subfield and $f$ is a quasi-rational expression over $M$ in
+the variables $Y$ with values in $K^{n'}$ such that for every generic point $y$ of $V$
+over $M$, $f$ is defined at $y$ and $f(y)$ is a generic point of $V'$ over $M$.
+Two representatives $(M,f)$ and $(M',f')$ are \emph{equivalent} if $f(y)=f'(y)$ for
+every generic point $y$ of $V$ over $\acl(MM')$.  A \emph{germ} $g:V\to V'$ is an
+equivalence class of representatives.  The set of germs is $\Germ(V,V')$ and
+$\Germ(V)=\Germ(V,V)$.
+\end{definition}
+
+The relation is an equivalence relation.  Reflexivity and symmetry are clear.  For
+transitivity let $(M,f)\sim(M',f')\sim(M'',f'')$ and let $y$ be a generic point of $V$
+over $N=\acl(MM'')$.  Choose $y'$ generic over $\acl(MM'M'')$ (\cref{lem:genexists});
+it is generic over $\acl(MM')$, $\acl(M'M'')$ and $N$ (\cref{lem:generic-char}(1)), so
+$f(y')=f'(y')=f''(y')$, and then $f(y)=f''(y)$ by \cref{lem:qr-agree} (both are defined at
+$y$ since $y$ is generic over $M$ and over $M''$).  Note also that if $(M,f)$ is a
+representative and $M\subseteq M_1$ is small algebraically closed, then $(M_1,f)$ is a
+representative equivalent to $(M,f)$: for $y$ generic over $M_1$, $y$ is generic over
+$M$, so $f$ is defined at $y$ and $f(y)\in V'(K)$; moreover $y\ind{M}M_1$
+(\cref{lem:generic-char}(1)) and $f(y)\subseteq\acl(M,y)$ give $f(y)\ind{M}M_1$
+(\ref{R:aclinv}, \ref{R:sub}), so $\rk(f(y)/M_1)=\rk(f(y)/M)=\dim V'$ and $f(y)$ is
+generic over $M_1$; the two representatives agree at every generic point over
+$\acl(MM_1)=M_1$.
+
+\begin{definition}[graph ideal, code, rank]\label{def:graph}
+For a representative $(M,f)$ let $y$ be a generic point of $V$ over $M$ and put
+$\Gamma(M,f)=P_M\bigl((y,f(y))\bigr)\subseteq K[Y,Z]$.
+\end{definition}
+
+\begin{lemma}[the graph ideal]\label{lem:graph}
+\begin{enumerate}[nosep]
+\item $\Gamma(M,f)$ does not depend on the choice of the generic point $y$, and
+  equivalent representatives have the same graph ideal.  We write $\Gamma(g)$.
+\item $\Gamma(g)\cap K[Y]=I_V$, $\Gamma(g)\cap K[Z]=I_{V'}$, and $\dim\Gamma(g)=\dim V$.
+\item $\Gamma(g)$ determines $g$: if $\Gamma(g)=\Gamma(g')$ then $g=g'$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) Generic points of $V$ over $M$ are $\Gamma_M$-conjugate (\cref{lem:generic-char}),
+and $\sigma(y,f(y))=(\sigma y,f(\sigma y))$ for $\sigma\in\Gamma_M$ by \cref{lem:qr-dcl},
+so the locus ideals agree by \cref{lem:dim}(3).  If $(M,f)\sim(M',f')$, let $y$ be
+generic over $N=\acl(MM')$; then $y$ is generic over $M$ and over $M'$,
+$f(y)=f'(y)$, and $P_N((y,f(y)))=P_M((y,f(y)))$ because $(y,f(y))\ind{M}N$:
+indeed $\rk(yf(y)/N)=\rk(y/N)=\dim V=\rk(y/M)=\rk(yf(y)/M)$ using
+$f(y)\in\dcl(M,y)\subseteq\acl(M,y)$.  Symmetrically for $M'$.
+(2) $I_M((y,f(y)))\cap M[Y]=I_M(y)=I_V\cap M[Y]$ and similarly for $Z$ since $f(y)$ is
+generic in $V'$ over $M$; extend scalars and drop variables
+(\cref{lem:extcontr}(2): $\Gamma(g)\cap K[Y]=(I_M((y,f(y)))\cap M[Y])K[Y]$).  The
+dimension is $\rk(yf(y)/M)=\dim V$.
+(3) Let $(M,f)$, $(M',f')$ represent $g,g'$ and let $y$ be generic over $N=\acl(MM')$.
+As in (1), $(y,f(y))$ and $(y,f'(y))$ are generic points of $\Gamma(g)=\Gamma(g')$
+over $N$, hence $\Gamma_N$-conjugate: there is $\sigma\in\Gamma_N$ with
+$\sigma(y,f(y))=(y,f'(y))$.  Then $\sigma$ fixes $N(y)$ pointwise, hence
+$\dcl(N,y)\ni f(y)$ pointwise (\cref{lem:dcl-galois}), so $f'(y)=\sigma f(y)=f(y)$.
+\end{proof}
+
+\begin{definition}[code, rank, closure of a germ]\label{def:germcode}
+For a germ $g$ put $\Cb(g)=k\cdot\FOD(\Gamma(g))$, a small subfield;
+$\rk(g)=\trdeg(\Cb(g)/k)$; $\acl(g)=\acl(\Cb(g))$ and, for a set $C$,
+$\rk(g/C)=\rk(c/C)$ where $c$ is any finite tuple generating $\Cb(g)$ over $k$.
+Independence $g\ind{C}B$ and interalgebraicity $g\interalg a$ with tuples are defined
+through $\Cb(g)$ (e.g.\ $g\interalg a$ iff $\acl(\Cb(g))=\acl(a)$).  The
+\emph{code tuple} $\code{g}$ is the finite tuple of all coordinates of the RREF bases
+of $\Gamma(g)_{\le d}$ for $d\le d_0(\Gamma(g))$, where $d_0(I)$ is the least $d$ such
+that $I$ is generated by $I_{\le d}$; so $k(\code g)=\Cb(g)$.
+\end{definition}
+
+\begin{lemma}[automorphisms act on germs]\label{lem:germ-aut}
+For $\sigma\in\Gamma$ and a representative $(M,f)$ of $g$, $(\sigma M,\sigma f)$ is a
+representative of a germ $\sigma g$ depending only on $g$; $\Gamma(\sigma g)=\sigma\Gamma(g)$,
+$\Cb(\sigma g)=\sigma\Cb(g)$, $\code{\sigma g}=\sigma\code{g}$, and $\sigma g=g$ iff
+$\sigma$ fixes $\Cb(g)$ pointwise.  If $(M,f)$ represents $g$ then $\Cb(g)\subseteq M$.
+\end{lemma}
+\begin{proof}
+Equivariance of everything involved (\cref{lem:equiv}, \cref{lem:qr-dcl}, and
+$\sigma(\Gamma(M,f))=\Gamma(\sigma M,\sigma f)$).  For the last two claims:
+$\sigma g=g$ iff $\Gamma(\sigma g)=\Gamma(g)$ (\cref{lem:graph}(3)) iff
+$\sigma\Gamma(g)=\Gamma(g)$ iff $\sigma$ fixes $\FOD(\Gamma(g))$ pointwise
+(\cref{thm:weil-fod}), and $\sigma$ fixes $k$; and $\Gamma(g)=P_M(\cdot)$ is defined
+over $M$, so $\FOD(\Gamma(g))\subseteq M$.
+\end{proof}
+
+\begin{convention}[germs in tuple positions]\label{conv:germ-tuple}
+In ranks, closures, independence statements and tuples, a germ $g$ stands for its code
+tuple $\code g$ (equivalently for the field $\Cb(g)=k(\code g)$): thus $\acl(g,w)$ means
+$\acl(\code g,w)$, $h\ind{}gw$ means $\code h\ind{}\code g\,w$, and so on.
+\end{convention}
+
+\begin{lemma}[fibres and evaluation]\label{lem:eval}
+Let $g\in\Germ(V,V')$ and let $F$ be a small algebraically closed subfield with
+$\Cb(g)\subseteq F$.
+\begin{enumerate}[nosep]
+\item If $(y,z)$ and $(y,z')$ are generic points of $\Gamma(g)$ over $F$ then $z=z'$.
+\item For every generic point $y$ of $V$ over $F$ there is a unique $z$, denoted
+  $g(y)$, such that $(y,z)$ is a generic point of $\Gamma(g)$ over $F$; moreover
+  $g(y)\in\dcl(F,y)$, $g(y)$ is a generic point of $V'$ over $F$, and $g(y)$ does not
+  depend on $F$ (if $F\subseteq F'$ and $y$ is generic over $F'$, the two values agree).
+\item $g$ has a representative over $F$; in particular over $\acl(\Cb(g))$.
+\item (equivariance) $\sigma(g(y))=(\sigma g)(\sigma y)$ for $\sigma\in\Gamma$.
+\item (agreement) If $g'\in\Germ(V,V')$ and $g(y)=g'(y)$ for one generic point $y$ of
+  $V$ over $\acl(\Cb(g)\Cb(g'))$, then $g=g'$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) Choose a representative $(M,f)$ of $g$; replacing $M$ by $\acl(MF)$ (allowed by
+the note after \cref{def:germ}) we may assume $M\supseteq F$, and write $M=\acl(F,m)$
+for a finite tuple $m$.  By \cref{lem:fresh-conj} there is $\tau\in\Gamma_F$ with
+$\tau m\ind{F}yzz'$; replacing $(M,f)$ by the equivalent representative
+$(\tau M,\tau f)$ of $g$ (\cref{lem:germ-aut}, $\tau g=g$ as $\tau$ fixes
+$F\supseteq\Cb(g)$) we may assume $M\ind{F}yzz'$.  Then $(y,z)$ and $(y,z')$ are
+generic points of $\Gamma(g)$ over $M$ (\cref{lem:dim}(2)) and so is $(y,f(y))$:
+indeed $y$ is generic in $V$ over $F$ (by \cref{lem:extcontr}(2), $\Gamma(g)\cap K[Y]=I_V$
+and $I_F(y)=I_F((y,z))\cap F[Y]$, so $P_F(y)=I_V$) and $y\ind{F}M$ (\ref{R:sub}), so $y$ is
+generic over $M$ and $(y,f(y))$ is generic for $\Gamma(g)=\Gamma(M,f)$ over $M$
+(\cref{lem:graph}(1)).  All three are $\Gamma_M$-conjugate.  If $\sigma\in\Gamma_M$ carries
+$(y,f(y))$ to $(y,z)$ then $\sigma$ fixes $M(y)$ pointwise, hence $\dcl(M,y)\ni f(y)$,
+so $z=\sigma f(y)=f(y)$; likewise $z'=f(y)$.
+(2) Existence: with $(M,f)$ as in (1) chosen with $M\ind{F}y$, $y$ is generic over
+$M$ and $z=f(y)$ works: $(y,z)$ is a generic point of $\Gamma(g)$ over $M$
+(\cref{lem:graph}(1)), and $\Gamma(g)$ is defined over $F$, so $(y,z)$ is generic over
+$F$ by the last clause of \cref{lem:genexists}.  Uniqueness is (1).  Galois: for
+$\sigma\in\Gamma_{F(y)}$, $(y,\sigma z)$ is again generic over $F$ (it is the image of a
+generic point under an element of $\Gamma_F$), so $\sigma z=z$ and $z\in\dcl(F,y)$ by
+\cref{lem:dcl-galois}.  Genericity of $z$ in $V'$: $I_F(z)=I_F((y,z))\cap F[Z]=
+\Gamma(g)\cap F[Z]$ and $(\Gamma(g)\cap F[Z])K[Z]=\Gamma(g)\cap K[Z]=I_{V'}$ by
+\cref{lem:extcontr}(2) and \cref{lem:graph}(2).  Independence of $F$: if $y$ is generic
+over $F'\supseteq F$ then the value $z$ computed over $F$ satisfies $\rk(yz/F')=\rk(y/F')
+=\dim V=\dim\Gamma(g)$ and $(y,z)$ is a zero of $\Gamma(g)$, so $(y,z)$ is generic over
+$F'$ by \cref{lem:generic-char}(1) applied to the variety $\Gamma(g)$ (which is defined
+over $F\subseteq F'$; \cref{lem:generic-char} holds verbatim for varieties defined over
+$F$ in place of $k$).
+(3) Pick $y$ generic over $F$ and $z=g(y)\in\dcl(F,y)$; by \cref{lem:qr-dcl} there is a
+quasi-rational expression $f$ over $F$ with $f(y)=z$.  For any other generic point
+$y'=\sigma y$ ($\sigma\in\Gamma_F$), $f$ is defined at $y'$ and $f(y')=\sigma z$ is generic
+in $V'$ over $F$ with $(y',f(y'))$ generic in $\Gamma(g)$; so $(F,f)$ is a representative,
+and it represents $g$ because its graph ideal is $\Gamma(g)$ (\cref{lem:graph}(3)).
+(4) Apply $\sigma$ to ``$(y,g(y))$ is generic in $\Gamma(g)$ over $F$''.
+(5) $(y,g(y))=(y,g'(y))$ is a generic point of both $\Gamma(g)$ and $\Gamma(g')$ over
+$\acl(\Cb(g)\Cb(g'))$, so the two ideals coincide and \cref{lem:graph}(3) applies.
+\end{proof}
+
+\begin{definition}[generic points over $k$; domain of a germ]\label{def:dom}
+$V_{\Gen}$ denotes the set of generic points of $V$ over $k$.
+$\operatorname{Dom}(g)$ is the set of generic points of $V$ over $\acl(\Cb(g))$,
+i.e.\ (by \cref{lem:generic-char}(1)) the points $y\in V_{\Gen}$ with
+$y\ind{}\Cb(g)$.  By \cref{lem:eval}(2), $g(y)$ is defined for $y\in\operatorname{Dom}(g)$.
+\end{definition}
+
+\subsection{Composition and inverses}
+
+\begin{lemma}[composition]\label{lem:comp}
+Let $g\in\Germ(V,V')$ and $g'\in\Germ(V',V'')$.  There is a unique germ
+$g'\circ g\in\Germ(V,V'')$ such that $(g'\circ g)(y)=g'(g(y))$ for every generic point
+$y$ of $V$ over $\acl(\Cb(g)\Cb(g'))$.  Composition is associative, the germ
+$\mathrm{id}_V$ of $(k,\mathrm{id})$ is a two-sided identity, and
+$\Cb(g'\circ g)\subseteq\acl(\Cb(g)\Cb(g'))$.  For $\sigma\in\Gamma$,
+$\sigma(g'\circ g)=\sigma g'\circ\sigma g$.
+\end{lemma}
+\begin{proof}
+Let $F=\acl(\Cb(g)\Cb(g'))$ and take representatives $(F,f)$, $(F,f')$
+(\cref{lem:eval}(3)).  For $y$ generic over $F$, $f(y)$ is generic in $V'$ over $F$,
+so $f'$ is defined at $f(y)$ and $f'(f(y))$ is generic in $V''$ over $F$; thus
+$(F,f'\circ f)$ is a representative (quasi-rational by \cref{lem:qr-dcl}) and
+$\Cb$ of its germ lies in $F$ (\cref{lem:germ-aut}).  Uniqueness by \cref{lem:eval}(5);
+associativity and identities by evaluation at a generic point over the closure of all
+codes involved; equivariance by \cref{lem:eval}(4).
+\end{proof}
+
+\begin{lemma}[inverses]\label{lem:inverse}
+For $g\in\Germ(V,V')$ the following are equivalent:
+\begin{enumerate}[nosep]
+\item there is $h\in\Germ(V',V)$ with $h\circ g=\mathrm{id}_V$ and $g\circ h=\mathrm{id}_{V'}$;
+\item for some (equivalently every) small algebraically closed $F\supseteq\Cb(g)$ and
+  some (equivalently every) generic point $y$ of $V$ over $F$: $y\in\dcl(F,g(y))$.
+\end{enumerate}
+In that case $h=:g^{-1}$ is unique, $\Gamma(g^{-1})$ is the image of $\Gamma(g)$ under
+the swap of the variables $Y$ and $Z$, $\Cb(g^{-1})=\Cb(g)$, $\dim V=\dim V'$, and
+$\sigma(g^{-1})=(\sigma g)^{-1}$.  Such germs are called \emph{invertible}; we write
+$\Germ^\times(V,V')$ for the set of invertible germs $V\to V'$, and the invertible germs
+in $\Germ(V)$ form a group $\Germ^\times(V)=\Germ^\times(V,V)$ under composition.
+\end{lemma}
+\begin{proof}
+(1)$\Rightarrow$(2): a two-sided inverse $h$ is unique (if $h'g=\mathrm{id}$ then
+$h'=h'gh=h$), so for $\sigma\in\Gamma$ with $\sigma g=g$ we get $\sigma h=(\sigma g)^{-1}=h$
+(\cref{lem:comp}); hence every $\sigma$ fixing $\Cb(g)$ pointwise fixes $\Cb(h)$ pointwise
+(\cref{lem:germ-aut}), and \cref{lem:dcl-galois} gives $\Cb(h)\subseteq\dcl(\Cb(g))\subseteq\acl(\Cb(g))$.
+Now let $F\supseteq\Cb(g)$ be small algebraically closed and $y$ generic over $F$.  Then
+$F\supseteq\Cb(h)$, $z=g(y)$ is generic in $V'$ over $F$ (\cref{lem:eval}(2)), so $h(z)$ is
+defined and equals $y$ (evaluate $h\circ g=\mathrm{id}$ at $y$, \cref{lem:comp}), and
+$y=h(z)\in\dcl(F,z)$ by \cref{lem:eval}(2) applied to $h$.
+(2)$\Rightarrow$(1): let $\Gamma^{t}$ be the swap of $\Gamma(g)$; $(z,y)$ with $z=g(y)$ is a
+generic point of $\Gamma^t$ over $F$, $z$ is generic in $V'$ over $F$, and
+$y\in\dcl(F,z)$; by \cref{lem:qr-dcl} there is a quasi-rational $f'$ over $F$ with
+$f'(z)=y$, and as in the proof of \cref{lem:eval}(3), $(F,f')$ is a representative of a
+germ $h:V'\to V$ with $\Gamma(h)=\Gamma^t$.  Evaluating at generic points gives
+$h\circ g=\mathrm{id}$ and $g\circ h=\mathrm{id}$.  The ``every'' clauses: for another
+$F'$, the condition $y\in\dcl(F',g(y))$ for $y$ generic over $F'$ follows from (1).
+Uniqueness of $h$ is \cref{lem:eval}(5).  $\FOD$ is invariant under renaming variables
+(\cref{thm:weil-fod}: fields of definition are), so $\Cb(g^{-1})=\Cb(g)$;
+$\dim V'=\rk(z/F)=\rk(yz/F)=\dim V$ since $y\in\acl(F,z)$.
+\end{proof}
+
+\begin{lemma}[composition and codes]\label{lem:comp-codes}
+Let $g\in\Germ^\times(V,V')$ and $h\in\Germ^\times(V',V'')$.
+\begin{enumerate}[nosep]
+\item $\Cb(h\circ g)\subseteq\acl(\Cb g,\Cb h)$, $\Cb(h)\subseteq\acl(\Cb(hg),\Cb(g))$ and
+  $\Cb(g)\subseteq\acl(\Cb(hg),\Cb(h))$.  In words: any two of $g,h,hg$ are
+  interalgebraic with the third over each other, so $\rk(hg/Cg)=\rk(h/Cg)$ and
+  $\rk(hg/Ch)=\rk(g/Ch)$ for every set $C$.
+\item For $y\in\operatorname{Dom}(g)\cap\operatorname{Dom}(hg)$ with $g(y)\in\operatorname{Dom}(h)$:
+  $(hg)(y)=h(g(y))$.  (If $y$ is generic over $\acl(\Cb g\,\Cb h)$ this is the defining
+  property of $hg$ in \cref{lem:comp}.)
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) The first is \cref{lem:comp}; $h=(hg)g^{-1}$ and $g=h^{-1}(hg)$ with
+\cref{lem:inverse} ($\Cb(g^{-1})=\Cb(g)$) and \cref{lem:comp} again.
+(2) Let $N=\acl(\Cb g\,\Cb h)$ and take representatives $(F_1,f_1)$ of $g$ over
+$F_1=\acl(\Cb g)$, $(F_3,f_3)$ of $h$ over $F_3=\acl(\Cb h)$ and $(F_2,f_2)$ of $hg$ over
+$F_2=\acl(\Cb(hg))$ (\cref{lem:eval}(3)).  By \cref{lem:eval}(2) (with the respective
+fields), $g(y)=f_1(y)$, $h(g(y))=f_3(f_1(y))$ and $(hg)(y)=f_2(y)$, all defined.  The
+quasi-rational expressions $f_2$ and $f_3\circ f_1$ over $N$ agree at a generic point
+of $V$ over $N$ (\cref{lem:comp}), hence at $y$ by \cref{lem:qr-agree}.
+\end{proof}
+
+\begin{lemma}[values are definable over the codes]\label{lem:eval-dcl}
+Let $g\in\Germ(V,V')$ and $y\in\operatorname{Dom}(g)$.  Then $g(y)\in\dcl(\code g,y)$,
+where $\code g$ is the code tuple of \cref{def:germcode}.  More generally, if
+$g_1,\dots,g_s$ are invertible germs between irreducible $k$-varieties, $w$ is a
+composite of the $g_i$ and their inverses which is a germ $V\to V'$
+(\cref{lem:comp,lem:inverse}), and $y\in V_{\Gen}$ is independent from
+$\code{g_1}\cdots\code{g_s}$, then $y\in\operatorname{Dom}(w)$ and
+$w(y)\in\dcl(\code{g_1},\dots,\code{g_s},y)$.
+\end{lemma}
+\begin{proof}
+Let $L=k(\code g,y)$ and $\sigma\in\Gamma_L$.  Since $\sigma$ fixes $k(\code g)=\Cb(g)$
+pointwise, $\sigma g=g$ (\cref{lem:germ-aut}); as $\sigma y=y$, \cref{lem:eval}(4) gives
+$\sigma(g(y))=g(y)$.  By \cref{lem:dcl-galois}, $g(y)\in\dcl(L)$.  For a composite $w$:
+iterating $\Cb(g'\circ g)\subseteq\acl(\Cb g\,\Cb g')$ (\cref{lem:comp}) and
+$\Cb(g^{-1})=\Cb(g)$ (\cref{lem:inverse}) gives
+$\Cb(w)\subseteq\acl(\code{g_1}\cdots\code{g_s})$, so $y\in\operatorname{Dom}(w)$; and every
+$\sigma$ fixing $k(\code{g_1},\dots,\code{g_s},y)$ pointwise fixes each $g_i$
+(\cref{lem:germ-aut}), hence $w$ (equivariance clauses of \cref{lem:comp,lem:inverse}:
+$\sigma(g'\circ g)=\sigma g'\circ\sigma g$, $\sigma(g^{-1})=(\sigma g)^{-1}$), hence
+$w(y)$ (\cref{lem:eval}(4)); conclude by \cref{lem:dcl-galois}.
+\end{proof}
+
+\subsection{The dictionary between triples and germs}
+
+\begin{lemma}[germs from triples]\label{lem:triple}
+Let $b$ be a tuple, $V=\Loc(y_0)$, $V'=\Loc(z_0)$ irreducible $k$-varieties, and let
+$y\in V(K)$, $z\in V'(K)$ with
+\[
+   y\ind{}b,\qquad z\ind{}b,\qquad z\in\dcl(b,y),
+\]
+$y$ generic in $V$ and $z$ generic in $V'$ over $k$.  Then there is a unique germ
+$g_b\in\Germ(V,V')$ with $\Cb(g_b)\subseteq\acl(b)$ and $g_b(y)=z$.  Its graph ideal is
+$P_{\acl(b)}((y,z))$, so $\Cb(g_b)=\Cb(yz/b)$; moreover $\Cb(g_b)\subseteq\dcl(b)$.  It is
+invertible iff $y\in\dcl(b,z)$.  Moreover:
+\begin{enumerate}[nosep]
+\item if $z=f(b,y)$ for a quasi-rational expression $f$ over $k$ in the variables $(B,Y)$,
+  then for every $\sigma\in\Gamma$, $g_{\sigma b}:=\sigma g_b$ is the germ determined in
+  the same way by $(\sigma b,\sigma y,\sigma z)$, and it depends only on $\sigma b$: it is
+  the germ of the representative $(\acl(\sigma b),f(\sigma b,\cdot))$;
+\item (generic transitivity) if moreover $y\ind{}z$ then for every $b'$ with
+  $b'\ind{}y$ in the $\Gamma$-orbit of $b$, $g_{b'}(y)\ind{}y$;
+\item $b\interalg\Cb(g_b)$ iff $b\subseteq\acl(\Cb(yz/b))$ (``canonicity'').
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+$y$ is generic in $V$ over $M=\acl(b)$ (\cref{lem:generic-char}(1)) and $z$ in $V'$.
+By \cref{lem:qr-dcl} there is a quasi-rational $f_b$ over $M$ with $f_b(y)=z$; for
+$y'=\sigma y$, $\sigma\in\Gamma_M$, $f_b(y')=\sigma z$ is generic in $V'$ over $M$, so
+$(M,f_b)$ is a representative; let $g_b$ be its germ.  Then $\Gamma(g_b)=P_M((y,z))$ and
+$\Cb(g_b)=k\FOD(P_{\acl(b)}((y,z)))=\Cb(yz/b)\subseteq M$; uniqueness by
+\cref{lem:eval}(5).
+
+$\Cb(g_b)\subseteq\dcl(b)$: write $z=f(b,y)$ for a quasi-rational $f$ over $k$ in the
+variables $(B,Y)$ (\cref{lem:qr-dcl}, as $z\in\dcl(b,y)$).  Then $(M,f(b,\cdot))$ is a
+representative of $g_b$: $f(b,\cdot)$ is an expression over $k(b)\subseteq M$ which agrees
+with $f_b$ at $y$, hence (\cref{lem:qr-dcl}, equivariance under $\Gamma_M$) at every
+$\Gamma_M$-conjugate of $y$, i.e.\ at every generic point of $V$ over $M$
+(\cref{lem:generic-char}(2)).  For $\sigma\in\Gamma_{k(b)}$ this representative is carried
+to $(\sigma M,f(b,\cdot))=(M,f(b,\cdot))$ itself, so $\sigma g_b=g_b$; hence $\sigma$ fixes
+$\Cb(g_b)$ pointwise (\cref{lem:germ-aut}) and $\Cb(g_b)\subseteq\dcl(b)$ by
+\cref{lem:dcl-galois}.
+
+Invertibility: if $y\in\dcl(b,z)\subseteq\dcl(M,z)$ then $g_b$ is invertible by
+\cref{lem:inverse}(2) with $F=M$.  Conversely, if $g_b$ is invertible then
+$\Cb(g_b^{-1})=\Cb(g_b)\subseteq\dcl(b)$ (\cref{lem:inverse}), $z$ is generic in $V'$ over
+$M\supseteq\acl(\Cb g_b^{-1})$, so $z\in\operatorname{Dom}(g_b^{-1})$ and
+$y=g_b^{-1}(z)$ (evaluate $g_b^{-1}\circ g_b=\mathrm{id}$ at $y$, \cref{lem:comp}); by
+\cref{lem:eval-dcl}, $y\in\dcl(\code{g_b^{-1}},z)\subseteq\dcl(\dcl(b),z)=\dcl(b,z)$
+(\cref{cor:dcl-props}).
+(1) The triple $(\sigma b,\sigma y,\sigma z)$ satisfies the same hypotheses and
+$\sigma g_b$ has $\Gamma(\sigma g_b)=P_{\acl(\sigma b)}(\sigma(y,z))$.  If $z=f(b,y)$ with
+$f$ over $k$, then $(\acl(b),f(b,\cdot))$ is a representative of $g_b$ (shown above), and
+$\sigma$ carries it to $(\acl(\sigma b),f(\sigma b,\cdot))$, which depends only on
+$\sigma b$.
+(2) Let $b'=\tau b$ with $\tau\in\Gamma$.  Both $\tau y$ and $y$ are generic points of
+$V$ over $\acl(b')$ ($\tau y$ because $y$ is generic over $\acl(b)$ and $\tau$ is an
+automorphism; $y$ because $y\ind{}b'$ and \cref{lem:generic-char}(1)), so there is
+$\rho\in\Gamma_{\acl(b')}$ with $\rho\tau y=y$ (\cref{lem:generic-char}(2)).  Put
+$\sigma=\rho\tau$; then $\sigma b=b'$, $\sigma y=y$, and by (1) $g_{b'}=\sigma g_b$, so
+$g_{b'}(y)=\sigma(g_b(y))=\sigma z$ (\cref{lem:eval}(4)) and
+$y=\sigma y\ind{}\sigma z$ by \cref{lem:equiv}.
+(3) $\Cb(g_b)\subseteq\acl(b)$ always; so $\acl(\Cb g_b)=\acl(b)$ iff $b\subseteq\acl(\Cb g_b)$.
+\end{proof}
+
+\begin{remark}[canonical parametrisation by codes]\label{rem:code-param}
+Let $g$ be a germ and $c=\code{g}$ (\cref{def:germcode}).  For $\sigma\in\Gamma$ the germ
+$\sigma g$ has code $\sigma c$ and is the germ with that code; thus the map
+$\sigma c\mapsto\sigma g$ is a well-defined bijection between the $\Gamma$-orbit of $c$
+(the generic points over $k$ of the irreducible $k$-variety $\Loc(c)$) and the
+$\Gamma$-orbit of $g$.  Moreover, for $y$ generic in $V$ over $\acl(c)$ one has
+$g(y)\in\dcl(c,y)$ (\cref{lem:eval-dcl}), so $g(y)=f(c,y)$ for a
+quasi-rational $f$ over $k$, and then $(\sigma g)(y')=f(\sigma c,y')$ for all generic
+$y'$ over $\acl(\sigma c)$.  Every $\Gamma$-orbit of germs is therefore a ``definable
+family parametrised by its codes'' in the sense of \cref{lem:triple}(1), with
+$b=c$ and canonicity automatic.
+\end{remark}
+
+\begin{leannote}
+The repository's \lean{AclGeom.FiniteCorrespondencePair} is a pair $(y,z)$ of
+interalgebraic generic elements; germs in the present sense are its single-valued
+analogue (no branch choice), and \lean{AclGeom.FiniteCorrespondenceGerm.Composes}
+corresponds to \cref{lem:comp} in the special case of a literally shared middle
+point.  A Lean implementation should define \lean{Germ V V'} as a quotient of the type
+of representatives by the relation of \cref{def:germ}, or equivalently as the subtype of
+prime ideals of \lean{MvPolynomial (Fin n ⊕ Fin n') K} characterised by
+\cref{lem:graph}(2) together with the single-valuedness of \cref{lem:eval}(1); the two
+presentations are identified by \cref{lem:graph}(3) and \cref{lem:eval}(3).
+\end{leannote}

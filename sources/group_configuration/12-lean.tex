@@ -1,0 +1,137 @@
+\section{Lean architecture}
+\label{sec:lean}
+
+\subsection{Library and module layout}
+
+The formalization is a new library \lean{GroupConfig} in the same Lake package
+(\lean{lakefile.toml}: a further \lean{[[lean\_lib]]} entry), importing \lean{AclGeom}
+for the relative closure, locus, relocation and parameter-field API already proved
+there.  Proposed modules, in dependency order (each corresponding to a part of this
+document):
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+module & content \\
+\midrule
+\lean{GroupConfig/Setting.lean} & \cref{conv:ud}: the class \lean{UniversalDomain k K} \\
+\lean{GroupConfig/Rank.lean} & \cref{def:closures}, \cref{lem:rank} (rank calculus) \\
+\lean{GroupConfig/Automorphisms.lean} & \cref{lem:fresh,lem:conj,lem:equiv,lem:orbit} \\
+\lean{GroupConfig/Locus.lean} & \cref{def:locus}--\cref{lem:fresh-conj} (loci, generic points, dimension) \\
+\lean{GroupConfig/Rref.lean} & \cref{def:rref,lem:rref} (reduced row echelon bases) \\
+\lean{GroupConfig/FieldOfDefinition.lean} & \cref{def:fod-subspace}--\cref{thm:weil-fod} \\
+\lean{GroupConfig/CanonicalBase.lean} & \cref{def:cb,prop:cb} \\
+\lean{GroupConfig/Dcl.lean} & \cref{lem:dcl-galois,cor:dcl-props,def:qr,lem:qr-dcl} \\
+\lean{GroupConfig/Codes.lean} & \cref{def:code,lem:code,def:conjset,lem:conjcode} \\
+\lean{GroupConfig/Germ/Basic.lean} & \cref{def:variety}--\cref{def:dom} \\
+\lean{GroupConfig/Germ/Composition.lean} & \cref{lem:comp,lem:inverse,lem:comp-codes,lem:eval-dcl} \\
+\lean{GroupConfig/Germ/Triple.lean} & \cref{lem:triple}, \cref{rem:code-param} \\
+\lean{GroupConfig/HrushovskiWeil.lean} & \cref{def:genset}--\cref{thm:hw} \\
+\lean{GroupConfig/Bijections.lean} & \cref{def:diff}--\cref{thm:hw-bij} \\
+\lean{GroupConfig/Configuration.lean} & \cref{def:gc}--\cref{prop:converse} \\
+\lean{GroupConfig/DefinabilityStep.lean} & \cref{lem:defstep,prop:stepI} \\
+\lean{GroupConfig/Independence.lean} & \cref{prop:stepII}, \cref{lem:hw-basechange} \\
+\lean{GroupConfig/Main.lean} & \cref{thm:main} \\
+\lean{GroupConfig/Constructible/Basic.lean} & \cref{def:constructible}, \cref{thm:chevalley}, \cref{cor:constructible-closure} \\
+\lean{GroupConfig/Constructible/Generic.lean} & \cref{lem:gen-constructible,lem:genquant} \\
+\lean{GroupConfig/Constructible/Group.lean} & \cref{lem:adm-constructible}, \cref{def:constructible-group}, \cref{thm:constructible} \\
+\lean{GroupConfig/Descent.lean} & \cref{lem:kpoints-dense,thm:descent} \\
+\lean{GroupConfig/Psi.lean} & \cref{prop:psi-gc,cor:psi} (bridge to \lean{AclGeom.QWitness.Psi}) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Design decisions}
+
+\begin{enumerate}
+\item \textbf{The base field is a variable.}  All definitions and theorems are stated for
+  an arbitrary algebraically closed base \lean{k} with
+  \lean{[Field k] [IsAlgClosed k] [Algebra k K] [IsAlgClosed K]} and the hypothesis
+  \lean{Cardinal.aleph0 ≤ Algebra.trdeg k K}.  ``Base change to $\acl(k,e)$'' is then
+  instantiation at \lean{k' := ↥(AclGeom.racl k (Set.range e))} with the induced
+  algebra structure; \cref{lem:gc-invariance}(2) and \cref{lem:hw-basechange} are the
+  lemmas that transport hypotheses across this instantiation.  Warning: this is exactly
+  the situation in which the project has met kernel blow-ups (two presentations of the
+  same subfield, \lean{F} versus \lean{F.restrictScalars k}); state facts about the new
+  base through \lean{AclGeom.mem\_racl\_adjoin\_base\_iff} and
+  \lean{AclGeom.racl\_subset\_racl\_base} rather than by rewriting instances.
+\item \textbf{Tuples} are \lean{Fin n → K}; concatenation is \lean{Fin.append} (or
+  \lean{Sum.elim} with \lean{Fin n ⊕ Fin m}); ``$a\subseteq\acl(B)$'' is
+  \lean{∀ i, a i ∈ AclGeom.racl k B}.  Rank is the matroid rank of
+  \lean{AlgebraicIndependent.matroid k K} relative to a set, and \cref{lem:rank} is
+  proved once from Mathlib's \lean{Matroid} API (\lean{Matroid.eRk}, submodularity,
+  closure) together with \lean{AclGeom.rankEq\_iff\_eRk}.
+\item \textbf{Loci} use \lean{AclGeom.idealOf} (which is
+  \lean{MvPolynomial.vanishingIdeal L \{a\}}) and \lean{Ideal.map (MvPolynomial.map (algebraMap L K))}
+  for $P_L(a)$; primality is \lean{AclGeom.isPrime\_map\_of\_isAlgClosed}; dimension facts
+  come from \lean{AclGeom.trdeg\_adjoin\_of\_isGeneric} and \lean{AclGeom.isGeneric\_baseChange}.
+  \Cref{lem:dimdrop} is new.
+\item \textbf{Fields of definition} are defined via RREF of the finite-dimensional
+  subspaces $I_{\le d}$ (\lean{MvPolynomial.restrictTotalDegree} gives the subspace of
+  polynomials of degree $\le d$; a basis of monomials is \lean{MvPolynomial.basisMonomials}).
+  \Cref{lem:rref} (existence/uniqueness of RREF bases) must be proved; Mathlib only has
+  the predicate \lean{Matrix.IsReducedRowEchelon}.  Everything else in \cref{sec:fod} is
+  linear algebra plus \lean{Module.Flat} for field extensions.
+\item \textbf{Germs} are a quotient type of representatives
+  (\lean{structure Representative} with a small algebraically closed field, carried as a
+  subfield \lean{M : IntermediateField k K} with \lean{IsAlgClosed M} and finite
+  \lean{Algebra.trdeg k M}, and a quasi-rational expression), with the relation of
+  \cref{def:germ}; \lean{Germ.graph : Ideal (MvPolynomial (Fin n ⊕ Fin n') K)} and
+  \lean{Germ.cb : IntermediateField k K} are defined on the quotient via
+  \cref{lem:graph}(1).  Evaluation \lean{Germ.eval g y} is defined for \lean{y} with a proof
+  that \lean{y} is generic over \lean{racl k g.cb}, using \lean{Classical.choose} and
+  \cref{lem:eval}(1),(2).  Composition and inverse follow \cref{lem:comp,lem:inverse}.
+\item \textbf{Quasi-rational expressions} are pairs \lean{(e : ℕ) × (Fin n' → RatFunc-like)}; since
+  Mathlib's \lean{RatFunc} is univariate, use pairs of polynomials in
+  \lean{MvPolynomial (Fin n) L} with a nonvanishing side condition, or
+  \lean{FractionRing (MvPolynomial (Fin n) L)}.  In characteristic $0$ the exponent is
+  fixed to $0$; the general case uses \lean{frobenius} and \lean{IsPurelyInseparable}.
+\item \textbf{Automorphisms} are \lean{K ≃ₐ[k] K}; \cref{lem:conj} is
+  \lean{AclGeom.exists\_ambientAutomorphism\_of\_idealOf\_eq} instantiated at the base
+  subfield \lean{L} (as a \lean{Field} with \lean{Algebra L K}).  The action of
+  \lean{K ≃ₐ[k] K} on ideals, subfields, germs and codes is defined explicitly
+  (\lean{Ideal.map}, \lean{IntermediateField.map}).
+\item \textbf{Codes} of finite sets of tuples (\cref{def:code}) use
+  \lean{Polynomial (MvPolynomial (Fin m) K)} and \lean{Polynomial.roots}; conjugate sets are
+  \lean{Finset (Fin m → K)} obtained as orbits via \lean{MulAction.orbit} of
+  \lean{K ≃ₐ[L] K}, finite by \cref{lem:orbit}.
+\item \textbf{Constructible sets} (\cref{sec:constructibility}) are a new inductive or
+  \lean{BooleanSubalgebra.closure} of zero sets in \lean{Set (Fin N → K)}; Chevalley is
+  derived from \lean{PrimeSpectrum.isConstructible\_comap\_image} as in the proof of
+  \cref{thm:chevalley}.  This part is independent of the germ development and can be
+  formalized in parallel.
+\item \textbf{The configuration} is a structure \lean{GroupConfiguration k a b c x y z}
+  with fields \ref{GC:group}--\ref{GC:rank}; the bridge from \lean{AclGeom.QWitness.Psi}
+  is \cref{prop:psi-gc}, which only needs submodularity of the rank of closed
+  subfields (Mathlib's \lean{Matroid.eRk\_inter\_add\_eRk\_union\_le} through
+  \lean{AclGeom.rankEq\_iff\_eRk}) and the exchange lemma for points
+  \lean{AclGeom.pointCl\_exchange} (\lean{AclGeom/Geometry/Equivalence.lean}).
+\end{enumerate}
+
+\subsection{Order of work and milestones}
+
+\begin{enumerate}[nosep]
+\item Rank calculus, automorphisms, loci and dimension (\cref{sec:ud}); milestone:
+  \cref{lem:dim}.
+\item RREF, fields of definition, canonical bases (\cref{sec:fod}); milestone:
+  \cref{prop:cb}.
+\item $\dcl$, quasi-rational expressions, codes (\cref{sec:codes}); milestone:
+  \cref{lem:conjcode}.
+\item Germs with evaluation, composition, inverses, triples (\cref{sec:germs});
+  milestone: \cref{lem:triple}.
+\item Hrushovski--Weil (\cref{sec:hw,sec:bij}); milestone: \cref{thm:hw-bij}.
+\item Configurations, the definability step, Steps II--III (\cref{sec:gc,sec:proof});
+  milestone: \cref{thm:main}.
+\item Constructibility and descent (\cref{sec:constructibility,sec:descent}), in
+  parallel with 4--6.
+\item The $\Psi$ bridge (\cref{sec:application}); milestone: \cref{cor:psi}.
+\end{enumerate}
+
+\begin{leannote}[estimated sizes]
+Each milestone is a few thousand lines at the project's current density.  The
+largest new foundational items, not available in Mathlib or \lean{AclGeom}, are:
+RREF existence/uniqueness; the Galois characterisation of $\dcl$ (\cref{lem:dcl-galois});
+\cref{lem:dimdrop}; the quotient construction of germs with evaluation
+(\cref{lem:eval}); the $K$-points form of Chevalley (\cref{thm:chevalley}).  Everything
+else is rank calculus and bookkeeping of base changes.
+\end{leannote}

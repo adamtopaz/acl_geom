@@ -1,0 +1,358 @@
+\section{Constructibility of the group}
+\label{sec:constructibility}
+
+The group $G$ of \cref{thm:main} is an abstract group of germs.  This section shows
+that it is a \emph{constructible group}: a constructible set modulo a constructible
+equivalence relation, with constructible operations, all defined over the base
+extended by finitely many fresh generic points.  This is the exact analogue of
+``definable group in $K^{\mathrm{eq}}$'' and is the input for any later
+algebraization or classification.  Only this section uses Chevalley's theorem.
+
+\subsection{Constructible sets and functions}
+
+\begin{definition}\label{def:constructible}
+Let $L\subseteq K$ be a subfield.  A subset $C\subseteq K^N$ is \emph{constructible
+over $L$} if it is a finite Boolean combination of zero sets
+$Z(f)=\{u: f(u)=0\}$ of polynomials $f\in L[X_1,\dots,X_N]$; equivalently a finite
+union of sets $Z(g_1,\dots,g_s)\setminus Z(f)$ with $g_i,f\in L[X]$.  A partial
+function $\phi:K^N\rightharpoonup K^M$ is constructible over $L$ if its graph is.
+A relation on $K^N$ is constructible if it is a constructible subset of $K^{2N}$.
+\end{definition}
+
+\begin{theorem}[Chevalley, $K$-points]\label{thm:chevalley}
+If $C\subseteq K^{N+M}$ is constructible over $L$ then its projection
+$\pi(C)=\{u\in K^N:\exists v\,(u,v)\in C\}$ is constructible over $L$.
+\end{theorem}
+\begin{proof}
+Let $C_{\mathrm{sp}}\subseteq\operatorname{Spec}L[X,Y]$ be the constructible set given by
+the same Boolean combination of the closed sets $V(f)$ (\lean{PrimeSpectrum.zeroLocus});
+it is constructible in the topological sense (\lean{Topology.IsConstructible}) because
+$\operatorname{Spec}L[X,Y]$ is noetherian, so every open set is retrocompact.
+For a $K$-point $(u,v)$ let $\mathfrak p_{(u,v)}=I_L((u,v))\in\operatorname{Spec}L[X,Y]$
+(\lean{MvPolynomial.pointToPoint}); then $(u,v)\in C$ iff $\mathfrak p_{(u,v)}\in C_{\mathrm{sp}}$,
+since $(u,v)\in Z(f)$ iff $f\in\mathfrak p_{(u,v)}$.  Let
+$\pi^*:\operatorname{Spec}L[X,Y]\to\operatorname{Spec}L[X]$ be the contraction map
+(\lean{PrimeSpectrum.comap} of the inclusion $L[X]\to L[X,Y]$, a map of finite
+presentation).  By Mathlib's Chevalley theorem
+\lean{PrimeSpectrum.isConstructible\_comap\_image}, $\pi^*(C_{\mathrm{sp}})$ is
+constructible, hence (\lean{PrimeSpectrum.exists\_constructibleSetData\_iff}) a finite
+union of sets $V(g_1,\dots,g_s)\setminus V(f)$ with $g_i,f\in L[X]$; let $D\subseteq K^N$
+be the $L$-constructible set defined by the same data.  As for $C$, a point $u\in K^N$
+lies in $D$ iff $\mathfrak p_u=I_L(u)$ lies in $\pi^*(C_{\mathrm{sp}})$ (again because
+$u\in Z(h)$ iff $h\in\mathfrak p_u$ for $h\in L[X]$).  We claim $\pi(C)=D$.
+
+If $u=\pi(u,v)$ with $(u,v)\in C$ then $\pi^*(\mathfrak p_{(u,v)})=\mathfrak p_{(u,v)}\cap L[X]
+=\mathfrak p_u$, so $\mathfrak p_u\in\pi^*(C_{\mathrm{sp}})$ and $u\in D$.  Conversely let
+$u\in D$, so $\mathfrak p_u=\mathfrak q\cap L[X]$ for some prime $\mathfrak q\in C_{\mathrm{sp}}$,
+say $\mathfrak q\in V(g_1,\dots,g_s)\setminus V(f)$ with $g_i,f\in L[X,Y]$.  The domain
+$A=L[X,Y]/\mathfrak q$ contains $L[X]/\mathfrak p_u\cong L[u]\subseteq K$ and $\bar f\ne0$.
+Localising at $\bar f$ and at the nonzero elements of $L[u]$ (nonzerodivisors in the
+domain $A$) gives a nonzero finitely generated $L(u)$-algebra $B$; a maximal ideal of
+$B$ has residue field finite over $L(u)$ (Zariski's lemma,
+\lean{MvPolynomial.comp\_C\_integral\_of\_surjective\_of\_isJacobsonRing}), which embeds into
+the algebraically closed field $K$ over $L(u)$ (\lean{IsAlgClosed.lift}).  The images
+$v\in K^M$ of the classes of $Y$ satisfy $g_i(u,v)=0$ and $f(u,v)\ne0$, so $(u,v)\in C$
+and $u\in\pi(C)$.
+\end{proof}
+
+\begin{corollary}\label{cor:constructible-closure}
+Constructible sets and relations over $L$ are closed under finite Boolean operations,
+projections, and substitution of constructible functions; the domain, range, image and
+preimage of a constructible partial function are constructible; compositions and
+inverses (of injective functions) of constructible partial functions are constructible;
+and every quasi-rational expression over $L$ defines a constructible partial function
+over $L$ (graph $\{(u,w): w_j^{p^e}q_j(u)=p_j(u),\ q_j(u)\ne0\}$).  Universal quantifiers
+are handled by complementation.
+\end{corollary}
+
+\begin{lemma}[generic points of invariant and of constructible sets]\label{lem:gen-constructible}
+Let $V$ be an irreducible $k$-variety and $L$ a small subfield.
+\begin{enumerate}[nosep]
+\item A $\Gamma_{\acl(L)}$-invariant subset $C\subseteq V(K)$ contains either every generic
+  point of $V$ over $\acl(L)$ or none of them.
+\item If $C\subseteq V(K)$ is constructible over $L$ then $C$ is $\Gamma_{\acl(L)}$-invariant,
+  so (1) applies; and if $C$ contains no generic point of $V$ over $\acl(L)$ then
+  $C\subseteq Z(f)$ for some $f\in L[X]\setminus I_V$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) The generic points of $V$ over $\acl(L)$ form one $\Gamma_{\acl(L)}$-orbit
+(\cref{lem:generic-char}(2)).  (2) Automorphisms over $\acl(L)\supseteq L$ fix the
+coefficients of the defining polynomials.  For the last claim write
+$C=\bigcup_i Z(g_i)\setminus Z(f_i)$ with $g_i$ a tuple of polynomials and $f_i$ a
+polynomial, all over $L$ (\cref{def:constructible}).  A generic point $e$ of $V$ over
+$\acl(L)$ lies in a closed set $Z(h)$, $h\in L[X]$, iff $h\in I_{\acl(L)}(e)$ iff
+$h\in I_V$ (as $P_{\acl(L)}(e)=I_V$).  Hence if $C$ contains no generic point then for
+each $i$ either some $g\in g_i$ is not in $I_V$, or all entries of $g_i$ and also $f_i$
+lie in $I_V$ (and then $(Z(g_i)\setminus Z(f_i))\cap V(K)=\emptyset$).  Take $f$ to be the
+product of one $g\notin I_V$ for each $i$ of the first kind (and $f=1$ if there is none).
+\end{proof}
+
+\subsection{The generic quantifier}
+
+\begin{lemma}[generic quantifier]\label{lem:genquant}
+Let $V$ be an irreducible $k$-variety of dimension $m\ge1$, $L$ a small subfield, and
+$\Phi\subseteq K^N\times V(K)$ constructible over $L$.  Let $t_1,\dots,t_r$ ($r\ge2N+1$) be
+generic points of $V$ independent over $L$ (so $\rk(t_1\cdots t_r/L)=rm$).  Then
+\[
+  \{\,u\in K^N:\ \Phi(u,y)\text{ for every generic point $y$ of $V$ over $\acl(L,u)$}\,\}
+  =\{\,u\in K^N:\ \#\{i\le r:\Phi(u,t_i)\}\ge N+1\,\},
+\]
+and the right-hand side is constructible over $L(t_1,\dots,t_r)$.  The left-hand side
+also equals $\{u:\Phi(u,y)\text{ for some generic $y$ over }\acl(L,u)\}$.
+\end{lemma}
+\begin{proof}
+Fix $u$ and let $J=\{i: t_i\not\ind{L}u\}$.  For $i\in J$, $\rk(t_i/Lu)\le m-1$, so
+$\rk(t_1\cdots t_r/Lu)\le rm-|J|$; also $\rk(t_1\cdots t_r/Lu)\ge rm-\rk(u/L)\ge rm-N$.
+Hence $|J|\le N$.  If $\Phi(u,y)$ holds for all generic $y$ over $\acl(L,u)$, it holds
+for all $t_i$ with $i\notin J$ (these are generic over $\acl(L,u)$), i.e.\ for at least
+$r-N\ge N+1$ indices.  Conversely, if it holds for $N+1$ indices, one of them is outside
+$J$, so $\Phi(u,t_i)$ holds for a generic $t_i$ over $\acl(L,u)$, and then for all
+generic points by \cref{lem:gen-constructible}(2) applied to the $L(u)$-constructible set
+$\{y:\Phi(u,y)\}$.  The same lemma gives the ``some = every'' equivalence.
+\end{proof}
+
+\subsection{Germ equality and admissible parameters}
+
+Fix a quasi-rational expression $F(B,Y)$ over $k$ in variables $B$ (of length $N$) and
+$Y$, with values in $K^{n'}$, and irreducible $k$-varieties $V$ (in the variables $Y$) and
+$V'$ (in $n'$ variables) of the same dimension $m\ge1$.  For $u\in K^N$ write
+$F_u=F(u,\cdot)$.
+
+\begin{definition}[admissible parameters]\label{def:admissible}
+$u\in K^N$ is \emph{admissible} if $(\acl(u),F_u)$ is a representative of a germ $V\to V'$
+(\cref{def:germ}), and \emph{invertibly admissible} if moreover that germ is invertible.
+Write $\mathrm{Adm}$ and $\mathrm{Adm}^\times$ for these sets and $g_u$ for the germ.
+\end{definition}
+
+\begin{lemma}\label{lem:adm-constructible}
+Let $M$ be any small subfield.  There is a tuple $t_0$ consisting of generic points of
+$V$ and of $V'$, independent over $M$, such that $\mathrm{Adm}$, $\mathrm{Adm}^\times$ and the
+relation $\{(u,u'):u,u'\in\mathrm{Adm},\ g_u=g_{u'}\}$ are constructible over $k(t_0)$.  More
+generally, for finitely many quasi-rational expressions $F^{(1)},\dots,F^{(s)}$ over $k$
+(with their own varieties and admissible sets $\mathrm{Adm}_j$, $\mathrm{Adm}^\times_j$) and
+any type-correct word $w$ in the symbols $F^{(j)}_{u_j},(F^{(j)}_{u_j})^{-1}$ with source $V$
+and target $V''$, the relation
+\[
+  \bigl\{(u_1,\dots,u_s,u'):\ u_j\in\mathrm{Adm}^\times_j\text{ for all }j,\ u'\in\mathrm{Adm}_{j'},\
+  \text{and the composite germ } w(u_1,\dots,u_s)\text{ equals } g_{u'}\bigr\}
+\]
+is constructible over $k(t_0)$, for a tuple $t_0$ as above (generic points of the finitely
+many varieties involved, independent over $M$); the restriction to invertibly admissible
+factors is part of the relation.
+\end{lemma}
+\begin{proof}
+$u$ is admissible iff (A) $F_u$ is defined at every generic point of $V$ over $\acl(u)$,
+and (B) $F_u(y)$ is a generic point of $V'$ over $\acl(u)$ for every such $y$.
+(A) is ``for generic $y$: the denominators of $F_u$ do not vanish at $y$'', constructible
+by \cref{lem:genquant}.  For (B) we use: \emph{(B) holds iff for every generic point $w$
+of $V'$ over $\acl(u)$ there is $y\in V(K)$ with $F_u(y)=w$.}  Indeed, if (B) holds then
+$F_u(y_0)$ is generic in $V'$ over $\acl(u)$ for a generic $y_0$, and every generic point
+of $V'$ over $\acl(u)$ is a $\Gamma_{\acl(u)}$-conjugate of it, hence of the form
+$F_u(\sigma y_0)$.  Conversely, if $w$ is generic over $\acl(u)$ and $F_u(y)=w$ with
+$y\in V(K)$ then $w\in\dcl(u,y)$ gives $\rk(y/u)\ge\rk(w/u)=m$, so $y$ is generic over
+$\acl(u)$ (\cref{lem:generic-char}(1)) and $F_u(y)$ is generic; the set of generic $y$
+over $\acl(u)$ at which $F_u$ takes a generic value is $\Gamma_{\acl(u)}$-invariant
+(\cref{lem:qr-dcl}), so by \cref{lem:gen-constructible}(1) the same then holds for all
+generic $y$.  The displayed condition is ``for generic $w\in V'$: $\exists y\in V(K)$,
+$F_u(y)=w$'', constructible by \cref{thm:chevalley} and \cref{lem:genquant}.
+
+Invertibility.  Let $u\in\mathrm{Adm}$ (so $F_u$ is defined at every generic point of $V$
+over $\acl(u)$ and represents $g_u$).  We claim: $g_u$ is invertible iff for every
+generic $w$ of $V'$ over $\acl(u)$ the fibre $\{y\in V(K):F_u(y)=w\}$ is a singleton.
+If the fibre over $w=F_u(y)$ is $\{y\}$ then $y$ is fixed by $\Gamma_{k(u,w)}$ (which
+maps the fibre to itself, \cref{lem:qr-dcl}), so $y\in\dcl(u,w)\subseteq\dcl(\acl(u),g_u(y))$
+by \cref{lem:dcl-galois}, and $g_u$ is invertible by \cref{lem:inverse}(2) with
+$F=\acl(u)$.  Conversely let $g_u$ be invertible, $w$ generic over $\acl(u)$,
+$y=g_u^{-1}(w)$ (so $F_u(y)=w$), and $y'$ any point of the fibre.  As above $y'$ is
+generic over $\acl(u)$, so $(y',w)=(y',F_u(y'))$ is a generic point of $\Gamma(g_u)$ over
+$\acl(u)$ (\cref{lem:graph}(1)) and $(w,y')$ a generic point of $\Gamma(g_u^{-1})$
+(\cref{lem:inverse}); likewise $(w,y)$.  \Cref{lem:eval}(1) applied to $g_u^{-1}$ gives
+$y'=y$.  The fibre condition is constructible by \cref{thm:chevalley} and \cref{lem:genquant}.
+
+Germ equality: for $u,u'\in\mathrm{Adm}$, $g_u=g_{u'}$ iff $F_u(y)=F_{u'}(y)$ for generic
+$y$ over $\acl(uu')$ (\cref{lem:eval}(5)), again constructible by \cref{lem:genquant}.
+
+Words.  Let $w$ be a word of length $l$ in the symbols $F^{(j)}_{u_j}$ and
+$(F^{(j)}_{u_j})^{-1}$, type-correct with respect to the source and target varieties.
+Type-correctness prescribes for each position $i$ of the word an intermediate
+variety $V_i$ ($V_0=V$, $V_l=V''$).  By \cref{cor:constructible-closure} the \emph{chain
+relation} $R_w(u_1,\dots,u_s;y,y')$ := ``there are $y=y_0,y_1,\dots,y_l=y'$ with
+$y_i\in V_i(K)$ for all $i$, such that for each $i$, $(y_{i-1},y_i)$ lies in the graph of
+the $i$-th symbol (the graph of $F^{(j)}_{u_j}$, or its transpose for an inverse symbol)''
+is constructible over $k$ (each $V_i(K)$ is the zero set of finitely many polynomials
+over $k$).  The conjuncts $y_i\in V_i(K)$ are essential: without them an inverse step
+would admit points of the ambient affine space outside $V_i$ in the fibre, and the chain
+would not be unique.  Suppose every $u_j\in\mathrm{Adm}^\times$, put $u=(u_1,\dots,u_s)$,
+and let $y$ be generic over $\acl(u)$.
+Then \emph{the chain starting at $y$ is unique and ends at $w(y)$}, where $w$ is also read
+as the composite germ (\cref{lem:comp,lem:inverse}): inductively $y_{i-1}$ is generic
+over $\acl(u)$; for a forward symbol $y_i=F^{(j)}_{u_j}(y_{i-1})=g_{u_j}(y_{i-1})$
+(\cref{lem:eval}(2)), which is generic over $\acl(u)$; for an inverse symbol,
+$y_{i-1}=F^{(j)}_{u_j}(y_i)\in\dcl(u,y_i)$ gives $\rk(y_i/u)\ge\rk(y_{i-1}/u)=\dim V_{i-1}
+=\dim V_i$ (\cref{lem:inverse}), so $y_i\in V_i(K)$ is generic over $\acl(u)$
+(\cref{lem:generic-char}(1)), $(y_i,y_{i-1})$ is a generic point of
+$\Gamma(g_{u_j})$ over $\acl(u)$ and $(y_{i-1},y_i)$ one of $\Gamma(g_{u_j}^{-1})$, so
+$y_i=g_{u_j}^{-1}(y_{i-1})$ by \cref{lem:eval}(1) applied to $g_{u_j}^{-1}$ over $\acl(u)$.
+Consequently ``$w(u_1,\dots,u_s)$ is a germ $V\to V''$ equal to $g_{u'}$'' is equivalent
+to: all $u_j\in\mathrm{Adm}^\times$, $u'\in\mathrm{Adm}$, and for generic $y$ of $V$ over
+$\acl(uu')$ there is $y'$ with $R_w(u;y,y')$ and $F^{(j')}_{u'}(y)=y'$ (\cref{lem:eval}(5):
+agreement at one generic point over $\acl(\Cb w\,\Cb g_{u'})\subseteq\acl(uu')$ suffices,
+and the point is generic over the larger field).  This is constructible by
+\cref{thm:chevalley} and \cref{lem:genquant}.  In every application of \cref{lem:genquant}
+above the relation $\Phi$ is constructible over $k$ itself (its parameters are the
+$u$'s, which are quantified, not adjoined), so the generic points $t_1,\dots,t_r$ it needs
+are generic points of $V$ or $V'$ independent over $k$; one tuple $t_0$ containing
+$r\ge2N'+1$ generic points of each variety involved, with $N'$ the largest parameter
+length among all the relations to which \cref{lem:genquant} is applied (including the
+longer words used by the consumers of this lemma, e.g.\ the four- and six-symbol words
+of \cref{thm:constructible}, whose parameter tuples have length $4N$ and $6N$), serves all
+finitely many applications, and by \cref{lem:fresh} it may be chosen independent over
+any prescribed small field $M$.
+\end{proof}
+
+\subsection{Constructible groups}
+
+\begin{definition}[constructible group, constructible $G$-set]\label{def:constructible-group}
+A \emph{constructible group over $L$} is a group $G$ together with a surjection
+$\rho:D_G\to G$ from a constructible set $D_G\subseteq K^N$ over $L$ such that the kernel
+relation $\{(d,d'):\rho d=\rho d'\}$ and the relations
+$\{(d_1,d_2,d_3):\rho d_1\cdot\rho d_2=\rho d_3\}$ and $\{(d,d'):(\rho d)^{-1}=\rho d'\}$ are
+constructible over $L$.  A \emph{constructible $G$-set} is a $G$-set $X$ with a
+surjection $\rho_X:D_X\to X$ from a constructible set such that the kernel relation and
+$\{(d,d_X,d'_X):\rho d\cdot\rho_Xd_X=\rho_Xd'_X\}$ are constructible.  A subgroup $H\le G$
+is constructible if $\rho^{-1}(H)$ is.
+\end{definition}
+
+\begin{theorem}[the group of \cref{thm:main} is constructible]\label{thm:constructible}
+In the situation of \cref{thm:main} (base $k'=\acl(k,e)$; varieties $V,V'$; family
+$\mathcal F$ of invertible germs $V\to V'$ with code variety $W$ and
+$\mathcal G=\mathcal G(\mathcal F)$), let $F(B,Y)$ be the quasi-rational expression over
+$k'$ with $F(\code f,y)=f(y)$ for $f\in\mathcal F$ (\cref{rem:code-param}), and let
+$y_0\in V_{\Gen}$ be generic over $\acl(k',abcxyz)$.  There is a tuple $t=(t_0,t_1)$ of generic points of the varieties $V$, $V'$ (in $t_0$) and
+$W$ (in $t_1$), independent over $\acl(k',abcxyz,y_0)$ (\cref{lem:fresh}; in particular
+$(e,t)\ind{}abcxyz$ over $k$), chosen in two stages as described in the proof, such that,
+over $k''=k'(t)$:
+\begin{enumerate}[nosep]
+\item $G=\{f_1^{-1}f_2: f_1,f_2\in\mathcal F\}$, and $G$ is a constructible group over $k''$
+  with $D_G=\{(u_1,u_2)\in\mathrm{Adm}^\times\times\mathrm{Adm}^\times:
+  (u_1,u_2)\text{ satisfies }(\ast)\}$, $\rho(u_1,u_2)=g_{u_1}^{-1}g_{u_2}$, where
+  $(\ast)$ is the condition: \emph{for every $u$ generic in $W$ over $\acl(k'',u_1,u_2)$
+  there is $u'\in W(K)\cap\mathrm{Adm}^\times$ with $g_u\,g_{u_1}^{-1}g_{u_2}=g_{u'}$};
+\item the stabiliser $H=\{\gamma\in G:\gamma\cdot\iota(y_0)=\iota(y_0)\}$ is a constructible
+  subgroup over $k''(y_0)$, and the orbit map $G/H\to S$, $\gamma H\mapsto\gamma\cdot\iota(y_0)$,
+  is a $G$-equivariant bijection; hence $S$ is a constructible $G$-set over $k''(y_0)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(1) \emph{Two-step description.}  Every $f_1^{-1}f_2$ lies in $G$: for $f_1,f_2\in\mathcal F$
+choose $f\in\mathcal F$ with $f\ind{}f_1f_2$; then $f_1^{-1}f_2=(f_1^{-1}f)(f^{-1}f_2)$ with
+both factors in $\mathcal G(\mathcal F)$.  Conversely, for $\gamma\in G$ choose $f\in\mathcal F$
+with $f\ind{}\gamma$; by \cref{thm:hw-bij}, $f\gamma\in\mathcal F$ and $\gamma=f^{-1}(f\gamma)$.
+
+\emph{The condition $(\ast)$ characterises $G$ inside the germs $g_{u_1}^{-1}g_{u_2}$
+($u_i\in\mathrm{Adm}^\times$).}  If $\gamma=g_{u_1}^{-1}g_{u_2}\in G$ then for $u$ generic in
+$W$ over $\acl(k'',u_1,u_2)\supseteq\acl(\gamma)$, $g_u\in\mathcal F$ and $g_u\gamma\in\mathcal F$
+(\cref{thm:hw-bij}, as $g_u\ind{}\gamma$), i.e.\ $g_u\gamma=g_{u'}$ with
+$u'=\code{g_u\gamma}$, a generic point of $W$, so $(\ast)$ holds.
+Conversely suppose $(\ast)$ holds for $\gamma=g_{u_1}^{-1}g_{u_2}$ (a germ in
+$\Germ^\times(V)$ by \cref{lem:inverse,lem:comp}).  Pick $u$ generic in $W$ over
+$\acl(k'',u_1,u_2)$ and $u'\in W(K)\cap\mathrm{Adm}^\times$ with $g_u\gamma=g_{u'}$.  Then
+$\rk(g_{u'})\ge\rk(g_u\gamma/\gamma)=\rk(g_u/\gamma)=n$, so $\Cb(g_{u'})\subseteq\acl(u')$ forces
+$\rk(u')\ge n$, i.e.\ $u'$ is a generic point of $W$ and $g_{u'}\in\mathcal F$; hence
+$\gamma=g_u^{-1}g_{u'}\in G$ by the two-step description.
+
+\emph{Constructibility; the staged choice of $t$.}  First choose $t_0$ as in
+\cref{lem:adm-constructible} (generic points of $V$ and $V'$) independent over
+$M_0=\acl(k',abcxyz,y_0)$, and put $L_0=k'(t_0)$.  Then $\mathrm{Adm}^\times$, the relation
+$g_{u_1}^{-1}g_{u_2}=g_{u'_1}^{-1}g_{u'_2}$ (kernel of $\rho$), the relations
+$\rho(d_1)\rho(d_2)=\rho(d_3)$ and $\rho(d)^{-1}=\rho(d')$, and the relation
+$\Psi(u_1,u_2;u):=$ ``$\exists u'\in W(K)\cap\mathrm{Adm}^\times$ with
+$g_ug_{u_1}^{-1}g_{u_2}=g_{u'}$'' (all word equalities, then a projection; note $W(K)$ is
+constructible over $k'$) are constructible over $L_0$.  Next choose $t_1$, consisting of
+$r\ge2N'+1$ generic points of $W$ independent over $\acl(M_0,t_0)$ ($N'$ the largest
+parameter length of the relations quantified below, i.e.\ $6N$ for the action relation of
+$G/H$), and put
+$k''=k'(t_0,t_1)$.  By \cref{lem:genquant} (with $L=L_0$, $\Phi=\Psi$) the set of
+$(u_1,u_2)$ such that $\Psi(u_1,u_2;u)$ holds for every $u$ generic in $W$ over
+$\acl(L_0,u_1,u_2)$ is constructible over $L_0(t_1)=k''$; and by
+\cref{lem:gen-constructible}(2) applied to the $L_0(u_1,u_2)$-constructible set
+$\{u:\Psi(u_1,u_2;u)\}$, quantifying over the points generic over $\acl(L_0,u_1,u_2)$ is the
+same as quantifying over those generic over the larger field $\acl(k'',u_1,u_2)$ (all or
+none of either kind satisfy $\Psi$), which is the form $(\ast)$ in the statement.  Hence
+$D_G$ and the structure relations of $G$ are constructible over $k''$.
+
+(2) Let $\gamma=\rho(d)\in G$, $d=(u_1,u_2)\in D_G$.  We claim: \emph{$\gamma\in H$ iff for
+every $v$ generic in $W$ over $\acl(k'',d,y_0)$ there is $u'\in W(K)\cap\mathrm{Adm}^\times$
+with $g_v\gamma=g_{u'}$ and $F(u',y_0)=F(v,y_0)$ (both sides defined).}  Granting the claim,
+$H$ is constructible over $k''(y_0)$: the relation in $(d,v,u')$ is constructible over
+$L_0(y_0)$ (``$g_vg_{u_1}^{-1}g_{u_2}=g_{u'}$'' is a word relation, \cref{lem:adm-constructible};
+the two values of $F$ are quasi-rational in $(u',y_0)$ and $(v,y_0)$,
+\cref{cor:constructible-closure}), its projection $\Phi_H(d,v)$ is constructible over
+$L_0(y_0)$ (\cref{thm:chevalley}), and the generic quantifier over $v\in W$ is
+\cref{lem:genquant} with $L=L_0(y_0)$ and the same tuple $t_1$ (its points are generic over
+$\acl(M_0,t_0)\supseteq L_0(y_0)$), giving a set constructible over $L_0(y_0,t_1)=k''(y_0)$;
+as in (1), \cref{lem:gen-constructible}(2) identifies ``for every $v$ generic over
+$\acl(L_0,y_0,d)$'' with ``for every $v$ generic over $\acl(k'',d,y_0)$''.  Note that the claim never evaluates a parametrised expression at $y_0$
+with parameters that may depend on $y_0$: it only evaluates single members $F(u',\cdot)$,
+$F(v,\cdot)$ of the family, and the rank argument below shows that $y_0$ is automatically
+generic over $\acl(u')$ for every witness $u'$.
+
+\emph{Proof of the claim.}  Let $v$ be generic in $W$ over $\acl(k'',d,y_0)$, so $v\ind{}dy_0$
+and $f:=g_v\in\mathcal F$ satisfies $f\ind{}\gamma y_0$ (as $\Cb(\gamma)\subseteq\acl(d)$).  By
+\cref{thm:hw-bij} (last claim), $f\gamma\in\mathcal F$; let $w=\code{f\gamma}$, a generic point
+of $W$.  Since $f\gamma$ and $f$ are interalgebraic over $\gamma$ (\cref{lem:comp-codes}(1)),
+$\rk(w/k''dy_0)=\rk(v/k''dy_0)=n$ (ranks here and below are over $k'$; $v$ is generic over
+$\acl(k'',d,y_0)$), so $w\ind{}k''dy_0$, in particular $w\ind{}y_0$.  Choose $f_1\in\mathcal F$ generic
+over $\acl(k'',v,d,y_0)$ and put $h=f_1^{-1}f\in\mathcal G$; then $h\ind{}\gamma y_0$
+($\Cb(h)\subseteq\acl(f_1,f)$, $f\ind{}\gamma y_0$ and $f_1\ind{}f\gamma y_0$, \ref{R:swap}), so
+$h$ is an admissible witness in the definition of $E$: $\gamma\in H$ iff
+$(h\gamma)(y_0)=h(y_0)$.  Now $h\gamma=f_1^{-1}(f\gamma)=f_1^{-1}g_w$ and $y_0$ is generic over
+$\acl(f_1,w)$: $\rk(f_1w/y_0)=\rk(w/y_0)+\rk(f_1/wy_0)\ge n+\rk(f_1/vdy_0)=2n$ (using
+$w\subseteq\acl(v,d)$).  Hence $(h\gamma)(y_0)=f_1^{-1}(g_w(y_0))$ and $h(y_0)=f_1^{-1}(f(y_0))$
+(\cref{lem:comp}; $y_0$ is generic over $\acl(f_1,v)$ likewise).  Both $g_w(y_0)$ and
+$f(y_0)$ are generic points of $V'$ over $\acl(f_1)$ (each is interalgebraic with $y_0$
+over its code, and $y_0\ind{}f_1w$, $y_0\ind{}f_1v$), and $f_1^{-1}$ is injective on such
+points (if $f_1^{-1}(z)=f_1^{-1}(z')$ then $(y,z)$ and $(y,z')$ are generic points of
+$\Gamma(f_1)$ over $\acl(f_1)$ for $y=f_1^{-1}(z)$, so $z=z'$ by \cref{lem:eval}(1)).  Therefore
+$\gamma\in H$ iff $g_w(y_0)=g_v(y_0)$, i.e.\ iff $F(w,y_0)=F(v,y_0)$ (\cref{lem:eval}(2),
+as $y_0$ is generic over $\acl(w)$ and over $\acl(v)$).
+
+If $\gamma\in H$, then $u':=w$ is a witness.  Conversely let $u'\in W(K)\cap\mathrm{Adm}^\times$
+with $g_{u'}=g_v\gamma=g_w$ and $F(u',y_0)=F(v,y_0)$.  Then $k'(w)=\Cb(g_{u'})\subseteq\acl(u')$,
+so $\rk(u'/k''dy_0)\ge\rk(w/k''dy_0)=n\ge\rk(u')$ (as $u'\in W(K)$ and $\dim W=n$,
+\cref{lem:generic-char}(1)); hence $u'$ is generic in $W$ over $\acl(k'',d,y_0)$ and $y_0$ is
+generic over $\acl(u')$.  Since $(\acl(u'),F_{u'})$ represents $g_{u'}=g_w$,
+$F(u',y_0)=g_w(y_0)$ (\cref{lem:eval}(2)), and $F(v,y_0)=g_v(y_0)$; so $g_w(y_0)=g_v(y_0)$ and
+$\gamma\in H$ by the equivalence just proved.  The orbit map is $G$-equivariant and injective by
+definition of $H$, and surjective because $G$ acts transitively on $S$
+(\cref{thm:hw}\ref{hw:space}).  The quotient $G/H$ is presented by $D_G$ with the kernel
+relation $\{(d,d'):\rho(d)^{-1}\rho(d')\in H\}$, constructible by (1) and the claim (applied
+to the word $g_{u_2}^{-1}g_{u_1}g_{u'_1}^{-1}g_{u'_2}$ in place of $g_{u_1}^{-1}g_{u_2}$), and the
+action is multiplication.
+\end{proof}
+
+\begin{remark}[connectedness and rank as properties of the constructible group]
+\label{rem:constr-connected}
+The generic elements of $G$ are the elements of rank $n$ over $\acl(k'')$ (these are
+the elements of $\mathcal G(\mathcal F)$ independent from $t$, \cref{lem:hw-basechange}), they
+form one $\Gamma_{(k'')}$-orbit, and every element of $G$ is a product of two of them
+(\cref{thm:hw}).  In the language of definable groups: $G$ has Morley rank $n$ and degree
+one.  We do not need, and do not prove, the ``definability of rank and degree in
+families'' that would express these as constructible conditions on parameters; see
+\cref{rem:descent-limits}.
+\end{remark}
+
+\begin{leannote}
+Mathlib's \lean{PrimeSpectrum.isConstructible\_comap\_image} is stated for
+\lean{RingHom.FinitePresentation}; the inclusion \lean{MvPolynomial (Fin N) L → MvPolynomial (Fin N ⊕ Fin M) L}
+is of finite presentation: identify \lean{MvPolynomial (Fin N ⊕ Fin M) L} with
+\lean{MvPolynomial (Fin M) (MvPolynomial (Fin N) L)} via \lean{MvPolynomial.sumAlgEquiv},
+apply \lean{Algebra.FinitePresentation.mvPolynomial\_of\_finitePresentation} (with
+\lean{Algebra.FinitePresentation.self}), and pass to \lean{RingHom.FinitePresentation}
+through \lean{RingHom.finitePresentation\_algebraMap}.  The
+translation between $L$-constructible subsets of $K^N$ and
+\lean{PrimeSpectrum.ConstructibleSetData (MvPolynomial (Fin N) L)} is the content of
+\cref{thm:chevalley}; it is new (not in Mathlib) but elementary given
+\lean{MvPolynomial.pointToPoint}, \lean{IsAlgClosed.lift} and Zariski's lemma.
+\end{leannote}

@@ -1,0 +1,178 @@
+\section{Application: the $\Psi$-witness of the reconstruction blueprint}
+\label{sec:application}
+
+\subsection{The $\Psi$-witness is a group configuration}
+
+Recall the setting of the reconstruction blueprint (\texttt{sources/blueprint.tex},
+\S``The geometric definition of $Q$''; Lean: \lean{AclGeom.QWitness.Psi}).  There
+$k\subseteq K$ are fields with $K$ an arbitrary extension, $\mathcal G(K/k)$ is the lattice
+of relatively algebraically closed intermediate fields (\lean{AclGeom.ClosedIF}), points
+are its atoms (\lean{AclGeom.Point}), and a witness $w$ consists of points
+$A_1,A_2,B_1,B_2,C_1,C_2,D,\dots,Z$ with $A=A_1\vee A_2$ etc.  The clauses of $\Psi$ used
+here are:
+\begin{enumerate}[label=(\roman*),nosep]
+\item $\rk(A\vee B\vee C)=\rk(A\vee B)=\rk(B\vee C)=\rk(A\vee C)=4$;
+\item $X\le A\vee Y$ and $Z\le(B\vee Y)\wedge(C\vee X)$;
+\item $X,Y,Z\not\le A\vee B\vee C$;
+\item for every atom $A'\le A$: $X\not\le A'\vee Y$; for every atom $B'\le B$:
+  $Z\not\le B'\vee Y$; for every atom $C'\le C$: $Z\not\le C'\vee X$.
+\end{enumerate}
+We assume in addition that $k$ and $K$ are algebraically closed and that
+$\trdeg(K/k)$ is infinite (\cref{conv:ud}); see \cref{rem:psi-hyp} for the general case.
+
+\begin{proposition}[$\Psi$ gives a group configuration]\label{prop:psi-gc}
+Let $w$ satisfy (i)--(iv) and choose representatives: $a=(A_1.\mathrm{rep},A_2.\mathrm{rep})$,
+$b=(B_1.\mathrm{rep},B_2.\mathrm{rep})$, $c=(C_1.\mathrm{rep},C_2.\mathrm{rep})$,
+$x=X.\mathrm{rep}$, $y=Y.\mathrm{rep}$, $z=Z.\mathrm{rep}$ (so that $\acl(a)=A$, etc.).  Then
+$(a,b,c,x,y,z)$ is a group configuration over $k$ with $n=2$, $m=1$, in the orientation
+of \cref{conv:orientation}: $X=A\ast Y$, $Z=B\ast Y$, $Z=C\ast X$.
+\end{proposition}
+\begin{proof}
+Throughout, joins of closed subfields are relative algebraic closures of unions
+(\lean{AclGeom.ClosedIF.coe\_sup}), and ranks of closed subfields are transcendence
+degrees, so for tuples $\rk(pq)=\rk(\acl(p)\vee\acl(q))$.  We use the submodularity
+$\rk(E\wedge F)+\rk(E\vee F)\le\rk(E)+\rk(F)$ of the rank of closed subfields, which is
+Mathlib's \lean{Matroid.eRk\_inter\_add\_eRk\_union\_le} for
+\lean{AlgebraicIndependent.matroid k K} transported through \lean{AclGeom.rankEq\_iff\_eRk}
+and \lean{AclGeom.ClosedIF.coe\_sup} (the project's \lean{AclGeom/Config/PsiLattice.lean}
+contains this derivation as a private lemma), and the exchange property for points,
+\lean{AclGeom.pointCl\_exchange} / \lean{AclGeom.racl\_exchange}.
+
+\ref{GC:group}: by (i), $A\vee B\le A\vee B\vee C$ have equal rank $4$, so they are equal;
+likewise $A\vee C=B\vee C=A\vee B\vee C$.  Hence $\acl(ab)=\acl(ac)=\acl(bc)$.
+
+\ref{GC:space}: $X\le A\vee Y$ by (ii), and $X\not\le A$ by (iii), so by exchange in the
+lattice (if $P\le E\vee Q$ and $P\not\le E$ then $Q\le E\vee P$, for points $P,Q$ and closed
+$E$ of finite rank; \lean{AclGeom.pointCl\_exchange}) $Y\le A\vee X$; thus
+$\acl(ax)=A\vee X=A\vee Y=\acl(ay)$.  Similarly $Z\le B\vee Y$, $Z\not\le B$ give
+$Y\le B\vee Z$, and $Z\le C\vee X$, $Z\not\le C$ give $X\le C\vee Z$.
+
+Distinctness: $X\ne Y$, since $X=Y$ would give $X\le A'\vee Y$ for any atom $A'\le A$,
+contradicting (iv) (a rank-two closed field has atoms).  Likewise $Z\ne Y$ (from the
+$B$-clause) and $Z\ne X$ (from the $C$-clause).
+
+\ref{GC:indep}: ranks are $\rk(a)=\rk(b)=\rk(c)=2$ (from (i): $\rk(A)+\rk(B)\ge4$ and each
+$\rk\le2$) and $\rk(x)=\rk(y)=\rk(z)=1$.  We verify the $16$ non-collinear triples.
+\emph{Two group points and a space point} ($9$ triples): $A\vee B=A\vee C=B\vee C$ has
+rank $4$ and does not contain $X,Y,Z$ by (iii), so each of these joins has rank $5$.
+\emph{One group point and two space points not on its line} ($6$ triples):
+$(a,y,z)$: $Z\le A\vee Y$ would give $Z\le(A\vee Y)\wedge(B\vee Y)$, and
+$\rk((A\vee Y)\wedge(B\vee Y))\le3+3-\rk(A\vee B\vee Y)=1$ with $Y$ below it, so the meet
+is $Y$ and $Z=Y$, a contradiction; hence $\rk(ayz)=4$.  $(a,x,z)$: $A\vee X=A\vee Y$, same.
+$(b,x,y)$: $X\le B\vee Y$ would give $X\le(A\vee Y)\wedge(B\vee Y)=Y$; so $\rk(bxy)=4$;
+$(b,x,z)$: $B\vee Z=B\vee Y$.  $(c,x,y)$: $Y\le C\vee X$ would give
+$Y\le(A\vee X)\wedge(C\vee X)=X$ (rank $\le3+3-5=1$); $(c,y,z)$: $C\vee Z=C\vee X$.
+\emph{The three space points}: $X\ne Y$ gives $\rk(xy)=2$; if $Z\le X\vee Y$ then
+$Z\le(X\vee Y)\wedge(B\vee Y)$, whose rank is $\le2+3-\rk(B\vee X\vee Y)=2+3-4=1$ (using
+$\rk(bxy)=4$), so the meet is $Y$ and $Z=Y$; hence $\rk(xyz)=3$.
+
+\ref{GC:cb}: Let $E_a=\acl(\Cb(xy/a))\subseteq A$, a closed subfield of rank $\le2$.  By
+\ref{Cb:ind} and \ref{R:acl}, $xy\ind{E_a}A$, so $\rk(x/E_ay)=\rk(x/Ay)=0$, i.e.\
+$X\le E_a\vee Y$.  If $\rk(E_a)=0$ then $E_a=k$ and $X\le Y$, so $X=Y$, which was excluded;
+if $\rk(E_a)=1$ then $E_a$ is an atom $A'\le A$ with $X\le A'\vee Y$, contradicting (iv).
+Hence $\rk(E_a)=2$, $E_a=A$ and $a\subseteq\acl(\Cb(xy/a))$.  The same argument with the
+$B$- and $C$-clauses of (iv) gives the conditions for $b$ (germ $Y\to Z$, closed field
+$E_b$) and $c$ (germ $X\to Z$, closed field $E_c$).  (The Lean theorem
+\lean{AclGeom.QWitness.Psi.exists\_incidence\_germs\_with\_full\_coefficients}, commit
+\lean{48dd789}, is this argument carried out for the canonical plane-curve equations of
+the three germs over the fields generated by the displayed generator pairs; the theorem
+\lean{AclGeom.QWitness.Psi.exists\_composing\_closed\_incidence\_germs}, commit
+\lean{8d01b03}, assuming \lean{IsAlgClosed K}, produces the three germs over the single
+closed rank-four field $A\vee B$ with coefficient closures $A$, $B$, $C$ respectively,
+together with their composition.  Either can serve as the formal counterpart once $\Cb$
+is identified with the coefficient field of the canonical equation, see the Lean note
+after \cref{prop:cb}.)
+
+\ref{GC:rank}: $n=2$.
+\end{proof}
+
+\begin{remark}[on the hypotheses]\label{rem:psi-hyp}
+(a) The clauses (v)--(vii) of $\Psi$ (the partial quadrangle $(S,T,U)$ and the seven
+meets) are not used; they enter only the subsequent chart extraction.
+(b) Clause (iv) is exactly \ref{GC:cb} for $n=2$: a proper subfield of definition of a
+rank-two plane is contained in an atom.  Without (iv) the theorem's faithful conclusion
+fails: for independent $s,s',t,u,u'$ let $a=(s,u)$, $b=(s',u')$, $c=(s'/s,u'/u)$,
+$y=t$, $x=st$, $z=s't$ (the group $\mathbb G_m\times\mathbb G_m$ acting on the line
+through its first factor, with $b=c\ast a$ and $z=c\ast x=(s'/s)(st)$).  Then (i)--(iii)
+hold, but (iv) fails for the atom $A'=\acl(s)\le A$ since $X=\acl(st)\le A'\vee Y$; and no
+faithful rank-two action on a curve can realise this tuple, because the conclusion of
+\cref{thm:main} forces \ref{GC:cb} for the original tuple (\cref{prop:converse} for the
+configuration built from $(G,S)$, transferred to the interalgebraic tuple over $k$ by
+\cref{lem:gc-invariance}(3), \ref{Cb:basechange} and \ref{R:basechange}; see
+\cref{rem:main-props}).
+(c) If $K$ is not algebraically closed or has finite transcendence degree, pass to an
+algebraically closed extension $K'\supseteq K$ of infinite transcendence degree
+(\lean{AlgebraicClosure} of a rational function field in countably many variables over
+$K$).  All clauses of $\Psi$ are preserved in $\mathcal G(K'/k)$ for the same tuples (the
+closed subfields are replaced by their closures in $K'$; ranks and the relations
+$\le,\wedge,\vee$ among closures of finitely generated subfields are unchanged; in Lean
+this is \lean{AclGeom.QWitness.Psi.lift} and \lean{AclGeom.QGeom.lift} in
+\lean{AclGeom/Transfer/LiftConfig.lean}), and the conclusions below are then about tuples
+of $K'$.  Returning the existential witnesses produced in $K'$ to $K$ is a separate
+descent step that this document does not prove.  For $K$ algebraically closed it is
+model completeness of the theory of algebraically closed fields: a conclusion that is
+first-order in the tuples of $K$ (with all witnesses existentially quantified, and
+polynomial degrees bounded as in \cref{rem:descent-limits}) holds in $K$ as soon as it
+holds in $K'$.  For an arbitrary field $K$ there is no such automatic descent (the
+reconstruction blueprint's arbitrary-field counterexamples, issue \#25, show that
+first-order consequences of $\Psi$ can fail in $K$ while holding in $K'$), so the
+present results are results about algebraically closed ambient fields only.  The
+library theorem \lean{AclGeom.QWitness.Psi.hasAffineGridCoordinates\_of\_chart}
+(\lean{AclGeom/Config/AffineGridNormalization.lean}) is \emph{not} a general
+witness-descent statement: it assumes that the initial independent points and the
+initial chart rows already lie in $K$ and only descends the remaining rows and
+base-field shifts.  \Cref{sec:descent} is the other half of the problem: it brings the
+adjoined parameters $e,t$ into $k$ for first-order consequences with independent
+parameters.  If $k$ is not algebraically closed, replace it by its
+relative algebraic closure $\acl_k(\emptyset)$ in $K$: for $K$ algebraically closed this
+changes neither the closed subfields, nor the points, nor the ranks of $\mathcal G(K/k)$, so
+the assumption that $k$ is algebraically closed costs nothing.
+\end{remark}
+
+\subsection{What the theorem gives}
+
+\begin{corollary}[group and curve from $\Psi$]\label{cor:psi}
+Let $w$ satisfy (i)--(iv) as above, with $k,K$ algebraically closed and $\trdeg(K/k)$
+infinite.  Then there is a tuple $e\in K^{<\omega}$ with $e\ind{}abcxyz$ such that over
+$k'=\acl(k,e)$:
+\begin{itemize}[nosep]
+\item there are an irreducible $k'$-curve $V$ ($\dim V=1$) and a group $G$ of germs of
+  rank $2$, connected in the sense of \cref{rem:constr-connected}, acting faithfully and
+  transitively on a set $S\supseteq V_{\Gen}$; for a generic point $y_0$ of $V$ over
+  $\acl(k',abcxyz)$ and a tuple $t$ of fresh generic points independent over
+  $\acl(k',abcxyz,y_0)$ (so $(e,t)\ind{}abcxyz$), $G$ is a constructible group over
+  $k'(t)$ and $S\cong G/H$ with $H$ the stabiliser of $\iota(y_0)$, a constructible
+  subgroup over $k'(t,y_0)$ (\cref{thm:constructible}); and
+\item generic elements $g_a,g_b\in G$ and a generic point $y'\in V(K)$, independent over
+  $k'$, with
+  \[
+    A\cdot k'\interalg\code{g_a},\quad B\cdot k'\interalg\code{g_b},\quad
+    C\cdot k'\interalg\code{g_bg_a^{-1}},\quad X\cdot k'\interalg g_a(y'),\quad
+    Y\cdot k'\interalg y',\quad Z\cdot k'\interalg g_b(y'),
+  \]
+  where $E\cdot k'$ denotes $\acl(k'\cup E)$ and $\interalg$ is interalgebraicity over $k'$.
+\end{itemize}
+\end{corollary}
+\begin{proof}
+\Cref{prop:psi-gc}, \cref{thm:main}, \cref{thm:constructible}.
+\end{proof}
+
+\begin{remark}[the remaining steps towards the affine chart]\label{rem:remaining}
+To obtain the coordinates of blueprint Lemma \texttt{affine-grid-extraction} one still
+has to (1) classify the pair $(G,S)$: a connected constructible group of rank $2$ acting
+faithfully and transitively on a set of rank $1$ containing the generic points of a curve
+is, up to definable isomorphism, the affine group $\{t\mapsto\alpha t+\beta\}$ acting on
+the affine line (blueprint Lemma \texttt{affine-action}; Evans--Hrushovski 1995 cite
+Cherlin's classification of groups of Morley rank $2$ and Poizat for the identification
+of definable groups with algebraic groups; a direct proof will need either Weil's
+theorem followed by the classification of two-dimensional algebraic groups acting on
+curves, or a self-contained argument for constructible groups of rank two); (2) read off
+coordinates $(\alpha,\beta)$ for $g_a$ and $g_b$ and a coordinate on the line;
+(3) identify the partial-quadrangle points $S,T,U$ with the multiplier coordinates
+(the proof of blueprint Lemma \texttt{affine-grid-extraction}, equation (8.7)); and
+(4) descend the parameters $e,t$ into $k$ by
+\cref{thm:descent} after expressing the nine chart equalities with explicit polynomial
+witnesses, and, if the ambient field was enlarged (\cref{rem:psi-hyp}(c)), descend the
+existential witnesses from $K'$ to $K$ by model completeness of algebraically closed
+fields.  None of (1)--(4) is part of this document.
+\end{remark}

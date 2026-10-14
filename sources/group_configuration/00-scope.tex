@@ -1,0 +1,138 @@
+\section{Scope, conventions, and the shape of the main theorem}
+\label{sec:scope}
+
+\subsection{What is proved}
+
+Throughout, $k\subseteq K$ are algebraically closed fields and $K$ has infinite
+transcendence degree over $k$ (\cref{conv:ud}).  All tuples are finite tuples of
+elements of $K$; $\acl$ is relative algebraic closure in $K$ over $k$, and the
+rank $\rk(a/B)$ of a tuple $a$ over a set $B$ is the transcendence degree of
+$k(B,a)$ over $k(B)$ (\cref{sec:ud}).
+
+The object of study is a \emph{group configuration} (\cref{def:gc}): six tuples
+$a,b,c,x,y,z$ with the four \emph{lines}
+\[
+  \{a,b,c\},\qquad \{a,x,y\},\qquad \{b,y,z\},\qquad \{c,z,x\},
+\]
+such that (i) each group point is algebraic over the two others on the group line,
+(ii) on each space line the two space points are interalgebraic over the group point,
+(iii) every non-collinear triple is independent, and (iv) each group point is
+interalgebraic with the \emph{canonical base} of the correspondence it defines
+between the two space points on its line (the ``no smaller field of definition''
+condition; in the reconstruction blueprint it is clause (iv) of $\Psi$).  Group
+points have a common rank $n\ge 1$, space points a common rank $m$, $1\le m\le n$.
+
+\begin{theorem}[main theorem, informal; precise form in \cref{thm:main}]
+\label{thm:main-informal}
+Let $(a,b,c,x,y,z)$ be a group configuration over $k$.  Then there are finitely many
+elements $e$ of $K$, independent from $abcxyz$ over $k$, such that, writing
+$k'=\acl(k,e)$ for the new base field, there exist
+\begin{itemize}[nosep]
+\item a group $G$ of germs of quasi-rational self-maps of an irreducible $k'$-variety
+  $V$ of dimension $m$, connected, of rank $n$, whose elements of rank $n$ are exactly
+  the germs $f_1^{-1}f_2$ for independent members $f_1,f_2$ of a generic set $\mathcal F$
+  of invertible germs from $V$ to a second variety $V'$ (a single $\Gamma$-orbit, hence
+  canonically parametrised by the generic points of one variety of codes);
+\item a transitive faithful $G$-set $S$ containing the generic points of $V$;
+\item generic independent $g,h\in G$ and a generic $s\in V(K)$,
+\end{itemize}
+such that, with $x'=g\cdot s$, $y'=s$, $z'=h\cdot s$, $a'=g$, $b'=h$, $c'=hg^{-1}$,
+each of $a,b,c,x,y,z$ is interalgebraic over $k'$ with the corresponding primed
+element (group elements being represented by their canonical codes, which are tuples
+of $K$).  Moreover, for a generic point $y_0$ of $V$ over $k'(abcxyz)$ and a further
+tuple $t$ of fresh generic points (chosen after $y_0$) with $(e,t)$ independent from
+$abcxyz$, $G$ is \emph{constructible over $k'(t)$} (\cref{def:constructible-group}) and
+$S$ is a constructible $G$-set over $k'(t,y_0)$, namely $G/H$ for the constructible
+stabiliser $H$ of $\iota(y_0)$ (\cref{thm:constructible}).
+\end{theorem}
+
+In the application to the reconstruction blueprint (\cref{sec:application}),
+$n=2$, $m=1$, and the configuration is the $\Psi$-witness of the geometric
+relation $Q$; the theorem supplies the two-dimensional group acting on a curve whose
+classification (blueprint Lemma \texttt{affine-action}) yields the affine coordinates
+of Lemma \texttt{affine-grid-extraction}.  The classification itself is not part of
+this document.
+
+\subsection{What is not proved here}
+
+\begin{itemize}
+\item \textbf{Weil's theorem.}  We do not prove that a constructible group over an
+  algebraically closed field is (isomorphic to) an algebraic group in the sense of
+  algebraic geometry, nor do we construct a variety structure on $G$.  The main
+  theorem is an ``up to interalgebraicity'' statement and every quantity in it is
+  defined in terms of fields, ideals of polynomials and constructible sets.
+  \Cref{sec:constructibility} records the precise definable-group structure that
+  is obtained, which is the input any later algebraization would start from.
+\item \textbf{Classification} of the resulting group (dimension two acting on a
+  curve, blueprint Lemma \texttt{affine-action}).
+\item \textbf{Elimination of imaginaries in full generality.}  Only the codes that
+  are actually needed are constructed explicitly (\cref{sec:codes}); the
+  constructible group of \cref{sec:constructibility} is presented as a quotient of a
+  constructible set by a constructible equivalence relation, and we do not prove
+  that such a quotient can be identified with a constructible subset of some $K^N$.
+\end{itemize}
+
+\subsection{How the proof is organised}
+
+\begin{enumerate}
+\item \Cref{sec:ud}: the universal domain, rank calculus, automorphisms, loci.
+\item \Cref{sec:fod}: smallest fields of definition of ideals and the resulting
+  \emph{canonical bases} $\Cb(a/L)$; their Galois and independence properties.
+\item \Cref{sec:codes}: definable closure as perfect closure; explicit codes of
+  finite sets of tuples.
+\item \Cref{sec:germs}: germs of quasi-rational maps between irreducible varieties,
+  their evaluation at generic points, composition, inverses, and the dictionary
+  between a triple $(b,x,y)$ with $y\in\dcl(b,x)$ and a germ whose code is
+  $\Cb(xy/b)$.
+\item \Cref{sec:hw}: the Hrushovski--Weil theorem: a generically transitive generic
+  set of invertible germs (a single orbit under the automorphism group) closed under
+  inverse and generic composition generates a connected group of germs whose elements
+  of maximal rank are exactly that set, and a transitive faithful homogeneous space.
+\item \Cref{sec:bij}: the version for families of bijections between two varieties
+  (composites $f_{b_1}^{-1}f_{b_2}$), with the rank criterion for the independence
+  hypothesis.
+\item \Cref{sec:gc}: group configurations, their invariance under base change and
+  interalgebraic replacement, and the converse (configurations of a homogeneous space).
+\item \Cref{sec:proof}: the three steps of Hrushovski's proof (making the lines
+  definable, the independence hypothesis, identification) and the main theorem.
+\item \Cref{sec:constructibility}: the group and the space are constructible
+  (definable) over the extended base.
+\item \Cref{sec:descent}: descent of the extra parameters into $k$ for first-order
+  consequences.
+\item \Cref{sec:application}: the $\Psi$-witness is a group configuration; what the
+  theorem gives for the reconstruction blueprint.
+\item \Cref{sec:lean}: proposed Lean architecture and the Mathlib/AclGeom API used.
+\end{enumerate}
+
+\subsection{Conventions}
+
+\begin{convention}[orientation]\label{conv:orientation}
+We use the orientation of Bays' notes, which coincides with the letters of the
+reconstruction blueprint's $\Psi$-witness: the group line is $\{a,b,c\}$ with
+\emph{$b=c\ast a$}, and the space lines read
+\[
+   x=a\ast y,\qquad z=b\ast y,\qquad z=c\ast x .
+\]
+Thus $a$ carries $y$ to $x$, $c$ carries $x$ to $z$, and $b=c\ast a$ carries $y$ to
+$z$.  The independent triple of the configuration is $(a,b,y)$.  In the
+$\Psi$-witness of the reconstruction blueprint, $(a,b,c,x,y,z)=(A,B,C,X,Y,Z)$:
+$X\le A\vee Y$, $Z\le B\vee Y$, $Z\le C\vee X$ (\cref{sec:application}).
+\end{convention}
+
+\begin{convention}[citations to Lean]\label{conv:lean}
+Statements that are already available in Mathlib (revision
+\lean{d13f23b7}, tag \lean{v4.34.1}) or in the project library \lean{AclGeom} are
+marked with their declaration names in \lean{teletype}.  Such statements are
+\emph{not} reproved here.  Every other lemma is proved in full.  The Lean names
+used are listed in \cref{sec:lean}; when a cited name has a slightly different
+form from the statement in the text (for instance a lattice formulation versus a
+tuple formulation), the required bridge is stated explicitly there.
+\end{convention}
+
+\begin{convention}[characteristic]\label{conv:char}
+The characteristic $p\ge 0$ of $k$ is arbitrary.  In characteristic $p>0$, the
+definable closure of a field is its perfect closure and ``definable functions'' are
+quasi-rational (rational after extracting $p$-power roots).  No separability
+hypothesis is ever used.  All constructions are uniform in $p$; in characteristic
+$0$ every ``quasi-rational'' map is rational.
+\end{convention}

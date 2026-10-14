@@ -8935,3 +8935,81 @@ reviewed paths, observe exact CI and report on the repository issues. Keep
 one monitored build family, two threads and the 30 GiB available-memory stop.
 The full durable goal remains active; guarded-Q initial chart extraction and
 unconditional reconstruction remain open.
+
+## Group configuration theorem blueprint (#12/#1)
+
+A second, self-contained LaTeX blueprint now lives in
+`sources/group_configuration_blueprint.tex` with its thirteen parts in
+`sources/group_configuration/00-scope.tex` … `12-lean.tex` (build with
+`pdflatex` three times from `sources/`; the PDF is not tracked). It gives an
+informal (not Lean-verified) proof of Hrushovski's group configuration theorem
+for algebraically closed fields "up to interalgebraicity", in the form the
+reconstruction blueprint needs: from six
+tuples forming a group configuration (`def:gc`, with the canonical-base
+non-degeneracy clause (GC4), which is clause (iv) of the `Ψ` witness) it
+produces, over `k' = acl(k,e)` for a tuple `e` of five independent generic copies
+of group points, a connected group `G` of germs of quasi-rational self-maps of a
+variety `V` of dimension `m`, a transitive faithful `G`-set `S ⊇ V_gen`, and
+generic `g_a, g_b ∈ G`, `y' ∈ V_gen` with the configuration pointwise
+interalgebraic over `k'` with `(⌜g_a⌝, ⌜g_b⌝, ⌜g_b g_a^{-1}⌝, g_a(y'), y', g_b(y'))`
+(`thm:main`). It then shows `G` and `S ≅ G/H` are constructible (definable in
+`K^eq`) over `k'(t)` and `k'(t,y_0)` for fresh sampling tuples chosen in two
+stages (`thm:constructible`, via a K-points form of Chevalley from Mathlib's
+`PrimeSpectrum.isConstructible_comap_image` and a generic-quantifier lemma),
+proves descent of independent parameters into `k` (`thm:descent`), and shows
+that the `Ψ` witness of `AclGeom/Config/Psi.lean` is a group configuration with
+`n = 2`, `m = 1` (`prop:psi-gc`, `cor:psi`). Every model-theoretic notion is
+replaced by a field-theoretic one (types by generic points of loci, forking by
+transcendence degree, canonical bases by smallest fields of definition computed
+from reduced row echelon bases, definable functions by quasi-rational maps,
+imaginaries by explicit codes of finite sets). Section 12 is the proposed Lean
+architecture: a new `lean_lib GroupConfig` importing `AclGeom`, one module per
+section.
+
+Explicitly outside the document: Weil's theorem (algebraization of the
+constructible group), the rank-two classification (blueprint Lemma
+`affine-action`), multiplier identification, guarded origin/meet normalization,
+and finite-ambient descent. The results are stated only for ambient fields of
+infinite transcendence degree over `k` (`conv:ud`); `rem:finite-trdeg` records
+why the germ definitions collapse otherwise, and `rem:psi-hyp`(c) records that
+returning witnesses from an ambient extension to `K` is a separate, unproved
+model-completeness step (`hasAffineGridCoordinates_of_chart` is not such a
+descent theorem).
+
+Review history (2026-10-13/14). Four independent referee passes by Claude
+subagents (sections 1–4, 5–6, 7–8, 9–12 with Lean-name audit) and one
+verification pass over the rewritten passages found no blocking error; their
+MAJOR findings (the existence half of `lem:eval`(2), the proof of
+`lem:comp-codes`(2), the invertibility clause of `lem:triple`, the (H3)
+simplification via `lem:prod-indep`, the counterexample in `rem:psi-hyp`(b), the
+informal/precise main-theorem mismatch, two wrong Mathlib names, the last
+sentence of `lem:hw-basechange`, and the missing `y_i ∈ V_i(K)` conjuncts in the
+chain relation of `lem:adm-constructible`) were all repaired in the text. codex
+audited sections 09–11 and the remark `rem:connected` in 05 independently and
+found three further genuine errors, each recorded on #12 and repaired: the stabiliser condition in
+`thm:constructible`(2) evaluated parameter chains at the non-generic point
+`y_0` (comment 6160748550; repaired with the fresh-representative argument
+`g_v γ = g_{u'}`, `F(u',y_0) = F(v,y_0)`); `rem:connected` falsely claimed that
+every element of `S` has a presentation `γ·ι(y)` with `y ⫝ γ` (comment
+6160857201; replaced by the translation-group counterexample); and
+`rem:finite-trdeg` claimed a finite transcendence degree suffices (comment
+6160876868; replaced by the vacuity argument). codex accepted sections 09–11 and
+the corrected remark in 05 at the pinned hashes recorded on chit (#6170, #6179),
+including the staged sampling tuple, the `Adm^×` restriction of the word
+relation and the descent/scope wording of 11; this is an informal mathematical
+review, not Lean certification. The referee reports are not tracked; they were produced under
+`/tmp/acl_geom_claude_gct_blueprint/review/`.
+
+Agreed division for the Lean work (chit #6170): Claude owns the three source
+paths above and this entry, and takes the rank calculus, loci, fields of
+definition, canonical bases, germs and Hrushovski–Weil lanes; codex owns the
+compiler slot, `PROJECT_GOAL.md`, and the constructibility lane
+(`GroupConfig/Constructible`: K-points Chevalley and the generic quantifier,
+proposed on `PrimeSpectrum.ConstructibleSetData` with
+`MvPolynomial.pointToPoint`). Shared library/root ownership and the minimal
+constructible-set interface are to be fixed on chit before any `lakefile.toml`
+or `lean_lib` edit. The original reconstruction endpoint of `PROJECT_GOAL.md` is
+unchanged; this blueprint supplies a proposed proof route for the "missing group
+extraction" that the reconstruction blueprint's §8.2/8.3 route needs, not a
+replacement of it, and its Lean formalization remains open (#12 is not
+discharged by this source checkpoint).
