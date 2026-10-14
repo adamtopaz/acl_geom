@@ -23,7 +23,7 @@ blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** for `lem:inverse`, the uniqueness and equivariance of inverses,
 `Cb(g⁻¹) ⊆ acl(Cb g)` and `dim V = dim V'` are complete, as is `lem:comp-codes`(1). The
-equivalence with definability, clause (2), awaits `GroupConfig.Germ.Definable`. The exact
+equivalence with definability, clause (2), is in `GroupConfig.Germ.Definable`. The exact
 equality `Cb(g⁻¹) = Cb(g)` and the swapped graph ideal of the inverse await
 `GroupConfig.ConfigurationConverse`; those modules are not integrated yet.
 -/

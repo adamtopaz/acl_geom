@@ -26,7 +26,7 @@ blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** `def:dom`, `lem:genset-basic` and the orbit part of `def:genset` are proved.
 The parametrisation by generic points of a canonical code variety (`def:genset`, last
-sentence) awaits integration of `GroupConfig.Germ.CanonicalCode`.
+sentence) is proved in `GroupConfig.Germ.CanonicalCode`.
 -/
 
 namespace GroupConfig

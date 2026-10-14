@@ -9779,3 +9779,30 @@ chosen representing tuples, and a fresh-locus transport package is pending.
 The chosen universal extension is still the output field. Original-field
 chart/action descent, group algebraization, action classification and the
 unconditional reconstruction endpoint are unchanged and open.
+
+## Actual admissible families and word relations (2026-10-14, #12)
+
+Six reviewed modules now provide canonical zero-padded RREF germ codes,
+admissible and invertibly admissible parameters of actual expressions, typed
+word relations, fresh samples and actual uniform orbit families. The six
+integration copies passed an independent default-option, standard-lint check
+in 7.35 seconds with empty diagnostics, under the 20 GB cap. The `Word`
+constructors receive docstrings for the book; old evaluation/inverse/orbit
+Status text is brought into line with the integrated modules.
+
+The canonical code generates the base and is equivariant and injective;
+generic orbit points are exactly its generic code points. The encoding fills
+non-pivot RREF rows with zeros; no unpadded-list length assertion is added.
+The orbit-family theorem constructs actual admissibility proofs and identifies
+their germs with the conjugates. It assumes no family certificate.
+
+Definedness remains explicit in all fibres and every word-chain step. The
+literal source word relation includes invertible admissibility for forward
+as well as inverse factors, and mere admissibility for the target expression.
+Its constructibility takes the specified sampling hypotheses. Fresh samples
+over any prescribed small field are proved for Adm and Adm×. One jointly fresh
+sampling tuple also serving germ equality and all word relations is still to
+be assembled. The actual group domain with the generic stabilization condition,
+its surjection, quotient relations, stabilizer and action are not established
+by these modules. The source TeX, frozen chain and original reconstruction
+endpoint are unchanged.

@@ -30,7 +30,7 @@ This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** `lem:eval`(1), (4), (5) and the parts of (2) other than definability are complete.
-The definability clause of (2) and clause (3) await integration of
+The definability clause of (2) and clause (3) are proved in
 `GroupConfig.Germ.Definable`.
 -/
 

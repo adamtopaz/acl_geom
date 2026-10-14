@@ -368,7 +368,7 @@ The canonical base is the field generated over the base by the graph's field
 of definition. A chosen finite generating carrier gives rank and closure
 calculations. This carrier preserves the generated field; it is not the
 canonical indexed RREF vector and has no claimed global coordinate naturality
-or injectivity. That separate representation remains to be integrated.
+or injectivity. The canonical indexed representation is constructed below.
 
 {docstring GroupConfig.Germ.cb}
 
@@ -430,8 +430,7 @@ bases awaits a later integration layer.
 An orbit of germs has independent members over every small set, unique up to
 conjugacy over that set's closure. Their values at independent generic source
 points are generic and independent from their canonical bases. The chosen finite
-carriers still serve only to generate those bases; canonical indexed orbit
-codes are a later layer.
+carriers generate those bases; canonical indexed orbit codes are constructed next.
 
 {docstring GroupConfig.Germ.orbit}
 
@@ -512,8 +511,8 @@ and the composite, and its first value is in the second germ's domain.
 
 For words, invariance under the parameter-field automorphisms gives definable
 evaluation; seed germs, composition and inversion preserve this invariance.
-The actual parameterized word relations and their constructibility remain a
-later layer.
+The actual parameterized word relations and their constructibility are developed
+below, with definedness at every intermediate step.
 
 {docstring GroupConfig.Germ.evalGen_mem_dclAdjoin_of_forall_map_eq}
 
@@ -529,6 +528,97 @@ producer needed by the subsequent configuration argument.
 {docstring GroupConfig.IsTriple.germ_cb}
 
 {docstring GroupConfig.IsTriple.isInvertible_iff}
+
+# Canonical codes and actual orbit families
+%%%
+tag := "group-configuration-canonical-germ-codes"
+%%%
+
+A canonical finite code records the RREF coordinates of the graph ideal's
+degree pieces, up to its least generating degree. Non-pivot rows are filled
+with zeros, giving one index type throughout an orbit. The vector determines
+the ideal and generates its field of definition. Its coordinates commute
+with automorphisms, and its degree bound is invariant. The code generates a
+germ's canonical base and identifies its orbit with the generic points of
+the code locus. This is an explicit zero-padded encoding of the source code.
+
+{docstring GroupConfig.codeVec}
+
+{docstring GroupConfig.Germ.code}
+
+{docstring GroupConfig.Germ.adjoin_range_code}
+
+{docstring GroupConfig.Germ.exists_mem_orbit_codeVec_eq}
+
+Transporting a fixed generating tuple of the canonical base distinguishes
+exactly the orbit germs. Definability gives one quasi-rational expression over
+the base field. Joint conjugation proves that every transported parameter is
+actually admissible and that its parameter germ is the corresponding orbit
+germ. No family or evaluation identity is supplied as a hypothesis.
+
+{docstring GroupConfig.Germ.exists_orbit_uniformExpression}
+
+{docstring GroupConfig.Germ.exists_orbit_admissibleFamily}
+
+# Admissible parameters, words and fresh samples
+%%%
+tag := "group-configuration-admissible-parameters"
+%%%
+
+Specializing a quasi-rational expression at a parameter gives coefficients in
+the algebraic closure of that parameter field. Admissibility means it is
+defined at every generic source point and sends those points to generic target
+points. It constructs an actual representative and germ. For equal-dimensional
+loci, admissibility is equivalent to the defined graph covering every generic
+target point. Invertibility is equivalent to uniqueness of each such defined
+source-locus fibre. Definedness is present in every fibre condition.
+
+{docstring GroupConfig.QuasiRational.IsAdmissible}
+
+{docstring GroupConfig.QuasiRational.parameterGerm}
+
+{docstring GroupConfig.QuasiRational.isAdmissible_iff_generic_surjective}
+
+{docstring GroupConfig.QuasiRational.isInvertible_parameterGerm_iff}
+
+Ordinary constructible fibres and the proved generic quantifier make both
+parameter sets constructible over a finite sampling field. A rank induction
+chooses those samples jointly independently from any prescribed small field;
+they need not be supplied by the caller.
+
+{docstring GroupConfig.QuasiRational.isConstructibleOver_admissible}
+
+{docstring GroupConfig.QuasiRational.isConstructibleOver_invertibleAdmissible}
+
+{docstring GroupConfig.exists_fresh_genericSamples}
+
+{docstring GroupConfig.QuasiRational.exists_fresh_constructible_admissible_samples}
+
+A typed word uses actual forward and inverse expressions, reading its
+parameters from a shared tuple. Its chain relation requires every intermediate
+point to lie on its prescribed locus and every expression to be defined at its
+argument. At generic source points the chain is unique and evaluates the actual
+composite germ. Generic chain agreement is therefore equivalent to germ equality.
+
+{docstring GroupConfig.Word}
+
+{docstring GroupConfig.Word.Chain}
+
+{docstring GroupConfig.Word.IsGerm.chain_iff}
+
+{docstring GroupConfig.Word.IsGerm.eq_iff}
+
+The resulting word relations are constructible over a field containing the
+specified generic samples. The source form requires every factor, including
+forward factors, to be invertibly admissible, while the target expression is
+merely admissible. That full restriction appears in the following theorem.
+
+{docstring GroupConfig.Word.isConstructibleOver_eq_parameterGerm}
+
+A single jointly fresh sampling tuple serving all word and equality relations
+still requires assembly. The constructible-group domain, its surjection onto
+the generated group, the quotient relations and the stabilizer action remain
+separate obligations.
 
 # Finite tuple codes
 %%%

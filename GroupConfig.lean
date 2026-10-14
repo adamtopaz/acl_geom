@@ -33,3 +33,9 @@ import GroupConfig.Germ.HW
 import GroupConfig.Germ.Difference
 import GroupConfig.Germ.Definable
 import GroupConfig.Germ.Triple
+import GroupConfig.Germ.CanonicalCode
+import GroupConfig.Constructible.Admissible
+import GroupConfig.Constructible.InvertibleAdmissible
+import GroupConfig.Constructible.AdmissibleWords
+import GroupConfig.Constructible.FreshSamples
+import GroupConfig.Germ.OrbitParameters
