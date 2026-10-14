@@ -4,12 +4,12 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import VersoManual
-import GroupConfig.Constructible.Basic
+import GroupConfig
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
 
-#doc (Manual) "Group configuration: constructibility" =>
+#doc (Manual) "Group configuration: foundations" =>
 
 %%%
 tag := "group-configuration-constructibility"
@@ -20,7 +20,54 @@ The separate `GroupConfig` library follows the supplemental
 group-configuration proof and records the remaining algebraization and
 application boundaries. Its full Lean formalization remains open (#12).
 
-The first proved part is Section 9's constructibility foundation. A set of
+The library proves the following rank, universal-domain and constructibility
+foundations. These results do not extract a group from a configuration.
+
+# Rank, independence and fresh tuples
+%%%
+tag := "group-configuration-rank"
+%%%
+
+Over a base set $`C`, rank is the extended natural-number rank in the
+algebraic-independence matroid over $`k(C)`. Independence of sets means that
+every finite subset preserves its rank on adjoining the other set to the base.
+The tower law, finite character, closure invariance, symmetry, transitivity,
+independent closure intersection and independent base change are proved for
+arbitrary fields. Cancellation in extended natural numbers uses finite ranks.
+
+{docstring GroupConfig.erk}
+
+{docstring GroupConfig.IndepOver}
+
+{docstring GroupConfig.erk_union_eq}
+
+{docstring GroupConfig.IndepOver.racl_inter_eq}
+
+{docstring AlgebraicIndependent.matroid_eRk_eq_toENat_trdeg}
+
+A small set has finite rank. The universal-domain hypothesis explicitly
+requires infinite transcendence degree over the base. It gives fresh tuples
+of every finite rank over any small set, using finite generators for its
+algebraic closure. Algebraic closedness is unnecessary for these lemmas.
+
+{docstring GroupConfig.UniversalDomain}
+
+{docstring GroupConfig.IsSmall.exists_finite_racl_eq}
+
+{docstring GroupConfig.exists_erk_range_eq}
+
+Automorphisms preserve the relative matroids, ranks and independence.
+
+{docstring GroupConfig.erk_image}
+
+{docstring GroupConfig.IndepOver.image}
+
+# Constructible sets
+%%%
+tag := "group-configuration-constructible-sets"
+%%%
+
+Section 9 starts with a polynomial definition. A set of
 points is constructible over a field $`k` when it is a finite union of cells,
 each cut out by finitely many polynomial equations and one polynomial
 inequation with coefficients in $`k`. The implementation uses the pullback of

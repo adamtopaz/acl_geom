@@ -83,8 +83,9 @@ private theorem kernel_fraction_tuple {E : Type*} [Field E] {ι : Type*}
 
 
 /-- Scalar extension of any ideal contracts to the original ideal over a field.
-Consumed by `exists_genericPoint_baseChange`; no primeness or ACF is required here. -/
-private theorem contraction {k E : Type*} [Field k] [Field E] [Algebra k E]
+Consumed by `exists_genericPoint_baseChange`, `isGeneric_baseChange`, and the
+planned GroupConfig locus scalar-extension construction. No primeness or ACF is required here. -/
+theorem comap_map_mvPolynomial_eq_self {k E : Type*} [Field k] [Field E] [Algebra k E]
     {ι : Type*} (I : Ideal (MvPolynomial ι k)) :
     (I.map (MvPolynomial.map (algebraMap k E))).comap
       (MvPolynomial.map (algebraMap k E)) = I := by
@@ -163,7 +164,7 @@ theorem exists_genericPoint_baseChange {k : Type u} {E : Type v} {F : Type w}
       rw [mem_idealOf_iff, Ideal.mem_comap, mem_idealOf_iff,
         MvPolynomial.aeval_map_algebraMap]
     rw [hbase, hE]
-    exact contraction I
+    exact comap_map_mvPolynomial_eq_self I
   refine ⟨K, inferInstance, inferInstance, inferInstance, inferInstance, b, hE, hk, ?_⟩
   intro S hS
   let C := MvPolynomial ι k ⧸ I
@@ -313,7 +314,7 @@ theorem isGeneric_baseChange {k E Ω : Type*}
       rw [mem_idealOf_iff, Ideal.mem_comap, mem_idealOf_iff,
         MvPolynomial.aeval_map_algebraMap]
     rw [hbase, hgen]
-    exact contraction I
+    exact comap_map_mvPolynomial_eq_self I
   refine ⟨hk, ?_⟩
   let A := (IsScalarTower.toAlgHom k E Ω).fieldRange
   let a := Module.Free.chooseBasis k A

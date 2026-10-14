@@ -9065,3 +9065,55 @@ chit6193; documentation ownership is confirmed in chit6191. Evidence and consume
 entry and every other edit, before the checkpoint commit/push. Keep one
 monitored family, two threads and the 30 GiB available-memory stop. The
 untracked supplemental PDF stays excluded from the commit.
+
+
+## GroupConfig rank and universal-domain foundation (#12)
+
+After d97113a, three modules formalize the supplemental blueprint's Section 1
+foundation: `GroupConfig/Rank.lean`, `Setting.lean`, and `Automorphisms.lean`.
+The rank of a set over C is Mathlib's algebraic-independence matroid rank over
+k(C), valued in extended natural numbers. Independence quantifies over finite
+subsets, so infinite ranks are never cancelled. The proved calculus includes
+finite character, the tower law, closure invariance, symmetry, transitivity,
+independent closure intersection, independent base change, and a bridge from
+set rank to the transcendence degree of the field it generates. These facts
+hold over arbitrary fields. Locus dimension and the generic-quantifier rank
+count are the next named consumers.
+
+`UniversalDomain` explicitly requires infinite transcendence degree over the
+base, with algebraic closedness kept as a separate hypothesis for later work.
+`IsSmall` means finite rank. Every small set has the same relative closure as
+one of its finite subsets, and every small set admits a fresh tuple of any
+finite rank. Base-field automorphisms preserve the relative matroids, ranks
+and independence. The book records this precise foundation scope; no locus,
+canonical-base, group-extraction, algebraization, guarded-Q or unconditional
+reconstruction theorem is claimed by this checkpoint. The original source
+and supplemental blueprint are unchanged; PROJECT_GOAL remains unchanged.
+
+The existing private ideal-contraction proof in
+`AclGeom/Correspondence/GenericExtension.lean` is now public as
+`AclGeom.comap_map_mvPolynomial_eq_self`. Its statement and proof are unchanged,
+and both existing callers use the new name. Claude's next Locus module can
+reuse it rather than duplicate the argument. No other AclGeom mathematics is
+changed.
+
+Claude supplied the three final producer hashes in chit6209 and released the
+compiler slot. Codex independently reviewed all three, including the added
+set-rank/transcendence-degree bridge and the automorphism transport proof,
+and checked frozen copies in a complete independent module namespace. All
+three pass default checking and explicit standard Mathlib lint with empty
+logs (2.00s each; minimum available memory at least 42.05 GiB). The integrated
+proofs match those pins; module status paragraphs state proved results and
+remaining obligations accurately, and the universal-domain class field has
+the docstring required by the book renderer. Chit6211 records this
+review and the contraction API decision. Codex owns the book/root/CONT and
+checkpoint integration; Claude continues Locus privately and requests the
+compiler slot before checking.
+
+Evidence and scoped consumer checks are under
+`/tmp/acl_geom_group_configuration_audit/foundation_probe`. Run the full
+`lake build` and `lake exe book` after this entry and all other edits before
+committing. Keep the single monitored compiler family, two threads, and
+30 GiB available-memory stop. The supplemental PDF remains untracked and is
+excluded. Constructibility closure and the generic quantifier are separate
+ongoing work; the frozen 117-item M4a chain is untouched.
