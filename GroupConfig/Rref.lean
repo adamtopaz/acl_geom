@@ -38,7 +38,8 @@ blueprint `sources/group_configuration_blueprint.tex`.
 matrix certificate, and the smallest field of definition of a finite-coordinate
 subspace are proved over arbitrary fields. Finite field generators and the
 pointwise automorphism stabilizer criterion are explicit. Fields of definition
-of polynomial ideals and canonical bases remain separate obligations.
+of polynomial ideals are developed in `GroupConfig.FieldOfDefinition`; canonical
+bases remain a separate obligation.
 -/
 
 namespace GroupConfig

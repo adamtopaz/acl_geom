@@ -151,8 +151,59 @@ It preserves the subspace exactly when it fixes the field of definition pointwis
 
 {docstring GroupConfig.map_eq_self_iff}
 
-The corresponding field of definition for polynomial ideals and the canonical
-base construction remain separate obligations.
+The field of definition for polynomial ideals is constructed next. Canonical
+bases remain a separate obligation.
+
+# Fields of definition of polynomial ideals
+%%%
+tag := "group-configuration-ideal-field-of-definition"
+%%%
+
+An ideal in a finite-variable polynomial ring is defined over a subfield when
+its polynomials with coefficients in that subfield generate the ideal. Its
+bounded-degree pieces are finite-coordinate subspaces. The ideal is defined
+over a field exactly when every such subspace is defined over that field.
+Coefficientwise linear projections along a basis of the ambient field recover
+the original polynomial, preserve degree, and preserve extended ideals.
+
+{docstring GroupConfig.IdealDefinedOver}
+
+{docstring GroupConfig.idealDefinedOver_iff_forall_degSubspace}
+
+Definedness of a degree piece implies definedness of every lower degree piece,
+and their fields of definition increase with degree. This holds even though
+the coordinate spaces have different sizes. Noetherianity supplies a bounded
+degree piece generating the ideal, and every larger piece detects exactly the
+fields defining the ideal.
+
+{docstring GroupConfig.degSubspace_definedOver_of_le}
+
+{docstring GroupConfig.fod_degSubspace_mono}
+
+{docstring GroupConfig.exists_forall_idealDefinedOver_iff}
+
+The increasing union of these fields is the smallest field defining the ideal.
+The union stabilizes at a bounded degree piece, so it has a finite set of
+generators over the prime field. Automorphisms transport this field together
+with the ideal; an automorphism preserves the ideal exactly when it fixes the
+field of definition pointwise. These results hold over arbitrary fields.
+
+{docstring GroupConfig.idealFod}
+
+{docstring GroupConfig.mem_idealFod_iff}
+
+{docstring GroupConfig.idealDefinedOver_iff}
+
+{docstring GroupConfig.exists_forall_idealFod_eq}
+
+{docstring GroupConfig.exists_finset_closure_eq_idealFod}
+
+{docstring GroupConfig.idealFod_map}
+
+{docstring GroupConfig.ideal_map_eq_self_iff}
+
+The scalar-extension remark for fields of definition and the canonical-base
+construction remain obligations.
 
 # Constructible sets
 %%%

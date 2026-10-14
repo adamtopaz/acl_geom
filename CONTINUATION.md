@@ -9327,3 +9327,43 @@ not a library-wide audit. Full library/book gates must pass after all edits
 before the checkpoint.
 All validation uses the single monitored compiler family, two threads and the
 30GiB available-memory stop. The untracked supplemental PDF stays excluded.
+
+
+## Fields of definition of polynomial ideals (#12)
+
+After516f016, `GroupConfig/FieldOfDefinition.lean` proves the supplemental
+Section2 ideal-field-of-definition theorem over arbitrary fields. Bounded-degree
+coefficient spaces are finite. Coefficientwise linear projections preserve
+extended ideals and degree, and finite basis decomposition recovers every
+polynomial. This proves definedness of an ideal iff all its degree pieces are
+defined over the field. Noetherian generators give stabilization of their
+fields of definition, finite generators over the prime field, and an explicit
+bounded-degree generator witness with eventual definedness equivalence.
+Automorphisms transport the field of definition; an automorphism preserves the
+ideal exactly when it fixes that field pointwise.
+
+The root addition also discharges the previously bypassed filtration(2): if
+I's degree-d piece is F-defined and d'≤d, compare I with the extended contraction
+J=(I.comap mapF).map mapF. Their degree-d' pieces agree by the bounded-degree
+membership lemma, while Mathlib's map_comap_map makes J F-defined. Hence the
+lower piece is F-defined. This proves FOD monotonicity and identifies idealFod's
+supremum with the source's increasing union. All three filtration clauses now
+have explicit public results. The scalar-extension remark and canonical bases
+remain obligations; PROJECT_GOAL and both TeX sources are unchanged.
+
+Codex independently read all524lines of Claude's frozen88359197 producer against
+source02 and checked it with default limits and standard Mathlib lint:
+exit0,emptylog,2.00s,min42.07GiB. Generalized coefficient projections have named
+Contraction/Descent consumers in the pending peer chain. The Mathlib polynomial
+coefficient-range API replaces the old manual lift, with its statement preserved.
+The producer proof bodies/statements stay unchanged in integration; the four
+root additions are degSubspace_definedOver_of_le, fod_degSubspace_mono,
+mem_idealFod_iff and exists_forall_idealDefinedOver_iff. Ownership6334 permits
+these additions and the precise Status rewrite. Their complete default/stdlint
+check passes emptylog2.00s/min42.04GiB. Peer review of these four root additions
+is requested6335 and remains pending; all statements have checked proofs and the
+existing producer was independently reviewed in full. Ten scoped axiom reports
+contain only propext, Classical.choice and Quot.sound. Root/book/Rref status and
+this guide are updated together. Full library/book validation must pass after
+all edits before the checkpoint.
+Use one monitored family, two threads and the30GiB stop; exclude the untracked PDF.
