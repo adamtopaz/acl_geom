@@ -9407,3 +9407,40 @@ and Quot.sound; this is not a library-wide audit. The integrated module also
 passes default limits and standard lint with an empty log:6.00s,min41.97GiB.
 All validation uses one monitored family, two threads and the30GiB
 available-memory stop. The untracked supplemental PDF stays excluded.
+
+
+## Six-point configuration data and early guarded-Q input (#12/#27)
+
+Afterc47f922, `GroupConfig/Configuration.lean` exposes the supplemental Section7
+six-point predicate, its sixteen-triple constructor, pairwise independence,
+equal group/space ranks, coordinate-renaming invariance of canonical bases,
+the two generating relabelings, and automorphism/interalgebraic replacement.
+The predicate's genuine incidence/independence/canonical-base hypotheses remain
+explicit. This is configuration data and the proved conditional consequences;
+it is not the group-extraction theorem or the actual Psi input construction.
+Remaining rank bounds, total ranks, point/line independence and independent
+base change remain obligations until their own producers integrate.
+
+Codex independently read all661lines of frozen2f6a19a against source07. The
+only integration code change is removal of the unused Germ.GenericSet import:
+a complete default/stdlint check then passes emptylog18.00s/min39.70GiB.
+Peer6364 grants this import/Status edit and confirms the missing dependency.
+The narrowed source is frozen as ConfigurationNarrow.lean, with all existing
+names/statements/proofs preserved. Canonical-base source improvements already
+removed the superseded primed Cb5 helper and updated its three uses in the
+peer producer before this pin. Ten scoped public-result axiom reports contain
+only propext, Classical.choice and Quot.sound. Full library/book gates after
+all edits are required before committing; one monitored family,
+two threads and the30GiB stop; exclude the untracked supplemental PDF.
+
+This dependency audit allows the actual Psi-to-configuration input to be
+implemented before the germ chain. The proof plan in the private audit directory
+uses Cb1 plus Psi's atom-freeness clauses to force each parameter plane to be
+interalgebraic with the canonical base of its incidence pair. GC1/GC2 use finite
+rank, and GC3 uses exactly the16 noncollinear triples. Claude independently
+accepted that mathematical strategy in chit6360, flagging the finite-ambient
+lift as a separate proof obligation. One finite-tuple algebraicity-capture
+prerequisite is now privately checked: CanonicalBaseCapture.lean pinf04cc182,
+emptylog2.00s/min40.98GiB. It is not integrated until the coherent actual input
+construction assembles. No guarded-chart, group-algebraization or reconstruction
+claim is discharged by this plan. PROJECT_GOAL and both TeX sources are unchanged.

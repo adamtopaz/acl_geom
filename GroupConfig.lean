@@ -11,3 +11,4 @@ import GroupConfig.Locus
 import GroupConfig.Rref
 import GroupConfig.FieldOfDefinition
 import GroupConfig.CanonicalBase
+import GroupConfig.Configuration

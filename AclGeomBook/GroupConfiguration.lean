@@ -256,6 +256,53 @@ original base field need not be algebraically closed. These results supply the
 canonical-base hypotheses of the configuration route; group extraction and
 unconditional reconstruction remain open.
 
+# Six-point configuration data
+%%%
+tag := "group-configuration-six-point-data"
+%%%
+
+A configuration consists of six tuples with four specified lines. The group
+points are $`a,b,c`, the space points are $`x,y,z`, and the lines are
+$`abc`, $`axy`, $`byz` and $`czx`. Its hypotheses give algebraic-closure
+incidences, independence of each noncollinear triple, the three canonical-base
+containments, and positive group rank.
+
+{docstring GroupConfig.GroupConfiguration}
+
+The incidence table has exactly sixteen sorted noncollinear triples. Checking
+those triples gives the full independence clause. Pairwise independence and
+equality of the three group ranks and of the three space ranks follow from
+the configuration hypotheses.
+
+{docstring GroupConfig.indep_of_sixteen}
+
+{docstring GroupConfig.GroupConfiguration.indepOver_pts}
+
+{docstring GroupConfig.GroupConfiguration.erk_b_eq}
+
+{docstring GroupConfig.GroupConfiguration.erk_y_eq}
+
+Canonical bases are invariant under permuting coordinate variables. This
+makes the configuration stable under the two generating relabelings of its
+space lines, under base-field automorphisms, and under interalgebraic replacement
+of the six tuples. Coordinate types may differ after replacement.
+
+{docstring GroupConfig.canonicalBase_comp_equiv}
+
+{docstring GroupConfig.GroupConfiguration.swapAB}
+
+{docstring GroupConfig.GroupConfiguration.swapBC}
+
+{docstring GroupConfig.GroupConfiguration.map}
+
+{docstring GroupConfig.GroupConfiguration.ofRaclEq}
+
+This module imports the canonical-base layer directly. It proves the stated
+consequences and invariances of the configuration predicate. The remaining
+rank bounds, total-rank and point/line clauses, independent base change,
+construction of a configuration from the actual guarded-$`\Psi` witness,
+and extraction of a group remain obligations.
+
 # Constructible sets
 %%%
 tag := "group-configuration-constructible-sets"
