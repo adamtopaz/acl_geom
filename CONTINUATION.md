@@ -8764,3 +8764,64 @@ this single append, rerun full build and book, commit/push the five-path green
 checkpoint, observe exact CI and report on the repository issues. The next
 central mathematical obligation is still the guarded-Q initial chart. The
 single-family lock, two threads and30GiB available-memory stop remain in force.
+
+
+## Relational associativity of finite-correspondence germs (#5)
+
+From e6818d94d2ebfe799fafffc69767ec9e5fd6d47c, the new focused module
+Correspondence/CompositionAssociativity.lean proves
+FiniteCorrespondenceGerm.composes_assoc. Over any base k in an ACF ambient,
+(exists E, Composes A B E and Composes E C D) is equivalent to
+(exists F, Composes B C F and Composes A F D). This is the full relational
+statement for the existing represented germs, starting with independently
+chosen presentations of the intermediate component. Existing strict
+associativity at literal shared middles did not supply that alignment.
+
+Equal endpoint-pair ideals give an ambient automorphism by the proved finite
+generic-point theorem. Transporting the interior representative gives one
+chain of four generic coordinates, which can be regrouped. Two consumed
+private helpers transport a branch and preserve its ideal. The actual consumer
+constructs squaring, its transpose and negation at a transcendental element,
+then derives the other intermediate germ without a caller Composes oracle.
+No base ACF, rank, component-selector or group/action conclusion is assumed.
+
+The geometric identification with dominating fiber-product components remains
+open, including nonclosed function-field bases. C2, group chunks, initial
+charts, guarded Q and unconditional reconstruction are not closed by this
+result. The book, source remark and shared-goal frontier make that boundary
+explicit. All original source statements/proofs remain unchanged. No frozen
+M4a source or older mathematical module was edited; the root gains one import.
+
+Private producer/consumer checks pass with empty logs, default kernel and
+standard Mathlib lint (2.00s each; minimum available 40.95/40.90 GiB).
+Metadata passes in 8.00s/minimum 40.53 GiB. All 65 old signatures and 59 old
+proof/axiom rows in Composition/AmbientAutomorphism are exact. There are three
+new declarations (one public, two private), no generated extras, and the new
+public axiom row contains only propext, choice and quotient soundness. This is
+a scoped audit. The first draft's explicit-base/section-end repairs and failed
+log are retained; no checking option was weakened. Private book checking
+passes in 42.01s/minimum 39.59 GiB.
+
+Actual-main full build passes in 72.02s/minimum 38.38 GiB;
+book in 8.00s/minimum 40.30 GiB; four focused new checks in
+6.00s/minimum 40.42 GiB. Those checks freshly compare the relevant
+old/new metadata and run the real consumer. The 154 green-parent fixture inputs
+and outputs are retained byte-exact, along with their four baselines; they
+were not rerun because every older mathematical module is byte-exact and no
+instance or simplifier attribute is added. The future corpus has 158 fixtures;
+this is not a claim of 158 fresh runs. Hygiene is clean across 271 library/root
+files. All 711 warning headers and 111 previous HTML paths are retained, with
+one new book section. Four stable TeX passes give 85 pages; selected pages
+1,2,3,18,19,20,85 were actually viewed and clear. All 49 active statements,
+historical mathematical blocks and 44 proofs/listings remain exact.
+
+Evidence: /tmp/acl_geom_codex_relational_assoc_e68,
+/tmp/acl_geom_assoc_shared_probes and /tmp/acl_geom_assoc_tex. The bounded
+scope was posted on #5 comment 6159595091. Claude received the target/proof
+in chit6098/6100, ownership in6104, documentation/shared goal in6107 and the
+focused validation plan in6110. Root remains sole editor/compiler; Claude
+is read-only. No review reply has arrived, so acceptance is not inferred.
+After this single append, full build/book must pass again before the six-path
+commit/push, exact CI observation and issue reports. The full durable goal
+remains active, with the guarded-Q initial chart still central. Keep the
+single monitored family, two threads and 30 GiB available-memory stop.

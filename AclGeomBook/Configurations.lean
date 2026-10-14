@@ -27,6 +27,7 @@ import AclGeom.Correspondence.FiniteCurveLoci
 import AclGeom.Correspondence.MultiplierPrimeCurve
 import AclGeom.Correspondence.AffineLocusCommutation
 import AclGeom.Correspondence.AffinePointNormalization
+import AclGeom.Correspondence.CompositionAssociativity
 import AclGeomBook.Configurations.GroupChunkRecord
 
 /-!
@@ -500,10 +501,11 @@ the displayed parameter field derives the same equation at the moved
 endpoints. It never transports the globally quantified Ψ.
 
 This covers the rank-two field-of-definition step. The common-closed-base
-composition step follows below. Composition over nonclosed function-field
-bases, group chunks, actions/classification, initial charts, Q/Q′/J
-completeness and unconditional reconstruction remain open. Frozen M4a
-is unchanged.
+composition step follows below. Relational germ composition is associative
+over arbitrary bases, as proved below. Its identification with components
+of geometric fiber products over nonclosed function-field bases, group chunks,
+actions/classification, initial charts, Q/Q′/J completeness and unconditional
+reconstruction remain open. Frozen M4a is unchanged.
 
 # Composition over the common closed parameter field
 %%%
@@ -555,9 +557,45 @@ equation at endpoints moved by an actual common-field endomorphism.
 The universally quantified Ψ is never transported.
 
 No new public rank wrapper, field definition, normalization interface or
-checking option is added. Nonclosed function-field composition, group
-chunks, actual actions/classification, initial charts, Q/Q′/J completeness
+checking option is added. The geometric fiber-product/function-field bridge,
+group chunks, actual actions/classification, initial charts, Q/Q′/J completeness
 and unconditional reconstruction remain open. Frozen M4a is unchanged.
+
+# Relational correspondence composition is associative
+%%%
+tag := "correspondence-relational-associativity"
+%%%
+
+The field-level associativity assertion in the opening of blueprint §8.1
+holds for the existing finite-correspondence germs over any base field,
+inside an algebraically closed ambient:
+
+{docstring AclGeom.FiniteCorrespondenceGerm.composes_assoc}
+
+A germ records a prime vanishing ideal with a generic interalgebraic pair
+presenting it. `Composes A B C` says that presentations of A and B can share
+a literal middle coordinate and yield C at their endpoints. The two
+parenthesizations may initially use different presentations of their common
+intermediate germ.
+
+Equal endpoint-pair ideals give an ambient automorphism by the proved
+finite generic-point theorem. Transport the interior coordinate through that
+automorphism: the two presentations then fit one chain of four generic
+coordinates. Grouping its first or last two arrows gives the required
+intermediate germ. Applying this argument in both directions proves equality
+of the possible final germs. Two private helpers transport a branch and
+preserve its ideal; both are consumed by the public theorem.
+
+An actual squaring correspondence, its transpose and negation exercise this
+regrouping. The input uses a transcendental element and constructs all branch
+memberships and compositions; the theorem produces the other intermediate
+germ. Algebraic closedness of the base and an ambient rank bound are unnecessary.
+
+The relation keeps all possible components. Identifying these represented
+germs with dominating components of geometric fiber products remains a
+separate C2 obligation, including the nonclosed function-field base case.
+This theorem supplies neither a component-selection operation nor a group
+chunk, initial chart or configuration-completeness input.
 
 # The affine-grid extraction boundary
 %%%

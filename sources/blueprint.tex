@@ -1307,6 +1307,27 @@ holds because both parenthesizations are irreducible components of the normaliza
 the same threefold fiber product.  In Lean this definition uses only tensor products,
 minimal primes, fraction fields, and finite extensions.
 
+
+\begin{remark}[Relational associativity in Lean]
+The represented finite-correspondence germs satisfy the relational form of
+associativity over an arbitrary base field in an algebraically closed ambient.
+Write $\operatorname{Comp}(A,B,C)$ for the existence of presentations of $A,B$
+with a shared middle coordinate and endpoint germ $C$.  Lean proves
+\[
+ \bigl(\exists E\;\operatorname{Comp}(A,B,E)\land\operatorname{Comp}(E,C,D)\bigr)
+ \Longleftrightarrow
+ \bigl(\exists F\;\operatorname{Comp}(B,C,F)\land\operatorname{Comp}(A,F,D)\bigr)
+\]
+in \lean{FiniteCorrespondenceGerm.composes_assoc}.
+The equal endpoint-pair ideals in either parenthesization give an ambient
+base-field automorphism.  Transporting the intermediate coordinate aligns
+the presentations in a single chain of four generic coordinates, which can
+then be regrouped.  The argument preserves every possible final germ.
+It does not select one component as a binary operation.  The identification
+with dominating components of geometric fiber products, including over
+nonclosed function-field bases, remains a separate obligation.
+\end{remark}
+
 \begin{lemma}[generic extension and specialization]\label{lem:generic-extension}
 Let $V$ be irreducible over the algebraically closed field $k$.
 \begin{enumerate}[label=(\alph*),leftmargin=10mm]

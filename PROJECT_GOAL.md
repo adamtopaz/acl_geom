@@ -78,7 +78,7 @@ two perfected ACF completeness inputs. The central open work is:
 | Geometric Q′ | The product-output converse is proved under its stated ACF/rank-five hypotheses; the full original-base auxiliary table over ACF k/K now needs no rank bound. Q′ completeness reduces to guarded Q completeness. [#6 G4](https://github.com/adamtopaz/acl_geom/issues/6). |
 | Geometric J and transfer | The new public reduction derives `JCompletenessACF` from guarded Q completeness alone. Prove that remaining input and complete arbitrary-field descent obligations. [#6 G5](https://github.com/adamtopaz/acl_geom/issues/6), [#7](https://github.com/adamtopaz/acl_geom/issues/7). |
 | Reconstruction and variants | Remove open completeness inputs from reconstruction and finish the endpoint's public variants and functorial consequences. [#8](https://github.com/adamtopaz/acl_geom/issues/8), [#9](https://github.com/adamtopaz/acl_geom/issues/9), [#10](https://github.com/adamtopaz/acl_geom/issues/10). |
-| Remaining source mathematics | Resolve correspondence composition over nonclosed function fields, packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
+| Remaining source mathematics | Complete the geometric fiber-product/function-field correspondence bridge; relational germ composition is associative over arbitrary bases. Packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results remain owed. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
 
 The existing Q/Q′-to-J assembly is an established dependency. On the source's
 group/chunk route, the two-dimensional Q chart and the one-dimensional Q′
@@ -102,8 +102,8 @@ completeness from guarded Q completeness alone. Coherent specialization now
 proves the full original-base auxiliary coordinate table over an ACF base:
 one homomorphism preserves the finite incidence equations and the common
 nonzero multiplier. An auxiliary extension and descent remove the table
-theorem’s ambient rank bound over algebraically closed fields. This bypasses group extraction for both multiplication
-conclusions; the true bypassed group/chunk statements remain obligations.
+theorem’s ambient rank bound over algebraically closed fields. This bypasses
+group extraction for both multiplication conclusions; the true bypassed group/chunk statements remain obligations.
 Audit the needed targets and dependencies before investing in group, chunk or
 action infrastructure. No route is declared sufficient without proofs.
 The frozen 117-item M4a chain is historical, not a list of deliverables. Related
