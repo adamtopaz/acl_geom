@@ -8702,3 +8702,65 @@ and book AFTER this append, then observe exact CI and report on repository
 issues. Address any later peer correction with fresh affected validation.
 The single-family lock, two threads and30GiB available-memory stop remain in
 force; actual compiler exits precede source writes and subsequent builds.
+
+
+## Multiplication coordinates without an auxiliary rank bound (#6)
+
+Starting from35e7fb4f42694d551071e968cbb8a37a2461b831, the new public
+MulDiagram.exists_coordinates proves the entire original-base table over
+ACF k/K with no additional transcendence-degree bound. Its caller supplies
+only an actual diagram and bottom representatives x,y,x/y. One independent
+a gives A=[a], B=[ax], C=[ay], D=[axy], E=[xy]. This strengthens the preceding
+rank-five result to the source lemma's local hypotheses. The previous public
+theorems and reductions are unchanged; guarded Q, unconditional reconstruction
+and all true bypassed group/chunk/action obligations remain open. The shared
+goal records this frontier change without narrowing the endpoint.
+
+Three consumed private helpers construct the ACF of the fraction field of
+K[T1,...,T5], supply its rank bound, and descend the normalized multiplier.
+All original incidence memberships and independence transport to this
+extension. The previous normalization and exchange put the new multiplier
+in acl(original a). A nonzero polynomial with coefficients in the original
+field proves it algebraic over K; since K is ACF, it belongs to K. Ambient
+invariance reflects the original memberships and independence. The actual
+product meets then give the final two points. The private canonical consumer
+uses an actual diagram and proves every row without a rank input.
+
+Private producer and consumer pass default kernel/standard Mathlib lint with
+empty logs (6.00s/min39.99GiB and2.00s/min40.46GiB). Scoped diagnostics pass
+4.00s/min40.06GiB: all46 older declarations retain exact types, attributes,
+docstrings and raw/normalized proofs. The new public dependency row uses only
+propext, choice and quotient soundness; this is not a whole-library dependency
+certificate. The normal Verso module check passes42.01s/min39.28GiB.
+
+Actual-main full lake build passes106.03s/min38.28GiB;
+lake exe book passes10.00s/min39.89GiB; all154 fresh checks pass
+196.05s/min40.13GiB. All150 older fixture inputs stay byte-exact;
+all300 older input/output files and four diagnostic baselines are retained.
+Every older scoped record is exact. The three unfiltered prior table diagnostics
+add precisely the four checked new declarations and one public axiom row;
+their original records are unchanged. The first shared harness stopped on
+that expected additional axiom row; its log is retained. Correcting the
+comparison preserves all old rows and checks all new rows against the private
+baseline, without editing any Lean fixture or mathematical source. Four new fixtures add scoped diagnostics and the actual no-rank
+consumer. Historical diagnostic options are retained, while actual mathematics
+and behaviors use stock kernel/standard Mathlib lint. Hygiene is clean across
+270 library/root files; all711 warning headers and111 HTML paths are retained.
+
+Only the existing source concordance is expanded: all49 active statements,
+every historical statement and44 proof/listing blocks remain exact. The85-page
+PDF has four stable passes; pages1,2,16,17,18,85 were actually viewed and clear.
+The book and PROJECT_GOAL agree with the new public theorem. Evidence lives in
+/tmp/acl_geom_codex_unbounded_table_35e, /tmp/acl_geom_unbounded_shared_probes
+and /tmp/acl_geom_unbounded_tex. Current #6 G4/G5 and #27 checklist descriptions
+were reconciled to the proved multiplication results; open boxes and dated
+audit text were preserved, with stale Current audit headings marked Historical.
+
+Root remains sole editor/compiler and Claude read-only. Chit6086 coordinates
+ownership,6088 requests the checked mathematical review, and6089 supplies the
+exact goal/book/source review. No reply has returned at this append; acceptance
+is not inferred from silence. Previous pending reviews remain pending. After
+this single append, rerun full build and book, commit/push the five-path green
+checkpoint, observe exact CI and report on the repository issues. The next
+central mathematical obligation is still the guarded-Q initial chart. The
+single-family lock, two threads and30GiB available-memory stop remain in force.

@@ -1130,6 +1130,14 @@ then $B=X$, contradicting nondegeneracy.  Exchange gives $A=[\beta]$ and
 independence of $\beta,x,y$; the original-base product meets then give
 $D=[\beta xy]$ and $E=[xy]$.  Thus one coherent specialization proves the
 full table without a supplied group or branch-choice hypothesis.
+The auxiliary ambient rank bound is removed by
+\lean{MulDiagram.exists_coordinates}.  Embed $K$ into the algebraic closure
+of the fraction field of $K[T_1,\ldots,T_5]$ and apply the rank-five result.
+Exchange puts its multiplier in the closure of an original coordinate, hence
+makes it algebraic over $K$.  Since $K$ is algebraically closed, the multiplier
+belongs to $K$; ambient invariance reflects the table and independence.
+Thus the full table holds over algebraically closed $k,K$ without an additional
+transcendence-degree assumption.
 The true bypassed group/chunk results remain obligations.
 The proved reductions
 \lean{q'Sem_of_q'Geom_of_guardedQCompleteness} and

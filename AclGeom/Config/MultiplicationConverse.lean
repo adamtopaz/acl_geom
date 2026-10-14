@@ -11,6 +11,8 @@ import AclGeom.Correspondence.Multiplicative
 import AclGeom.Correspondence.MultiplierDescent
 import AclGeom.Correspondence.PartialQuadrangle
 import AclGeom.Geometry.Representatives
+import Mathlib.RingTheory.Localization.FractionRing
+import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 
 /-!
 # The coordinates of a multiplication diagram
@@ -824,6 +826,135 @@ theorem mulDiagram_coordinates [IsAlgClosed k] [IsAlgClosed K]
     multiplication_incidence_data hmul hX hY hV
   obtain ⟨a, ha, hA, hB, hC⟩ :=
     exists_original_normalized_corners htr haxy hb hx hc hy hv hxb
+  have hd₁' : D.rep ∈ racl k {a * x, y} := by
+    refine racl_le_of_subset_racl (S := {a * x, y}) (T := {B.rep, y}) ?_ hd₁
+    refine Set.insert_subset_iff.mpr ⟨?_, Set.singleton_subset_iff.mpr ?_⟩
+    · exact racl_mono (Set.singleton_subset_iff.mpr (Set.mem_insert _ _)) hB
+    · exact subset_racl k _ (Set.mem_insert_of_mem _ rfl)
+  have hd₂' : D.rep ∈ racl k {x, a * y} := by
+    refine racl_le_of_subset_racl (S := {x, a * y}) (T := {x, C.rep}) ?_ hd₂
+    refine Set.insert_subset_iff.mpr ⟨?_, Set.singleton_subset_iff.mpr ?_⟩
+    · exact subset_racl k _ (Set.mem_insert _ _)
+    · exact racl_mono (Set.subset_insert _ _) hC
+  have hD := mem_racl_product_meet ha hd₁' hd₂'
+  have hE := product_mem_of_normalized_corners ha hA hB hC hd₁ hd₂ he₁ he₂
+  exact ⟨a, ha, point_eq_of_rep_mem hA, point_eq_of_rep_mem hB,
+    point_eq_of_rep_mem hC, point_eq_of_rep_mem hD, point_eq_of_rep_mem hE⟩
+
+/-- Adding five independent variables and taking an algebraic closure supplies
+all fresh elements needed by the multiplication normalization. -/
+private theorem five_le_trdeg_polynomial_algebraicClosure :
+    (5 : Cardinal) ≤
+      Algebra.trdeg k (AlgebraicClosure (FractionRing (MvPolynomial (Fin 5) K))) := by
+  let Ω := AlgebraicClosure (FractionRing (MvPolynomial (Fin 5) K))
+  let φ : MvPolynomial (Fin 5) K →ₐ[K] Ω :=
+    IsScalarTower.toAlgHom K (MvPolynomial (Fin 5) K) Ω
+  have hφ : Function.Injective φ := by
+    change Function.Injective (algebraMap (MvPolynomial (Fin 5) K) Ω)
+    rw [IsScalarTower.algebraMap_eq (MvPolynomial (Fin 5) K)
+      (FractionRing (MvPolynomial (Fin 5) K)) Ω]
+    exact (algebraMap (FractionRing (MvPolynomial (Fin 5) K)) Ω).injective.comp
+      (IsFractionRing.injective (MvPolynomial (Fin 5) K)
+        (FractionRing (MvPolynomial (Fin 5) K)))
+  have hX := (MvPolynomial.algebraicIndependent_X (Fin 5) K).map' hφ
+  have hXk := AlgebraicIndependent.restrictScalars (algebraMap k K).injective hX
+  simpa using hXk.lift_cardinalMk_le_trdeg
+
+/-- An element algebraic over one original coordinate descends from an
+ambient extension when the original field is algebraically closed. -/
+private theorem exists_preimage_of_mem_racl_singleton [IsAlgClosed K]
+    {Ω : Type*} [Field Ω] [Algebra k Ω] [Algebra K Ω] [IsScalarTower k K Ω]
+    {a : K} {z : Ω} (hz : z ∈ racl k {algebraMap K Ω a}) :
+    ∃ b : K, algebraMap K Ω b = z := by
+  let τ : K →ₐ[k] Ω := IsScalarTower.toAlgHom k K Ω
+  obtain ⟨p, hp, hpz, hpc⟩ := mem_racl_iff_exists_poly.mp hz
+  have hle : adjoin k ({algebraMap K Ω a} : Set Ω) ≤ τ.fieldRange := by
+    apply adjoin_le_iff.mpr
+    rintro _ rfl
+    exact ⟨a, rfl⟩
+  have hcoeff : ∀ n, p.coeff n ∈ Set.range (algebraMap K Ω) := fun n ↦ hle (hpc n)
+  obtain ⟨q, hq⟩ := (Polynomial.mem_lifts (f := algebraMap K Ω) p).mp
+    ((Polynomial.lifts_iff_coeff_lifts p).mpr hcoeff)
+  have hq0 : q ≠ 0 := by
+    intro hzero
+    rw [hzero, Polynomial.map_zero] at hq
+    exact hp hq.symm
+  have hza : IsAlgebraic K z := by
+    refine ⟨q, hq0, ?_⟩
+    rw [Polynomial.aeval_def, ← Polynomial.eval_map, hq]
+    exact hpz
+  have heq : algebraicClosure K Ω = ⊥ :=
+    IntermediateField.eq_bot_of_isAlgClosed_of_isAlgebraic _
+  have hm : z ∈ algebraicClosure K Ω := mem_algebraicClosure_iff.mpr hza
+  rw [heq] at hm
+  exact IntermediateField.mem_bot.mp hm
+
+/-- Extend the ambient field to perform normalization, then descend the
+multiplier because it is algebraic over an original coordinate. -/
+private theorem exists_original_normalized_corners_without_trdeg
+    [IsAlgClosed K] [Infinite k] {a b c x y : K}
+    (h : AlgebraicIndependent k ![a, x, y])
+    (hbx : b ∈ racl k {a, x}) (hxb : x ∈ racl k {a, b})
+    (hcy : c ∈ racl k {a, y}) (hyc : y ∈ racl k {a, c})
+    (hv : x / y ∈ racl k {b, c}) (hxb' : x ∉ racl k {b}) :
+    ∃ β : K, AlgebraicIndependent k ![β, x, y] ∧
+      a ∈ racl k {β} ∧ b ∈ racl k {β * x} ∧ c ∈ racl k {β * y} := by
+  let Ω := AlgebraicClosure (FractionRing (MvPolynomial (Fin 5) K))
+  let τ : K →ₐ[k] Ω := IsScalarTower.toAlgHom k K Ω
+  have hmap (u v w : K) : τ ∘ ![u, v, w] = ![τ u, τ v, τ w] := by
+    funext i
+    fin_cases i <;> rfl
+  have hΩ : AlgebraicIndependent k ![τ a, τ x, τ y] := by
+    rw [← hmap]
+    exact h.map' τ.injective
+  have hpair (z u v : K) : τ z ∈ racl k {τ u, τ v} ↔ z ∈ racl k {u, v} := by
+    simpa only [Set.image_insert_eq, Set.image_singleton] using
+      algHom_mem_racl_image_iff τ (x := z) (S := {u, v})
+  have hvΩ : τ x / τ y ∈ racl k {τ b, τ c} := by
+    rw [← map_div₀]
+    exact (hpair _ _ _).mpr hv
+  have hxbΩ : τ x ∉ racl k {τ b} := by
+    rw [algHom_mem_racl_singleton_iff]
+    exact hxb'
+  obtain ⟨βΩ, hβΩ, haΩ, hbΩ, hcΩ⟩ :=
+    exists_original_normalized_corners (k := k) (K := Ω)
+      (five_le_trdeg_polynomial_algebraicClosure (k := k) (K := K)) hΩ
+      ((hpair _ _ _).mpr hbx) ((hpair _ _ _).mpr hxb)
+      ((hpair _ _ _).mpr hcy) ((hpair _ _ _).mpr hyc) hvΩ hxbΩ
+  have haempty : τ a ∉ racl k (∅ : Set Ω) :=
+    notMem_racl_empty_of_transcendental (hΩ.transcendental 0)
+  have hβa : βΩ ∈ racl k {τ a} := by
+    have he := racl_exchange (S := (∅ : Set Ω)) (by simpa using haΩ) haempty
+    simpa using he
+  obtain ⟨β, hβ⟩ := exists_preimage_of_mem_racl_singleton (k := k) (K := K) hβa
+  change τ β = βΩ at hβ
+  rw [← hβ] at hβΩ haΩ hbΩ hcΩ
+  refine ⟨β, ?_, (algHom_mem_racl_singleton_iff τ).mp haΩ, ?_, ?_⟩
+  · apply AlgebraicIndependent.of_comp τ
+    rw [hmap]
+    exact hβΩ
+  · rw [← map_mul] at hbΩ
+    exact (algHom_mem_racl_singleton_iff τ).mp hbΩ
+  · rw [← map_mul] at hcΩ
+    exact (algHom_mem_racl_singleton_iff τ).mp hcΩ
+
+/-- Every actual multiplication diagram over algebraically closed fields
+has the complete original-base coordinate table. No ambient transcendence-degree
+bound is needed: an auxiliary extension supplies fresh parameters, and its
+normalized multiplier descends to the original algebraically closed field. -/
+theorem MulDiagram.exists_coordinates [IsAlgClosed k] [IsAlgClosed K]
+    {X Y V E A B C D : Point k K} {x y : K}
+    (hmul : MulDiagram X Y V E A B C D)
+    (hX : X.1 = ClosedIF.point k x) (hY : Y.1 = ClosedIF.point k y)
+    (hV : V.1 = ClosedIF.point k (x / y)) :
+    ∃ a : K, AlgebraicIndependent k ![a, x, y] ∧
+      A.1 = ClosedIF.point k a ∧ B.1 = ClosedIF.point k (a * x) ∧
+      C.1 = ClosedIF.point k (a * y) ∧ D.1 = ClosedIF.point k (a * x * y) ∧
+      E.1 = ClosedIF.point k (x * y) := by
+  obtain ⟨haxy, hb, hx, hc, hy, hv, hd₁, hd₂, he₁, he₂, hxb⟩ :=
+    multiplication_incidence_data hmul hX hY hV
+  obtain ⟨a, ha, hA, hB, hC⟩ :=
+    exists_original_normalized_corners_without_trdeg haxy hb hx hc hy hv hxb
   have hd₁' : D.rep ∈ racl k {a * x, y} := by
     refine racl_le_of_subset_racl (S := {a * x, y}) (T := {B.rep, y}) ?_ hd₁
     refine Set.insert_subset_iff.mpr ⟨?_, Set.singleton_subset_iff.mpr ?_⟩
