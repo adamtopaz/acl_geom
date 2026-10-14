@@ -8,6 +8,7 @@ import GroupConfig
 import AclGeom.Config.CanonicalBaseInput
 import AclGeom.Config.ConfigurationInput
 import AclGeom.Config.UniversalConfigurationInput
+import AclGeom.Config.UniversalImageConfigurationInput
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -325,8 +326,9 @@ hypotheses supplied by the caller.
 
 These are the three GC4 clauses for the proposed actual six-point input.
 The theorem statements retain ambient algebraic closedness and a universal
-domain; the original base field may be arbitrary. The complete sixteen-triple input is assembled below. The canonical universal-ambient package is constructed below. Literal comparison
-with image tuples and finite-ambient chart/action descent remain open. These
+domain; the original base field may be arbitrary. The complete sixteen-triple
+input and its canonical universal ambient are constructed below, including the
+literal image tuples. Finite-ambient chart/action descent remains open. These
 identifications do not extract the guarded chart, a group or its action.
 
 # Representatives, graph ideals and germ automorphisms
@@ -703,7 +705,7 @@ result through the proved projection.
 Only the actual witness is supplied. Ambient algebraic closedness and a
 universal domain are explicit; the original base may be arbitrary. The
 canonical ambient package below proves those ambient hypotheses internally.
-Literal image-tuple comparison and finite-ambient chart/action descent remain open. The
+Literal image-tuple comparison is proved below; finite-ambient chart/action descent remains open. The
 initial chart still needs both output guards. Group extraction, algebraization,
 action classification and unconditional reconstruction remain separate targets.
 
@@ -723,20 +725,33 @@ algebraic base, proving the universal-domain hypothesis there.
 
 {docstring AclGeom.configurationBase}
 
-The existing geometric lift transfers every clause of the actual
-$`\Psi` witness, including atom-freeness. Applying the complete input theorem
-then gives the six-point configuration, with group rank two and space rank one.
-The caller supplies only the original witness. Original ambient algebraic
+The geometric lift transfers the point record. The core lifting lemma needs
+only clauses (i)–(iv), including atom-freeness. Applying the complete input theorem
+gives the six-point configuration, with group rank two and space rank one.
+The caller supplies the actual core witness. Original ambient algebraic
 closedness and a universal-domain hypothesis are unnecessary for this lift.
 
 {docstring AclGeom.QWitness.universalLift}
 
-{docstring AclGeom.QWitness.Psi.groupConfiguration_universalLift}
+{docstring AclGeom.configurationEmbedding}
+
+{docstring AclGeom.QWitness.PsiCore.lift}
+
+{docstring AclGeom.QWitness.PsiCore.groupConfiguration_universalLift}
+
+The same configuration is obtained on the literal images of the original
+displayed six tuples under this embedding. The lifted point and the literal
+image of its representative have equal relatively algebraic closures, so
+configuration invariance and rank invariance transport the result. This needs
+only clauses (i)–(iv). The existing full-Ψ theorem retains its original statement
+and applies the proved core projection.
+
+{docstring AclGeom.QWitness.PsiCore.groupConfiguration_universalImages}
 
 The configuration lives in the chosen extension over its algebraic base.
-Literal comparison with image tuples and finite-ambient chart/action descent
-remain open. This construction supplies the input for group extraction; it
-produces no original-field semantic representatives, group, action or guarded
+Finite-ambient chart/action descent remains open. This construction supplies
+the input for group extraction; it produces no original-field semantic representatives,
+group, action or guarded
 initial chart. Algebraization, action classification and unconditional
 reconstruction remain separate targets.
 

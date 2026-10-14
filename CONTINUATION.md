@@ -9751,6 +9751,31 @@ checked under default project options and standard linters in the prior
 32-module check. The integration preserves every declaration and proof, with
 only the `HW` status text clarifying pending homogeneous-space and extraction
 layers. The source TeX, frozen M4a chain and original reconstruction inputs
-are unchanged. Full library/book gates after all edits are required before
-committing this slice. The peer's `AdmissibleWords` scratch family owns the
-compiler until its actual terminal release.
+are unchanged. Full library/book gates passed after all edits (19,079 jobs in
+67.76 seconds, then book in 12.63 seconds), with twenty scoped standard-axiom
+checks and rendered hypotheses inspected. The checkpoint is `db74468`.
+The peer's `AdmissibleWords` family released the compiler in chit6588; compiler
+ownership must always be refreshed through current chit messages.
+
+## Core lift and literal image tuples (2026-10-14, #27)
+
+`QWitness.PsiCore.lift` now transports precisely the twelve clauses (i)–(iv),
+including the universal atom-freeness clauses through the proved one-quantifier
+lift. The existing full-Ψ lift is unchanged. In the canonical universal ambient,
+the new core theorem supplies the configuration and ranks; the existing full-Ψ
+universal theorem keeps its original statement and applies `Psi.toCore`.
+
+The public `configurationEmbedding k K` is used by both the witness lift and
+the literal-image theorem. The latter uses the original displayed six tuples
+composed with that actual embedding. Single lifted-point closures agree with
+the closures of their literal images; pair closures follow by unions.
+`GroupConfiguration.ofRaclEq` and rank invariance then supply the literal input
+with group rank two and space rank one. The original fields may be arbitrary.
+
+The shared goal removes only the proved literal-comparison obligation and
+records the already committed germ layers. Arbitrary-extension base change
+remains explicit: the current represented-locus APIs need independence of the
+chosen representing tuples, and a fresh-locus transport package is pending.
+The chosen universal extension is still the output field. Original-field
+chart/action descent, group algebraization, action classification and the
+unconditional reconstruction endpoint are unchanged and open.

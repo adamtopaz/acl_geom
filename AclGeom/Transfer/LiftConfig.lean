@@ -14,7 +14,8 @@ the lift of points `liftPoint` of `AclGeom.Transfer.Lift`, over a base `K₀` of
 over `k`.
 
 * **Lift** (`K/k → Ω/K₀`; preserved from the independently checked point-descent draft):
-  `IsPartialQuadrangle.lift`, `QWitness.lift`, `QWitness.Psi.lift`, `QGeom.lift`,
+  `IsPartialQuadrangle.lift`, `QWitness.lift`, `QWitness.PsiCore.lift`,
+  `QWitness.Psi.lift`, `QGeom.lift`,
   `MulDiagram.lift`, `Q'Geom.lift`.
 * **Reflection** (`Ω/K₀ → K/k`, for configurations of lifted points): `IsPartialQuadrangle.of_lift`,
   `MulDiagram.of_lift`, `QWitness.Psi.of_lift` (with explicitly lifted clause-(vi) witnesses) and
@@ -131,6 +132,34 @@ theorem free_lift [IsAlgClosed Ω] {P₁ P₂ X Y : Point k K}
     (Set.toFinite {P₁.rep, P₂.rep}) (coe_sup_point_val P₁ P₂)
     ⟨A'', hA'', hcap⟩
   exact h A' h1 h2
+
+/-- The twelve clauses (i)–(iv) lift, including their actual universal atom clauses. -/
+theorem PsiCore.lift [IsAlgClosed Ω] {w : QWitness k K} (h : w.PsiCore) :
+    (w.lift halg ι).PsiCore := by
+  have hsup := fun E F ↦ (liftClosed_sup halg ι E F).symm
+  have hinf := fun E F ↦ (liftClosed_inf halg ι E F).symm
+  have hle := fun E F ↦ liftClosed_le_liftClosed_iff halg ι (E := E) (F := F)
+  have hrk := fun n E ↦ rankEq_liftClosed_iff halg ι (n := n) (E := E)
+  have hA := w.lift_A halg ι
+  have hB := w.lift_B halg ι
+  have hC := w.lift_C halg ι
+  refine
+    { rank_ABC := ?_, rank_AB := ?_, rank_BC := ?_, rank_AC := ?_
+      X_le := ?_, Z_le := ?_, X_notLe := ?_, Y_notLe := ?_, Z_notLe := ?_
+      X_free := ?_, Z_freeB := ?_, Z_freeC := ?_ } <;>
+    (try simp only [hA, hB, hC]) <;> (try dsimp only [QWitness.lift, liftPoint_val])
+  · rw [hsup, hsup, hrk]; exact h.rank_ABC
+  · rw [hsup, hrk]; exact h.rank_AB
+  · rw [hsup, hrk]; exact h.rank_BC
+  · rw [hsup, hrk]; exact h.rank_AC
+  · rw [hsup, hle]; exact h.X_le
+  · rw [hsup, hsup, hinf, hle]; exact h.Z_le
+  · rw [hsup, hsup, hle]; exact h.X_notLe
+  · rw [hsup, hsup, hle]; exact h.Y_notLe
+  · rw [hsup, hsup, hle]; exact h.Z_notLe
+  · exact free_lift halg ι h.X_free
+  · exact free_lift halg ι h.Z_freeB
+  · exact free_lift halg ι h.Z_freeC
 
 /-- **Lift of `Ψ`** (blueprint Theorem `j-descent`, `(4) ⇒ (3)` for `Q`):
 rank, join, meet and incidence clauses are absolute; the atom clauses

@@ -167,6 +167,9 @@ certify every auxiliary statement in the corresponding source sections.
 - the universal-domain, rank, automorphism, locus and dimension foundations;
 - fields of definition and canonical bases;
 - codes, quasi-rational expressions and germ varieties;
+- germ representatives, graph ideals, automorphisms, evaluation and composition;
+- independent generic conjugacy, definable values and triple germs;
+- the generated group under the explicit Hrushovski–Weil orbit hypotheses;
 - the configuration predicate and its invariance;
 - constructible sets, with Chevalley's theorem and generic quantification;
 - the clause-(i)–(iv) form of `prop:psi-gc`.
@@ -179,19 +182,23 @@ A canonical universal ACF lift
 ([AclGeom/Config/UniversalConfigurationInput.lean](AclGeom/Config/UniversalConfigurationInput.lean))
 applies to a Ψ witness over arbitrary original fields. It produces the
 configuration in its chosen universal extension, not in the original $K$.
+The core clauses also lift, and the configuration is proved on the literal
+images of the original six displayed tuples under the canonical embedding
+([AclGeom/Config/UniversalImageConfigurationInput.lean](AclGeom/Config/UniversalImageConfigurationInput.lean)).
 
-Checked scratch drafts exist for germs, Hrushovski–Weil, bijections, the
-definability step, and Steps I and II. They are pending project review and
-integration.
+Checked scratch drafts exist for the remaining Hrushovski–Weil and bijection
+layers, the definability step, Steps I–III and the precise main theorem. They
+are pending integration. This does not certify all source statements in those
+sections or the informal statement's constructibility clause.
 
 Open:
 
 - Step III and `thm:main`;
-- the homogeneous-space clause of `lem:hw-basechange`;
+- the full `lem:hw-basechange`, including its homogeneous-space clause and
+  arbitrary-extension generality;
 - the constructible group;
 - descent;
 - `cor:psi`;
-- comparing the lifted tuples literally with the original ones;
 - descending the chart and action to the original fields.
 
 The proved Q′ route bypasses group extraction, but the group configuration
