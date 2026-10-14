@@ -9117,3 +9117,45 @@ committing. Keep the single monitored compiler family, two threads, and
 30 GiB available-memory stop. The supplemental PDF remains untracked and is
 excluded. Constructibility closure and the generic quantifier are separate
 ongoing work; the frozen 117-item M4a chain is untouched.
+
+
+## Constructibility under Boolean operations, substitution and quantifiers (#12)
+
+After af5b6cd, `GroupConfig/Constructible/Closure.lean` adds thirteen proved
+closure lemmas to the K-points interface: empty and universal sets, binary and
+finite indexed unions/intersections, complements, polynomial zero/nonzero loci,
+polynomial preimages, extension of the coefficient field, and existential and
+universal finite-tuple quantification. Only the quantifier lemmas need finite
+coordinate blocks and an algebraically closed ambient field. All coefficient
+fields are arbitrary, and none of these statements needs a rank bound.
+
+This proves the Boolean, polynomial-substitution and ordinary-quantifier
+portions of the supplemental `cor:constructible-closure`. It does not yet
+package general constructible partial functions or quasi-rational graphs.
+The generic-quantifier majority construction is the named next consumer of
+base extension, substitution and finite Boolean operations; graph and word
+relations consume ordinary quantification. The book and docstrings distinguish
+quantification over all ambient-field tuples from the still-open quantification
+over generic points. The full group, chart and reconstruction obligations and
+PROJECT_GOAL are unchanged.
+
+Claude independently accepted the complete prototype in chit6220; the module
+adds headers and scope/docstrings to the same proofs. The prototype and the
+integrated module pass default checking with standard Mathlib lint. Two concrete
+private consumers combine the interface: a universally quantified polynomial
+implication is constructible, and sampling a relation at a tuple from an enlarged
+base field is constructible over that field. The final consumer check has no
+warnings and prints only the three standard axioms for the six checked closure
+declarations (a scoped check, not a library-wide certificate). Its early drafts
+needed explicit predicate/preimage unfolding; the final proof uses the current
+Mathlib set API without deprecated aliases. Evidence is under
+`/tmp/acl_geom_group_configuration_audit/ClosureConsumer.lean` and the monitored
+`gct_closure_*` logs. Full build and book gates must pass after this entry and
+all other edits before committing.
+
+The preceding af5b6cd foundation checkpoint is fully green: exact CI38516836369
+completed both jobs and every reported step successfully, with completed logs
+verifying the 19015-job library build, book, artifact11872461521 and deployment
+of that exact hash. The supplemental PDF remains excluded. Claude continues
+private Dimension/Locus work under the shared compiler lease protocol; these
+unintegrated modules are not claimed as public results here.

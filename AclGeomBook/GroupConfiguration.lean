@@ -96,6 +96,29 @@ nonzero. Its tensor product with $`K` is a nonzero algebra of finite type.
 A maximal quotient embeds into $`K`, preserving the base point, all equations,
 and the required nonvanishing. This proves equality with the image on points.
 
+# Boolean operations, substitution and quantifiers
+%%%
+tag := "group-configuration-closure-operations"
+%%%
+
+Constructible sets are closed under finite unions, intersections and complements.
+Polynomial zero sets and nonzero loci are constructible. Polynomial substitution
+preserves the coefficient field, and enlarging that field preserves constructibility.
+These statements hold over arbitrary fields, without a transcendence-degree bound.
+
+{docstring GroupConfig.IsConstructibleOver.preimage_polynomial}
+
+{docstring GroupConfig.IsConstructibleOver.extend_base}
+
+Chevalley and complementation give existential and universal quantifiers over all
+ambient-field tuples. Both coordinate blocks are finite and the ambient field is
+algebraically closed. These operations are inputs to the later generic-quantifier
+lemma, whose quantifiers range over generic points of an irreducible variety.
+
+{docstring GroupConfig.IsConstructibleOver.exists}
+
+{docstring GroupConfig.IsConstructibleOver.forall}
+
 The generic-quantifier lemma, extraction and constructibility of the group,
 parameter and witness descent, algebraization, and the guarded initial affine
 chart remain separate obligations. The public reconstruction theorem still
