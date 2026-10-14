@@ -376,14 +376,78 @@ or injectivity. That separate representation remains to be integrated.
 
 Automorphisms genuinely transport representatives, graph ideals and canonical
 bases. They fix a germ exactly when they fix its canonical base pointwise.
-Evaluation, composition, the Hrushovski–Weil group and extraction from an actual
-configuration remain subsequent integration layers.
+Evaluation and composition are developed next. The Hrushovski–Weil group and
+extraction from an actual configuration remain subsequent integration layers.
 
 {docstring GroupConfig.Germ.map}
 
 {docstring GroupConfig.Germ.cb_map}
 
 {docstring GroupConfig.Germ.map_eq_self_iff}
+
+# Generic evaluation, composition and independent conjugacy
+%%%
+tag := "group-configuration-germ-evaluation"
+%%%
+
+A germ's value at a generic source point is the unique target coordinate making
+a generic point of its graph. A fresh representative proves existence; graph
+genericity proves uniqueness. The coefficient field is small and algebraically
+closed and contains the canonical base. Evaluation is independent of enlarging
+that field and commutes with ambient automorphisms. Equality of values at one
+jointly generic source point determines the germ.
+
+{docstring GroupConfig.Germ.eval}
+
+{docstring GroupConfig.Germ.exists_rep}
+
+{docstring GroupConfig.Germ.eval_eq_of_le}
+
+{docstring GroupConfig.Germ.eq_of_eval_eq}
+
+Representatives compose over a common field. This descends to germs, and
+evaluation there respects composition. Identities and associativity give a
+monoid of self-germs; its units are exactly the germs with two-sided inverses.
+Inverse germs are unique, have interalgebraic canonical bases, and preserve
+dimension. Definable evaluation, literal equality of inverse canonical bases,
+and composition at points only individually in the relevant domains await
+later integration layers.
+
+{docstring GroupConfig.Germ.comp}
+
+{docstring GroupConfig.Germ.comp_eval}
+
+{docstring GroupConfig.Germ.comp_assoc}
+
+{docstring GroupConfig.Germ.IsInverse.unique}
+
+{docstring GroupConfig.Germ.IsInverse.racl_cb_eq}
+
+{docstring GroupConfig.Germ.IsInverse.erk_eq}
+
+An orbit of germs has independent members over every small set, unique up to
+conjugacy over that set's closure. Their values at independent generic source
+points are generic and independent from their canonical bases. The chosen finite
+carriers still serve only to generate those bases; canonical indexed orbit
+codes are a later layer.
+
+{docstring GroupConfig.Germ.orbit}
+
+{docstring GroupConfig.Germ.exists_mem_orbit_indepOver}
+
+{docstring GroupConfig.Germ.exists_algEquiv_of_mem_orbit}
+
+{docstring GroupConfig.Germ.evalGen}
+
+The independent-conjugacy lemma also holds for arbitrary finite families of
+represented loci, including varying coordinate types. Additivity of joint rank
+gives independence block by block. Inductively, a conjugation matching the next
+block fixes every block already matched. The second statement works over any
+small algebraically closed coefficient field.
+
+{docstring GroupConfig.exists_algEquiv_of_erk_iUnion_eq}
+
+{docstring GroupConfig.exists_algEquiv_of_erk_iUnion_eq_of_isGenericOver}
 
 # Finite tuple codes
 %%%

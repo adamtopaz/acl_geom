@@ -21,3 +21,10 @@ import GroupConfig.Germ.Basic
 import GroupConfig.Germ.Graph
 import GroupConfig.Germ.Code
 import GroupConfig.Germ.Action
+import GroupConfig.Germ.Eval
+import GroupConfig.Germ.Composition
+import GroupConfig.Germ.Category
+import GroupConfig.Germ.Inverse
+import GroupConfig.Germ.Group
+import GroupConfig.Germ.GenericSet
+import GroupConfig.IndepConj

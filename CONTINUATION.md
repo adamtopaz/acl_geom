@@ -9698,3 +9698,32 @@ the actual constructible quotient remain later integration slices. Mathematical
 and independent standard-lint review passed for all four producer copies;
 source comparisons verify all original code and the unchanged moved theorem.
 The source TeX, frozen M4a chain and original reconstruction inputs are unchanged.
+
+## Generic germ evaluation and composition (2026-10-14, #12)
+
+The next six germ modules (`Eval` through `GenericSet`) and `IndepConj` supply
+generic graph evaluation, composition, identities, associativity, inverse
+uniqueness, the monoid of self-germs and its units, independent orbit members
+and conjugacy. `lem:indep-conj` is proved for arbitrary finite families of
+represented loci with varying coordinate types, also over a small algebraically
+closed coefficient field. Finite-rank subfamily lemmas have this named consumer.
+The duplicate equivalent-extension theorem is removed from `Eval`, since the
+same declaration is already in `Basic`. The moved `IsGen.map` theorem now lives
+beside `IsGen` in `GenericSet`, so later consumers need no duplicate.
+
+The generic evaluation/composition statements explicitly use a common small
+algebraically closed field containing the relevant canonical bases. Definable
+evaluation, individually defined composition, the literal inverse-base equality,
+canonical indexed orbit codes and the group-theorem chain remain later slices.
+The source TeX and original reconstruction inputs are unchanged.
+
+All 32 pinned higher integration copies (including the later admissible and
+invertible-admissible candidates) passed an independent default-option,
+standard-lint check in 59.31 seconds under the 20 GB family cap, with empty
+diagnostics. This is Lean checking of those copies, not a blanket mathematical
+or source-coverage claim for all 32. Only the seven modules above are integrated
+in this checkpoint. The prior four-module checkpoint is `0bd0c7f`; its exact
+CI, artifact and existing deployment passed. A source audit also distinguishes
+the represented-locus base-change API, which assumes representative tuples
+independent of the new field, from the arbitrary-extension source formulation.
+That generality must still be packaged; no source refutation is claimed.
