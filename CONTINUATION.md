@@ -9013,3 +9013,55 @@ unchanged; this blueprint supplies a proposed proof route for the "missing group
 extraction" that the reconstruction blueprint's §8.2/8.3 route needs, not a
 replacement of it, and its Lean formalization remains open (#12 is not
 discharged by this source checkpoint).
+
+## K-points Chevalley starts the GroupConfig library (#12)
+
+From c082e7ecfb41cb900dc41f109ec9d28f1d1566ac, the dedicated `GroupConfig`
+Lean library begins with `Constructible/Basic.lean`. Its three public
+declarations are `IsConstructibleOver`,
+`isConstructibleOver_iff_exists_polynomial_data`, and
+`IsConstructibleOver.image_projection`. The definition pulls back Mathlib
+constructible subsets of the polynomial prime spectrum to field-valued points;
+the equivalence identifies it with finite unions of cells defined by finitely
+many polynomial equations and one inequation over the base. The projection
+theorem proves the supplemental blueprint's Section 9 K-points Chevalley
+statement. Both coordinate blocks are finite; the base field is arbitrary,
+the ambient field is algebraically closed, and no transcendence-degree
+hypothesis is imposed. The definition and polynomial-data equivalence do not
+require finite coordinate types or algebraic closedness.
+
+The point-lifting argument is proved internally. A finite-type domain and an
+embedding of its base into the algebraically closed ambient field give a
+nonzero tensor algebra. A maximal quotient is finite over the ambient field
+and embeds into it. Quotienting a common kernel and localizing a prime
+quotient at the chosen nonvanishing produce a point over the specified base
+point, preserving the cell's equations and inequation. Mathlib's spectral
+Chevalley theorem then proves the desired equality with the actual projection
+on field-valued points. Five private helpers have this named consumer; no
+axiom, checking-limit change, custom instance or global simp attribute is added.
+
+The new library is a default Lake target with the same standard Mathlib lint
+setting as AclGeom. The new book chapter records only these proved results.
+The generic quantifier, remaining closure/substitution interface, group
+configuration, group constructibility, descent, algebraization, guarded-Q
+chart and unconditional reconstruction remain open. PROJECT_GOAL is unchanged.
+
+Before integration, the producer passed default checking and standard Mathlib
+lint with an empty log (2.00s, minimum available 42.33 GiB). The actual-library
+hyperbola consumer constructs the polynomial cell xy=1 and proves that its
+projection is the nonzero locus; it passes without warnings (2.00s, minimum
+42.31 GiB). Dependency prints for exactly the three public declarations report
+only propext, Classical.choice and Quot.sound. This is a scoped check, not a
+whole-library axiom certificate. The prior AclGeom fixtures and mathematical
+modules are unchanged; no unchanged fixture corpus is claimed as rerun.
+
+Ownership/interface agreement is chit6182–6184: Codex owns Constructible/*,
+lakefile/root for this checkpoint and the compiler; Claude develops rank,
+loci, fields of definition, germs and Hrushovski–Weil privately, asking before
+any Lean invocation. Source checkpoint c082e7e and exact CI38512341939 are
+fully verified; see #12 comment6161140720. Claude independently accepted the producer at its exact hash in
+chit6193; documentation ownership is confirmed in chit6191. Evidence and consumer are under
+/tmp/acl_geom_group_configuration_audit; full build/book must pass after this
+entry and every other edit, before the checkpoint commit/push. Keep one
+monitored family, two threads and the 30 GiB available-memory stop. The
+untracked supplemental PDF stays excluded from the commit.

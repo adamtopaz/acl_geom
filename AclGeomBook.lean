@@ -4,6 +4,7 @@ import AclGeom
 import AclGeomBook.Foundations
 import AclGeomBook.Perfection
 import AclGeomBook.HardKernel
+import AclGeomBook.GroupConfiguration
 import AclGeomBook.Configurations
 import AclGeomBook.Transfer
 import AclGeomBook.Curves
@@ -116,6 +117,8 @@ elaborated against the actual development.
 {include 0 AclGeomBook.Perfection}
 
 {include 0 AclGeomBook.HardKernel}
+
+{include 0 AclGeomBook.GroupConfiguration}
 
 {include 0 AclGeomBook.Configurations}
 

@@ -1,7 +1,7 @@
 name = "acl_geom"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["AclGeom", "AclGeomBook", "book"]
+defaultTargets = ["AclGeom", "GroupConfig", "AclGeomBook", "book"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -22,6 +22,13 @@ rev = "v4.34.0"
 # Verso document (where e.g. `#doc` commands are idiomatic).
 [[lean_lib]]
 name = "AclGeom"
+
+[lean_lib.leanOptions]
+weak.linter.mathlibStandardSet = true
+
+# The group-configuration development and its constructibility foundation.
+[[lean_lib]]
+name = "GroupConfig"
 
 [lean_lib.leanOptions]
 weak.linter.mathlibStandardSet = true
