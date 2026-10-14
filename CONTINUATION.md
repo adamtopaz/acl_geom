@@ -9285,3 +9285,45 @@ Full build and book must pass after all edits before committing. Keep the
 single monitored compiler family, two threads and30GiB available-memory stop.
 The supplemental PDF remains untracked/excluded. Claude is developing the
 ideal-filtration sequel privately and has requested the next compiler lease.
+
+
+## Generic quantification and proper polynomial zero sets (#12)
+
+After bd92603, `GroupConfig/Constructible/Generic.lean` supplies the represented-
+locus forms of supplemental `lem:gen-constructible` and `lem:genquant`.
+Constructible sets are invariant under automorphisms of their coefficient field;
+generic-point conjugacy gives constant membership in any invariant set. A
+constructible subset of a represented locus with no generic point over the
+algebraic closure of its coefficient field lies in a proper polynomial zero set
+over that field. For this last clause, construct a generic point, choose one
+nonvanishing equation from each relevant polynomial cell, and multiply them.
+Cells without such an equation are empty on the locus by specialization.
+
+The generic quantifier is proved outright from the source's sampling hypotheses:
+each sample is generic over M, and the joint rank equals the sum of the sample
+ranks. Adjoining N parameter coordinates lowers rank on at most N samples. With
+at least2N+1 samples, truth at every generic point over acl(M,x), truth at some
+such point, and truth at at least N+1 samples are equivalent. The majority locus
+is constructible over M together with all sample coordinates. The rank-count
+cancellation uses a finite sum of finite ranks; no infinite-rank cancellation is
+used. Genericity after parameter extension follows from the committed locus
+independence converse, not from an assumed genericity conclusion.
+
+The coefficient field M is only small, not algebraically closed. Algebraically
+closed base/ambient fields and the universal-domain hypothesis are explicit.
+The theorem permits dimension zero as well. Loci are represented by finite tuples;
+arbitrary-prime realization remains open, as do germ/group constructibility and
+the reconstruction frontier. The book and Basic/Closure module overviews are updated in
+the same change; PROJECT_GOAL, both TeX sources and AclGeom remain unchanged.
+
+The complete374-line producer is frozen at SHA5c416fcf in
+`/tmp/acl_geom_group_configuration_audit/Generic.lean`. It passes default limits
+and explicit standard Mathlib lint with an empty log: exit0,2.00s,min42.38GiB.
+The three prerequisite proofs received peer acceptance in chit6237. Claude then
+independently read the complete frozen module against both source lemmas and
+accepted it without corrections in chit6257. Seven scoped axiom reports for the
+public results contain only propext, Classical.choice and Quot.sound; this is
+not a library-wide audit. Full library/book gates must pass after all edits
+before the checkpoint.
+All validation uses the single monitored compiler family, two threads and the
+30GiB available-memory stop. The untracked supplemental PDF stays excluded.

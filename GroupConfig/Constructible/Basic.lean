@@ -23,8 +23,9 @@ The passage from spectral points to actual field-valued points is proved:
 localize a prime quotient at the required nonvanishing, tensor with the ambient
 field, and specialize a maximal quotient. Tensor nontriviality preserves the
 specified base point. These results supply the constructibility foundation of
-Section 9 of `sources/group_configuration_blueprint.tex`; the generic quantifier
-and constructibility of the extracted group are subsequent obligations.
+Section 9 of `sources/group_configuration_blueprint.tex`. The generic quantifier
+is developed in `GroupConfig.Constructible.Generic`; constructibility of the
+extracted group remains a subsequent obligation.
 -/
 
 open scoped TensorProduct
