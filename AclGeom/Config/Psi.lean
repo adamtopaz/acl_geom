@@ -19,6 +19,8 @@ Evans–Hrushovski configuration (blueprint §geometric definition of Q):
   clauses, the incidences of `X, Z`, the genericity of `X, Y, Z` over
   `A ∨ B ∨ C`, the universal atom clauses, the dependent triple `(S, T, U)`
   inside `A, B, C`, the partial quadrangle, and the seven meet equations;
+* `QWitness.PsiCore`: precisely clauses (i)–(iv), the input of the supporting
+  group-configuration proposition; `Psi.toCore` retains these clauses;
 * `QGeom P D Y I`: the geometric relation — some witness satisfying `Ψ`
   has `(P, D, Y, I)` as its four free outputs.
 
@@ -96,6 +98,34 @@ def B : ClosedIF k K := w.B₁.1 ⊔ w.B₂.1
 /-- The rank-two element `C = C₁ ∨ C₂`. -/
 def C : ClosedIF k K := w.C₁.1 ⊔ w.C₂.1
 
+/-- Exactly clauses (i)–(iv) of Ψ. Named consumer: the six-point group
+configuration proposition in the supporting blueprint (`prop:psi-gc`). -/
+structure PsiCore : Prop where
+  /-- Clause (i): the total join has rank four. -/
+  rank_ABC : RankEq 4 (w.A ⊔ w.B ⊔ w.C)
+  /-- Clause (i): `A ∨ B` has rank four. -/
+  rank_AB : RankEq 4 (w.A ⊔ w.B)
+  /-- Clause (i): `B ∨ C` has rank four. -/
+  rank_BC : RankEq 4 (w.B ⊔ w.C)
+  /-- Clause (i): `A ∨ C` has rank four. -/
+  rank_AC : RankEq 4 (w.A ⊔ w.C)
+  /-- Clause (ii): `X ≤ A ∨ Y`. -/
+  X_le : w.X.1 ≤ w.A ⊔ w.Y.1
+  /-- Clause (ii): `Z ≤ (B ∨ Y) ∧ (C ∨ X)`. -/
+  Z_le : w.Z.1 ≤ (w.B ⊔ w.Y.1) ⊓ (w.C ⊔ w.X.1)
+  /-- Clause (iii): `X` lies outside the parameter join. -/
+  X_notLe : ¬ w.X.1 ≤ w.A ⊔ w.B ⊔ w.C
+  /-- Clause (iii): `Y` lies outside the parameter join. -/
+  Y_notLe : ¬ w.Y.1 ≤ w.A ⊔ w.B ⊔ w.C
+  /-- Clause (iii): `Z` lies outside the parameter join. -/
+  Z_notLe : ¬ w.Z.1 ≤ w.A ⊔ w.B ⊔ w.C
+  /-- Clause (iv): no atom of `A` captures `X` over `Y`. -/
+  X_free : ∀ A' : Point k K, A'.1 ≤ w.A → ¬ w.X.1 ≤ A'.1 ⊔ w.Y.1
+  /-- Clause (iv): no atom of `B` captures `Z` over `Y`. -/
+  Z_freeB : ∀ B' : Point k K, B'.1 ≤ w.B → ¬ w.Z.1 ≤ B'.1 ⊔ w.Y.1
+  /-- Clause (iv): no atom of `C` captures `Z` over `X`. -/
+  Z_freeC : ∀ C' : Point k K, C'.1 ≤ w.C → ¬ w.Z.1 ≤ C'.1 ⊔ w.X.1
+
 /-- The conjunction Ψ of the seven clauses of the `Q`-configuration
 (blueprint §geometric definition of Q). -/
 structure Psi : Prop where
@@ -151,6 +181,21 @@ structure Psi : Prop where
   meet_H : (w.U.1 ⊔ w.G.1) ⊓ w.A = w.H.1
   /-- Clause (vii): `(F ∨ Z) ∧ C = R`. -/
   meet_R : (w.F.1 ⊔ w.Z.1) ⊓ w.C = w.R.1
+
+/-- Retain precisely the four clauses needed by `prop:psi-gc`. -/
+theorem Psi.toCore (hw : w.Psi) : w.PsiCore where
+  rank_ABC := hw.rank_ABC
+  rank_AB := hw.rank_AB
+  rank_BC := hw.rank_BC
+  rank_AC := hw.rank_AC
+  X_le := hw.X_le
+  Z_le := hw.Z_le
+  X_notLe := hw.X_notLe
+  Y_notLe := hw.Y_notLe
+  Z_notLe := hw.Z_notLe
+  X_free := hw.X_free
+  Z_freeB := hw.Z_freeB
+  Z_freeC := hw.Z_freeC
 
 end QWitness
 

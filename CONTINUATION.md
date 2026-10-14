@@ -9649,3 +9649,27 @@ progress evidence, not committed source coverage; see
 [#27](https://github.com/adamtopaz/acl_geom/issues/27#issuecomment-6173558980).
 The durable goal remains incomplete, and the untracked supplemental PDF stays
 excluded from commits.
+
+## Exact Ψ source input (2026-10-14, #27)
+
+The six-point proposition now takes `QWitness.PsiCore`, exactly the twelve
+predicates in clauses (i)–(iv). It derives all configuration clauses with group
+rank two and space rank one. The partial quadrangle and meets in clauses
+(v)–(vii) are unused. Ambient algebraic closedness and a universal domain remain
+explicit; the base field may be arbitrary. The source's ACF-base case follows.
+
+The three parameter-rank proofs, three canonical-base identifications and two
+configuration/rank proofs move unchanged to the core input. The full witness
+record and all eight existing full-Ψ public statements are preserved, using the
+proved `Psi.toCore` projection. This keeps the universal-ambient and correctness
+consumers intact. An automated source comparison verifies the record, original
+statements and verbatim proof bodies. Claude independently reviewed the four
+diffs; the final independent standard-lint check of all four modules passed
+under default project options and the 20 GB cap.
+
+This discharges the weaker source formulation of supplemental `prop:psi-gc`.
+It does not extract a group or a guarded chart. The literal image-tuple comparison,
+original-field chart/action descent, group algebraization, action classification
+and unconditional reconstruction remain obligations. The full-Ψ canonical lift
+still returns a configuration in its chosen universal extension. The frozen M4a
+chain and source TeX are untouched.

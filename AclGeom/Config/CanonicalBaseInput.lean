@@ -24,6 +24,8 @@ The existing rank-two lattice theorem then identifies its closure with the plane
 ambient ACF and universal-domain hypotheses. The original base may be arbitrary.
 The complete sixteen-triple input is assembled in `Config.ConfigurationInput`;
 the canonical universal-ambient package is in `Config.UniversalConfigurationInput`.
+The three identifications require only `PsiCore`, clauses (i)–(iv); the full-Ψ
+public theorems retain their statements and delegate to these proofs.
 Literal image-tuple comparison and finite-ambient chart/action descent remain open.
 Both output guards remain at the downstream chart target; no chart, algebraic
 group, action or reconstruction is extracted here.
@@ -118,9 +120,9 @@ namespace QWitness
 
 variable {w : QWitness k K} [IsAlgClosed K] [UniversalDomain k K]
 
-/-- The actual Ψ atom-freeness clause identifies the canonical base of X,Y
+/-- The clause-(i)–(iv) atom-freeness input identifies the canonical base of X,Y
 with the full parameter plane A. Named consumer: GC4 of the actual Ψ input. -/
-theorem Psi.racl_canonicalBase_XY_eq_A (hw : w.Psi) :
+theorem PsiCore.racl_canonicalBase_XY_eq_A (hw : w.PsiCore) :
     racl k (canonicalBase w.A.1
       (Sum.elim (fun _ : Fin 1 ↦ w.X.rep) (fun _ : Fin 1 ↦ w.Y.rep)) : Set K) =
       w.A.1 := by
@@ -129,8 +131,8 @@ theorem Psi.racl_canonicalBase_XY_eq_A (hw : w.Psi) :
   exact canonicalBase_incidence_eq w.A (isSmall_of_rankEq hw.rankEq_A) hw.rankEq_A
     w.Y w.X hw.X_le hw.X_free
 
-/-- The actual Ψ canonical-base clause on B,Y,Z, for GC4 of its six-point input. -/
-theorem Psi.racl_canonicalBase_YZ_eq_B (hw : w.Psi) :
+/-- The clause-(i)–(iv) canonical-base identification on B,Y,Z, for GC4. -/
+theorem PsiCore.racl_canonicalBase_YZ_eq_B (hw : w.PsiCore) :
     racl k (canonicalBase w.B.1
       (Sum.elim (fun _ : Fin 1 ↦ w.Y.rep) (fun _ : Fin 1 ↦ w.Z.rep)) : Set K) =
       w.B.1 := by
@@ -138,14 +140,32 @@ theorem Psi.racl_canonicalBase_YZ_eq_B (hw : w.Psi) :
   exact canonicalBase_incidence_eq w.B (isSmall_of_rankEq hw.rankEq_B) hw.rankEq_B
     w.Y w.Z (hw.Z_le.trans inf_le_left) hw.Z_freeB
 
-/-- The actual Ψ canonical-base clause on C,X,Z, for GC4 of its six-point input. -/
-theorem Psi.racl_canonicalBase_XZ_eq_C (hw : w.Psi) :
+/-- The clause-(i)–(iv) canonical-base identification on C,X,Z, for GC4. -/
+theorem PsiCore.racl_canonicalBase_XZ_eq_C (hw : w.PsiCore) :
     racl k (canonicalBase w.C.1
       (Sum.elim (fun _ : Fin 1 ↦ w.X.rep) (fun _ : Fin 1 ↦ w.Z.rep)) : Set K) =
       w.C.1 := by
   have _ := closed_isAlgClosed w.C
   exact canonicalBase_incidence_eq w.C (isSmall_of_rankEq hw.rankEq_C) hw.rankEq_C
     w.X w.Z (hw.Z_le.trans inf_le_right) hw.Z_freeC
+
+/-- The full Ψ witness has the same canonical-base identification on `A`. -/
+theorem Psi.racl_canonicalBase_XY_eq_A (hw : w.Psi) :
+    racl k (canonicalBase w.A.1
+      (Sum.elim (fun _ : Fin 1 ↦ w.X.rep) (fun _ : Fin 1 ↦ w.Y.rep)) : Set K) =
+      w.A.1 := hw.toCore.racl_canonicalBase_XY_eq_A
+
+/-- The full Ψ witness has the same canonical-base identification on `B`. -/
+theorem Psi.racl_canonicalBase_YZ_eq_B (hw : w.Psi) :
+    racl k (canonicalBase w.B.1
+      (Sum.elim (fun _ : Fin 1 ↦ w.Y.rep) (fun _ : Fin 1 ↦ w.Z.rep)) : Set K) =
+      w.B.1 := hw.toCore.racl_canonicalBase_YZ_eq_B
+
+/-- The full Ψ witness has the same canonical-base identification on `C`. -/
+theorem Psi.racl_canonicalBase_XZ_eq_C (hw : w.Psi) :
+    racl k (canonicalBase w.C.1
+      (Sum.elim (fun _ : Fin 1 ↦ w.X.rep) (fun _ : Fin 1 ↦ w.Z.rep)) : Set K) =
+      w.C.1 := hw.toCore.racl_canonicalBase_XZ_eq_C
 
 end QWitness
 

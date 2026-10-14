@@ -169,10 +169,11 @@ certify every auxiliary statement in the corresponding source sections.
 - codes, quasi-rational expressions and germ varieties;
 - the configuration predicate and its invariance;
 - constructible sets, with Chevalley's theorem and generic quantification;
-- the full-Ψ form of `prop:psi-gc`.
+- the clause-(i)–(iv) form of `prop:psi-gc`.
 
 For the last item, all configuration clauses with group rank two and space rank
-one are derived from the full `QWitness.Psi` record in a universal ACF ambient
+one are derived from `QWitness.PsiCore`, precisely clauses (i)–(iv), in a
+universal ACF ambient
 ([AclGeom/Config/ConfigurationInput.lean](AclGeom/Config/ConfigurationInput.lean)).
 A canonical universal ACF lift
 ([AclGeom/Config/UniversalConfigurationInput.lean](AclGeom/Config/UniversalConfigurationInput.lean))
@@ -185,7 +186,6 @@ integration.
 
 Open:
 
-- the source formulation of `prop:psi-gc`, which assumes only clauses (i)–(iv) of Ψ;
 - Step III and `thm:main`;
 - the homogeneous-space clause of `lem:hw-basechange`;
 - the constructible group;

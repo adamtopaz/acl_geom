@@ -14,14 +14,16 @@ of X,Y,Z. Equal finite ranks give GC1 and GC2. The nine plane-pair/space-point
 triples have rank five; closure independence and the three line equalities
 supply the six mixed triples and the X,Y,Z triple. The committed canonical-base
 identifications give GC4, and the parameter planes have rank two. The space
-points have rank one. Thus every GC1–GC5 premise is derived from actual Ψ.
+points have rank one. Thus every GC1–GC5 premise is derived from clauses
+(i)–(iv) of actual Ψ, packaged as `PsiCore`; clauses (v)–(vii) are unused.
 
 Named consumer: group extraction and the two-dimensional group/curve-action
 branch of the guarded initial-chart target. No configuration, group, chart,
 action or completeness conclusion is supplied by the caller.
 
-**Status:** the complete actual six-point input and its ranks are proved in
+**Status:** the precise clause-(i)–(iv) source input and its ranks are proved in
 an algebraically closed universal ambient field, over an arbitrary original base.
+The existing full-Ψ public statements are preserved as wrappers.
 The canonical universal-ambient package is proved in Config.UniversalConfigurationInput.
 Literal comparison with image tuples and finite-ambient chart/action descent,
 group extraction/algebraization, action classification and unconditional
@@ -120,11 +122,12 @@ private theorem subset_line {A Q P : Set K} {E : ClosedIF k K} {Y X : Point k K}
 
 variable {w : QWitness k K}
 
-/-- The actual Ψ witness supplies a genuine six-point group-configuration input.
+/-- Clauses (i)–(iv) of the actual Ψ witness supply the source six-point input.
 All incidences, all sixteen noncollinear triples and all canonical-base clauses
-are derived, with group rank two and space rank one. The universal-domain
+are derived, with group rank two and space rank one. Clauses (v)–(vii) are unused.
+The universal-domain
 hypothesis is explicit; no group/chart/completeness conclusion is assumed. -/
-theorem Psi.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w.Psi) :
+theorem PsiCore.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w.PsiCore) :
     GroupConfig.GroupConfiguration k w.aTuple w.bTuple w.cTuple w.xTuple w.yTuple w.zTuple := by
   have hA : racl k (range w.aTuple) = w.A.1 := racl_pair w.A₁ w.A₂
   have hB : racl k (range w.bTuple) = w.B.1 := racl_pair w.B₁ w.B₂
@@ -288,13 +291,25 @@ theorem Psi.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w.Psi
     rw [← hC]
     exact subset_racl k _ ht
 
-/-- The actual Ψ input has group rank two and space rank one. Named consumer:
+/-- The clause-(i)–(iv) input has group rank two and space rank one. Named consumer:
 the two-dimensional group/curve-action branch of initial-chart extraction. -/
-theorem Psi.groupConfiguration_with_ranks [IsAlgClosed K] [UniversalDomain k K] (hw : w.Psi) :
+theorem PsiCore.groupConfiguration_with_ranks [IsAlgClosed K] [UniversalDomain k K]
+    (hw : w.PsiCore) :
     GroupConfig.GroupConfiguration k w.aTuple w.bTuple w.cTuple w.xTuple w.yTuple w.zTuple ∧
       erk k ∅ (range w.aTuple) = 2 ∧ erk k ∅ (range w.xTuple) = 1 :=
   ⟨hw.groupConfiguration, erk_of_racl_rank (racl_pair w.A₁ w.A₂) hw.rankEq_A,
     erk_of_racl_rank (racl_single w.X) w.X.rankEq_one⟩
+
+/-- The full Ψ witness supplies the source configuration through its first four clauses. -/
+theorem Psi.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w.Psi) :
+    GroupConfig.GroupConfiguration k w.aTuple w.bTuple w.cTuple w.xTuple w.yTuple w.zTuple :=
+  hw.toCore.groupConfiguration
+
+/-- The full Ψ input retains the group rank two and space rank one package. -/
+theorem Psi.groupConfiguration_with_ranks [IsAlgClosed K] [UniversalDomain k K] (hw : w.Psi) :
+    GroupConfig.GroupConfiguration k w.aTuple w.bTuple w.cTuple w.xTuple w.yTuple w.zTuple ∧
+      erk k ∅ (range w.aTuple) = 2 ∧ erk k ∅ (range w.xTuple) = 1 :=
+  hw.toCore.groupConfiguration_with_ranks
 
 end QWitness
 

@@ -304,8 +304,8 @@ unconditional reconstruction remain open.
 tag := "group-configuration-psi-canonical-bases"
 %%%
 
-In an algebraically closed universal domain, the actual $`\Psi` witness's
-atom-freeness clauses force the canonical bases of the incidence pairs to
+In an algebraically closed universal domain, clauses (i)–(iv) of the actual
+$`\Psi` witness, through its atom-freeness clauses, force the canonical bases of the incidence pairs to
 recover the full parameter planes. The relative algebraic closures of
 $`\operatorname{Cb}(X,Y/A)`, $`\operatorname{Cb}(Y,Z/B)` and
 $`\operatorname{Cb}(X,Z/C)` are respectively $`A`, $`B` and $`C`.
@@ -317,11 +317,11 @@ rank-two lattice criterion identifies its closure with the whole plane.
 The canonical-base containments are derived from $`\Psi`; they are not extra
 hypotheses supplied by the caller.
 
-{docstring AclGeom.QWitness.Psi.racl_canonicalBase_XY_eq_A}
+{docstring AclGeom.QWitness.PsiCore.racl_canonicalBase_XY_eq_A}
 
-{docstring AclGeom.QWitness.Psi.racl_canonicalBase_YZ_eq_B}
+{docstring AclGeom.QWitness.PsiCore.racl_canonicalBase_YZ_eq_B}
 
-{docstring AclGeom.QWitness.Psi.racl_canonicalBase_XZ_eq_C}
+{docstring AclGeom.QWitness.PsiCore.racl_canonicalBase_XZ_eq_C}
 
 These are the three GC4 clauses for the proposed actual six-point input.
 The theorem statements retain ambient algebraic closedness and a universal
@@ -470,7 +470,10 @@ tag := "group-configuration-psi-input"
 %%%
 
 The actual twenty-one-point $`\Psi` witness now supplies the entire six-point
-configuration predicate. Its three parameter tuples use the displayed pairs
+configuration predicate using only clauses (i)–(iv), packaged as
+`QWitness.PsiCore`. The partial quadrangle and meet equations in clauses (v)–(vii)
+are unused. This proves the precise source input of supplemental `prop:psi-gc`.
+Its three parameter tuples use the displayed pairs
 of point representatives, and its three space tuples use representatives of
 $`X,Y,Z`. Equal finite ranks give the two parameter-plane incidences and the
 three space-line incidences. The rank and freeness clauses force each pair
@@ -484,12 +487,19 @@ of $`A,Y`, which contains $`X,Y`, giving the $`XYZ` triple. These are exactly
 the sixteen triples required by the predicate. The canonical-base
 identifications above give all three GC4 clauses.
 
-{docstring AclGeom.QWitness.Psi.groupConfiguration}
+{docstring AclGeom.QWitness.PsiCore}
+
+{docstring AclGeom.QWitness.PsiCore.groupConfiguration}
 
 The resulting group rank is two and the space rank is one; the following
 package records those precise values along with the configuration.
 
-{docstring AclGeom.QWitness.Psi.groupConfiguration_with_ranks}
+{docstring AclGeom.QWitness.PsiCore.groupConfiguration_with_ranks}
+
+The full-witness theorems retain their original statements and apply the core
+result through the proved projection.
+
+{docstring AclGeom.QWitness.Psi.toCore}
 
 Only the actual witness is supplied. Ambient algebraic closedness and a
 universal domain are explicit; the original base may be arbitrary. The

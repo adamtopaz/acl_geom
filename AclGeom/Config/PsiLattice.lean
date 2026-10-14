@@ -43,7 +43,9 @@ explicit independent initial chart. It retains base/ambient ACF and supplied fre
 The parameter-rank facts are public for Config.ParameterField, whose actual-Psi
 producer recovers the full coefficient closures of all three incidence germs.
 The point-rank and point-adjoining rank proofs are also public for the complete
-actual six-point input in Config.ConfigurationInput. Input
+actual six-point input in Config.ConfigurationInput. Its parameter ranks are
+proved from `PsiCore`, using only clauses (i)–(iv); the full-Ψ versions delegate
+to those proofs. Input
 existence/enlargement/descent for an explicit chart is covered by P6. Initial charts,
 actions, extraction and completeness remain open; frozen M4a stays separate.
 
@@ -219,18 +221,27 @@ variable {w : QWitness k K}
 /-! ### Ranks and meets of the parameter joins -/
 
 /-- `A` has rank two. -/
-theorem Psi.rankEq_A (hw : w.Psi) : RankEq 2 w.A :=
+theorem PsiCore.rankEq_A (hw : w.PsiCore) : RankEq 2 w.A :=
   rankEq_two_of_rankEq_four (eRk_le_two w.A₁ w.A₂) (eRk_le_two w.B₁ w.B₂) hw.rank_AB
 
 /-- `B` has rank two. -/
-theorem Psi.rankEq_B (hw : w.Psi) : RankEq 2 w.B :=
+theorem PsiCore.rankEq_B (hw : w.PsiCore) : RankEq 2 w.B :=
   rankEq_two_of_rankEq_four (eRk_le_two w.B₁ w.B₂) (eRk_le_two w.A₁ w.A₂)
     (RankEq.congr (sup_comm w.A w.B) hw.rank_AB)
 
 /-- `C` has rank two. -/
-theorem Psi.rankEq_C (hw : w.Psi) : RankEq 2 w.C :=
+theorem PsiCore.rankEq_C (hw : w.PsiCore) : RankEq 2 w.C :=
   rankEq_two_of_rankEq_four (eRk_le_two w.C₁ w.C₂) (eRk_le_two w.A₁ w.A₂)
     (RankEq.congr (sup_comm w.A w.C) hw.rank_AC)
+
+/-- `A` has rank two for a full Ψ witness. -/
+theorem Psi.rankEq_A (hw : w.Psi) : RankEq 2 w.A := hw.toCore.rankEq_A
+
+/-- `B` has rank two for a full Ψ witness. -/
+theorem Psi.rankEq_B (hw : w.Psi) : RankEq 2 w.B := hw.toCore.rankEq_B
+
+/-- `C` has rank two for a full Ψ witness. -/
+theorem Psi.rankEq_C (hw : w.Psi) : RankEq 2 w.C := hw.toCore.rankEq_C
 
 /-- `A ∧ B = ⊥`: ranks `2 + 2 = 4`. -/
 private theorem Psi.A_inf_B (hw : w.Psi) : w.A ⊓ w.B = ⊥ :=
