@@ -233,23 +233,6 @@ theorem isConstructibleOver_fibre (F : QuasiRational k (μ ⊕ ι) κ) (a : ι �
   simp only [Set.mem_ofPred_eq, Set.mem_inter_iff, Set.mem_preimage, hpoint,
     Function.comp_def, Sum.elim_inl, Sum.elim_inr, aeval_X]
 
-omit [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K] [Finite μ] in
--- Sole consumer: isConstructibleOver_forall_generic below. The two fields are equal, but
--- their instances differ, so a rewrite along the equality is not type correct.
-private theorem isConstructibleOver_of_restrictScalars_eq {M : IntermediateField k K}
-    {E : IntermediateField (↥M) K} {E' : IntermediateField k K}
-    (hE : E.restrictScalars k = E') {s : Set (μ → K)} (h : IsConstructibleOver (↥E) s) :
-    IsConstructibleOver (↥E') s := by
-  have hmem (x : ↥E) : (x : K) ∈ E' := hE ▸ (mem_restrictScalars k).2 x.2
-  let _ : Algebra ↥E ↥E' := RingHom.toAlgebra
-    { toFun := fun x ↦ ⟨x, hmem x⟩
-      map_one' := rfl
-      map_mul' := fun _ _ ↦ rfl
-      map_zero' := rfl
-      map_add' := fun _ _ ↦ rfl }
-  have : IsScalarTower ↥E ↥E' K := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
-  exact h.extend_base
-
 omit [Finite μ] in
 /-- The generic-quantifier majority locus over the base field: for a constructible
 condition on parameters and target points, the parameters at which it holds at every
@@ -273,7 +256,7 @@ theorem isConstructibleOver_forall_generic [Fintype μ] {α : Type*} [Fintype α
       adjoin k (⋃ i, range (t i)) := by
     rw [restrictScalars_adjoin, adjoin_union, adjoin_self]
     exact bot_sup_eq _
-  have h := isConstructibleOver_of_restrictScalars_eq hfield
+  have h := IsConstructibleOver.of_restrictScalars_eq hfield
     (constructible_generic_quantifier M hM a' t ht hind hr hs.extend_base)
   convert h using 1
   ext u

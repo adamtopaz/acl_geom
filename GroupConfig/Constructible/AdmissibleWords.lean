@@ -77,9 +77,9 @@ def HasGenericSamples (L : IntermediateField k K) {κ : Type*} (b : κ → K) (N
       ∑ i, erk k ((⊥ : IntermediateField k K) : Set K) (range (t i)) ∧
     2 * N + 1 ≤ n ∧ ∀ i, range (t i) ⊆ L
 
--- Sole consumer: the chain relation below. The graph of an expression read off arbitrary
--- coordinates of a point.
-private theorem isConstructibleOver_graph_comp [IsAlgClosed K] {μ κ τ X : Type*} [Finite τ]
+/-- The graph of an expression read off arbitrary coordinates is constructible.
+Named consumers: word chains and the actual stabilizer parameter relation. -/
+theorem QuasiRational.isConstructibleOver_graph_comp [IsAlgClosed K] {μ κ τ X : Type*} [Finite τ]
     (F : QuasiRational k (μ ⊕ κ) τ) (e₁ : μ → X) (e₂ : κ → X) (e₃ : τ → X) :
     IsConstructibleOver k {z : X → K | F.IsDefinedAt (Sum.elim (z ∘ e₁) (z ∘ e₂)) ∧
       F.eval (Sum.elim (z ∘ e₁) (z ∘ e₂)) = z ∘ e₃} := by
@@ -273,7 +273,7 @@ theorem isConstructibleOver_chain {κ : Type v} {b : κ → K} (w : Word k P a b
           (z ∘ Sum.inl) ∘ Sum.inr} :=
       (ih.preimage_comp (Sum.elim (Sum.inl ∘ Sum.inl) Sum.inr)).inter
         (((isConstructibleOver_inLocus c).preimage_comp (Sum.inl ∘ Sum.inr)).inter
-          (isConstructibleOver_graph_comp F (Sum.inl ∘ Sum.inl ∘ Sum.inl ∘ ρ) Sum.inr
+          (F.isConstructibleOver_graph_comp (Sum.inl ∘ Sum.inl ∘ Sum.inl ∘ ρ) Sum.inr
             (Sum.inl ∘ Sum.inr)))
     exact hT.exists (φ := fun v x ↦
       w.Chain ((v ∘ Sum.inl) ∘ Sum.inl) ((v ∘ Sum.inl) ∘ Sum.inr) x ∧
@@ -290,7 +290,7 @@ theorem isConstructibleOver_chain {κ : Type v} {b : κ → K} (w : Word k P a b
           ((z ∘ Sum.inl) ∘ Sum.inr)) = z ∘ Sum.inr} :=
       (ih.preimage_comp (Sum.elim (Sum.inl ∘ Sum.inl) Sum.inr)).inter
         (((isConstructibleOver_inLocus c).preimage_comp (Sum.inl ∘ Sum.inr)).inter
-          (isConstructibleOver_graph_comp F (Sum.inl ∘ Sum.inl ∘ Sum.inl ∘ ρ)
+          (F.isConstructibleOver_graph_comp (Sum.inl ∘ Sum.inl ∘ Sum.inl ∘ ρ)
             (Sum.inl ∘ Sum.inr) Sum.inr))
     exact hT.exists (φ := fun v x ↦
       w.Chain ((v ∘ Sum.inl) ∘ Sum.inl) ((v ∘ Sum.inl) ∘ Sum.inr) x ∧

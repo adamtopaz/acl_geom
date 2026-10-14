@@ -40,4 +40,5 @@ import GroupConfig.Constructible.AdmissibleWords
 import GroupConfig.Constructible.FreshSamples
 import GroupConfig.Constructible.JointSamples
 import GroupConfig.Constructible.CommonSamples
+import GroupConfig.Constructible.WordSamples
 import GroupConfig.Germ.OrbitParameters

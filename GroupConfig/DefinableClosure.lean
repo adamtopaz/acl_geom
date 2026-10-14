@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Adam Topaz, Claude
+Authors: Adam Topaz, Claude, Codex
 -/
 import Mathlib.FieldTheory.PurelyInseparable.PerfectClosure
 import Mathlib.Algebra.CharP.Reduced
@@ -25,8 +25,9 @@ expressions over `L` (`GroupConfig.mem_dclAdjoin_iff`,
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
-**Status:** `lem:dcl-galois`, the parts of `cor:dcl-props` that are used, and `lem:qr-dcl`
-complete.
+**Status:** `lem:dcl-galois`, `cor:dcl-props` and `lem:qr-dcl` are proved.
+Automorphism transport and equality of algebraic closures are stated both for
+intermediate fields and for arbitrary generating sets.
 -/
 
 namespace GroupConfig
@@ -83,6 +84,53 @@ theorem isIntegral_of_mem_dcl {L : IntermediateField k K} {x : K} (hx : x ∈ dc
 theorem dcl_le_racl (L : IntermediateField k K) : dcl L ≤ racl k (L : Set K) := fun _ hx ↦ by
   rw [mem_racl_iff k, adjoin_self]
   exact (isIntegral_of_mem_dcl hx).isAlgebraic
+
+/-- `cor:dcl-props`: automorphisms transport the entire definable closure. -/
+theorem dcl_map (σ : K ≃ₐ[k] K) (L : IntermediateField k K) :
+    (dcl L).map σ.toAlgHom = dcl (L.map σ.toAlgHom) := by
+  ext x
+  constructor
+  · rintro ⟨y, hy, rfl⟩
+    obtain ⟨n, hn⟩ := mem_dcl_iff.1 hy
+    exact mem_dcl_iff.2 ⟨n, ⟨_, hn, map_pow σ _ _⟩⟩
+  · intro hx
+    obtain ⟨n, y, hy, heq⟩ := mem_dcl_iff.1 hx
+    refine ⟨σ.symm x, mem_dcl_iff.2 ⟨n, ?_⟩, σ.apply_symm_apply x⟩
+    have hpow : (σ.symm x) ^ ringExpChar K ^ n = y := by
+      apply σ.injective
+      rw [map_pow, σ.apply_symm_apply]
+      exact heq.symm
+    rwa [hpow]
+
+/-- Taking algebraic closure after definable closure gives the original
+algebraic closure. Consumer: the last clause of `cor:dcl-props`. -/
+theorem racl_dcl (L : IntermediateField k K) :
+    racl k (dcl L : Set K) = racl k (L : Set K) := by
+  exact le_antisymm (racl_le_of_subset_racl (dcl_le_racl L))
+    (racl_mono (le_dcl L))
+
+/-- `cor:dcl-props`: equal definable closures have equal algebraic closures. -/
+theorem racl_eq_of_dcl_eq {L L' : IntermediateField k K} (h : dcl L = dcl L') :
+    racl k (L : Set K) = racl k (L' : Set K) := by
+  rw [← racl_dcl L, h, racl_dcl L']
+
+/-- The set form of `cor:dcl-props`: automorphisms transport the
+perfect closure of a generated field. -/
+theorem dcl_adjoin_image (σ : K ≃ₐ[k] K) (A : Set K) :
+    (dcl (adjoin k A)).map σ.toAlgHom = dcl (adjoin k (σ '' A)) := by
+  rw [dcl_map, adjoin_map, AlgEquiv.coe_toAlgHom]
+
+/-- The set form of the last clause of `cor:dcl-props`, including
+`A = C ∪ A₀` and `B = C ∪ A₀'`. -/
+theorem racl_eq_of_dcl_adjoin_eq {A B : Set K}
+    (h : dcl (adjoin k A) = dcl (adjoin k B)) : racl k A = racl k B := by
+  have hA : racl k ((adjoin k A) : Set K) = racl k A :=
+    le_antisymm (racl_le_of_subset_racl (adjoin_le_racl k A))
+      (racl_mono (subset_adjoin k A))
+  have hB : racl k ((adjoin k B) : Set K) = racl k B :=
+    le_antisymm (racl_le_of_subset_racl (adjoin_le_racl k B))
+      (racl_mono (subset_adjoin k B))
+  simpa only [hA, hB] using racl_eq_of_dcl_eq h
 
 /-- Automorphisms over `L` fix the definable closure of `L` pointwise. -/
 theorem apply_eq_self_of_mem_dcl {L : IntermediateField k K} {x : K} (hx : x ∈ dcl L)

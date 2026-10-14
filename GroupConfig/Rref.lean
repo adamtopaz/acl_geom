@@ -35,9 +35,10 @@ This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** the canonical pivot-indexed reduced row echelon basis, its Mathlib
-matrix certificate, and the smallest field of definition of a finite-coordinate
-subspace are proved over arbitrary fields. Finite field generators and the
-pointwise automorphism stabilizer criterion are explicit. Fields of definition
+matrix certificate, uniqueness for any finite ordered basis in RREF, and the
+smallest field of definition of a finite-coordinate subspace are proved over
+arbitrary fields. Finite field generators and the pointwise automorphism
+stabilizer criterion are explicit. Fields of definition
 of polynomial ideals are developed in `GroupConfig.FieldOfDefinition`, and
 canonical bases in `GroupConfig.CanonicalBase`.
 -/
@@ -251,6 +252,49 @@ theorem rref_isReducedRowEchelon :
       ⟨fun j hj ↦ rref_apply_of_lt W ν hj, by rw [rref_apply_self]; exact one_ne_zero⟩
     rw [hc.unique hν]
     exact rref_apply_of_ne W hμν.ne'
+
+/-- `lem:rref`: every ordered basis in reduced row echelon form is the
+canonical basis, under the increasing bijection with the pivot indices. -/
+theorem eq_rref_of_basis_isReducedRowEchelon {α : Type*} [Finite α] [LinearOrder α]
+    (B : Basis α R W)
+    (hB : Matrix.IsReducedRowEchelon (fun i ↦ (B i : 𝓜 → R))) :
+    ∃ e : α ≃ Pivots W, StrictMono e ∧ ∀ i, (B i : 𝓜 → R) = rref W (e i) := by
+  classical
+  have := Fintype.ofFinite α
+  have := Fintype.ofFinite (Pivots W)
+  have hne (i : α) : (B i : 𝓜 → R) ≠ 0 := fun h ↦ B.ne_zero i (Subtype.ext h)
+  choose lead hlead using fun i ↦ exists_leading (hne i)
+  have hm : StrictMono lead := by
+    intro i j hij
+    by_contra h
+    have hle : lead j ≤ lead i := le_of_not_gt h
+    exact (hlead j).1 (hB.isRowEchelon hij fun q hq ↦
+      (hlead i).2 q (lt_of_lt_of_le hq hle))
+  let f : α → Pivots W := fun i ↦ ⟨lead i, B i, (B i).2, hlead i⟩
+  have hfm : StrictMono f := fun _ _ hij ↦ hm hij
+  have hcard : Fintype.card α = Fintype.card (Pivots W) := by
+    calc
+      _ = finrank R W := (Module.finrank_eq_card_basis B).symm
+      _ = Nat.card (Pivots W) := finrank_eq_card_pivots W
+      _ = _ := Nat.card_eq_fintype_card
+  have hbij : Function.Bijective f :=
+    (Fintype.bijective_iff_injective_and_card f).2 ⟨hfm.injective, hcard⟩
+  let e : α ≃ Pivots W := Equiv.ofBijective f hbij
+  have he (μ : Pivots W) : lead (e.symm μ) = (μ : 𝓜) :=
+    congrArg Subtype.val (e.apply_symm_apply μ)
+  have heq : (fun μ : Pivots W ↦ (B (e.symm μ) : 𝓜 → R)) = rref W := by
+    refine rref_eq_of_pivot_coords W (fun μ ↦ (B (e.symm μ)).2) ?_
+    intro μ ν
+    have hlead' : Matrix.IsLeadingEntry (fun i ↦ (B i : 𝓜 → R)) (e.symm ν) (ν : 𝓜) := by
+      rw [← he ν]
+      exact ⟨(hlead (e.symm ν)).2, (hlead (e.symm ν)).1⟩
+    split_ifs with h
+    · subst ν
+      exact hB.eq_one hlead'
+    · exact hB.eq_zero_of_ne_of_isLeadingEntry
+        (fun h' ↦ h (e.symm.injective h').symm) hlead'
+  refine ⟨e, hfm, fun i ↦ ?_⟩
+  simpa using congrFun heq (e i)
 
 /-! ### Fields of definition -/
 

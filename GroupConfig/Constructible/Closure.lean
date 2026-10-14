@@ -143,6 +143,24 @@ theorem IsConstructibleOver.of_le_intermediateField
   have : IsScalarTower ↥E ↥E' K := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   exact hs.extend_base
 
+/-- Changing an intermediate coefficient field to an equal scalar restriction
+preserves constructibility. The generic quantifier and the staged stabilizer
+sampling field use this form to transport their actual coefficient inclusions. -/
+theorem IsConstructibleOver.of_restrictScalars_eq {M : IntermediateField k K}
+    {E : IntermediateField (↥M) K} {E' : IntermediateField k K}
+    (hE : E.restrictScalars k = E') {X : Type*} {s : Set (X → K)} (h : IsConstructibleOver (↥E) s) :
+    IsConstructibleOver (↥E') s := by
+  have hmem (x : ↥E) : (x : K) ∈ E' := hE ▸ (IntermediateField.mem_restrictScalars k).2 x.2
+  let _ : Algebra ↥E ↥E' := RingHom.toAlgebra
+    { toFun := fun x ↦ ⟨x, hmem x⟩
+      map_one' := rfl
+      map_mul' := fun _ _ ↦ rfl
+      map_zero' := rfl
+      map_add' := fun _ _ ↦ rfl }
+  have : IsScalarTower ↥E ↥E' K := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  exact h.extend_base
+
+
 /-- Existential quantification over all ambient-field tuples `y : κ → K` preserves
 constructibility when `κ` is finite and the ambient field is algebraically closed.
 This is K-points Chevalley in formula form. -/

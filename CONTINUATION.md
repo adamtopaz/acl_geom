@@ -9834,3 +9834,39 @@ and action remain obligations. The supplemental main theorem and arbitrary-base
 change drafts await integration. Original algebraization, action classification,
 guarded charts and unconditional reconstruction are unchanged and open. The
 source TeX and frozen M4a chain are unchanged; the untracked PDF stays excluded.
+
+
+## Fresh word fields and audited closure/basis clauses (2026-10-14, #12/#29)
+
+`Constructible.WordSamples` chooses a finite field of samples for any actual
+typed word, fresh from an arbitrary prescribed small field. It chooses each
+letter's required locus over the closure of that field and all preceding
+samples, then jointly samples the source and target for the final quantifiers.
+The source word relation retains invertible admissibility of every factor,
+including forward factors, and admissibility of the target parameter. No
+sampling certificate is an input. Field monotonicity and one local extension
+step remove duplicated sampling arguments. Scalar-restriction equality transport
+is public in `Closure`, replacing the private copy in `Admissible`; its second
+consumer is the staged generic quantifier for the actual stabilizer relation.
+The arbitrary-coordinate expression graph lemma is public in `AdmissibleWords`,
+shared by word chains and the same actual stabilizer relation. One field for finitely many distinct
+consumer relations, and actual group constructibility, remain open.
+
+`DefinableClosure` now states transport of the entire definable closure under
+automorphisms, and equality of algebraic closures from equality of definable
+closures, both for intermediate fields and arbitrary generating sets. No ACF
+or finiteness hypothesis is needed for these corollaries. `Rref` now proves
+uniqueness for any finite ordered basis satisfying Mathlib's RREF predicate:
+its leading map is strictly increasing, dimension makes it bijective onto the
+canonical pivots, and pivot-coordinate uniqueness identifies the basis. The
+pivot indexing is derived, not supplied as an assumption.
+
+Claude mathematically reviewed all three producers (chit6648). They were
+independently checked with default project options and standard linters before
+integration. The word proof uses a local helper for both directions of letter;
+final integrated module, library, book and scoped dependency gates are required
+before commit. The two source-audit
+items are not closed until the pushed commit and exact CI pass. Other private
+GCT modules, the constructible group, original algebraization and action
+classification, guarded charts and unconditional reconstruction remain open.
+The source TeX and frozen M4a chain are unchanged; the supplemental PDF is excluded.
