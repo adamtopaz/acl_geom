@@ -10612,3 +10612,71 @@ group-chunk and six-point producers, application formulas and independence
 recovery, definability in families, chart/action descent, guarded charts and
 unconditional reconstruction remain open. Claude's next genus proposal is
 read-only truth/API review; no R2 implementation is assigned.
+
+
+## Genus zero for the actual HW function field (#21, 2026-10-15)
+
+`Germ.IsHW.genus_eq_zero` proves genus zero over K for the actual
+`LocusFunctionField k v`, from genuine HW data, curve rank one and ordinary
+canonical-base rank at least two. It derives the one-variable instance inline.
+No rationality, inverse, normality, graph-stability, independent-derivation,
+regularity, scalar-comparison or genus certificate is a premise. This is a
+bounded auxiliary result. All eight original scheme/action classification
+requirements and the full original reconstruction endpoint remain open.
+
+The proof uses the ordinary field C = g.cb, never its algebraic or perfect
+closure. The formal old field is Frac(k[X]/idealOf k v), distinct from a
+compositum with the original tuple in K. Its separating parameter and
+one-variable structure are derived from the actual finite-tuple rank-one
+hypothesis. Canonical tensor and fraction-field comparisons identify the
+formal constant extensions with C(formal coordinates) and the actual
+K-function field, retaining coordinate formulas. The actual rational graph
+kernel is proved equal to the contracted germ graph in both directions.
+
+An ordinary coefficient derivation extends to a horizontal connection fixing
+the old field. Conjugation by the genuine C-automorphism and subtraction gives
+a C-linear curve derivation. Zero variation forces coefficient stability of
+the graph kernel; differentiating its RREF code forces the derivation of the
+ordinary canonical base to vanish. Finite generation and rank at least two
+supply two independent coefficient derivations, hence two independent curve
+variations. Normalization under arbitrary constant extension is proved from
+integral equations, not assumed. The two integral-closure charts detect every
+proper valuation ring over the constants and transfer regularity to K. Only
+the C-linear curve variations are extended to K; coefficient derivations are
+never extended to the perfect ambient field.
+
+Two independent regular K-derivations force genus zero. Genus at least two is
+excluded by the existing rigidity theorem. In genus one, a nonzero combination
+has residue zero on a uniformizer at a chosen place. Writing each integral
+element as x = c + pi*y proves vanishing on the whole valuation ring, so the
+existing genus-one vanishing theorem applies. No uniformizer-only vanishing
+condition is silently substituted for the full one.
+
+The two agents agreed on ownership and each compiler lease through chit.
+Claude supplied the normalization, independent coefficient derivations, old
+field, actual graph kernel, curve-derivation and regularity base change, and
+abstract genus exclusion. The primary agent read all proofs and independently
+compiled the exact frozen sources. The complete private genus assembly passed
+before integration; Claude accepted the full mathematical chain and final
+1444-line refactor. A shared derivation API and tensor-localization comparison
+replace all duplicate implementations. The focused coefficient-connection,
+RREF-constants and actual-genus modules replace the private monolith. Unused
+private rationality wrappers were removed; the actual producer still chooses
+both rational directions from HW data and derives their ordinary-base equality.
+
+The final nine prerequisite copies independently compile cleanly with all 65
+named public expanded type/dependency reports using standard Lean axioms. The
+three focused consumer modules also compile cleanly with fourteen public
+reports. This scoped, two-thread 20 GB family completed in 66.29 s, peak RSS
+3.96 GiB, without memory events or safety stop. These are scoped private gates,
+not a whole-library axiom audit. Full library/book validation and final
+integrated lint/type/dependency checks after all edits are required before a
+public commit and push; final evidence is recorded on #21.
+
+The book, module statuses and shared goal frontier describe the same bounded
+genus theorem. Original source TeX, endpoint/completion criteria and frozen
+historical M4a body are preserved; the supplemental PDF remains excluded.
+Möbius/affine classification, original scheme/action and normal-subgroup
+bridges, group/chunk and six-point producers, application formulas and
+independence recovery, definability in families, original-field chart/action
+descent, guarded charts and unconditional reconstruction remain obligations.

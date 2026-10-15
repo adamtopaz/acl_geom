@@ -36,6 +36,10 @@ import GroupConfig.DefinableClosure
 import GroupConfig.Germ.HW
 import GroupConfig.Germ.Rationality
 import GroupConfig.Germ.FunctionFieldAction
+import GroupConfig.Germ.BaseFunctionField
+import GroupConfig.Germ.FunctionFieldGraph
+import GroupConfig.Germ.DerivationConstants
+import GroupConfig.Germ.CurveGenus
 import GroupConfig.Germ.Translation
 import GroupConfig.Germ.Difference
 import GroupConfig.Germ.Definable

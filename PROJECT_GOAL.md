@@ -175,6 +175,8 @@ certify every auxiliary statement in the corresponding source sections.
   rank-one locus, in both characteristics;
 - its actual one-variable locus function field and a faithful action of the actual HW group
   by K-algebra automorphisms, with the coordinate formula for every rational inverse representative;
+- genus zero over K for that actual function field when the ordinary canonical-base rank is
+  at least two, derived from genuine HW data and curve rank one;
 - the full translation example, including its actual germs, homogeneous space and the
   obstruction to an independent presentation of the zero class;
 - the final-base rank, one-orbit and two-product properties of its generic elements;
@@ -286,8 +288,12 @@ constructs a faithful homomorphism from the actual HW two-product subgroup into 
 K-algebra automorphisms. The actual rationality theorem chooses the representatives
 internally; inverse substitution corrects contravariance. The coordinate formula holds
 for every equal exponent-zero representative of the inverse. This supplies a genuine
-function-field action, while the genus, Möbius/affine classification, original scheme/action
-bridge and normal-subgroup producer remain obligations.
+function-field action. [GroupConfig/Germ/CurveGenus.lean](GroupConfig/Germ/CurveGenus.lean)
+proves genus zero over K when the ordinary canonical-base rank is at least two. It derives
+its formal field comparisons, rational inverse, independent derivations and regularity from
+the actual HW and rank-one data; the one-variable instance is also derived internally.
+Möbius/affine classification, the original scheme/action bridge and normal-subgroup producer
+remain obligations.
 
 [GroupConfig/MainConstructible.lean](GroupConfig/MainConstructible.lean) proves the combined
 `thm:main-informal` on those same data: for every generic base point it chooses the canonical

@@ -76,6 +76,14 @@ import AclGeom.Correspondence.FiniteCurveLoci
 import AclGeom.Correspondence.MultiplierPrimeCurve
 import AclGeom.Correspondence.AffineLocusCommutation
 import AclGeom.Curves.Adeles
+import AclGeom.Curves.CoefficientConnection
+import AclGeom.Curves.CoefficientDerivations
+import AclGeom.Curves.ConstantExtension
+import AclGeom.Curves.DerivationBaseChange
+import AclGeom.Curves.DerivationExtension
+import AclGeom.Curves.GenusZeroOfDerivations
+import AclGeom.Curves.RegularDerivationBaseChange
+import AclGeom.Curves.TensorFractionFields
 import AclGeom.Curves.Approximation
 import AclGeom.Curves.Canonical
 import AclGeom.Curves.DegreeBound

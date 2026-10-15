@@ -28,8 +28,9 @@ generator formula `functionFieldAction_coord` for every such representative.
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
-**Status:** the faithful function-field action is proved. The genus, the Möbius form of the
-action and the coordinates of the chart remain separate targets.
+**Status:** the faithful function-field action is proved. `CurveGenus` proves genus zero
+when the ordinary canonical-base rank is at least two. The Möbius and affine classification,
+original scheme/action bridge and chart coordinates remain separate targets.
 -/
 
 namespace GroupConfig

@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import VersoManual
 import AclGeom.Curves.InfinitesimalAutomorphisms
 import AclGeom.Curves.RationalAutomorphisms
+import AclGeom.Curves.GenusZeroOfDerivations
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -498,6 +499,15 @@ two rigidity statements required by the curve-action classification are:
 {docstring AclGeom.derivation_eq_zero_of_two_le_genus}
 
 {docstring AclGeom.derivation_eq_zero_of_genus_eq_one}
+
+Two linearly independent everywhere-regular derivations force genus zero. At
+positive genus at least two, every regular derivation is zero. In genus one,
+choose a place and a nonzero linear combination whose value at a uniformizer
+has residue zero. For each integral element, the expression `x = c + πy`
+proves that this derivation maps the entire valuation ring into its maximal
+ideal, so the genus-one vanishing theorem applies.
+
+{docstring AclGeom.genus_eq_zero_of_linearIndependent_derivations}
 
 The dual-number formulation is completely elementary. An automorphism
 of `F[ε]` which fixes `ε` and reduces to the identity sends each

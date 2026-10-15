@@ -33,8 +33,9 @@ This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** the rationality of Hrushovski–Weil germs on curves is proved in both
-characteristics. The function-field action and the classification of the group remain
-separate targets.
+characteristics. The faithful function-field action is proved in `FunctionFieldAction`;
+`CurveGenus` proves genus zero when the ordinary canonical-base rank is at least two.
+The original group/action classification and chart obligations remain.
 -/
 
 namespace GroupConfig

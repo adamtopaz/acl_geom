@@ -652,9 +652,37 @@ is therefore faithful.
 
 {docstring GroupConfig.Germ.IsHW.functionFieldAction_injective}
 
-The curve genus, Möbius and affine classification, original scheme/action
-bridge and normal-subgroup producer, group algebraization and original-field
-chart/action descent remain obligations of the original blueprint.
+When the ordinary canonical base of the HW germ has rank at least two, this
+actual function field has genus zero over K. The proof works over the ordinary
+coefficient field C, not its algebraic or perfect closure. The old function
+field is the formal fraction field of the locus over k; extending constants
+gives `Frac(C ⊗[k] F)` and `Frac(K ⊗[k] F)`, with the actual coordinate formulas.
+
+{docstring GroupConfig.BaseFunctionField.exists_separating_transcendental}
+
+{docstring GroupConfig.Representative.ker_aeval_graph}
+
+Coefficient derivations extend horizontally, fixing the old function field.
+Conjugating by the actual C-automorphism and subtracting gives C-linear curve
+variations. Zero variation makes the graph ideal coefficient-stable. Its RREF
+field-of-definition code then forces the coefficient derivation to vanish.
+Two independent coefficient derivations therefore give two independent regular
+curve derivations. Normalization under constant extension and the two affine
+charts transfer their regularity to K. Positive genus is excluded by the
+regular-derivation rigidity theorems.
+
+{docstring AclGeom.exists_regular_derivations_baseChange}
+
+{docstring GroupConfig.Germ.IsHW.genus_eq_zero}
+
+All comparison, inverse, independence, regularity and one-variable data in
+this theorem are derived from the actual HW, curve-rank-one and ordinary
+canonical-base-rank-at-least-two hypotheses. Coefficient derivations are never
+extended to the perfect ambient field; only the C-linear curve variations are.
+
+Möbius and affine classification, the original scheme/action bridge and
+normal-subgroup producer, group algebraization and original-field chart/action
+descent remain obligations of the original blueprint.
 
 For an orbit of invertible germs between two loci, independent pairs give
 difference germs. These form one orbit. The difference and either member of
