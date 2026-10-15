@@ -34,6 +34,7 @@ import GroupConfig.Germ.GenericSet
 import GroupConfig.IndepConj
 import GroupConfig.DefinableClosure
 import GroupConfig.Germ.HW
+import GroupConfig.Germ.Translation
 import GroupConfig.Germ.Difference
 import GroupConfig.Germ.Definable
 import GroupConfig.Germ.Triple
@@ -62,6 +63,7 @@ import GroupConfig.BaseNesting
 import GroupConfig.ConfigurationGerm
 import GroupConfig.Germ.Bijections
 import GroupConfig.Germ.HomogeneousSpace
+import GroupConfig.Germ.TranslationSpace
 import GroupConfig.DefinabilityStep
 import GroupConfig.Descent
 import GroupConfig.Germ.BaseChange

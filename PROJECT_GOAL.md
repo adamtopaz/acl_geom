@@ -171,6 +171,8 @@ certify every auxiliary statement in the corresponding source sections.
 - germ representatives, graph ideals, automorphisms, evaluation and composition;
 - independent generic conjugacy, definable values and triple germs;
 - the Hrushovski–Weil group and faithful transitive homogeneous space;
+- the full translation example, including its actual germs, homogeneous space and the
+  obstruction to an independent presentation of the zero class;
 - the final-base rank, one-orbit and two-product properties of its generic elements;
 - constructible group, stabilizer and homogeneous-space presentations on the actual canonical
   code, after internally chosen two-stage generic sampling;
@@ -233,6 +235,16 @@ lattices. The existing point and lattice-rank transports apply to this isomorphi
 the base-closure assertion of `rem:psi-hyp`(c) over arbitrary fields. This keeps the ambient
 field fixed; witness descent from a larger ambient extension remains an obligation.
 
+[GroupConfig/Germ/Translation.lean](GroupConfig/Germ/Translation.lean) constructs the actual
+translation germs, their canonical bases and Hrushovski–Weil structure. The generic orbit
+consists of translations by transcendental parameters, and the generated group consists of
+all translations. [GroupConfig/Germ/TranslationSpace.lean](GroupConfig/Germ/TranslationSpace.lean)
+proves the full example in `rem:connected`: the actual homogeneous space is equivalent to K,
+with pairs identified exactly when their parameter-plus-point sums agree. The total action
+is addition, and the embedded generic points are exactly the transcendental elements.
+The class `[-t,t]` maps to zero and has no presentation using a generic point independent
+from the acting group element. The HW structure is proved internally, not supplied as a premise.
+
 [GroupConfig/MainConstructible.lean](GroupConfig/MainConstructible.lean) proves the combined
 `thm:main-informal` on those same data: for every generic base point it chooses the canonical
 family and fresh samples internally, proves combined-parameter independence over the original
@@ -263,8 +275,8 @@ the group or descend the chart/action to the original fields.
 
 Open:
 
-- auxiliary source statements outside the completed finite #29 audit, including the translation
-  and nonfaithful-action examples and the five-copy parameter rank;
+- auxiliary source statements outside the completed finite #29 audit, including the
+  nonfaithful-action example and the five-copy parameter rank;
 - the fixed formulas and independence argument needed for the application's descent,
   and the source's definability-in-families assertions for rank and connectedness;
 - descending the chart and action to the original fields.

@@ -34,17 +34,19 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 9384cb2 (exact CI38758985943, artifact
-11986145106, existing deployment7096886478 successful at 15:29:11 UTC).
-Its three auxiliary source proofs and full validation are recorded on #12.
+The previous verified checkpoint is cc64392 (exact CI38764251169, artifact
+11989795014, existing deployment7097672771 successful at 16:01:36 UTC).
+Its base-closure and shared affine-line proofs and full validation are recorded on #12.
 The canonical-base line example, necessity of the configuration clauses from
 the actual main conclusion, and the finite-ambient representative-collapse
 warning now have public proofs. Base-algebraic-closure invariance now has an
 actual closed-field order isomorphism preserving carriers, points and ranks.
 The affine-line proof is shared over arbitrary coefficient fields while all
-five original public example statements are retained. Remaining auxiliary
-source statements,
-including translation/nonfaithful examples and the five-copy parameter rank,
+five original public example statements are retained. The full translation example
+now constructs actual germs and HW structure, identifies the homogeneous space
+with K, and computes its pair relation, generic-point image and total action.
+The zero class has no independent presentation. Remaining auxiliary source
+statements, including the nonfaithful example and five-copy parameter rank,
 remain open. The degree-only constructibility usage claim is refuted on #31,
 alongside the fixed-formula source correction. Application witness descent and
 its independence argument remain open. The current integration's source and
@@ -10300,3 +10302,46 @@ image, zero class and independent-presentation obstruction are proved.
 The five-copy parameter bound, nonfaithful-action example, remaining
 application descent/family assertions and original reconstruction remain
 obligations.
+
+
+## The full translation example (#12, 2026-10-15)
+
+`Germ/Translation` constructs the actual quasi-rational representatives and
+quotient germs for translations of the affine line. Their parameters determine
+the germs injectively, composition is addition, and the actual canonical base
+is k(c). The generic orbit is precisely the translations by transcendental
+parameters; a transcendental translation has the proved Hrushovski–Weil
+structure, and its two-product group contains exactly all translations.
+The three field/rank helpers have named consumers in these two modules.
+The canonical-base calculation uses the shared affine-line theorem and the
+existing finite-coordinate equivalence API.
+
+`Germ/TranslationSpace` computes the actual Pair.Rel relation and constructs
+the actual homogeneous-space equivalence with K. A pair (tau_a,y) maps to
+a+y, with no independence imposed between its point and parameter. The
+inverse uses the given transcendental base point. The generic-point embedding
+has exactly the transcendental elements as image; the total action becomes
+addition. The class [-t,t] maps to zero and has no presentation gamma smul
+iota(y) with y independent from the canonical base of gamma. That negative
+proof uses compatibility only when genuine generic-evaluation independence
+is available. No caller supplies an HW or presentation certificate. Thus
+all clauses of the translation example in rem:connected are proved.
+
+Claude supplied the exact 336-line dbe321cf and 246-line e292186e producers.
+The primary agent reviewed every proof and independently checked both in
+4.44 s, with empty standard-lint diagnostics and all thirty-two public
+rendered types and axiom reports containing only the expected standard
+Lean axioms. A further 1.70 s printing-only check expands the actual proved
+HW term indexing the space and group, rather than hiding it as an ellipsis.
+The two threads and enforced 20 GB cap had no cap/OOM events or safety stop.
+Full library/book and final integrated checks after all edits are required
+before committing and pushing. The aggregate, book, goal frontier and these
+module statuses describe the same proved source example.
+
+The shared goal's objective, endpoint and completion criteria and the frozen
+historical body are unchanged. Source TeX is unchanged and the supplemental
+PDF remains excluded. Claude owns only the two separate private nonfaithful
+example modules, with agreed compiler turns. That full source example, the
+five-copy parameter rank, application descent/family assertions, original
+algebraization, action classification, guarded charts and unconditional
+reconstruction remain obligations.
