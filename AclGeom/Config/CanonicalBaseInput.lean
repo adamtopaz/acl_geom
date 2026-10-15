@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import GroupConfig.Configuration
+import GroupConfig.CanonicalBaseCapture
 import AclGeom.Config.PsiLattice
 
 /-!
@@ -26,7 +27,8 @@ The complete sixteen-triple input is assembled in `Config.ConfigurationInput`;
 the canonical universal-ambient package is in `Config.UniversalConfigurationInput`.
 The three identifications require only `PsiCore`, clauses (i)–(iv); the full-Ψ
 public theorems retain their statements and delegate to these proofs.
-Literal image-tuple comparison and finite-ambient chart/action descent remain open.
+Literal image-tuple comparison is proved in `Config.UniversalImageConfigurationInput`;
+finite-ambient chart/action descent remains open.
 Both output guards remain at the downstream chart target; no chart, algebraic
 group, action or reconstruction is extracted here.
 -/
@@ -39,32 +41,7 @@ noncomputable section
 
 open AclGeom Set
 
-variable {k K ι κ : Type*} [Field k] [Field K] [Algebra k K]
-
-/-- Algebraicity of a finite target tuple over M and a source tuple can be
-captured using the canonical base of their joint locus instead of M.
-Named consumer: the canonical-base clauses of the actual Psi configuration input. -/
-private theorem range_subset_racl_canonicalBase [IsAlgClosed K] [UniversalDomain k K]
-    [Finite ι] [Finite κ] (M : IntermediateField k K) [IsAlgClosed (↥M)]
-    (hM : IsSmall k (M : Set K)) (a : ι → K) (b : κ → K)
-    (hb : range b ⊆ racl k ((M : Set K) ∪ range a)) :
-    range b ⊆ racl k ((canonicalBase M (Sum.elim a b) : Set K) ∪ range a) := by
-  let C := canonicalBase M (Sum.elim a b)
-  have hrange := Sum.elim_range a b
-  have htotal : erk k (C : Set K) (range a ∪ range b) =
-      erk k (M : Set K) (range a) := by
-    rw [← hrange, erk_canonicalBase_eq M hM, hrange]
-    exact erk_union_eq_of_subset_racl k hb
-  have hlow : erk k (M : Set K) (range a) ≤ erk k (C : Set K) (range a) :=
-    erk_base_mono k (SetLike.coe_subset_coe.2 (canonicalBase_le M (Sum.elim a b))) _
-  have hsum : erk k (C : Set K) (range a) +
-      erk k ((C : Set K) ∪ range a) (range b) ≤ erk k (C : Set K) (range a) + 0 := by
-    rw [← erk_union_eq, add_zero]
-    exact htotal.le.trans hlow
-  have hz := (ENat.add_le_add_iff_left (erk_ne_top k (finite_range a) (C : Set K))).1 hsum
-  exact (erk_eq_zero_iff k).1 (bot_unique hz)
-
-
+variable {k K : Type*} [Field k] [Field K] [Algebra k K]
 
 private def pointTuple (P : Point k K) : Fin 1 → K := fun _ ↦ P.rep
 

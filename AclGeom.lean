@@ -9,6 +9,7 @@ import AclGeom.Closure.Ambient
 import AclGeom.Closure.ClosedLattice
 import AclGeom.Closure.CrossBase
 import AclGeom.Geometry.Points
+import AclGeom.Geometry.PointTuples
 import AclGeom.Geometry.FrobeniusPowers
 import AclGeom.Geometry.Equivalence
 import AclGeom.Geometry.FiniteRank

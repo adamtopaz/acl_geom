@@ -1390,6 +1390,34 @@ interalgebraicity clauses refer to the same extracted data.
 Algebraization, action classification, original-field chart/action descent
 and unconditional reconstruction remain separate targets.
 
+# The rank-one partial-quadrangle configuration
+%%%
+tag := "group-configuration-psi-rank-one"
+%%%
+
+Clause (vi) of full $`\Psi` supplies a partial quadrangle extending $`S,T,U`.
+In the order $`(S,T,U,T',U',S')`, its four dependent lines and sixteen
+independent triples give GC1–GC3, and each point has rank one. The shared
+canonical-base capture theorem gives GC4: a trivial closed canonical base
+would force two distinct quadrangle points to coincide. Thus no configuration
+or canonical-base certificate is an extra hypothesis.
+
+{docstring AclGeom.IsPartialQuadrangle.groupConfiguration}
+
+The existing main theorem now gives actual Hrushovski–Weil data, finite
+parameters $`E` of rank five independent from all six quadrangle points, and
+all six interalgebraicity conclusions. Both the group point $`S` and the
+space point $`T'` have rank one over the literal base $`\operatorname{acl}(k,E)`.
+The fields are algebraically closed and the ambient field is a universal domain.
+This uses full $`\Psi`; `PsiCore` does not include clause (vi).
+
+{docstring AclGeom.QWitness.Psi.exists_rankOne_isMainConclusion}
+
+Only independence from these six point tuples is asserted. Independence from
+the rest of the original witness, the original algebraic group over the base
+in `thm:six-point-group`, Weil algebraization, the homomorphism $`\pi`, its
+normal subgroup and original-field descent remain obligations.
+
 # The nonfaithful product-group example
 %%%
 tag := "group-configuration-nonfaithful-example"

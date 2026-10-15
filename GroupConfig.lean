@@ -13,6 +13,7 @@ import GroupConfig.Locus
 import GroupConfig.Rref
 import GroupConfig.FieldOfDefinition
 import GroupConfig.CanonicalBase
+import GroupConfig.CanonicalBaseCapture
 import GroupConfig.CanonicalBaseCounterexample
 import GroupConfig.Configuration
 import GroupConfig.Codes
@@ -83,6 +84,7 @@ import GroupConfig.StepI
 import GroupConfig.StepII
 import GroupConfig.Main
 import GroupConfig.Psi
+import GroupConfig.PsiRankOne
 
 import GroupConfig.CodeVector
 import GroupConfig.FodBaseChange

@@ -10710,3 +10710,43 @@ affine chart, original-field descent or reconstruction is claimed. All eight
 original #21 classification requirements and other source obligations remain
 open. Original goal endpoint, source TeX and frozen historical M4a body stay
 unchanged; the supplemental PDF remains excluded.
+
+
+## Rank-one HW data from the actual Ψ quadrangle (#12, 2026-10-15)
+
+`IsPartialQuadrangle.groupConfiguration` derives GC1–GC5 for the actual six
+points in the order (S,T,U,Tprime,Uprime,Sprime). The four dependent lines
+have rank two; all sixteen noncollinear triples have rank three. Atomicity
+and the canonical-base capture theorem prove GC4: a trivial closed canonical
+base would force two distinct points to coincide. The full Ψ clause (vi)
+supplies this quadrangle; `PsiCore` alone does not contain that clause.
+
+`QWitness.Psi.exists_rankOne_isMainConclusion` applies the existing actual
+main theorem. It returns finite E of rank five over the original base,
+independent from all six quadrangle point tuples, the actual
+`IsMainConclusion` over racl(k,E), and rank one for both S and Tprime over
+that literal base. Algebraic closedness of k and K and the universal-domain
+hypothesis are explicit. No group, configuration, canonical-base, rank or
+independence certificate is supplied as an additional premise.
+
+Claude supplied the complete 254-line private consumer; the primary agent
+read every proof and independently compiled its exact source. The two agents
+then reviewed shared canonical-base capture and point/tuple-rank helpers.
+The final 219-line consumer removes all four duplicate private proofs;
+the existing rank-two input also uses those same helpers. The primary agent
+read the whole cleaned consumer and independently compiled all three exact
+new modules over fresh main dependencies with empty logs. All six expanded
+public type/dependency reports use standard Lean axioms. This scoped,
+two-thread 20 GB family completed in 4.22 s, peak RSS 3.33 GiB, without memory
+events or safety stop. Full library/book and integrated lint/type/dependency
+gates after all final edits remain mandatory before every commit and push;
+exact checkpoint/CI evidence is recorded on #12.
+
+The aggregate imports, book and goal frontier match this bounded result.
+Original source TeX, goal endpoint/completion criteria, frozen historical
+M4a body and excluded supplemental PDF are preserved. The result asserts
+independence only from the six quadrangle point tuples. The algebraic group
+H over the original base in `thm:six-point-group`, Weil algebraization, the
+homomorphism pi, its normal subgroup, original-field chart/action descent,
+affine classification, guarded charts and unconditional reconstruction remain
+obligations. All eight original classification requirements on #21 stay open.

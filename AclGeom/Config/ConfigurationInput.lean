@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Codex
 -/
 import AclGeom.Config.CanonicalBaseInput
+import AclGeom.Geometry.PointTuples
 
 /-!
 # Six-point configuration input from the actual Ψ witness
@@ -25,9 +26,10 @@ action or completeness conclusion is supplied by the caller.
 an algebraically closed universal ambient field, over an arbitrary original base.
 The existing full-Ψ public statements are preserved as wrappers.
 The canonical universal-ambient package is proved in Config.UniversalConfigurationInput.
-Literal comparison with image tuples and finite-ambient chart/action descent,
-group extraction/algebraization, action classification and unconditional
-reconstruction remain separate obligations. Both output guards remain at the
+Literal comparison with image tuples and group-of-germs extraction are proved in
+`Config.UniversalImageConfigurationInput` and `GroupConfig.Psi`. Finite-ambient chart/action
+descent, algebraization, action classification and unconditional reconstruction remain
+separate obligations. Both output guards remain at the
 chart target; they are unnecessary for this input alone.
 -/
 
@@ -64,31 +66,15 @@ private theorem racl_pair (P Q : Point k K) :
     racl k (range (![P.rep, Q.rep] : Fin 2 → K)) = (P.1 ⊔ Q.1).1 := by
   rw [Matrix.range_cons_cons_empty, ← coe_sup_point₂, P.point_rep, Q.point_rep]
 
-private theorem racl_single (P : Point k K) :
-    racl k (range (fun _ : Fin 1 ↦ P.rep)) = P.1.1 := by
-  rw [range_const]
-  exact congrArg Subtype.val P.point_rep
-
-private theorem racl_union_sup {S T : Set K} {E F : ClosedIF k K}
-    (hS : racl k S = E.1) (hT : racl k T = F.1) :
-    racl k (S ∪ T) = (E ⊔ F).1 := by
-  rw [ClosedIF.coe_sup]
-  change racl k (S ∪ T) = racl k ((E.1 : Set K) ∪ (F.1 : Set K))
-  rw [← hS, ← hT, racl_union_left, racl_union_right]
-
-private theorem erk_of_racl_rank {S : Set K} {E : ClosedIF k K} {n : ℕ}
-    (hS : racl k S = E.1) (hE : RankEq n E) : erk k ∅ S = n := by
-  calc erk k ∅ S = erk k ∅ (E : Set K) :=
-      erk_eq_of_racl_eq (hS.trans (isRAC_iff_racl_eq.1 E.2).symm)
-    _ = n := by rw [erk_empty_eq, rankEq_iff_eRk.1 hE]
-
 private theorem triple_of_rank {A B C : Set K} {E F G : ClosedIF k K} {m n r : ℕ}
     (hA : racl k A = E.1) (hB : racl k B = F.1) (hC : racl k C = G.1)
     (hE : RankEq m E) (hF : RankEq n F) (hG : RankEq r G)
     (hEFG : RankEq (m + n + r) (E ⊔ F ⊔ G)) : IndepTriple k A B C := by
   unfold IndepTriple
-  rw [erk_of_racl_rank (racl_union_sup (racl_union_sup hA hB) hC) hEFG,
-    erk_of_racl_rank hA hE, erk_of_racl_rank hB hF, erk_of_racl_rank hC hG,
+  rw [ClosedIF.erk_eq_of_racl_eq
+      (ClosedIF.racl_union_eq_sup (ClosedIF.racl_union_eq_sup hA hB) hC) hEFG,
+    ClosedIF.erk_eq_of_racl_eq hA hE, ClosedIF.erk_eq_of_racl_eq hB hF,
+    ClosedIF.erk_eq_of_racl_eq hC hG,
     Nat.cast_add, Nat.cast_add]
 
 private theorem triple_plane_pair_point {A B C : Set K} {E F : ClosedIF k K}
@@ -115,7 +101,7 @@ private theorem triple_replace_second {A B B' C : Set K}
 private theorem subset_line {A Q P : Set K} {E : ClosedIF k K} {Y X : Point k K}
     (hA : racl k A = E.1) (hQ : racl k Q = Y.1.1) (hP : racl k P = X.1.1)
     (hXY : X.1 ≤ E ⊔ Y.1) : Q ∪ P ⊆ racl k (A ∪ Q) := by
-  rw [racl_union_sup hA hQ]
+  rw [ClosedIF.racl_union_eq_sup hA hQ]
   rintro x (hx | hx)
   · exact (le_sup_right : Y.1 ≤ E ⊔ Y.1) (hQ ▸ subset_racl k Q hx)
   · exact hXY (hP ▸ subset_racl k P hx)
@@ -132,15 +118,15 @@ theorem PsiCore.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w
   have hA : racl k (range w.aTuple) = w.A.1 := racl_pair w.A₁ w.A₂
   have hB : racl k (range w.bTuple) = w.B.1 := racl_pair w.B₁ w.B₂
   have hC : racl k (range w.cTuple) = w.C.1 := racl_pair w.C₁ w.C₂
-  have hX : racl k (range w.xTuple) = w.X.1.1 := racl_single w.X
-  have hY : racl k (range w.yTuple) = w.Y.1.1 := racl_single w.Y
-  have hZ : racl k (range w.zTuple) = w.Z.1.1 := racl_single w.Z
-  have rA := erk_of_racl_rank hA hw.rankEq_A
-  have rB := erk_of_racl_rank hB hw.rankEq_B
-  have rC := erk_of_racl_rank hC hw.rankEq_C
-  have rX := erk_of_racl_rank hX w.X.rankEq_one
-  have rY := erk_of_racl_rank hY w.Y.rankEq_one
-  have rZ := erk_of_racl_rank hZ w.Z.rankEq_one
+  have hX : racl k (range w.xTuple) = w.X.1.1 := Point.racl_repTuple w.X
+  have hY : racl k (range w.yTuple) = w.Y.1.1 := Point.racl_repTuple w.Y
+  have hZ : racl k (range w.zTuple) = w.Z.1.1 := Point.racl_repTuple w.Z
+  have rA := ClosedIF.erk_eq_of_racl_eq hA hw.rankEq_A
+  have rB := ClosedIF.erk_eq_of_racl_eq hB hw.rankEq_B
+  have rC := ClosedIF.erk_eq_of_racl_eq hC hw.rankEq_C
+  have rX := ClosedIF.erk_eq_of_racl_eq hX w.X.rankEq_one
+  have rY := ClosedIF.erk_eq_of_racl_eq hY w.Y.rankEq_one
+  have rZ := ClosedIF.erk_eq_of_racl_eq hZ w.Z.rankEq_one
   have ab : w.A ⊔ w.B = w.A ⊔ w.B ⊔ w.C :=
     RankEq.eq_of_le le_sup_left hw.rank_AB hw.rank_ABC
   have ac : w.A ⊔ w.C = w.A ⊔ w.B ⊔ w.C :=
@@ -166,23 +152,25 @@ theorem PsiCore.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w
       (hw.rankEq_C.sup_point_of_not_le nZC) (hw.rankEq_C.sup_point_of_not_le nXC)
   have eqAXAY : racl k (range w.aTuple ∪ range w.xTuple) =
       racl k (range w.aTuple ∪ range w.yTuple) := by
-    rw [racl_union_sup hA hX, racl_union_sup hA hY, axay]
+    rw [ClosedIF.racl_union_eq_sup hA hX, ClosedIF.racl_union_eq_sup hA hY, axay]
   have eqBYBZ : racl k (range w.bTuple ∪ range w.yTuple) =
       racl k (range w.bTuple ∪ range w.zTuple) := by
-    rw [racl_union_sup hB hY, racl_union_sup hB hZ, bzby]
+    rw [ClosedIF.racl_union_eq_sup hB hY, ClosedIF.racl_union_eq_sup hB hZ, bzby]
   have eqCXCZ : racl k (range w.cTuple ∪ range w.xTuple) =
       racl k (range w.cTuple ∪ range w.zTuple) := by
-    rw [racl_union_sup hC hX, racl_union_sup hC hZ, czcx]
+    rw [ClosedIF.racl_union_eq_sup hC hX, ClosedIF.racl_union_eq_sup hC hZ, czcx]
   have nXY : ¬ w.X.1 ≤ w.Y.1 := fun h ↦ hw.X_free w.A₁ le_sup_left (h.trans le_sup_right)
   have nZY : ¬ w.Z.1 ≤ w.Y.1 := fun h ↦ hw.Z_freeB w.B₁ le_sup_left (h.trans le_sup_right)
   have nZX : ¬ w.Z.1 ≤ w.X.1 := fun h ↦ hw.Z_freeC w.C₁ le_sup_left (h.trans le_sup_right)
   have rXY : erk k ∅ (range w.xTuple ∪ range w.yTuple) = 2 :=
-    erk_of_racl_rank (racl_union_sup hX hY)
+    ClosedIF.erk_eq_of_racl_eq (ClosedIF.racl_union_eq_sup hX hY)
       ((w.Y.rankEq_one.sup_point_of_not_le nXY).congr (sup_comm _ _))
   have rYZ : erk k ∅ (range w.yTuple ∪ range w.zTuple) = 2 :=
-    erk_of_racl_rank (racl_union_sup hY hZ) (w.Y.rankEq_one.sup_point_of_not_le nZY)
+    ClosedIF.erk_eq_of_racl_eq (ClosedIF.racl_union_eq_sup hY hZ)
+      (w.Y.rankEq_one.sup_point_of_not_le nZY)
   have rXZ : erk k ∅ (range w.xTuple ∪ range w.zTuple) = 2 :=
-    erk_of_racl_rank (racl_union_sup hX hZ) (w.X.rankEq_one.sup_point_of_not_le nZX)
+    ClosedIF.erk_eq_of_racl_eq (ClosedIF.racl_union_eq_sup hX hZ)
+      (w.X.rankEq_one.sup_point_of_not_le nZX)
   have abX := triple_plane_pair_point hA hB hX hw.rankEq_A hw.rankEq_B hw.rank_AB
     (by rw [ab]; exact hw.X_notLe)
   have abY := triple_plane_pair_point hA hB hY hw.rankEq_A hw.rankEq_B hw.rank_AB
@@ -250,8 +238,8 @@ theorem PsiCore.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w
     exact (triple_of_indep_union (finX.union finY) (hcl.mono_right subXY)
       rZ rX rY rXY).rotate
   refine {
-    racl_ab_ac := by rw [racl_union_sup hA hB, racl_union_sup hA hC, ab, ac]
-    racl_ab_bc := by rw [racl_union_sup hA hB, racl_union_sup hB hC, ab, bc]
+    racl_ab_ac := by rw [ClosedIF.racl_union_eq_sup hA hB, ClosedIF.racl_union_eq_sup hA hC, ab, ac]
+    racl_ab_bc := by rw [ClosedIF.racl_union_eq_sup hA hB, ClosedIF.racl_union_eq_sup hB hC, ab, bc]
     racl_ax_ay := eqAXAY
     racl_by_bz := eqBYBZ
     racl_cx_cz := eqCXCZ
@@ -297,8 +285,8 @@ theorem PsiCore.groupConfiguration_with_ranks [IsAlgClosed K] [UniversalDomain k
     (hw : w.PsiCore) :
     GroupConfig.GroupConfiguration k w.aTuple w.bTuple w.cTuple w.xTuple w.yTuple w.zTuple ∧
       erk k ∅ (range w.aTuple) = 2 ∧ erk k ∅ (range w.xTuple) = 1 :=
-  ⟨hw.groupConfiguration, erk_of_racl_rank (racl_pair w.A₁ w.A₂) hw.rankEq_A,
-    erk_of_racl_rank (racl_single w.X) w.X.rankEq_one⟩
+  ⟨hw.groupConfiguration, ClosedIF.erk_eq_of_racl_eq (racl_pair w.A₁ w.A₂) hw.rankEq_A,
+    ClosedIF.erk_eq_of_racl_eq (Point.racl_repTuple w.X) w.X.rankEq_one⟩
 
 /-- The full Ψ witness supplies the source configuration through its first four clauses. -/
 theorem Psi.groupConfiguration [IsAlgClosed K] [UniversalDomain k K] (hw : w.Psi) :
