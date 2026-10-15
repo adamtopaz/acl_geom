@@ -25,8 +25,9 @@ blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** finite-rank small sets have finite closure generators, and the explicit
 infinite-transcendence-degree hypothesis supplies fresh tuples of every finite
-rank. Algebraic closedness is not needed for these results. The later locus and
-group-configuration theorems remain separate obligations.
+rank. Algebraic closedness is not needed for these results. Generic loci are
+developed in `GroupConfig.Locus` and `GroupConfig.PrimeLocus`; group-of-germs
+extraction is in `GroupConfig.Main`.
 -/
 
 namespace GroupConfig

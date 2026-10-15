@@ -20,7 +20,7 @@ blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** matroids, ranks and independence are invariant under base-field
 automorphisms (`lem:equiv`). The full orbit characterization is in
-`GroupConfig.OrbitFiniteness`; group extraction remains a separate obligation.
+`GroupConfig.OrbitFiniteness`; group-of-germs extraction is in `GroupConfig.Main`.
 -/
 
 namespace GroupConfig

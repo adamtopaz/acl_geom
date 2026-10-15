@@ -27,8 +27,8 @@ blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** algebraic-tuple orbit finiteness and the conjugate-set/definable-code
 claims are proved for the scalar coefficient carrier of the coding polynomial.
-The distinct finite indexed coefficient-vector presentation in `def:code` remains
-an obligation; the polynomial retains its coefficient positions.
+The finite indexed coefficient-vector presentation in `def:code` is proved in
+`GroupConfig.CodeVector`. It is distinct from the scalar carrier and the germ RREF code.
 -/
 
 namespace GroupConfig

@@ -26,7 +26,8 @@ blueprint `sources/group_configuration_blueprint.tex`.
 smallness and a finite generating carrier for rank and closure calculations are
 proved. `codeSet` is not the source's canonical indexed RREF vector; no global
 carrier injectivity or coordinatewise naturality is asserted. The separate
-canonical-vector and evaluation layers remain to be integrated.
+canonical-vector and evaluation layers are in `GroupConfig.Germ.CanonicalCode`
+and `GroupConfig.Germ.Eval`.
 -/
 
 namespace GroupConfig

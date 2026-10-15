@@ -9950,3 +9950,50 @@ action classification, guarded charts and unconditional reconstruction remain
 open. PROJECT_GOAL changes only the proved frontier, preserving the complete
 original endpoint. The source TeX and frozen M4a chain are unchanged, and the
 untracked supplemental PDF remains excluded.
+
+
+## Literal finite-set codes and FOD scalar extension (#29, 2026-10-15)
+
+`CodeVector` gives the finite indexed coefficient vector of the actual finite-set
+coding polynomial. Its indices are pairs of a T-exponent and a U-monomial of
+total degree at most the chosen bound. Full homogeneity proves that all nonzero
+coefficients occur in this finite range, and the vector's nonzero values recover
+the scalar code carrier. Naturality, fixedness/injectivity, ring-adjoin containment,
+algebraic closure and definable closure are proved. The declarations live in
+`GroupConfig.FiniteSetCode`: the existing top-level `CodeIndex` and `codeVec`
+already belong to the different ideal/germ RREF code. The namespace change
+preserves every mathematical proof body and leaves that existing API unchanged.
+
+`FodBaseChange` proves the literal fields-of-definition scalar-extension remark.
+The actual K-span of a subspace's image has its mapped RREF basis; the actual
+degree pieces of an extended ideal are scalar extensions of its original pieces,
+using coefficient lifting through the field range and extension/contraction.
+The field of definition is therefore the image of the original field of definition.
+No ACF, universal domain or scalar-extension certificate is a hypothesis.
+The producer is preserved byte for byte.
+
+Both private producers were mathematically reviewed and independently checked;
+the refreshed six peer modules plus the actual domain drafts passed in 8.61
+seconds with empty default-option standard-lint diagnostics. Eleven scoped
+standard-axiom/type checks passed in 1.48 seconds. Related stale Status and book
+sentences are corrected here. A scan of every current module Status also found
+seven remaining descriptions that still called group extraction or the canonical
+code/evaluation layers pending. They now point to the proved Main, CanonicalCode
+and Eval modules, retaining the constructible-presentation and reconstruction
+obligations. These changes affect descriptions only. Full library/book and
+independent final checks
+after all integration edits remain required before committing; the two audit
+boxes stay open until the pushed checkpoint's exact CI passes.
+
+The precise main theorem checkpoint is 428b601; its exact CI38661935677,
+19147-job build/book, artifact11939516767 and existing deployment7080984413
+(success 00:55:04 UTC) are verified. G1–G7 and the closure/RREF audit items are
+checked off with exact evidence. Claude owns the finite-collection fresh sampling
+construction, exposing actual generic-point provenance and joint rank additivity,
+including the admissibility restrictions for every declared expression family.
+The primary agent owns the actual group domain, quotient operations and action.
+The group/stabilizer formulas and pair-domain surjection remain private drafts;
+the full constructible presentation is not claimed by this checkpoint. Original
+algebraization, action classification, guarded charts and unconditional
+reconstruction remain open. The source TeX, shared endpoint and frozen M4a chain
+are unchanged; the supplemental PDF remains excluded.

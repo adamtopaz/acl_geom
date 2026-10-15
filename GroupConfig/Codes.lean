@@ -26,14 +26,15 @@ the coordinates have the same relative algebraic closure (`racl_code_eq`).
 
 `lem:code`(4) and the codes of conjugate sets (`def:conjset`, `lem:conjcode`) need the
 Galois description of definable closure. Their scalar-carrier forms are proved in
-`GroupConfig.ConjugateSet`; the finite indexed vector presentation remains separate.
+`GroupConfig.ConjugateSet`; the finite indexed vector presentation is in
+`GroupConfig.CodeVector`, under the namespace `GroupConfig.FiniteSetCode`.
 
 **Status:** the indexed coding polynomial is injective over domains, and
 scalar coefficient carriers are finite and natural. The fixed-point/stabilizer
 criterion, containment in the coordinate ring, and equality of relative
 algebraic closures are proved. The finite degree-bounded coefficient-vector
-presentation remains separate; the scalar-carrier definable-closure/conjugate-set
-clauses are proved in `GroupConfig.ConjugateSet`.
+presentation and its corresponding properties are proved in `GroupConfig.CodeVector`;
+the scalar-carrier definable-closure/conjugate-set clauses are in `GroupConfig.ConjugateSet`.
 No injectivity of the scalar coefficient carrier is claimed.
 -/
 

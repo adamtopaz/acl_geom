@@ -36,8 +36,8 @@ blueprint `sources/group_configuration_blueprint.tex`.
 all six canonical-base properties are proved with the stated finite-tuple,
 smallness, algebraic-closedness and universal-domain hypotheses. Cb5 permits
 different finite coordinate types. The ambient field is algebraically closed;
-the original base field need not be. Group extraction and the reconstruction
-completeness inputs remain separate obligations.
+the original base field need not be. Group-of-germs extraction is in
+`GroupConfig.Main`; the reconstruction completeness inputs remain obligations.
 -/
 
 namespace GroupConfig
