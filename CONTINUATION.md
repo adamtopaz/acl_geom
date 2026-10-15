@@ -9997,3 +9997,33 @@ the full constructible presentation is not claimed by this checkpoint. Original
 algebraization, action classification, guarded charts and unconditional
 reconstruction remain open. The source TeX, shared endpoint and frozen M4a chain
 are unchanged; the supplemental PDF remains excluded.
+
+
+## Generic group elements over the final base (#12, 2026-10-15)
+
+`Germ/RelativeRank` proves supplemental `rem:constr-connected` in its literal
+rank, orbit and product form. For any small intermediate field M, all group
+elements have canonical-base rank at most the original datum's rank n, and
+rank n is equivalent to original generic-set membership plus independence
+from M. Every element is a product of two rank-n elements over M. Those
+elements form one orbit under automorphisms over M, which preserve relative
+rank. The theorem assumes neither algebraic closedness of M nor independence
+of the original datum from M. Its ranks on the left are over M, including
+when M is the final sampling field or its algebraic closure.
+
+Claude supplied the 151-line producer, preserved byte for byte here. The
+primary agent accepted its mathematics and independently checked the exact
+copy against ebaa87e with project options and standard linters in 3.15 s.
+All five rendered declaration types and scoped dependency reports were
+inspected; dependencies are only the expected standard axioms. Full build,
+book and final integrated checks after these edits remain required before
+commit. This proves the source remark without asserting the still-open
+constructible presentation or formalizing a separate finite-index notion.
+
+The literal pair domain, its internally chosen fresh samples, kernel and
+word formulas remain private checked producers. The primary agent owns the
+multiplication/inverse relations and group/space presentation; Claude owns
+the stabilizer preimage on the actual domain. Original algebraization,
+action classification, guarded charts and unconditional reconstruction remain
+open. The source TeX, shared endpoint and frozen M4a chain are unchanged;
+the untracked supplemental PDF remains excluded.

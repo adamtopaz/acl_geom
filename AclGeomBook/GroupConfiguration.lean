@@ -960,6 +960,34 @@ of the main theorem follow from its compatibility with generic evaluation.
 
 {docstring GroupConfig.Germ.IsHWBij.iota_eq_smul}
 
+# Generic group elements over a larger base
+%%%
+tag := "group-configuration-relative-rank"
+%%%
+
+The source's connectedness remark is proved in its stated rank and orbit form.
+Let $`n` be the original rank of the canonical base of the Hrushovski–Weil
+datum. Over any small intermediate field $`M`, every group element has
+canonical-base rank at most $`n`. Equality holds precisely for elements of
+the original generic set that are independent from $`M`.
+
+{docstring GroupConfig.Germ.IsHW.erk_base_cb_le}
+
+{docstring GroupConfig.Germ.IsHW.erk_base_cb_eq_iff}
+
+Every group element is a product of two elements of rank $`n` over $`M`,
+and any two such elements are conjugate by an automorphism fixing $`M`.
+Automorphisms over $`M` preserve this relative rank. These statements apply
+to the final sampling field and its algebraic closure; $`M` need not be
+algebraically closed, and the originally chosen datum need not be independent
+from $`M`. The constructible group presentation is still open.
+
+{docstring GroupConfig.Germ.IsHW.exists_mul_eq_of_mem_prodSet}
+
+{docstring GroupConfig.Germ.erk_cb_map_restrictScalars}
+
+{docstring GroupConfig.Germ.IsHW.exists_algEquiv_of_erk_base_eq}
+
 # Base change and independent parameter descent
 %%%
 tag := "group-configuration-base-change-descent"

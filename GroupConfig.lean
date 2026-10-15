@@ -46,6 +46,7 @@ import GroupConfig.Germ.OrbitParameters
 import GroupConfig.RrefBaseChange
 import GroupConfig.PrimeLocus
 import GroupConfig.Germ.CompCodes
+import GroupConfig.Germ.RelativeRank
 import GroupConfig.ConjugateSet
 import GroupConfig.OrbitFiniteness
 import GroupConfig.ConfigurationRanks
