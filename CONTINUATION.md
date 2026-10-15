@@ -34,9 +34,9 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is cc64392 (exact CI38764251169, artifact
-11989795014, existing deployment7097672771 successful at 16:01:36 UTC).
-Its base-closure and shared affine-line proofs and full validation are recorded on #12.
+The previous verified checkpoint is abf4aa5 (exact CI38769070767, artifact
+11991800226, existing deployment7098456823 successful at 16:34:57 UTC).
+Its full translation example and full validation are recorded on #12.
 The canonical-base line example, necessity of the configuration clauses from
 the actual main conclusion, and the finite-ambient representative-collapse
 warning now have public proofs. Base-algebraic-closure invariance now has an
@@ -45,9 +45,12 @@ The affine-line proof is shared over arbitrary coefficient fields while all
 five original public example statements are retained. The full translation example
 now constructs actual germs and HW structure, identifies the homogeneous space
 with K, and computes its pair relation, generic-point image and total action.
-The zero class has no independent presentation. Remaining auxiliary source
-statements, including the nonfaithful example and five-copy parameter rank,
-remain open. The degree-only constructibility usage claim is refuted on #31,
+The zero class has no independent presentation. The full nonfaithful product-group
+example now proves the literal action, all Ψ (i)–(iii) clauses, the source atom
+violating (iv), and the obstruction to the precise main conclusion over any
+finite independent extension. The five-copy parameter rank and remaining
+auxiliary source statements stay open. The degree-only constructibility usage
+claim is refuted on #31,
 alongside the fixed-formula source correction. Application witness descent and
 its independence argument remain open. The current integration's source and
 validation details are recorded at the end of this guide and on #12 and #31. Full
@@ -10345,3 +10348,52 @@ example modules, with agreed compiler turns. That full source example, the
 five-copy parameter rank, application descent/family assertions, original
 algebraization, action classification, guarded charts and unconditional
 reconstruction remain obligations.
+
+
+## The nonfaithful product-group example (#12, 2026-10-15)
+
+`Config/PsiNonfaithful` constructs the literal example of rem:psi-hyp(b)
+over arbitrary fields. Five independent scalars give the displayed nine
+points, with the other twelve set to the point of t as clauses (i)–(iv)
+do not mention them. The product of the two groups of units acts on K
+through its first factor, using Mathlib's permutation-action homomorphism
+and first projection. The genuine rank-five hypothesis supplies a nonidentity
+second factor acting trivially. The actual unit identities give b=c*a,
+x=a*y and z=c*x. All nine rank, incidence and noncontainment assertions
+of Ψ (i)–(iii) hold. The source atom A'=acl(s) violates (iv), so the
+constructed witness is not PsiCore.
+
+`Config/PsiNonfaithfulObstruction` computes the actual canonical base of
+(st,t) over acl(s,u), using the shared affine-line theorem and existing
+coordinate reindexing. The parameter u lies outside the closure of that
+base, giving the field-only GC4 obstruction. In an algebraically closed
+universal ambient, the representative tuples of the actual witness are
+interalgebraic with the displayed scalar tuples. Configuration invariance
+transfers the obstruction to them. Necessity from the actual main
+conclusion then rules out any finite independent E carrying IsMainConclusion
+over acl(k,E). This is the precise group-of-germs realization condition;
+it is not a statement quantifying over arbitrary algebraic actions.
+The original algebraic-group and curve-action bridges remain obligations.
+
+Claude supplied the final 407-line fa95faff and 150-line 08a96c7f modules.
+The primary agent read and accepted every proof and independently checked
+the exact two-file candidate in 5.09 s, with empty standard-lint diagnostics
+and all thirteen public rendered dependency/type reports containing only
+the expected standard Lean axioms. Sixteen internal coordinate helpers
+are private; only the two field facts consumed by the obstruction are
+public. The nonfaithfulness statement uses the same genuine independence
+hypothesis, with no unused coordinate lemma. All compiler families used
+two threads and the enforced 20 GB cap, without cap/OOM events or a safety
+stop. Full library/book and final integrated checks after all edits are
+required before committing and pushing.
+
+The aggregate, book, module statuses and shared-goal frontier describe the
+same complete source example. The goal's objective, endpoint and completion
+criteria, source TeX and frozen historical body are unchanged. The
+supplemental PDF is excluded. The five-copy parameter bound, application
+descent/family assertions, original algebraization and action classification,
+guarded charts and unconditional reconstruction stay open. The primary
+agent owns the private three-file parameter-rank refactor. Claude's proposed
+rationality route is still in read-only truth/API review on #21; no new
+classification premise is assumed. The proposed independent-generic-factor
+shortcut was refuted using the translation example and is not adopted.

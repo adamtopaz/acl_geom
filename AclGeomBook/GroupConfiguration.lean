@@ -7,6 +7,7 @@ import VersoManual
 import GroupConfig
 import AclGeom.Config.CanonicalBaseInput
 import AclGeom.Config.ConfigurationInput
+import AclGeom.Config.PsiNonfaithfulObstruction
 import AclGeom.Config.UniversalConfigurationInput
 import AclGeom.Config.UniversalImageConfigurationInput
 
@@ -1247,6 +1248,59 @@ interalgebraicity clauses refer to the same extracted data.
 
 Algebraization, action classification, original-field chart/action descent
 and unconditional reconstruction remain separate targets.
+
+# The nonfaithful product-group example
+%%%
+tag := "group-configuration-nonfaithful-example"
+%%%
+
+Supplemental `rem:psi-hyp`(b) shows why the freeness clause (iv) is needed.
+For five independent elements $`s,s',t,u,u'`, take the parameter pairs
+$`a=(s,u)`, $`b=(s',u')`, $`c=(s'/s,u'/u)` and the space points
+$`y=t`, $`x=st`, $`z=s't`. The product of the two multiplicative groups
+acts on the line through its first factor. The second factor supplies
+nonidentity elements acting trivially. The displayed units satisfy the
+literal group identity $`b=c*a` and action identities $`x=a\cdot y`,
+$`z=c\cdot x`.
+
+{docstring AclGeom.QWitness.Nonfaithful.firstFactorAction}
+
+{docstring AclGeom.QWitness.Nonfaithful.not_injective_firstFactorAction}
+
+{docstring AclGeom.QWitness.Nonfaithful.model}
+
+The constructed twenty-one-point witness uses the displayed elements for
+the nine relevant points. Its other twelve points are all the point of
+$`t`; clauses (i)–(iv) do not mention them. All nine rank, incidence and
+noncontainment assertions in (i)–(iii) hold over arbitrary fields. The atom
+$`A'=\operatorname{acl}(s)` lies in $`A`, and $`X\leq A'\vee Y`, so
+clause (iv) fails.
+
+{docstring AclGeom.QWitness.Nonfaithful.witness}
+
+{docstring AclGeom.QWitness.Nonfaithful.witness_psi_i_iii}
+
+{docstring AclGeom.QWitness.Nonfaithful.witness_not_iv}
+
+{docstring AclGeom.QWitness.Nonfaithful.not_psiCore}
+
+Over $`\operatorname{acl}(s,u)`, the pair $`(st,t)` has the line locus
+$`X=sY` and canonical base $`k(s)`. Its algebraic closure does not contain
+$`u`, which violates GC4 for the first parameter pair. This computation
+also holds over arbitrary fields and reuses the shared affine-line proof.
+
+{docstring AclGeom.QWitness.Nonfaithful.not_cb_a}
+
+In an algebraically closed universal ambient field, the actual witness
+tuples therefore fail the configuration predicate. Necessity of that
+predicate from the main conclusion rules out any finite independent base
+extension realizing these tuples in the precise sense of `thm:main`.
+This statement concerns the actual group-of-germs conclusion; the original
+algebraic-group and curve-action bridges remain obligations.
+
+{docstring AclGeom.QWitness.Nonfaithful.not_groupConfiguration}
+
+{docstring AclGeom.QWitness.Nonfaithful.not_exists_isMainConclusion}
 
 # Replacing the base by its relative algebraic closure
 %%%

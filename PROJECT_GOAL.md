@@ -182,6 +182,8 @@ certify every auxiliary statement in the corresponding source sections.
 - the configuration predicate, its invariance and independent-base descent, with necessity
   of its clauses from the actual main conclusion over a finite independent extension;
 - the explicit canonical-base line example and the finite-ambient representative-collapse warning;
+- the full nonfaithful product-group example, with the actual Ψ clauses (i)–(iii), failure
+  of (iv), and the obstruction to realization by the precise main conclusion;
 - base-algebraic-closure invariance of closures, ranks, closed fields and points;
 - constructible sets, with Chevalley's theorem and generic quantification;
 - the clause-(i)–(iv) form of `prop:psi-gc` and full `cor:psi`, including the actual
@@ -218,6 +220,15 @@ witnesses or recover their independence.
 configurations from a small independent base field. Applied to the actual main conclusion
 over a finite independent extension, it recovers the original configuration, including GC4
 for the first group point as asserted in `rem:main-props`.
+[AclGeom/Config/PsiNonfaithful.lean](AclGeom/Config/PsiNonfaithful.lean) constructs the
+product-units action through its first factor and the literal witness in `rem:psi-hyp`(b).
+All nine assertions of Ψ (i)–(iii) hold, while the source atom `acl(s)` violates (iv).
+[AclGeom/Config/PsiNonfaithfulObstruction.lean](AclGeom/Config/PsiNonfaithfulObstruction.lean)
+computes the canonical-base obstruction over arbitrary fields. In an algebraically closed
+universal ambient it transfers that obstruction to the actual witness tuples and rules out
+`IsMainConclusion` over any finite independent base extension. This is the precise germ
+theorem's realization condition; the original algebraic-group and curve-action bridges
+remain separate obligations.
 [GroupConfig/CanonicalBaseCounterexample.lean](GroupConfig/CanonicalBaseCounterexample.lean)
 proves the literal `rem:cb-not-acl` line example, its canonical base, rank and noncontainment.
 The line ideal and canonical-base proof are shared over any coefficient field containing
@@ -276,7 +287,7 @@ the group or descend the chart/action to the original fields.
 Open:
 
 - auxiliary source statements outside the completed finite #29 audit, including the
-  nonfaithful-action example and the five-copy parameter rank;
+  five-copy parameter rank;
 - the fixed formulas and independence argument needed for the application's descent,
   and the source's definability-in-families assertions for rank and connectedness;
 - descending the chart and action to the original fields.
