@@ -42,11 +42,10 @@ variable [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K] {ι₁ ι₂ ι�
   (hc : GroupConfiguration k a b c x y z)
 include hc
 
-/-- `prop:stepI`: there is a finite set `E` independent from the configuration such that, over
-`k' = acl(k, E)`, there is a group configuration pointwise interalgebraic over `k'` with the
-given one in which `z'` is definable over `k', b', y'` and `y'` over `k', b', z'`. -/
-theorem exists_stepI :
-    ∃ E : Set K, E.Finite ∧
+/-- `prop:stepI` retaining the total rank of its three actual generic copies.
+Named consumer: `GroupConfiguration.exists_main_with_parameterRank`. -/
+theorem exists_stepI_with_parameterRank :
+    ∃ E : Set K, E.Finite ∧ erk k ∅ E = 3 * erk k ∅ (range a) ∧
       IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
       ∃ (κ₁ κ₂ κ₃ κ₄ κ₅ κ₆ : Type u) (_ : Finite κ₁) (_ : Finite κ₂) (_ : Finite κ₃)
         (_ : Finite κ₄) (_ : Finite κ₅) (_ : Finite κ₆) (a' : κ₁ → K) (b' : κ₂ → K)
@@ -61,7 +60,8 @@ theorem exists_stepI :
         (∀ j, z' j ∈ dclAdjoin (adjoin (↥(racl k E)) (range b')) y') ∧
         (∀ j, y' j ∈ dclAdjoin (adjoin (↥(racl k E)) (range b')) z') := by
   /- Step 1: the space point `z`, lines `{b, y, z}` and `{c, z, x}`. -/
-  obtain ⟨e₁, c', x', he₁, -, -, -, hZ₁, hb₁, hy₁, hc₁, hzt, -⟩ := hc.exists_defStep
+  obtain ⟨e₁, c', x', he₁rank, he₁, -, -, -, hZ₁, hb₁, hy₁, hc₁, hzt, -⟩ :=
+    hc.exists_defStep_with_parameterRank
   obtain ⟨Z₁, _, hZ₁, hc₁, hzt⟩ : ∃ (Z : Set K) (_ : Finite ↥Z), racl k Z = racl k (range z) ∧
       GroupConfiguration (↥(racl k (range e₁))) a (Sum.elim b c') c x (Sum.elim y x')
         (tupleOf Z) ∧
@@ -72,8 +72,8 @@ theorem exists_stepI :
   have _ : IsAlgClosed ↥(racl k (range e₁)) := isAlgClosed_racl _
   have _ : UniversalDomain ↥(racl k (range e₁)) K :=
     universalDomain_of_isSmall _ (IsSmall.of_finite (finite_range e₁)).racl
-  obtain ⟨e₂, c'', z'', Z₂, _, he₂, -, -, hZ₂, ha₂, hy₂, hc₂, hxt, -⟩ :=
-    hc₁.swapAB.exists_defStep_base (racl k (range e₁))
+  obtain ⟨e₂, c'', z'', Z₂, _, he₂rank, he₂, -, -, hZ₂, ha₂, hy₂, hc₂, hxt, -⟩ :=
+    hc₁.swapAB.exists_defStep_base_with_parameterRank (racl k (range e₁))
   replace hc₂ := hc₂.swapAB
   /- Step 3: over `K₂ = acl(K₁, e₂)`, the space point `y₂`, lines `{b₁, y₂, z̃}` and
   `{a₂, x̃, y₂}`; the relabeling `swapBC ∘ swapAB ∘ swapBC` moves `y` to the position of `z`. -/
@@ -81,10 +81,35 @@ theorem exists_stepI :
   have _ : UniversalDomain ↥(racl k ((racl k (range e₁) : Set K) ∪ range e₂)) K :=
     universalDomain_of_isSmall _
       ((IsSmall.of_finite (finite_range e₁)).racl.union (IsSmall.of_finite (finite_range e₂))).racl
-  obtain ⟨e₃, a', x''', Z₃, _, he₃, -, -, hZ₃, hb₃, hz₃, hc₃, hyt, himp₃⟩ :=
-    hc₂.swapBC.swapAB.swapBC.exists_defStep_base
+  obtain ⟨e₃, a', x''', Z₃, _, he₃rank, he₃, -, -, hZ₃, hb₃, hz₃, hc₃, hyt, himp₃⟩ :=
+    hc₂.swapBC.swapAB.swapBC.exists_defStep_base_with_parameterRank
       (racl k ((racl k (range e₁) : Set K) ∪ range e₂))
   replace hc₃ := hc₃.swapBC.swapAB.swapBC
+  -- The three actual generic copies each contribute the original group rank.
+  have hA₁ : erk k (range e₁) (range a) = erk k ∅ (range a) := by
+    simpa only [empty_union] using he₁.symm.erk_eq
+      (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h))))) (finite_range a)
+  have hB₁ : erk k (racl k (range e₁) : Set K) (range (Sum.elim b c')) =
+      erk k ∅ (range a) := by
+    rw [← erk_base_empty (racl k (range e₁)), hc₁.erk_b_eq, erk_base_empty, erk_racl_base]
+    exact hA₁
+  have he₂rank' : erk k (range e₁) (range e₂) = erk k ∅ (range a) :=
+    (erk_racl_base k _ _).symm.trans (he₂rank.trans hB₁)
+  have hB₂ : erk k ((racl k (range e₁) : Set K) ∪ range e₂) (range (Sum.elim b c')) =
+      erk k (racl k (range e₁) : Set K) (range (Sum.elim b c')) :=
+    he₂.symm.erk_eq (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h)))))
+      (finite_range (Sum.elim b c'))
+  have hC₂ : erk k (racl k ((racl k (range e₁) : Set K) ∪ range e₂) : Set K) (range c) =
+      erk k ∅ (range a) := by
+    rw [← erk_base_empty (racl k ((racl k (range e₁) : Set K) ∪ range e₂)),
+      hc₂.erk_c_eq, ← hc₂.erk_b_eq, erk_base_empty, erk_racl_base, hB₂, hB₁]
+  have he₃rank' : erk k (range e₁ ∪ range e₂) (range e₃) = erk k ∅ (range a) := by
+    have h := he₃rank.trans hC₂
+    rwa [racl_union_left, erk_racl_base] at h
+  have hErank : erk k ∅ (range e₁ ∪ range e₂ ∪ range e₃) = 3 * erk k ∅ (range a) := by
+    rw [erk_union_eq, erk_union_eq]
+    simp only [empty_union, he₁rank, he₂rank', he₃rank']
+    ring
   /- The final base `k' = acl(k, e₁ e₂ e₃)`. -/
   have hK₃ : racl k ((racl k ((racl k (range e₁) : Set K) ∪ range e₂) : Set K) ∪ range e₃) =
       racl k (range e₁ ∪ range e₂ ∪ range e₃) := by
@@ -195,7 +220,7 @@ theorem exists_stepI :
           subset_union_right)) (hxt i i.2)
   have hzdcl := himp₃ hyp1 hyp2
   -- Assemble, re-indexing the group points by their ranges.
-  refine ⟨range e₁ ∪ range e₂ ∪ range e₃, hEfin, hind.symm, ↥(range (Sum.elim a c'')),
+  refine ⟨range e₁ ∪ range e₂ ∪ range e₃, hEfin, hErank, hind.symm, ↥(range (Sum.elim a c'')),
     ↥(range (Sum.elim (Sum.elim b c') a')), ↥(range c), ↥Z₂, ↥Z₃, ↥Z₁ ⊕ ↥Z₂, inferInstance,
     inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     tupleOf (range (Sum.elim a c'')), tupleOf (range (Sum.elim (Sum.elim b c') a')),
@@ -216,6 +241,27 @@ theorem exists_stepI :
     rw [range_tupleOf, Sum.elim_range (Sum.elim (Sum.elim b c') a') (Sum.elim (tupleOf Z₁) x''')]
     exact union_subset ((coe_subset_adjoin _ _).trans subset_union_left)
       (union_subset ((subset_adjoin _ _).trans subset_union_left) subset_union_right)
+
+/-- `prop:stepI`: there is a finite set `E` independent from the configuration such that, over
+`k' = acl(k, E)`, there is a group configuration pointwise interalgebraic over `k'` with the
+given one in which `z'` is definable over `k', b', y'` and `y'` over `k', b', z'`. -/
+theorem exists_stepI :
+    ∃ E : Set K, E.Finite ∧
+      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      ∃ (κ₁ κ₂ κ₃ κ₄ κ₅ κ₆ : Type u) (_ : Finite κ₁) (_ : Finite κ₂) (_ : Finite κ₃)
+        (_ : Finite κ₄) (_ : Finite κ₅) (_ : Finite κ₆) (a' : κ₁ → K) (b' : κ₂ → K)
+        (c' : κ₃ → K) (x' : κ₄ → K) (y' : κ₅ → K) (z' : κ₆ → K),
+        GroupConfiguration (↥(racl k E)) a' b' c' x' y' z' ∧
+        racl k (E ∪ range a') = racl k (E ∪ range a) ∧
+        racl k (E ∪ range b') = racl k (E ∪ range b) ∧
+        racl k (E ∪ range c') = racl k (E ∪ range c) ∧
+        racl k (E ∪ range x') = racl k (E ∪ range x) ∧
+        racl k (E ∪ range y') = racl k (E ∪ range y) ∧
+        racl k (E ∪ range z') = racl k (E ∪ range z) ∧
+        (∀ j, z' j ∈ dclAdjoin (adjoin (↥(racl k E)) (range b')) y') ∧
+        (∀ j, y' j ∈ dclAdjoin (adjoin (↥(racl k E)) (range b')) z') := by
+  obtain ⟨E, hEfin, -, h⟩ := hc.exists_stepI_with_parameterRank
+  exact ⟨E, hEfin, h⟩
 
 end GroupConfiguration
 

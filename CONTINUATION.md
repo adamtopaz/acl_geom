@@ -34,9 +34,9 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is abf4aa5 (exact CI38769070767, artifact
-11991800226, existing deployment7098456823 successful at 16:34:57 UTC).
-Its full translation example and full validation are recorded on #12.
+The previous verified checkpoint is 3af3279 (exact CI38772251258, artifact
+11991354172, existing deployment7098976607 successful at 16:58:31 UTC).
+Its full nonfaithful example and full validation are recorded on #12.
 The canonical-base line example, necessity of the configuration clauses from
 the actual main conclusion, and the finite-ambient representative-collapse
 warning now have public proofs. Base-algebraic-closure invariance now has an
@@ -48,10 +48,13 @@ with K, and computes its pair relation, generic-point image and total action.
 The zero class has no independent presentation. The full nonfaithful product-group
 example now proves the literal action, all Ψ (i)–(iii) clauses, the source atom
 violating (iv), and the obstruction to the precise main conclusion over any
-finite independent extension. The five-copy parameter rank and remaining
-auxiliary source statements stay open. The degree-only constructibility usage
-claim is refuted on #31,
-alongside the fixed-formula source correction. Application witness descent and
+finite independent extension. The actual five-copy construction now retains
+the three-plus-two generic-copy ranks and proves rank(E)=5*rank(a) over
+the original base, together with the actual main conclusion. All six old
+public statements and docstrings remain unchanged projections. The
+universal-domain hypothesis and remaining auxiliary obligations are retained.
+The degree-only constructibility usage claim is refuted on #31 alongside
+the fixed-formula source correction. Application witness descent and
 its independence argument remain open. The current integration's source and
 validation details are recorded at the end of this guide and on #12 and #31. Full
 library/book gates are required before every commit.
@@ -10397,3 +10400,50 @@ agent owns the private three-file parameter-rank refactor. Claude's proposed
 rationality route is still in read-only truth/API review on #21; no new
 classification premise is assumed. The proposed independent-generic-factor
 shortcut was refuted using the translation example and is not adopted.
+
+
+## The actual five-copy parameter rank (#12, 2026-10-15)
+
+`GroupConfiguration.exists_main_with_parameterRank` proves rem:params on
+its actual construction: a finite E, independent from the original six
+points, has rank five times the original group-point rank over k and carries
+the actual IsMainConclusion over acl(k,E). No parameter-rank certificate
+or prescribed E is supplied. The universal-domain hypothesis is retained;
+this does not produce a finite-ambient version of the germ theorem.
+
+The existing producers are strengthened once. DefinabilityStep keeps
+he.erk_empty_eq for its chosen generic copy, including the intermediate-base
+variant. StepI retains the three successive ranks; independent base change
+preserves the original group rank and the tower law gives 3n. StepIII_one
+keeps the already-returned sigma*b=bprime identity, so erk_image recovers
+the copy's rank without changing StepII. StepIII also uses the already-returned
+sigma2*c=cdoubleprime identity; the two copies have combined relative rank
+2n. Main transfers the transformed group rank back to the original input,
+then combines the actual E and S by the tower law to obtain 5n over the
+original base. Each old long proof is moved once into its stronger producer.
+The six old public docstrings and statements are byte-identical projections,
+and the relative Step III omission of IsAlgClosed k is preserved.
+
+The primary agent owns this three-file refactor, with ownership agreed through
+chit. The exact private producers are 368-line a9e1bd8b, 270-line e8a631bc
+and 798-line 695e086e. Their latest standard-lint checks are empty. The
+actual unchanged MainConstructible and PsiConstructible source consumers
+passed in 4.49 s and 13.89 s, using the stronger producer through the old
+public wrapper. Twelve new/old scoped dependency/type reports contain only
+the expected standard Lean axioms. Printing-only expanded types show the
+2n and 5n conclusions explicitly. An initial Main check needed an explicit
+range c argument to prevent the rank proof retaining gcPoints at index two;
+that inference issue was corrected. No checking option is weakened.
+Every compiler family used two threads and the enforced 20 GB cap without
+cap/OOM events or a safety stop. A read-only full proof review was requested
+from Claude. Full public library/book gates after all six final edits are
+required before committing and pushing.
+
+The book and goal frontier describe the same actual five-copy theorem.
+The shared objective, endpoint and completion criteria, source TeX and frozen
+historical body are unchanged. The supplemental PDF remains excluded.
+Application descent and independence recovery, model-completeness and family
+definability, original algebraization and action classification, guarded
+charts and unconditional reconstruction stay open. Claude's rationality
+route remains in read-only truth/API review on #21; its false independent-factor
+shortcut is not adopted and no new classification premise is assumed.

@@ -1066,13 +1066,33 @@ germs and a generic point whose standard configuration is interalgebraic
 with the original six points. The finite independent extension and all
 germs are conclusions of the theorem.
 
-{docstring GroupConfig.GroupConfiguration.exists_stepI}
+The construction also proves the parameter count in supplemental `rem:params`.
+Write $`n` for the rank of the original group tuple $`a` over $`k`.
+Step I chooses three generic copies of group points. Independence and
+preservation of group ranks under each base change give total parameter
+rank $`3n` over $`k`.
+
+{docstring GroupConfig.GroupConfiguration.exists_stepI_with_parameterRank}
 
 {docstring GroupConfig.GroupConfiguration.exists_isHWBij}
 
 {docstring GroupConfig.IsMainConclusion}
 
-{docstring GroupConfig.GroupConfiguration.exists_main}
+Step III chooses two further copies over the base obtained in Step I.
+Their automorphisms preserve the ranks of the copied group points, so
+these new parameters have relative rank $`2n`. The tower law gives a
+finite set $`E`, independent from the original six points, with rank
+$`5n` over the original base $`k` and the actual main conclusion over
+$`\operatorname{acl}(k,E)`.
+
+{docstring GroupConfig.GroupConfiguration.exists_stepIII_with_parameterRank}
+
+{docstring GroupConfig.GroupConfiguration.exists_main_with_parameterRank}
+
+This is the rank of the parameters chosen by the construction. The
+universal-domain hypothesis is retained. The count supplies no version
+over an ambient field of finite transcendence degree, where the germ
+representative collapse described above still applies.
 
 The configuration hypotheses also follow from the actual conclusion over a
 finite independent base extension. First the configuration of codes and

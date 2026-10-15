@@ -176,7 +176,8 @@ certify every auxiliary statement in the corresponding source sections.
 - the final-base rank, one-orbit and two-product properties of its generic elements;
 - constructible group, stabilizer and homogeneous-space presentations on the actual canonical
   code, after internally chosen two-stage generic sampling;
-- extraction of those data from a configuration after finite independent base extension;
+- extraction of those data from a configuration after finite independent base extension,
+  with the actual five-copy parameter rank over the original base;
 - arbitrary small ACF base change, with the group and homogeneous space preserved;
 - descent of independent parameters in constructible relations;
 - the configuration predicate, its invariance and independent-base descent, with necessity
@@ -205,6 +206,12 @@ The precise `thm:main` of part 08 is proved in
 [GroupConfig/Main.lean](GroupConfig/Main.lean). Its conclusion constructs actual
 Hrushovski–Weil data, three difference germs and their action values, with the
 six points interalgebraic with the input over a finite independent extension.
+Its stronger `GroupConfiguration.exists_main_with_parameterRank` retains the rank of the
+actual chosen parameters: `erk k ∅ E = 5 * erk k ∅ (Set.range a)`, over the original base.
+The existing definability, Step I and Step III producers retain the three-plus-two generic
+copy ranks, and the old public existence statements are projections with unchanged hypotheses.
+This proves `rem:params` and retains the universal-domain hypothesis; the finite-ambient
+collapse warning and the remaining model-completeness descent obligations still apply.
 The homogeneous space has a faithful transitive action. The arbitrary-small-ACF
 base-change package transports the actual loci to fresh representing tuples;
 it preserves the generic and difference sets, group and homogeneous space.
@@ -286,8 +293,7 @@ the group or descend the chart/action to the original fields.
 
 Open:
 
-- auxiliary source statements outside the completed finite #29 audit, including the
-  five-copy parameter rank;
+- auxiliary source statements outside the completed finite #29 audit;
 - the fixed formulas and independence argument needed for the application's descent,
   and the source's definability-in-families assertions for rank and connectedness;
 - descending the chart and action to the original fields.

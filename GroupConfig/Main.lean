@@ -356,14 +356,14 @@ variable {ι₁ ι₃ ι₄ : Type*} {ι₅ ι₆ : Type u} [Finite ι₁] [Fini
   [Finite ι₆] {a : ι₁ → K} {c : ι₃ → K} {x : ι₄ → K} {y : ι₅ → K} {z : ι₆ → K}
 
 omit [IsAlgClosed k] in
-/-- Step III.1 of `thm:main`. Let `b'` be a generic copy of `b = code g`. Over
-`K₁ = acl(K₀, b')`, the code of the difference germ `δ = g_{b'}⁻¹ g` replaces `b`, and its value
-`y₁ = δ(y)` replaces `z`. -/
-theorem exists_stepIII_one (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
+/-- Step III.1 retaining the rank of its actual generic copy of the germ code.
+Named consumer: `GroupConfiguration.exists_stepIII_with_parameterRank`. -/
+theorem exists_stepIII_one_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
     [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
     (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
     (hgz : g.evalGen y = z) :
     ∃ (b' : ↥g.codeSet → K) (δ : Germ (↥K₀) y y) (y₁ : ι₅ → K),
+      erk (↥K₀) ∅ (range b') = erk (↥K₀) ∅ (range g.codeTuple) ∧
       IndepOver (↥K₀) ∅ (range b')
         (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
       δ ∈ diffSet g ∧ δ.evalGen y = y₁ ∧ IndepOver (↥K₀) ∅ (δ.cb : Set K) (range b') ∧
@@ -373,8 +373,11 @@ theorem exists_stepIII_one (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)
       racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range y₁) =
         racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range z) ∧
       GroupConfiguration (↥(racl k ((K₀ : Set K) ∪ range b'))) a δ.codeTuple c x y y₁ := by
-  obtain ⟨b', σ, δ, hb'ind, -, -, -, -, hc', hδmem, hδy, hδcb_le, hbsub, hδb', -, -⟩ :=
+  obtain ⟨b', σ, δ, hb'ind, hσb, -, -, -, hc', hδmem, hδy, hδcb_le, hbsub, hδb', -, -⟩ :=
     exists_conj_diff (range_codeTuple g) hc hg.isInvertible hgz
+  have hb'rank : erk (↥K₀) ∅ (range b') = erk (↥K₀) ∅ (range g.codeTuple) := by
+    rw [← hσb, range_comp]
+    simpa only [image_empty] using erk_image σ (∅ : Set K) (range g.codeTuple)
   have hsub := fun i ↦ gcPoints_subset (a := a) (b := g.codeTuple) (c := c) (x := x) (y := y)
     (z := z) i
   have hK₁s : IsSmall k ((racl k ((K₀ : Set K) ∪ range b') : IntermediateField k K) : Set K) :=
@@ -412,16 +415,34 @@ theorem exists_stepIII_one (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)
     rw [racl_base_coe]
     exact SetLike.coe_subset_coe.2 (racl_mono (union_subset_union_left _
       fun w hw ↦ subset_racl k _ (Or.inl hw)))
-  exact ⟨b', δ, y₁, hb'ind, hδmem, hδy.trans hy₁.symm, hδb', hyδ,
+  exact ⟨b', δ, y₁, hb'rank, hb'ind, hδmem, hδy.trans hy₁.symm, hδb', hyδ,
     racl_eq_of_racl_union_eq K₀ hδcode, hracl_z, hc₁⟩
 
 omit [IsAlgClosed k] in
-/-- Step III of `thm:main`. Let `(a, code g, c, x, y, z)` be a configuration over `K₀` whose
-second point is the code of a Hrushovski–Weil datum of bijections `g` with `g(y) = z`. Then
-there is a finite set `S`, independent over `K₀` from the configuration, such that over
-`acl(K₀, S)` the conclusion of `thm:main` holds for every tuple interalgebraic over `K₀` with
-the configuration. -/
-theorem exists_stepIII (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
+/-- Step III.1 of `thm:main`. Let `b'` be a generic copy of `b = code g`. Over
+`K₁ = acl(K₀, b')`, the code of the difference germ `δ = g_{b'}⁻¹ g` replaces `b`, and its value
+`y₁ = δ(y)` replaces `z`. -/
+theorem exists_stepIII_one (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
+    [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
+    (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
+    (hgz : g.evalGen y = z) :
+    ∃ (b' : ↥g.codeSet → K) (δ : Germ (↥K₀) y y) (y₁ : ι₅ → K),
+      IndepOver (↥K₀) ∅ (range b')
+        (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      δ ∈ diffSet g ∧ δ.evalGen y = y₁ ∧ IndepOver (↥K₀) ∅ (δ.cb : Set K) (range b') ∧
+      IndepOver (↥K₀) ∅ (range y) (δ.cb : Set K) ∧
+      racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range δ.codeTuple) =
+        racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range g.codeTuple) ∧
+      racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range y₁) =
+        racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range z) ∧
+      GroupConfiguration (↥(racl k ((K₀ : Set K) ∪ range b'))) a δ.codeTuple c x y y₁ := by
+  obtain ⟨b', δ, y₁, -, h⟩ := exists_stepIII_one_with_parameterRank K₀ hK₀ hc hg hgz
+  exact ⟨b', δ, y₁, h⟩
+
+omit [IsAlgClosed k] in
+/-- Step III retaining the total rank of its two actual generic copies.
+Named consumer: `GroupConfiguration.exists_main_with_parameterRank`. -/
+theorem exists_stepIII_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
     [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
     (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
     (hgz : g.evalGen y = z) {μ₁ μ₂ μ₃ μ₄ μ₅ μ₆ : Type*} {a₀ : μ₁ → K} {b₀ : μ₂ → K}
@@ -432,12 +453,13 @@ theorem exists_stepIII (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
     (hx₀ : racl (↥K₀) (range x₀) = racl (↥K₀) (range x))
     (hy₀ : racl (↥K₀) (range y₀) = racl (↥K₀) (range y))
     (hz₀ : racl (↥K₀) (range z₀) = racl (↥K₀) (range z)) :
-    ∃ S : Set K, S.Finite ∧
+    ∃ S : Set K, S.Finite ∧ erk (↥K₀) ∅ S = 2 * erk (↥K₀) ∅ (range a) ∧
       IndepOver (↥K₀) ∅ S (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
       IsMainConclusion k (racl k ((K₀ : Set K) ∪ S)) a₀ b₀ c₀ x₀ y₀ z₀ := by
   /- Step III.1. -/
-  obtain ⟨b', δ, y₁, hb'ind, hδmem, hδy, hδb', hyδ, hracl_b, hracl_z, hc₁⟩ :=
-    exists_stepIII_one K₀ hK₀ hc hg hgz
+  obtain ⟨b', δ, y₁, hb'rank, hb'ind, hδmem, hδy, hδb', hyδ, hracl_b, hracl_z, hc₁⟩ :=
+    exists_stepIII_one_with_parameterRank K₀ hK₀ hc hg hgz
+  have hb'rank' := hb'rank.trans hc.erk_b_eq
   have hsub := fun i ↦ gcPoints_subset (a := a) (b := g.codeTuple) (c := c) (x := x) (y := y)
     (z := z) i
   have hK₁s : IsSmall k ((racl k ((K₀ : Set K) ∪ range b') : IntermediateField k K) : Set K) :=
@@ -462,6 +484,13 @@ theorem exists_stepIII (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
   revert hracl_b hracl_z hc₁ lift₁ two_step hK₂eq
   generalize hK₁ : racl k ((K₀ : Set K) ∪ range b') = K₁ at hK₁s i₁ u₁ h₀₁ hb'K₁ ⊢
   intro hracl_b hracl_z hc₁ lift₁ two_step hK₂eq
+  have hK₁base : (K₁ : Set K) = (racl (↥K₀) (range b') : Set K) := by
+    rw [racl_base_coe K₀, hK₁]
+  have hcrank : erk (↥K₁) ∅ (range c) = erk (↥K₀) ∅ (range a) := by
+    rw [erk_base_le K₀ K₁ h₀₁, hK₁base, erk_racl_base]
+    simpa only [empty_union] using
+      ((hb'ind.mono_right (hsub 2)).symm.erk_eq (a := range c)
+        (subset_refl _) (finite_range c)).trans hc.erk_c_eq
   /- Step III.2: a generic copy `c''` of `c` and its conjugation `σ₂` over `K₁`. -/
   have hWfin : (range a ∪ range δ.codeTuple ∪ range c ∪ range x ∪ range y ∪ range y₁ ∪
       (range g.codeTuple ∪ range z)).Finite :=
@@ -469,6 +498,14 @@ theorem exists_stepIII (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
       (finite_range x)).union (finite_range y)).union (finite_range y₁)).union
       ((finite_range _).union (finite_range z))
   obtain ⟨c'', σ₂, hc''W, hσ₂a, hσ₂x, hσ₂y, hσ₂c⟩ := hc₁.exists_conj_c hWfin
+  have hc''rank : erk (↥K₁) ∅ (range c'') = erk (↥K₁) ∅ (range c) := by
+    rw [← hσ₂c, range_comp]
+    simpa only [image_empty] using erk_image σ₂ (∅ : Set K) (range c)
+  have hSrank : erk (↥K₀) ∅ (range b' ∪ range c'') = 2 * erk (↥K₀) ∅ (range a) := by
+    have hbase : erk (↥K₀) (range b') (range c'') = erk (↥K₁) ∅ (range c'') := by
+      rw [erk_base_le K₀ K₁ h₀₁, hK₁base, erk_racl_base]
+    rw [erk_union_eq, empty_union, hb'rank', hbase, hc''rank, hcrank]
+    ring
   have hyW : range y ⊆ range a ∪ range δ.codeTuple ∪ range c ∪ range x ∪ range y ∪ range y₁ ∪
       (range g.codeTuple ∪ range z) := fun _ h ↦ Or.inl (Or.inl (Or.inr h))
   have hzW : range z ⊆ range a ∪ range δ.codeTuple ∪ range c ∪ range x ∪ range y ∪ range y₁ ∪
@@ -561,7 +598,7 @@ theorem exists_stepIII (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
       racl (↥(racl k ((K₁ : Set K) ∪ range c''))) A =
         racl (↥(racl k ((K₁ : Set K) ∪ range c''))) B :=
     fun h ↦ racl_eq_of_racl_eq K₁ _ h
-  refine ⟨range b' ∪ range c'', (finite_range b').union (finite_range c''), ?_, ?_⟩
+  refine ⟨range b' ∪ range c'', (finite_range b').union (finite_range c''), hSrank, ?_, ?_⟩
   · refine hptsK.symm.mono_left (union_subset ?_ fun w hw ↦ subset_racl k _ (Or.inr hw))
     exact hb'K₁.trans fun w hw ↦ subset_racl k _ (Or.inl hw)
   rw [← hK₂eq (range c'')]
@@ -662,23 +699,44 @@ theorem exists_stepIII (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
     hGamem, hGbmem, hGcmem, hGcGa.symm, rfl, hind₃, hGcx, hconv, hfa, hfb, hfc, hfx,
     lift₀₂ hy₀, hfz, hrky, hrkz, hrkf⟩
 
+omit [IsAlgClosed k] in
+/-- Step III of `thm:main`. Let `(a, code g, c, x, y, z)` be a configuration over `K₀` whose
+second point is the code of a Hrushovski–Weil datum of bijections `g` with `g(y) = z`. Then
+there is a finite set `S`, independent over `K₀` from the configuration, such that over
+`acl(K₀, S)` the conclusion of `thm:main` holds for every tuple interalgebraic over `K₀` with
+the configuration. -/
+theorem exists_stepIII (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
+    [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
+    (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
+    (hgz : g.evalGen y = z) {μ₁ μ₂ μ₃ μ₄ μ₅ μ₆ : Type*} {a₀ : μ₁ → K} {b₀ : μ₂ → K}
+    {c₀ : μ₃ → K} {x₀ : μ₄ → K} {y₀ : μ₅ → K} {z₀ : μ₆ → K}
+    (ha₀ : racl (↥K₀) (range a₀) = racl (↥K₀) (range a))
+    (hb₀ : racl (↥K₀) (range b₀) = racl (↥K₀) (range g.codeTuple))
+    (hc₀ : racl (↥K₀) (range c₀) = racl (↥K₀) (range c))
+    (hx₀ : racl (↥K₀) (range x₀) = racl (↥K₀) (range x))
+    (hy₀ : racl (↥K₀) (range y₀) = racl (↥K₀) (range y))
+    (hz₀ : racl (↥K₀) (range z₀) = racl (↥K₀) (range z)) :
+    ∃ S : Set K, S.Finite ∧
+      IndepOver (↥K₀) ∅ S (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IsMainConclusion k (racl k ((K₀ : Set K) ∪ S)) a₀ b₀ c₀ x₀ y₀ z₀ := by
+  obtain ⟨S, hSfin, -, h⟩ := exists_stepIII_with_parameterRank K₀ hK₀ hc hg hgz
+    ha₀ hb₀ hc₀ hx₀ hy₀ hz₀
+  exact ⟨S, hSfin, h⟩
+
 end StepIII
 
 variable {ι₁ ι₂ ι₃ ι₄ ι₅ ι₆ : Type*} [Finite ι₁] [Finite ι₂] [Finite ι₃] [Finite ι₄]
   [Finite ι₅] [Finite ι₆] {a : ι₁ → K} {b : ι₂ → K} {c : ι₃ → K} {x : ι₄ → K} {y : ι₅ → K}
   {z : ι₆ → K}
 
-/-- `thm:main`, the group configuration theorem for algebraically closed fields: a group
-configuration over `k` is realized, after adjoining a finite set `E` independent from it, by the
-standard configuration of a Hrushovski–Weil datum of bijections over `acl(k, E)`
-(`IsMainConclusion`). The identities in the homogeneous space follow from
-`Germ.IsHWBij.iota_eq_smul`. -/
-theorem exists_main (hc : GroupConfiguration k a b c x y z) :
-    ∃ E : Set K, E.Finite ∧
+/-- `rem:params`: the actual five-copy construction of the group configuration theorem.
+The finite independent parameter set has rank five times the original group-point rank. -/
+theorem exists_main_with_parameterRank (hc : GroupConfiguration k a b c x y z) :
+    ∃ E : Set K, E.Finite ∧ erk k ∅ E = 5 * erk k ∅ (range a) ∧
       IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
       IsMainConclusion k (racl k E) a b c x y z := by
-  obtain ⟨E, hEfin, hEind, κ₁, κ₂, κ₃, κ₄, κ₅, κ₆, _, _, _, _, _, _, a₁, b₁, c₁, x₁, y₁, z₁,
-    hc₁, ha₁, hb₁, hc₁', hx₁, hy₁, hz₁, hzdcl, hydcl⟩ := hc.exists_stepI
+  obtain ⟨E, hEfin, hErank, hEind, κ₁, κ₂, κ₃, κ₄, κ₅, κ₆, _, _, _, _, _, _, a₁, b₁, c₁, x₁, y₁, z₁,
+    hc₁, ha₁, hb₁, hc₁', hx₁, hy₁, hz₁, hzdcl, hydcl⟩ := hc.exists_stepI_with_parameterRank
   have hEs : IsSmall k ((racl k E : IntermediateField k K) : Set K) :=
     (IsSmall.of_finite hEfin).racl
   have _ : IsAlgClosed ↥(racl k E) := isAlgClosed_racl _
@@ -691,9 +749,19 @@ theorem exists_main (hc : GroupConfiguration k a b c x y z) :
   have hx₀ := racl_racl_base_eq hx₁.symm
   have hy₀ := racl_racl_base_eq hy₁.symm
   have hz₀ := racl_racl_base_eq hz₁.symm
-  obtain ⟨S, hSfin, hSind, hmain⟩ := exists_stepIII (racl k E) hEs hc₂ hg hgz ha₀ hb₀ hc₀ hx₀
-    hy₀ hz₀
-  refine ⟨E ∪ S, hEfin.union hSfin, ?_, ?_⟩
+  obtain ⟨S, hSfin, hSrank, hSind, hmain⟩ :=
+    exists_stepIII_with_parameterRank (racl k E) hEs hc₂ hg hgz ha₀ hb₀ hc₀ hx₀ hy₀ hz₀
+  have harank : erk (↥(racl k E)) ∅ (range a₁) = erk k ∅ (range a) := by
+    rw [← erk_eq_of_racl_eq ha₀, erk_base_empty, erk_racl_base]
+    simpa only [empty_union] using hEind.symm.erk_eq
+      (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h))))) (finite_range a)
+  have hSrank' : erk k E S = 2 * erk k ∅ (range a) := by
+    rw [← erk_racl_base k E S, ← erk_base_empty (racl k E)]
+    simpa only [harank] using hSrank
+  have hrank : erk k ∅ (E ∪ S) = 5 * erk k ∅ (range a) := by
+    rw [erk_union_eq, empty_union, hErank, hSrank']
+    ring
+  refine ⟨E ∪ S, hEfin.union hSfin, hrank, ?_, ?_⟩
   · have hpts : racl (↥(racl k E))
         (range a₁ ∪ range g.codeTuple ∪ range c₁ ∪ range x₁ ∪ range y₁ ∪ range z₁) =
         racl (↥(racl k E)) (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) :=
@@ -710,6 +778,18 @@ theorem exists_main (hc : GroupConfiguration k a b c x y z) :
     exact h3.symm
   · rw [← racl_union_left E S]
     exact hmain
+
+/-- `thm:main`, the group configuration theorem for algebraically closed fields: a group
+configuration over `k` is realized, after adjoining a finite set `E` independent from it, by the
+standard configuration of a Hrushovski–Weil datum of bijections over `acl(k, E)`
+(`IsMainConclusion`). The identities in the homogeneous space follow from
+`Germ.IsHWBij.iota_eq_smul`. -/
+theorem exists_main (hc : GroupConfiguration k a b c x y z) :
+    ∃ E : Set K, E.Finite ∧
+      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IsMainConclusion k (racl k E) a b c x y z := by
+  obtain ⟨E, hEfin, -, h⟩ := hc.exists_main_with_parameterRank
+  exact ⟨E, hEfin, h⟩
 
 end GroupConfiguration
 
