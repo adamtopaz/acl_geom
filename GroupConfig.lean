@@ -34,6 +34,7 @@ import GroupConfig.Germ.GenericSet
 import GroupConfig.IndepConj
 import GroupConfig.DefinableClosure
 import GroupConfig.Germ.HW
+import GroupConfig.Germ.Rationality
 import GroupConfig.Germ.Translation
 import GroupConfig.Germ.Difference
 import GroupConfig.Germ.Definable

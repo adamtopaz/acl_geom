@@ -171,6 +171,9 @@ certify every auxiliary statement in the corresponding source sections.
 - germ representatives, graph ideals, automorphisms, evaluation and composition;
 - independent generic conjugacy, definable values and triple germs;
 - the Hrushovski–Weil group and faithful transitive homogeneous space;
+- rational representatives for every element of the actual HW two-product group on a
+  rank-one locus, in both characteristics; the function-field action and classification
+  remain separate obligations;
 - the full translation example, including its actual germs, homogeneous space and the
   obstruction to an independent presentation of the zero class;
 - the final-base rank, one-orbit and two-product properties of its generic elements;

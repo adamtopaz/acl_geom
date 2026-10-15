@@ -34,9 +34,9 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 3af3279 (exact CI38772251258, artifact
-11991354172, existing deployment7098976607 successful at 16:58:31 UTC).
-Its full nonfaithful example and full validation are recorded on #12.
+The previous verified checkpoint is 07ec567 (exact CI38776879085, artifact
+11994802389, existing deployment7099758251 successful at 17:33:17 UTC).
+Its actual five-copy parameter rank and full validation are recorded on #12.
 The canonical-base line example, necessity of the configuration clauses from
 the actual main conclusion, and the finite-ambient representative-collapse
 warning now have public proofs. Base-algebraic-closure invariance now has an
@@ -53,10 +53,15 @@ the three-plus-two generic-copy ranks and proves rank(E)=5*rank(a) over
 the original base, together with the actual main conclusion. All six old
 public statements and docstrings remain unchanged projections. The
 universal-domain hypothesis and remaining auxiliary obligations are retained.
+Every member of the actual HW two-product group on a rank-one locus now has
+an equal representative of exponent zero, in both characteristics. Its
+Frobenius index is intrinsic and additive under arbitrary composition; only
+the HW orbit argument uses independence. This auxiliary rationality result
+does not construct a function-field action or discharge classification.
 The degree-only constructibility usage claim is refuted on #31 alongside
 the fixed-formula source correction. Application witness descent and
 its independence argument remain open. The current integration's source and
-validation details are recorded at the end of this guide and on #12 and #31. Full
+validation details are recorded at the end of this guide and on #12, #21 and #31. Full
 library/book gates are required before every commit.
 
 ## Audit baseline (2026-10-07; #19, performance #18 and carryovers #24)
@@ -10447,3 +10452,50 @@ definability, original algebraization and action classification, guarded
 charts and unconditional reconstruction stay open. Claude's rationality
 route remains in read-only truth/API review on #21; its false independent-factor
 shortcut is not adopted and no new classification premise is assumed.
+
+
+## Rational representatives for HW germs on curves (#21, 2026-10-15)
+
+`Germ.IsHW.exists_rational_representative` takes an actual HW germ of a finite
+rank-one tuple over the genuine ACF/universal-domain hypotheses. Every element
+of its actual two-product group has an internally constructed representative
+equal to that germ and with exponent zero. Both characteristics are covered;
+no birationality, degree or Frobenius-index certificate is a premise.
+
+`FunctionFieldFrobenius` proves the degree-p and pure Frobenius-layer results.
+The two degree towers compute [F:F^p]=p without a separability assumption.
+The intermediate-field chain argument and noncollapse give uniqueness of the
+integer index. `Germ/Rationality` constructs the index of an actual unit using
+its inverse representative. Two index witnesses are moved to one fresh generic
+point over a common small algebraically closed field. Degree p is computed
+fresh there, so extending coefficients cannot hide a collapse. Composition is
+handled for arbitrary germs over that common field, with no independence
+between their parameters. H3 is used only to compare the seed index d with
+2d on its orbit. Index zero gives actual fractions and a representative defined
+at every generic point. The two-product conclusion then follows by composing
+two mapped exponent-zero representatives. The false independent-factor shortcut
+reported on #21 is absent.
+
+Claude supplied the complete 410-line 9bec224a field module and 393-line
+7a0d8eeb germ module, with ownership and compiler turns agreed through chit.
+The primary agent read every proof and independently compiled both exact files
+against the previous main dependencies, with only its own two outputs real.
+Both standard-lint logs were empty; all nineteen expanded public types and
+scoped dependency reports use only the expected standard Lean axioms. The
+successful independent family took 5.28 s, used two threads and an enforced
+20 GB cap, and peaked at 3.32 GiB RSS without cap/OOM events or a safety stop.
+The two earlier harness attempts stopped before the second module elaborated:
+Lean needed an explicit private source root, then main dependency symlinks in
+the fresh namespace directory. Neither changed the candidate mathematics.
+Full library/book and integrated checks after all six final edits are required
+before committing and pushing. Final validation and exact CI evidence are
+reported on #21.
+
+The book and shared-goal frontier describe the same bounded rationality result.
+The objective, endpoint and completion criteria, source TeX and frozen M4a
+history are preserved; the supplemental PDF stays excluded. The function-field
+action, original group-chunk and six-point producers, normal subgroup and full
+Lemma 8.4, actual application descent and independence recovery, definability in
+families, guarded charts and unconditional reconstruction remain open. The
+primary agent separately owns one private model-completeness module; no partial
+helper chain will be integrated before its actual elementary-embedding consumer.

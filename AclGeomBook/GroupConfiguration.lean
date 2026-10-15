@@ -601,6 +601,28 @@ generic points agrees with the generic action of germs.
 
 {docstring GroupConfig.Germ.IsHW.keyrank}
 
+On a rank-one locus, every member of the actual HW two-product group has a
+rational representative: its quasi-rational exponent is zero. In characteristic
+zero inverse Frobenius is the identity. In positive characteristic the field of
+a generic image is an integral Frobenius twist of the source function field.
+The index is independent of representatives and coefficient fields, and adds
+under arbitrary composition over a common coefficient field. Independence is
+used only for the HW orbit product, forcing its index to satisfy $`d=2d`.
+The seed index is therefore zero; products of its conjugates remain rational.
+
+{docstring GroupConfig.relfinrank_map_frobenius_eq}
+
+{docstring GroupConfig.Germ.HasFrobIndex.unique}
+
+{docstring GroupConfig.Germ.HasFrobIndex.mul}
+
+{docstring GroupConfig.Germ.IsHW.exists_rational_representative}
+
+These are actual equal representatives, constructed internally in both
+characteristics. The universal-domain hypothesis is retained. Constructing a
+faithful function-field action, algebraizing the group and classifying the
+curve action remain obligations of the original blueprint.
+
 For an orbit of invertible germs between two loci, independent pairs give
 difference germs. These form one orbit. The difference and either member of
 the pair are interalgebraic over the other member, yielding its rank and
