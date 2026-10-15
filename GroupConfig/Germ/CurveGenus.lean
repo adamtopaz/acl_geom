@@ -28,9 +28,10 @@ constructs two independent regular curve derivations and extends them to the amb
 constants. The one-variable structure and all comparison, inverse and regularity data are
 derived internally.
 
-**Status:** `Germ.IsHW.genus_eq_zero` is proved (#21). The original scheme/action bridge,
-normal-subgroup producer, Möbius and affine classification, chart descent and full
-reconstruction remain obligations.
+**Status:** `Germ.IsHW.genus_eq_zero` is proved (#21). `MoebiusAction` gives a fractional
+linear expression in a generator. The original scheme/action bridge, normal-subgroup producer,
+connected-subgroup and affine classification, chart descent and full reconstruction remain
+obligations.
 -/
 
 namespace GroupConfig

@@ -680,7 +680,17 @@ this theorem are derived from the actual HW, curve-rank-one and ordinary
 canonical-base-rank-at-least-two hypotheses. Coefficient derivations are never
 extended to the perfect ambient field; only the C-linear curve variations are.
 
-Möbius and affine classification, the original scheme/action bridge and
+Genus-zero rationality now gives one transcendental generator of the same
+K-function field in which every element of the HW action is fractional linear.
+The formula includes a nonzero determinant and a nonzero denominator. The
+one-variable structure and genus zero are supplied by the actual HW data;
+no coordinate or rationality certificate is assumed.
+
+{docstring GroupConfig.Germ.IsHW.exists_generator_moebius}
+
+This states the formula for each field automorphism. It does not construct a
+scheme action or classify the connected subgroup of projective transformations.
+That classification, the affine coordinates, original scheme/action bridge,
 normal-subgroup producer, group algebraization and original-field chart/action
 descent remain obligations of the original blueprint.
 

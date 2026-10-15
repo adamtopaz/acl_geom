@@ -10680,3 +10680,33 @@ Möbius/affine classification, original scheme/action and normal-subgroup
 bridges, group/chunk and six-point producers, application formulas and
 independence recovery, definability in families, original-field chart/action
 descent, guarded charts and unconditional reconstruction remain obligations.
+
+
+## The HW function-field action is fractional linear (#21, 2026-10-15)
+
+`Germ.IsHW.exists_generator_moebius` chooses a transcendental generator t of
+that same actual locus function field and proves K(t) = top. For every element
+of the actual HW two-product group, its function-field action has the formula
+sigma(t)*(c*t+d) = a*t+b, with a*d-b*c and c*t+d both nonzero. The hypotheses
+are exactly the actual HW datum, finite tuple of rank one and ordinary
+canonical-base rank at least two, with the genuine ambient assumptions.
+The one-variable structure and genus zero are derived, not supplied.
+
+This composes the actual genus theorem with the existing genus-zero rational
+automorphism theorem and the actual function-field action. Claude supplied
+the complete 48-line module; the primary agent read all its proofs and
+independently compiled the exact source over fresh ee399b8 main dependencies.
+The log is empty and its expanded public type/dependency report uses standard
+Lean axioms. This guarded two-thread 20 GB family completed in 5.54 s, peak
+3.61 GiB, without memory events. Full library/book and final integrated
+lint/type/dependency gates after all edits remain mandatory before committing
+and pushing; exact CI evidence is recorded on #21.
+
+Only the individual fractional-linear formulas are asserted. Under composition
+of field automorphisms, the rational expressions substitute in reverse order,
+so a future map to PGL2 must account for the inverse/opposite convention. No projective group
+embedding, scheme action, connected-subgroup classification, normal subgroup,
+affine chart, original-field descent or reconstruction is claimed. All eight
+original #21 classification requirements and other source obligations remain
+open. Original goal endpoint, source TeX and frozen historical M4a body stay
+unchanged; the supplemental PDF remains excluded.

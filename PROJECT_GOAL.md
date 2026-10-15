@@ -177,6 +177,8 @@ certify every auxiliary statement in the corresponding source sections.
   by K-algebra automorphisms, with the coordinate formula for every rational inverse representative;
 - genus zero over K for that actual function field when the ordinary canonical-base rank is
   at least two, derived from genuine HW data and curve rank one;
+- a transcendental generator of that same K-function field in which every element of the
+  actual HW action is fractional linear, with nonzero determinant and denominator;
 - the full translation example, including its actual germs, homogeneous space and the
   obstruction to an independent presentation of the zero class;
 - the final-base rank, one-orbit and two-product properties of its generic elements;
@@ -292,8 +294,11 @@ function-field action. [GroupConfig/Germ/CurveGenus.lean](GroupConfig/Germ/Curve
 proves genus zero over K when the ordinary canonical-base rank is at least two. It derives
 its formal field comparisons, rational inverse, independent derivations and regularity from
 the actual HW and rank-one data; the one-variable instance is also derived internally.
-Möbius/affine classification, the original scheme/action bridge and normal-subgroup producer
-remain obligations.
+[GroupConfig/Germ/MoebiusAction.lean](GroupConfig/Germ/MoebiusAction.lean) then supplies a
+transcendental generator of the same K-function field and the fractional-linear formula for
+every element of the actual HW action, with nonzero determinant and denominator. Classification
+of the resulting connected subgroup and its affine action, the original scheme/action bridge
+and normal-subgroup producer remain obligations.
 
 [GroupConfig/MainConstructible.lean](GroupConfig/MainConstructible.lean) proves the combined
 `thm:main-informal` on those same data: for every generic base point it chooses the canonical

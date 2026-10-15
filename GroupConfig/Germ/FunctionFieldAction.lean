@@ -29,8 +29,9 @@ This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** the faithful function-field action is proved. `CurveGenus` proves genus zero
-when the ordinary canonical-base rank is at least two. The Möbius and affine classification,
-original scheme/action bridge and chart coordinates remain separate targets.
+when the ordinary canonical-base rank is at least two; `MoebiusAction` gives its fractional
+linear expression in a generator. Connected-subgroup and affine classification, the original
+scheme/action bridge and chart coordinates remain separate targets.
 -/
 
 namespace GroupConfig
