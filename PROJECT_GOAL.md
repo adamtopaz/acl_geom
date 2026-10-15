@@ -1,6 +1,6 @@
 # Shared project goal
 
-Last reviewed: 2026-10-14.
+Last reviewed: 2026-10-15.
 Jointly maintained by `aclgeom.codex` and `aclgeom.claude`.
 
 ## Objective
@@ -92,7 +92,7 @@ two perfected ACF completeness inputs. The central open work is:
 | Geometric Q′ | The product-output converse is proved under its stated ACF/rank-five hypotheses; the full original-base auxiliary table over ACF k/K now needs no rank bound. Q′ completeness reduces to guarded Q completeness. [#6 G4](https://github.com/adamtopaz/acl_geom/issues/6). |
 | Geometric J and transfer | The new public reduction derives `JCompletenessACF` from guarded Q completeness alone. Prove that remaining input and complete arbitrary-field descent obligations. [#6 G5](https://github.com/adamtopaz/acl_geom/issues/6), [#7](https://github.com/adamtopaz/acl_geom/issues/7). |
 | Reconstruction and variants | Remove open completeness inputs from reconstruction and finish the endpoint's public variants and functorial consequences. [#8](https://github.com/adamtopaz/acl_geom/issues/8), [#9](https://github.com/adamtopaz/acl_geom/issues/9), [#10](https://github.com/adamtopaz/acl_geom/issues/10). |
-| Group configuration theorem | Finish `thm:main` of the group configuration blueprint: Step III and the final assembly. Then prove the constructible group, descent, and `cor:psi` for the actual Ψ witness. This is the group-extraction bridge on the source route to the guarded Q chart. [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#27](https://github.com/adamtopaz/acl_geom/issues/27). |
+| Group configuration theorem | The precise `thm:main`, arbitrary-small-ACF base change, parameter descent and interalgebraicity part of `cor:psi` are proved. Finish the constructible group and its homogeneous-space presentation for the actual Ψ witness. This is the group-extraction bridge on the source route to the guarded Q chart. [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#27](https://github.com/adamtopaz/acl_geom/issues/27). |
 | Remaining source mathematics | Complete the coordinate-ring/localization bridge to geometric fiber products. In an ACF ambient over an arbitrary base, the existing scalar branch calculus realizes all minimal-prime tensor components as composite germs independent of the chosen embeddings, and relational germ composition is associative. Packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results remain owed. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
 
 The existing Q/Q′-to-J assembly is an established dependency. On the source's
@@ -169,10 +169,13 @@ certify every auxiliary statement in the corresponding source sections.
 - codes, quasi-rational expressions and germ varieties;
 - germ representatives, graph ideals, automorphisms, evaluation and composition;
 - independent generic conjugacy, definable values and triple germs;
-- the generated group under the explicit Hrushovski–Weil orbit hypotheses;
+- the Hrushovski–Weil group and faithful transitive homogeneous space;
+- extraction of those data from a configuration after finite independent base extension;
+- arbitrary small ACF base change, with the group and homogeneous space preserved;
+- descent of independent parameters in constructible relations;
 - the configuration predicate and its invariance;
 - constructible sets, with Chevalley's theorem and generic quantification;
-- the clause-(i)–(iv) form of `prop:psi-gc`.
+- the clause-(i)–(iv) form of `prop:psi-gc` and the interalgebraicity part of `cor:psi`.
 
 For the last item, all configuration clauses with group rank two and space rank
 one are derived from `QWitness.PsiCore`, precisely clauses (i)–(iv), in a
@@ -186,19 +189,28 @@ The core clauses also lift, and the configuration is proved on the literal
 images of the original six displayed tuples under the canonical embedding
 ([AclGeom/Config/UniversalImageConfigurationInput.lean](AclGeom/Config/UniversalImageConfigurationInput.lean)).
 
-Checked scratch drafts exist for the remaining Hrushovski–Weil and bijection
-layers, the definability step, Steps I–III and the precise main theorem. They
-are pending integration. This does not certify all source statements in those
-sections or the informal statement's constructibility clause.
+The precise `thm:main` of part 08 is proved in
+[GroupConfig/Main.lean](GroupConfig/Main.lean). Its conclusion constructs actual
+Hrushovski–Weil data, three difference germs and their action values, with the
+six points interalgebraic with the input over a finite independent extension.
+The homogeneous space has a faithful transitive action. The arbitrary-small-ACF
+base-change package transports the actual loci to fresh representing tuples;
+it preserves the generic and difference sets, group and homogeneous space.
+[GroupConfig/Descent.lean](GroupConfig/Descent.lean) proves the parameter-descent
+theorem for constructible relations. These results do not certify every
+auxiliary source statement or the informal main statement's constructibility
+clause. The current source audit remains on #29.
+
+[GroupConfig/Psi.lean](GroupConfig/Psi.lean) applies the precise main theorem to
+`QWitness.PsiCore` over an ACF universal domain, obtaining the rank-two group of
+germs acting on a curve up to interalgebraicity. The original-field chart and
+action are not descended by this theorem.
 
 Open:
 
-- Step III and `thm:main`;
-- the full `lem:hw-basechange`, including its homogeneous-space clause and
-  arbitrary-extension generality;
-- the constructible group;
-- descent;
-- `cor:psi`;
+- the constructible group and its constructible homogeneous-space presentation;
+- the constructibility clause of `cor:psi`;
+- the remaining source-audit auxiliary statements;
 - descending the chart and action to the original fields.
 
 The proved Q′ route bypasses group extraction, but the group configuration

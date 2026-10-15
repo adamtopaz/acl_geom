@@ -51,3 +51,20 @@ import GroupConfig.OrbitFiniteness
 import GroupConfig.ConfigurationRanks
 import GroupConfig.ConfigurationConverse
 import GroupConfig.Germ.TripleRepresentative
+
+import GroupConfig.ConfigurationBaseChange
+import GroupConfig.BaseNesting
+import GroupConfig.ConfigurationGerm
+import GroupConfig.Germ.Bijections
+import GroupConfig.Germ.HomogeneousSpace
+import GroupConfig.DefinabilityStep
+import GroupConfig.Descent
+import GroupConfig.Germ.BaseChange
+import GroupConfig.Germ.BaseChangeHW
+import GroupConfig.Germ.BaseChangeGroup
+import GroupConfig.Germ.Transport
+import GroupConfig.Germ.BaseChangeArbitrary
+import GroupConfig.StepI
+import GroupConfig.StepII
+import GroupConfig.Main
+import GroupConfig.Psi

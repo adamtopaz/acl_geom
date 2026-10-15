@@ -32,8 +32,9 @@ blueprint `sources/group_configuration_blueprint.tex`.
 three group ranks and of the three space ranks, the generating relabelings,
 and invariance under automorphisms and interalgebraic replacement are proved.
 The remaining rank bounds, total-rank and point/line independence clauses are
-proved in `GroupConfig.ConfigurationRanks`. Independent base change and group
-extraction remain separate obligations.
+proved in `GroupConfig.ConfigurationRanks`. Independent base change is in
+`GroupConfig.ConfigurationBaseChange`, and extraction of the group of germs is in
+`GroupConfig.Main`. Constructibility remains a separate obligation.
 The predicate depends only on the canonical-base layer; no germ import is needed.
 -/
 

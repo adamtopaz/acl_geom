@@ -9908,3 +9908,45 @@ primary agent owns the group domain and finite-collection sampling. The source
 TeX, original shared endpoint and frozen M4a chain are unchanged. Full final
 library/book and scoped dependency gates remain required before every commit;
 the supplemental PDF stays excluded.
+
+
+## The precise group configuration theorem and base change (#12/#29, 2026-10-15)
+
+Sixteen reviewed producer modules now assemble the definability step at all
+three space points, Steps I–III, the Hrushovski–Weil bijection theorem and faithful
+transitive homogeneous space, and `GroupConfiguration.exists_main`. Its only
+configuration input is the actual six-point predicate over an ACF universal
+domain. The finite independent extension, germs, group and action data are
+constructed internally; no open group-extraction certificate is an input.
+`IsMainConclusion` records interalgebraicity through finite generating code
+tuples. Canonical RREF code vectors generate the same canonical bases by the
+existing code API; the carrier tuples are not described as those indexed vectors.
+
+The arbitrary-small-ACF base-change package first transports loci to fresh
+representing tuples; both inclusions for the difference set and the group/space
+equivalences are proved. It does not assume that the old representative tuples
+stay generic over an arbitrary new field. G6 has explicit conjugate-code and
+definability-step statements at x, y and z, preserving the old z proofs.
+`Descent` proves k-point density and descent of independent parameters in actual
+constructible relations. `Psi` supplies the interalgebraicity part of `cor:psi`
+with group rank two and space rank one over the new base.
+
+The twenty frozen higher producer copies (including four not integrated in this
+slice) passed independent default-option standard-lint checking against 8323484
+in 40.28 seconds, with empty diagnostics and the verified 20 GB cap. Ten scoped
+dependency/type checks passed in 1.48 seconds; the precise main and Psi statements
+were rendered and inspected. Only the sixteen configuration-to-group/descent/base-
+change modules are integrated here. Full library/book gates after all edits are
+required before committing. The positive-rank duplicates were deleted from Main,
+which uses the versions already on main in ConfigurationRanks.
+
+The actual group-domain membership and stabilizer formulas remain private,
+independently checked drafts. The primary agent's literal pair-domain and
+surjection producer also passed private checking; its constructibility is not
+claimed. Claude owns the finite-set coefficient-vector draft, while the primary
+agent owns the domain, finite-collection sampling and quotient operations.
+Constructibility of G and G/H, the remaining original group-chunk/algebraization,
+action classification, guarded charts and unconditional reconstruction remain
+open. PROJECT_GOAL changes only the proved frontier, preserving the complete
+original endpoint. The source TeX and frozen M4a chain are unchanged, and the
+untracked supplemental PDF remains excluded.
