@@ -83,9 +83,11 @@ import GroupConfig.Germ.BaseChangeArbitrary
 import GroupConfig.StepI
 import GroupConfig.StepII
 import GroupConfig.Main
+import GroupConfig.MainBaseChange
 import GroupConfig.Psi
 import GroupConfig.PsiRankOne
 import GroupConfig.PsiFresh
+import GroupConfig.PsiJoint
 
 import GroupConfig.CodeVector
 import GroupConfig.FodBaseChange

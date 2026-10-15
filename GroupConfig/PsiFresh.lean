@@ -20,9 +20,9 @@ of all twenty-one points of `w` (`QWitness.repTuple`) and from `W`:
   also independent from the three new points of the quadrangle
   (`QWitness.Psi.exists_rankOne_isMainConclusion_fresh`).
 
-Over `acl(k, E)` the group and space points keep their ranks. Realizing both configurations over
-one common base field, the homomorphism `π`, the normal subgroup `N` and descent to the original
-fields remain obligations.
+Over `acl(k, E)` the group and space points keep their ranks. Their simultaneous realization
+over one finite independent extension is proved in `GroupConfig.PsiJoint`. The homomorphism `π`,
+the normal subgroup `N` and descent to the original fields remain obligations.
 
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.

@@ -1453,10 +1453,46 @@ rank one over its literal final base.
 
 {docstring AclGeom.QWitness.Psi.exists_rankOne_isMainConclusion_fresh}
 
-These are two individual existence results. Their simultaneous realization
-over one field still needs an actual base-change proof. The algebraic groups
-over the original base, $`\pi`, its normal subgroup, action classification,
+These existence theorems choose parameters separately. The joint theorem below
+realizes both conclusions over one finite independent extension. The algebraic
+groups over the original base, $`\pi`, its normal subgroup, action classification,
 original-field descent, guarded charts and reconstruction remain obligations.
+
+# Both actual Ψ configurations over one fresh base
+%%%
+tag := "group-configuration-psi-joint"
+%%%
+
+The actual main conclusion survives an independent finite base extension.
+Its two locus representatives and initial HW bijection are replaced by fresh
+ones. The fixed group points and action values remain independent from the
+larger field because they are interalgebraic with the input points.
+Transport and base change preserve their codes and values; the existing
+HW configuration theorem regenerates the third group point.
+
+{docstring GroupConfig.IsMainConclusion.baseChange_racl}
+
+For full $`\Psi`, first choose its partial quadrangle and rank-one parameters
+$`E_1`. The rank-two parameters $`E_2` are then sampled independently from all
+twenty-one representatives, the three extra quadrangle points, $`E_1` and the
+prescribed finite set $`W`. Independence and the tower law give
+$`\operatorname{rk}(E_1)=5`, $`\operatorname{rk}(E_2)=10` and
+$`\operatorname{rk}(E_1E_2)=15`. Their union is fresh from the whole witness,
+the extra quadrangle points and $`W`.
+
+The base-change theorem now puts both actual main conclusions over the
+same literal field $`\operatorname{acl}(k,E_1E_2)`, with group/space input
+ranks two/one and one/one. No Main, group or independence certificate is
+an extra hypothesis. The two fields are algebraically closed and the
+ambient field is a universal domain.
+
+{docstring AclGeom.QWitness.Psi.exists_joint_isMainConclusion}
+
+This is a joint realization by groups of germs up to interalgebraicity.
+It does not construct the original algebraic groups over the original base,
+the homomorphism $`\pi`, its normal subgroup or an affine chart. Weil
+algebraization, action classification, original-field descent, guarded
+charts and unconditional reconstruction remain obligations.
 
 # The nonfaithful product-group example
 %%%

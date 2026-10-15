@@ -10796,3 +10796,49 @@ consumer. The original algebraic H/k, Weil algebraization, pi, its normal
 subgroup, action classification, original-field chart/action descent,
 guarded charts and unconditional reconstruction remain obligations. All eight
 original #21 classification requirements remain open.
+
+
+## Both actual Ψ main conclusions over one fresh base (#12, 2026-10-15)
+
+`IsMainConclusion.baseChange_racl` preserves the actual main conclusion under
+an independent finite base extension. It chooses fresh representatives for
+the two loci and a fresh member of the initial HW orbit, transports the two
+fixed group points, and regenerates the third through the existing HW
+configuration theorem. Interalgebraicity with the input gives the necessary
+independence for the fixed codes and action values. Locus-ideal equality
+preserves the ranks of the new representatives. Only the original space
+input requires a finite tuple; unused finiteness assumptions are absent.
+
+`QWitness.Psi.exists_joint_isMainConclusion` consumes this producer twice.
+It first chooses the actual quadrangle and E1 of rank five. It then chooses
+E2 of rank ten fresh from all twenty-one representatives, the three extra
+quadrangle points, E1 and prescribed finite W. Their union has rank fifteen
+and is independent from the whole witness, the extra points and W. Both
+actual main conclusions hold over the same literal racl(k,E1 union E2),
+with the four group/space input ranks two/one and one/one. Full Ψ and the
+genuine ACF/universal-domain hypotheses suffice; no Main, group or
+independence certificate is an additional input.
+
+The primary agent supplied the complete private producer and consumer.
+Claude reviewed every mathematical step, including replacing the locus
+representatives rather than assuming they remain fresh, lifting the old
+code-closure equality before changing its base, and transporting positive
+rank from the generic point to the fresh locus representative. Both exact
+modules compile with empty standard-lint logs under default checking limits;
+both expanded public type/dependency reports use standard Lean axioms.
+The primary 20 GB, two-thread family completed in 5.48 s, peak RSS 3.31 GiB,
+without memory events or safety stop. Claude independently compiled the exact
+frozen sources over fresh public 96aafd1 dependencies, with only the two new
+outputs real; its 5.48 s family peaked at 3.30 GiB and returned the same clean
+logs and standard reports. This is a scoped audit, not a whole-library one.
+Full library/book and final integrated lint/type/dependency gates after all
+final edits remain mandatory before committing and pushing; exact checkpoint
+and CI evidence is recorded on #12.
+
+The module statuses, aggregate, book and goal frontier match this joint germ
+realization. Original source TeX, goal endpoint/completion criteria and frozen
+historical M4a body are preserved; the supplemental PDF remains excluded.
+The original algebraic groups over the original base, Weil algebraization,
+pi, its normal subgroup, scheme/action classification, original-field descent,
+guarded charts and unconditional reconstruction remain obligations. All eight
+original #21 classification requirements stay open.
