@@ -34,13 +34,17 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 2b31a77 (exact CI38752158610, artifact
-11981749066, existing deployment7095673652 successful at 14:40:57 UTC).
-Its general composition and full validation are recorded on #12.
-The degree-only constructibility usage claim is now refuted in Lean on #31,
+The previous verified checkpoint is 5a94df8 (exact CI38754232523, artifact
+11982548941, existing deployment7096055310 successful at 14:55:49 UTC).
+Its source correction and full validation are recorded on #31, now complete.
+The canonical-base line example, necessity of the configuration clauses from
+the actual main conclusion, and the finite-ambient representative-collapse
+warning now have public proofs. Remaining auxiliary source statements,
+including translation/nonfaithful examples and the five-copy parameter rank,
+remain open. The degree-only constructibility usage claim is refuted on #31,
 alongside the fixed-formula source correction. Application witness descent and
 its independence argument remain open. The current integration's source and
-validation details are recorded at the end of this guide and on #31. Full
+validation details are recorded at the end of this guide and on #12 and #31. Full
 library/book gates are required before every commit.
 
 ## Audit baseline (2026-10-07; #19, performance #18 and carryovers #24)
@@ -10202,3 +10206,51 @@ application's fixed formulas, recovery of independence, definability in
 families and model-completeness descent remain obligations. Other auxiliary
 examples, parameter rank, GC4 necessity, original algebraization, action
 classification, guarded charts and unconditional reconstruction remain open.
+
+
+## Canonical-base example, necessity and finite-ambient collapse (#12, 2026-10-15)
+
+`CanonicalBaseCounterexample` proves the literal source example in
+`rem:cb-not-acl`. For a rank-three triple s, s', t, the point (t, st+s')
+has rank two; its locus over acl(s,s') is the displayed line and its actual
+canonical base is k(s,s'). The element s is outside the point's algebraic
+closure, so that canonical base is not contained in it. These theorems use
+only arbitrary fields and the rank-three hypothesis. The affine substitution
+reduces the ideal calculation to univariate transcendence. A nonzero
+field-of-definition-valued degree-one vector and its coefficient ratios
+recover the literal field of definition. The peer replaced a type-unification
+timeout with this lighter argument, preserving the default checking options.
+
+`ConfigurationNecessity` proves independent-base descent of all configuration
+clauses. The actual main conclusion's configuration of codes and values
+transfers to the original interalgebraic tuple, then descends across a finite
+independent extension. Finiteness of E is explicit and supplies smallness.
+The resulting .cb_a clause is the precise necessity assertion of
+`rem:main-props`. Extraction still uses the genuine configuration hypotheses.
+
+`Germ/FiniteAmbient` proves the finite-ambient warning in `rem:finite-trdeg`: a
+finite-transcendence-degree ambient field is small; positive-rank loci have
+no generic point over it; over an algebraically closed ambient field every
+quasi-rational expression over the whole field gives a vacuous representative
+equivalent to every other one. The generated equivalence relation therefore
+identifies all representatives. This is a statement about representatives
+and their generated equivalence relation; the existing germ definition
+retains its universal-domain hypothesis. The parameter count and
+model-completeness clauses of the source remark remain obligations.
+
+Claude supplied the three exact producers: 362-line 3458ea50, 156-line
+1a3b40dd and 103-line 672ddb49. The primary agent reviewed every proof and
+independently checked their combined exact candidate in 6.17 s, with empty
+standard-lint diagnostics and twelve rendered scoped dependency/type reports
+containing only the expected standard axioms. Every compiler family used two
+threads and the enforced 20 GB cap without limit/OOM events or a safety stop.
+Final full build/book and integrated checks after all edits are required
+before committing. The aggregate, book, shared-goal frontier and module
+status agree, and the old degree-bound remark is described in the past tense.
+
+The goal's objective, endpoint and completion criteria, source TeX and the
+frozen M4a body are unchanged. The supplemental PDF remains excluded. The
+translation and nonfaithful-action examples, five-copy parameter rank, base
+algebraic-closure invariance and remaining descent/family assertions stay
+open. Original algebraization, action classification, guarded charts and
+unconditional reconstruction remain open.

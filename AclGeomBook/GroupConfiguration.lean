@@ -341,8 +341,33 @@ the coefficient field also preserves the canonical base.
 The ambient field is algebraically closed and the rank/independence properties
 use a universal domain and small algebraically closed coefficient fields. The
 original base field need not be algebraically closed. These results supply the
-canonical-base hypotheses of the configuration route; group extraction and
+canonical-base hypotheses of the configuration route, whose actual group
+extraction is proved below. Original algebraization, chart/action descent and
 unconditional reconstruction remain open.
+
+# A canonical base outside the point's algebraic closure
+%%%
+tag := "group-configuration-canonical-base-example"
+%%%
+
+For independent $`s,s',t`, the point $`a=(t,st+s')` has rank two. Its locus over
+$`L=\operatorname{acl}(s,s')` is the line $`X_2=sX_1+s'`, with canonical base
+$`k(s,s')`. But $`s` is outside the algebraic closure of $`a`. Thus a canonical
+base need not lie in the algebraic closure of the point. This proves the
+source's explicit example in `rem:cb-not-acl`, including the actual locus ideal
+and field of definition. The Lean coordinates are numbered zero and one.
+Only rank three of the displayed triple is assumed; algebraic closedness and
+a universal domain are unnecessary.
+
+{docstring GroupConfig.locusIdeal_line}
+
+{docstring GroupConfig.canonicalBase_line}
+
+{docstring GroupConfig.erk_line}
+
+{docstring GroupConfig.not_mem_racl_line}
+
+{docstring GroupConfig.canonicalBase_line_not_subset_racl}
 
 # Canonical bases of the actual Ψ incidences
 %%%
@@ -431,6 +456,33 @@ extraction from an actual configuration remain subsequent integration layers.
 {docstring GroupConfig.Germ.cb_map}
 
 {docstring GroupConfig.Germ.map_eq_self_iff}
+
+# Why the universal domain is essential for germs
+%%%
+tag := "group-configuration-finite-ambient"
+%%%
+
+If the ambient extension has finite transcendence degree, the whole ambient
+field is small. A locus of positive rank has no generic point over that
+whole field. In an algebraically closed ambient field, every quasi-rational
+expression over the whole field therefore gives a vacuous representative,
+equivalent to every other representative. The equivalence relation generated
+by these comparisons identifies all representatives. This proves the
+finite-ambient collapse warning in `rem:finite-trdeg`.
+
+{docstring GroupConfig.isSmall_univ_of_trdeg_lt}
+
+{docstring GroupConfig.not_isGenericOver_of_top_le}
+
+{docstring GroupConfig.Representative.top}
+
+{docstring GroupConfig.Representative.top_equivalent}
+
+{docstring GroupConfig.Representative.eqvGen_equivalent}
+
+This statement concerns the generated equivalence relation. The existing
+germ type retains its universal-domain hypothesis, which supplies the generic
+points used to prove transitivity of the comparison relation.
 
 # Generic evaluation, composition and independent conjugacy
 %%%
@@ -954,6 +1006,18 @@ germs are conclusions of the theorem.
 {docstring GroupConfig.IsMainConclusion}
 
 {docstring GroupConfig.GroupConfiguration.exists_main}
+
+The configuration hypotheses also follow from the actual conclusion over a
+finite independent base extension. First the configuration of codes and
+values transfers to the original interalgebraic tuples. Independent-base
+descent then brings every configuration clause back to the original base.
+In particular, its GC4 clause for $`a` proves the necessity assertion of
+`rem:main-props`. Finiteness of the adjoined set explicitly supplies the
+smallness needed for descent.
+
+{docstring GroupConfig.GroupConfiguration.descend}
+
+{docstring GroupConfig.GroupConfiguration.of_isMainConclusion}
 
 The displayed code tuples are finite generators of the canonical bases.
 The canonical RREF code vectors generate the same fields; the two tuple

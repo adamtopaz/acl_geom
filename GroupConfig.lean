@@ -12,6 +12,7 @@ import GroupConfig.Locus
 import GroupConfig.Rref
 import GroupConfig.FieldOfDefinition
 import GroupConfig.CanonicalBase
+import GroupConfig.CanonicalBaseCounterexample
 import GroupConfig.Configuration
 import GroupConfig.Codes
 import GroupConfig.Germ.Variety
@@ -19,6 +20,7 @@ import GroupConfig.Contraction
 import GroupConfig.QuasiRational
 import GroupConfig.Constructible.QuasiRational
 import GroupConfig.Germ.Basic
+import GroupConfig.Germ.FiniteAmbient
 import GroupConfig.Germ.Graph
 import GroupConfig.Germ.Code
 import GroupConfig.Germ.Action
@@ -88,5 +90,6 @@ import GroupConfig.Constructible.GroupPresentation
 import GroupConfig.Constructible.SpaceWords
 import GroupConfig.Constructible.SpacePresentation
 import GroupConfig.Constructible.CanonicalPresentation
+import GroupConfig.ConfigurationNecessity
 import GroupConfig.MainConstructible
 import GroupConfig.PsiConstructible

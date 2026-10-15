@@ -9,7 +9,7 @@ import GroupConfig.Constructible.Basic
 # Bounded-degree membership in the base field is not constructible
 
 Blueprint `sources/group_configuration/10-descent.tex`, `rem:descent-limits`, refuted on #31.
-The remark asserts that, once a degree bound is fixed, statements `u ∈ acl(k, e, v)` are
+The original remark asserted that, once a degree bound is fixed, statements `u ∈ acl(k, e, v)` are
 constructible relations over `k` in the ambient tuples. This fails already for empty parameters
 and degree bound one:
 
@@ -26,9 +26,8 @@ Together: the degree-one membership relation is not constructible over `k`
 The source setting satisfies these hypotheses: `k` is algebraically closed, hence infinite, and the
 universal domain `K` has infinite transcendence degree over `k`. The coefficients of the witness
 polynomials range over the subfield `k`; ambient quantification of coefficients does not
-restrict them to `k`. The
-satisfaction of fixed witness formulas, with their coefficients and nonvanishing conditions, is
-constructible; a degree bound alone cannot replace that choice.
+restrict them to `k`. The satisfaction of fixed witness formulas, with their coefficients and
+nonvanishing conditions, is constructible; a degree bound alone cannot replace that choice.
 
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
