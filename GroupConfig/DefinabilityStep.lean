@@ -25,6 +25,10 @@ The version `GroupConfiguration.exists_defStep_base` applies the step to a confi
 an intermediate field `K₀ ⊇ k` and states every conclusion over `k`, so that the step can be
 iterated without nesting base fields.
 
+The fresh versions choose the same actual copy independently from any prescribed finite set,
+retaining its rank and all definability conclusions. They supply the fresh Step I construction;
+the original existence statements are their empty-set specializations.
+
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
@@ -56,12 +60,15 @@ variable [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K] {ι₁ ι₂ ι�
   (hc : GroupConfiguration k a b c x y z)
 include hc
 
-/-- `lem:defstep` retaining the rank of its actual generic copy. Named consumer:
-`GroupConfiguration.exists_stepI_with_parameterRank`. -/
-theorem exists_defStep_with_parameterRank :
+/-- `lem:defstep` retaining the rank of its actual generic copy `e`, which is chosen independent
+from a prescribed finite set `W` as well as from the configuration. Named consumers:
+`GroupConfiguration.exists_defStep_with_parameterRank` and
+`GroupConfiguration.exists_defStep_base_fresh_with_parameterRank`. -/
+theorem exists_defStep_fresh_with_parameterRank {W : Set K} (hW : W.Finite) :
     ∃ (e : ι₁ → K) (p₂' : ι₃ → K) (q₂' : ι₄ → K),
       erk k ∅ (range e) = erk k ∅ (range a) ∧
-      IndepOver k ∅ (range e) (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IndepOver k ∅ (range e)
+        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) ∧
       range p₂' ⊆ racl k (range e ∪ range b) ∧ range q₂' ⊆ racl k (range e ∪ range y) ∧
       conjCode (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) z ⊆
         dcl (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) ∧
@@ -83,10 +90,13 @@ theorem exists_defStep_with_parameterRank :
   have hall : (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z).Finite :=
     (((((finite_range a).union (finite_range b)).union (finite_range c)).union
       (finite_range x)).union (finite_range y)).union (finite_range z)
-  obtain ⟨e, he⟩ := exists_isGenericOver (IsSmall.of_finite (k := k) hall).racl a
+  obtain ⟨e, he⟩ := exists_isGenericOver (IsSmall.of_finite (k := k) (hall.union hW)).racl a
+  have he_indW : IndepOver k ∅ (range e)
+      (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) :=
+    he.indepOver.mono_right (subset_racl k _)
   have he_ind :
       IndepOver k ∅ (range e) (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) :=
-    he.indepOver.mono_right (subset_racl k _)
+    he_indW.mono_right subset_union_left
   -- `a` and `e` are generic points of the locus of `a` over `acl(b, y, z)`.
   have hbyz : (range b ∪ range y ∪ range z).Finite :=
     ((finite_range b).union (finite_range y)).union (finite_range z)
@@ -101,7 +111,7 @@ theorem exists_defStep_with_parameterRank :
     have := indepOver_racl_right_iff.2 hc.indepOver_a_byz
     rwa [empty_union] at this
   have heN : IsGenericOver (racl k (range b ∪ range y ∪ range z)) a e :=
-    he.of_le (racl_mono (k := k) hbyz_sub)
+    he.of_le (racl_mono (k := k) (hbyz_sub.trans subset_union_left))
   obtain ⟨σ, hσ⟩ := haN.exists_algEquiv heN
   have hfix : ∀ s ∈ range b ∪ range y ∪ range z, (σ.restrictScalars k) s = s := fun s hs ↦ by
     change σ s = s
@@ -148,7 +158,7 @@ theorem exists_defStep_with_parameterRank :
       range y) :=
     racl_union_union_eq_of_subset
       (hq₂'.trans (racl_mono (k := k) (union_subset_union_left _ he_sub)))
-  refine ⟨e, p₂', q₂', he.erk_empty_eq, he_ind, hp₂', hq₂', hzdcl, hzracl,
+  refine ⟨e, p₂', q₂', he.erk_empty_eq, he_indW, hp₂', hq₂', hzdcl, hzracl,
     racl_union_union_eq_of_subset hp₂', racl_union_union_eq_of_subset hq₂', ?_, ?_, ?_⟩
   · -- The modified configuration over `K₁`.
     refine hc₁.ofRaclEq rfl ?_ rfl rfl ?_ ?_
@@ -197,6 +207,33 @@ theorem exists_defStep_with_parameterRank :
       | inr i => exact subset_adjoin k _ (subset_union_right (mem_range_self i))
     have key := mem_dclAdjoin_conjCode hσc.isIntegral_z hL₀L hw hwL j
     exact dclAdjoin_mono (adjoin.mono k _ _ subset_union_right) _ key
+
+/-- `lem:defstep` retaining the rank of its actual generic copy. Named consumer:
+`GroupConfiguration.exists_defStep`. -/
+theorem exists_defStep_with_parameterRank :
+    ∃ (e : ι₁ → K) (p₂' : ι₃ → K) (q₂' : ι₄ → K),
+      erk k ∅ (range e) = erk k ∅ (range a) ∧
+      IndepOver k ∅ (range e) (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      range p₂' ⊆ racl k (range e ∪ range b) ∧ range q₂' ⊆ racl k (range e ∪ range y) ∧
+      conjCode (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) z ⊆
+        dcl (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) ∧
+      racl k (conjCode (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) z) =
+        racl k (range z) ∧
+      racl k (range e ∪ (range b ∪ range p₂')) = racl k (range e ∪ range b) ∧
+      racl k (range e ∪ (range y ∪ range q₂')) = racl k (range e ∪ range y) ∧
+      GroupConfiguration (↥(racl k (range e))) a (Sum.elim b p₂') c x (Sum.elim y q₂')
+        (tupleOf (conjCode (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) z)) ∧
+      (∀ s : conjCode (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) z,
+        (s : K) ∈ dclAdjoin (racl k (range e))
+          (Sum.elim (Sum.elim b p₂') (Sum.elim y q₂'))) ∧
+      ((∀ i, y i ∈ dclAdjoin (adjoin k (range b)) z) →
+        (∀ i, x i ∈ dclAdjoin (adjoin k (range c)) z) →
+        ∀ j, Sum.elim y q₂' j ∈
+          dclAdjoin (adjoin k ((racl k (range e) : Set K) ∪ (range b ∪ range p₂')))
+            (tupleOf (conjCode (adjoin k (range b ∪ range y ∪ range p₂' ∪ range q₂')) z))) := by
+  obtain ⟨e, p₂', q₂', hrank, he, h⟩ := hc.exists_defStep_fresh_with_parameterRank finite_empty
+  rw [union_empty] at he
+  exact ⟨e, p₂', q₂', hrank, he, h⟩
 
 /-- `lem:defstep` for the space point `z` with lines `{b, y, z}` (`p₁ = b`, `q₁ = y`) and
 `{c, z, x}` (`p₂ = c`, `q₂ = x`), third line `{a, x, y}`, `p₃ = a`. -/
@@ -280,14 +317,17 @@ variable [IsAlgClosed K] {ι₁ ι₂ ι₃ ι₄ ι₅ ι₆ : Type*} [Finite �
   [Finite ι₄] [Finite ι₅] [Finite ι₆] {a : ι₁ → K} {b : ι₂ → K} {c : ι₃ → K} {x : ι₄ → K}
   {y : ι₅ → K} {z : ι₆ → K}
 
-/-- `lem:defstep` over an intermediate base, retaining the rank of its actual generic copy.
-Named consumer: `GroupConfiguration.exists_stepI_with_parameterRank`. -/
-theorem exists_defStep_base_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
-    [UniversalDomain (↥K₀) K] (hc : GroupConfiguration (↥K₀) a b c x y z) :
+/-- `lem:defstep` over an intermediate base, retaining the rank of its actual generic copy `e`,
+which is chosen independent over `K₀` from a prescribed finite set `W` as well as from the
+configuration. Named consumers: `GroupConfiguration.exists_defStep_base_with_parameterRank` and
+`GroupConfiguration.exists_stepI_fresh_with_parameterRank`. -/
+theorem exists_defStep_base_fresh_with_parameterRank (K₀ : IntermediateField k K)
+    [IsAlgClosed (↥K₀)] [UniversalDomain (↥K₀) K] (hc : GroupConfiguration (↥K₀) a b c x y z)
+    {W : Set K} (hW : W.Finite) :
     ∃ (e : ι₁ → K) (p₂' : ι₃ → K) (q₂' : ι₄ → K) (Z : Set K) (_ : Finite ↥Z),
       erk k (K₀ : Set K) (range e) = erk k (K₀ : Set K) (range a) ∧
       IndepOver k (K₀ : Set K) (range e)
-        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) ∧
       range p₂' ⊆ racl k ((K₀ : Set K) ∪ range e ∪ range b) ∧
       range q₂' ⊆ racl k ((K₀ : Set K) ∪ range e ∪ range y) ∧
       racl k ((K₀ : Set K) ∪ Z) = racl k ((K₀ : Set K) ∪ range z) ∧
@@ -306,7 +346,7 @@ theorem exists_defStep_base_with_parameterRank (K₀ : IntermediateField k K) [I
             (adjoin k ((racl k ((K₀ : Set K) ∪ range e) : Set K) ∪ (range b ∪ range p₂')))
             (tupleOf Z)) := by
   obtain ⟨e, p₂', q₂', hrank, he, hp, hq, -, hZ, hbp, hyq, hc', hdcl, himp⟩ :=
-    hc.exists_defStep_with_parameterRank
+    hc.exists_defStep_fresh_with_parameterRank hW
   have hK₀ : (K₀ : Set K) ⊆ racl k ((K₀ : Set K) ∪ range e) :=
     subset_union_left.trans (subset_racl k _)
   refine ⟨e, p₂', q₂', conjCode (adjoin (↥K₀) (range b ∪ range y ∪ range p₂' ∪ range q₂')) z,
@@ -332,6 +372,36 @@ theorem exists_defStep_base_with_parameterRank (K₀ : IntermediateField k K) [I
       (mem_dclAdjoin_congr (coe_adjoin_base K₀ (range c)) z _).2 (hx i)
     refine (mem_dclAdjoin_congr ?_ _ _).1 (himp hy' hx' j)
     rw [coe_adjoin_base K₀, racl_base_coe K₀ (range e), ← union_assoc, union_eq_right.2 hK₀]
+
+/-- `lem:defstep` over an intermediate base, retaining the rank of its actual generic copy.
+Named consumer: `GroupConfiguration.exists_defStep_base`. -/
+theorem exists_defStep_base_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
+    [UniversalDomain (↥K₀) K] (hc : GroupConfiguration (↥K₀) a b c x y z) :
+    ∃ (e : ι₁ → K) (p₂' : ι₃ → K) (q₂' : ι₄ → K) (Z : Set K) (_ : Finite ↥Z),
+      erk k (K₀ : Set K) (range e) = erk k (K₀ : Set K) (range a) ∧
+      IndepOver k (K₀ : Set K) (range e)
+        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      range p₂' ⊆ racl k ((K₀ : Set K) ∪ range e ∪ range b) ∧
+      range q₂' ⊆ racl k ((K₀ : Set K) ∪ range e ∪ range y) ∧
+      racl k ((K₀ : Set K) ∪ Z) = racl k ((K₀ : Set K) ∪ range z) ∧
+      racl k ((K₀ : Set K) ∪ range e ∪ (range b ∪ range p₂')) =
+        racl k ((K₀ : Set K) ∪ range e ∪ range b) ∧
+      racl k ((K₀ : Set K) ∪ range e ∪ (range y ∪ range q₂')) =
+        racl k ((K₀ : Set K) ∪ range e ∪ range y) ∧
+      GroupConfiguration (↥(racl k ((K₀ : Set K) ∪ range e))) a (Sum.elim b p₂') c x
+        (Sum.elim y q₂') (tupleOf Z) ∧
+      (∀ s ∈ Z, s ∈ dclAdjoin (racl k ((K₀ : Set K) ∪ range e))
+        (Sum.elim (Sum.elim b p₂') (Sum.elim y q₂'))) ∧
+      ((∀ i, y i ∈ dclAdjoin (adjoin k ((K₀ : Set K) ∪ range b)) z) →
+        (∀ i, x i ∈ dclAdjoin (adjoin k ((K₀ : Set K) ∪ range c)) z) →
+        ∀ j, Sum.elim y q₂' j ∈
+          dclAdjoin
+            (adjoin k ((racl k ((K₀ : Set K) ∪ range e) : Set K) ∪ (range b ∪ range p₂')))
+            (tupleOf Z)) := by
+  obtain ⟨e, p₂', q₂', Z, hZ, hrank, he, h⟩ :=
+    exists_defStep_base_fresh_with_parameterRank K₀ hc finite_empty
+  rw [union_empty] at he
+  exact ⟨e, p₂', q₂', Z, hZ, hrank, he, h⟩
 
 /-- `lem:defstep` for a configuration over an intermediate field `K₀ ⊇ k`, with every
 conclusion stated over `k`: the new base is `acl_k(K₀ ∪ e)` and the code `z̃` of the conjugate

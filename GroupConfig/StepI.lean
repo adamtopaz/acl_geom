@@ -18,6 +18,10 @@ pointwise interalgebraic over `k'` with the original one and in which `z'` is de
 The consequences drawn in the blueprint (the germ `g_{b'}` and the generic set `𝓕`) are
 derived in the next step.
 
+The fresh version retains the three-copy rank and chooses the whole parameter set independently
+from any prescribed finite set as well as from the configuration. The configuration base is
+unchanged during sampling; the original theorem is the empty-set specialization.
+
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
@@ -42,11 +46,13 @@ variable [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K] {ι₁ ι₂ ι�
   (hc : GroupConfiguration k a b c x y z)
 include hc
 
-/-- `prop:stepI` retaining the total rank of its three actual generic copies.
-Named consumer: `GroupConfiguration.exists_main_with_parameterRank`. -/
-theorem exists_stepI_with_parameterRank :
+/-- `prop:stepI` retaining the total rank of its three actual generic copies, which are chosen
+independent from a prescribed finite set `W` as well as from the configuration. Named consumers:
+`GroupConfiguration.exists_stepI_with_parameterRank` and
+`GroupConfiguration.exists_main_fresh_with_parameterRank`. -/
+theorem exists_stepI_fresh_with_parameterRank {W : Set K} (hW : W.Finite) :
     ∃ E : Set K, E.Finite ∧ erk k ∅ E = 3 * erk k ∅ (range a) ∧
-      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) ∧
       ∃ (κ₁ κ₂ κ₃ κ₄ κ₅ κ₆ : Type u) (_ : Finite κ₁) (_ : Finite κ₂) (_ : Finite κ₃)
         (_ : Finite κ₄) (_ : Finite κ₅) (_ : Finite κ₆) (a' : κ₁ → K) (b' : κ₂ → K)
         (c' : κ₃ → K) (x' : κ₄ → K) (y' : κ₅ → K) (z' : κ₆ → K),
@@ -61,7 +67,7 @@ theorem exists_stepI_with_parameterRank :
         (∀ j, y' j ∈ dclAdjoin (adjoin (↥(racl k E)) (range b')) z') := by
   /- Step 1: the space point `z`, lines `{b, y, z}` and `{c, z, x}`. -/
   obtain ⟨e₁, c', x', he₁rank, he₁, -, -, -, hZ₁, hb₁, hy₁, hc₁, hzt, -⟩ :=
-    hc.exists_defStep_with_parameterRank
+    hc.exists_defStep_fresh_with_parameterRank hW
   obtain ⟨Z₁, _, hZ₁, hc₁, hzt⟩ : ∃ (Z : Set K) (_ : Finite ↥Z), racl k Z = racl k (range z) ∧
       GroupConfiguration (↥(racl k (range e₁))) a (Sum.elim b c') c x (Sum.elim y x')
         (tupleOf Z) ∧
@@ -73,7 +79,7 @@ theorem exists_stepI_with_parameterRank :
   have _ : UniversalDomain ↥(racl k (range e₁)) K :=
     universalDomain_of_isSmall _ (IsSmall.of_finite (finite_range e₁)).racl
   obtain ⟨e₂, c'', z'', Z₂, _, he₂rank, he₂, -, -, hZ₂, ha₂, hy₂, hc₂, hxt, -⟩ :=
-    hc₁.swapAB.exists_defStep_base_with_parameterRank (racl k (range e₁))
+    hc₁.swapAB.exists_defStep_base_fresh_with_parameterRank (racl k (range e₁)) hW
   replace hc₂ := hc₂.swapAB
   /- Step 3: over `K₂ = acl(K₁, e₂)`, the space point `y₂`, lines `{b₁, y₂, z̃}` and
   `{a₂, x̃, y₂}`; the relabeling `swapBC ∘ swapAB ∘ swapBC` moves `y` to the position of `z`. -/
@@ -82,13 +88,13 @@ theorem exists_stepI_with_parameterRank :
     universalDomain_of_isSmall _
       ((IsSmall.of_finite (finite_range e₁)).racl.union (IsSmall.of_finite (finite_range e₂))).racl
   obtain ⟨e₃, a', x''', Z₃, _, he₃rank, he₃, -, -, hZ₃, hb₃, hz₃, hc₃, hyt, himp₃⟩ :=
-    hc₂.swapBC.swapAB.swapBC.exists_defStep_base_with_parameterRank
-      (racl k ((racl k (range e₁) : Set K) ∪ range e₂))
+    hc₂.swapBC.swapAB.swapBC.exists_defStep_base_fresh_with_parameterRank
+      (racl k ((racl k (range e₁) : Set K) ∪ range e₂)) hW
   replace hc₃ := hc₃.swapBC.swapAB.swapBC
   -- The three actual generic copies each contribute the original group rank.
   have hA₁ : erk k (range e₁) (range a) = erk k ∅ (range a) := by
     simpa only [empty_union] using he₁.symm.erk_eq
-      (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h))))) (finite_range a)
+      (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h)))))) (finite_range a)
   have hB₁ : erk k (racl k (range e₁) : Set K) (range (Sum.elim b c')) =
       erk k ∅ (range a) := by
     rw [← erk_base_empty (racl k (range e₁)), hc₁.erk_b_eq, erk_base_empty, erk_racl_base]
@@ -97,7 +103,7 @@ theorem exists_stepI_with_parameterRank :
     (erk_racl_base k _ _).symm.trans (he₂rank.trans hB₁)
   have hB₂ : erk k ((racl k (range e₁) : Set K) ∪ range e₂) (range (Sum.elim b c')) =
       erk k (racl k (range e₁) : Set K) (range (Sum.elim b c')) :=
-    he₂.symm.erk_eq (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h)))))
+    he₂.symm.erk_eq (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h))))))
       (finite_range (Sum.elim b c'))
   have hC₂ : erk k (racl k ((racl k (range e₁) : Set K) ∪ range e₂) : Set K) (range c) =
       erk k ∅ (range a) := by
@@ -167,8 +173,8 @@ theorem exists_stepI_with_parameterRank :
   have iz : racl k (range e₁ ∪ range e₂ ∪ range e₃ ∪ (Z₁ ∪ range x''')) =
       racl k (range e₁ ∪ range e₂ ∪ range e₃ ∪ range z) :=
     (racl_union_congr_of_subset hz₃ hK₂e₃).trans iz₁
-  -- Independence of `e₁ e₂ e₃` from the configuration (`R:trans`).
-  have hind : IndepOver k ∅ (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z)
+  -- Independence of `e₁ e₂ e₃` from the configuration and `W` (`R:trans`).
+  have hind : IndepOver k ∅ (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W)
       (range e₁ ∪ range e₂ ∪ range e₃) := by
     refine indepOver_union_right_iff.2 ⟨indepOver_union_right_iff.2 ⟨he₁.symm, ?_⟩, ?_⟩
     · rw [empty_union]
@@ -177,8 +183,8 @@ theorem exists_stepI_with_parameterRank :
           range b ∪ range a ∪ range c ∪ range z ∪ range y ∪ range x := by ac_rfl
       rw [hperm]
       exact racl_union_union_congr (racl_union_union_congr (racl_union_union_congr
-        (racl_union_union_congr (racl_union_union_congr hb₁.symm rfl) rfl)
-        (racl_union_congr rfl hZ₁.symm)) hy₁.symm) rfl
+        (racl_union_union_congr (racl_union_union_congr (racl_union_union_congr hb₁.symm rfl)
+        rfl) (racl_union_congr rfl hZ₁.symm)) hy₁.symm) rfl) rfl
     · rw [empty_union]
       have h := (indepOver_congr_base (racl_union_left (k := k) (range e₁) (range e₂))).1
         ((indepOver_racl_base_iff _ _ _).1 he₃.symm)
@@ -193,13 +199,13 @@ theorem exists_stepI_with_parameterRank :
       have hK₁e₂' : (racl k (range e₁) : Set K) ∪ range e₂ ⊆ racl k (range e₁ ∪ range e₂) :=
         union_subset hK₁' (subset_union_right.trans (subset_racl k _))
       exact racl_union_union_congr (racl_union_union_congr (racl_union_union_congr
-        (racl_union_union_congr (racl_union_union_congr rfl
+        (racl_union_union_congr (racl_union_union_congr (racl_union_union_congr rfl
           (racl_union_congr_of_subset hb₁ hE₁').symm)
           (racl_union_congr_of_subset ha₂ hK₁e₂').symm)
           (racl_union_congr_of_subset hZ₂ hK₁').symm)
           (racl_union_congr rfl hZ₁.symm))
         ((racl_union_congr_of_subset hy₁ hE₁').symm.trans
-          (racl_union_congr_of_subset hy₂ hK₁e₂').symm)
+          (racl_union_congr_of_subset hy₂ hK₁e₂').symm)) rfl
   -- The definability clauses.
   have hyp1 : ∀ i, tupleOf Z₁ i ∈ dclAdjoin (adjoin k
       ((racl k ((racl k (range e₁) : Set K) ∪ range e₂) : Set K) ∪ range (Sum.elim b c')))
@@ -241,6 +247,27 @@ theorem exists_stepI_with_parameterRank :
     rw [range_tupleOf, Sum.elim_range (Sum.elim (Sum.elim b c') a') (Sum.elim (tupleOf Z₁) x''')]
     exact union_subset ((coe_subset_adjoin _ _).trans subset_union_left)
       (union_subset ((subset_adjoin _ _).trans subset_union_left) subset_union_right)
+
+/-- `prop:stepI` retaining the total rank of its three actual generic copies.
+Named consumer: `GroupConfiguration.exists_stepI`. -/
+theorem exists_stepI_with_parameterRank :
+    ∃ E : Set K, E.Finite ∧ erk k ∅ E = 3 * erk k ∅ (range a) ∧
+      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      ∃ (κ₁ κ₂ κ₃ κ₄ κ₅ κ₆ : Type u) (_ : Finite κ₁) (_ : Finite κ₂) (_ : Finite κ₃)
+        (_ : Finite κ₄) (_ : Finite κ₅) (_ : Finite κ₆) (a' : κ₁ → K) (b' : κ₂ → K)
+        (c' : κ₃ → K) (x' : κ₄ → K) (y' : κ₅ → K) (z' : κ₆ → K),
+        GroupConfiguration (↥(racl k E)) a' b' c' x' y' z' ∧
+        racl k (E ∪ range a') = racl k (E ∪ range a) ∧
+        racl k (E ∪ range b') = racl k (E ∪ range b) ∧
+        racl k (E ∪ range c') = racl k (E ∪ range c) ∧
+        racl k (E ∪ range x') = racl k (E ∪ range x) ∧
+        racl k (E ∪ range y') = racl k (E ∪ range y) ∧
+        racl k (E ∪ range z') = racl k (E ∪ range z) ∧
+        (∀ j, z' j ∈ dclAdjoin (adjoin (↥(racl k E)) (range b')) y') ∧
+        (∀ j, y' j ∈ dclAdjoin (adjoin (↥(racl k E)) (range b')) z') := by
+  obtain ⟨E, hEfin, hErank, hEind, h⟩ := hc.exists_stepI_fresh_with_parameterRank finite_empty
+  rw [union_empty] at hEind
+  exact ⟨E, hEfin, hErank, hEind, h⟩
 
 /-- `prop:stepI`: there is a finite set `E` independent from the configuration such that, over
 `k' = acl(k, E)`, there is a group configuration pointwise interalgebraic over `k'` with the

@@ -10750,3 +10750,49 @@ H over the original base in `thm:six-point-group`, Weil algebraization, the
 homomorphism pi, its normal subgroup, original-field chart/action descent,
 affine classification, guarded charts and unconditional reconstruction remain
 obligations. All eight original classification requirements on #21 stay open.
+
+
+## Actual Ψ parameters fresh from prescribed finite sets (#12, 2026-10-15)
+
+`GroupConfiguration.exists_main_fresh_with_parameterRank` chooses the actual
+five-copy parameter set E independently from the six configuration tuples
+and any prescribed finite W. It retains erk(k,E) = 5*erk(k,a) and the actual
+`IsMainConclusion` over racl(k,E). The generic copies are sampled over the
+larger small sampling field; the configuration base is kept fixed. Relative
+freshness is carried through all three Step I copies and both Step III copies.
+The old public existence statements are empty-W specializations. All 38 old
+public theorem statements in the four core modules and the main-conclusion
+predicate remain unchanged.
+
+`QWitness.repTuple` lists all twenty-one witness representatives in field
+order. `PsiCore.exists_isMainConclusion_fresh` gives actual rank-two data
+with finite E of rank ten, independent from this entire tuple and W; its
+group and space input ranks remain two and one over racl(k,E).
+`Psi.exists_rankOne_isMainConclusion_fresh` gives actual rank-one data from
+the internally chosen partial quadrangle, finite E of rank five, and
+independence from all twenty-one representatives, the three extra quadrangle
+points and W. Its group and space input ranks remain one over that same base.
+Both consumers derive all group/configuration and freshness conclusions;
+no additional certificate is a premise. Full Ψ is needed for clause (vi).
+
+Claude supplied the complete five-file lane and checked its scoped and full
+library builds. The primary agent read all changes and both complete
+consumers, independently compared the old statements, and compiled exact
+frozen copies of all five modules with empty standard-lint logs and default
+checking limits. All 51 selected expanded public type/dependency reports use
+standard Lean axioms: the ten new declarations, 39 existing core declarations
+and two existing actual Ψ consumers. This scoped audit is not a whole-library
+axiom audit. The enforced 20 GB, two-thread family completed in 13.07 s,
+peak RSS 3.39 GiB, without memory events or safety stop. Full library/book and
+final integrated lint/type/dependency gates after all documentation edits
+remain mandatory before committing and pushing; exact evidence is on #12.
+
+The module headers, aggregate, book and shared goal frontier match this
+bounded result. Original source TeX, the original goal endpoint/completion
+criteria, frozen historical M4a body and excluded supplemental PDF are
+preserved. These are individual existence results. A common-base realization
+of both actual main conclusions still needs its base-change proof and joint
+consumer. The original algebraic H/k, Weil algebraization, pi, its normal
+subgroup, action classification, original-field chart/action descent,
+guarded charts and unconditional reconstruction remain obligations. All eight
+original #21 classification requirements remain open.

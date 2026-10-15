@@ -42,6 +42,11 @@ determined up to interalgebraicity by the other points
 (`GroupConfiguration.racl_range_c_eq`, by `Cb2`). This replaces the appeal to `lem:triple` in
 Step III.3 of the blueprint.
 
+The fresh five-copy construction also makes the finite parameters independent from any
+prescribed finite set, retaining their rank and the actual main conclusion. This supplies both
+fresh Ψ consumers in `GroupConfig.PsiFresh`; the original main theorem is its empty-set
+specialization. The larger field is used for sampling, without changing the configuration base.
+
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
@@ -356,16 +361,18 @@ variable {ι₁ ι₃ ι₄ : Type*} {ι₅ ι₆ : Type u} [Finite ι₁] [Fini
   [Finite ι₆] {a : ι₁ → K} {c : ι₃ → K} {x : ι₄ → K} {y : ι₅ → K} {z : ι₆ → K}
 
 omit [IsAlgClosed k] in
-/-- Step III.1 retaining the rank of its actual generic copy of the germ code.
-Named consumer: `GroupConfiguration.exists_stepIII_with_parameterRank`. -/
-theorem exists_stepIII_one_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
-    [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
-    (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
-    (hgz : g.evalGen y = z) :
+/-- Step III.1 retaining the rank of its actual generic copy of the germ code, which is chosen
+independent from a prescribed finite set `W` as well as from the configuration. Named consumers:
+`GroupConfiguration.exists_stepIII_one_with_parameterRank` and
+`GroupConfiguration.exists_stepIII_fresh_with_parameterRank`. -/
+theorem exists_stepIII_one_fresh_with_parameterRank (K₀ : IntermediateField k K)
+    [IsAlgClosed (↥K₀)] [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K))
+    {g : Germ (↥K₀) y z} (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
+    (hgz : g.evalGen y = z) {W : Set K} (hW : W.Finite) :
     ∃ (b' : ↥g.codeSet → K) (δ : Germ (↥K₀) y y) (y₁ : ι₅ → K),
       erk (↥K₀) ∅ (range b') = erk (↥K₀) ∅ (range g.codeTuple) ∧
       IndepOver (↥K₀) ∅ (range b')
-        (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+        (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) ∧
       δ ∈ diffSet g ∧ δ.evalGen y = y₁ ∧ IndepOver (↥K₀) ∅ (δ.cb : Set K) (range b') ∧
       IndepOver (↥K₀) ∅ (range y) (δ.cb : Set K) ∧
       racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range δ.codeTuple) =
@@ -373,8 +380,11 @@ theorem exists_stepIII_one_with_parameterRank (K₀ : IntermediateField k K) [Is
       racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range y₁) =
         racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range z) ∧
       GroupConfiguration (↥(racl k ((K₀ : Set K) ∪ range b'))) a δ.codeTuple c x y y₁ := by
-  obtain ⟨b', σ, δ, hb'ind, hσb, -, -, -, hc', hδmem, hδy, hδcb_le, hbsub, hδb', -, -⟩ :=
-    exists_conj_diff (range_codeTuple g) hc hg.isInvertible hgz
+  obtain ⟨b', σ, δ, hb'indW, hσb, -, -, -, hc', hδmem, hδy, hδcb_le, hbsub, hδb', -, -⟩ :=
+    exists_conj_diff_fresh (range_codeTuple g) hc hg.isInvertible hgz hW
+  have hb'ind : IndepOver (↥K₀) ∅ (range b')
+      (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) :=
+    hb'indW.mono_right subset_union_left
   have hb'rank : erk (↥K₀) ∅ (range b') = erk (↥K₀) ∅ (range g.codeTuple) := by
     rw [← hσb, range_comp]
     simpa only [image_empty] using erk_image σ (∅ : Set K) (range g.codeTuple)
@@ -415,8 +425,31 @@ theorem exists_stepIII_one_with_parameterRank (K₀ : IntermediateField k K) [Is
     rw [racl_base_coe]
     exact SetLike.coe_subset_coe.2 (racl_mono (union_subset_union_left _
       fun w hw ↦ subset_racl k _ (Or.inl hw)))
-  exact ⟨b', δ, y₁, hb'rank, hb'ind, hδmem, hδy.trans hy₁.symm, hδb', hyδ,
+  exact ⟨b', δ, y₁, hb'rank, hb'indW, hδmem, hδy.trans hy₁.symm, hδb', hyδ,
     racl_eq_of_racl_union_eq K₀ hδcode, hracl_z, hc₁⟩
+
+omit [IsAlgClosed k] in
+/-- Step III.1 retaining the rank of its actual generic copy of the germ code.
+Named consumer: `GroupConfiguration.exists_stepIII_one`. -/
+theorem exists_stepIII_one_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
+    [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
+    (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
+    (hgz : g.evalGen y = z) :
+    ∃ (b' : ↥g.codeSet → K) (δ : Germ (↥K₀) y y) (y₁ : ι₅ → K),
+      erk (↥K₀) ∅ (range b') = erk (↥K₀) ∅ (range g.codeTuple) ∧
+      IndepOver (↥K₀) ∅ (range b')
+        (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      δ ∈ diffSet g ∧ δ.evalGen y = y₁ ∧ IndepOver (↥K₀) ∅ (δ.cb : Set K) (range b') ∧
+      IndepOver (↥K₀) ∅ (range y) (δ.cb : Set K) ∧
+      racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range δ.codeTuple) =
+        racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range g.codeTuple) ∧
+      racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range y₁) =
+        racl (↥(racl k ((K₀ : Set K) ∪ range b'))) (range z) ∧
+      GroupConfiguration (↥(racl k ((K₀ : Set K) ∪ range b'))) a δ.codeTuple c x y y₁ := by
+  obtain ⟨b', δ, y₁, hrank, hb', h⟩ :=
+    exists_stepIII_one_fresh_with_parameterRank K₀ hK₀ hc hg hgz finite_empty
+  rw [union_empty] at hb'
+  exact ⟨b', δ, y₁, hrank, hb', h⟩
 
 omit [IsAlgClosed k] in
 /-- Step III.1 of `thm:main`. Let `b'` be a generic copy of `b = code g`. Over
@@ -440,13 +473,15 @@ theorem exists_stepIII_one (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)
   exact ⟨b', δ, y₁, h⟩
 
 omit [IsAlgClosed k] in
-/-- Step III retaining the total rank of its two actual generic copies.
-Named consumer: `GroupConfiguration.exists_main_with_parameterRank`. -/
-theorem exists_stepIII_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
-    [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
-    (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
-    (hgz : g.evalGen y = z) {μ₁ μ₂ μ₃ μ₄ μ₅ μ₆ : Type*} {a₀ : μ₁ → K} {b₀ : μ₂ → K}
-    {c₀ : μ₃ → K} {x₀ : μ₄ → K} {y₀ : μ₅ → K} {z₀ : μ₆ → K}
+/-- Step III retaining the total rank of its two actual generic copies, which are chosen
+independent from a prescribed finite set `W` as well as from the configuration. Named consumers:
+`GroupConfiguration.exists_stepIII_with_parameterRank` and
+`GroupConfiguration.exists_main_fresh_with_parameterRank`. -/
+theorem exists_stepIII_fresh_with_parameterRank (K₀ : IntermediateField k K)
+    [IsAlgClosed (↥K₀)] [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K))
+    {g : Germ (↥K₀) y z} (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
+    (hgz : g.evalGen y = z) {W : Set K} (hW : W.Finite) {μ₁ μ₂ μ₃ μ₄ μ₅ μ₆ : Type*}
+    {a₀ : μ₁ → K} {b₀ : μ₂ → K} {c₀ : μ₃ → K} {x₀ : μ₄ → K} {y₀ : μ₅ → K} {z₀ : μ₆ → K}
     (ha₀ : racl (↥K₀) (range a₀) = racl (↥K₀) (range a))
     (hb₀ : racl (↥K₀) (range b₀) = racl (↥K₀) (range g.codeTuple))
     (hc₀ : racl (↥K₀) (range c₀) = racl (↥K₀) (range c))
@@ -454,11 +489,15 @@ theorem exists_stepIII_with_parameterRank (K₀ : IntermediateField k K) [IsAlgC
     (hy₀ : racl (↥K₀) (range y₀) = racl (↥K₀) (range y))
     (hz₀ : racl (↥K₀) (range z₀) = racl (↥K₀) (range z)) :
     ∃ S : Set K, S.Finite ∧ erk (↥K₀) ∅ S = 2 * erk (↥K₀) ∅ (range a) ∧
-      IndepOver (↥K₀) ∅ S (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IndepOver (↥K₀) ∅ S
+        (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) ∧
       IsMainConclusion k (racl k ((K₀ : Set K) ∪ S)) a₀ b₀ c₀ x₀ y₀ z₀ := by
   /- Step III.1. -/
-  obtain ⟨b', δ, y₁, hb'rank, hb'ind, hδmem, hδy, hδb', hyδ, hracl_b, hracl_z, hc₁⟩ :=
-    exists_stepIII_one_with_parameterRank K₀ hK₀ hc hg hgz
+  obtain ⟨b', δ, y₁, hb'rank, hb'indW, hδmem, hδy, hδb', hyδ, hracl_b, hracl_z, hc₁⟩ :=
+    exists_stepIII_one_fresh_with_parameterRank K₀ hK₀ hc hg hgz hW
+  have hb'ind : IndepOver (↥K₀) ∅ (range b')
+      (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) :=
+    hb'indW.mono_right subset_union_left
   have hb'rank' := hb'rank.trans hc.erk_b_eq
   have hsub := fun i ↦ gcPoints_subset (a := a) (b := g.codeTuple) (c := c) (x := x) (y := y)
     (z := z) i
@@ -497,7 +536,8 @@ theorem exists_stepIII_with_parameterRank (K₀ : IntermediateField k K) [IsAlgC
     ((((((finite_range a).union (finite_range _)).union (finite_range c)).union
       (finite_range x)).union (finite_range y)).union (finite_range y₁)).union
       ((finite_range _).union (finite_range z))
-  obtain ⟨c'', σ₂, hc''W, hσ₂a, hσ₂x, hσ₂y, hσ₂c⟩ := hc₁.exists_conj_c hWfin
+  obtain ⟨c'', σ₂, hc''WW, hσ₂a, hσ₂x, hσ₂y, hσ₂c⟩ := hc₁.exists_conj_c (hWfin.union hW)
+  have hc''W := hc''WW.mono_right subset_union_left
   have hc''rank : erk (↥K₁) ∅ (range c'') = erk (↥K₁) ∅ (range c) := by
     rw [← hσ₂c, range_comp]
     simpa only [image_empty] using erk_image σ₂ (∅ : Set K) (range c)
@@ -589,9 +629,9 @@ theorem exists_stepIII_with_parameterRank (K₀ : IntermediateField k K) [IsAlgC
       (indepOver_of_subset_racl (cb_subset_racl_codeTuple_of_le K₀ K₁ h₀₁ g'')
         (subset_racl _ _) hc₁σ.indepOver_bc)
   have hptsK : IndepOver (↥K₀) ∅
-      (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z)
+      (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z ∪ W)
       (racl k ((K₁ : Set K) ∪ range c'') : Set K) :=
-    two_step hb'ind.symm (hc''W.mono_right hptsW).symm
+    two_step hb'indW.symm (hc''WW.mono_right (union_subset_union_left W hptsW)).symm
   have h₀₂ : K₀ ≤ racl k ((K₁ : Set K) ∪ range c'') :=
     fun w hw ↦ subset_racl k _ (Or.inl (h₀₁ hw))
   have lift₂ : ∀ {A B : Set K}, racl (↥K₁) A = racl (↥K₁) B →
@@ -700,6 +740,28 @@ theorem exists_stepIII_with_parameterRank (K₀ : IntermediateField k K) [IsAlgC
     lift₀₂ hy₀, hfz, hrky, hrkz, hrkf⟩
 
 omit [IsAlgClosed k] in
+/-- Step III retaining the total rank of its two actual generic copies.
+Named consumer: `GroupConfiguration.exists_stepIII`. -/
+theorem exists_stepIII_with_parameterRank (K₀ : IntermediateField k K) [IsAlgClosed (↥K₀)]
+    [UniversalDomain (↥K₀) K] (hK₀ : IsSmall k (K₀ : Set K)) {g : Germ (↥K₀) y z}
+    (hc : GroupConfiguration (↥K₀) a g.codeTuple c x y z) (hg : IsHWBij g)
+    (hgz : g.evalGen y = z) {μ₁ μ₂ μ₃ μ₄ μ₅ μ₆ : Type*} {a₀ : μ₁ → K} {b₀ : μ₂ → K}
+    {c₀ : μ₃ → K} {x₀ : μ₄ → K} {y₀ : μ₅ → K} {z₀ : μ₆ → K}
+    (ha₀ : racl (↥K₀) (range a₀) = racl (↥K₀) (range a))
+    (hb₀ : racl (↥K₀) (range b₀) = racl (↥K₀) (range g.codeTuple))
+    (hc₀ : racl (↥K₀) (range c₀) = racl (↥K₀) (range c))
+    (hx₀ : racl (↥K₀) (range x₀) = racl (↥K₀) (range x))
+    (hy₀ : racl (↥K₀) (range y₀) = racl (↥K₀) (range y))
+    (hz₀ : racl (↥K₀) (range z₀) = racl (↥K₀) (range z)) :
+    ∃ S : Set K, S.Finite ∧ erk (↥K₀) ∅ S = 2 * erk (↥K₀) ∅ (range a) ∧
+      IndepOver (↥K₀) ∅ S (range a ∪ range g.codeTuple ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IsMainConclusion k (racl k ((K₀ : Set K) ∪ S)) a₀ b₀ c₀ x₀ y₀ z₀ := by
+  obtain ⟨S, hSfin, hSrank, hS, h⟩ := exists_stepIII_fresh_with_parameterRank K₀ hK₀ hc hg hgz
+    finite_empty ha₀ hb₀ hc₀ hx₀ hy₀ hz₀
+  rw [union_empty] at hS
+  exact ⟨S, hSfin, hSrank, hS, h⟩
+
+omit [IsAlgClosed k] in
 /-- Step III of `thm:main`. Let `(a, code g, c, x, y, z)` be a configuration over `K₀` whose
 second point is the code of a Hrushovski–Weil datum of bijections `g` with `g(y) = z`. Then
 there is a finite set `S`, independent over `K₀` from the configuration, such that over
@@ -730,13 +792,19 @@ variable {ι₁ ι₂ ι₃ ι₄ ι₅ ι₆ : Type*} [Finite ι₁] [Finite ι
   {z : ι₆ → K}
 
 /-- `rem:params`: the actual five-copy construction of the group configuration theorem.
-The finite independent parameter set has rank five times the original group-point rank. -/
-theorem exists_main_with_parameterRank (hc : GroupConfiguration k a b c x y z) :
+The finite independent parameter set has rank five times the original group-point rank, and it
+is independent from a prescribed finite set `W` as well as from the configuration. Named
+consumers: `GroupConfiguration.exists_main_with_parameterRank`,
+`AclGeom.QWitness.PsiCore.exists_isMainConclusion_fresh` and
+`AclGeom.QWitness.Psi.exists_rankOne_isMainConclusion_fresh`. -/
+theorem exists_main_fresh_with_parameterRank (hc : GroupConfiguration k a b c x y z) {W : Set K}
+    (hW : W.Finite) :
     ∃ E : Set K, E.Finite ∧ erk k ∅ E = 5 * erk k ∅ (range a) ∧
-      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) ∧
       IsMainConclusion k (racl k E) a b c x y z := by
   obtain ⟨E, hEfin, hErank, hEind, κ₁, κ₂, κ₃, κ₄, κ₅, κ₆, _, _, _, _, _, _, a₁, b₁, c₁, x₁, y₁, z₁,
-    hc₁, ha₁, hb₁, hc₁', hx₁, hy₁, hz₁, hzdcl, hydcl⟩ := hc.exists_stepI_with_parameterRank
+    hc₁, ha₁, hb₁, hc₁', hx₁, hy₁, hz₁, hzdcl, hydcl⟩ :=
+    hc.exists_stepI_fresh_with_parameterRank hW
   have hEs : IsSmall k ((racl k E : IntermediateField k K) : Set K) :=
     (IsSmall.of_finite hEfin).racl
   have _ : IsAlgClosed ↥(racl k E) := isAlgClosed_racl _
@@ -750,11 +818,11 @@ theorem exists_main_with_parameterRank (hc : GroupConfiguration k a b c x y z) :
   have hy₀ := racl_racl_base_eq hy₁.symm
   have hz₀ := racl_racl_base_eq hz₁.symm
   obtain ⟨S, hSfin, hSrank, hSind, hmain⟩ :=
-    exists_stepIII_with_parameterRank (racl k E) hEs hc₂ hg hgz ha₀ hb₀ hc₀ hx₀ hy₀ hz₀
+    exists_stepIII_fresh_with_parameterRank (racl k E) hEs hc₂ hg hgz hW ha₀ hb₀ hc₀ hx₀ hy₀ hz₀
   have harank : erk (↥(racl k E)) ∅ (range a₁) = erk k ∅ (range a) := by
     rw [← erk_eq_of_racl_eq ha₀, erk_base_empty, erk_racl_base]
     simpa only [empty_union] using hEind.symm.erk_eq
-      (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h))))) (finite_range a)
+      (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h)))))) (finite_range a)
   have hSrank' : erk k E S = 2 * erk k ∅ (range a) := by
     rw [← erk_racl_base k E S, ← erk_base_empty (racl k E)]
     simpa only [harank] using hSrank
@@ -763,21 +831,33 @@ theorem exists_main_with_parameterRank (hc : GroupConfiguration k a b c x y z) :
     ring
   refine ⟨E ∪ S, hEfin.union hSfin, hrank, ?_, ?_⟩
   · have hpts : racl (↥(racl k E))
-        (range a₁ ∪ range g.codeTuple ∪ range c₁ ∪ range x₁ ∪ range y₁ ∪ range z₁) =
-        racl (↥(racl k E)) (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) :=
-      racl_union_congr (racl_union_congr (racl_union_congr (racl_union_congr
-        (racl_union_congr ha₀.symm hb₀.symm) hc₀.symm) hx₀.symm) hy₀.symm) hz₀.symm
+        (range a₁ ∪ range g.codeTuple ∪ range c₁ ∪ range x₁ ∪ range y₁ ∪ range z₁ ∪ W) =
+        racl (↥(racl k E)) (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) :=
+      racl_union_congr (racl_union_congr (racl_union_congr (racl_union_congr (racl_union_congr
+        (racl_union_congr ha₀.symm hb₀.symm) hc₀.symm) hx₀.symm) hy₀.symm) hz₀.symm) rfl
     have h1 : IndepOver (↥(racl k E)) ∅ S
-        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) :=
+        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) :=
       (indepOver_congr₀ rfl hpts).1 hSind
-    have h2 : IndepOver k E S (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) :=
+    have h2 : IndepOver k E S
+        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) :=
       (indepOver_racl_base_iff E _ _).1 ((indepOver_base_iff (racl k E) _ _).1 h1)
-    have h3 : IndepOver k ∅ (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z)
+    have h3 : IndepOver k ∅ (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W)
         (E ∪ S) :=
       indepOver_union_right_iff.2 ⟨hEind.symm, by rw [empty_union]; exact h2.symm⟩
     exact h3.symm
   · rw [← racl_union_left E S]
     exact hmain
+
+/-- `rem:params`: the actual five-copy construction of the group configuration theorem.
+The finite independent parameter set has rank five times the original group-point rank. Named
+consumer: `GroupConfiguration.exists_main`. -/
+theorem exists_main_with_parameterRank (hc : GroupConfiguration k a b c x y z) :
+    ∃ E : Set K, E.Finite ∧ erk k ∅ E = 5 * erk k ∅ (range a) ∧
+      IndepOver k ∅ E (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IsMainConclusion k (racl k E) a b c x y z := by
+  obtain ⟨E, hEfin, hErank, hEind, h⟩ := hc.exists_main_fresh_with_parameterRank finite_empty
+  rw [union_empty] at hEind
+  exact ⟨E, hEfin, hErank, hEind, h⟩
 
 /-- `thm:main`, the group configuration theorem for algebraically closed fields: a group
 configuration over `k` is realized, after adjoining a finite set `E` independent from it, by the

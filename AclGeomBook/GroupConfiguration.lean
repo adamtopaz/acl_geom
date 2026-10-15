@@ -1418,6 +1418,46 @@ the rest of the original witness, the original algebraic group over the base
 in `thm:six-point-group`, Weil algebraization, the homomorphism $`\pi`, its
 normal subgroup and original-field descent remain obligations.
 
+# Parameters fresh from the whole Ψ witness
+%%%
+tag := "group-configuration-psi-fresh"
+%%%
+
+The actual five-copy construction can avoid any prescribed finite set $`W`.
+Each generic copy is sampled over the relative closure of the current finite
+configuration together with $`W`. Monotonicity recovers all previous genericity
+facts, and independence is carried through the three Step I copies and the two
+Step III copies. The original configuration base is kept fixed during sampling.
+The resulting finite set $`E` has rank $`5n` over the original base, where $`n`
+is the original group-point rank, and is independent from the configuration
+and $`W`. The existing public theorems are the empty-$`W` specializations.
+
+{docstring GroupConfig.GroupConfiguration.exists_main_fresh_with_parameterRank}
+
+For an actual witness, the finite tuple below lists representatives of all
+twenty-one points, including those outside the six rank-two input tuples.
+
+{docstring AclGeom.QWitness.repTuple}
+
+Applying the fresh theorem to the rank-two configuration gives parameters
+of rank ten, independent from this entire tuple and any prescribed finite $`W`.
+The actual main conclusion and the ranks two and one hold over the same
+literal field $`\operatorname{acl}(k,E)`.
+
+{docstring AclGeom.QWitness.PsiCore.exists_isMainConclusion_fresh}
+
+Full $`\Psi` also supplies its partial quadrangle. Its rank-one main conclusion
+has parameters of rank five, independent from all twenty-one representatives,
+the three extra quadrangle points and $`W`. Both group and space points keep
+rank one over its literal final base.
+
+{docstring AclGeom.QWitness.Psi.exists_rankOne_isMainConclusion_fresh}
+
+These are two individual existence results. Their simultaneous realization
+over one field still needs an actual base-change proof. The algebraic groups
+over the original base, $`\pi`, its normal subgroup, action classification,
+original-field descent, guarded charts and reconstruction remain obligations.
+
 # The nonfaithful product-group example
 %%%
 tag := "group-configuration-nonfaithful-example"

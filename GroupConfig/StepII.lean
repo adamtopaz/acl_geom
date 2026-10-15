@@ -22,6 +22,10 @@ satisfies the rank hypothesis (F) for difference germs (`GroupConfiguration.rank
 `prop:stepII`); so `g` is a Hrushovski–Weil datum of bijections
 (`GroupConfiguration.exists_isHWBij`).
 
+The fresh difference-germ construction chooses its generic copy independently from a prescribed
+finite set as well as from the configuration. Its rank and difference-set conclusions are
+unchanged; the original construction is the empty-set specialization.
+
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
@@ -114,10 +118,14 @@ theorem trans_of_config (hgz : g.evalGen y = z) :
 `b` over the configuration, conjugate by `σ` fixing `acl(c, z, x)` with `σ b = b'`; the
 difference germ `δ = g_{b'}⁻¹ g` carries `y` to `y' = σ y`, has canonical base in
 `acl(b, b')`, is interalgebraic with `b` over `b'`, is independent from `g` and from `b'`,
-and has the rank of `g`. -/
-theorem exists_conj_diff (hg : IsInvertible g) (hgz : g.evalGen y = z) :
+and has the rank of `g`. The copy `b'` is chosen independent from a prescribed finite set `W` as
+well as from the configuration. Named consumers: `GroupConfiguration.exists_conj_diff` and
+`GroupConfiguration.exists_stepIII_one_fresh_with_parameterRank`. -/
+theorem exists_conj_diff_fresh (hg : IsInvertible g) (hgz : g.evalGen y = z) {W : Set K}
+    (hW : W.Finite) :
     ∃ (b' : ι₂ → K) (σ : K ≃ₐ[k] K) (δ : Germ k y y),
-      IndepOver k ∅ (range b') (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      IndepOver k ∅ (range b')
+        (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) ∧
       ⇑σ ∘ b = b' ∧ ⇑σ ∘ c = c ∧ ⇑σ ∘ x = x ∧ ⇑σ ∘ z = z ∧
       GroupConfiguration k (⇑σ ∘ a) b' c x (⇑σ ∘ y) z ∧
       δ ∈ diffSet g ∧ δ.evalGen y = ⇑σ ∘ y ∧
@@ -139,10 +147,13 @@ theorem exists_conj_diff (hg : IsInvertible g) (hgz : g.evalGen y = z) :
     exact indepOver_of_subset_racl (subset_racl k _) (adjoin_le_racl k _) hc.indepOver_by.symm
   /- A generic copy `b'` of `b` over the closure of the configuration, and `σ` fixing
   `acl(c, z, x)` with `σ b = b'`. -/
-  obtain ⟨b', hb'⟩ := exists_isGenericOver (IsSmall.of_finite (k := k) hall).racl b
+  obtain ⟨b', hb'⟩ := exists_isGenericOver (IsSmall.of_finite (k := k) (hall.union hW)).racl b
+  have hb'indW : IndepOver k ∅ (range b')
+      (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z ∪ W) :=
+    hb'.indepOver.mono_right (subset_racl k _)
   have hb'ind : IndepOver k ∅ (range b')
       (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) :=
-    hb'.indepOver.mono_right (subset_racl k _)
+    hb'indW.mono_right subset_union_left
   have hczx : (range c ∪ range z ∪ range x).Finite :=
     ((finite_range c).union (finite_range z)).union (finite_range x)
   have hczx_sub : range c ∪ range z ∪ range x ⊆
@@ -153,7 +164,7 @@ theorem exists_conj_diff (hg : IsInvertible g) (hgz : g.evalGen y = z) :
     have := indepOver_racl_right_iff.2 hc.indepOver_b_czx
     rwa [empty_union] at this
   have hb'N : IsGenericOver (racl k (range c ∪ range z ∪ range x)) b b' :=
-    hb'.of_le (racl_mono (k := k) hczx_sub)
+    hb'.of_le (racl_mono (k := k) (hczx_sub.trans subset_union_left))
   obtain ⟨σ, hσ⟩ := hbN.exists_algEquiv hb'N
   obtain ⟨σ', hσ'⟩ : ∃ τ : K ≃ₐ[k] K, τ = σ.restrictScalars k := ⟨_, rfl⟩
   have hfix : ∀ s ∈ range c ∪ range z ∪ range x, σ' s = s := fun s hs ↦ by
@@ -406,8 +417,25 @@ theorem exists_conj_diff (hg : IsInvertible g) (hgz : g.evalGen y = z) :
     exact hbcb.trans h1
   obtain ⟨y'', rfl⟩ := hy'
   obtain ⟨a'', rfl⟩ := ha'
-  exact ⟨b', σ', Germ.comp (g'.map σ') g, hb'ind, hσb, hσc, hσx, hσz, hc', hδmem, hδy,
+  exact ⟨b', σ', Germ.comp (g'.map σ') g, hb'indW, hσb, hσc, hσx, hσz, hc', hδmem, hδy,
     hδcb_le', hbsub, hδb', hδ_g, hrk⟩
+
+/-- `prop:stepII` and Step III.1 of `thm:main`, the construction, with `b'` independent from the
+configuration. Named consumer: `GroupConfiguration.rank_of_config`. -/
+theorem exists_conj_diff (hg : IsInvertible g) (hgz : g.evalGen y = z) :
+    ∃ (b' : ι₂ → K) (σ : K ≃ₐ[k] K) (δ : Germ k y y),
+      IndepOver k ∅ (range b') (range a ∪ range b ∪ range c ∪ range x ∪ range y ∪ range z) ∧
+      ⇑σ ∘ b = b' ∧ ⇑σ ∘ c = c ∧ ⇑σ ∘ x = x ∧ ⇑σ ∘ z = z ∧
+      GroupConfiguration k (⇑σ ∘ a) b' c x (⇑σ ∘ y) z ∧
+      δ ∈ diffSet g ∧ δ.evalGen y = ⇑σ ∘ y ∧
+      δ.cb ≤ racl k (range b ∪ range b') ∧
+      range b ⊆ racl k (range b' ∪ δ.cb) ∧
+      IndepOver k ∅ (δ.cb : Set K) (range b') ∧
+      IndepOver k ∅ (δ.cb : Set K) (g.cb : Set K) ∧
+      erk k ∅ (δ.cb : Set K) = erk k ∅ (g.cb : Set K) := by
+  obtain ⟨b', σ, δ, hb', h⟩ := exists_conj_diff_fresh hb hc hg hgz finite_empty
+  rw [union_empty] at hb'
+  exact ⟨b', σ, δ, hb', h⟩
 
 /-- `prop:stepII`: the rank hypothesis (F) holds for the orbit of `g`. -/
 theorem rank_of_config (hg : IsInvertible g) (hgz : g.evalGen y = z) :
