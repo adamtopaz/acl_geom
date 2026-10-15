@@ -180,6 +180,7 @@ certify every auxiliary statement in the corresponding source sections.
 - the configuration predicate, its invariance and independent-base descent, with necessity
   of its clauses from the actual main conclusion over a finite independent extension;
 - the explicit canonical-base line example and the finite-ambient representative-collapse warning;
+- base-algebraic-closure invariance of closures, ranks, closed fields and points;
 - constructible sets, with Chevalley's theorem and generic quantification;
 - the clause-(i)–(iv) form of `prop:psi-gc` and full `cor:psi`, including the actual
   constructible presentations, original-base freshness and final-base rank/orbit conclusions.
@@ -217,11 +218,20 @@ over a finite independent extension, it recovers the original configuration, inc
 for the first group point as asserted in `rem:main-props`.
 [GroupConfig/CanonicalBaseCounterexample.lean](GroupConfig/CanonicalBaseCounterexample.lean)
 proves the literal `rem:cb-not-acl` line example, its canonical base, rank and noncontainment.
+The line ideal and canonical-base proof are shared over any coefficient field containing
+the slope and intercept, with `t` transcendental over that field. The five
+original public example statements remain unchanged.
 [GroupConfig/Germ/FiniteAmbient.lean](GroupConfig/Germ/FiniteAmbient.lean) proves smallness
 and absence of generic points over the whole field when the ambient transcendence degree is
 finite. In an algebraically closed ambient field, the generated representative equivalence
-relation then collapses. The existing germ definition retains its universal-domain hypothesis. These auxiliary results preserve the
-separate original-field descent and reconstruction obligations.
+relation then collapses. The existing germ definition retains its universal-domain hypothesis.
+These auxiliary results preserve the separate original-field descent and reconstruction obligations.
+[GroupConfig/BaseClosure.lean](GroupConfig/BaseClosure.lean) proves that replacing the base
+by its relative algebraic closure inside the same ambient field preserves relative closures
+and ranks, and constructs the actual carrier-preserving order isomorphism of closed-field
+lattices. The existing point and lattice-rank transports apply to this isomorphism, proving
+the base-closure assertion of `rem:psi-hyp`(c) over arbitrary fields. This keeps the ambient
+field fixed; witness descent from a larger ambient extension remains an obligation.
 
 [GroupConfig/MainConstructible.lean](GroupConfig/MainConstructible.lean) proves the combined
 `thm:main-informal` on those same data: for every generic base point it chooses the canonical
@@ -248,14 +258,13 @@ general configuration theorem with constructibility on the same actual data. It 
 generic base point and both sampling stages internally, proves freshness of the combined
 parameters over the original base, and states the rank-two, one-orbit and two-product
 conclusions over the literal final algebraically closed base. The group, stabilizer and
-homogeneous-space presentations have the source fields. These theorems do not algebraize the group or descend the chart/action
-to the original fields.
+homogeneous-space presentations have the source fields. These theorems do not algebraize
+the group or descend the chart/action to the original fields.
 
 Open:
 
 - auxiliary source statements outside the completed finite #29 audit, including the translation
-  and nonfaithful-action examples, the five-copy parameter rank, and general
-  base-algebraic-closure invariance;
+  and nonfaithful-action examples and the five-copy parameter rank;
 - the fixed formulas and independence argument needed for the application's descent,
   and the source's definability-in-families assertions for rank and connectedness;
 - descending the chart and action to the original fields.

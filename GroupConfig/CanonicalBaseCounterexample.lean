@@ -19,6 +19,10 @@ Blueprint `sources/group_configuration/02-fields-of-definition.tex`, `rem:cb-not
 * `rk(a) = 2` (`GroupConfig.erk_line`) and `s ∉ acl(a)` (`GroupConfig.not_mem_racl_line`);
 * hence `Cb(a/L) ⊄ acl(a)` (`GroupConfig.canonicalBase_line_not_subset_racl`).
 
+The locus and canonical-base computations hold over any field `L` containing `s, s'` over which
+`t` is transcendental (`GroupConfig.locusIdeal_affineLine`, `GroupConfig.canonicalBase_affineLine`);
+other finite index types reduce to these by `GroupConfig.canonicalBase_comp_equiv`.
+
 So the hypothesis (GC4) of a group configuration, `a ⊆ acl(Cb(xy/acl(a)))`, is a genuine
 condition.
 
@@ -216,16 +220,23 @@ private theorem idealOf_line (ht : Transcendental L t) :
 
 end Line
 
+/-- The locus of `(t, st + s')` over any field `L` containing `s, s'`, over which `t` is
+transcendental, is the line `X₂ = s X₁ + s'`. Named consumers: `GroupConfig.locusIdeal_line` and
+`GroupConfig.canonicalBase_affineLine`. -/
+theorem locusIdeal_affineLine {s s' t : K} (L : IntermediateField k K) (hs : s ∈ L)
+    (hs' : s' ∈ L) (ht : Transcendental (↥L) t) :
+    locusIdeal (↥L) ![t, s * t + s'] = Ideal.span {X 1 - C s * X 0 - C s'} := by
+  unfold locusIdeal
+  rw [idealOf_line L hs hs' ht, Ideal.map_span, Set.image_singleton]
+  simp [lineL]
+
 /-- `rem:cb-not-acl`: the locus of `a = (t, st + s')` over `L = acl(s, s')` is the line
 `X₂ = s X₁ + s'`. -/
 theorem locusIdeal_line {s s' t : K} (hind : erk k ∅ ({s, s', t} : Set K) = 3) :
     locusIdeal (↥(racl k ({s, s'} : Set K))) ![t, s * t + s'] =
-      Ideal.span {X 1 - C s * X 0 - C s'} := by
-  have hs : s ∈ racl k ({s, s'} : Set K) := subset_racl k _ (Or.inl rfl)
-  have hs' : s' ∈ racl k ({s, s'} : Set K) := subset_racl k _ (Or.inr rfl)
-  unfold locusIdeal
-  rw [idealOf_line _ hs hs' (transcendental_line hind), Ideal.map_span, Set.image_singleton]
-  simp [lineL]
+      Ideal.span {X 1 - C s * X 0 - C s'} :=
+  locusIdeal_affineLine _ (subset_racl k _ (Or.inl rfl)) (subset_racl k _ (Or.inr rfl))
+    (transcendental_line hind)
 
 /-! ### The canonical base -/
 
@@ -259,13 +270,13 @@ private theorem coeff_line_const :
 
 end CanonicalBase
 
-/-- `rem:cb-not-acl`: the canonical base of `a = (t, st + s')` over `L = acl(s, s')` is
-`k(s, s')`. -/
-theorem canonicalBase_line {s s' t : K} (hind : erk k ∅ ({s, s', t} : Set K) = 3) :
-    canonicalBase (racl k ({s, s'} : Set K)) ![t, s * t + s'] =
-      adjoin k ({s, s'} : Set K) := by
+/-- The canonical base of `(t, st + s')` over any field `L` containing `s, s'`, over which `t`
+is transcendental, is `k(s, s')`. Named consumer: `GroupConfig.canonicalBase_line`. -/
+theorem canonicalBase_affineLine {s s' t : K} (L : IntermediateField k K) (hs : s ∈ L)
+    (hs' : s' ∈ L) (ht : Transcendental (↥L) t) :
+    canonicalBase L ![t, s * t + s'] = adjoin k ({s, s'} : Set K) := by
   unfold canonicalBase
-  rw [locusIdeal_line hind]
+  rw [locusIdeal_affineLine L hs hs' ht]
   have hg1 := coeff_line_one (s := s) (s' := s')
   have hg0 := coeff_line_zero (s := s) (s' := s')
   have hgc := coeff_line_const (s := s) (s' := s')
@@ -345,6 +356,14 @@ theorem canonicalBase_line {s s' t : K} (hind : erk k ∅ ({s, s', t} : Set K) =
       rwa [mul_neg, neg_neg, mul_div_cancel_left₀ _ hc'] at h
     rintro x (rfl | rfl)
     exacts [subset_adjoin k _ hsF, subset_adjoin k _ hs'F]
+
+/-- `rem:cb-not-acl`: the canonical base of `a = (t, st + s')` over `L = acl(s, s')` is
+`k(s, s')`. -/
+theorem canonicalBase_line {s s' t : K} (hind : erk k ∅ ({s, s', t} : Set K) = 3) :
+    canonicalBase (racl k ({s, s'} : Set K)) ![t, s * t + s'] =
+      adjoin k ({s, s'} : Set K) :=
+  canonicalBase_affineLine _ (subset_racl k _ (Or.inl rfl)) (subset_racl k _ (Or.inr rfl))
+    (transcendental_line hind)
 
 /-- `rem:cb-not-acl`: the canonical base of `a = (t, st + s')` over `L = acl(s, s')` is not
 contained in `acl(a)`. -/

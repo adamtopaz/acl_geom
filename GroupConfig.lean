@@ -6,6 +6,7 @@ Authors: Adam Topaz
 import GroupConfig.Constructible.Generic
 import GroupConfig.ClosureCounterexample
 import GroupConfig.Setting
+import GroupConfig.BaseClosure
 import GroupConfig.Automorphisms
 import GroupConfig.Dimension
 import GroupConfig.Locus

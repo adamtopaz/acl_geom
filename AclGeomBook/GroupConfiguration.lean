@@ -350,6 +350,17 @@ unconditional reconstruction remain open.
 tag := "group-configuration-canonical-base-example"
 %%%
 
+The affine-line computation is proved once over any intermediate coefficient
+field $`L` containing $`s,s'`, provided $`t` is transcendental over $`L`.
+It computes the actual locus ideal and canonical base. The original source
+example below is a corollary. Existing finite-coordinate reindexing transports
+this calculation to the two-block graph coordinates used by germs; the
+$`\mathrm{Fin}\,1 \oplus \mathrm{Fin}\,1` consumer is checked with that API.
+
+{docstring GroupConfig.locusIdeal_affineLine}
+
+{docstring GroupConfig.canonicalBase_affineLine}
+
 For independent $`s,s',t`, the point $`a=(t,st+s')` has rank two. Its locus over
 $`L=\operatorname{acl}(s,s')` is the line $`X_2=sX_1+s'`, with canonical base
 $`k(s,s')`. But $`s` is outside the algebraic closure of $`a`. Thus a canonical
@@ -1181,6 +1192,35 @@ interalgebraicity clauses refer to the same extracted data.
 
 Algebraization, action classification, original-field chart/action descent
 and unconditional reconstruction remain separate targets.
+
+# Replacing the base by its relative algebraic closure
+%%%
+tag := "group-configuration-base-closure"
+%%%
+
+Let $`\bar k=\operatorname{acl}_k(\varnothing)` inside the same ambient field
+$`K`. Relative algebraic closures over $`k` and $`\bar k` have the same
+carriers. Ranks over these two bases agree for every set of coordinates.
+The closed-field lattices are order isomorphic, with exactly the same
+carriers in both directions.
+
+{docstring AclGeom.racl_baseClosure_coe}
+
+{docstring GroupConfig.erk_baseClosure}
+
+{docstring AclGeom.ClosedIF.baseClosureEquiv}
+
+{docstring AclGeom.ClosedIF.coe_baseClosureEquiv}
+
+{docstring AclGeom.ClosedIF.coe_baseClosureEquiv_symm}
+
+The existing `Point.map` applied to this actual order isomorphism gives the
+point bijection with the same carriers, and `rankEq_map_iff` preserves every
+lattice-rank statement. These applications are checked on the constructed
+isomorphism. The order and rank results hold over arbitrary fields. When
+$`K` is algebraically closed, $`\bar k` is algebraically closed, giving the
+source's reduction in `rem:psi-hyp`(c). Original-field witness descent from a
+larger ambient extension remains open.
 
 # A canonical universal ambient
 %%%

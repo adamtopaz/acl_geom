@@ -34,12 +34,16 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 5a94df8 (exact CI38754232523, artifact
-11982548941, existing deployment7096055310 successful at 14:55:49 UTC).
-Its source correction and full validation are recorded on #31, now complete.
+The previous verified checkpoint is 9384cb2 (exact CI38758985943, artifact
+11986145106, existing deployment7096886478 successful at 15:29:11 UTC).
+Its three auxiliary source proofs and full validation are recorded on #12.
 The canonical-base line example, necessity of the configuration clauses from
 the actual main conclusion, and the finite-ambient representative-collapse
-warning now have public proofs. Remaining auxiliary source statements,
+warning now have public proofs. Base-algebraic-closure invariance now has an
+actual closed-field order isomorphism preserving carriers, points and ranks.
+The affine-line proof is shared over arbitrary coefficient fields while all
+five original public example statements are retained. Remaining auxiliary
+source statements,
 including translation/nonfaithful examples and the five-copy parameter rank,
 remain open. The degree-only constructibility usage claim is refuted on #31,
 alongside the fixed-formula source correction. Application witness descent and
@@ -10254,3 +10258,45 @@ translation and nonfaithful-action examples, five-copy parameter rank, base
 algebraic-closure invariance and remaining descent/family assertions stay
 open. Original algebraization, action classification, guarded charts and
 unconditional reconstruction remain open.
+
+
+## Base closure and shared affine-line computation (#12, 2026-10-15)
+
+`BaseClosure` proves the general base-closure assertion of `rem:psi-hyp`(c).
+For arbitrary fields, replacing k by its relative algebraic closure inside
+the same K preserves closure carriers and matroid ranks. The constructed
+closed-field order isomorphism and its inverse preserve carriers. Existing
+Point.map and rankEq_map_iff apply to that actual isomorphism, preserving
+points and lattice ranks. The ambient field stays fixed. When K is ACF,
+the new base is ACF; returning witnesses from a larger ambient extension
+remains a separate obligation. The module imports Rank only.
+
+`CanonicalBaseCounterexample` now shares the existing affine-line ideal and
+field-of-definition proof over any coefficient field L containing s,s',
+with t transcendental over L. The original line-example theorems are
+corollaries, and the docstrings and statements of all five old public
+theorems are byte-identical to 9384cb2. The proof is moved once, not copied.
+Existing canonicalBase_comp_equiv handles the Fin1-plus-Fin1 graph indices,
+as checked in the actual consumer example. These shared lemmas supply the
+source's forthcoming translation and nonfaithful-action computations.
+
+Claude supplied exact producers 108-line 1d3664b5 and 381-line 8d0a1aaa.
+The primary agent reviewed their complete proofs and independently checked
+the combined candidate in 4.65 s, with empty standard-lint diagnostics,
+twelve rendered scoped dependency/type reports containing only standard
+Lean axioms, and four actual point/carrier/rank/index consumer examples.
+Every family used two threads and the enforced 20 GB cap without limit/OOM
+events or a safety stop. Full library/book and final integrated checks
+after all edits are required before committing and pushing.
+
+The shared goal changes its proved frontier only: objective, endpoint and
+completion criteria remain exact. Source TeX and the frozen historical body
+are unchanged; the supplemental PDF stays excluded. Claude owns the private
+actual translation-germ and homogeneous-space example, with an explicit
+stage-one terminal yield before this integration's compiler family. No
+caller-supplied HW or presentation certificate is allowed. The full source
+example remains open until its actual space equivalence, generic-point
+image, zero class and independent-presentation obstruction are proved.
+The five-copy parameter bound, nonfaithful-action example, remaining
+application descent/family assertions and original reconstruction remain
+obligations.
