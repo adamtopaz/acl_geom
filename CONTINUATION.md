@@ -34,9 +34,9 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 07ec567 (exact CI38776879085, artifact
-11994802389, existing deployment7099758251 successful at 17:33:17 UTC).
-Its actual five-copy parameter rank and full validation are recorded on #12.
+The previous verified checkpoint is 9b2aeb8 (exact CI38783156757, artifact
+11997275903, existing deployment7100727066 successful at 18:18:06 UTC).
+Its actual rank-one HW rationality and full validation are recorded on #21.
 The canonical-base line example, necessity of the configuration clauses from
 the actual main conclusion, and the finite-ambient representative-collapse
 warning now have public proofs. Base-algebraic-closure invariance now has an
@@ -59,7 +59,11 @@ Frobenius index is intrinsic and additive under arbitrary composition; only
 the HW orbit argument uses independence. This auxiliary rationality result
 does not construct a function-field action or discharge classification.
 The degree-only constructibility usage claim is refuted on #31 alongside
-the fixed-formula source correction. Application witness descent and
+the fixed-formula source correction. Model completeness of algebraically closed
+fields now constructs an actual Mathlib elementary embedding for each prescribed
+field embedding and preserves every finite-arity first-order ring formula.
+The proof fixes the existing parameters in its Tarski–Vaught fibre; no
+universal-domain or rank hypothesis is used. Application witness descent and
 its independence argument remain open. The current integration's source and
 validation details are recorded at the end of this guide and on #12, #21 and #31. Full
 library/book gates are required before every commit.
@@ -10499,3 +10503,55 @@ Lemma 8.4, actual application descent and independence recovery, definability in
 families, guarded charts and unconditional reconstruction remain open. The
 primary agent separately owns one private model-completeness module; no partial
 helper chain will be integrated before its actual elementary-embedding consumer.
+
+
+## Actual model completeness of algebraically closed fields (#12, 2026-10-15)
+
+`acfElementaryEmbedding` turns a prescribed ring homomorphism between two
+algebraically closed fields into an actual elementary embedding in Mathlib's
+ring language, with that exact underlying map. `ringHom_realize_iff` preserves
+every finite-arity formula, including arbitrary quantifiers. Its only public
+mathematical inputs are the two fields, their algebraic closedness and the
+prescribed homomorphism. No algebra structure, universal domain, rank bound,
+elementary-embedding or formula-descent certificate is supplied by the caller.
+The canonical compatible ring structures are built locally, without a global
+instance loop.
+
+The proof first extracts a base-field point from a nonempty constructible cell
+by the existing locus-density theorem. This helper needs algebraic closedness
+only of the base; its ambient field is arbitrary. A complete induction over
+Mathlib's actual BoundedFormula constructors proves constructibility of their
+realization sets in an algebraically closed ambient field. Ring terms are
+interpreted as actual multivariable polynomials, using the semantics' homomorphism
+naturality. Implication uses complement and union. Universal quantification uses
+a polynomial snoc substitution followed by Chevalley's quantifier theorem.
+The Tarski–Vaught test applies density to a polynomial fibre that fixes every
+old parameter and leaves only the proposed new witness free. A point of the
+whole realization set would not suffice. The prescribed underlying map is
+retained definitionally. The three local helpers are private and consumed by
+the actual elementary-embedding producer; no helper chain was integrated first.
+
+The primary agent owns this one new module and the aggregate/book/goal/continuation
+edits, with ownership agreed through chit. The complete private 162-line c4f09fa1
+candidate passed standard lint with empty diagnostics and five expanded scoped
+public type/dependency reports using only the expected standard Lean axioms.
+The final private family completed in 2.53 s under two threads and an enforced
+20 GB cap, peak RSS 3.36 GiB, without cap/OOM events or a safety stop. Claude
+read every line and accepted the mathematical proof and exact hypotheses in
+chit7121. His two documentation nits are resolved: an accurate public Status
+replaces the private-candidate sentence, and actual application formulas and
+independence recovery remain explicitly open. Every namespace/proof byte is
+unchanged from the reviewed private candidate. Full library/book and final
+integrated source/type/dependency checks after all five edits are required
+before committing and pushing; final evidence is reported on #12.
+
+This supplies model completeness itself, cited in rem:psi-hyp(c) and
+rem:finite-trdeg. It does not turn algebraic independence into a finite formula
+or supply the application's actual fixed formulas, independence recovery,
+definability of rank/connectedness in families or original-field chart/action
+descent. Those and the original group-chunk, six-point, action-classification,
+guarded-chart and unconditional reconstruction obligations remain open. The
+source TeX, shared endpoint/completion criteria and frozen historical M4a body
+are preserved; the supplemental PDF remains excluded. Claude separately owns
+only the two new private function-field/action modules and coordinates every
+compiler family through chit.

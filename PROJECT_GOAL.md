@@ -183,6 +183,8 @@ certify every auxiliary statement in the corresponding source sections.
   with the actual five-copy parameter rank over the original base;
 - arbitrary small ACF base change, with the group and homogeneous space preserved;
 - descent of independent parameters in constructible relations;
+- model completeness of algebraically closed fields, as an actual elementary embedding
+  for every prescribed field embedding, with preservation of all finite-arity ring formulas;
 - the configuration predicate, its invariance and independent-base descent, with necessity
   of its clauses from the actual main conclusion over a finite independent extension;
 - the explicit canonical-base line example and the finite-ambient representative-collapse warning;
@@ -214,7 +216,7 @@ actual chosen parameters: `erk k ∅ E = 5 * erk k ∅ (Set.range a)`, over the 
 The existing definability, Step I and Step III producers retain the three-plus-two generic
 copy ranks, and the old public existence statements are projections with unchanged hypotheses.
 This proves `rem:params` and retains the universal-domain hypothesis; the finite-ambient
-collapse warning and the remaining model-completeness descent obligations still apply.
+collapse warning and the remaining application witness-descent obligations still apply.
 The homogeneous space has a faithful transitive action. The arbitrary-small-ACF
 base-change package transports the actual loci to fresh representing tuples;
 it preserves the generic and difference sets, group and homogeneous space.
@@ -226,6 +228,14 @@ Fixed finite polynomial and quasi-rational witness formulas, with their coeffici
 nonvanishing conditions retained, have constructible satisfaction predicates by the existing
 polynomial, graph and quantifier theorems. This does not by itself descend the application
 witnesses or recover their independence.
+[GroupConfig/ModelCompleteness.lean](GroupConfig/ModelCompleteness.lean) proves model
+completeness itself: a prescribed embedding of algebraically closed fields is an actual
+Mathlib ring-language elementary embedding, with the same underlying map and preservation
+of every finite-arity formula. The proof uses constructibility of actual bounded formulas
+and a Tarski–Vaught fibre fixing the existing parameters. No universal-domain or rank
+hypothesis is used. This supplies the logical input cited in `rem:psi-hyp`(c) and
+`rem:finite-trdeg`; actual application formulas, independence recovery and original-field
+chart/action descent remain obligations.
 [GroupConfig/ConfigurationNecessity.lean](GroupConfig/ConfigurationNecessity.lean) descends
 configurations from a small independent base field. Applied to the actual main conclusion
 over a finite independent extension, it recovers the original configuration, including GC4

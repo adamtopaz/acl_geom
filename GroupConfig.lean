@@ -67,6 +67,7 @@ import GroupConfig.Germ.HomogeneousSpace
 import GroupConfig.Germ.TranslationSpace
 import GroupConfig.DefinabilityStep
 import GroupConfig.Descent
+import GroupConfig.ModelCompleteness
 import GroupConfig.Germ.BaseChange
 import GroupConfig.Germ.BaseChangeHW
 import GroupConfig.Germ.BaseChangeGroup

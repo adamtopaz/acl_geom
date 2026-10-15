@@ -1200,6 +1200,34 @@ algebraically closed base field.
 
 {docstring GroupConfig.descent}
 
+More generally, any nonempty constructible set over an algebraically closed
+base has a base-field point. The ambient field can be arbitrary. This follows
+by choosing one polynomial cell and applying the same locus-density theorem.
+
+{docstring GroupConfig.IsConstructibleOver.exists_kpoint}
+
+Every actual bounded formula in Mathlib's ring language has a constructible
+realization set in an algebraically closed ambient field. Terms are polynomial
+expressions; Boolean operations and Chevalley handle implication and universal
+quantification. This covers all constructors of the actual syntax.
+
+{docstring GroupConfig.isConstructibleOver_realize}
+
+Consequently, a prescribed embedding between algebraically closed fields is
+an elementary embedding with exactly that underlying map. The Tarski–Vaught
+proof fixes the old parameters in a polynomial fibre before finding a
+base-field point for the new witness. It preserves every finite-arity
+first-order ring formula, including arbitrary quantifiers. No universal-domain
+or transcendence-degree hypothesis is used.
+
+{docstring GroupConfig.acfElementaryEmbedding}
+
+{docstring GroupConfig.ringHom_realize_iff}
+
+This proves model completeness itself, the logical input cited in
+`rem:psi-hyp`(c) and `rem:finite-trdeg`. The application's actual formulas,
+independence recovery and original-field chart/action descent remain open.
+
 The source usage remark's original degree-bound claim is refuted on #31, with
 provenance in `6b76e01`. A constructible subset of the line is finite or cofinite.
 The degree-one polynomial-witness locus over an infinite proper base field is
@@ -1224,8 +1252,8 @@ zero and nonzero loci, quasi-rational graphs, finite Boolean operations and
 finite-tuple existential closure below. The existential step requires an
 algebraically closed ambient field. Quantifying coefficients over the ambient
 field does not restrict them to the base field. The application still needs
-its actual fixed formulas and the proof of independence after descent;
-model-completeness and original-field chart/action descent remain obligations.
+its actual fixed formulas and the proof of independence after descent, together
+with original-field chart/action descent.
 
 The group and homogeneous-space presentations are constructed below.
 Original-field chart/action descent, group algebraization, action
