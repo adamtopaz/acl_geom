@@ -36,19 +36,46 @@ $f(u_0)\ne0$; then $u_0\in C$, i.e.\ $\Phi(u_0,w)$.
 \end{proof}
 
 \begin{remark}[how to use descent; its limits]\label{rem:descent-limits}
-Any consequence of \cref{thm:main} that can be written as ``$\Phi(e,abcxyz)$'' for a
+Any consequence of \cref{thm:main} written as ``$\Phi(e,abcxyz)$'' for a
 constructible $\Phi$ over $k$ (with $e$ the adjoined parameters, and all further
-witnesses existentially quantified) therefore holds with parameters in $k$.  Statements
-of the form ``$u\in\acl(k,e,v)$'' and ``$u\in\dcl(k,e,v)$'' are of this kind once a
-degree bound is fixed: they say that $u$ is a root of a nonzero polynomial (resp.\ a
-$p^d$-th power of $u$ equals a rational function) with coefficients that are rational
-functions of $(e,v)$ over $k$ of bounded degree, and the bound may be read off from the
-witnesses provided by the proof.  On the other hand ``$\rk(u/e)=r$'', ``$G$ is connected''
-and ``$\rk(G)=n$'' are not first-order in the parameter as stated; they are definable in
-families (definability of Morley rank and degree in $\mathrm{ACF}$), but we do not prove
-that here.  For the application in \cref{sec:application} this is harmless: the
-quantities that must be descended are interalgebraicity and interdefinability
-statements between tuples of the ambient field, and independence of the descended
-witnesses is recovered from rank equalities of the original configuration, which are
-unaffected by the descent.
+ambient-field witnesses existentially quantified) therefore holds with parameters
+in $k$. To use this for interalgebraicity or interdefinability, fix the actual
+finite polynomial or quasi-rational witness formulas supplied by the proof,
+including their coefficients in $k$ and their nonvanishing conditions. A fixed
+polynomial equation and a fixed polynomial inequation define constructible sets;
+finite Boolean combinations preserve constructibility, as does existential
+quantification over finite tuples of $K$ when $K$ is algebraically closed. For
+example, a chosen relation
+$P(e,v,u)=0$, together with the nonvanishing of a chosen coefficient of $P$ as a
+polynomial in $u$, gives a constructible algebraicity witness. A chosen relation
+$Q(e,v)u^{p^d}=R(e,v)$ with $Q(e,v)\ne0$ gives a constructible definability witness
+in positive characteristic; use exponent $1$ in characteristic zero.
+
+A degree bound alone does not make the full relations ``$u\in\acl(k,e,v)$'' or
+``$u\in\dcl(k,e,v)$'' constructible in the ambient tuples. Already with empty
+$(e,v)$, the roots of nonzero polynomials over $k$ of degree at most one form
+exactly $k$. Constant rational-function witnesses also give exactly $k$. This
+proper infinite subfield is not a constructible subset of the line: constructible
+subsets are finite or cofinite, while the complement of $k$ contains $t+k$ for
+any $t\notin k$. Quantifying coefficients over $K$ does not restrict them to $k$.
+The earlier wording ``once a degree bound is fixed'' is refuted in issue \#31;
+its original provenance is \texttt{6b76e01}, this remark. The Lean statements
+\lean{GroupConfig.not\_isConstructibleOver\_range\_algebraMap} and
+\lean{GroupConfig.not\_isConstructibleOver\_setOf\_exists\_natDegree\_le\_one}
+record the base-field obstruction and its degree-one algebraicity case. The
+corrected fixed-formula statement is given by
+\lean{GroupConfig.isConstructibleOver\_iff\_exists\_polynomial\_data},
+\lean{GroupConfig.IsConstructibleOver.polynomial\_zero},
+\lean{GroupConfig.IsConstructibleOver.polynomial\_ne\_zero},
+\lean{GroupConfig.QuasiRational.isConstructibleOver\_graph}, the finite Boolean
+operations and \lean{GroupConfig.IsConstructibleOver.exists}.
+
+The assertions ``$\rk(u/e)=r$'', ``$G$ is connected'' and ``$\rk(G)=n$'' are not
+first-order in the parameter as stated; definability of Morley rank and degree
+in $\mathrm{ACF}$ treats families, but we do not prove that here. The application
+in \cref{sec:application} still requires fixing formulas for the
+interalgebraicity and interdefinability conclusions to be descended, and proving
+that the needed independence of the descended witnesses follows from the rank
+equalities of the original configuration. These obligations are not discharged
+by a degree bound or by the constructible-relation descent theorem alone.
 \end{remark}

@@ -111,8 +111,10 @@ this is \lean{AclGeom.QWitness.Psi.lift} and \lean{AclGeom.QGeom.lift} in
 of $K'$.  Returning the existential witnesses produced in $K'$ to $K$ is a separate
 descent step that this document does not prove.  For $K$ algebraically closed it is
 model completeness of the theory of algebraically closed fields: a conclusion that is
-first-order in the tuples of $K$ (with all witnesses existentially quantified, and
-polynomial degrees bounded as in \cref{rem:descent-limits}) holds in $K$ as soon as it
+first-order in the tuples of $K$ (with fixed finite polynomial or quasi-rational
+witness formulas, their coefficients and nonvanishing conditions retained, and all
+further ambient-field witnesses existentially quantified, as in
+\cref{rem:descent-limits}) holds in $K$ as soon as it
 holds in $K'$.  For an arbitrary field $K$ there is no such automatic descent (the
 reconstruction blueprint's arbitrary-field counterexamples, issue \#25, show that
 first-order consequences of $\Psi$ can fail in $K$ while holding in $K'$), so the

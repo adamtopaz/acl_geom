@@ -202,7 +202,13 @@ The homogeneous space has a faithful transitive action. The arbitrary-small-ACF
 base-change package transports the actual loci to fresh representing tuples;
 it preserves the generic and difference sets, group and homogeneous space.
 [GroupConfig/Descent.lean](GroupConfig/Descent.lean) proves the parameter-descent
-theorem for constructible relations.
+theorem for constructible relations. The stronger degree-only usage claim is refuted in
+[GroupConfig/ClosureCounterexample.lean](GroupConfig/ClosureCounterexample.lean), with original
+provenance and the fixed-formula correction on [#31](https://github.com/adamtopaz/acl_geom/issues/31).
+Fixed finite polynomial and quasi-rational witness formulas, with their coefficients and
+nonvanishing conditions retained, have constructible satisfaction predicates by the existing
+polynomial, graph and quantifier theorems. This does not by itself descend the application
+witnesses or recover their independence.
 [GroupConfig/MainConstructible.lean](GroupConfig/MainConstructible.lean) proves the combined
 `thm:main-informal` on those same data: for every generic base point it chooses the canonical
 family and fresh samples internally, proves combined-parameter independence over the original
@@ -224,9 +230,10 @@ classification and original-field chart/action descent remain obligations.
 `QWitness.PsiCore` over an ACF universal domain, obtaining the rank-two group of
 germs acting on a curve up to interalgebraicity.
 [GroupConfig/PsiConstructible.lean](GroupConfig/PsiConstructible.lean) specializes the
-general configuration theorem with constructibility on the same actual data. It chooses a generic base point
-and both sampling stages internally, proves freshness of the combined parameters over the
-original base, and states the rank-two, one-orbit and two-product conclusions over the literal
+general configuration theorem with constructibility on the same actual data. It chooses a
+generic base point and both sampling stages internally, proves freshness of the combined
+parameters over the original base, and states the rank-two, one-orbit and two-product
+conclusions over the literal
 final algebraically closed base. The group, stabilizer and homogeneous-space presentations
 have the source fields. These theorems do not algebraize the group or descend the chart/action
 to the original fields.
@@ -234,9 +241,10 @@ to the original fields.
 Open:
 
 - auxiliary source statements outside the completed finite #29 audit, including the canonical-base,
-  translation and nonfaithful-action examples, the five-copy parameter rank, and GC4 necessity;
-- the corrected fixed-witness descent usage and formal refutation of the degree-only claim
-  reported on [#31](https://github.com/adamtopaz/acl_geom/issues/31);
+  translation and nonfaithful-action examples, the five-copy parameter rank, GC4 necessity, the
+  finite-ambient germ-collapse assertion and general base-algebraic-closure invariance;
+- the fixed formulas and independence argument needed for the application's descent,
+  and the source's definability-in-families assertions for rank and connectedness;
 - descending the chart and action to the original fields.
 
 The proved Q′ route bypasses group extraction, but the group configuration

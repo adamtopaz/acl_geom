@@ -1027,6 +1027,33 @@ algebraically closed base field.
 
 {docstring GroupConfig.descent}
 
+The source usage remark's original degree-bound claim is refuted on #31, with
+provenance in `6b76e01`. A constructible subset of the line is finite or cofinite.
+The degree-one polynomial-witness locus over an infinite proper base field is
+exactly that field, whose complement contains a translate of the field. It is
+therefore not constructible. Constant rational-function witnesses give the same
+base-field obstruction. The following Lean statements prove the base-field and
+degree-one polynomial cases; the finite/cofinite statement is only a necessary
+condition over an arbitrary coefficient field.
+
+{docstring GroupConfig.IsConstructibleOver.finite_or_finite_compl}
+
+{docstring GroupConfig.not_isConstructibleOver_range_algebraMap}
+
+{docstring GroupConfig.setOf_exists_natDegree_le_one_aeval_eq_zero}
+
+{docstring GroupConfig.not_isConstructibleOver_setOf_exists_natDegree_le_one}
+
+The corrected usage fixes actual finite polynomial or quasi-rational formulas,
+including their coefficients and nonvanishing conditions. Their satisfaction
+relations are constructible by the polynomial-data characterization, polynomial
+zero and nonzero loci, quasi-rational graphs, finite Boolean operations and
+finite-tuple existential closure below. The existential step requires an
+algebraically closed ambient field. Quantifying coefficients over the ambient
+field does not restrict them to the base field. The application still needs
+its actual fixed formulas and the proof of independence after descent;
+model-completeness and original-field chart/action descent remain obligations.
+
 The group and homogeneous-space presentations are constructed below.
 Original-field chart/action descent, group algebraization, action
 classification and unconditional reconstruction remain obligations.
@@ -1180,6 +1207,10 @@ Constructible sets are closed under finite unions, intersections and complements
 Polynomial zero sets and nonzero loci are constructible. Polynomial substitution
 preserves the coefficient field, and enlarging that field preserves constructibility.
 These statements hold over arbitrary fields, without a transcendence-degree bound.
+
+{docstring GroupConfig.IsConstructibleOver.polynomial_zero}
+
+{docstring GroupConfig.IsConstructibleOver.polynomial_ne_zero}
 
 {docstring GroupConfig.IsConstructibleOver.preimage_polynomial}
 

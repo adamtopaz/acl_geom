@@ -34,12 +34,14 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 6b76e01 (exact CI38745279939, artifact
-11979895986, existing deployment7094529452 successful at 13:54:39 UTC). The
-degree-only acl/dcl constructibility usage claim is refuted mathematically on
-#31; its Lean counterexample and corrected fixed-witness source usage are
-the next audit work. The current integration's source and validation details are recorded at the end of this
-guide and on #12. Full library/book gates are required before every commit.
+The previous verified checkpoint is 2b31a77 (exact CI38752158610, artifact
+11981749066, existing deployment7095673652 successful at 14:40:57 UTC).
+Its general composition and full validation are recorded on #12.
+The degree-only constructibility usage claim is now refuted in Lean on #31,
+alongside the fixed-formula source correction. Application witness descent and
+its independence argument remain open. The current integration's source and
+validation details are recorded at the end of this guide and on #31. Full
+library/book gates are required before every commit.
 
 ## Audit baseline (2026-10-07; #19, performance #18 and carryovers #24)
 
@@ -10160,3 +10162,43 @@ usage error was reported with a counterexample on #31 before any source edit;
 its formal refutation and fixed-witness correction form a separate checkpoint.
 Original algebraization, action classification, original-field chart/action
 descent, guarded charts and unconditional reconstruction remain open.
+
+
+## Fixed-formula descent and the degree-one refutation (#31, 2026-10-15)
+
+`ClosureCounterexample` proves that a constructible subset of the affine line
+is finite or cofinite. This is a necessary condition, not an iff over an
+arbitrary coefficient field. An infinite proper base field and its complement
+are both infinite, so the base-field locus is not constructible. The nonzero
+polynomial-witness locus of degree at most one is exactly that field, giving
+the named composed refutation of the source's degree-only usage claim. The
+negative results require only an infinite base field and an element outside
+it, weaker than the source's ACF universal-domain setting.
+
+The error was reported with a counterexample on #31 before source edits. The
+source remark now preserves its original 6b76e01 provenance and states the
+correct fixed-formula usage: retain the actual finite polynomial or
+quasi-rational witness formulas, their coefficients and nonvanishings.
+Existing polynomial-data, zero/nonzero, graph, Boolean and finite-tuple
+quantifier theorems prove constructibility of these satisfaction relations.
+The application reference is corrected at the same time. Ambient quantifiers
+do not restrict coefficients to the base field. The literal degree-one
+algebraicity case and the common base-field obstruction are formalized; no
+new theorem about arbitrary definable-closure membership is claimed.
+
+Claude supplied the four refutation proofs; their bodies are byte-unchanged.
+The primary agent reviewed them and independently checked the doc-adjusted
+149-line module bba14e89 in 2.53 s with empty standard-lint diagnostics. Nine
+rendered scoped dependency/type reports (four new declarations and five
+existing positive fixed-formula APIs) contain only standard Lean axioms. An
+initial runner lacked dependency-artifact symlinks, and a root documentation
+edit needed a line wrap; both were corrected before the clean audit. Final
+full build/book and integrated checks after all edits remain required before
+commit. The Chevalley docstring also now cites its already-proved source label.
+
+The shared objective, endpoint and completion criteria and the frozen M4a
+body are unchanged. The supplemental PDF remains excluded. The source
+application's fixed formulas, recovery of independence, definability in
+families and model-completeness descent remain obligations. Other auxiliary
+examples, parameter rank, GC4 necessity, original algebraization, action
+classification, guarded charts and unconditional reconstruction remain open.

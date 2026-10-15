@@ -24,8 +24,11 @@ localize a prime quotient at the required nonvanishing, tensor with the ambient
 field, and specialize a maximal quotient. Tensor nontriviality preserves the
 specified base point. These results supply the constructibility foundation of
 Section 9 of `sources/group_configuration_blueprint.tex`. The generic quantifier
-is developed in `GroupConfig.Constructible.Generic`; constructibility of the
-extracted group remains a subsequent obligation.
+is developed in `GroupConfig.Constructible.Generic`; the actual constructible group
+and homogeneous space are proved in `GroupConfig.Constructible.CanonicalPresentation`.
+The degree-only closure-membership usage claim is refuted in
+`GroupConfig.ClosureCounterexample` (#31); fixed finite witness formulas use the
+polynomial-data characterization and closure operations.
 -/
 
 open scoped TensorProduct
@@ -174,7 +177,7 @@ private theorem pointToPoint_eq_comap {k K ι : Type*} [Field k] [Field K] [Alge
   ext p
   simp [MvPolynomial.pointToPoint]
 
-/-- Chevalley on field-valued points: finite coordinate projections preserve
+/-- `thm:chevalley`: Chevalley on field-valued points. Finite coordinate projections preserve
 constructibility over an arbitrary base field when the ambient field is algebraically
 closed. No transcendence-degree hypothesis is needed. This is the projection step
 for constructible relations in the group-configuration blueprint. -/
