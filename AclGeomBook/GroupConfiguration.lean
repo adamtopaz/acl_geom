@@ -619,9 +619,42 @@ The seed index is therefore zero; products of its conjugates remain rational.
 {docstring GroupConfig.Germ.IsHW.exists_rational_representative}
 
 These are actual equal representatives, constructed internally in both
-characteristics. The universal-domain hypothesis is retained. Constructing a
-faithful function-field action, algebraizing the group and classifying the
-curve action remain obligations of the original blueprint.
+characteristics. The universal-domain hypothesis is retained.
+
+The fraction field of the actual prime locus quotient over the universal
+domain is a function field of one variable. A coordinate transcendental over
+the original base remains transcendental in this abstract function field over
+K. Every other coordinate is algebraic over its simple extension, and the
+finitely many coordinates generate the field.
+
+{docstring GroupConfig.LocusFunctionField}
+
+{docstring GroupConfig.LocusFunctionField.isFunctionFieldOneVar}
+
+An exponent-zero representative substitutes its rational fractions into the
+coordinates. Evaluation at a point generic over a common coefficient field
+proves both directions of the kernel equality with the actual locus ideal.
+This gives a field endomorphism, independent of the equal representative.
+Substitution reverses composition. Substituting a representative of the inverse
+therefore gives a homomorphism from the actual HW group into the K-algebra
+automorphisms of this field.
+
+{docstring GroupConfig.Representative.subst_comp}
+
+{docstring GroupConfig.Germ.IsHW.functionFieldAction}
+
+The coordinate formula holds for every equal rational representative of the
+inverse. If the field automorphism is the identity, these coordinates force
+identity values at all generic points, hence the identity germ. The action
+is therefore faithful.
+
+{docstring GroupConfig.Germ.IsHW.functionFieldAction_coord}
+
+{docstring GroupConfig.Germ.IsHW.functionFieldAction_injective}
+
+The curve genus, Möbius and affine classification, original scheme/action
+bridge and normal-subgroup producer, group algebraization and original-field
+chart/action descent remain obligations of the original blueprint.
 
 For an orbit of invertible germs between two loci, independent pairs give
 difference germs. These form one orbit. The difference and either member of

@@ -34,9 +34,11 @@ the precise main theorem and canonical presentation on the same actual objects.
 Its final-base rank is the rank of the input over the original base. The Ψ
 constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 9b2aeb8 (exact CI38783156757, artifact
-11997275903, existing deployment7100727066 successful at 18:18:06 UTC).
-Its actual rank-one HW rationality and full validation are recorded on #21.
+The preceding model-completeness checkpoint is a68edb2; its full local
+library/book gates and peer review are recorded on #12. Exact-head CI, artifact
+and existing-deployment reports are kept on the issues. The earlier actual
+rank-one HW rationality checkpoint 9b2aeb8 passed exact CI38783156757, with
+artifact11997275903 and existing deployment7100727066 successful at 18:18:06 UTC.
 The canonical-base line example, necessity of the configuration clauses from
 the actual main conclusion, and the finite-ambient representative-collapse
 warning now have public proofs. Base-algebraic-closure invariance now has an
@@ -56,8 +58,11 @@ universal-domain hypothesis and remaining auxiliary obligations are retained.
 Every member of the actual HW two-product group on a rank-one locus now has
 an equal representative of exponent zero, in both characteristics. Its
 Frobenius index is intrinsic and additive under arbitrary composition; only
-the HW orbit argument uses independence. This auxiliary rationality result
-does not construct a function-field action or discharge classification.
+the HW orbit argument uses independence. Its actual locus fraction field is
+now proved to be a one-variable function field over K. The actual HW group
+acts faithfully by K-algebra automorphisms, with the coordinate formula for
+every rational representative of the inverse. Genus, Möbius/affine classification,
+the original scheme/action bridge and normal-subgroup producer remain open.
 The degree-only constructibility usage claim is refuted on #31 alongside
 the fixed-formula source correction. Model completeness of algebraically closed
 fields now constructs an actual Mathlib elementary embedding for each prescribed
@@ -10555,3 +10560,55 @@ source TeX, shared endpoint/completion criteria and frozen historical M4a body
 are preserved; the supplemental PDF remains excluded. Claude separately owns
 only the two new private function-field/action modules and coordinates every
 compiler family through chit.
+
+
+## The actual faithful function-field action (#21, 2026-10-15)
+
+`Germ.IsHW.functionFieldAction` gives a faithful homomorphism from the actual
+HW two-product subgroup into the K-algebra automorphisms of its locus function
+field. The field is literally FractionRing(K[X]/locusIdeal k v). The source
+locus ideal is prime over the algebraically closed base, and rank one gives
+the actual IsFunctionFieldOneVar K instance consumed by the curve library.
+No primeness, dimension, substitution or action certificate is a premise.
+The genuine finite-tuple, rank-one, ACF and universal-domain hypotheses remain.
+
+`Germ/FunctionField` proves the generic-point dictionary and fraction-value
+calculus. For coefficients in one small field, equality in the fraction field
+is equivalent to equality of values at a generic point. Every fraction has
+such values over a small field containing its coefficients and any prescribed
+small set. A coordinate is transcendental over K by evaluating a proposed
+polynomial relation at a fresh generic point over its coefficient field and
+using independence. Every other coordinate is algebraic over that coordinate's
+simple extension; all coordinates generate the fraction field, giving finiteness.
+
+`Germ/FunctionFieldAction` clears denominators over common coefficients to
+prove both directions of the substitution kernel equality with the locus
+ideal. The map factors injectively through the quotient and lifts to the
+fraction field. The value calculus proves representative invariance and
+contravariant composition. Rationality supplies representatives internally;
+substitution of the inverse corrects contravariance to a genuine homomorphism.
+The coordinate formula applies to every equal exponent-zero inverse
+representative. Trivial action on coordinates forces the identity germ,
+so the homomorphism is injective. No helper chain was integrated before this
+full faithful-action and one-variable-field consumer.
+
+Claude supplied the complete 313-line 14e3f5a5 and 377-line f295272d modules,
+with ownership and compiler turns agreed through chit. The primary agent read
+all 690 lines and independently compiled both exact files against fresh main
+a68edb2 dependencies, with only its own two outputs real. Standard-lint logs
+were empty, and all twenty-six expanded scoped public type/dependency reports
+use only the expected standard Lean axioms. This successful independent family
+completed in 6.75 s, peak RSS 3.43 GiB, with two threads, an enforced 20 GB cap
+and no cap/OOM events or safety stop. The public files retain the exact reviewed
+bytes. Full library/book and final integrated lint/type/dependency gates after
+all six final edits are required before committing and pushing; final evidence
+is reported on #21.
+
+The book and goal frontier describe the same actual function-field action.
+The original endpoint and completion criteria, source TeX and frozen historical
+M4a body are preserved; the supplemental PDF stays excluded. Curve genus,
+Möbius/affine classification, the original scheme/action bridge, normal subgroup,
+group-chunk and six-point producers, application formulas and independence
+recovery, definability in families, chart/action descent, guarded charts and
+unconditional reconstruction remain open. Claude's next genus proposal is
+read-only truth/API review; no R2 implementation is assigned.

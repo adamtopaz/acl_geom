@@ -172,8 +172,9 @@ certify every auxiliary statement in the corresponding source sections.
 - independent generic conjugacy, definable values and triple germs;
 - the Hrushovski–Weil group and faithful transitive homogeneous space;
 - rational representatives for every element of the actual HW two-product group on a
-  rank-one locus, in both characteristics; the function-field action and classification
-  remain separate obligations;
+  rank-one locus, in both characteristics;
+- its actual one-variable locus function field and a faithful action of the actual HW group
+  by K-algebra automorphisms, with the coordinate formula for every rational inverse representative;
 - the full translation example, including its actual germs, homogeneous space and the
   obstruction to an independent presentation of the zero class;
 - the final-base rank, one-orbit and two-product properties of its generic elements;
@@ -275,6 +276,18 @@ with pairs identified exactly when their parameter-plus-point sums agree. The to
 is addition, and the embedded generic points are exactly the transcendental elements.
 The class `[-t,t]` maps to zero and has no presentation using a generic point independent
 from the acting group element. The HW structure is proved internally, not supplied as a premise.
+
+[GroupConfig/Germ/FunctionField.lean](GroupConfig/Germ/FunctionField.lean) constructs the
+literal fraction field of the prime locus quotient and proves that it is a one-variable
+function field over K when the input tuple has rank one. Primeness and the one-variable
+property are derived, not supplied as certificates.
+[GroupConfig/Germ/FunctionFieldAction.lean](GroupConfig/Germ/FunctionFieldAction.lean)
+constructs a faithful homomorphism from the actual HW two-product subgroup into its
+K-algebra automorphisms. The actual rationality theorem chooses the representatives
+internally; inverse substitution corrects contravariance. The coordinate formula holds
+for every equal exponent-zero representative of the inverse. This supplies a genuine
+function-field action, while the genus, Möbius/affine classification, original scheme/action
+bridge and normal-subgroup producer remain obligations.
 
 [GroupConfig/MainConstructible.lean](GroupConfig/MainConstructible.lean) proves the combined
 `thm:main-informal` on those same data: for every generic base point it chooses the canonical
