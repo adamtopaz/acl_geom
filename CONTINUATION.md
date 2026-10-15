@@ -29,11 +29,16 @@ The actual canonical-code constructible group, stabilizer and homogeneous-space
 presentations are now assembled after internally chosen two-stage generic
 sampling. The full Ψ constructibility corollary constructs these data from the
 actual witness, with original-base freshness and final-base rank/orbit statements.
-The combined general configuration conclusion (`thm:main-informal`) remains
-a separate consumer of the precise main theorem and canonical presentation.
+The combined general configuration conclusion (`thm:main-informal`) now composes
+the precise main theorem and canonical presentation on the same actual objects.
+Its final-base rank is the rank of the input over the original base. The Ψ
+constructibility corollary specializes it with its public statement unchanged.
 The finite supporting audit #29 is complete; it is not a whole-source audit.
-The previous verified checkpoint is 735ca94 (exact CI38670606282). The current
-integration's source and validation details are recorded at the end of this
+The previous verified checkpoint is 6b76e01 (exact CI38745279939, artifact
+11979895986, existing deployment7094529452 successful at 13:54:39 UTC). The
+degree-only acl/dcl constructibility usage claim is refuted mathematically on
+#31; its Lean counterexample and corrected fixed-witness source usage are
+the next audit work. The current integration's source and validation details are recorded at the end of this
 guide and on #12. Full library/book gates are required before every commit.
 
 ## Audit baseline (2026-10-07; #19, performance #18 and carryovers #24)
@@ -10124,3 +10129,34 @@ dependency report containing only the expected standard axioms. This is
 additional to the fifteen-module candidate evidence above. All final main
 gates after these last source and documentation changes remain required
 before committing and pushing.
+
+
+## General configuration with constructibility (#12, 2026-10-15)
+
+`GroupConfiguration.exists_main_constructible` proves supplemental
+`thm:main-informal`. It retains the precise main conclusion, the same actual
+Hrushovski–Weil datum and all six interalgebraicity clauses. For every generic
+base point over the configuration field it chooses the canonical family and
+both stages of samples internally. The combined parameters are independent
+from the configuration over the original base. The actual group presentation
+and all generic-point stabilizer and homogeneous-space presentations have
+the source coefficient fields. Over the final algebraically closed base the
+rank bound, generic characterization, two-product and one-orbit conclusions
+use the rank of the input tuple over the original base.
+
+Claude supplied the 239-line producer 381934ff. The 220-line Ψ specialization
+ff2f94e6 replaces the duplicated construction with this general theorem; its
+public docstring and statement are byte-identical to those of 6b76e01. The
+primary agent reviewed both proofs and independently checked them in 20.88 s
+with empty standard-lint diagnostics and two rendered scoped dependency/type
+reports containing only the expected standard axioms. Final full build/book
+and integrated checks after all edits remain required before committing.
+
+The shared goal changes its proved frontier only; its objective, endpoint and
+completion criteria are unchanged. Source TeX and the frozen M4a body are
+unchanged, and the supplemental PDF remains excluded. The auxiliary source
+examples and parameter bound remain obligations. The degree-only descent
+usage error was reported with a counterexample on #31 before any source edit;
+its formal refutation and fixed-witness correction form a separate checkpoint.
+Original algebraization, action classification, original-field chart/action
+descent, guarded charts and unconditional reconstruction remain open.

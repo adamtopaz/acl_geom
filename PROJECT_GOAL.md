@@ -92,7 +92,7 @@ two perfected ACF completeness inputs. The central open work is:
 | Geometric Q′ | The product-output converse is proved under its stated ACF/rank-five hypotheses; the full original-base auxiliary table over ACF k/K now needs no rank bound. Q′ completeness reduces to guarded Q completeness. [#6 G4](https://github.com/adamtopaz/acl_geom/issues/6). |
 | Geometric J and transfer | The new public reduction derives `JCompletenessACF` from guarded Q completeness alone. Prove that remaining input and complete arbitrary-field descent obligations. [#6 G5](https://github.com/adamtopaz/acl_geom/issues/6), [#7](https://github.com/adamtopaz/acl_geom/issues/7). |
 | Reconstruction and variants | Remove open completeness inputs from reconstruction and finish the endpoint's public variants and functorial consequences. [#8](https://github.com/adamtopaz/acl_geom/issues/8), [#9](https://github.com/adamtopaz/acl_geom/issues/9), [#10](https://github.com/adamtopaz/acl_geom/issues/10). |
-| Group configuration theorem | The precise `thm:main`, the canonical-code constructible group/stabilizer/homogeneous-space presentations, arbitrary-small-ACF base change, parameter descent and the full `cor:psi` are proved. Complete the auxiliary source obligations and turn the actual constructible Ψ data into the algebraic group/curve action needed for classification and the guarded Q chart. [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#27](https://github.com/adamtopaz/acl_geom/issues/27). |
+| Group configuration theorem | The precise and informal main theorems, the canonical-code constructible group/stabilizer/homogeneous-space presentations, arbitrary-small-ACF base change, parameter descent and the full `cor:psi` are proved. Complete the auxiliary source obligations and turn the actual constructible Ψ data into the algebraic group/curve action needed for classification and the guarded Q chart. [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#27](https://github.com/adamtopaz/acl_geom/issues/27). |
 | Remaining source mathematics | Complete the coordinate-ring/localization bridge to geometric fiber products. In an ACF ambient over an arbitrary base, the existing scalar branch calculus realizes all minimal-prime tensor components as composite germs independent of the chosen embeddings, and relational germ composition is associative. Packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results remain owed. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
 
 The existing Q/Q′-to-J assembly is an established dependency. On the source's
@@ -202,9 +202,13 @@ The homogeneous space has a faithful transitive action. The arbitrary-small-ACF
 base-change package transports the actual loci to fresh representing tuples;
 it preserves the generic and difference sets, group and homogeneous space.
 [GroupConfig/Descent.lean](GroupConfig/Descent.lean) proves the parameter-descent
-theorem for constructible relations. These results do not certify every
-auxiliary source statement or the informal main statement's constructibility
-clause. The finite supporting audit on #29 is complete; it does not certify every auxiliary
+theorem for constructible relations.
+[GroupConfig/MainConstructible.lean](GroupConfig/MainConstructible.lean) proves the combined
+`thm:main-informal` on those same data: for every generic base point it chooses the canonical
+family and fresh samples internally, proves combined-parameter independence over the original
+base, and obtains the actual group, stabilizer and homogeneous-space presentations. The
+final-base rank, orbit and two-product conclusions use the rank of the original input tuple.
+The finite supporting audit on #29 is complete; these results do not certify every auxiliary
 statement in the sources.
 
 [GroupConfig/Constructible/CanonicalPresentation.lean](GroupConfig/Constructible/CanonicalPresentation.lean)
@@ -219,8 +223,8 @@ classification and original-field chart/action descent remain obligations.
 [GroupConfig/Psi.lean](GroupConfig/Psi.lean) applies the precise main theorem to
 `QWitness.PsiCore` over an ACF universal domain, obtaining the rank-two group of
 germs acting on a curve up to interalgebraicity.
-[GroupConfig/PsiConstructible.lean](GroupConfig/PsiConstructible.lean) composes it with the
-canonical constructibility producer on the same actual data. It chooses a generic base point
+[GroupConfig/PsiConstructible.lean](GroupConfig/PsiConstructible.lean) specializes the
+general configuration theorem with constructibility on the same actual data. It chooses a generic base point
 and both sampling stages internally, proves freshness of the combined parameters over the
 original base, and states the rank-two, one-orbit and two-product conclusions over the literal
 final algebraically closed base. The group, stabilizer and homogeneous-space presentations
@@ -229,9 +233,10 @@ to the original fields.
 
 Open:
 
-- the combined constructibility conclusion for a general configuration (`thm:main-informal`),
-  composing the precise main theorem and canonical presentation as the Ψ theorem now does;
-- auxiliary source statements outside the completed finite #29 audit;
+- auxiliary source statements outside the completed finite #29 audit, including the canonical-base,
+  translation and nonfaithful-action examples, the five-copy parameter rank, and GC4 necessity;
+- the corrected fixed-witness descent usage and formal refutation of the degree-only claim
+  reported on [#31](https://github.com/adamtopaz/acl_geom/issues/31);
 - descending the chart and action to the original fields.
 
 The proved Q′ route bypasses group extraction, but the group configuration
@@ -241,8 +246,9 @@ statements remain obligations under the rules above.
 
 Preserve the refutations and corrections in [#22](https://github.com/adamtopaz/acl_geom/issues/22),
 [#23](https://github.com/adamtopaz/acl_geom/issues/23),
-[#25](https://github.com/adamtopaz/acl_geom/issues/25) and
-[#27](https://github.com/adamtopaz/acl_geom/issues/27). Keep recorded proof gaps
+[#25](https://github.com/adamtopaz/acl_geom/issues/25),
+[#27](https://github.com/adamtopaz/acl_geom/issues/27) and
+[#31](https://github.com/adamtopaz/acl_geom/issues/31). Keep recorded proof gaps
 distinct from false statements: the tensor-domain sketch
 ([#11](https://github.com/adamtopaz/acl_geom/issues/11)), the inference from infinite
 absolute degree to independence ([#5](https://github.com/adamtopaz/acl_geom/issues/5)),

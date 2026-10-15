@@ -1319,10 +1319,20 @@ joint ranks and freshness. The group is presented over $`k(t_0,t_1)`;
 every generic-point stabilizer and the homogeneous space are presented over
 $`k(t_0,t_1,y_0)`. No family, sampling or presentation certificate is an input.
 The producer applies to every Hrushovski–Weil datum of bijections, including
-the data supplied by the precise main theorem. The Ψ theorem above composes
-those constructions explicitly.
+the data supplied by the precise main theorem.
 
 {docstring GroupConfig.Germ.IsHWBij.exists_fresh_canonicalGroupSpacePresentation}
+
+The general configuration theorem composes the precise main conclusion and this
+canonical producer on the same actual data. For every generic base point over
+the configuration field it chooses the samples internally. Their union with
+the original finite extension is independent from the configuration over the
+original base. The final-base rank bound, generic characterization, two-product
+and one-orbit conclusions use the rank of the original input tuple. The full
+Ψ application above specializes this theorem to group rank two and space rank
+one; its public statement is unchanged.
+
+{docstring GroupConfig.GroupConfiguration.exists_main_constructible}
 
 These are constructible quotient presentations. Original algebraization,
 action classification, original-field chart/action descent, guarded charts

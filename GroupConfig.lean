@@ -87,4 +87,5 @@ import GroupConfig.Constructible.GroupPresentation
 import GroupConfig.Constructible.SpaceWords
 import GroupConfig.Constructible.SpacePresentation
 import GroupConfig.Constructible.CanonicalPresentation
+import GroupConfig.MainConstructible
 import GroupConfig.PsiConstructible

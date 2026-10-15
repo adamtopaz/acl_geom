@@ -3,9 +3,8 @@ Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
-import GroupConfig.Psi
-import GroupConfig.Constructible.CanonicalPresentation
-import GroupConfig.Germ.RelativeRank
+import AclGeom.Config.ConfigurationInput
+import GroupConfig.MainConstructible
 
 /-!
 # The constructible group and curve of the Ψ witness
@@ -14,12 +13,14 @@ Blueprint `sources/group_configuration/11-application.tex`, `cor:psi`, including
 constructibility clause: `prop:psi-gc`, `thm:main` and `thm:constructible` applied to an actual
 Ψ witness.
 
-`QWitness.PsiCore.exists_constructibleGroupSpace` starts from the witness alone. The group
-configuration theorem (`QWitness.PsiCore.exists_isMainConclusion`) gives a finite set `E`
-independent from the witness. Over `k' = acl(k, E)` it gives the actual Hrushovski–Weil datum of
-bijections `f₀` between curves, the difference germs `g_a`, `g_b`, `g_c` and a generic point `y'`
-realizing the six points up to interalgebraicity. The group `G` is the actual group
-`(hb.isHW hga).prodSubgroup` of `f₀`, with group rank two and space rank one.
+`QWitness.PsiCore.exists_constructibleGroupSpace` starts from the witness alone. Its clauses
+(i)–(iv) form a group configuration of group rank two and space rank one
+(`QWitness.PsiCore.groupConfiguration_with_ranks`, `prop:psi-gc`). The group configuration theorem
+with constructibility (`GroupConfig.GroupConfiguration.exists_main_constructible`) then gives a
+finite set `E` independent from the witness. Over `k' = acl(k, E)` it gives the actual
+Hrushovski–Weil datum of bijections `f₀` between curves, the difference germs `g_a`, `g_b`, `g_c`
+and a generic point `y'` realizing the six points up to interalgebraicity. The group `G` is the
+actual group `(hb.isHW hga).prodSubgroup` of `f₀`, with group rank two and space rank one.
 
 A generic point `y₀` of the curve over `acl(k', abcxyz)` is chosen. The canonical producer
 `Germ.IsHWBij.exists_fresh_canonicalGroupSpacePresentation`, applied with the small field
@@ -188,45 +189,31 @@ theorem PsiCore.exists_constructibleGroupSpace [IsAlgClosed k] [IsAlgClosed K]
                   (F.pairDomain (adjoin (↥(racl k E)) (S₀ ∪ ⋃ i, range (t₁ i))) f₀.code v v')
                   (F.pairDomainSpaceMap (adjoin (↥(racl k E)) (S₀ ∪ ⋃ i, range (t₁ i))) hL hb
                     hga f₀.adjoin_range_code hF hdim hy₁) := by
-  obtain ⟨E, hEfin, hEind, hmain, hra, hrx⟩ := hw.exists_isMainConclusion
-  unfold IsMainConclusion at hmain
-  obtain ⟨hacl, hud, ν, ν', _, _, v, v', f₀, ga, gb, gc, y', hb, hga, hgb, hgc, hmul, hy', hind,
-    heval, hconf, r₁, r₂, r₃, r₄, r₅, r₆, hv, hv', hcb⟩ := hmain
-  let : Fintype ν := Fintype.ofFinite ν
-  let : Fintype (CodeIndex (ν ⊕ ν') (genDeg f₀.graphIdeal)) := Fintype.ofFinite _
+  obtain ⟨hc, ha, hx⟩ := hw.groupConfiguration_with_ranks
+  obtain ⟨E, hEfin, hEind, hacl, hud, ν, ν', hν, hν', v, v', f₀, ga, gb, gc, y', hb, hga, hC, hgb,
+    hgc, hmul, hy', hind, heval, hconf, r₁, r₂, r₃, r₄, r₅, r₆, hv, hv', hcb, hmc⟩ :=
+    hc.exists_main_constructible
+  /- Ranks of the witness points do not change over `acl(k, E)`. -/
+  have hrk : ∀ {X : Set K}, X ⊆ range w.aTuple ∪ range w.bTuple ∪ range w.cTuple ∪
+      range w.xTuple ∪ range w.yTuple ∪ range w.zTuple → X.Finite →
+      erk (↥(racl k E)) ∅ X = erk k ∅ X := fun hX hfin ↦ by
+    rw [erk_base_empty, erk_racl_base]
+    have := hEind.symm hX hfin
+    rwa [empty_union] at this
   have hPfin : (range w.aTuple ∪ range w.bTuple ∪ range w.cTuple ∪ range w.xTuple ∪
       range w.yTuple ∪ range w.zTuple).Finite :=
     (((((finite_range _).union (finite_range _)).union (finite_range _)).union
       (finite_range _)).union (finite_range _)).union (finite_range _)
   -- A generic point of the curve over `acl(k', abcxyz)`.
   obtain ⟨y₀, hy₀⟩ := exists_isGenericOver (IsSmall.of_finite (k := ↥(racl k E)) hPfin).racl v
-  -- The canonical producer, fresh from `acl(k', abcxyz, y₀)`.
-  obtain ⟨F, hF, hdim, S₀, t₁, hS₀, hS₀ind, hT, hs, hs', ht₁, ht₁', htrk, hfresh, hrk, hL,
-    hpres⟩ := hb.exists_fresh_canonicalGroupSpacePresentation hga _
-      (IsSmall.of_finite (k := ↥(racl k E)) (hPfin.union (finite_range y₀))).racl
+  obtain ⟨F, hF, hdim, S₀, t₁, hind₀, h₁, h₂, h₃, h₄, hrest⟩ := hmc y₀ hy₀
   -- The rank of the group is two.
-  have hn : erk (↥(racl k E)) ∅ (ga.cb : Set K) = 2 := (hb.rank ga hga).trans (hcb.trans hra)
-  have hM := hL.racl
-  refine ⟨E, hEfin, hEind, hacl, hud, ν, ν', inferInstance, inferInstance, v, v', f₀, ga, gb, gc,
-    y', hb, hga, inferInstance, hgb, hgc, hmul, hy', hind, heval, hconf, r₁, r₂, r₃, r₄, r₅, r₆,
-    hv, hv', hcb, hra, hrx, y₀, hy₀, F, hF, hdim, S₀, t₁, ?_, fun γ hγ ↦ ?_, fun γ hγ ↦ ?_,
-    fun γ hγ ↦ ?_, fun γ hγ γ' hγ' hr hr' ↦ ?_, hS₀, hS₀ind, hT, hs, hs', ht₁, ht₁', htrk, hfresh,
-    hrk, hL, hpres⟩
-  · -- `(E, t)` is independent from the witness over `k`.
-    have h₁ : IndepOver (↥(racl k E)) ∅ (S₀ ∪ ⋃ i, range (t₁ i))
-        (range w.aTuple ∪ range w.bTuple ∪ range w.cTuple ∪ range w.xTuple ∪ range w.yTuple ∪
-          range w.zTuple) :=
-      hfresh.mono_right (subset_union_left.trans (subset_racl (↥(racl k E)) _))
-    have h₂ := (indepOver_racl_base_iff E _ _).1 ((indepOver_base_iff (racl k E) _ _).1 h₁)
-    exact (indepOver_union_right_iff.2 ⟨hEind.symm, by rw [empty_union]; exact h₂.symm⟩).symm
-  · rw [← hn]
-    exact (hb.isHW hga).erk_base_cb_le _ hγ
-  · rw [← hn]
-    exact (hb.isHW hga).erk_base_cb_eq_iff hγ
-  · rw [← hn]
-    exact (hb.isHW hga).exists_mul_eq_of_mem_prodSet hM hγ
-  · exact (hb.isHW hga).exists_algEquiv_of_erk_base_eq hM hγ hγ' (hr.trans hn.symm)
-      (hr'.trans hn.symm)
+  rw [ha] at h₁ h₂ h₃ h₄
+  exact ⟨E, hEfin, hEind, hacl, hud, ν, ν', hν, hν', v, v', f₀, ga, gb, gc, y', hb, hga, hC, hgb,
+    hgc, hmul, hy', hind, heval, hconf, r₁, r₂, r₃, r₄, r₅, r₆, hv, hv', hcb,
+    (hrk (fun _ h ↦ Or.inl (Or.inl (Or.inl (Or.inl (Or.inl h))))) (finite_range _)).trans ha,
+    (hrk (fun _ h ↦ Or.inl (Or.inl (Or.inr h))) (finite_range _)).trans hx, y₀, hy₀, F, hF, hdim,
+    S₀, t₁, hind₀, h₁, h₂, h₃, h₄, hrest⟩
 
 end QWitness
 
