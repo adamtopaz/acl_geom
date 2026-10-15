@@ -31,8 +31,9 @@ blueprint `sources/group_configuration_blueprint.tex`.
 **Status:** the six-point predicate, pairwise independence, equality of the
 three group ranks and of the three space ranks, the generating relabelings,
 and invariance under automorphisms and interalgebraic replacement are proved.
-The remaining rank bounds, total-rank and point/line independence clauses,
-independent base change, and extraction of a group remain separate obligations.
+The remaining rank bounds, total-rank and point/line independence clauses are
+proved in `GroupConfig.ConfigurationRanks`. Independent base change and group
+extraction remain separate obligations.
 The predicate depends only on the canonical-base layer; no germ import is needed.
 -/
 

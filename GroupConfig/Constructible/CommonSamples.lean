@@ -16,8 +16,9 @@ the field it generates. Source-locus samples serve the generic quantifier
 for equality; target-locus samples serve admissibility and invertibility.
 
 **Status:** the first sentence of supplemental `lem:adm-constructible` is
-proved. A common fresh field for arbitrary finite word relations and the
-constructible group remain obligations.
+proved. Each typed word has a fresh field in `GroupConfig.Constructible.WordSamples`.
+A common field for finitely many distinct relations and the constructible group
+remain obligations.
 -/
 
 namespace GroupConfig

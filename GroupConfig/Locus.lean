@@ -49,7 +49,7 @@ fields) existence of generic points, the equivalence between independence from
 `M` and unchanged locus over `M`, and the existence of conjugates independent
 from a given small set are proved. Conjugacy requires finite tuples and an
 algebraically closed ambient field. The arbitrary-prime formulation of
-`lem:genexists`, beyond represented base loci, remains a separate obligation.
+`lem:genexists` is proved in `GroupConfig.PrimeLocus`.
 -/
 
 namespace GroupConfig

@@ -31,7 +31,8 @@ on represented loci, and denominator-cleared composition are proved. The
 composition is defined on the natural composition domain and agrees there
 with the composed values; no equality of maximal expression domains is claimed.
 In characteristic zero the root operator is the identity. The definable-closure
-characterization and germ/group extraction remain separate obligations.
+characterization is proved in `GroupConfig.DefinableClosure`; group extraction
+remains a separate obligation.
 -/
 
 namespace GroupConfig

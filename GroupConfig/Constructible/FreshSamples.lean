@@ -17,8 +17,9 @@ internally, independently from that field.
 
 **Status:** fresh samples and the resulting common constructibility of Adm
 and Adm× are proved. `GroupConfig.Constructible.CommonSamples` also supplies
-a single fresh field for germ equality. A common fresh field for arbitrary
-finite word relations and the constructible group remain obligations.
+a single fresh field for germ equality. Each typed word has a fresh field in
+`GroupConfig.Constructible.WordSamples`; a common field for finitely many distinct
+relations and the constructible group remain obligations.
 -/
 
 namespace GroupConfig

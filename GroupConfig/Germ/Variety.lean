@@ -30,8 +30,8 @@ blueprint `sources/group_configuration_blueprint.tex`.
 by locus dimension, equality characterizes generic points, genericity over a
 larger field is equivalent to independence, and algebraic adjoining preserves
 rank. Algebraic closedness, universal-domain and smallness assumptions are
-explicit where needed. Realization of an arbitrary prime ideal remains open;
-this module does not construct a group or a quasi-rational map.
+explicit where needed. Realization of an arbitrary prime ideal is proved in
+`GroupConfig.PrimeLocus`. This module does not construct a group or a quasi-rational map.
 -/
 
 namespace GroupConfig

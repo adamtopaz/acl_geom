@@ -12,15 +12,15 @@ Blueprint `sources/group_configuration/01-universal-domain.tex`, `lem:equiv`:
 every `k`-automorphism of `K` preserves relative algebraic closures, ranks and
 independence. (`lem:conj` is `AclGeom.exists_ambientAutomorphism_of_idealOf_eq`.)
 The algebraic-to-finite direction of `lem:orbit` is `GroupConfig.finite_conjugates`
-in the separate conjugate-set layer, pending integration. Its converse and the
-transcendental orbit characterization remain obligations.
+in `GroupConfig.ConjugateSet`. Its converse and the transcendental orbit
+characterization are proved in `GroupConfig.OrbitFiniteness`.
 
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** matroids, ranks and independence are invariant under base-field
-automorphisms (`lem:equiv`). The orbit characterization and group configuration
-theorem remain separate obligations.
+automorphisms (`lem:equiv`). The full orbit characterization is in
+`GroupConfig.OrbitFiniteness`; group extraction remains a separate obligation.
 -/
 
 namespace GroupConfig

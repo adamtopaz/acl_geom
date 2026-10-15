@@ -24,7 +24,7 @@ blueprint `sources/group_configuration_blueprint.tex`.
 **Status:** coefficient projections commute with injective variable renaming,
 and extension/contraction commute along any injective renaming. These results
 hold for arbitrary field extensions and coordinate types. Named consumer:
-projection of locus ideals in the pending germ graph layer.
+projection of locus ideals in `GroupConfig.Germ.Graph`.
 -/
 
 namespace GroupConfig

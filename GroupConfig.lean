@@ -42,3 +42,12 @@ import GroupConfig.Constructible.JointSamples
 import GroupConfig.Constructible.CommonSamples
 import GroupConfig.Constructible.WordSamples
 import GroupConfig.Germ.OrbitParameters
+
+import GroupConfig.RrefBaseChange
+import GroupConfig.PrimeLocus
+import GroupConfig.Germ.CompCodes
+import GroupConfig.ConjugateSet
+import GroupConfig.OrbitFiniteness
+import GroupConfig.ConfigurationRanks
+import GroupConfig.ConfigurationConverse
+import GroupConfig.Germ.TripleRepresentative

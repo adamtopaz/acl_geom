@@ -22,7 +22,9 @@ parameterization or closure under germ words.
 
 **Status:** domains and graphs are constructible over the coefficient field.
 No algebraic closedness, smallness or universal-domain hypothesis is used.
-The later germ-word and algebraization obligations remain open.
+Germ-word relations are proved in `GroupConfig.Constructible.AdmissibleWords`,
+with fresh fields in `GroupConfig.Constructible.WordSamples`. Group construction
+and algebraization remain open.
 -/
 
 namespace GroupConfig

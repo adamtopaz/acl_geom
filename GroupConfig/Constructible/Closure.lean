@@ -21,8 +21,9 @@ substitution after adjoining its sampling tuple to the coefficient field. The
 constructible graph and word relations consume ordinary quantifier closure.
 
 **Status:** these closure operations are proved. The generic quantifier is
-developed in `GroupConfig.Constructible.Generic`. The constructible partial-function
-interface, quasi-rational graphs, and group constructibility remain separate obligations.
+developed in `GroupConfig.Constructible.Generic`, and quasi-rational graphs in
+`GroupConfig.Constructible.QuasiRational`. The constructible partial-function
+interface and group constructibility remain separate obligations.
 -/
 
 namespace GroupConfig

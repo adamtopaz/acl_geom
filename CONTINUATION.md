@@ -9870,3 +9870,41 @@ items are not closed until the pushed commit and exact CI pass. Other private
 GCT modules, the constructible group, original algebraization and action
 classification, guarded charts and unconditional reconstruction remain open.
 The source TeX and frozen M4a chain are unchanged; the supplemental PDF is excluded.
+
+
+## Arbitrary loci, full configuration ranks and literal source codes (#12/#29)
+
+The source-audit foundation slice adds arbitrary-prime realization and dimension
+independence, scalar and finite-tuple orbit equivalences, heterogeneous composite
+canonical bases/ranks, conjugate sets and their scalar code carriers, the full
+configuration rank table, the converse configuration and the explicit triple
+representative. All 25 refreshed higher-module copies passed an independent
+current-main default-option standard-lint check in 50.25 seconds, with empty
+diagnostics and the verified 20 GB cap. This is evidence for those pinned
+copies; only the current foundation slice is integrated here.
+
+The positive space-rank proofs move unchanged from the private Main producer
+into ConfigurationRanks. Remove their old duplicate definitions before checking
+or integrating that Main source against the new ranks module. The converse
+producer's existing proof on finite generating code tuples is preserved. A new
+public theorem transports it onto the actual canonical zero-padded RREF code
+vectors, states both source ranks and the action identities, and chooses the
+inverse internally. It does not assume the code bridge or an inverse certificate.
+
+RrefBaseChange supplies the literal tensor form of a field-defined subspace:
+the actual field-valued part, canonical tensor map, image equal to the defining
+span, and an actual linear equivalence with its pure-tensor formula for finite
+coordinates. No basis, order, ACF or isomorphism certificate is an input. Its
+private producer passed default options and standard linters with empty
+diagnostics after coercion/dependent-rewrite fixes and the current tensor
+induction API. Scalar-carrier conjugate-code claims remain distinct from the
+still-open finite indexed codePoly coefficient vector.
+
+The remaining configuration-to-group chain, arbitrary-extension base change,
+constructible group domain/quotient/stabilizer/action, original algebraization,
+action classification, guarded charts and unconditional reconstruction remain
+open. The actual stabilizer parameter formula is Claude's separate lane; the
+primary agent owns the group domain and finite-collection sampling. The source
+TeX, original shared endpoint and frozen M4a chain are unchanged. Full final
+library/book and scoped dependency gates remain required before every commit;
+the supplemental PDF stays excluded.
