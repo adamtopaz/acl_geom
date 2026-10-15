@@ -29,8 +29,10 @@ fields.
 This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
-**Status:** the interalgebraicity part of `cor:psi` complete; the constructibility of `G` and of
-`S ≅ G/H` (`thm:constructible`) is open.
+**Status:** the interalgebraicity part of `cor:psi` is complete. The extracted datum has a
+constructible group and homogeneous-space presentation in
+`GroupConfig.Constructible.CanonicalPresentation`; the full Ψ application is proved in
+`GroupConfig.PsiConstructible`.
 -/
 
 namespace AclGeom

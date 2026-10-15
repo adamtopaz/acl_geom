@@ -15,7 +15,28 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-07; audit #19, performance #18 and carryovers #24)
+## Current status (2026-10-15; #12)
+
+The original reconstruction theorem remains incomplete: guarded Q charts,
+algebraization and action classification, original-field chart/action descent,
+and removal of the completeness inputs remain open. Read PROJECT_GOAL.md for
+the unchanged full endpoint and current source obligations. The historical M4a
+items 1–117 remain frozen.
+
+The precise group configuration theorem, arbitrary-small-ACF base change,
+parameter descent and interalgebraicity part of the Ψ application are proved.
+The actual canonical-code constructible group, stabilizer and homogeneous-space
+presentations are now assembled after internally chosen two-stage generic
+sampling. The full Ψ constructibility corollary constructs these data from the
+actual witness, with original-base freshness and final-base rank/orbit statements.
+The combined general configuration conclusion (`thm:main-informal`) remains
+a separate consumer of the precise main theorem and canonical presentation.
+The finite supporting audit #29 is complete; it is not a whole-source audit.
+The previous verified checkpoint is 735ca94 (exact CI38670606282). The current
+integration's source and validation details are recorded at the end of this
+guide and on #12. Full library/book gates are required before every commit.
+
+## Audit baseline (2026-10-07; #19, performance #18 and carryovers #24)
 
 Read the audit on #19 before starting new work. The accepted checkpoints
 include the target repairs and refutations, generic arithmetic, transfer and
@@ -10027,3 +10048,79 @@ the stabilizer preimage on the actual domain. Original algebraization,
 action classification, guarded charts and unconditional reconstruction remain
 open. The source TeX, shared endpoint and frozen M4a chain are unchanged;
 the untracked supplemental PDF remains excluded.
+
+
+## Actual constructible group and homogeneous space (#12, 2026-10-15)
+
+Fourteen new modules and the moved pure word helpers assemble supplemental
+`thm:constructible`. The literal domain contains invertibly admissible pairs
+satisfying the source generic stabilization condition. No pair parameter is
+assumed generic or in the code locus. Exact group membership, an actual
+surjection and the kernel, multiplication and inverse relations are proved.
+The definitions of constructible group and G-set quantify actual domain
+membership and maps; the constructors prove them, with no presentation input
+on the final theorem.
+
+`CanonicalPresentation` chooses F on the literal indexed canonical code of
+the Hrushovski–Weil datum, obtains equal dimension from its inverse, and
+chooses the source/target and parameter-locus samples internally. T0 generates
+L0; T1 is generic with additive rank over L0 and gives L1=k(T0,T1). The
+literal domain quantifier and its coefficient field are both L1. H and the
+space presentation are over L1(y0). All sample provenance, joint ranks and
+freshness from any prescribed small field are retained. The point y0 is
+arbitrary generic, with no independence from candidate parameters. The space
+map is the total action rho(d) smul iota(y0); no nongeneric germ evaluation is
+used. The actual four- and six-letter stabilizer words give its kernel and
+action relations. The equivariant G/H equivalence is proved on those objects.
+
+Pure Word.mapParams, its three transfer lemmas and stabWord move from the
+stabilizer module into AdmissibleWords. The new groupWitness theorem shares
+the actual pre-projection proof between the group and stabilizer formulas,
+removing their duplicate construction and the CG-to-H helper dependency.
+Its coordinate projection needs Sum.elim_comp_inr and definitional equality;
+the group-domain module explicitly imports StabilizerParameters. PairRelations
+has a narrow GroupParameters import. No mathematical hypothesis or target is
+changed by these refactors.
+
+FamilySamples also gives the literal finite-family source relation, with
+invertible-admissibility restrictions for every declared expression family,
+including unused families. One internally chosen fresh field serves all the
+typed words, with actual locus provenance and joint rank additivity. Claude's
+469-line producer 20860a39 preserves the prior bodies and adds this source
+clause. The peer and primary agent mathematically accepted the full group,
+stabilizer, space and canonical wrapper producers. The primary agent independently
+checked the canonical full producer in 4.00 s, then the complete fifteen-module
+public-path candidate and twenty-three rendered scoped dependency/type reports
+in 19.08 s, with empty standard-lint diagnostics and only standard axioms in
+that selected scope. All compiler families used two threads and the enforced
+20 GB cap, with no limit/OOM events or safety stop. Final full library/book
+and integrated checks after all edits are required before commit.
+
+The goal update changes the proved frontier and next consumer only. Its
+objective, original endpoint and completion criteria are preserved exactly.
+The actual Ψ constructibility corollary is integrated in this same checkpoint;
+original algebraization, action classification, guarded Q charts and
+unconditional reconstruction remain open. Source TeX, the frozen M4a chain
+and the excluded supplemental PDF are unchanged. The temporary handoff
+question #30 was resolved when the primary agent resumed integration.
+
+
+`PsiConstructible` applies those producers to the actual Ψ witness alone.
+The main conclusion is unpacked with the same actual f0, ga, gb, gc and six
+interalgebraicity clauses; it is an output, never a caller-supplied certificate.
+The generic point y0 and all samples are chosen internally. The original-base
+independence of E union all sample coordinates from the witness is proved by
+base change and independence transitivity. The rank-two bound, generic iff,
+two-product and one-orbit conclusions use the literal final ACF base. The
+full source cor:psi is therefore packaged without algebraization, action
+classification or original-field descent. The actual G/H equivalence,
+faithfulness, transitivity and generic-point embedding are the existing
+proofs on those same objects, with no duplicate declarations.
+
+Claude supplied the byte-exact 233-line producer a5ca2332. The primary agent
+read and accepted the complete statement/proof and independently checked it
+in 6.76 s, with empty standard-lint diagnostics and its sole rendered scoped
+dependency report containing only the expected standard axioms. This is
+additional to the fifteen-module candidate evidence above. All final main
+gates after these last source and documentation changes remain required
+before committing and pushing.

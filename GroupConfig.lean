@@ -72,3 +72,19 @@ import GroupConfig.Psi
 
 import GroupConfig.CodeVector
 import GroupConfig.FodBaseChange
+
+import GroupConfig.Germ.BijectionStabilizer
+import GroupConfig.Germ.GroupStructure
+import GroupConfig.Constructible.GroupDomainMembership
+import GroupConfig.Constructible.GroupParameters
+import GroupConfig.Constructible.GroupDomainFormula
+import GroupConfig.Constructible.StabilizerParameters
+import GroupConfig.Constructible.FamilySamples
+import GroupConfig.Constructible.GroupDomain
+import GroupConfig.Constructible.PairRelations
+import GroupConfig.Constructible.Presentation
+import GroupConfig.Constructible.GroupPresentation
+import GroupConfig.Constructible.SpaceWords
+import GroupConfig.Constructible.SpacePresentation
+import GroupConfig.Constructible.CanonicalPresentation
+import GroupConfig.PsiConstructible

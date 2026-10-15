@@ -48,7 +48,9 @@ blueprint `sources/group_configuration_blueprint.tex`.
 **Status:** the precise `thm:main` of `08-proof.tex` is complete, with the identities in the
 homogeneous space `S` of `thm:hw` in `Germ.IsHWBij.iota_eq_smul`. The informal statement in
 `00-scope.tex` also asserts that `G` and `S` are constructible. That clause is `thm:constructible`
-of `09-constructibility.tex` and is open.
+of `09-constructibility.tex`, proved for every Hrushovski–Weil datum of bijections in
+`GroupConfig.Constructible.CanonicalPresentation`. The combined general configuration
+conclusion is separate; the actual Ψ composition is in `GroupConfig.PsiConstructible`.
 -/
 
 namespace GroupConfig

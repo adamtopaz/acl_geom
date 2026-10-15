@@ -27,7 +27,8 @@ This module is part of the formalization of the group configuration theorem
 blueprint `sources/group_configuration_blueprint.tex`.
 
 **Status:** the invertibility criterion and the constructibility of the invertible admissible
-parameters are complete; the remaining constructibility claims of `thm:constructible` are open.
+parameters are complete. The actual group and homogeneous-space presentations of
+`thm:constructible` are proved in `CanonicalPresentation`.
 -/
 
 namespace GroupConfig

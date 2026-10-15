@@ -402,6 +402,63 @@ theorem isConstructibleOver_eq_parameterGerm [Fintype P] {κ : Type v} [Finite �
 
 end Word
 
+universe u₄
+
+namespace Word
+
+/-- Reindex the parameters of every letter of a word along `e`. -/
+def mapParams {Q : Type u₄} (e : P → Q) :
+    {κ : Type v} → {b : κ → K} → Word k P a b → Word k Q a b
+  | _, _, nil => nil
+  | _, _, fwd w c F ρ hdim => fwd (w.mapParams e) c F (e ∘ ρ) hdim
+  | _, _, inv w c F ρ hdim => inv (w.mapParams e) c F (e ∘ ρ) hdim
+
+/-- Reindexing parameters preserves a word's sample requirements.
+Named consumers: the group and stabilizer witness formulas. -/
+theorem hasSamples_mapParams_iff {Q : Type u₄} (e : P → Q) {L : IntermediateField k K}
+    {κ : Type v} {b : κ → K} (w : Word k P a b) :
+    (w.mapParams e).HasSamples L ↔ w.HasSamples L := by
+  induction w with
+  | nil => exact Iff.rfl
+  | fwd w c F ρ hdim ih => exact and_congr ih Iff.rfl
+  | inv w c F ρ hdim ih => exact and_congr ih Iff.rfl
+
+variable [IsAlgClosed K] [IsAlgClosed k] [UniversalDomain k K] [Finite ι]
+
+/-- A reindexed word represents the germ at the pulled-back parameter tuple.
+Named consumers: pair words and the stabilizer criterion. -/
+theorem isGerm_mapParams_iff {Q : Type u₄} (e : P → Q) {κ : Type v} {b : κ → K}
+    (w : Word k P a b) (u : Q → K) (g : Germ k a b) :
+    (w.mapParams e).IsGerm u g ↔ w.IsGerm (u ∘ e) g := by
+  induction w with
+  | nil => exact Iff.rfl
+  | fwd w c F ρ hdim ih =>
+    exact exists_congr fun g₀ ↦ exists_congr fun _ ↦ and_congr (ih g₀) Iff.rfl
+  | inv w c F ρ hdim ih =>
+    exact exists_congr fun g₀ ↦ exists_congr fun _ ↦ exists_congr fun _ ↦
+      and_congr (ih g₀) Iff.rfl
+
+omit [Finite ι] in
+/-- Reindexing preserves every letter's invertible-admissibility condition.
+Named consumers: actual group and space word restrictions. -/
+theorem isInvertiblyAdmissible_mapParams_iff {Q : Type u₄} (e : P → Q) {κ : Type v}
+    {b : κ → K} (w : Word k P a b) (u : Q → K) :
+    (w.mapParams e).IsInvertiblyAdmissible u ↔ w.IsInvertiblyAdmissible (u ∘ e) := by
+  induction w with
+  | nil => exact Iff.rfl
+  | fwd w c F ρ hdim ih => exact and_congr ih Iff.rfl
+  | inv w c F ρ hdim ih => exact and_congr ih Iff.rfl
+
+end Word
+
+variable [Finite ι] {κ μ : Type v} [Finite κ] {a' : κ → K}
+
+/-- The word `g_v γ`: the word `w` for `γ`, followed by the letter `F` at `v`, with parameters
+read off `((d, v), u')`. -/
+def stabWord [Fintype μ] (w : Word k P a a) (F : QuasiRational k (μ ⊕ ι) κ)
+    (hdim : erk k ∅ (range a) = erk k ∅ (range a')) : Word k ((P ⊕ μ) ⊕ μ) a a' :=
+  .fwd (w.mapParams (Sum.inl ∘ Sum.inl)) a' F (Sum.inl ∘ Sum.inr) hdim
+
 end
 
 end GroupConfig

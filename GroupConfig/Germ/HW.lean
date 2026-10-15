@@ -31,7 +31,8 @@ blueprint `sources/group_configuration_blueprint.tex`.
 **Status:** `def:hw-hyp`, `lem:prod-indep`, `lem:threetwo`, `lem:keyrank` and `thm:hw`(a)–(d)
 are proved under the stated `IsHW` hypotheses. `thm:hw`(e) is in
 `GroupConfig.Germ.HomogeneousSpace`. Extraction of such data from a six-point
-configuration is in `GroupConfig.Main`; constructibility remains a separate obligation.
+configuration is in `GroupConfig.Main`; constructibility of the extracted datum is in
+`GroupConfig.Constructible.CanonicalPresentation`.
 -/
 
 namespace GroupConfig

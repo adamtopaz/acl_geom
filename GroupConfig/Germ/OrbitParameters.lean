@@ -17,7 +17,8 @@ at every transported parameter and represents the corresponding orbit germ.
 
 **Status:** the orbit parameterization and actual uniform admissible family
 are proved. No naturality of the chosen `codeSet` carrier is assumed. The
-constructible-group domain, quotient and operations remain separate obligations.
+constructible-group domain, quotient and operations are proved in
+`GroupConfig.Constructible.CanonicalPresentation`.
 -/
 
 namespace GroupConfig

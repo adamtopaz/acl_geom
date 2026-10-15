@@ -92,7 +92,7 @@ two perfected ACF completeness inputs. The central open work is:
 | Geometric Q′ | The product-output converse is proved under its stated ACF/rank-five hypotheses; the full original-base auxiliary table over ACF k/K now needs no rank bound. Q′ completeness reduces to guarded Q completeness. [#6 G4](https://github.com/adamtopaz/acl_geom/issues/6). |
 | Geometric J and transfer | The new public reduction derives `JCompletenessACF` from guarded Q completeness alone. Prove that remaining input and complete arbitrary-field descent obligations. [#6 G5](https://github.com/adamtopaz/acl_geom/issues/6), [#7](https://github.com/adamtopaz/acl_geom/issues/7). |
 | Reconstruction and variants | Remove open completeness inputs from reconstruction and finish the endpoint's public variants and functorial consequences. [#8](https://github.com/adamtopaz/acl_geom/issues/8), [#9](https://github.com/adamtopaz/acl_geom/issues/9), [#10](https://github.com/adamtopaz/acl_geom/issues/10). |
-| Group configuration theorem | The precise `thm:main`, arbitrary-small-ACF base change, parameter descent and interalgebraicity part of `cor:psi` are proved. Finish the constructible group and its homogeneous-space presentation for the actual Ψ witness. This is the group-extraction bridge on the source route to the guarded Q chart. [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#27](https://github.com/adamtopaz/acl_geom/issues/27). |
+| Group configuration theorem | The precise `thm:main`, the canonical-code constructible group/stabilizer/homogeneous-space presentations, arbitrary-small-ACF base change, parameter descent and the full `cor:psi` are proved. Complete the auxiliary source obligations and turn the actual constructible Ψ data into the algebraic group/curve action needed for classification and the guarded Q chart. [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#27](https://github.com/adamtopaz/acl_geom/issues/27). |
 | Remaining source mathematics | Complete the coordinate-ring/localization bridge to geometric fiber products. In an ACF ambient over an arbitrary base, the existing scalar branch calculus realizes all minimal-prime tensor components as composite germs independent of the chosen embeddings, and relational germ composition is associative. Packaged generic extension, group chunks, six-point configurations, affine actions and the remaining subgroup/correspondence results remain owed. [#5](https://github.com/adamtopaz/acl_geom/issues/5), [#12](https://github.com/adamtopaz/acl_geom/issues/12), [#13](https://github.com/adamtopaz/acl_geom/issues/13), [#21](https://github.com/adamtopaz/acl_geom/issues/21). |
 
 The existing Q/Q′-to-J assembly is an established dependency. On the source's
@@ -138,8 +138,9 @@ configuration of a group of germs of quasi-rational maps acting on a variety.
 Over a further generic extension that group is constructible
 (`thm:constructible`), and the descent theorem (`thm:descent`) controls the base
 fields. The application (`prop:psi-gc`, `cor:psi`) takes the actual Ψ witness
-with $n=2$ and $m=1$. Its output, a two-dimensional group acting on a curve, is
-the input of the original blueprint's Lemma `affine-action`
+with $n=2$ and $m=1$. Its output is a rank-two constructible group acting on a rank-one homogeneous
+space. Algebraization must turn these quotient presentations into the algebraic
+group and curve action required by the original blueprint's Lemma `affine-action`
 ([#21](https://github.com/adamtopaz/acl_geom/issues/21)).
 
 Part [12](sources/group_configuration/12-lean.tex) of the supplementary blueprint
@@ -170,12 +171,16 @@ certify every auxiliary statement in the corresponding source sections.
 - germ representatives, graph ideals, automorphisms, evaluation and composition;
 - independent generic conjugacy, definable values and triple germs;
 - the Hrushovski–Weil group and faithful transitive homogeneous space;
+- the final-base rank, one-orbit and two-product properties of its generic elements;
+- constructible group, stabilizer and homogeneous-space presentations on the actual canonical
+  code, after internally chosen two-stage generic sampling;
 - extraction of those data from a configuration after finite independent base extension;
 - arbitrary small ACF base change, with the group and homogeneous space preserved;
 - descent of independent parameters in constructible relations;
 - the configuration predicate and its invariance;
 - constructible sets, with Chevalley's theorem and generic quantification;
-- the clause-(i)–(iv) form of `prop:psi-gc` and the interalgebraicity part of `cor:psi`.
+- the clause-(i)–(iv) form of `prop:psi-gc` and full `cor:psi`, including the actual
+  constructible presentations, original-base freshness and final-base rank/orbit conclusions.
 
 For the last item, all configuration clauses with group rank two and space rank
 one are derived from `QWitness.PsiCore`, precisely clauses (i)–(iv), in a
@@ -199,18 +204,34 @@ it preserves the generic and difference sets, group and homogeneous space.
 [GroupConfig/Descent.lean](GroupConfig/Descent.lean) proves the parameter-descent
 theorem for constructible relations. These results do not certify every
 auxiliary source statement or the informal main statement's constructibility
-clause. The current source audit remains on #29.
+clause. The finite supporting audit on #29 is complete; it does not certify every auxiliary
+statement in the sources.
+
+[GroupConfig/Constructible/CanonicalPresentation.lean](GroupConfig/Constructible/CanonicalPresentation.lean)
+proves `thm:constructible` for every Hrushovski–Weil datum of bijections, in particular
+the one supplied by the main theorem. It chooses the family on its literal canonical code, derives equal dimension
+from invertibility, and chooses both sampling stages internally. The actual group, stabilizer
+and homogeneous-space presentations have the source coefficient fields and retain the
+generic-point provenance, joint ranks and freshness from any prescribed small field. These
+are constructible quotient presentations in the source sense. Original algebraization, action
+classification and original-field chart/action descent remain obligations.
 
 [GroupConfig/Psi.lean](GroupConfig/Psi.lean) applies the precise main theorem to
 `QWitness.PsiCore` over an ACF universal domain, obtaining the rank-two group of
-germs acting on a curve up to interalgebraicity. The original-field chart and
-action are not descended by this theorem.
+germs acting on a curve up to interalgebraicity.
+[GroupConfig/PsiConstructible.lean](GroupConfig/PsiConstructible.lean) composes it with the
+canonical constructibility producer on the same actual data. It chooses a generic base point
+and both sampling stages internally, proves freshness of the combined parameters over the
+original base, and states the rank-two, one-orbit and two-product conclusions over the literal
+final algebraically closed base. The group, stabilizer and homogeneous-space presentations
+have the source fields. These theorems do not algebraize the group or descend the chart/action
+to the original fields.
 
 Open:
 
-- the constructible group and its constructible homogeneous-space presentation;
-- the constructibility clause of `cor:psi`;
-- the remaining source-audit auxiliary statements;
+- the combined constructibility conclusion for a general configuration (`thm:main-informal`),
+  composing the precise main theorem and canonical presentation as the Ψ theorem now does;
+- auxiliary source statements outside the completed finite #29 audit;
 - descending the chart and action to the original fields.
 
 The proved Q′ route bypasses group extraction, but the group configuration

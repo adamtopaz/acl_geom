@@ -18,8 +18,9 @@ therefore serves the entire word relation.
 **Status:** every finite typed word has a fresh sampling field, and the literal
 word-to-parameter-germ relation is constructible over such a field. Every factor,
 including a forward factor, must be invertibly admissible; the target expression
-must be admissible. A single fresh field for finitely many distinct relations
-and the constructible group remain obligations.
+must be admissible. `FamilySamples` supplies one fresh field for finitely many distinct
+relations, including every declared expression family. `CanonicalPresentation` constructs
+the actual group and homogeneous-space presentations.
 -/
 
 namespace GroupConfig

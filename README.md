@@ -19,7 +19,9 @@ The library contains no `sorry` and no project axioms.
 
 ## Layout
 
-* `AclGeom/` — the formalization itself (a Lean library depending on Mathlib).
+* `AclGeom/` — the reconstruction formalization (a Lean library depending on Mathlib).
+* `GroupConfig/` — the group configuration theorem, with its constructible group and
+  homogeneous-space presentations after generic base extension.
 * `AclGeomBook.lean`, `AclGeomBook/` — a [Verso](https://github.com/leanprover/verso)
   document (manual genre) that serves as a standalone exposition of the result.
   Lean code in the document is elaborated against the `AclGeom` library, so the

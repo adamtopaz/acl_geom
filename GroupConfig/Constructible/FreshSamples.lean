@@ -18,8 +18,9 @@ internally, independently from that field.
 **Status:** fresh samples and the resulting common constructibility of Adm
 and Adm× are proved. `GroupConfig.Constructible.CommonSamples` also supplies
 a single fresh field for germ equality. Each typed word has a fresh field in
-`GroupConfig.Constructible.WordSamples`; a common field for finitely many distinct
-relations and the constructible group remain obligations.
+`GroupConfig.Constructible.WordSamples`. A common field for finitely many distinct relations
+is supplied in `FamilySamples`, and the actual group and homogeneous-space presentations
+are proved in `CanonicalPresentation`.
 -/
 
 namespace GroupConfig

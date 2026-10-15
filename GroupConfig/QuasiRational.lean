@@ -32,7 +32,8 @@ composition is defined on the natural composition domain and agrees there
 with the composed values; no equality of maximal expression domains is claimed.
 In characteristic zero the root operator is the identity. The definable-closure
 characterization is proved in `GroupConfig.DefinableClosure`; group-of-germs
-extraction is in `GroupConfig.Main`. The constructible presentation remains open.
+extraction is in `GroupConfig.Main`. The constructible presentation is in
+`GroupConfig.Constructible.CanonicalPresentation`.
 -/
 
 namespace GroupConfig

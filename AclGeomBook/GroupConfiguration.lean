@@ -27,7 +27,8 @@ application boundaries. Its full Lean formalization remains open (#12).
 The library proves the following rank, universal-domain, dimension, locus and constructibility
 foundations, and extracts a group of germs and its faithful transitive
 homogeneous space from a six-point configuration after finite independent
-base extension. The constructible presentation remains open.
+base extension. A further generic extension gives constructible group and
+homogeneous-space presentations, constructed below.
 
 # Rank, independence and fresh tuples
 %%%
@@ -706,10 +707,20 @@ then serve the final equality relation. The caller supplies no sampling certific
 
 {docstring GroupConfig.Word.exists_fresh_constructible_eq_parameterGerm}
 
-A single fresh field serving finitely many distinct consumer relations still
-requires assembly. The constructible-group domain, its surjection onto
-the generated group, the quotient relations and the stabilizer action remain
-separate obligations.
+One internally chosen field now serves finitely many heterogeneous typed word
+relations. Its generators are coordinates of actual generic points of the
+listed loci, with joint rank additivity and freshness from the prescribed
+small field. The full source relation restricts every declared expression
+family to its invertibly admissible parameters, including families unused
+by the word. That restriction is retained in the following theorem.
+
+{docstring GroupConfig.Word.exists_fresh_constructible_sourceRelation_family}
+
+A second stage chooses parameter-locus points generic and independent over
+the first sampling field. Both stages remain jointly fresh from the
+prescribed field; they serve the group and action relations constructed below.
+
+{docstring GroupConfig.exists_groupSamples}
 
 # Finite tuple codes
 %%%
@@ -980,7 +991,7 @@ and any two such elements are conjugate by an automorphism fixing $`M`.
 Automorphisms over $`M` preserve this relative rank. These statements apply
 to the final sampling field and its algebraic closure; $`M` need not be
 algebraically closed, and the originally chosen datum need not be independent
-from $`M`. The constructible group presentation is still open.
+from $`M`. These properties apply to the constructible presentation below.
 
 {docstring GroupConfig.Germ.IsHW.exists_mul_eq_of_mem_prodSet}
 
@@ -1016,7 +1027,7 @@ algebraically closed base field.
 
 {docstring GroupConfig.descent}
 
-Constructibility of the group and homogeneous space remains open.
+The group and homogeneous-space presentations are constructed below.
 Original-field chart/action descent, group algebraization, action
 classification and unconditional reconstruction remain obligations.
 
@@ -1068,8 +1079,17 @@ interalgebraicity part of the application with group rank two and curve rank one
 
 {docstring AclGeom.QWitness.PsiCore.exists_isMainConclusion}
 
-The constructible presentation, algebraization, action classification and
-unconditional reconstruction remain separate targets.
+The full Ψ application chooses a generic base point and both sampling stages
+internally. It proves the combined parameters fresh from the witness over the
+original base, and gives the actual constructible group, stabilizer and
+homogeneous-space presentations. Its rank-two, one-orbit and two-product
+conclusions use the literal final algebraically closed base. All six original
+interalgebraicity clauses refer to the same extracted data.
+
+{docstring AclGeom.QWitness.PsiCore.exists_constructibleGroupSpace}
+
+Algebraization, action classification, original-field chart/action descent
+and unconditional reconstruction remain separate targets.
 
 # A canonical universal ambient
 %%%
@@ -1219,6 +1239,91 @@ coefficient field need not be algebraically closed. The loci are represented by
 finite tuples, and the sampling theorem also covers dimension zero. The
 arbitrary-prime realization formulation is proved in `PrimeLocus`. The precise
 group-of-germs extraction and independent parameter descent are proved above.
-Group constructibility, original-field chart/action descent, algebraization
-and the guarded initial affine chart remain separate obligations. The public
-reconstruction theorem still has its open completeness inputs.
+The actual constructible presentations follow below. Original-field chart/action
+descent, algebraization and the guarded initial affine chart remain separate
+obligations. The public reconstruction theorem still has its open completeness inputs.
+
+
+# The constructible group and homogeneous space
+%%%
+tag := "group-configuration-constructible-presentations"
+%%%
+
+A constructible group in the source sense is an actual group $`G` with a
+surjection $`ρ : D_G → G` from a constructible parameter set. Its equality,
+multiplication and inverse relations on parameters must be constructible.
+For a constructible $`G`-set, the same is required of a surjection onto the
+space, its equality relation and its action relation.
+
+{docstring GroupConfig.ConstructibleGroupPresentation}
+
+{docstring GroupConfig.ConstructibleGSetPresentation}
+
+The group domain is the literal set of invertibly admissible pairs
+$`d = (u_1,u_2)` satisfying the source stabilization condition. For every
+parameter $`v` generic over the field and $`d`, some invertibly admissible
+$`u'` in the parameter locus represents $`g_v g_{u_1}^{-1}g_{u_2}`.
+Neither $`u_1` nor $`u_2` is assumed generic or in that locus.
+This condition is equivalent to membership of the actual pair germ in $`G`.
+The resulting map onto $`G` is surjective, using its two orbit factors.
+
+{docstring GroupConfig.QuasiRational.pairDomain}
+
+{docstring GroupConfig.QuasiRational.mem_pairDomain_iff}
+
+{docstring GroupConfig.QuasiRational.pairDomainMap_surjective}
+
+The samples are chosen in two stages. Actual generic points of the source
+and target loci generate $`L_0`; they make the finite inner word relations
+constructible. Parameter-locus samples are then generic and jointly independent
+over $`L_0`, and generate $`L_1 = k(t_0,t_1)`. The generic quantifier gives
+constructibility over $`L_1`. The literal domain uses that same $`L_1` in its
+quantifier; its equality with the earlier quantified domain is proved.
+All the samples remain jointly fresh from the prescribed small field.
+
+The shared witness relation before existential projection supplies both the
+group and stabilizer inner formulas. Actual pair words prove the group kernel,
+multiplication and inverse relations constructible over the common field.
+The source definition is then a conclusion of the group constructor.
+
+{docstring GroupConfig.isConstructibleOver_groupWitness}
+
+{docstring GroupConfig.QuasiRational.constructibleGroupPresentation_pairDomain}
+
+For any generic point $`y_0`, the total orbit map is
+$`ρ_X(d) = ρ(d) • ι(y_0)`. Transitivity makes it surjective. The point need
+not be independent from candidate parameters. The stabilizer formula therefore
+uses the actual group action, with defined values of the expression family in
+its witnesses. The four-letter word $`ρ(d)^{-1}ρ(d')` gives the space kernel;
+the six-letter word $`ρ(t)^{-1}ρ(g)ρ(x)` gives its action relation.
+Every letter retains its invertible-admissibility restriction.
+
+{docstring GroupConfig.QuasiRational.pairDomainSpaceMap}
+
+{docstring GroupConfig.QuasiRational.isConstructibleOver_pairSpaceKernel}
+
+{docstring GroupConfig.QuasiRational.isConstructibleOver_pairSpaceAction}
+
+For $`H = \operatorname{Stab}(ι(y_0))`, the orbit map is a
+$`G`-equivariant bijection $`G/H ≃ S`. The stabilizer preimage and the full
+space presentation are constructible over $`L_1(y_0)`.
+
+{docstring GroupConfig.Germ.IsHW.quotientStabilizerEquiv}
+
+{docstring GroupConfig.Germ.IsHW.quotientStabilizerEquiv_smul}
+
+Finally the canonical wrapper chooses the family internally on the literal
+indexed RREF code $`f_0.code`, derives equal dimension from invertibility,
+and chooses both sampling stages. It preserves their actual provenance,
+joint ranks and freshness. The group is presented over $`k(t_0,t_1)`;
+every generic-point stabilizer and the homogeneous space are presented over
+$`k(t_0,t_1,y_0)`. No family, sampling or presentation certificate is an input.
+The producer applies to every Hrushovski–Weil datum of bijections, including
+the data supplied by the precise main theorem. The Ψ theorem above composes
+those constructions explicitly.
+
+{docstring GroupConfig.Germ.IsHWBij.exists_fresh_canonicalGroupSpacePresentation}
+
+These are constructible quotient presentations. Original algebraization,
+action classification, original-field chart/action descent, guarded charts
+and unconditional reconstruction remain obligations of the shared project goal.

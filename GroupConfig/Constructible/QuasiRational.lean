@@ -24,7 +24,7 @@ parameterization or closure under germ words.
 No algebraic closedness, smallness or universal-domain hypothesis is used.
 Germ-word relations are proved in `GroupConfig.Constructible.AdmissibleWords`,
 with fresh fields in `GroupConfig.Constructible.WordSamples`. The constructible
-group presentation and algebraization remain open.
+group presentation is proved in `CanonicalPresentation`; algebraization remains open.
 -/
 
 namespace GroupConfig

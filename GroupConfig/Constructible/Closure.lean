@@ -23,7 +23,8 @@ constructible graph and word relations consume ordinary quantifier closure.
 **Status:** these closure operations are proved. The generic quantifier is
 developed in `GroupConfig.Constructible.Generic`, and quasi-rational graphs in
 `GroupConfig.Constructible.QuasiRational`. The constructible partial-function
-interface and group constructibility remain separate obligations.
+interface remains a separate obligation. Actual group constructibility is proved in
+`GroupConfig.Constructible.CanonicalPresentation`.
 -/
 
 namespace GroupConfig

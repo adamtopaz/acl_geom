@@ -24,7 +24,8 @@ the constructible-group presentation.
 
 **Status:** specialization, the admissibility criterion and constructibility
 under explicit generic-sample hypotheses are proved. Fresh sample existence
-is in `Constructible.FreshSamples`. The constructible group remains open.
+is in `Constructible.FreshSamples`. The constructible group and homogeneous-space
+presentations are proved in `Constructible.CanonicalPresentation`.
 -/
 
 namespace GroupConfig
