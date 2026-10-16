@@ -65,19 +65,8 @@ private theorem exists_fraction_small {ι : Type w} [Finite ι] {v : ι → K}
       ∃ A B : MvPolynomial ι N, (∀ y, IsGenericOver N v y → aeval y B ≠ 0) ∧
         h = mk k v (MvPolynomial.map (algebraMap N K) A) /
           mk k v (MvPolynomial.map (algebraMap N K) B) := by
-  obtain ⟨A, B, hB, rfl⟩ := exists_fraction h
-  have hcoeff : ∀ P : MvPolynomial ι K, ↑P.coeffs ⊆
-      ((racl k (↑A.coeffs ∪ ↑B.coeffs : Set K) : IntermediateField k K) : Set K) →
-      ∃ P₀ : MvPolynomial ι (racl k (↑A.coeffs ∪ ↑B.coeffs : Set K)),
-        MvPolynomial.map (algebraMap _ K) P₀ = P := fun P hP ↦
-    mem_range_map_iff_coeffs_subset.mpr fun c hc ↦ ⟨⟨c, hP hc⟩, rfl⟩
-  obtain ⟨A₀, hA₀⟩ := hcoeff A fun c hc ↦ subset_racl k _ (Or.inl hc)
-  obtain ⟨B₀, hB₀⟩ := hcoeff B fun c hc ↦ subset_racl k _ (Or.inr hc)
-  refine ⟨racl k (↑A.coeffs ∪ ↑B.coeffs : Set K),
-    (IsSmall.of_finite (A.coeffs.finite_toSet.union B.coeffs.finite_toSet)).racl, A₀, B₀,
-    fun y hy ↦ ?_, by rw [hA₀, hB₀]⟩
-  rw [Ne, ← map_mem_locusIdeal_iff_aeval hy, hB₀]
-  exact hB
+  obtain ⟨C, hC, hfrac⟩ := exists_fraction_of_subset h
+  exact ⟨racl k C, (IsSmall.of_finite hC).racl, hfrac _ (subset_racl k C)⟩
 
 /-! ### The lift test -/
 

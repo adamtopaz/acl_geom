@@ -48,6 +48,11 @@ theorem racl_base_coe (S : Set K) :
       ((racl k ((K₀ : Set K) ∪ S) : IntermediateField k K) : Set K) :=
   Set.ext fun x ↦ mem_racl_base_iff K₀ S x
 
+/-- Equal closures over `k` remain equal over the larger base `K₀`. -/
+theorem racl_base_congr {S T : Set K} (h : racl k S = racl k T) : racl (↥K₀) S = racl (↥K₀) T := by
+  apply SetLike.coe_injective
+  rw [racl_base_coe, racl_base_coe, ← racl_union_right, h, racl_union_right]
+
 /-- Ranks over the base `K₀` are ranks over `k` relative to `K₀`. -/
 theorem erk_base_empty (X : Set K) : erk (↥K₀) ∅ X = erk k (K₀ : Set K) X := by
   rw [erk_empty_eq (↥K₀), ← erk_coe_eq k K₀]

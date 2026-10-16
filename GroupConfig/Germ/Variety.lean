@@ -76,6 +76,52 @@ theorem map_idealOf_le_of_inLocus (M : IntermediateField k K) {a y : ι → K}
   have hK := (mem_idealOf_iff K).1 (h (map_mem_locusIdeal k hf))
   rwa [MvPolynomial.aeval_map_algebraMap] at hK
 
+/-- Membership in the locus of `a` is containment of the vanishing ideals over `k`. -/
+theorem inLocus_iff_idealOf_le (a x : ι → K) :
+    InLocus (k := k) a x ↔ idealOf k a ≤ idealOf k x := by
+  constructor
+  · intro h q hq
+    rw [mem_idealOf_iff]
+    have hx := (mem_idealOf_iff K).1 (h (map_mem_locusIdeal k hq))
+    rwa [MvPolynomial.aeval_map_algebraMap] at hx
+  · intro h
+    change (idealOf k a).map (MvPolynomial.map (algebraMap k K)) ≤ idealOf K x
+    rw [Ideal.map_le_iff_le_comap]
+    intro q hq
+    rw [Ideal.mem_comap, mem_idealOf_iff, MvPolynomial.aeval_map_algebraMap]
+    exact (mem_idealOf_iff k).1 (h hq)
+
+/-- A polynomial over the base vanishing at `a` vanishes at every point of the locus of `a`. -/
+theorem aeval_eq_zero_of_inLocus_base {a x : ι → K} (h : InLocus (k := k) a x)
+    {P : MvPolynomial ι k} (hP : aeval a P = 0) : aeval x P = 0 := by
+  have hK := (mem_idealOf_iff K).1 (h (map_mem_locusIdeal k ((mem_idealOf_iff k).2 hP)))
+  rwa [MvPolynomial.aeval_map_algebraMap] at hK
+
+/-- A polynomial over `M` vanishing at a point generic over `M` vanishes on the whole locus. -/
+theorem aeval_eq_zero_of_isGenericOver {M : IntermediateField k K} {a y x : ι → K}
+    (hy : IsGenericOver M a y) (hx : InLocus (k := k) a x) {P : MvPolynomial ι M}
+    (hP : aeval y P = 0) : aeval x P = 0 := by
+  have hPy : P ∈ idealOf (↥M) y := (mem_idealOf_iff _).2 hP
+  have hg : idealOf (↥M) y = (idealOf k a).map (MvPolynomial.map (algebraMap k M)) := hy
+  rw [hg] at hPy
+  exact (mem_idealOf_iff _).1 (map_idealOf_le_of_inLocus M hx hPy)
+
+/-- Polynomial images of a locus satisfy the equations of the image of a generic point, even
+when the polynomial coefficients belong to the larger displayed field. -/
+theorem inLocus_polynomial_image {κ : Type*} {M : IntermediateField k K} {a x : ι → K}
+    (ha : IsGenericOver M a a) (hx : InLocus (k := k) a x) (p : κ → MvPolynomial ι M) :
+    InLocus (k := k) (fun j ↦ aeval a (p j)) (fun j ↦ aeval x (p j)) := by
+  change (idealOf k (fun j ↦ aeval a (p j))).map (MvPolynomial.map (algebraMap k K)) ≤ _
+  rw [Ideal.map_le_iff_le_comap]
+  intro q hq
+  rw [Ideal.mem_comap, mem_idealOf_iff, MvPolynomial.aeval_map_algebraMap]
+  let f : MvPolynomial ι M := aeval p (MvPolynomial.map (algebraMap k M) q)
+  have he (y : ι → K) : aeval y f = aeval (fun j ↦ aeval y (p j)) q := by
+    dsimp only [f]
+    rw [MvPolynomial.comp_aeval_apply, MvPolynomial.aeval_map_algebraMap]
+  rw [← he]
+  exact aeval_eq_zero_of_isGenericOver ha hx ((he a).trans ((mem_idealOf_iff k).1 hq))
+
 /-! ### Rank and genericity -/
 
 /-- `lem:dimdrop`, non-strict form: a containment of vanishing ideals does not increase the

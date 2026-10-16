@@ -17,9 +17,12 @@ the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
 ## Current status (2026-10-15; #12)
 
-The original reconstruction theorem remains incomplete: guarded Q charts,
-algebraization and action classification, original-field chart/action descent,
-and removal of the completeness inputs remain open. Read PROJECT_GOAL.md for
+Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
+and the multiplication converse gives ACF J completeness at transcendence degree at least
+five. The actual chart and its original-field coordinate descent are internal. The public
+reconstruction API still carries its two completeness inputs; removing them is the next
+consumer checkpoint. Original scheme/action algebraization and descent, bypassed source
+statements and endpoint variants remain obligations. Read PROJECT_GOAL.md for
 the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -61,15 +64,16 @@ Frobenius index is intrinsic and additive under arbitrary composition; only
 the HW orbit argument uses independence. Its actual locus fraction field is
 now proved to be a one-variable function field over K. The actual HW group
 acts faithfully by K-algebra automorphisms, with the coordinate formula for
-every rational representative of the inverse. Genus, Möbius/affine classification,
-the original scheme/action bridge and normal-subgroup producer remain open.
+every rational representative of the inverse. Genus and Möbius classification are proved, as is the actual rank-two affine generator.
+The original scheme/action bridge and normal-subgroup producer remain open.
 The degree-only constructibility usage claim is refuted on #31 alongside
 the fixed-formula source correction. Model completeness of algebraically closed
 fields now constructs an actual Mathlib elementary embedding for each prescribed
 field embedding and preserves every finite-arity first-order ring formula.
 The proof fixes the existing parameters in its Tarski–Vaught fibre; no
-universal-domain or rank hypothesis is used. Application witness descent and
-its independence argument remain open. The current integration's source and
+universal-domain or rank hypothesis is used. Finite polynomial witness descent and independence recovery now supply the actual guarded
+chart over the original ACF ambient in `Config.GuardedAffineGrid`. The original
+scheme/action descent remains open. The current integration's source and
 validation details are recorded at the end of this guide and on #12, #21 and #31. Full
 library/book gates are required before every commit.
 
@@ -10928,3 +10932,31 @@ original-field chart/action descent, guarded Q and unconditional reconstruction
 remain obligations. All eight original #21 requirements remain open. Original
 source TeX, goal endpoint/completion criteria and continuation history are
 preserved, and the supplementary PDF stays excluded.
+
+## Guarded ACF chart and completeness checkpoint (#27)
+
+The actual Ψ rank-two HW action supplies the nine initial affine chart rows. An affine
+generator is chosen in the original function field; rational evaluation agrees with the
+actual action. A coherent automorphism moves the finite witness away from its coefficient
+field. The two upper-triangular curve cosets are classified internally, yielding the S/T/U
+multiplier rows. `GroupConfig.ChartAssembly` constructs every parameter and chart input.
+
+`GroupConfig.FiniteIncidenceDescent` chooses proper finite annihilator witnesses, including
+nonzero denominators and a nonzero coefficient. One constructible system specializes all
+coefficient parameters at once. A base-field point of the finite fibre gives all five chart
+coordinates in the original algebraically closed ambient. Closure comparison handles the
+lift's arbitrary representative choices and absorbs the automorphism into the embedding.
+The actual Ψ ranks force independence of these coordinates. Existing normalization gives
+the full three-join/fifteen-point grid.
+
+Public `AclGeom.guardedAffineGridExtraction` and `AclGeom.guardedQCompletenessACF` require
+only an ACF pair and the actual Ψ witness with both ratio guards. Public
+`AclGeom.jCompletenessACF` combines this with the proved multiplication converse and J
+assembly under the source rank-five bound. The reconstruction API's explicit inputs can
+now be discharged; the next checkpoint strengthens those public statements. Original
+scheme/action bridges, true bypassed source lemmas and endpoint variants remain owed.
+The frozen M4a log and original blueprint provenance are preserved.
+
+Both agents independently checked the complete private proof before integration. The
+checkpoint's final full library/book, selected public-type/standard-axiom and exact-head CI
+results are recorded on #27; no selected check is a whole-library axiom audit.

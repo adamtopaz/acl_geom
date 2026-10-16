@@ -910,16 +910,17 @@ at least five,
   \Qrel_{\rm geom}(P,D,Y,I)\land I\ne D\land I\ne P.
 \]
 \end{theorem}
-\begin{remark}[Original statement and current completeness obligation]
+\begin{remark}[Original statement and guarded formalization]
 The original statement in commit \texttt{ed61c33} was
 $\Qrel_{\rm geom}=\Qrel_{\rm sem}$, without the two inequalities.  Its completeness
 half is false by \cref{rem:psi-degenerate}; the full original statement is retained
 in the source immediately above as historical provenance.  Soundness and both
-necessary inequalities are proved.  The guarded reverse implication is an open
-formalization target, not a theorem established by the proof sketch below.
-\lean{GuardedQCompletenessACF} and \lean{GuardedAffineGridExtraction} name its explicit
-open inputs.  The original proof is retained unchanged as a historical sketch;
-its completeness step applies the extraction lemma (now guarded, still unproved).
+necessary inequalities are proved.  The guarded reverse implication is now proved by
+\lean{guardedQCompletenessACF}, using the actual HW chart and coherent original-field
+coordinate descent in \lean{guardedAffineGridExtraction}.  The full rank-five ACF
+identity is \lean{qGeom_and_ne_iff_qSem_of_isAlgClosed}.  The original proof below is
+retained unchanged as a historical sketch; true bypassed source statements remain
+obligations.
 \end{remark}
 \begin{proof}
 We first work over algebraically closed $k\subseteq K$.
@@ -1142,9 +1143,11 @@ The true bypassed group/chunk results remain obligations.
 The proved reductions
 \lean{q'Sem_of_q'Geom_of_guardedQCompleteness} and
 \lean{jCompletenessACF_of_guardedQCompleteness}
-derive $\Qprel$ and $\Jrel$ completeness from the single remaining guarded
-$\Qrel$ completeness hypothesis.  This hypothesis and unconditional
-reconstruction remain open.
+derive $\Qprel$ and $\Jrel$ completeness from guarded $\Qrel$ completeness, now proved by
+\lean{guardedQCompletenessACF}.  The canonical rank-five ACF consumers are
+\lean{q'Geom_iff_q'Sem_of_isAlgClosed} and \lean{jCompletenessACF}.  The public reconstruction
+API still carries its two completeness inputs; their discharge is the next consumer
+checkpoint.  The original scheme/action bridges and endpoint variants remain obligations.
 \end{remark}
 
 Define
@@ -1162,12 +1165,12 @@ $\Qprel_{\rm geom}=\Qprel_{\rm sem}$.
 \begin{remark}[Guarded input and proof status]
 Every geometric $\Qrel$ occurrence used here has its ratio point different from
 its first and second points by multiplication-diagram distinctness.  The statement
-is not refuted by \cref{rem:psi-degenerate}; its completeness direction remains an
-open obligation depending on guarded \cref{thm:q-correct}.  The direct product
-converse above now supplies the required multiplication step.  The original
-proof below is retained unchanged as a historical sketch.  The semantic
-$\Jrel$ assembly is proved separately, and the guarded $\Qrel$ input now
-supplies both of its completeness hypotheses.
+is not refuted by \cref{rem:psi-degenerate}.  Its completeness direction follows from the
+proved guarded \cref{thm:q-correct} and the direct product converse above.  The canonical
+rank-five ACF identities are \lean{q'Geom_iff_q'Sem_of_isAlgClosed} and
+\lean{jGeom_iff_jSem_of_isAlgClosed}; \lean{jCompletenessACF} supplies the completeness
+proposition used by transfer.  The original proof below is retained unchanged as a
+historical sketch.  Original source obligations bypassed by the Lean route remain owed.
 \end{remark}
 \begin{proof}
 If $\Qprel_{\rm geom}(X,Y,S,E)$ holds, \cref{thm:q-correct} supplies independent
@@ -1212,12 +1215,12 @@ over algebraically closed $k\subseteq K$ of relative transcendence degree at lea
 \begin{remark}[Guarded input and proof status]
 Every geometric $\Qrel$ occurrence used here has its ratio point different from
 its first and second points by multiplication-diagram distinctness.  The statement
-is not refuted by \cref{rem:psi-degenerate}; its completeness direction remains an
-open obligation depending on guarded \cref{thm:q-correct}.  The direct product
-converse above now supplies the required multiplication step.  The original
-proof below is retained unchanged as a historical sketch.  The semantic
-$\Jrel$ assembly is proved separately, and the guarded $\Qrel$ input now
-supplies both of its completeness hypotheses.
+is not refuted by \cref{rem:psi-degenerate}.  Its completeness direction follows from the
+proved guarded \cref{thm:q-correct} and the direct product converse above.  The canonical
+rank-five ACF identities are \lean{q'Geom_iff_q'Sem_of_isAlgClosed} and
+\lean{jGeom_iff_jSem_of_isAlgClosed}; \lean{jCompletenessACF} supplies the completeness
+proposition used by transfer.  The original proof below is retained unchanged as a
+historical sketch.  Original source obligations bypassed by the Lean route remain owed.
 \end{remark}
 \begin{proof}
 If $(X,P,Q,R,A)=j(x,a)$, then
@@ -1797,9 +1800,13 @@ The corrected conclusion allows new generators for the same rank-two joins and
 preserves the fifteen remaining closed points.  Even that unguarded conclusion is
 false by \cref{rem:psi-degenerate}: the original unguarded statement from
 \texttt{ed61c33} is retained in the source above.  Issue 27 adds the necessary
-$I\ne D$ and $I\ne P$ guards.  Their sufficiency is an open formalization target;
-the original proof below is retained as a historical sketch and does not establish
-the corrected statement.  Its action-origin and meet normalization steps still need proof.
+$I\ne D$ and $I\ne P$ guards.  Their sufficiency over every ACF pair is now proved by
+\lean{guardedAffineGridExtraction}.  The actual HW action supplies the nine initial chart
+rows, a finite polynomial closure table descends coherently to the original field, and
+the actual $\Psi$ ranks force independence of its five coordinates.  The existing chart
+normalization supplies the full grid.  The original proof below is retained unchanged
+as a historical sketch; its original scheme/action and other labelled auxiliary
+statements remain obligations where bypassed.
 The literal-target refutation is \texttt{not\_forall\_psi\_hasLiteralTableCoordinates};
 the unguarded corrected conclusion is refuted by \lean{not_affineGridExtraction}.
 \end{remark}
@@ -5086,7 +5093,7 @@ configuration or interpretation file.  This is the go/no-go milestone for the pr
 
 \begin{milestone}[M4: configurations]
 Formalize $\Psi$, multiplication, and $\Jrel$ over algebraically closed fields.
-Acceptance: both directions of guarded \cref{thm:q-correct} (the reverse remains open,
+Acceptance: both directions of guarded \cref{thm:q-correct} (now proved in Lean,
 issue 27) and the exact semantic theorem for
 $\Jrel$ have no project axioms or placeholder proofs.
 \end{milestone}
@@ -5410,6 +5417,16 @@ and $P\ne S$, $Q\le B$ without a guard, by finite-rank counting and exchange
 (L0, issue 27).  The unchanged \lean{rankEq_iff_eRk} bridge now lives in
 \lean{Geometry.FiniteRank}; no transfer import is used.  These are prerequisites
 of meet elimination; guarded extraction and completeness remain open.
+
+\paragraph{Current guarded-completeness checkpoint.}
+\lean{guardedAffineGridExtraction} and \lean{guardedQCompletenessACF} prove the guarded
+witness-level conclusions for every algebraically closed pair, without a supplied chart
+or universal-domain hypothesis.  \lean{qGeom_and_ne_iff_qSem_of_isAlgClosed},
+\lean{q'Geom_iff_q'Sem_of_isAlgClosed} and \lean{jGeom_iff_jSem_of_isAlgClosed} give the
+rank-five ACF correctness statements.  The following configuration progress paragraphs
+record earlier checkpoints and their former open frontiers.  Their private-check
+narration is historical; it does not supersede these current public theorems.  The
+original mathematical statements, proof sketches and refutation provenance are retained.
 
 \paragraph{Further first-meet genericity in Lean.}
 Under $I\ne D$, \lean{AclGeom.Config.PsiLattice} also proves

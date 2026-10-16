@@ -14,11 +14,14 @@ An embedding of algebraically closed fields preserves every first-order formula 
 Mathlib's language of rings. Constructibility of actual bounded formulas and density
 of base-field points give the Tarski–Vaught test. This supplies the model-completeness
 input in `rem:psi-hyp`(c) and `rem:finite-trdeg` of the supplemental blueprint.
-The actual application formulas, independence recovery and chart/action descent remain
-separate obligations.
+Finite algebraicity witnesses and their coherent original-field specialization are handled
+in `GroupConfig.FiniteIncidenceDescent`, using the constructible base-point theorem from
+`GroupConfig.Descent`. The actual chart consumer is `AclGeom.Config.GuardedAffineGrid`;
+the original scheme/action descent is separate.
 
 **Status:** model completeness of algebraically closed fields is proved, using actual
-Mathlib syntax. The application's fixed formulas and independence recovery remain open.
+Mathlib syntax. Application-specific finite formulas and independence recovery are proved
+in `FiniteIncidenceDescent` and `AclGeom.Config.GuardedAffineGrid`.
 -/
 
 namespace GroupConfig
@@ -28,25 +31,6 @@ open AclGeom MvPolynomial Set FirstOrder FirstOrder.Language
 noncomputable section
 
 variable {k K : Type*} [Field k] [Field K] [Algebra k K] {ι : Type*}
-
-/-- A nonempty constructible set over an algebraically closed base has a base-field
-point, even when its ambient field is not algebraically closed. The elementary-embedding
-construction below consumes this fact on a fibre fixing the existing parameters. -/
-theorem IsConstructibleOver.exists_kpoint [IsAlgClosed k] [Finite ι]
-    {s : Set (ι → K)} (hs : IsConstructibleOver k s) (hne : s.Nonempty) :
-    ∃ u : ι → k, algebraMap k K ∘ u ∈ s := by
-  obtain ⟨e, he⟩ := hne
-  obtain ⟨cells, hcells⟩ := isConstructibleOver_iff_exists_polynomial_data.mp hs
-  obtain ⟨cell, hcell, hg, hf⟩ := (hcells e).mp he
-  have hf' : map (algebraMap k K) cell.f ∉ locusIdeal k e := by
-    intro h
-    exact hf ((mem_idealOf_iff k).mp ((map_mem_locusIdeal_iff k).mp h))
-  obtain ⟨u, hu, hnu⟩ := exists_kpoint_of_notMem_locusIdeal e hf'
-  refine ⟨u, (hcells _).mpr ⟨cell, hcell, ?_, ?_⟩⟩
-  · intro i
-    have h := (inLocus_iff.mp hu) _ (map_mem_locusIdeal k ((mem_idealOf_iff k).mpr (hg i)))
-    simpa only [aeval_map_algebraMap] using h
-  · simpa only [aeval_map_algebraMap] using hnu
 
 -- Use the canonical ring-language structures without adding a global instance loop.
 attribute [local instance] FirstOrder.Ring.compatibleRingOfRing

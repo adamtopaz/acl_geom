@@ -7,7 +7,7 @@ import AclGeom.Config.ConfigurationInput
 import AclGeom.Transfer.LiftConfig
 import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 import Mathlib.FieldTheory.AlgebraicClosure
-import Mathlib.RingTheory.AlgebraicIndependent.AlgebraicClosure
+import AclGeom.Geometry.CountableAmbient
 
 /-!
 # A canonical universal ambient for the actual Ψ input
@@ -28,10 +28,10 @@ or infinitude is assumed of the original caller.
 **Status:** the canonical ACF ambient, algebraically closed base, universal-
 domain instance, actual witness lift and its six-point input/ranks are proved.
 The literal comparison with image tuples is proved in
-`Config.UniversalImageConfigurationInput`. Finite-ambient chart/action descent,
-group extraction/algebraization, action classification and unconditional
-reconstruction remain separate obligations. No original-field semantic
-representatives or guarded chart are obtained by this construction alone.
+`Config.UniversalImageConfigurationInput`. The original-field guarded chart consumer is
+`Config.GuardedAffineGrid`; it uses the original-base universal-domain instance below.
+Original scheme/action descent, algebraization and unconditional reconstruction remain
+separate obligations. This construction alone does not give semantic representatives.
 -/
 
 namespace AclGeom
@@ -61,19 +61,17 @@ instance configurationBase_isAlgClosed : IsAlgClosed (↥(configurationBase k K)
 
 instance configurationAmbient_universalDomain :
     UniversalDomain (↥(configurationBase k K)) (ConfigurationAmbient K) := by
-  let Ω := ConfigurationAmbient K
-  let φ : MvPolynomial ℕ K →ₐ[K] Ω := IsScalarTower.toAlgHom K (MvPolynomial ℕ K) Ω
-  have hφ : Function.Injective φ := by
-    change Function.Injective (algebraMap (MvPolynomial ℕ K) Ω)
-    rw [IsScalarTower.algebraMap_eq (MvPolynomial ℕ K)
-      (FractionRing (MvPolynomial ℕ K)) Ω]
-    exact (algebraMap (FractionRing (MvPolynomial ℕ K)) Ω).injective.comp
-      (IsFractionRing.injective (MvPolynomial ℕ K) (FractionRing (MvPolynomial ℕ K)))
-  have hX := (MvPolynomial.algebraicIndependent_X ℕ K).map' hφ
-  have hXk := AlgebraicIndependent.restrictScalars (algebraMap k K).injective hX
-  have hXbase := hXk.algebraicClosure
+  have h := trdeg_add_eq k (↥(configurationBase k K)) (A := ConfigurationAmbient K)
+  rw [trdeg_eq_zero, zero_add] at h
   constructor
-  simpa using hXbase.lift_cardinalMk_le_trdeg
+  rw [h]
+  exact aleph0_le_trdeg_algebraicClosure
+
+/-- The chosen configuration ambient is also a universal domain over the original base.
+Named consumer: guarded affine-grid extraction and original-field chart descent. -/
+instance configurationAmbient_originalBase_universalDomain :
+    UniversalDomain k (ConfigurationAmbient K) :=
+  ⟨aleph0_le_trdeg_algebraicClosure⟩
 
 namespace QWitness
 
@@ -89,7 +87,8 @@ variable {w : QWitness k K}
 /-- Clauses (i)–(iv) in any ambient field supply a six-point configuration
 in the canonical universal ACF extension, with group rank two and space rank one.
 No universal-domain, configuration, group or chart input is assumed of the caller.
-Literal finite-ambient chart/action descent remains a separate obligation. -/
+The finite-ambient guarded chart consumer is `Config.GuardedAffineGrid`; original
+scheme/action descent remains a separate obligation. -/
 theorem PsiCore.groupConfiguration_universalLift (hw : w.PsiCore) :
     GroupConfig.GroupConfiguration (↥(configurationBase k K))
       w.universalLift.aTuple w.universalLift.bTuple w.universalLift.cTuple
@@ -102,7 +101,8 @@ theorem PsiCore.groupConfiguration_universalLift (hw : w.PsiCore) :
 /-- An actual Ψ input in any ambient field supplies a six-point configuration
 in the canonical universal ACF extension, with group rank two and space rank one.
 No universal-domain, configuration, group or chart input is assumed of the caller.
-Literal finite-ambient chart/action descent remains a separate obligation. -/
+The finite-ambient guarded chart consumer is `Config.GuardedAffineGrid`; original
+scheme/action descent remains a separate obligation. -/
 theorem Psi.groupConfiguration_universalLift (hw : w.Psi) :
     GroupConfig.GroupConfiguration (↥(configurationBase k K))
       w.universalLift.aTuple w.universalLift.bTuple w.universalLift.cTuple

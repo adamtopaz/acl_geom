@@ -33,7 +33,11 @@ This supplies an auxiliary function-field classification for `lem:affine-action`
 original-field descent statements remain obligations.
 
 **Status:** the complete constructible subgroup classification is proved, with an actual HW
-consumer. All supporting matrix, constructibility and rank lemmas here are private.
+consumer. The entry set `slEntries` and the entry lemmas `sl_mul_apply`, `sl_mul_entries_mem`,
+`sl_inv_entries_mem`, `sq_ne_one_of_transcendental` and
+`mem_range_of_isAlgebraic_of_isAlgClosed` are shared with the upper-triangular curve analysis
+in `GroupConfig.Constructible.SLUpperCurve` and `GroupConfig.Constructible.SLAffineMultiplier`;
+the other supporting lemmas here are private.
 -/
 
 namespace GroupConfig
@@ -89,7 +93,8 @@ private theorem algebraicIndependent_of_erk_range_eq {k K : Type*}
   simp only [empty_union] at hr
   exact hr.trans h
 
-private abbrev slEntries {K : Type*} [Field K] (m : SpecialLinearGroup (Fin 2) K) : Set K :=
+/-- The set of the four entries of a matrix in `SL₂(K)`. -/
+abbrev slEntries {K : Type*} [Field K] (m : SpecialLinearGroup (Fin 2) K) : Set K :=
   range fun ij : Fin 2 × Fin 2 ↦ m ij.1 ij.2
 
 private theorem slEntries_subset_racl_pair_of_trace {k K : Type*}
@@ -672,7 +677,7 @@ private theorem upper_mem_of_two_tori {K : Type*} [Field K] [IsAlgClosed K]
   exact Γ.mul_mem (hU _) (hD a)
 
 /-- An element algebraic over an algebraically closed subfield lies in it. -/
-private theorem mem_range_of_isAlgebraic_of_isAlgClosed {k K : Type*} [Field k] [Field K]
+theorem mem_range_of_isAlgebraic_of_isAlgClosed {k K : Type*} [Field k] [Field K]
     [Algebra k K] [IsAlgClosed k] {x : K} (hx : IsAlgebraic k x) : x ∈ range (algebraMap k K) := by
   have : Algebra.IsAlgebraic k (IntermediateField.adjoin k ({x} : Set K)) :=
     IntermediateField.isAlgebraic_adjoin_simple hx.isIntegral
@@ -693,7 +698,7 @@ private theorem transcendental_of_add_inv_notMem {k K : Type*} [Field k] [Field 
   exact hl ⟨x + x⁻¹, by rw [map_add, map_inv₀, hx]⟩
 
 /-- A transcendental element does not square to one. -/
-private theorem sq_ne_one_of_transcendental {k K : Type*} [Field k] [Field K] [Algebra k K]
+theorem sq_ne_one_of_transcendental {k K : Type*} [Field k] [Field K] [Algebra k K]
     {l : K} (hl : Transcendental k l) : l ^ 2 ≠ 1 := by
   intro h
   refine hl ⟨Polynomial.X ^ 2 - 1, fun h0 ↦ ?_, by simp [h]⟩
@@ -842,14 +847,14 @@ private theorem infinite_torus_params_of_trace_notMem {k K : Type*} [Field k] [F
   exact Set.infinite_of_injective_forall_mem hinj hpow
 
 /-- Entries of a product lie in any intermediate field containing the entries of the factors. -/
-private theorem sl_mul_entries_mem {k K : Type*} [Field k] [Field K] [Algebra k K]
+theorem sl_mul_entries_mem {k K : Type*} [Field k] [Field K] [Algebra k K]
     (S : IntermediateField k K) {A B : SpecialLinearGroup (Fin 2) K}
     (hA : ∀ i j, A i j ∈ S) (hB : ∀ i j, B i j ∈ S) (i j : Fin 2) : (A * B) i j ∈ S := by
   rw [SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two]
   exact S.add_mem (S.mul_mem (hA i 0) (hB 0 j)) (S.mul_mem (hA i 1) (hB 1 j))
 
 /-- Entries of an inverse lie in any intermediate field containing the entries. -/
-private theorem sl_inv_entries_mem {k K : Type*} [Field k] [Field K] [Algebra k K]
+theorem sl_inv_entries_mem {k K : Type*} [Field k] [Field K] [Algebra k K]
     (S : IntermediateField k K) {A : SpecialLinearGroup (Fin 2) K} (hA : ∀ i j, A i j ∈ S)
     (i j : Fin 2) : A⁻¹ i j ∈ S := by
   rw [SpecialLinearGroup.SL2_inv_expl]
@@ -1019,7 +1024,7 @@ private theorem full_torus_of_infinite_parameters {k K : Type*}
 /-! ### The pure case analysis -/
 
 /-- Entries of a product of `SL₂` matrices. -/
-private theorem sl_mul_apply' {K : Type*} [Field K] (A B : SpecialLinearGroup (Fin 2) K)
+theorem sl_mul_apply {K : Type*} [Field K] (A B : SpecialLinearGroup (Fin 2) K)
     (i j : Fin 2) : (A * B) i j = A i 0 * B 0 j + A i 1 * B 1 j := by
   rw [SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two]
 
@@ -1145,19 +1150,19 @@ private theorem mem_iff_upper_of_witness {k K : Type*} [Field k] [Field K] [Alge
   obtain ⟨v00, v01, v10, v11⟩ := upper_transvection_apply (K := K) y
   have e00 : R' 0 0 = g 0 0 + x * g 1 0 := by
     rw [hR'def]
-    simp only [sl_mul_apply', u00, u01, v00, v10]
+    simp only [sl_mul_apply, u00, u01, v00, v10]
     ring
   have e01 : R' 0 1 = (g 0 0 + x * g 1 0) * y + (g 0 1 + x * g 1 1) := by
     rw [hR'def]
-    simp only [sl_mul_apply', u00, u01, v01, v11]
+    simp only [sl_mul_apply, u00, u01, v01, v11]
     ring
   have e10 : R' 1 0 = g 1 0 := by
     rw [hR'def]
-    simp only [sl_mul_apply', u10, u11, v00, v10]
+    simp only [sl_mul_apply, u10, u11, v00, v10]
     ring
   have e11 : R' 1 1 = g 1 0 * y + g 1 1 := by
     rw [hR'def]
-    simp only [sl_mul_apply', u10, u11, v01, v11]
+    simp only [sl_mul_apply, u10, u11, v01, v11]
     ring
   have hR' : R' ∈ H := by
     rw [hR'def]
@@ -1196,7 +1201,7 @@ private theorem slSwap_conj_apply {K : Type*} [Field K] (g : SpecialLinearGroup 
       (slSwap K * g * (slSwap K)⁻¹) 1 0 = -g 0 1 ∧ (slSwap K * g * (slSwap K)⁻¹) 1 1 = g 0 0 := by
   obtain ⟨⟨w00, w01, w10, w11⟩, ⟨i00, i01, i10, i11⟩⟩ := slSwap_apply K
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
-    simp only [sl_mul_apply', w00, w01, w10, w11, i00, i01, i10, i11] <;> ring
+    simp only [sl_mul_apply, w00, w01, w10, w11, i00, i01, i10, i11] <;> ring
 
 /-- Entries of a matrix and of its swap conjugate have the same rank. -/
 private theorem erk_slEntries_swap_conj {k K : Type*} [Field k] [Field K] [Algebra k K]
@@ -1302,10 +1307,10 @@ private theorem exists_borel_conj_of_rank_two {k K : Type*} [Field k] [Field K] 
     group
   obtain ⟨⟨w00, w01, w10, w11⟩, -⟩ := slSwap_apply K
   have d01 : (δ * slSwap K) 0 1 = δ 0 0 := by
-    simp only [sl_mul_apply', w01, w11]
+    simp only [sl_mul_apply, w01, w11]
     ring
   have d10 : (δ * slSwap K) 1 0 = -δ 1 1 := by
-    simp only [sl_mul_apply', w00, w10]
+    simp only [sl_mul_apply, w00, w10]
     ring
   have hupperA : ∀ R : SpecialLinearGroup (Fin 2) K, R 1 0 = 0 → R 0 1 ≠ 0 →
       (∀ r : Kˣ, R * slDiag r * R⁻¹ ∈ H) →

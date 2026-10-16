@@ -114,3 +114,9 @@ import GroupConfig.Germ.AffineGenerator
 import GroupConfig.ConfigurationNecessity
 import GroupConfig.MainConstructible
 import GroupConfig.PsiConstructible
+
+import GroupConfig.Constructible.SLUpperCurve
+import GroupConfig.Constructible.SLAffineMultiplier
+import GroupConfig.Germ.AffineEvaluation
+import GroupConfig.ChartAssembly
+import GroupConfig.FiniteIncidenceDescent

@@ -343,8 +343,9 @@ The ambient field is algebraically closed and the rank/independence properties
 use a universal domain and small algebraically closed coefficient fields. The
 original base field need not be algebraically closed. These results supply the
 canonical-base hypotheses of the configuration route, whose actual group
-extraction is proved below. Original algebraization, chart/action descent and
-unconditional reconstruction remain open.
+extraction is proved below. Original algebraization, scheme/action descent and unconditional
+reconstruction remain
+open. The actual guarded chart descent is proved in the configuration chapter.
 
 # A canonical base outside the point's algebraic closure
 %%%
@@ -740,11 +741,35 @@ holds in every characteristic.
 
 {docstring GroupConfig.Germ.IsHWBij.exists_affine_generator}
 
-M contains arbitrary generator coefficients and the samples. Freshness of M
-from the original Ψ witness is not a conclusion. The affine generator is a
-K-function-field conclusion. The original scheme/action and normal-subgroup
-producers, group algebraization, original-field chart/action descent and the
-full original affine-action lemma remain obligations of the blueprint.
+M contains arbitrary generator coefficients and samples; its freshness from the original
+Ψ witness is not a conclusion of this generator theorem. The stronger parameter theorem
+also identifies the affine coefficient pair's closure with the actual canonical base:
+
+{docstring GroupConfig.Germ.IsHWBij.exists_affine_generator_parameters}
+
+Fresh rational representatives make evaluation of this fixed generator agree with the
+actual action at every point generic over the coefficient field and canonical base:
+
+{docstring GroupConfig.affine_coordinate_evalGen}
+
+The initial chart is constructed by moving the finite witness coherently, while keeping
+this generator and action fixed. Products of actual upper-triangular curve points have
+rank one over E = acl(s, t). Internal curve-coset and unipotent/torus classification
+then identifies S, T and U with the two diagonal multipliers and their product:
+
+{docstring GroupConfig.upper_curve_diagonal_rows}
+
+{docstring GroupConfig.exists_initial_chart_generic}
+
+The actual Ψ consumer constructs all HW data, coefficient fields and the automorphism.
+It returns the nine initial rows over a field independent from all twenty-one moved
+representatives; no chart or freshness certificate is a caller input:
+
+{docstring AclGeom.QWitness.Psi.exists_initial_chart_rows}
+
+The configuration chapter descends these finite rows to the original ACF ambient and
+obtains the full guarded grid. Original scheme/action and normal-subgroup producers,
+group algebraization and the full original affine-action lemma remain obligations.
 
 For an orbit of invertible germs between two loci, independent pairs give
 difference germs. These form one orbit. The difference and either member of
@@ -1348,8 +1373,9 @@ or transcendence-degree hypothesis is used.
 {docstring GroupConfig.ringHom_realize_iff}
 
 This proves model completeness itself, the logical input cited in
-`rem:psi-hyp`(c) and `rem:finite-trdeg`. The application's actual formulas,
-independence recovery and original-field chart/action descent remain open.
+`rem:psi-hyp`(c) and `rem:finite-trdeg`. Finite polynomial witness specialization and
+independence recovery now give the actual chart over the original ACF ambient in
+`Config.GuardedAffineGrid`. Original scheme/action descent remains open.
 
 The source usage remark's original degree-bound claim is refuted on #31, with
 provenance in `6b76e01`. A constructible subset of the line is finite or cofinite.
@@ -1375,12 +1401,13 @@ zero and nonzero loci, quasi-rational graphs, finite Boolean operations and
 finite-tuple existential closure below. The existential step requires an
 algebraically closed ambient field. Quantifying coefficients over the ambient
 field does not restrict them to the base field. The application still needs
-its actual fixed formulas and the proof of independence after descent, together
-with original-field chart/action descent.
+the chosen application formulas. The finite algebraicity application and original-field
+chart independence are now proved in `FiniteIncidenceDescent` and `Config.GuardedAffineGrid`.
 
 The group and homogeneous-space presentations are constructed below.
-Original-field chart/action descent, group algebraization, action
-classification and unconditional reconstruction remain obligations.
+Original scheme/action descent, group algebraization and unconditional reconstruction
+remain obligations. The actual rank-two affine classification and guarded chart descent
+are proved in the modules described above.
 
 # The complete actual Ψ six-point input
 %%%
@@ -1422,9 +1449,9 @@ result through the proved projection.
 Only the actual witness is supplied. Ambient algebraic closedness and a
 universal domain are explicit; the original base may be arbitrary. The
 canonical ambient package below proves those ambient hypotheses internally.
-Literal image-tuple comparison is proved below; finite-ambient chart/action
-descent remains open. The
-initial chart still needs both output guards. The precise main theorem now
+Literal image-tuple comparison is proved below. The configuration chapter constructs the
+initial chart and descends it to the original ACF ambient; full guarded extraction retains
+both output guards. Original scheme/action descent remains open. The precise main theorem now
 applies to this configuration in an ACF universal domain, giving the
 interalgebraicity part of the application with group rank two and curve rank one.
 
@@ -1439,8 +1466,8 @@ interalgebraicity clauses refer to the same extracted data.
 
 {docstring AclGeom.QWitness.PsiCore.exists_constructibleGroupSpace}
 
-Algebraization, action classification, original-field chart/action descent
-and unconditional reconstruction remain separate targets.
+Original algebraization, scheme/action descent and unconditional reconstruction remain
+separate targets. The actual HW affine generator and guarded chart are proved above.
 
 # The rank-one partial-quadrangle configuration
 %%%
@@ -1507,8 +1534,9 @@ rank one over its literal final base.
 
 These existence theorems choose parameters separately. The joint theorem below
 realizes both conclusions over one finite independent extension. The algebraic
-groups over the original base, $`\pi`, its normal subgroup, action classification,
-original-field descent, guarded charts and reconstruction remain obligations.
+groups over the original base, $`\pi`, its normal subgroup, original scheme/action
+descent and unconditional reconstruction remain obligations. The guarded chart is proved
+by the actual rank-two consumer above.
 
 # Both actual Ψ configurations over one fresh base
 %%%
@@ -1543,8 +1571,8 @@ ambient field is a universal domain.
 This is a joint realization by groups of germs up to interalgebraicity.
 It does not construct the original algebraic groups over the original base,
 the homomorphism $`\pi`, its normal subgroup or an affine chart. Weil
-algebraization, action classification, original-field descent, guarded
-charts and unconditional reconstruction remain obligations.
+algebraization, original scheme/action descent and unconditional reconstruction remain
+obligations. The guarded chart uses the rank-two consumer above.
 
 # The nonfaithful product-group example
 %%%
@@ -1625,8 +1653,9 @@ point bijection with the same carriers, and `rankEq_map_iff` preserves every
 lattice-rank statement. These applications are checked on the constructed
 isomorphism. The order and rank results hold over arbitrary fields. When
 $`K` is algebraically closed, $`\bar k` is algebraically closed, giving the
-source's reduction in `rem:psi-hyp`(c). Original-field witness descent from a
-larger ambient extension remains open.
+source's reduction in `rem:psi-hyp`(c). Finite polynomial chart witnesses descend to the
+original ACF ambient by the theorem in the configuration chapter. Original scheme/action
+descent remains an obligation.
 
 # A canonical universal ambient
 %%%
@@ -1668,11 +1697,10 @@ and applies the proved core projection.
 {docstring AclGeom.QWitness.PsiCore.groupConfiguration_universalImages}
 
 The configuration lives in the chosen extension over its algebraic base.
-Finite-ambient chart/action descent remains open. This construction supplies
-the input for group extraction; it produces no original-field semantic representatives,
-group, action or guarded
-initial chart. Algebraization, action classification and unconditional
-reconstruction remain separate targets.
+This construction supplies the input for group extraction. The actual guarded chart
+and its original-field coordinate descent are proved in the configuration chapter.
+Original scheme/action descent, algebraization and unconditional reconstruction remain
+separate targets.
 
 # Constructible sets
 %%%
@@ -1780,9 +1808,10 @@ coefficient field need not be algebraically closed. The loci are represented by
 finite tuples, and the sampling theorem also covers dimension zero. The
 arbitrary-prime realization formulation is proved in `PrimeLocus`. The precise
 group-of-germs extraction and independent parameter descent are proved above.
-The actual constructible presentations follow below. Original-field chart/action
-descent, algebraization and the guarded initial affine chart remain separate
-obligations. The public reconstruction theorem still has its open completeness inputs.
+The actual constructible presentations follow below. The guarded initial affine chart
+and original-field coordinate descent are proved above and in the configuration chapter.
+Original scheme/action descent and algebraization remain obligations. The public
+reconstruction API still carries its two completeness inputs; their discharge is next.
 
 
 # The constructible group and homogeneous space
@@ -1876,5 +1905,5 @@ one; its public statement is unchanged.
 {docstring GroupConfig.GroupConfiguration.exists_main_constructible}
 
 These are constructible quotient presentations. Original algebraization,
-action classification, original-field chart/action descent, guarded charts
-and unconditional reconstruction remain obligations of the shared project goal.
+scheme/action descent and unconditional reconstruction remain obligations of the shared
+project goal. The actual affine classification and guarded chart are proved above.

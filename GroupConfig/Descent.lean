@@ -84,6 +84,25 @@ theorem exists_kpoint_of_notMem_locusIdeal [IsAlgClosed k] [Finite ι] (e : ι �
     Finset.sum_congr rfl fun j' _ ↦ by rw [Algebra.smul_def, smul_eq_mul, mul_comm]
   exact (linearIndependent_iff'.1 b.linearIndependent) J₀ _ (h0'.trans h0) j hj
 
+/-- A nonempty constructible set over an algebraically closed base has a base-field
+point, even when its ambient field is not algebraically closed. The elementary-embedding
+construction below consumes this fact on a fibre fixing the existing parameters. -/
+theorem IsConstructibleOver.exists_kpoint [IsAlgClosed k] [Finite ι]
+    {s : Set (ι → K)} (hs : IsConstructibleOver k s) (hne : s.Nonempty) :
+    ∃ u : ι → k, algebraMap k K ∘ u ∈ s := by
+  obtain ⟨e, he⟩ := hne
+  obtain ⟨cells, hcells⟩ := isConstructibleOver_iff_exists_polynomial_data.mp hs
+  obtain ⟨cell, hcell, hg, hf⟩ := (hcells e).mp he
+  have hf' : map (algebraMap k K) cell.f ∉ locusIdeal k e := by
+    intro h
+    exact hf ((mem_idealOf_iff k).mp ((map_mem_locusIdeal_iff k).mp h))
+  obtain ⟨u, hu, hnu⟩ := exists_kpoint_of_notMem_locusIdeal e hf'
+  refine ⟨u, (hcells _).mpr ⟨cell, hcell, ?_, ?_⟩⟩
+  · intro i
+    have h := (inLocus_iff.mp hu) _ (map_mem_locusIdeal k ((mem_idealOf_iff k).mpr (hg i)))
+    simpa only [aeval_map_algebraMap] using h
+  · simpa only [aeval_map_algebraMap] using hnu
+
 /-! ### Descent -/
 
 /-- `thm:descent`: a constructible relation over `k` satisfied by a parameter tuple `e`

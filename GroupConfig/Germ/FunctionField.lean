@@ -48,6 +48,16 @@ variable (k) in
 abbrev LocusFunctionField (v : ι → K) : Type _ :=
   FractionRing (MvPolynomial ι K ⧸ locusIdeal k v)
 
+omit [IsAlgClosed k] in
+/-- Mapping coefficients through an inclusion of intermediate fields and then into `K` is
+mapping them into `K` directly. -/
+theorem map_map_inclusion {M M₁ : IntermediateField k K} (h : M ≤ M₁) (P : MvPolynomial ι M) :
+    MvPolynomial.map (algebraMap M₁ K)
+      (MvPolynomial.map (IntermediateField.inclusion h).toRingHom P) =
+        MvPolynomial.map (algebraMap M K) P := by
+  rw [MvPolynomial.map_map]
+  rfl
+
 namespace LocusFunctionField
 
 variable {v : ι → K}
@@ -104,6 +114,25 @@ omit [IsAlgClosed k] in
 theorem mk_map_eq_zero_iff (hy : IsGenericOver M v y) (P : MvPolynomial ι M) :
     mk k v (MvPolynomial.map (algebraMap M K) P) = 0 ↔ aeval y P = 0 := by
   rw [mk_eq_zero_iff, map_mem_locusIdeal_iff_aeval hy]
+
+/-- Every element is a fraction of polynomials over each intermediate field containing a fixed
+finite set of coefficients, with denominator nonzero at every generic point over that field. -/
+theorem exists_fraction_of_subset (h : LocusFunctionField k v) :
+    ∃ C : Set K, C.Finite ∧ ∀ N : IntermediateField k K, C ⊆ N →
+      ∃ A B : MvPolynomial ι N, (∀ y, IsGenericOver N v y → aeval y B ≠ 0) ∧
+        h = mk k v (MvPolynomial.map (algebraMap N K) A) /
+          mk k v (MvPolynomial.map (algebraMap N K) B) := by
+  obtain ⟨A, B, hB, rfl⟩ := exists_fraction h
+  refine ⟨↑A.coeffs ∪ ↑B.coeffs, A.coeffs.finite_toSet.union B.coeffs.finite_toSet,
+    fun N hN ↦ ?_⟩
+  have hcoeff : ∀ P : MvPolynomial ι K, ↑P.coeffs ⊆ (N : Set K) →
+      ∃ P₀ : MvPolynomial ι N, MvPolynomial.map (algebraMap N K) P₀ = P := fun P hP ↦
+    MvPolynomial.mem_range_map_iff_coeffs_subset.mpr fun c hc ↦ ⟨⟨c, hP hc⟩, rfl⟩
+  obtain ⟨A₀, hA₀⟩ := hcoeff A fun c hc ↦ hN (Or.inl hc)
+  obtain ⟨B₀, hB₀⟩ := hcoeff B fun c hc ↦ hN (Or.inr hc)
+  refine ⟨A₀, B₀, fun y hy ↦ ?_, by rw [hA₀, hB₀]⟩
+  rw [Ne, ← map_mem_locusIdeal_iff_aeval hy, hB₀]
+  exact hB
 
 variable (M y) in
 /-- `h` has value `c` at `y`, through a fraction `A / B` with coefficients in `M`. -/

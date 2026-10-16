@@ -21,9 +21,11 @@ geometric projection to `J` are conditional on `GuardedQCompletenessACF` (#27).
 Unguarded `QCompletenessACF`, `AffineGridExtraction` and geometric `Q` projection are refuted
 by the actual degenerate `Psi` witness in Counterexamples.QDegenerate, even for ACF pairs
 with five independent elements. The multiplication-diagram product converse is proved.
-It reduces ACF `Q′` and `J` completeness to the single open guarded `Q` input;
-unconditional completeness and four-way `J` descent remain open. The existing conditional
-public target still uses the unchanged `JCompletenessACF`. Counterexamples.QRefutation retains
+It reduces rank-five ACF `Q′` and `J` completeness to guarded `Q` completeness, now proved
+in `Config.GuardedAffineGrid`. `Config.Completeness` supplies the resulting rank-five ACF
+`J` theorem. The existing conditional reconstruction API still requests `JCompletenessACF`;
+discharging those inputs and the remaining four-way descent obligations is separate work.
+Counterexamples.QRefutation retains
 the characteristic-zero arbitrary-field `Q′` refutation and the earlier `Q` example (#25).
 
 **Status:** in progress (M4–M5).
@@ -63,7 +65,8 @@ theorem jGeom_of_jSem_of_five_le_trdeg
   jGeom_of_jSem (fresh_four_of_five_le_trdeg htr) h
 
 /-- Conditional rank-five **guarded** correctness of `Q` over ACF pairs (#27).
-`GuardedQCompletenessACF` is open; the former unguarded wrapper is superseded because its
+The guarded input is proved in `Config.GuardedAffineGrid`; the former unguarded wrapper is
+superseded because its
 completeness input is refuted even for ACF pairs with five independent elements. -/
 theorem qGeom_and_ne_iff_qSem_of_five_le_trdeg [IsAlgClosed k] [IsAlgClosed K]
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
@@ -73,7 +76,8 @@ theorem qGeom_and_ne_iff_qSem_of_five_le_trdeg [IsAlgClosed k] [IsAlgClosed K]
   qGeom_and_ne_iff_qSem hcompl (fresh_four_of_five_le_trdeg htr)
 
 /-- The multiplication-diagram converse reduces geometric `Q′` completeness
-to the open guarded `Q` completeness input. Both necessary inner guards follow
+to guarded `Q` completeness, proved in `Config.GuardedAffineGrid`. Both necessary inner guards
+follow
 from the actual diagram's distinctness. -/
 theorem q'Sem_of_q'Geom_of_guardedQCompleteness [IsAlgClosed k] [IsAlgClosed K]
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
@@ -88,8 +92,8 @@ theorem q'Sem_of_q'Geom_of_guardedQCompleteness [IsAlgClosed k] [IsAlgClosed K]
 
 /-- Guarded `Q` completeness alone supplies the two completeness inputs of
 the established `J` assembly: `Q′` is derived by the multiplication converse.
-The guarded `Q` hypothesis remains open, so this does not prove unconditional
-`JCompletenessACF` or unconditional reconstruction. -/
+This general reduction retains the guarded input. `Config.Completeness` supplies that
+proved input to obtain `JCompletenessACF` for every ACF pair of rank at least five. -/
 theorem jCompletenessACF_of_guardedQCompleteness [IsAlgClosed k] [IsAlgClosed K]
     (q : ℕ) [ExpChar k q] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     (hcompl : GuardedQCompletenessACF k K) : JCompletenessACF k K :=

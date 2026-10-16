@@ -5,6 +5,8 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Config.Correctness
+import AclGeom.Config.GuardedAffineGrid
+import AclGeom.Config.Completeness
 import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
 import AclGeom.Config.PsiLattice
@@ -36,7 +38,7 @@ import AclGeomBook.Configurations.GroupChunkRecord
 # Configuration relations and their current formalization boundaries
 
 Verso exposition of the proved semantic and conditional configuration results.
-Guarded extraction, literal parameter-fixing relocation and completeness stay explicit.
+Guarded ACF extraction and completeness are proved; original source obligations remain explicit.
 -/
 
 open Verso.Genre Manual
@@ -53,12 +55,13 @@ geometric predicates through which the field structure will be recovered
 from the geometry alone. Soundness, semantic J assembly, generic finite-formula
 invariance and concrete geometric invariance are proved. Unguarded Q
 completeness/extraction and geometric Q
-projection are refuted even over ACF pairs; guarded Q completeness and ACF
-Q′/J completeness now reduce to that single open guarded Q input (#27). Conditional
-interpretation and the public lattice-form target keep both perfected
-J-completeness inputs explicit. The arbitrary-field Q/Q′ versions have
+projection are refuted even over ACF pairs. Guarded Q completeness is proved for every
+ACF pair (#27), and the multiplication converse gives rank-five ACF Q′/J completeness.
+The current interpretation and public lattice-form APIs still keep both perfected
+J-completeness inputs explicit; their direct discharge is the next consumer checkpoint.
+The arbitrary-field Q/Q′ versions have
 concrete characteristic-zero Lean refutations. This chapter distinguishes
-these results from the still-open guarded extraction and group/action engine.
+the proved guarded chart from the remaining original scheme/action obligations.
 
 # The incidence language
 %%%
@@ -114,8 +117,8 @@ Tuple incidence and collinearity are actual instances of this recursion theorem:
 {docstring AclGeom.col_map_iff}
 
 This completes G1c (#6). The separate concrete transport of partial quadrangles,
-Psi and Q/Q′/J remains proved by its existing route. Guarded extraction and the
-group/action engine remain open; the frozen M4a chain is unchanged.
+Psi and Q/Q′/J remains proved by its existing route. Guarded extraction is proved below;
+original scheme/action obligations remain open. The frozen M4a chain is unchanged.
 
 # The partial quadrangle
 %%%
@@ -252,9 +255,10 @@ rank-five bound or fresh element. Corrected interpretation-relation transport,
 quotient-carrier and geometric operation-graph naturality are proved in the
 interpretation chapter; actual inducing existence and the public lattice-form
 target are proved conditionally in the reconstruction chapter. Both exact
-perfected ACF J-completeness inputs remain explicit. Unconditional R1/R2,
-completeness/reconstruction, guarded geometric projection completeness and broader
-point/automorphism/functorial variants remain open. The frozen M4a record
+perfected ACF J-completeness inputs remain explicit in these APIs. Their discharge and
+public unconditional reconstruction are the next consumer checkpoint; the broader
+point/automorphism/functorial variants remain open. Guarded geometric projection
+completeness follows from the new guarded Q theorem below. The frozen M4a record
 and literal source obligations are preserved.
 
 # Soundness of the geometric Q
@@ -458,10 +462,16 @@ completeness, giving a single remaining completeness hypothesis:
 
 {docstring AclGeom.jCompletenessACF_of_guardedQCompleteness}
 
-Guarded Q completeness remains open. The previous unguarded Q input is refuted
-even over ACF pairs (#27); its replacement names both necessary ratio inequalities,
-already supplied by multiplication distinctness in J. JCompletenessACF and
-the public conditional reconstruction target retain their existing types.
+The guarded input is now proved internally, so the same assembly gives completeness
+for every algebraically closed pair of rank at least five:
+
+{docstring AclGeom.jCompletenessACF}
+
+{docstring AclGeom.jGeom_iff_jSem_of_isAlgClosed}
+
+The unguarded Q input remains refuted (#27). Both ratio inequalities are supplied by
+multiplication distinctness in J. The public reconstruction API still carries its two
+ACF completeness inputs; removing them is the next consumer checkpoint.
 
 # Incidence germs recover their parameter fields
 %%%
@@ -506,8 +516,9 @@ This covers the rank-two field-of-definition step. The common-closed-base
 composition step follows below. Relational germ composition is associative
 over arbitrary bases, as proved below. Its identification with components
 of geometric fiber products over nonclosed function-field bases, group chunks,
-actions/classification, initial charts, Q/Q′/J completeness and unconditional
-reconstruction remain open. Frozen M4a is unchanged.
+the original scheme/action bridges and unconditional reconstruction remain open.
+Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
+unchanged.
 
 # Composition over the common closed parameter field
 %%%
@@ -560,8 +571,9 @@ The universally quantified Ψ is never transported.
 
 No new public rank wrapper, field definition, normalization interface or
 checking option is added. The geometric fiber-product/function-field bridge,
-group chunks, actual actions/classification, initial charts, Q/Q′/J completeness
-and unconditional reconstruction remain open. Frozen M4a is unchanged.
+group chunks, original scheme/action bridges and unconditional reconstruction remain
+open. Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
+unchanged.
 
 # Relational correspondence composition is associative
 %%%
@@ -784,159 +796,39 @@ chart or algebraic closedness:
 
 {docstring AclGeom.QWitness.Psi.H_ne_S}
 
-The actual PRIVATE guarded two-family consumer uses these two guards
-along with P≠S, D≠S, F≠U and Q≠T. Given an explicit independent initial
-chart for A/B/C/S/T/U/X/Y/Z, it derives all 16 raw memberships, six
-non-memberships and three nonconstancies from the actual Ψ equations
-and point representatives. Every raw field input of the accepted
-two-family remaining-row composition is derived; none is supplied.
-Its seven old helper blocks and original TYPE/proof remain byte-exact
-after naming the original example. One new consumed private point bridge
-handles the six non-memberships. Both original curves precede ALL supplied
-fresh INPUT families; base/ambient ACF and those families stay explicit.
-Only the two necessary lattice guards are newly public. Initial chart
-existence, INPUT existence/enlargement/descent, combined generators,
-actions, linearity, extraction and all completeness remain open;
-#11 and frozen117 are independent obligations.
-
-A full affine-grid presentation is now derived conditionally from the
-actual configuration (P4, #27). Given Ψ, I≠D, base/ambient ACF, an explicit
-independent initial chart for A/B/C/S/T/U/X/Y/Z and two supplied fresh
-INPUT families, the new producer derives all three joins and fifteen
-points. Every raw field membership, non-membership and nonconstancy is
-derived from the guarded witness and chart; no normal-form or
-OUTPUT-freshness oracle is supplied:
+The guarded chart normalization consumes these non-memberships. From an independent
+initial chart for A/B/C/S/T/U/X/Y/Z, it derives the raw field incidences and then all
+three joins and fifteen points. The supplied-input version fixes each original prime
+curve before the corresponding family of fresh inputs:
 
 {docstring AclGeom.QWitness.Psi.hasAffineGridCoordinates_of_chart_supplied_inputs}
 
-The original F prime curve/span precedes ALL first INPUT families.
-After the first family the producer obtains κ in k and the original
-H-inverse prime curve/span, which precedes ALL second INPUT families.
-After the second family it obtains η in k and the chart
-a, b+(a-1)κ-η, c, d+(c-1)κ+(c-1)η, x-κ. Constant translates give
-P/R/X/Y/Z; triangular changes of the second generators give A/B/C.
-The other rows and final independence come from the guarded two-family
-composition. All fifteen private helpers are consumed; the old guarded
-consumer's TYPE/proof is byte-exact after naming it.
-
-An actual PRIVATE consumer applies the existing Q-semantic theorem
-only after deriving this full grid, with the same hypotheses and
-curve/span-before-ALL-INPUT nesting. A separate canonical-table example
-jointly realizes Ψ, I≠D and all nine initial-chart equalities without
-ACF. This checks a genuine initial chart, without constructing the
-fresh INPUT families or a chart for an arbitrary witness. The six
-generator points of A/B/C are not constrained; no common-shift or
-uniqueness theorem is claimed. Initial chart existence, INPUT
-existence/enlargement/descent, actions, classification and scheme bridges,
-guarded and unconditional extraction and all completeness remain open.
-Issue #11 and frozen117 remain independent obligations.
-
-The two fresh INPUT families can now be constructed when the ambient
-transcendence degree is at least countable (P5, #27). For any finite
-parameter set S, the first theorem constructs t with each t n outside
-acl(S together with its earlier entries), using the existing
-finite-cardinality fresh-element theorem and Mathlib's sequence
-constructor. This theorem requires no algebraic closedness:
+Fresh sequences exist over a field of countable transcendence degree. Choosing them
+after each curve is fixed gives a chart theorem with no supplied input families:
 
 {docstring AclGeom.exists_fresh_sequence_of_aleph0_le_trdeg}
 
-The second theorem constructs the first family over a/b/x/c after
-the original F curve is fixed. It then obtains κ and the original
-H-inverse curve before constructing the second family over the
-κ-translated four parameters. The existing P4 theorem now yields
-all three joins and fifteen points, without any caller INPUT family:
-
 {docstring AclGeom.QWitness.Psi.hasAffineGridCoordinates_of_chart_of_aleph0_le_trdeg}
 
-The actual PRIVATE consumer derives this grid before the existing
-Q-semantic theorem, with no assumed grid or field normal forms.
-The countable transcendence-degree lower bound, Ψ/I≠D,
-base/ambient ACF and the explicit independent initial chart with
-all nine equalities remain hypotheses. The earlier canonical-table
-joint-chart check remains accepted. Fresh inputs are constructed
-only in this ambient case; an arbitrary field of finite transcendence
-degree still needs enlargement/descent. Initial chart existence for
-arbitrary witnesses, actions, classification/scheme bridges,
-guarded/unconditional extraction and all completeness remain open.
-Issue #11 and frozen117 remain independent; no global I≠P guard is
-removed and no six-generator, common-shift or uniqueness claim is made.
-
-The charted theorem now holds for any ambient field K over an
-algebraically closed base k (P6, #27). It needs neither ambient
-algebraic closedness nor a transcendence-degree lower bound:
+The final chart normalization works over every ambient extension of an algebraically
+closed base, including fields of finite transcendence degree. It transfers only the raw
+field conditions to a countable algebraically closed extension, constructs the input
+families there, and descends the remaining rows by closure absoluteness. Both translation
+constants lie in the original base. This avoids transporting globally quantified Ψ in
+that normalization step:
 
 {docstring AclGeom.QWitness.Psi.hasAffineGridCoordinates_of_chart}
 
-The proof first derives all 25 raw field facts in K from the actual
-Ψ/I≠D and the independent initial chart. Only those facts and
-independence are embedded into the algebraic closure of the fraction
-field of the polynomial ring over K in countably many variables;
-the globally quantified Ψ is not transported.
-The polynomial variables prove that this extension has at least
-countable transcendence degree. The existing raw two-family producer
-fixes each original prime curve before constructing its input family.
-Both translation constants remain in the original base k. Closure
-absoluteness descends all nine remaining singleton rows into K;
-the original final-row assembler derives all three joins and fifteen
-points there. Five new private helpers have these actual consumers.
-The fresh-sequence declaration is rehomed byte-exact in the focused
-Geometry.FreshSequences module with its original public name.
-
-An actual PRIVATE consumer derives this grid before Q semantics,
-without ambient ACF, htr, caller input families, raw conditions or
-an assumed grid. This P6 result supersedes the earlier checkpoint
-accounts that leave input existence/enlargement/descent open for the
-explicit charted theorem. The P4/P5 public mathematical declarations
-remain unchanged; the weaker P5 chart result is marked subsumed.
-Base algebraic closedness, actual Ψ/I≠D, AI5 and all nine initial-chart
-equalities remain explicit. Initial charts for arbitrary witnesses,
-actions, classification/scheme bridges, guarded/unconditional extraction
-and all completeness remain open. Issue #11 and frozen117 are independent.
-No global I≠P guard removal, generator constraint, common shift or
-uniqueness is claimed.
-
-The unchanged pure rank bridge now lives in Geometry.FiniteRank, so this
-module imports only Config.Psi:
-
 {docstring AclGeom.rankEq_iff_eRk}
 
-These are necessary lattice consequences (L0, #27). The remaining meet
-rows now follow from the explicit initial chart, as above. General
-linearity and action presentation/classification remain open.
-
-The first difference-cocycle data lemma is also proved (L1a, #27). Two affine
-presentations of one value sharing p and δ have translation difference
-algebraic over their multipliers. Independence, freshness and the shared
-closure memberships and non-memberships are explicit hypotheses; this theorem
-does not construct the second presentation. The separate fixed-five relocation
-below supplies it when a fresh parameter is given; the ensuing linearity and
-coordinate-extraction argument remain open:
+The normalization uses the following public coordinate lemmas. Literal relocation fixes
+p, the affine value, the shared point, and c/f; a supplied fresh multiplier gives a new
+presentation with the same joint vanishing ideal. Extra prescribed data can also be kept
+fresh. These are implications from the stated coordinate and independence hypotheses:
 
 {docstring AclGeom.sub_mem_racl_of_affine_value_eq}
 
-
-Literal relocation is now proved for a supplied affine presentation (L1b, #27).
-Under independence of a,b,x,c and the explicit p,δ,f closure conditions,
-a given a₀ fresh over those four yields a′x′+b′=ax+b with p,ax+b,δ,c,f
-literally fixed and their joint vanishing ideal with the moved triple unchanged.
-The new multiplier is algebraic over p,ax+b,c,a₀ and fresh over a,b,x,c;
-a′ need not equal a₀. The existence of a₀ and the original affine coordinates
-remain caller obligations. Together with D≠S this supplies L1a's constructed
-consumer; it also preserves the same c/f fibre relation for the proposed
-linearity step. No curve action, linearity or guarded completeness is proved:
-
 {docstring AclGeom.exists_affine_relocation}
-
-
-The multiplier-curve prerequisites are also proved (L2a, #27). Equality of
-joint vanishing ideals transfers polynomial images, so a literal fixed-five
-relocation keeps the same locus of (f,a′c,x′), including f∈acl(a′c,x′),
-f∉acl(a′c) and x′∈acl(a′c,f). For independent A,B,M,X and
-f∈acl(M,X) outside acl(M), the source projection M is generic over A,B,f.
-This supplies the existing prime-curve equation theorem over k(A,B,f).
-The target X may belong to that parameter field (for example f=X);
-no target-genericity or component/action/linearity assumption is used.
-The finite-component/stabilizer and iterated-freshness arguments remain open:
 
 {docstring AclGeom.idealOf_aeval_comp_eq_of_idealOf_eq}
 
@@ -944,257 +836,73 @@ The finite-component/stabilizer and iterated-freshness arguments remain open:
 
 {docstring AclGeom.multiplier_projection_genericity}
 
-The shared prime multiplier equation and uniform curve-locus bound are
-now proved (L2b, #27). From L1b's original independence of a,b,x,c,
-the derived multiplier coordinates a,b,ac,x are independent. L2a and the
-existing FamilyCover common-parameter theorem give the same prime pair
-ideal over the actual field k(f) for a literal fixed-five relocation:
-
 {docstring AclGeom.exists_prime_multiplier_curve_of_joint_ideal}
-
-For a fixed nonzero planar equation F, all generic dependent pair ideals
-lie in a finite set whose cardinality is at most totalDegree F. Each prime
-generator is associated to a factor of F, and the number of factors is
-bounded by that degree. Injective coefficient extension preserves the
-degree, so the bound can be fixed before selecting a larger coefficient
-field. Actual private checks compose the published shared-equation producer
-with the color bound after extension. Transcendence and algebraic dependence
-over that larger field remain explicit inputs; their geometric producers,
-ambient enlargement/descent, stabilizers and linearity remain open.
-A reducible equation can have distinct curve ideals, so no geometric
-primality after scalar extension is asserted:
 
 {docstring AclGeom.exists_curve_ideal_colors}
 
 {docstring AclGeom.finite_curve_ideals_of_relation}
 
-
-Finite-stage scale genericity is now proved (L2c, #27). For a supplied
-sequence of multipliers fresh over the original a,b,x,c and all earlier
-multipliers, c stays outside the relatively closed final coefficient field
-L=acl(a,f,all selected multipliers). This theorem proves non-membership;
-it does not supply the fresh sequence:
-
 {docstring AclGeom.scale_notMem_racl_of_fresh_multipliers}
-
-
-The literal relocation producer also preserves freshness over arbitrary
-supplied extra data T (L2d, #27), when the given input a₀ is fresh over
-the original a,b,x,c together with T. The same joint ideal, controlled
-algebraicity, p/δ memberships and affine value are returned:
 
 {docstring AclGeom.exists_affine_relocation_fresh_over}
 
-An actual private consumer now starts with one supplied sequentially fresh
-INPUT family. It constructs each relocation independently, derives freshness
-of the OUTPUT multipliers over all earlier outputs from their controlled
-algebraicity, and applies the scale and original-equation color producers.
-One original prime F/span is fixed before all sizes and input families.
-The same check also derives every original-versus-relocated translation
-difference in the common final field L, using L1a with its separate explicit δ outside acl(a) input.
-No literal joint ideals or output-freshness oracle are supplied in that
-consumer; its ambient input-family existence and descent remain open.
-Only the stronger single-relocation producer is a new library theorem.
-
-Actual private checks now derive each multiplier's transcendence and its
-target's algebraic dependence over that same L from this non-membership,
-sequential freshness and the literal fixed-five joint ideals. They fix one
-prime equation F and the ORIGINAL pair-ideal span before every family size
-and family choice, then bound the common color set by totalDegree F after
-coefficient extension. The original equation is part of the conclusion;
-an unrelated prime of arbitrarily large degree cannot supply the bound.
-These composition checks are private, rather than additional library
-theorems. Fresh relocation existence, ambient enlargement/descent,
-stabilizers, linearity and guarded completeness remain open.
-
-Finite equal-ideal fibres are now proved without a genericity or algebraic
-closure hypothesis (B1, #27). If x is algebraic over k(m), all z with
-the same pair ideal as (m,x) belong to the finite root set of its minimal
-polynomial over k(m):
+Finite equal-ideal fibres and the characteristic-free power-orbit argument force the
+vertical translation in the affine-locus commutator to vanish. An equal-color triple of
+relocated lines is concurrent. Pairwise cocycles and independent closure intersections
+put its center in the original base's algebraic closure; algebraic closedness makes it
+a base-field constant. This determines the shifted P row:
 
 {docstring AclGeom.finite_same_fibre_ideals}
 
-An actual private check derives finite coefficient-field vertical translations,
-polynomial conjugation by same-color relocation maps, and a transcendental
-ratio over the original base field. The finite power orbit forces every such
-translation to vanish in every characteristic. Its full-family consumer
-constructs the relocations from supplied fresh ambient INPUTS, derives OUTPUT
-freshness and original-a cocycles, and fixes the original F/span before every
-family size and choice. All pair algebraicity and scaling-preservation data
-are derived over the same common L. The separate δ outside acl(a) input
-remains explicit. This checks zero L-coefficient translations at every
-equal-color pair; it does not select equal colors or prove commutators,
-common centers, linearity, ambient input existence/descent or completeness.
-Only the finite-fibre theorem is a new public library result.
-
-The concrete affine-locus commutation balance is now a library theorem
-(B2, #27). Two maps with coefficients in the same L preserve the SAME
-pair ideal, x is algebraic over L(m), and one multiplier is transcendental
-over the ORIGINAL k. Three polynomial-image transfers derive a preserving
-vertical translation; finite fibres and the characteristic-free power orbit
-force it to vanish. No action or commutator oracle is supplied:
-
 {docstring AclGeom.affine_locus_commutation_balance}
-
-An actual private full-family check fixes the original prime F/span BEFORE
-every supplied fresh INPUT family. At size 2 totalDegree F + 1, it constructs
-the relocations and derives OUTPUT freshness, original-a cocycles, common-L
-colors, and a selected equal-color triple with the least index as common base.
-Both preserving maps, coefficient membership, larger-base algebraicity and
-the transcendental ratio are derived from this data. The balance gives
-the same affine intersection center for the two pairs, so these three
-relocated lines are concurrent. The separate δ outside acl(a) input stays
-explicit. This is one selected triple for each supplied input family.
-Such a family may not exist at small transcendence degree. Selection and
-common centers are actual PRIVATE compositions; the new public theorem is
-the concrete commutation balance. Ambient input existence/enlargement/descent,
-four-point/C4 linearity, extraction and completeness remain open.
-
-Pairwise relocation differences are now proved (B3, #27). The first
-presentation has the actual fixed-five joint ideal, both tuples have the
-explicit p/δ memberships and shared affine value, and the later multiplier
-is fresh over the original a,b,x plus the first multiplier. Joint-ideal
-transport derives independence and p/δ non-memberships at the first tuple;
-exchange and L1a give the difference algebraic over the two multipliers
-alone. A second joint ideal or separate first freshness is not needed:
 
 {docstring AclGeom.sub_mem_racl_of_two_relocations}
 
-The actual private full-family consumer derives all those inputs from the
-constructed relocations, then every ordered pairwise cocycle. Its selected
-equal-color triple has the common center algebraic over the ORIGINAL k.
-The third pair shares the same center by field algebra; three independent
-closure intersections remove every multiplier. Both orders of the later
-selected indices are handled. No pairwise-cocycle or constant-center oracle
-is supplied. The original F/span still precedes every supplied fresh INPUT
-family of size 2 totalDegree F + 1, and δ outside acl(a) remains explicit.
-Only pairwise cocycles are a new public theorem; constant centers are
-PRIVATE compositions. P/Q normalization and compatibility, the remaining
-meets, ambient input existence/enlargement/descent, action extraction and
-completeness remain open. Transferring an affine shift back to a k-joint
-ideal needs the center in k; algebraic closedness of k is still to be used
-in that separate P-normalization consumer.
-
-The concurrent-P closure statement is now proved (P1, #27). Given an
-original-base algebraic center, p membership at both pairs, p outside the
-first multiplier's closure, later freshness over the first multiplier and
-p, and actual shifted concurrence, exchange and the independent-variable
-intersection give p interalgebraic with the shifted first intercept.
-Every hypothesis is explicit; this closure lemma is characteristic-free
-and needs no algebraic-closedness or joint ideal:
-
 {docstring AclGeom.racl_singleton_eq_of_concurrent}
-
-The actual private 575-line family consumer derives every public input
-from constructed relocation outputs and its selected triple. It retains
-the original F/span before every supplied fresh INPUT family. Under
-explicit algebraic closedness of both k and the ambient field, the derived
-original-base algebraic center comes from a constant in k. An actual
-k-polynomial image of the literal fixed-five joint ideal then transfers
-both closure directions to the original: p is interalgebraic with
-b + (a - 1) times that constant. No original-P or shifted-P normal-form
-oracle is supplied. The separate δ outside acl(a) remains explicit, and
-both orders of the selected later indices are handled.
-Only the conditional concurrent-P closure lemma is a new public theorem;
-the original-P transfer and full-family chain remain PRIVATE. Q
-normalization and the combined generator presentation, remaining meets,
-ambient input existence/enlargement/descent, actions, linearity, extraction
-and all completeness remain open.
-
-The shifted D/F/R rows are now proved conditionally (P2, #27). Starting
-with five independent original coordinates and a constant κ in k, the
-triangular table shift preserves algebraic independence. If P has the
-explicit closure of the shifted intercept, raw D/F/R incidences and
-non-memberships determine their singleton closures. The existing table
-soundness meets and exchange prove the three rows. No algebraic
-closedness is needed by these two public theorems:
 
 {docstring AclGeom.algebraicIndependent_table_shift}
 
 {docstring AclGeom.racl_shifted_D_F_R_of_normalized_P}
 
-The genuine PRIVATE 598-line family consumer derives the four-coordinate
-projection from original five-variable independence. It retains the
-original F/span before EVERY supplied fresh INPUT family, constructs the
-relocations, selects a same-color triple, and derives all cocycles,
-concurrence, the original-base center and the original-P closure as in P1.
-Under explicit k/ambient ACF it then derives the starred independence
-and D/F/R rows from the raw original incidences. No P, D/F/R normal-form
-or OUTPUT-freshness oracle is supplied. A separate actual zero-origin
-example uses arbitrary raw D/F/R representatives, with P equal to the
-point of b and the constant zero; it requires no ACF.
-Only the two conditional table-shift/meet theorems are public. The full
-family chain remains PRIVATE and supplied INPUT existence may fail at
-small transcendence degree. E/G/H/I/Q, the combined generator
-presentation, ambient existence/enlargement/descent, actions, linearity,
-extraction and all completeness remain open.
-
-The reusable supplied-input P producer is now public (P3a, #27).
-For four independent coordinates and explicit raw p/δ/f incidences and
-non-memberships, it fixes the original prime multiplier equation BEFORE
-every supplied fresh INPUT family of size twice its total degree plus one.
-Under explicit algebraic closedness of k and the ambient field it
-constructs relocations, selects an actual equal-color triple, derives all
-cocycles, concurrence and the original-base algebraic center, and then
-transports the derived normalization to the original P:
-
 {docstring AclGeom.racl_normalized_P_of_supplied_fresh_inputs}
 
-The actual PRIVATE 96-line reciprocal-Q consumer derives the independent
-inverse tuple and all inverse-closure conversions, then applies the SAME
-producer to c, d, b, inverse(ac), q, g, inverse(h). It fixes the original
-Q-side curve of (inverse(a), b) over k(inverse(h)) before ALL second
-fresh INPUT families and derives q interalgebraic with d + (c - 1)η.
-No Q or H normal-form hypothesis is supplied.
-
-The actual PRIVATE 215-line two-family composition first derives κ and
-P from the first family, then derives the P2 D/F/R rows and starred
-independence. It transports the raw q/g/h incidences using these DERIVED
-closures before the second producer gives η and Q. Its nested quantifier
-order is original P curve, every P INPUT family, κ, original Q curve,
-every Q INPUT family, η. Neither an output-freshness nor a P/Q/H normal-form
-oracle is supplied. The q/g/h non-memberships remain EXPLICIT raw
-consequences of the guard; deriving them from an actual Ψ witness is still
-required. Only the reusable conditional P producer is a new public result.
-The reciprocal and two-family chains are PRIVATE, with k/ambient ACF and
-supplied INPUT families. Input existence may fail at small transcendence
-degree. The remaining E/G/H/I rows, combined generator presentation,
-initial action chart, ambient enlargement/descent, actions, extraction
-and all completeness remain open. No common-shift or uniqueness theorem
-is added; #11 and frozen117 remain independent obligations.
-
-The remaining G/H/I/E rows are now proved conditionally (P3b, #27).
-For η in k the coordinate change sends b to b - η and d to
-d + (c - 1)η, preserving original five-variable independence and the
-closures of P/R/Y/Z. Given the normalized P/Q/R closures, raw G/H/I/E
-incidences and nonconstancy determine the four singleton closures.
-The soundness meets give G first, H from G, I from H, and E from its
-separate joins. H uses the raw A-plane. Neither public theorem needs
-algebraic closedness:
+Apply the same P producer to the inverse coordinate tuple to obtain Q. The second curve
+is fixed after the first translation is obtained and before its own fresh input family.
+The remaining lattice meets give G/H/I/E; the two triangular changes preserve the
+five-variable independence and the required joins:
 
 {docstring AclGeom.algebraicIndependent_table_Q_shift}
 
 {docstring AclGeom.racl_shifted_G_H_I_E_of_normalized_P_Q}
 
-The genuine PRIVATE 274-line two-family consumer derives κ/P, then
-P2 D/F/R, then η/Q by the SAME producer at the inverse tuple. Each
-original prime curve/span precedes ALL corresponding supplied INPUT
-families. It transports original raw I/E incidences by base translations
-to the κ-absorbed chart before deriving G/H/I/E and final independence.
-All six older helper blocks remain byte-exact; one consumed pair-translate
-helper supplies four raw transports. No P/Q/H or remaining-row normal-form
-or OUTPUT-freshness oracle is supplied. k/ambient ACF, both supplied INPUT
-families, strong Q-producer non-memberships and raw I/E nonconstancy stay
-explicit. A separate actual zero-origin example handles arbitrary raw
-G/H/I/E representatives without ACF or helpers.
-Only the conditional shift/meet statements are public; the two-family
-chain remains PRIVATE. Initial chart, actual guarded-Ψ input derivation,
-fresh INPUT existence/enlargement/descent, combined generator presentation,
-actions, linearity, extraction and all completeness remain open.
-No uniqueness or common-shift theorem; #11 and frozen117 are untouched.
+The initial chart itself is now constructed from the actual Ψ witness. Its rank-two HW
+action admits an affine generator. After moving the finite witness, upper-triangular
+curve classification identifies S, T and U with the two multipliers and their product.
+This yields the nine initial rows over a coefficient field independent from the moved
+witness, in a universal algebraically closed extension.
 
-The corrected candidates require `I≠D` and `I≠P`. Both are necessary;
-sufficiency is unproved. These are open propositions, with no project axiom:
+Descent chooses genuine annihilators for both closure inclusions in every row. One finite
+constructible relation records their coefficient parameters, nonzero denominators and
+nonzero coefficients. A single specialization preserves all rows; the resulting finite
+fibre has a point in the original algebraically closed field. Closure identities compare
+the lift's chosen representatives with the literal embedded originals, and absorb the
+automorphism into that embedding. Finally the actual Ψ ranks force independence of the
+five original-field coordinates. The chart normalization above gives the full grid:
+
+{docstring GroupConfig.exists_polynomial_closure_table_descent_to}
+
+{docstring AclGeom.guardedAffineGridExtraction}
+
+{docstring AclGeom.guardedQCompletenessACF}
+
+Neither theorem asks the caller for a chart, a universal domain, coefficient witnesses or
+fresh input families. Both public ratio guards remain visible. No common-shift,
+six-generator or uniqueness statement is asserted. Original scheme/action bridges and
+true bypassed source statements remain obligations; the frozen 117-item M4a record stays
+unchanged.
+
+The corrected propositions retain `I≠D` and `I≠P`; their sufficiency over ACF pairs is
+proved by the extraction above. The unguarded counterexamples remain recorded:
 
 {docstring AclGeom.GuardedAffineGridExtraction}
 
@@ -1202,18 +910,25 @@ sufficiency is unproved. These are open propositions, with no project axiom:
 
 {docstring AclGeom.GuardedAffineGridExtraction.guardedQCompletenessACF}
 
-Guarded correctness and projection follow conditionally from the explicit
-open guarded completeness input and proved soundness:
+The general guarded correctness and projection lemmas retain an explicit completeness
+input, now supplied by the proved `guardedQCompletenessACF`, together with soundness:
 
 {docstring AclGeom.qGeom_and_ne_iff_qSem_of_five_le_trdeg}
 
 {docstring AclGeom.qGeom_and_ne_iff_exists_jGeom}
 
+The canonical correctness theorems supply the guarded completeness input internally:
+
+{docstring AclGeom.qGeom_and_ne_iff_qSem_of_isAlgClosed}
+
+{docstring AclGeom.q'Geom_iff_q'Sem_of_isAlgClosed}
+
 Original q-correct and extraction wording from ed61c33 is preserved in the
 blueprint as refuted historical provenance. All 44 original proof blocks
 remain byte-exact, with explicit qualifications before the affected sketches.
-No guarded extraction, multiplication converse or J completeness proof is
-claimed. The frozen 117-item M4a record remains frozen.
+Guarded extraction, the multiplication converse and rank-five ACF J completeness are
+proved. They do not discharge every original auxiliary or endpoint variant. The frozen
+117-item M4a record remains frozen.
 
 Both arbitrary-field Q/Q′ consequences are refuted in Lean by the
 rational-function-field example in #25. Over k(X₀,…,X₄) for every
@@ -1265,7 +980,8 @@ nonzero x, giving both refutations with no completeness hypothesis:
 {docstring AclGeom.not_forall_q'Geom_imp_q'Sem}
 
 The reflection applies to these supplied table and quadrangle witnesses.
-General witness descent and algebraically closed geometric completeness
-remain open. The four-way J target retains its explicit ACF inputs.
+The finite polynomial witness descent and guarded ACF completeness are proved above.
+The four-way J API retains its explicit ACF input; the new rank-five ACF theorem supplies
+it. The original arbitrary-field Q/Q′ consequences remain refuted.
 
 {include 0 AclGeomBook.Configurations.GroupChunkRecord}

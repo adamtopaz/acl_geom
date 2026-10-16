@@ -190,6 +190,8 @@ import AclGeom.Transfer.Descent
 import AclGeom.Transfer.Lift
 import AclGeom.Transfer.LiftConfig
 import AclGeom.Config.Correctness
+import AclGeom.Config.GuardedAffineGrid
+import AclGeom.Config.Completeness
 import AclGeom.Config.JAssembly
 import AclGeom.Transfer.JDescent
 import AclGeom.Interpretation.FrobClass

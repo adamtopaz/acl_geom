@@ -17,6 +17,12 @@ gaps and priorities. The historical coverage audit is
 [`CONTINUATION.md`](CONTINUATION.md) is the handoff guide for contributors.
 The library contains no `sorry` and no project axioms.
 
+Guarded affine-grid extraction and Q completeness are proved for every algebraically
+closed pair. The established multiplication converse then gives ACF J completeness at
+transcendence degree at least five. The public reconstruction API still carries its two
+completeness inputs; removing those inputs is the next consumer checkpoint. The original
+scheme/action bridges, bypassed source lemmas and endpoint variants remain obligations.
+
 ## Layout
 
 * `AclGeom/` — the reconstruction formalization (a Lean library depending on Mathlib).

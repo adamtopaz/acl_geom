@@ -59,15 +59,6 @@ private theorem totalDegree_map_le {ι L L' : Type*} [CommSemiring L] [CommSemir
 variable {k K : Type*} [Field k] [Field K] [Algebra k K] [IsAlgClosed k] [IsAlgClosed K]
   [UniversalDomain k K] {ι : Type*} [Finite ι] {v : ι → K}
 
-omit [IsAlgClosed k] [IsAlgClosed K] [UniversalDomain k K] [Finite ι] in
-private theorem map_map_inclusion {M M₁ : IntermediateField k K} (h : M ≤ M₁)
-    (P : MvPolynomial ι M) :
-    MvPolynomial.map (algebraMap M₁ K)
-      (MvPolynomial.map (IntermediateField.inclusion h).toRingHom P) =
-        MvPolynomial.map (algebraMap M K) P := by
-  rw [MvPolynomial.map_map]
-  rfl
-
 namespace Representative
 
 variable (r : Representative k K v v)

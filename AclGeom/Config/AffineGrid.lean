@@ -16,13 +16,15 @@ admits a witness with `I = D` (`Counterexamples.QDegenerate`). Semantic `Q` requ
 This module retains `AffineGridExtraction` and `QCompletenessACF` as refuted legacy propositions
 for their refutations and original-source provenance. Their unguarded correctness wrappers are
 superseded. `GuardedAffineGridExtraction` and `GuardedQCompletenessACF` state the corrected
-candidate boundary with `I ≠ D` and `I ≠ P`; both are open propositions. No sufficiency theorem or
-axiom. Affine-grid coordinates imply semantic `Q`, and guarded completeness yields the
+guarded boundary with `I ≠ D` and `I ≠ P`. Their sufficiency over algebraically closed pairs
+is proved in `AclGeom.Config.GuardedAffineGrid`. Affine-grid coordinates imply semantic `Q`, and
+guarded completeness yields the
 conditional equivalence `QGeom ∧ I ≠ D ∧ I ≠ P ↔ QSem`. Both guards come from the multiplication
 diagrams in geometric `J`.
 
-**Status:** soundness and refutations proved; guarded ACF extraction/completeness remain open
-(#27). The frozen M4a chain is not part of their proof.
+**Status:** soundness and legacy-target refutations are proved. Guarded ACF extraction and
+completeness are proved in `AclGeom.Config.GuardedAffineGrid` (#27). The frozen M4a chain is
+not part of their proof.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -149,7 +151,8 @@ theorem hasAffineGridCoordinates_swapA {a b c d x : K}
 
 /-- The easy implication: every witness with affine-grid coordinates
 satisfies `Psi` over any base field, by soundness of the explicit table
-witness. The unguarded converse is refuted (#27); the guarded extraction remains open. -/
+witness. The unguarded converse is refuted (#27); the guarded converse over ACF pairs is proved in
+`Config.GuardedAffineGrid`. -/
 theorem HasAffineGridCoordinates.psi {w : QWitness k K}
     (h : w.HasAffineGridCoordinates) : w.Psi := by
   obtain ⟨a, b, c, d, x, hind, hA, hB, hC, hD, hE, hF, hG, hH, hI, hP, hQ, hR,
@@ -209,7 +212,7 @@ end QWitness
 /-- **Refuted legacy extraction target**: every `Psi`-witness has affine-grid coordinates.
 `not_affineGridExtraction` refutes it even over algebraically closed pairs with five independent
 elements (#27). Retained for that refutation and provenance; use `GuardedAffineGridExtraction`
-for the open corrected candidate. -/
+for the guarded corrected proposition, proved by `guardedAffineGridExtraction`. -/
 def AffineGridExtraction (k K : Type*) [Field k] [Field K] [Algebra k K]
     [IsAlgClosed k] [IsAlgClosed K] : Prop :=
   ∀ w : QWitness k K, w.Psi → w.HasAffineGridCoordinates
@@ -235,28 +238,29 @@ theorem AffineGridExtraction.qCompletenessACF [IsAlgClosed k] [IsAlgClosed K]
     (h : AffineGridExtraction k K) : QCompletenessACF k K :=
   fun w hw ↦ QWitness.qSem_of_hasAffineGridCoordinates (h w hw)
 
-/-- **Open guarded extraction target** (corrected blueprint Lemma 8.5, #27): a `Psi`-witness
-whose ratio output differs from its first and second outputs has affine-grid coordinates. The guards
-are necessary; their sufficiency is unproved. This is a proposition, not an assumed theorem. -/
+/-- **Guarded extraction** (corrected blueprint Lemma 8.5, #27): a `Psi`-witness whose ratio
+output differs from its first and second outputs has affine-grid coordinates. The proposition
+is proved for every algebraically closed pair by `guardedAffineGridExtraction`. -/
 def GuardedAffineGridExtraction (k K : Type*) [Field k] [Field K] [Algebra k K]
     [IsAlgClosed k] [IsAlgClosed K] : Prop :=
   ∀ w : QWitness k K, w.Psi → w.I ≠ w.D → w.I ≠ w.P → w.HasAffineGridCoordinates
 
-/-- **Open guarded witness-level `Q` completeness** (#27): the outputs of a `Psi`-witness
-with `I ≠ D` and `I ≠ P` are semantic. These guards exclude the degenerate counterexample;
-their sufficiency remains unproved. The consumer is the guarded geometric correctness/`J` route. -/
+/-- **Guarded witness-level `Q` completeness** (#27): the outputs of a `Psi`-witness with
+`I ≠ D` and `I ≠ P` are semantic. This proposition is proved for every algebraically closed
+pair by `guardedQCompletenessACF`; its consumers are guarded correctness and `J` assembly. -/
 def GuardedQCompletenessACF (k K : Type*) [Field k] [Field K] [Algebra k K]
     [IsAlgClosed k] [IsAlgClosed K] : Prop :=
   ∀ w : QWitness k K, w.Psi → w.I ≠ w.D → w.I ≠ w.P → QSem w.P w.D w.Y w.I
 
 /-- Guarded affine-grid extraction implies guarded witness-level completeness.
-Both inputs remain explicit open obligations (#27). -/
+The general implication retains its extraction input; `guardedAffineGridExtraction` proves it (#27).
+-/
 theorem GuardedAffineGridExtraction.guardedQCompletenessACF [IsAlgClosed k] [IsAlgClosed K]
     (h : GuardedAffineGridExtraction k K) : GuardedQCompletenessACF k K :=
   fun w hw hID hIP ↦ QWitness.qSem_of_hasAffineGridCoordinates (h w hw hID hIP)
 
 /-- Conditional guarded completeness of geometric `Q`, used by correctness and `J` assembly.
-The input is the open `GuardedQCompletenessACF`, not the refuted unguarded target. -/
+Its explicit input is proved by `guardedQCompletenessACF`; the unguarded target remains refuted. -/
 theorem qSem_of_qGeom_of_ne [IsAlgClosed k] [IsAlgClosed K]
     (hcompl : GuardedQCompletenessACF k K)
     {P D Y I : Point k K} (h : QGeom P D Y I) (hID : I ≠ D)
@@ -265,7 +269,8 @@ theorem qSem_of_qGeom_of_ne [IsAlgClosed k] [IsAlgClosed K]
   exact hcompl w hpsi hID hIP
 
 /-- Conditional guarded correctness of `Q`: semantic `Q` already has the necessary guard;
-its converse uses the explicit open guarded completeness input (#27). -/
+its converse uses the explicit guarded completeness input, proved by `guardedQCompletenessACF`
+(#27). -/
 theorem qGeom_and_ne_iff_qSem [IsAlgClosed k] [IsAlgClosed K]
     (hcompl : GuardedQCompletenessACF k K)
     (hfresh : ∀ S : Finset K, S.card ≤ 4 → ∃ z, z ∉ racl k (S : Set K))

@@ -41,8 +41,10 @@ proof here compares three witnesses: the shifted `Q` witness
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** complete (the semantic assembly); guarded ACF `Q` completeness and ACF `Q′`
-completeness remain open (#27). The former unguarded `Q` input is refuted and superseded.
+**Status:** the semantic assembly and its reduction from explicit guarded Q and Q′ inputs
+are proved. `Config.GuardedAffineGrid` proves guarded Q completeness; `Config.Completeness`
+supplies the resulting rank-five ACF Q′/J correctness (#27). The former unguarded Q input
+remains refuted and superseded.
 -/
 namespace AclGeom
 
@@ -951,7 +953,7 @@ theorem jSem_of_jGeom_of_completeness [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ)
 
 end Assembly
 
-/-- Completeness of geometric `J` over `K/k`: the open `(3) ⇒ (2)` arrow
+/-- Completeness of geometric `J` over `K/k`: the `(3) ⇒ (2)` arrow
 of blueprint Theorem `j-descent`, i.e. the completeness half of Theorem
 `j-acf-correct` when `k` and `K` are algebraically closed.  The generic
 assembly `jGeom_iff_jSem_of_lift` requests it for an arbitrary algebraic
@@ -961,8 +963,9 @@ def JCompletenessACF (k K : Type*) [Field k] [Field K] [Algebra k K] : Prop :=
   ∀ X : Fin 5 → Point k K, JGeom (X 0) (X 1) (X 2) (X 3) (X 4) → JSem X
 
 /-- `JCompletenessACF` follows from guarded geometric `Q` completeness and geometric `Q′`
-completeness over the same ACF pair of rank at least five. Both remain explicit open inputs
-(#27); the necessary guard is already forced by `JGeom`. -/
+completeness over the same ACF pair of rank at least five. This reduction retains both inputs;
+`Config.Completeness` supplies them from the proved guarded Q theorem (#27). The necessary
+guards are already forced by `JGeom`. -/
 theorem jCompletenessACF_of_completeness {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
     [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ) [ExpChar k q]
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k Ω)

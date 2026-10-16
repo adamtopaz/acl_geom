@@ -35,6 +35,32 @@ open AclGeom IntermediateField Set
 
 noncomputable section
 
+-- Keep the universe parameter order of the two closure lemmas moved from `Main`.
+universe u
+
+section ClosureEnlargement
+
+variable {k : Type*} {K : Type u} [Field k] [Field K] [Algebra k K]
+  (K₀ : IntermediateField k K)
+
+/-- Equal closures over `K₀` after adjoining `T` give equal closures over `acl(K₀, T)`. -/
+theorem racl_eq_of_racl_union_eq {A B T : Set K}
+    (h : racl (↥K₀) (A ∪ T) = racl (↥K₀) (B ∪ T)) :
+    racl (↥(racl k ((K₀ : Set K) ∪ T))) A = racl (↥(racl k ((K₀ : Set K) ∪ T))) B := by
+  have h' := congrArg (fun F : IntermediateField (↥K₀) K ↦ (F : Set K)) h
+  simp only [racl_base_coe] at h'
+  refine SetLike.coe_injective ?_
+  rw [racl_base_coe, racl_base_coe, racl_union_left, racl_union_left, union_assoc, union_assoc,
+    union_comm T A, union_comm T B]
+  exact h'
+
+/-- Equal closures over `K₀` remain equal over `acl(K₀, T)`. -/
+theorem racl_eq_of_racl_eq (T : Set K) {A B : Set K} (h : racl (↥K₀) A = racl (↥K₀) B) :
+    racl (↥(racl k ((K₀ : Set K) ∪ T))) A = racl (↥(racl k ((K₀ : Set K) ∪ T))) B :=
+  racl_eq_of_racl_union_eq K₀ (racl_union_congr h rfl)
+
+end ClosureEnlargement
+
 variable {k K : Type*} [Field k] [Field K] [Algebra k K]
 
 /-! ### Closures and independence -/

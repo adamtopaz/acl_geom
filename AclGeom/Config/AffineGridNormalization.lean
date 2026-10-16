@@ -11,6 +11,7 @@ import AclGeom.Config.PsiLattice
 import AclGeom.Config.AtomClause
 import AclGeom.Config.AffineGrid
 import AclGeom.Geometry.FreshSequences
+import AclGeom.Geometry.CountableAmbient
 import AclGeom.Closure.Ambient
 import Mathlib.RingTheory.AlgebraicIndependent.Basic
 import Mathlib.RingTheory.Localization.FractionRing
@@ -690,23 +691,6 @@ private theorem racl_singleton_eq_of_algHom {Ω : Type*} [Field Ω] [Algebra k �
   · apply (algHom_mem_racl_singleton_iff τ).1
     rw [h]
     exact subset_racl k _ rfl
-
-/-- The algebraic closure of the field of rational functions in countably many variables over
-`K` has transcendence degree at least `ℵ₀` over `k`. -/
-private theorem aleph0_le_trdeg_algebraicClosure :
-    Cardinal.aleph0 ≤
-      Algebra.trdeg k (AlgebraicClosure (FractionRing (MvPolynomial ℕ K))) := by
-  let Ω := AlgebraicClosure (FractionRing (MvPolynomial ℕ K))
-  let φ : MvPolynomial ℕ K →ₐ[K] Ω := IsScalarTower.toAlgHom K (MvPolynomial ℕ K) Ω
-  have hφ : Function.Injective φ := by
-    change Function.Injective (algebraMap (MvPolynomial ℕ K) Ω)
-    rw [IsScalarTower.algebraMap_eq (MvPolynomial ℕ K) (FractionRing (MvPolynomial ℕ K)) Ω]
-    exact (algebraMap (FractionRing (MvPolynomial ℕ K)) Ω).injective.comp
-      (IsFractionRing.injective (MvPolynomial ℕ K) (FractionRing (MvPolynomial ℕ K)))
-  have hX := (MvPolynomial.algebraicIndependent_X ℕ K).map' hφ
-  have hXk := AlgebraicIndependent.restrictScalars (algebraMap k K).injective hX
-  simpa only [Cardinal.mk_nat, Cardinal.lift_aleph0, Cardinal.lift_id'] using
-    hXk.lift_cardinalMk_le_trdeg
 
 /-- The two-family producer in an extension.  Let `τ : K →ₐ[k] Ω` embed `K` in an algebraically
 closed field of infinite transcendence degree.  The raw field conditions and the independence of
