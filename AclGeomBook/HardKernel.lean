@@ -22,6 +22,7 @@ import AclGeom.Correspondence.LocusEndDominance
 import AclGeom.Correspondence.LocusQuotient
 import AclGeom.Correspondence.LocusIncidence
 import AclGeom.Correspondence.LocusQuotientComponents
+import AclGeom.Correspondence.LocusJointComponent
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -117,8 +118,9 @@ This supplies the domain-level localization step for C2. The actual
 canonical-coordinate affine fiber product below consumes it. The literal
 relative quotient maps and their spectrum components are identified below.
 The incidence quotient and its actual projections are identified below.
-The chosen joint point's component status, tuple germs and the family's
-generic-component argument remain separate obligations. General curve
+The chosen joint point's component status under a source algebraicity clause
+is proved below. Tuple germs and the family's generic-component argument
+remain separate obligations. General curve
 function fields are retained throughout.
 
 # Components of the actual affine fiber product
@@ -261,11 +263,39 @@ tensor-spectrum theorems retain their statements. All structures and maps
 are derived from the tuples, in five independent universes, without a
 rank-one, rationality, finiteness or algebraic-closedness premise.
 
-The joint-tuple ideal $`I(x,y,z)` contains $`J_{\mathrm{inc}}` and therefore
-defines a prime of $`R/J_{\mathrm{inc}}`. Its minimality, equivalently the
-component status of its zero locus, remains to be proved under the source
-hypotheses. The endpoint-image field can be smaller than the joint
-component field. Tuple germs, all-component realization, relational
+The following result identifies the chosen joint tuple's component under
+one of the source algebraicity clauses. The endpoint-image field can be
+smaller than the joint component field.
+
+# The component of the chosen joint tuple
+%%%
+tag := "joint-tuple-component"
+%%%
+
+Evaluation at $`(x,y,z)` kills both extended pair ideals and therefore
+factors through the actual incidence quotient $`R/J_{\mathrm{inc}}`:
+
+{docstring AclGeom.locusIncidence_le_idealOf}
+
+Suppose each coordinate of $`z` is algebraic over $`k(y)`. This single
+clause of (8.1) suffices: the actual joint evaluation kernel is minimal,
+and its zero locus has dense image along the actual middle projection:
+
+{docstring AclGeom.locusIncidence_jointPrime_dominating}
+
+The function-field tensor $`k(x,y)\otimes_{k(y)}k(y,z)` is integral over
+$`k(x,y)`, since its right factor is algebraic over $`k(y)`. Its
+multiplication kernel contracts to zero in the left field, so the integral
+extension theorem makes that kernel minimal. The polynomial formulas for
+the incidence-to-function-field map show that its composite with
+multiplication is the actual joint evaluation. The component classification
+above then gives minimality and middle dominance for the joint prime in
+the incidence quotient. Algebraicity and all maps are derived from the
+tuples; no condition on $`x`, rank, finiteness, rationality or algebraic
+closedness is needed. All five universes remain independent.
+
+This identifies a chosen joint point's component under the stated clause.
+Tuple germs, realization of every dominating component, relational
 associativity and the higher-dimensional family generic-component argument
 remain obligations. C2 remains open.
 
@@ -293,8 +323,9 @@ retained. Relational germ associativity remains proved.
 
 The canonical fiber-product, literal relative tensor and full incidence
 quotient results above apply to arbitrary tuples and general curve function
-fields. The chosen joint prime's component status, tuple germ comparison
-and higher-dimensional family generic-component argument remain open. The
+fields. The chosen joint prime is a middle-dominating component under the
+stated source algebraicity clause. Tuple germ comparison, all-component
+realization and the higher-dimensional family argument remain open. The
 field distinction is separate from those remaining obligations.
 
 # Tensor-domain regularity

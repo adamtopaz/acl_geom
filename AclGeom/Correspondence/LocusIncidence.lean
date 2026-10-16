@@ -20,12 +20,13 @@ the base field and the ambient field may lie in independent universes. The maps 
 coordinate rings of the loci of `x`, `y` and `z` into the incidence ring are induced by the
 inclusions of the variables; `idealOf_le_comap_rename_comp` supplies their containments.
 
-The incidence ideal is contained in the vanishing ideal of the joint tuple `(x, y, z)`, so the
-image of the latter is a prime ideal of the incidence ring, which contains some minimal prime of
-the incidence ring. Nothing here makes the two ideals equal or shows that the joint prime is
-minimal; that generic-component statement, the endpoint image, the tuple germ layer with
-relational associativity and the higher-dimensional family argument remain open. This is part of
-the fiber-product bridge of blueprint §8.1 (8.4c, 8.6) (#5).
+The incidence ideal is contained in the vanishing ideal of the joint tuple `(x, y, z)`, so
+joint evaluation factors through the incidence ring. `LocusJointComponent` proves that the kernel
+of this induced evaluation is a minimal prime with dense middle image when each coordinate of `z`
+is algebraic over `k(y)`. This does not identify the incidence ideal with the joint-tuple ideal.
+The endpoint image, tuple germs, all-component realization, relational associativity and the
+higher-dimensional family argument remain open. This is part of the fiber-product bridge of
+blueprint §8.1 (8.4c, 8.6) (#5).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

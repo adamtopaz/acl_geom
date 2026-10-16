@@ -22,8 +22,9 @@ This is the middle-dominance clause of the geometric fiber-product bridge of blu
 hypotheses, for arbitrary subsets of the actual pullback. `LocusQuotient` matches the literal
 relative quotient maps, and `LocusQuotientComponents` transports the components and projection
 density to their spectrum and to the full incidence quotient identified by `LocusIncidence`.
-The chosen joint prime, the tuple germ layer with relational associativity and the
-higher-dimensional family generic-component argument remain open.
+`LocusJointComponent` identifies the actual joint evaluation prime as a middle-dominating component
+when each coordinate of `z` is algebraic over `k(y)`. Tuple germs, all-component realization,
+relational associativity and the higher-dimensional family argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

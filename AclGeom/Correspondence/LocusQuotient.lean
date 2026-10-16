@@ -29,8 +29,10 @@ This is the literal-quotient step of the geometric fiber-product bridge of bluep
 (8.4c, 8.6) (#5). `LocusQuotientComponents` consumes this equivalence to identify the literal
 spectrum components and actual projection-density criteria. `LocusIncidence` identifies the full
 incidence quotient by the sum of the two extended pair ideals; `LocusQuotientComponents` also
-proves its component and projection-density criteria. The chosen joint-tuple prime, tuple germs
-with relational associativity and the higher-dimensional family argument remain open.
+proves its component and projection-density criteria. `LocusJointComponent` identifies the actual
+joint evaluation prime as a middle-dominating component when each coordinate of `z` is algebraic
+over `k(y)`. Tuple germs, all-component realization, relational associativity and the
+higher-dimensional family argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

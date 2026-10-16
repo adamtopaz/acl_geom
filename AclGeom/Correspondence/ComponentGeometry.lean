@@ -20,8 +20,9 @@ projection checked. `LocusEndDominance` proves the endpoint-density criterion
 from the source closure hypotheses. `LocusQuotientComponents` transports the
 components and actual projection-density criteria to the literal relative
 quotient spectrum using `LocusQuotient`, and to the full incidence quotient
-identified by `LocusIncidence`. The chosen joint prime, tuple germs/associativity
-and the higher-dimensional family generic-component argument remain obligations.
+identified by `LocusIncidence`. `LocusJointComponent` identifies the actual joint evaluation prime
+as a middle-dominating component when each coordinate of `z` is algebraic over `k(y)`. Tuple germs,
+all-component realization, relational associativity and the family argument remain obligations.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

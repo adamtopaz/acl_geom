@@ -1339,8 +1339,9 @@ extension are already proved in
 Thus the associativity explanation must pass from joint components to their endpoint
 images. The relational associativity conclusion below is unchanged. This clarification
 was reported on issue \#5 before this annotation; all original source paragraphs,
-statements and proofs are preserved. The chosen joint point's component status,
-tuple-germ comparison and higher-dimensional family applications remain obligations.
+statements and proofs are preserved. The chosen joint point's component status under
+a source algebraicity clause is proved below; tuple-germ comparison and the
+higher-dimensional family applications remain obligations.
 The domain-level localization step is proved in
 \lean{minimalPrimes_tensorProduct_fractionRing}: for domains $A\to B$, $A\to C$
 with compatible fraction fields $K,L,M$, the minimal primes of $B\otimes_A C$
@@ -1387,11 +1388,20 @@ its projections. The middle-dominating spectrum components are identified in
 \lean{locusIncidence_endDominance} proves the corresponding endpoint-density
 criterion for every subset under the same four closure clauses. The original
 tensor-spectrum theorems are reused; their statements are unchanged.
-The joint-tuple ideal $I(x,y,z)$ contains $J_{\rm inc}$ and hence defines a
-prime of the incidence ring. Its minimality, equivalently the component
-status of its zero locus, remains to be proved under the source hypotheses; its endpoint image may have a
-smaller function field. The tuple-germ and associativity bridge and the
-higher-dimensional family generic-component argument also remain owed.
+The joint-tuple ideal $I(x,y,z)$ contains $J_{\rm inc}$ by
+\lean{locusIncidence_le_idealOf}, so joint evaluation factors through the
+incidence ring. If every coordinate of $z$ is algebraic over $k(y)$,
+\lean{locusIncidence_jointPrime_dominating} proves that this actual
+evaluation kernel is minimal and its zero locus has dense image along the
+actual middle projection. This uses one closure clause of (8.1), with no
+condition on $x$, rank, finiteness, rationality or algebraic closedness.
+The function-field tensor is integral over its left field; its multiplication
+kernel contracts to zero there and hence is minimal. The polynomial formulas
+identify its contraction with the actual joint evaluation kernel. This does
+not identify the joint field with the endpoint-image field, which may be
+smaller. Tuple germs, realization of every dominating component, relational
+associativity and the higher-dimensional family generic-component argument
+remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

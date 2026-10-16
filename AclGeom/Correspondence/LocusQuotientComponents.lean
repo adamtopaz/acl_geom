@@ -36,10 +36,10 @@ universes. The incidence versions are transported from these along the homeomorp
 `exists_locusIncidence_algEquiv`.
 
 This is the literal-quotient form of the middle-base component and endpoint-density clauses of
-the geometric fiber-product bridge of blueprint §8.1 (8.4c, 8.6) (#5). Whether the image of the
-vanishing ideal of a joint tuple in the incidence ring is a minimal prime, the endpoint image, the
-tuple germ layer with relational associativity and the higher-dimensional family
-generic-component argument remain open.
+the geometric fiber-product bridge of blueprint §8.1 (8.4c, 8.6) (#5). `LocusJointComponent`
+identifies the actual joint evaluation prime as a middle-dominating component when each coordinate
+of `z` is algebraic over `k(y)`. The endpoint image, tuple germs, all-component realization,
+relational associativity and the higher-dimensional family argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

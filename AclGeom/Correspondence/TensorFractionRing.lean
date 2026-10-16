@@ -31,8 +31,10 @@ middle-dominating components, and
 `LocusQuotient` matches the literal rename-induced quotient maps, and
 `LocusQuotientComponents` identifies their spectrum components and endpoint-density criterion.
 `LocusIncidence` identifies the full incidence quotient, and `LocusQuotientComponents` also
-proves its spectrum-component and actual projection-density criteria. The chosen joint prime,
-tuple germs/associativity and the higher-dimensional family argument remain open.
+proves its spectrum-component and actual projection-density criteria. `LocusJointComponent`
+identifies the actual joint evaluation prime as a middle-dominating component when each coordinate
+of `z` is algebraic over `k(y)`. Tuple germs, all-component realization, relational associativity
+and the higher-dimensional family argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

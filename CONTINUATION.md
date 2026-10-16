@@ -11519,3 +11519,49 @@ book and shared goal retain that scope. All original source outside the
 existing annotation, all 48 statement blocks and 44 proof blocks, the goal
 objective/completion criteria and frozen M4a are preserved. C2 and the full
 shared goal remain open.
+
+## The chosen joint tuple is a dominating incidence component (#5 C2)
+
+`Correspondence.LocusJointComponent` proves the actual joint-point component
+clause. `locusIncidence_le_idealOf` shows that joint evaluation kills the sum
+of the two extended pair ideals; the evaluation therefore factors through
+the actual incidence quotient. `locusIncidence_jointPrime_dominating` proves
+that its kernel is minimal and its zero locus has dense image under the
+actual rename-induced middle projection. Its only extra premise is the
+source closure clause that each coordinate of z is algebraic over k(y).
+No condition on x, rank, finiteness, rationality or algebraic closedness is
+needed. All five universes remain independent.
+
+The proof derives algebraicity of k(y,z) over k(y) internally. The tensor
+k(x,y) tensor_k(y) k(y,z) is then integral over its left field. Its actual
+multiplication kernel contracts to zero in that field; Mathlib's integral
+extension theorem therefore makes it minimal. Polynomial generator formulas
+identify multiplication after the incidence-to-function-field map with
+actual joint evaluation. The proved incidence component classification
+transports the kernel to the chosen joint prime and its dense middle image.
+Four private lemmas support this concrete tuple producer: generic kernel
+minimality, generic component contraction, field algebraicity and polynomial
+evaluation compatibility. The maps from the generated fields into the
+ambient field are built directly as algebra homomorphisms, and the
+algebraic-closure containment is proved before installing the relative
+inclusion algebra. This avoids the observed default-limit kernel timeouts
+without raising checking limits. No minimality, domain, fraction-field or
+projection conclusion is an input
+to the public theorem. Both agents independently compiled the proof bundle
+with default limits and checked its public/private/generated dependencies.
+
+The six older localization/component/pullback/relative-quotient/incidence
+modules change only in their module scope headers; imports, declaration
+docstrings, attributes and mathematical code are unchanged. The book, source
+annotation and shared goal now record the proved single-clause result.
+Original source outside the existing annotation, all 48 statement blocks
+and 44 proof blocks, the goal objective/completion criteria and frozen M4a
+are preserved. Whole-library dependency checks do not establish source
+coverage. Full library/book and exact-head CI evidence belongs to the issue
+checkpoint report.
+
+Tuple germs, realization of every dominating component, relational
+associativity, endpoint-image comparison and the higher-dimensional family
+generic-component argument remain obligations. The actual joint component
+field must remain distinct from the possibly smaller endpoint-image field.
+C2 and the full shared goal remain open.
