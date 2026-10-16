@@ -19,9 +19,9 @@ scheme fiber product through Mathlib's `pullbackSpecIso`, with the actual
 projection checked. `LocusEndDominance` proves the endpoint-density criterion
 from the source closure hypotheses. `LocusQuotientComponents` transports the
 components and actual projection-density criteria to the literal relative
-quotient spectrum using `LocusQuotient`. The full incidence quotient, tuple
-germs/associativity and the higher-dimensional family generic-component
-argument remain separate obligations.
+quotient spectrum using `LocusQuotient`, and to the full incidence quotient
+identified by `LocusIncidence`. The chosen joint prime, tuple germs/associativity
+and the higher-dimensional family generic-component argument remain obligations.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

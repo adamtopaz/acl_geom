@@ -30,8 +30,9 @@ middle-dominating components, and
 `LocusEndDominance` proves their endpoint-density criterion under the source closure clauses.
 `LocusQuotient` matches the literal rename-induced quotient maps, and
 `LocusQuotientComponents` identifies their spectrum components and endpoint-density criterion.
-The full incidence quotient, tuple germs/associativity and the higher-dimensional family
-generic-component argument remain open.
+`LocusIncidence` identifies the full incidence quotient, and `LocusQuotientComponents` also
+proves its spectrum-component and actual projection-density criteria. The chosen joint prime,
+tuple germs/associativity and the higher-dimensional family argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

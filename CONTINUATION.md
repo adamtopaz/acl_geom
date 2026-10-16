@@ -11471,3 +11471,51 @@ family argument remain obligations. The source annotation, book and shared
 goal retain that scope. All original source outside the existing annotation,
 all 48 statement blocks and 44 proof blocks, the goal objective/completion
 criteria and frozen M4a are preserved. C2 and the full shared goal remain open.
+
+## The full incidence quotient and its spectrum (#5 C2)
+
+`Correspondence.LocusIncidence` proves `exists_locusIncidence_algEquiv`:
+the literal relative tensor is base-field algebra isomorphic to the joint
+polynomial ring modulo the sum of the two extended pair ideals. It specifies
+polynomial pure tensors and the middle base. A private generic helper proves
+the polynomial-quotient universal property, with one inverse law checked on
+generators and the other on pure tensors via tensor induction. The public theorem uses the actual rename-induced quotient maps;
+the helper's generator facts are discharged by reflexivity. No domain,
+finiteness, rank or algebraicity premise is added.
+
+`idealOf_le_comap_rename_comp` supplies the ideal containments for the three
+rename-induced projection maps into the incidence quotient. It has these three immediate
+consumers in `LocusQuotientComponents`. The actual middle/endpoint maps are
+rename-induced quotient maps, not maps defined by transporting a desired
+projection along the isomorphism.
+
+`exists_locusIncidence_dominatingComponents` identifies exactly the incidence
+spectrum's irreducible components with dense middle projection image. Its map
+to the canonical fraction-field tensor is built internally and specified on
+products of renamed pair polynomials. `locusIncidence_endDominance` compares
+the actual middle and both endpoint images for every subset under the four
+algebraicity clauses of (8.1). All five universes remain independent.
+
+The component transport in `LocusQuotientComponents` is extracted once into a
+private generic core and consumed by both the existing tensor result and the
+new incidence result, with a further private algebra-equivalence helper to
+keep the incidence proof within the default elaboration limit. Density
+transport is also reused. The existing public
+tensor-component and endpoint statements, and all preceding selected public
+types, remain unchanged. Both agents independently compiled the mathematical
+proof bundle and its public/private/generated dependencies. Full library/book,
+whole-library and exact-head CI evidence belongs to the checkpoint report;
+dependency validation does not establish complete source coverage. The four
+older localization/component/pullback/relative-quotient modules have header-only
+scope updates, with their imports, declaration docstrings, attributes and
+proof bodies unchanged.
+
+The selected joint-tuple prime of the incidence ring still needs its
+minimality/component proof under the source hypotheses. It must not be
+identified with the incidence ideal or its endpoint image without the needed
+comparison. Tuple germs, all-component realization, relational associativity
+and the higher-dimensional family argument remain owed. The source annotation,
+book and shared goal retain that scope. All original source outside the
+existing annotation, all 48 statement blocks and 44 proof blocks, the goal
+objective/completion criteria and frozen M4a are preserved. C2 and the full
+shared goal remain open.

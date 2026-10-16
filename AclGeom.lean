@@ -38,6 +38,7 @@ import AclGeom.Correspondence.ComponentGeometry
 import AclGeom.Correspondence.LocusPullback
 import AclGeom.Correspondence.LocusEndDominance
 import AclGeom.Correspondence.LocusQuotient
+import AclGeom.Correspondence.LocusIncidence
 import AclGeom.Correspondence.LocusQuotientComponents
 import AclGeom.Correspondence.TensorRealization
 import AclGeom.Correspondence.CurveEquation

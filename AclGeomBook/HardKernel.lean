@@ -20,6 +20,7 @@ import AclGeom.Correspondence.ComponentGeometry
 import AclGeom.Correspondence.LocusPullback
 import AclGeom.Correspondence.LocusEndDominance
 import AclGeom.Correspondence.LocusQuotient
+import AclGeom.Correspondence.LocusIncidence
 import AclGeom.Correspondence.LocusQuotientComponents
 
 open Verso.Genre Manual
@@ -115,9 +116,10 @@ localization and minimality conclusions are proved internally.
 This supplies the domain-level localization step for C2. The actual
 canonical-coordinate affine fiber product below consumes it. The literal
 relative quotient maps and their spectrum components are identified below.
-The full incidence quotient, tuple germs and the family's generic-component
-argument remain separate obligations. General curve function fields are
-retained throughout.
+The incidence quotient and its actual projections are identified below.
+The chosen joint point's component status, tuple germs and the family's
+generic-component argument remain separate obligations. General curve
+function fields are retained throughout.
 
 # Components of the actual affine fiber product
 %%%
@@ -216,13 +218,56 @@ scheme criterion are reused here. All rings, maps and fraction-field
 structures are derived from the tuples. Base, ambient and index universes
 remain independent, without algebraic-closedness or rationality assumptions.
 
-The full incidence quotient
-$`k[X,Y,Z]/(I(x,y)+I(y,z))`, where the ideals are extended along the two
-variable inclusions, remains to be identified explicitly with this tensor.
-The prime ideal of a chosen joint tuple must still be proved minimal to
-represent a component; its endpoint image may have a smaller function field.
-The tuple germ and relational-associativity layer and the higher-dimensional
-family generic-component argument also remain owed. C2 remains open.
+The following section identifies this tensor with the full incidence
+quotient and transports the actual projection-density criteria to it.
+
+# The incidence quotient and its projections
+%%%
+tag := "incidence-quotient"
+%%%
+
+Let $`R=k[X,Y,Z]`, and let $`J_{\mathrm{inc}}` be the sum of the extensions
+of $`I(x,y)` and $`I(y,z)` along the two variable inclusions. The full
+incidence quotient is $`R/J_{\mathrm{inc}}`. Its identification with the
+relative tensor is a base-field algebra equivalence. On polynomial pure
+tensors it is multiplication of the two renamed polynomials; the middle
+base map is also specified:
+
+{docstring AclGeom.exists_locusIncidence_algEquiv}
+
+The three projection maps from the quotients of $`k[X]`, $`k[Y]` and $`k[Z]`
+are induced by the actual variable renamings into $`R`. Their ideal
+containments follow from the pair ideals, with one lemma used by all three:
+
+{docstring AclGeom.idealOf_le_comap_rename_comp}
+
+Transporting the existing component classification along the equivalence
+identifies exactly the incidence spectrum's components with dense middle
+image. The map to the canonical fraction-field tensor is constructed
+internally and specified on products of the renamed pair polynomials:
+
+{docstring AclGeom.exists_locusIncidence_dominatingComponents}
+
+Under the four algebraicity clauses of (8.1), every subset has dense middle
+image if and only if it has dense first-endpoint image, and likewise for
+its second-endpoint image:
+
+{docstring AclGeom.locusIncidence_endDominance}
+
+A generic ring-isomorphism component transport is shared by the tensor and
+incidence criteria, with a further private algebra-equivalence helper for
+the incidence proof; the density transport is also reused. The existing
+tensor-spectrum theorems retain their statements. All structures and maps
+are derived from the tuples, in five independent universes, without a
+rank-one, rationality, finiteness or algebraic-closedness premise.
+
+The joint-tuple ideal $`I(x,y,z)` contains $`J_{\mathrm{inc}}` and therefore
+defines a prime of $`R/J_{\mathrm{inc}}`. Its minimality, equivalently the
+component status of its zero locus, remains to be proved under the source
+hypotheses. The endpoint-image field can be smaller than the joint
+component field. Tuple germs, all-component realization, relational
+associativity and the higher-dimensional family generic-component argument
+remain obligations. C2 remains open.
 
 # Component fields and endpoint images
 %%%
@@ -246,11 +291,11 @@ field. This corrects the endpoint-field reading of the original §8.1 wording,
 reported on issue #5 before the source annotation. The original paragraph is
 retained. Relational germ associativity remains proved.
 
-The canonical fiber-product and literal relative quotient-spectrum results
-above apply to arbitrary tuples and general curve function fields. The full
-incidence quotient, tuple germ comparison and higher-dimensional family
-generic-component argument remain open. The field distinction is separate
-from those remaining obligations.
+The canonical fiber-product, literal relative tensor and full incidence
+quotient results above apply to arbitrary tuples and general curve function
+fields. The chosen joint prime's component status, tuple germ comparison
+and higher-dimensional family generic-component argument remain open. The
+field distinction is separate from those remaining obligations.
 
 # Tensor-domain regularity
 %%%

@@ -27,9 +27,10 @@ the index types, the base field and the ambient field may lie in independent uni
 
 This is the literal-quotient step of the geometric fiber-product bridge of blueprint §8.1
 (8.4c, 8.6) (#5). `LocusQuotientComponents` consumes this equivalence to identify the literal
-spectrum components and actual projection-density criteria. The full incidence quotient by the sum
-of the two extended pair ideals, its relation to a chosen joint-tuple prime ideal, the tuple germ
-layer with relational associativity and the higher-dimensional family argument remain open.
+spectrum components and actual projection-density criteria. `LocusIncidence` identifies the full
+incidence quotient by the sum of the two extended pair ideals; `LocusQuotientComponents` also
+proves its component and projection-density criteria. The chosen joint-tuple prime, tuple germs
+with relational associativity and the higher-dimensional family argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

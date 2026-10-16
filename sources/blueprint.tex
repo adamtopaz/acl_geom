@@ -1339,8 +1339,8 @@ extension are already proved in
 Thus the associativity explanation must pass from joint components to their endpoint
 images. The relational associativity conclusion below is unchanged. This clarification
 was reported on issue \#5 before this annotation; all original source paragraphs,
-statements and proofs are preserved. The full incidence quotient, tuple-germ
-comparison and higher-dimensional family applications remain separate obligations.
+statements and proofs are preserved. The chosen joint point's component status,
+tuple-germ comparison and higher-dimensional family applications remain obligations.
 The domain-level localization step is proved in
 \lean{minimalPrimes_tensorProduct_fractionRing}: for domains $A\to B$, $A\to C$
 with compatible fraction fields $K,L,M$, the minimal primes of $B\otimes_A C$
@@ -1377,11 +1377,20 @@ are identified in \lean{exists_locusQuotient_dominatingComponents}, and
 \lean{locusQuotient_endDominance} proves the corresponding endpoint-density
 criterion under the same four closure clauses. All structures are derived
 from the tuples; no component or density conclusion is an input.
-The full incidence quotient $k[X,Y,Z]/(I(x,y)+I(y,z))$, with both ideals
-extended along the variable inclusions, remains to be identified explicitly.
-The prime ideal of a chosen joint tuple must still be proved minimal to
-represent a component; its endpoint image may have a smaller function field.
-The tuple-germ and associativity bridge and the
+The full incidence quotient $R/J_{\rm inc}$, where $R=k[X,Y,Z]$ and
+$J_{\rm inc}$ is the sum of the two extended pair ideals, is identified with
+the relative tensor as a $k$-algebra in \lean{exists_locusIncidence_algEquiv}.
+These formulas specify the equivalence on polynomial pure tensors and on the middle base.
+The actual rename-induced maps from the three coordinate quotients define
+its projections. The middle-dominating spectrum components are identified in
+\lean{exists_locusIncidence_dominatingComponents}, and
+\lean{locusIncidence_endDominance} proves the corresponding endpoint-density
+criterion for every subset under the same four closure clauses. The original
+tensor-spectrum theorems are reused; their statements are unchanged.
+The joint-tuple ideal $I(x,y,z)$ contains $J_{\rm inc}$ and hence defines a
+prime of the incidence ring. Its minimality, equivalently the component
+status of its zero locus, remains to be proved under the source hypotheses; its endpoint image may have a
+smaller function field. The tuple-germ and associativity bridge and the
 higher-dimensional family generic-component argument also remain owed.
 \end{remark}
 

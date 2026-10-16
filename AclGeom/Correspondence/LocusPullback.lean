@@ -21,8 +21,9 @@ This is the middle-dominance clause of the geometric fiber-product bridge of blu
 `LocusEndDominance` proves its endpoint-density criterion under the source's four tuple closure
 hypotheses, for arbitrary subsets of the actual pullback. `LocusQuotient` matches the literal
 relative quotient maps, and `LocusQuotientComponents` transports the components and projection
-density to their spectrum. The full incidence quotient, the tuple germ layer with relational
-associativity and the higher-dimensional family generic-component argument remain open.
+density to their spectrum and to the full incidence quotient identified by `LocusIncidence`.
+The chosen joint prime, the tuple germ layer with relational associativity and the
+higher-dimensional family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
