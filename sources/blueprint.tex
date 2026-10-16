@@ -1346,8 +1346,23 @@ remain separate obligations. The domain-level localization step is proved in
 with compatible fraction fields $K,L,M$, the minimal primes of $B\otimes_A C$
 avoiding $A\setminus\{0\}$ are exactly the contractions of the minimal primes
 of $L\otimes_K M$. No Noetherian, separability or algebraic-closedness hypothesis
-is required. Applying this theorem to the canonical coordinate rings and proving
-the remaining geometric identifications are still owed.
+is required. For tuples $x,y,z$, Lean now constructs the canonical affine-scheme
+fiber product
+\[
+ P=\operatorname{Spec} k[x,y]\times_{\operatorname{Spec} k[y]}
+   \operatorname{Spec} k[y,z]
+\]
+and its actual projection $\pi$ to the middle-base spectrum. The theorem
+\lean{locusPullback_dominatingComponents} identifies exactly the irreducible
+components of $P$ whose $\pi$-images are dense, by contracting the minimal primes
+of $k(x,y)\otimes_{k(y)}k(y,z)$ and transporting their zero loci along the canonical
+pullback isomorphism. All inclusion and fraction-field structures are derived
+from the tuples. The supporting spectrum theorem is
+\lean{dominatingComponents_tensorProduct_fractionRing}. The fields are arbitrary
+and the tuple coordinates need not be scalar or rational curve parameters.
+Matching the relative maps on the literal polynomial quotients, proving dominance
+at both correspondence endpoints, the tuple-germ and associativity bridge, and the
+higher-dimensional family generic-component argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

@@ -11350,3 +11350,44 @@ for standard dependencies. The two new public theorems give 286 selected records
 with all 284 preceding selected public types unchanged. Full library/book, whole-library
 and exact-head CI evidence belongs to the published checkpoint report on #5. The scope
 of a dependency audit must still be distinguished from complete source coverage.
+
+## Actual affine fiber-product components over canonical tuple loci (#5 C2)
+
+`Correspondence.ComponentGeometry` proves
+`dominatingComponents_tensorProduct_fractionRing`: actual irreducible components
+of the tensor-product prime spectrum have dense projection image in the base
+spectrum exactly when they arise from the fraction-field tensor minimal primes.
+It uses the already proved domain localization theorem, Mathlib's minimal-prime
+component correspondence and its image-closure formula. There is one public
+theorem and no extra module helper declarations.
+
+`Correspondence.LocusPullback` constructs the actual affine-scheme fiber product
+of the canonical generated coordinate rings of `(x,y)` and `(y,z)` over that of
+`y`. Its theorem `locusPullback_dominatingComponents` identifies the irreducible
+components whose actual base projection has dense image. Only the tuples are
+data: the inclusion algebras, scalar towers and fraction-field structures are
+constructed internally. The proof transports the actual projection along
+Mathlib's pullback isomorphism, as well as the irreducible components. One private
+generic helper, consumed by this theorem, checks that transport with variable
+instances so that concrete inclusion-instance elaboration stays within the default
+checking limits. The base,
+ambient and tuple-index universes are retained, and no algebraic closedness,
+Noetherian, rational-curve or single-coordinate assumption is added.
+
+The earlier private `LocusTensor` prototype is superseded by this actual scheme
+consumer, which retains its canonical tuple structures. It is not added as an
+unused public layer; its frozen proof evidence is retained in the issue record.
+The existing `locusCoordinateRingEquiv` supplies each factor's quotient dictionary.
+The relative quotient maps matching the rename-induced coordinate maps, endpoint
+dominance, tuple germs/relational associativity and the family's finite-relative-
+transcendence-degree generic-component argument remain open. This checkpoint does
+not close C2 or complete the shared goal.
+
+The source annotation, hard-kernel book and shared goal record this exact scope.
+The original blueprint paragraphs, all 48 original statement blocks and 44 proof
+blocks, the goal objective/completion criteria and frozen M4a are preserved. Full
+library/book, whole-library and exact-head CI evidence belong to the published checkpoint
+report on #5; dependency checks are not complete source coverage. Both agents independently
+compiled the exact two proof modules with empty strict logs. Root checks all 23 new
+declarations, including private and generated ones, for standard dependencies and checks
+288 selected type/dependency records, with all 286 preceding public types unchanged.

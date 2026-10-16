@@ -16,6 +16,8 @@ import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.AmbientAutomorphism
 import AclGeom.Counterexamples.EndpointImage
 import AclGeom.Correspondence.TensorFractionRing
+import AclGeom.Correspondence.ComponentGeometry
+import AclGeom.Correspondence.LocusPullback
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -107,11 +109,50 @@ Noetherian, separability, reducedness or algebraic-closedness hypothesis.
 All algebra and fraction-field structures are genuine inputs; the
 localization and minimality conclusions are proved internally.
 
-This supplies the domain-level localization step for C2. The geometric
-consumer for canonical coordinate rings of finite tuple loci remains open,
-as do the dominance and family generic-component bridges. General curve
-function fields must be retained; a scalar plane-curve specialization alone
-would not complete the source obligation.
+This supplies the domain-level localization step for C2. The actual
+canonical-coordinate affine fiber product below consumes it. The literal
+relative quotient maps, endpoint dominance, tuple germs and the family's
+generic-component argument remain separate obligations. General curve
+function fields are retained throughout.
+
+# Components of the actual affine fiber product
+%%%
+tag := "affine-fiber-product-components"
+%%%
+
+For domains with compatible fraction fields, the contracted minimal primes
+define exactly the irreducible components of the tensor-product spectrum
+whose images are dense in the base spectrum:
+
+{docstring AclGeom.dominatingComponents_tensorProduct_fractionRing}
+
+The proof uses Mathlib's correspondence between minimal primes and irreducible
+components. The closure of a component's projection is the zero locus of the
+contracted ideal, so density is exactly avoidance of the nonzero base elements.
+
+For arbitrary tuples $`x,y,z` in a field over $`k`, take the generated rings
+$`A=k[y]`, $`B=k[x,y]`, $`C=k[y,z]` and their actual generated fraction fields.
+The existing `locusCoordinateRingEquiv` identifies these rings with the
+polynomial quotients by the tuple ideals. The theorem constructs all inclusion
+algebras, scalar towers and fraction-field structures from these tuples. It
+then forms the actual affine-scheme fiber product
+$`P=\operatorname{Spec} B\times_{\operatorname{Spec} A}\operatorname{Spec} C`
+and its actual projection $`\pi` to $`\operatorname{Spec} A`:
+
+{docstring AclGeom.locusPullback_dominatingComponents}
+
+The components of $`P` with dense $`\pi`-image are exactly the images, under
+the homeomorphism of Mathlib's canonical pullback isomorphism, of the zero
+loci of the contracted fraction-field tensor minimal primes. The proof transports both the topology and the actual
+base projection; it does not supply a component or density conclusion as an
+input. The ambient and base fields are arbitrary, and no rationality of the
+curve function fields or scalar-coordinate restriction is imposed.
+
+This proves the middle-base component clause in the canonical generated-ring
+model. Matching the relative maps of the literal polynomial quotients remains
+owed, as do dominance at both correspondence endpoints, the tuple germ and
+associativity layer, and the higher-dimensional family generic-component
+argument. C2 remains open.
 
 # Component fields and endpoint images
 %%%
