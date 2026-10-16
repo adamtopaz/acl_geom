@@ -257,7 +257,7 @@ interpretation chapter; actual inducing existence and the public lattice-form
 target are proved conditionally in the reconstruction chapter. Both exact
 perfected ACF J-completeness inputs remain explicit in these internal APIs. The public
 reconstruction theorem supplies them internally; the broader
-point/automorphism/functorial variants remain open. Guarded geometric projection
+perfection-choice equivalence and final validation remain open. Guarded geometric projection
 completeness follows from the new guarded Q theorem below. The frozen M4a record
 and literal source obligations are preserved.
 
@@ -516,7 +516,7 @@ This covers the rank-two field-of-definition step. The common-closed-base
 composition step follows below. Relational germ composition is associative
 over arbitrary bases, as proved below. Its identification with components
 of geometric fiber products over nonclosed function-field bases, group chunks,
-the original scheme/action bridges and endpoint variants remain open.
+the original scheme/action bridges and remaining source obligations remain open.
 Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
 
@@ -571,7 +571,8 @@ The universally quantified Ψ is never transported.
 
 No new public rank wrapper, field definition, normalization interface or
 checking option is added. The geometric fiber-product/function-field bridge,
-group chunks, original scheme/action bridges and endpoint variants remain open. Guarded initial
+group chunks, original scheme/action bridges and remaining source obligations remain open.
+Guarded initial
 charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
 

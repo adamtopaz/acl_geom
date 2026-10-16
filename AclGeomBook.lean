@@ -10,6 +10,7 @@ import AclGeomBook.Transfer
 import AclGeomBook.Curves
 import AclGeomBook.Interpretation
 import AclGeomBook.Reconstruction
+import AclGeomBook.Functorial
 
 -- The manual genre, used for book-like documents with chapters, cross-references,
 -- citations, and an index.
@@ -66,14 +67,14 @@ The formalization follows the self-contained blueprint in the project's
 theory by direct proofs about irreducible loci, transcendence degree, finite
 correspondences, and rational group chunks.
 
-The displayed reconstruction theorem is the project goal and has not yet
-been proved in Lean.  The 2026-10-06 audit (issue #19) separates the proved
-foundation, rigidity, transfer and curve prerequisites from the open
-configuration completeness, arithmetic interpretation and reconstruction
-layers.  The corrected affine-grid target is open (#22), the group/action
-bridge is absent (#21), and the representative-alignment argument needs
-repair (#23).  The architecture below describes the intended development;
-it does not claim that every listed theorem is already implemented.
+The displayed reconstruction theorem is proved in `AclGeom.reconstruction_target` under
+exactly these hypotheses. The point-geometry formulation, automorphism exact sequence and
+rank-five fully faithful Frobenius-quotient functor are also proved and documented below.
+The guarded ACF chart and rank-five J completeness supply the reconstruction inputs
+internally. The project remains incomplete: true bypassed source statements, the original
+scheme/action bridges, literal interpretation/provenance items, perfection-choice
+equivalence and final validation obligations are still tracked on the repository issues.
+The architecture below includes both established layers and these remaining obligations.
 
 # Architecture of the formalization
 %%%
@@ -129,6 +130,8 @@ elaborated against the actual development.
 {include 0 AclGeomBook.Interpretation}
 
 {include 0 AclGeomBook.Reconstruction}
+
+{include 0 AclGeomBook.Functorial}
 
 # About this document
 %%%

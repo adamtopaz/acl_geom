@@ -156,6 +156,44 @@ theorem induces_iff_eq_inducedIso
   rintro rfl
   exact induces_inducedIso hΦ
 
+/-! ### Functoriality of the transported lattice map -/
+
+/-- **The identity induces the identity** (blueprint (20.9)). -/
+theorem inducedIso_refl (π : Perfection K) :
+    π.inducedIso π (CrossBase.compatible_refl (k := π.basePerf k)) = OrderIso.refl _ := by
+  rw [inducedIso, CrossBase.closedIFMap_refl, OrderIso.refl_trans, OrderIso.self_trans_symm]
+
+/-- **Composites induce composites** (blueprint (20.10)–(20.11)). -/
+theorem inducedIso_trans {m M : Type*} [Field m] [Field M] [Algebra m M] {σ : Perfection M}
+    {Ψ : ρ.carrier ≃+* σ.carrier}
+    (hΦ : CrossBase.Compatible (k := π.basePerf k) (l := ρ.basePerf l) Φ)
+    (hΨ : CrossBase.Compatible (k := ρ.basePerf l) (l := σ.basePerf m) Ψ) :
+    π.inducedIso σ (hΦ.trans hΨ) = (π.inducedIso ρ hΦ).trans (ρ.inducedIso σ hΨ) := by
+  refine OrderIso.ext (funext fun M ↦ ?_)
+  simp only [inducedIso, OrderIso.trans_apply, OrderIso.apply_symm_apply]
+  rw [CrossBase.closedIFMap_trans hΦ hΨ, OrderIso.trans_apply]
+
+/-- With a relatively algebraically closed base, every integral Frobenius power carries the
+perfected base onto itself. -/
+theorem compatible_frobZPow (π : Perfection K) (hk : IsRAC (⊥ : IntermediateField k K))
+    (n : ℤ) : CrossBase.Compatible (k := π.basePerf k) (l := π.basePerf k) (π.frobZPow n) := by
+  have h := (induces_inducedIso (π := π) (ρ := π)
+    (CrossBase.compatible_refl (k := π.basePerf k))).trans_frobZPow n
+  have he : (RingEquiv.refl π.carrier).trans (π.frobZPow n) = π.frobZPow n :=
+    RingEquiv.ext fun _ ↦ rfl
+  rw [he] at h
+  exact h.compatible hk hk
+
+/-- **Frobenius powers induce the identity** (blueprint (20.12)). -/
+theorem inducedIso_frobZPow (π : Perfection K) (hk : IsRAC (⊥ : IntermediateField k K))
+    (n : ℤ) : π.inducedIso π (π.compatible_frobZPow hk n) = OrderIso.refl _ := by
+  have h := (induces_inducedIso (π := π) (ρ := π)
+    (CrossBase.compatible_refl (k := π.basePerf k))).trans_frobZPow n
+  have he : (RingEquiv.refl π.carrier).trans (π.frobZPow n) = π.frobZPow n :=
+    RingEquiv.ext fun _ ↦ rfl
+  rw [inducedIso_refl, he] at h
+  exact ((induces_iff_eq_inducedIso _).1 h).symm
+
 end Perfection
 
 end

@@ -43,9 +43,10 @@ distinctness; the former unguarded `Q` input is refuted.
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M5): the arrows `(1) ⇔ (2)`, `(4) ⇒ (3)` and
-`(1) ⇒ (4)` of Theorem `j-descent` are proved; `(3) ⇒ (2)` enters as a
-hypothesis.
+**Status:** the arrows `(1) ⇔ (2)`, `(4) ⇒ (3)` and `(1) ⇒ (4)` of Theorem
+`j-descent` are proved here, with `(3) ⇒ (2)` explicit in the internal assembly API.
+`Transfer.JCorrectness` supplies that implication from `jCompletenessACF` and proves the
+four-way equivalence and geometric/semantic correctness over perfect fields at rank five.
 -/
 
 namespace AclGeom
@@ -181,7 +182,7 @@ theorem jSem_lift_iff [IsAlgClosed Ω] [PerfectField K] (q : ℕ) [ExpChar k q]
 include ι in
 /-- Completeness of geometric `J` over a perfect `K/k` of rank at least five,
 from completeness over `Ω/K₀`: `(4) ⇒ (3) ⇒ (2) ⇒ (1)` of blueprint Theorem
-`j-descent`, with the open arrow `(3) ⇒ (2)` as the hypothesis `hcomp`. -/
+`j-descent`, with the arrow `(3) ⇒ (2)` as the explicit hypothesis `hcomp`. -/
 theorem jSem_of_jGeom_of_lift [IsAlgClosed Ω] [PerfectField K] (q : ℕ)
     [ExpChar k q] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     (hcomp : JCompletenessACF (↥K₀) Ω) {X : Fin 5 → Point k K}
@@ -218,7 +219,7 @@ theorem five_le_trdeg_algebraicClosure (htr : (5 : Cardinal) ≤ Algebra.trdeg k
 
 /-- **Correctness of `J` over a perfect field** (blueprint Theorem
 `j-descent`) in canonical form: `Ω` is an algebraic closure of `K` and `K₀`
-is the algebraic closure of `k` in `Ω`.  The only open input is the
+is the algebraic closure of `k` in `Ω`.  The explicit input is the
 hypothesis `hcomp`, completeness of geometric `J` over `k̄ ⊆ Ω`, an
 algebraically closed pair of rank at least five
 (`five_le_trdeg_algebraicClosure`). -/

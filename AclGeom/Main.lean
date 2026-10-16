@@ -31,9 +31,10 @@ is supplied by `jCompletenessACF` (`Config.Completeness`, #27).
 
 **Status:** the public reconstruction relation, existence and the assembled lattice-form
 target are proved (#9/#10) from the blueprint hypotheses alone. Reconstructs is a reducible
-alias of Induces. The point-geometry variant, the automorphism exact sequence and the
-functorial fully faithful formulation remain open, as do the literal provenance items
-recorded in the blueprint, bypassed source statements and the frozen M4a obligations.
+alias of Induces. Point-geometry reconstruction is proved in `Reconstruct.PointVariant`,
+the automorphism exact sequence in `Variants`, and the literal and Frobenius-quotient
+functors in `Functorial`. Perfection-choice equivalence, the full validation suite, literal
+provenance items, true bypassed source statements and frozen M4a obligations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

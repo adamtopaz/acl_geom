@@ -290,6 +290,7 @@ the bottom only recovers the perfected relative algebraic closure of the base.
 % open (issues 8--10).
 % \end{remark}
 \begin{remark}[Lean induced-map status, October 2026]
+\label{rem:lean-current-status}
 \lean{AclGeom.Perfection.Induces} formalizes equality of the perfected subfields and proves
 the intersection formula, uniqueness of the induced lattice map and the compatible
 converse.  Recovery of the literal perfected bases assumes both original bases are RAC,
@@ -299,8 +300,17 @@ completeness parameters.  The public \lean{exists_reconstruction} and
 rank-five bounds and \lean{jCompletenessACF}.  Their only hypotheses are the blueprint's
 RAC bases, source rank five, chosen perfections and lattice isomorphism.  The original
 fields need not be perfect.  The exact Frobenius fibre and converse are included.
-Point-geometry, automorphism and functorial variants, and true bypassed source statements,
-remain separate obligations (issues 8--10).
+The point-geometry variant is proved by \lean{point_reconstruction_target};
+\lean{Perfection.pairAutAction} has the exact Frobenius kernel and is surjective under
+the RAC/rank-five hypotheses.  The literal and Frobenius-quotient functors are proved
+on their precise rank and characteristic scopes below.  True bypassed source statements,
+perfection-choice groupoid equivalence and final validation remain obligations.
+
+Earlier conditional-interface progress descriptions and the final guarded-configuration
+audit record historical checkpoints, including inputs that were then open.  They preserve
+provenance rather than describing the present frontier.  The current public theorem
+supplies both completeness proofs internally; the general internal APIs retain explicit
+parameters.  This does not discharge the broader original interpretation or source lemmas.
 \end{remark}
 
 \section{What may be taken from Mathlib}
@@ -2115,9 +2125,8 @@ bases and arbitrary characteristics are included. Its named consumer is actual b
 element recovery for \lean{interpretedRingEquiv}, proved below under explicit
 carrier/completeness and RAC inputs. General unconditional R1/R2 and
 unconditional full inducing reconstruction remain open (issues 5 and 9).
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 The correspondence inputs in the formal argument are $(u_1,u_2)$ and the degenerate
 pair $(b,b)$. The original proof above instead names $(u_1,b)$ and $(u_2,b)$; these do
@@ -2359,6 +2368,14 @@ geometric formula holds.
 
 This proves the four-way equivalence for $\Jrel$.
 \end{proof}
+
+\noindent\textbf{Current Lean status of T4.}
+\lean{Transfer.JCorrectness} proves \lean{jDescent_tfae}, the four-way equivalence through
+any embedding into an algebraically closed field, and
+\lean{jGeom_iff_jSem_of_perfectField}, its consequence over every perfect ambient field
+of transcendence degree at least five.  The original RAC hypothesis is unnecessary.
+The proof supplies the completeness implication internally from \lean{jCompletenessACF}.
+The following Q/Q-prime correction remains separate.
 
 \begin{remark}[Audit correction: the arbitrary-field $\Qrel,\Qprel$ consequences]
 \label{rem:q-descent-audit}
@@ -3902,9 +3919,8 @@ theorems are unchanged. This accepts corrected conditional R1b. Conditional
 original-field inducing existence through chosen perfections is proved below.
 General unconditional R1/R2, unconditional target assembly, unconditional completeness
 and full reconstruction remain open.
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 The original proof above uses the literal \lean{RatioEq} refuted in the
 interpretation audit (issue 23); it is preserved exactly. This qualification
@@ -4011,9 +4027,8 @@ original-field chosen-perfection existence is proved below with original RAC
 and both perfected completeness inputs explicit. Unconditional target assembly,
 general unconditional R1/R2, unconditional completeness and the global,
 literal, TOT, three-pair, tensor and frozen M4a obligations remain open.
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 \subsection[Points inside the closure of a]
 {Points inside $\acl(a)$}
@@ -4141,9 +4156,8 @@ original-field existence through chosen perfections are proved below under
 explicit RAC and both perfected completeness hypotheses. Unconditional target assembly
 and recovery remain open (issue 9); the two-generic intersection
 and bypassed linear-disjointness statements retain their separate status.
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 
 \subsection{Corrected conditional inducing equality and existence in Lean}
@@ -4204,9 +4218,8 @@ original larger-freshness route, bypassed linear-disjointness and frozen M4a
 obligations retain their provenance and scope. The conditional qualification
 was reported on issue 9 before integration. Every original statement and proof
 above is preserved exactly.
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 \subsection{Conditional original-field existence through chosen perfections in Lean}
 
@@ -4250,9 +4263,8 @@ literal ratio, totalization and scalar arguments, bypassed linear-disjointness
 and the broader group, three-pair, tensor and frozen M4a obligations remain open.
 The scope and stale status correction were reported on issue 9 before integration.
 Every original statement and proof, including the proposed assembly proof, is preserved.
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 \section{Uniqueness and the Frobenius kernel}
 
@@ -4355,9 +4367,8 @@ positive-characteristic uniqueness of the exponent. Original-field inducing
 existence is proved conditionally above with original RAC and both perfected
 completeness hypotheses explicit. Unconditional target assembly and
 recovery remain open (issue 9).
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 If $\Phi_1,\Phi_2:K^{\mathrm{perf}}\to L^{\mathrm{perf}}$ induce the same geometry map,
 then $\Phi_2\Phi_1^{-1}$ lies in this kernel, proving uniqueness modulo target Frobenius.
@@ -4396,9 +4407,8 @@ closed base hypotheses nor an equality of recorded exponential characteristics.
 Original-field chosen-perfection inducing existence is proved conditionally above.
 Unconditional recovery, completeness and functorial assembly remain open
 (issues 9--10). The public conditional target is assembled below.
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
+Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
+the current public theorem scope and remaining source obligations.
 
 
 \section{Assembly of the final Lean theorem}
@@ -4558,8 +4568,11 @@ recorded characteristic parameters remain separate and the ambient universes are
 independent.  The conclusions of the former conditional statements are unchanged; only
 the two completeness parameters have been removed.
 
-The point-geometry, automorphism and fully faithful functorial variants below, original
-literal calculations and true bypassed source statements remain obligations.  The
+The point-geometry and automorphism variants below are proved in
+\lean{Reconstruct.PointVariant} and \lean{Variants}.  The literal functor laws, exact Hom
+fibres and rank-five fully faithful quotient functor are proved in \lean{Functorial}.
+Original literal calculations, true bypassed source statements, perfection-choice
+equivalence and final validation remain obligations.  The
 original theorem statements, all proof blocks and their qualifications retain their
 wording and provenance; the Lean proof supplies the formerly open inputs by the proved
 configuration route.
@@ -5003,6 +5016,23 @@ Proposition~\ref{prop:hom-fibres}, its equation (20.16), and
 Theorem~\ref{thm:functorial-reconstruction}; no additional mathematical input is hidden in
 the category instances.
 
+\paragraph{Current Lean implementation of the categorical layer.}
+\lean{PerfExt} and \lean{PerfExt.Hom} implement the extension groupoid with arbitrary
+chosen perfections; the geometry target is \lean{Core PartOrd} in the allowed lattice
+presentation.  \lean{geomLit} satisfies the identity and composition laws.
+\lean{PerfExt.frobHom_naturality} derives agreement of characteristic exponents along
+an arrow.  \lean{geomLit_map_surjective} and \lean{geomLit_map_eq_iff} prove
+(20.15)--(20.16) from source rank five.  \lean{PerfExt.frobRel} is a congruence;
+the ordinary category quotient is a groupoid and \lean{geomQuot} is its descended functor.
+\lean{geomQuot_map_bijective} proves (20.23).  Full and Faithful instances are restricted
+to the rank-five full subgroupoid.  The literal characteristic-zero restriction is also
+full and faithful.  Positive-characteristic failure of literal faithfulness is proved
+for every object of positive transcendence degree, with no rank-five hypothesis.
+The equivalence between the groupoids for two global choices of perfections is not yet
+formalized; comparison maps inducing the identity are provided by
+\lean{Perfection.induces_liftEquiv}.  The full validation suite and all-public dependency
+audit are still obligations.
+
 \section{Proposed Lean file layout}
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.41\linewidth}
@@ -5377,7 +5407,12 @@ Theorem~\ref{thm:functorial-reconstruction}\\
 \bottomrule
 \end{longtable}
 
-\subsection{Guarded configuration audit in Lean}
+\subsection{Historical guarded configuration audit in Lean}
+The notes in this subsection record successive earlier checkpoints and their then-open
+work.  The guarded chart, multiplication converse, ACF J completeness and public
+reconstruction theorem are now proved as described above.  Their historical open-status
+sentences are retained for provenance.  Original scheme/action bridges, true bypassed
+source statements, literal interpretation obligations and frozen M4a remain separate.
 The witness of \cref{rem:psi-degenerate} refutes unguarded geometric $\Qrel$
 completeness and projection over any field with five independent elements.  With
 both actual ACF assumptions it also refutes the legacy \lean{QCompletenessACF}

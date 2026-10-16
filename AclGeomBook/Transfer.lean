@@ -9,6 +9,7 @@ import AclGeom.Transfer.OneQuantifier
 import AclGeom.Transfer.Descent
 import AclGeom.Transfer.LiftConfig
 import AclGeom.Transfer.JDescent
+import AclGeom.Transfer.JCorrectness
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -256,9 +257,19 @@ closure gives the geometric/semantic J equivalence over perfect K:
 
 {docstring AclGeom.jGeom_iff_jSem}
 
-The theorem keeps `hcomp` explicit. At rank five `jCompletenessACF`, applied through
-`five_le_trdeg_algebraicClosure`, supplies it; the unconditional blueprint T4 statement is
-not stated separately and remains tracked on #7.
+The internal theorem keeps `hcomp` explicit. The public correctness module supplies it
+from `jCompletenessACF`, and proves all four conditions of blueprint T4 equivalent through
+any embedding into an algebraically closed field. It also states geometric/semantic J
+correctness over every perfect ambient field of transcendence degree at least five. The
+source's RAC hypothesis is not needed:
+
+{docstring AclGeom.five_le_trdeg_algebraicClosure_of_algHom}
+
+{docstring AclGeom.liftTuple}
+
+{docstring AclGeom.jDescent_tfae}
+
+{docstring AclGeom.jGeom_iff_jSem_of_perfectField}
 
 The lattice and point lift is now proved for a `k`-embedding into an
 overfield and any enlarged base algebraic over `k`. It preserves closure
