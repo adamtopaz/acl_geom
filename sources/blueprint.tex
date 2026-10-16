@@ -1323,6 +1323,33 @@ the same threefold fiber product.  In Lean this definition uses only tensor prod
 minimal primes, fraction fields, and finite extensions.
 
 
+\begin{remark}[Joint component fields and endpoint images; source audit]
+The preceding original wording is retained. Its function-field statement applies to
+the incidence component $Z$ of the fiber product: $k(Z)$ is the joint compositum.
+For its image $\Gamma$ in the product of the two endpoint curves, one has instead
+$k(\Gamma)\subseteq k(Z)$, and this inclusion can be proper. For example,
+$x=y^2$ followed by $z=y^2$, with $y$ transcendental over $k$, has joint field
+$k(y)$ and diagonal endpoint-image field $k(y^2)$. The latter is a proper subfield
+in every characteristic. Lean proves a strict inequality for the actual selected
+finite-correspondence branches in
+\lean{exists_compositeBranchField_lt_chainField}; the general inclusion and finite
+extension are already proved in
+\lean{FiniteCorrespondencePair.compositeBranchField_le_chainField} and
+\lean{FiniteCorrespondencePair.chainOverComposite_finiteDimensional}.
+Thus the associativity explanation must pass from joint components to their endpoint
+images. The relational associativity conclusion below is unchanged. This clarification
+was reported on issue \#5 before this annotation; all original source paragraphs,
+statements and proofs are preserved. The geometric fiber-product bridge for finite
+tuples and nonrational curves, and its higher-dimensional family applications,
+remain separate obligations. The domain-level localization step is proved in
+\lean{minimalPrimes_tensorProduct_fractionRing}: for domains $A\to B$, $A\to C$
+with compatible fraction fields $K,L,M$, the minimal primes of $B\otimes_A C$
+avoiding $A\setminus\{0\}$ are exactly the contractions of the minimal primes
+of $L\otimes_K M$. No Noetherian, separability or algebraic-closedness hypothesis
+is required. Applying this theorem to the canonical coordinate rings and proving
+the remaining geometric identifications are still owed.
+\end{remark}
+
 \begin{remark}[Relational associativity in Lean]
 The represented finite-correspondence germs satisfy the relational form of
 associativity over an arbitrary base field in an algebraically closed ambient.

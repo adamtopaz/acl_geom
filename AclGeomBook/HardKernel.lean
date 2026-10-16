@@ -14,6 +14,8 @@ import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.Family
 import AclGeom.Correspondence.AmbientAutomorphism
+import AclGeom.Counterexamples.EndpointImage
+import AclGeom.Correspondence.TensorFractionRing
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -85,6 +87,59 @@ ideal have coordinates in exactly the same `racl`-relations:
 {docstring AclGeom.mem_racl_image_of_idealOf_eq}
 
 {docstring AclGeom.transcendental_of_idealOf_eq}
+
+# Localizing tensor components
+%%%
+tag := "localizing-tensor-components"
+%%%
+
+For domains $`A`, $`B`, $`C` with compatible fraction fields $`K`, $`L`, $`M`,
+the minimal primes of $`B\otimes_A C` avoiding the nonzero elements of $`A`
+are exactly the pullbacks of the minimal primes of $`L\otimes_K M` under the
+canonical map:
+
+{docstring AclGeom.minimalPrimes_tensorProduct_fractionRing}
+
+The proof localizes the two factors and uses flatness over $`A` of the
+fraction-field base changes. The remaining denominators are nonzerodivisors,
+so they meet no minimal prime. It requires no
+Noetherian, separability, reducedness or algebraic-closedness hypothesis.
+All algebra and fraction-field structures are genuine inputs; the
+localization and minimality conclusions are proved internally.
+
+This supplies the domain-level localization step for C2. The geometric
+consumer for canonical coordinate rings of finite tuple loci remains open,
+as do the dominance and family generic-component bridges. General curve
+function fields must be retained; a scalar plane-curve specialization alone
+would not complete the source obligation.
+
+# Component fields and endpoint images
+%%%
+tag := "component-fields-and-endpoint-images"
+%%%
+
+A shared-middle chain $`(x,y,z)` has joint field $`k(x,y,z)`. The field of
+its endpoint image is $`k(x,z)`, which can be properly smaller. The finite
+correspondences $`x=y^2` and $`z=y^2` give a concrete example: the chain field
+is $`k(y)` and the endpoint image is the diagonal with field $`k(y^2)`.
+Mathlib's degree-two calculation in the rational-function model proves that
+this inclusion is proper, even in characteristic two. The actual selected-branch example is:
+
+{docstring AclGeom.exists_compositeBranchField_lt_chainField}
+
+The existing `compositeBranchField_le_chainField` proves the correct inclusion,
+and `chainOverComposite_finiteDimensional` proves finiteness. The tensor
+component's compositum is the joint field, as proved by
+`tensor_compositum_eq_chainField`; it is not identified with the endpoint
+field. This corrects the endpoint-field reading of the original §8.1 wording,
+reported on issue #5 before the source annotation. The original paragraph is
+retained. Relational germ associativity remains proved.
+
+The coordinate-ring/localization bridge to geometric fiber-product components
+is still open. It must cover finite tuples and general curve function fields;
+the later higher-dimensional family applications need their own generic-component
+argument. The example establishes the field distinction and does not discharge
+those geometric obligations.
 
 # Tensor-domain regularity
 %%%

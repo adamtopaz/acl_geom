@@ -33,6 +33,7 @@ import AclGeom.Correspondence.GenericPoints
 import AclGeom.Correspondence.Composition
 import AclGeom.Correspondence.CompositionAssociativity
 import AclGeom.Correspondence.TensorComponent
+import AclGeom.Correspondence.TensorFractionRing
 import AclGeom.Correspondence.TensorRealization
 import AclGeom.Correspondence.CurveEquation
 import AclGeom.Correspondence.CurveEquationTransport
@@ -219,6 +220,7 @@ import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Counterexamples.GenericNegation
+import AclGeom.Counterexamples.EndpointImage
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic
 import AclGeom.Counterexamples.KernelRank

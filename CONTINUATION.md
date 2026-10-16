@@ -11311,3 +11311,42 @@ belongs to the published checkpoint report on #9. Original 48 statement blocks a
 44 proof blocks, the full goal and frozen M4a are preserved. The original general
 R1/R2 interpretation/provenance, broader source and scheme/action obligations remain
 open. This checkpoint does not complete the full shared goal.
+
+## Tensor localization and joint versus endpoint-image fields (#5 C2)
+
+`Correspondence.TensorFractionRing` proves
+`minimalPrimes_tensorProduct_fractionRing` for domains `A → B`, `A → C` with
+compatible fraction fields `K`, `L`, `M`. Under the canonical map, the minimal
+primes of `L ⊗[K] M` contract exactly to the minimal primes of `B ⊗[A] C` avoiding
+the nonzero elements of `A`. Injectivity of the base maps follows from the genuine
+fraction-field/tower data. Two factor localizations and flatness prove the result;
+there are no Noetherian, separability, reducedness or algebraic-closedness inputs.
+The three private helpers are consumed by this single public theorem. Its named
+consumer is the canonical-locus geometric fiber-product bridge for finite tuples,
+which remains open. No scalar or rational-curve restriction discharges that bridge.
+
+`Counterexamples.EndpointImage` proves a strict field inequality for two actual
+`FiniteCorrespondencePair` branches with a shared middle coordinate. The chain
+is `(t²,t,t²)` for a genuine transcendental `t`; its endpoint field `k(t²)` is
+properly contained in the joint field `k(t)`, in every characteristic. The proof
+uses Mathlib's rational-function degree theorem and transports through the actual
+transcendental-generator equivalence. Two private lemmas are consumed by this
+single public counterexample; no expected field inequality is an input.
+
+The corrected general inclusion, its finite-extension form and the identification
+of the tensor compositum with the joint field already exist in `FiniteCover` and
+`TensorComponent`. They are reused rather than restated. The source wording issue
+was reported on #5 (comment 6215313613) before the new annotation. The original
+§8.1 paragraph, all original statement/proof blocks and frozen M4a are preserved.
+The source annotation and hard-kernel book distinguish incidence components from
+their endpoint images. The shared goal's C2 description records the same distinction.
+Relational associativity stays proved; the tuple/nonrational geometric fiber-product
+bridge and the higher-dimensional family generic-component argument remain open.
+This counterexample does not close C2 or complete the shared project goal.
+
+Both agents independently compiled the exact two proof modules with empty strict
+logs. Root checks all nine new declarations, including private and generated ones,
+for standard dependencies. The two new public theorems give 286 selected records,
+with all 284 preceding selected public types unchanged. Full library/book, whole-library
+and exact-head CI evidence belongs to the published checkpoint report on #5. The scope
+of a dependency audit must still be distinguished from complete source coverage.
