@@ -27,8 +27,10 @@ The complete actual constructible-lift consumer is
 prerequisite for `lem:affine-action` in `sources/blueprint.tex`.
 
 **Status:** the lifts, sign ambiguity and reversed composition are proved (#21). The actual
-constructibility and rank comparison are proved in `GroupConfig.Constructible.SLLift`; the
-affine classification and original scheme/action obligations remain open.
+constructibility and rank comparison are proved in `GroupConfig.Constructible.SLLift`. For
+ordinary canonical-base rank exactly two, `GroupConfig.Germ.AffineGenerator` supplies an affine
+generator of the actual K-function field. Original scheme/action and descent obligations remain
+open.
 -/
 
 namespace GroupConfig
@@ -67,7 +69,7 @@ private theorem linear_ne_zero (ht : Transcendental K t) {c d : K} (hcd : c ≠ 
   exact hcd.elim (· hc) (· hd)
 
 /-- The bottom row of a determinant-one matrix gives a nonzero linear form. -/
-private theorem row_ne_zero (ht : Transcendental K t) (m : SL(2, K)) :
+theorem sl2_denom_ne_zero (ht : Transcendental K t) (m : SL(2, K)) :
     algebraMap K L (m 1 0) * t + algebraMap K L (m 1 1) ≠ 0 := by
   refine linear_ne_zero ht ?_
   by_contra! h
@@ -111,7 +113,7 @@ variable {hw hv} {t : LocusFunctionField k v}
 
 /-- The identity is lifted by the identity matrix. -/
 theorem isMoebiusLift_one (ht : Transcendental K t) : hw.IsMoebiusLift hv t 1 1 := by
-  refine ⟨row_ne_zero ht 1, ?_⟩
+  refine ⟨sl2_denom_ne_zero ht 1, ?_⟩
   rw [map_one]
   simp
 
@@ -184,7 +186,7 @@ theorem IsMoebiusLift.mul (ht : Transcendental K t) {γ δ : ↥hw.prodSubgroup}
     hw.IsMoebiusLift hv t (γ * δ) (n * m) := by
   obtain ⟨-, he⟩ := h
   obtain ⟨-, he'⟩ := h'
-  refine ⟨row_ne_zero ht _, ?_⟩
+  refine ⟨sl2_denom_ne_zero ht _, ?_⟩
   -- Apply the action of `γ` to the formula for `δ`.
   have hG := congrArg (hw.functionFieldAction hv γ) he'
   simp only [map_mul, map_add, AlgEquiv.commutes] at hG

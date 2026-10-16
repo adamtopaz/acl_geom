@@ -34,9 +34,10 @@ This auxiliary action theorem supplies a prerequisite for `lem:affine-action` in
 
 **Status:** the complete constructible lift and canonical-base rank comparison are proved
 (#21). The internally chosen field `M` contains the generator coefficients and sampling data;
-freshness from the original Ψ witness is not a conclusion. The classification of `Γ`, affine
-coordinates, original scheme/action and normal-subgroup producers, and original-field descent
-remain obligations.
+freshness from the original Ψ witness is not a conclusion. When the ordinary canonical-base
+rank is exactly two, `GroupConfig.Germ.IsHWBij.exists_affine_generator` classifies this subgroup
+and constructs affine coordinates of the actual K-function field. Original scheme/action and
+normal-subgroup producers, algebraization and original-field descent remain obligations.
 -/
 
 namespace GroupConfig

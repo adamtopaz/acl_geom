@@ -109,6 +109,8 @@ import GroupConfig.Constructible.SpacePresentation
 import GroupConfig.Constructible.CanonicalPresentation
 import GroupConfig.Constructible.Equivariance
 import GroupConfig.Constructible.SLLift
+import GroupConfig.Constructible.SLClassification
+import GroupConfig.Germ.AffineGenerator
 import GroupConfig.ConfigurationNecessity
 import GroupConfig.MainConstructible
 import GroupConfig.PsiConstructible

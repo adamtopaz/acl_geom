@@ -10889,3 +10889,42 @@ from the original Ψ witness. Affine classification, the original scheme
 action and normal-subgroup producers, Weil algebraization, original-field
 descent, guarded chart extraction and unconditional reconstruction remain
 obligations. All eight original #21 requirements remain open.
+
+## The actual rank-two HW affine generator (#21, 2026-10-15)
+
+`Germ.IsHWBij.exists_affine_generator` starts with actual HW bijection data,
+a difference-set member of ordinary canonical-base rank exactly two and a
+finite rank-one source locus. It internally chooses a transcendental generator
+u of the original K-function field in which every actual group element sends
+u to a*u+b with a nonzero. This holds in every characteristic. No classification,
+eigenbasis, fixed-point, conjugation or coordinate certificate is an input.
+
+The public constructible subgroup classifier chooses a nonbase trace, an
+eigenbasis and a full torus internally. Conjugating coefficients enter a small
+algebraically closed field before ranks are compared. A fresh actual matrix,
+chosen using constructibility, retains rank two over that field. Two full tori
+with disjoint fixed pairs force rank three; distinct tori sharing a point
+generate the upper Borel, and matrix case analysis finishes the classification.
+The actual lift theorem supplies all subgroup hypotheses over its own M.
+The coordinate change u=phi_A(t) turns each lift m into A*m*A^-1. The existing
+SL2 denominator proof is shared by the old lift consumers and the new coordinate
+calculus; its former local duplicate is removed. Supporting lemmas stay private.
+
+Claude supplied the eigenbasis, rank-three, Borel, case-analysis, rank-base-change
+and coordinate ingredients. The primary agent read their proofs and assembled
+the complete classifier and actual consumer. Both agents independently checked
+the exact full private consumer with empty standard-lint logs at default limits;
+the peer family took 5.10 s and peaked at 3.88 GiB. The split public candidate was
+then checked with four fresh module outputs in 13.08 s, peaking at 3.75 GiB, with
+empty standard-lint logs. All 45 existing expanded public types are unchanged;
+those and the three new public declarations have 48 selected standard-axiom
+reports. This is a scoped audit, not a whole-library axiom audit. Full final
+library/book gates and exact CI evidence are recorded on #21 after all edits.
+
+Rank exactly two is retained; the rank-at-least-two affine claim is not made.
+The coefficient field is not claimed fresh from the original Psi witness.
+The original scheme action, connected normal subgroup, algebraization,
+original-field chart/action descent, guarded Q and unconditional reconstruction
+remain obligations. All eight original #21 requirements remain open. Original
+source TeX, goal endpoint/completion criteria and continuation history are
+preserved, and the supplementary PDF stays excluded.

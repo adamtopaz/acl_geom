@@ -722,11 +722,29 @@ generic group element independent from M; no rank or constructibility certificat
 
 {docstring GroupConfig.Germ.IsHWBij.exists_constructible_slLift}
 
+When the ordinary canonical-base rank is exactly two, the actual lifted subgroup
+is conjugate to the full upper Borel subgroup of $`SL_2(K)`. The proof constructs
+a full torus from a trace outside the base field. Its conjugating coefficients enter a
+small algebraically closed field before ranks are compared, and a fresh actual
+group element retains rank two over that field. Two tori with disjoint fixed
+pairs force rank three; distinct tori sharing a point generate the Borel.
+
+{docstring GroupConfig.exists_borel_conj_of_constructible_rank_two}
+
+Changing the original generator by this matrix gives one transcendental
+generator $`u` of the same K-function field such that every actual group element
+sends $`u` to $`a u+b`, with $`a` nonzero. All lifts, the coefficient field, the
+triangularizing matrix and the generator are chosen internally from the HW
+data; the caller supplies ordinary canonical-base rank exactly two. The result
+holds in every characteristic.
+
+{docstring GroupConfig.Germ.IsHWBij.exists_affine_generator}
+
 M contains arbitrary generator coefficients and the samples. Freshness of M
-from the original Ψ witness is not a conclusion. Classification of this
-constructible subgroup, affine coordinates, the original scheme/action and
-normal-subgroup producers, group algebraization and original-field chart/action
-descent remain obligations of the original blueprint.
+from the original Ψ witness is not a conclusion. The affine generator is a
+K-function-field conclusion. The original scheme/action and normal-subgroup
+producers, group algebraization, original-field chart/action descent and the
+full original affine-action lemma remain obligations of the blueprint.
 
 For an orbit of invertible germs between two loci, independent pairs give
 difference germs. These form one orbit. The difference and either member of
