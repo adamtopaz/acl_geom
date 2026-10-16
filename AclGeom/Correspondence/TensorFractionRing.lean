@@ -25,21 +25,28 @@ nonzero element of `A` avoids every `b ⊗ 1`: localizing at `A∖0` through the
 `B ⊗[A] (C ⊗[A] K)`, which is flat over `B` because `C ⊗[A] K` is flat over `A`.
 
 This theorem is consumed by `ComponentGeometry` and, through it, the canonical tuple-locus fiber
-product of blueprint §8.1 (#5). `LocusPullback` proves the actual affine-scheme middle-
-dominating components, and `LocusEndDominance` proves their endpoint-density criterion under the
-source closure clauses. `LocusQuotient` matches the literal rename-induced quotient maps, and
-`LocusQuotientComponents` identifies their spectrum components and endpoint-density criterion.
-`LocusIncidence` identifies the full incidence quotient, and `LocusQuotientComponents` also
-proves its spectrum-component and actual projection-density criteria. `LocusJointComponent`
-identifies the actual joint evaluation kernel as a middle-dominating component when each
-coordinate of `z` is algebraic over `k(y)`. It also proves
+product of blueprint §8.1 (#5). `LocusPullback` proves the actual affine-scheme
+middle-dominating components, and `LocusEndDominance` proves their endpoint-density criterion
+under the source closure clauses. `LocusQuotient` matches the literal rename-induced quotient
+maps, and `LocusQuotientComponents` identifies their spectrum components and endpoint-density
+criterion. `LocusIncidence` identifies the full incidence quotient, and
+`LocusQuotientComponents` also proves its spectrum-component and actual projection-density
+criteria. `LocusJointComponent` identifies the actual joint evaluation kernel as a
+middle-dominating component when each coordinate of `z` is algebraic over `k(y)`. It also proves
 `locusIncidence_dominatingComponents_eq_jointLoci`: for finite outer tuples in an algebraically
 closed ambient field, with both `x` and `z` algebraic over `k(y)`, these components are exactly
 the joint loci of realizations with the two original pair ideals. The middle tuple and the base
 field remain arbitrary.
 
-Endpoint-image comparison, tuple germs, relational associativity and the higher-dimensional
-family generic-component argument remain open.
+`TupleComposition` proves relational associativity of finite-tuple germs, nonempty composition
+for equal middle ideals, and the equality between composite carrier ideals and endpoint
+contractions of middle-dominating incidence components, in an algebraically closed ambient
+field. `TupleCompositionField` derives target rank one and proves finiteness of the actual
+generated joint field over the endpoint field and over both end fields, under the relevant
+finite-index and algebraicity hypotheses. These field results work over arbitrary base and
+ambient fields. The finite-generic-fibre equivalence, component-function-field/compositum
+dictionary, threefold incidence-component comparison, scalar specialization and
+higher-dimensional family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

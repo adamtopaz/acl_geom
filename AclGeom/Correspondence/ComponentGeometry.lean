@@ -26,8 +26,15 @@ algebraically closed ambient field, with both `x` and `z` algebraic over `k(y)`,
 components are exactly the joint loci of realizations with the two original pair ideals. The
 middle tuple and the base field remain arbitrary.
 
-Endpoint-image comparison, tuple germs, relational associativity and the higher-dimensional
-family generic-component argument remain open.
+`TupleComposition` proves relational associativity of finite-tuple germs, nonempty composition
+for equal middle ideals, and the equality between composite carrier ideals and endpoint
+contractions of middle-dominating incidence components, in an algebraically closed ambient
+field. `TupleCompositionField` derives target rank one and proves finiteness of the actual
+generated joint field over the endpoint field and over both end fields, under the relevant
+finite-index and algebraicity hypotheses. These field results work over arbitrary base and
+ambient fields. The finite-generic-fibre equivalence, component-function-field/compositum
+dictionary, threefold incidence-component comparison, scalar specialization and
+higher-dimensional family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -11652,3 +11652,113 @@ objective/completion criteria and frozen M4a remain unchanged. The function-fiel
 module changes only in its scope header. Tuple germs, relational associativity,
 endpoint-image comparison and the higher-dimensional family generic-component
 argument remain obligations. C2 and the full shared goal remain open.
+
+## Tuple germs, relational associativity and actual component images (#5 C2)
+
+`Correspondence.TupleComposition` supplies the genuine finite-tuple germ
+layer. `TupleCorrespondencePair` stores source rank one and mutual coordinatewise
+closure; its ideal is joint evaluation's kernel, and presentations compose at
+one literally shared middle tuple. `TupleCorrespondenceGerm` stores that ideal
+with the existence of a presentation. Its `Composes` relation retains all
+shared-middle presentations without selecting a binary operation.
+
+`composes_assoc` proves both directions of relational associativity for four
+finite index types in an algebraically closed ambient field, over an arbitrary
+base, in six independent universes. `exists_composes_of_middle_ideal_eq` gives
+a composite when the contracted middle ideals agree; only the middle index
+needs to be finite. `composes_ofPair_carriers_eq` proves both directions of the actual
+geometric link for fixed shared-middle presentations and three finite indices:
+the set of composite carrier ideals equals the set of contractions to
+endpoint variables of the vanishing ideals of middle-dominating irreducible
+components of the actual incidence quotient. The component-to-carrier
+implication constructs the germ and its genuine presentation internally;
+it does not assume a germ with the desired carrier. Its ideal and rename-induced middle projection are the
+same as in `LocusJointComponent`. The joint field is not identified with the
+possibly smaller endpoint-image field.
+
+Four private helpers have these concrete consumers. `ofIdealEq` transfers rank
+using the existing generated-field isomorphism and transfers closure from equal
+joint ideals. It feeds `transport` and the reverse component implication.
+`idealOf_comp_elim` preserves joint ideals under ambient automorphisms and is
+used throughout. `transport` feeds associativity and nonempty composition.
+`idealOf_target_eq` identifies the middle ideal in every presentation and feeds
+nonempty composition and the forward component implication. The component proof
+keeps its incidence ideal fixed, derives containment from equal pair ideals,
+proves the mapped joint ideal prime, and uses quotient contraction and variable
+renaming to recover the endpoint ideal. It consumes the all-component set
+equality in both directions. The source rank-one and closure hypotheses are
+stored in the genuine pair. Rank and closure of transported presentations,
+component classification and automorphism alignment are derived internally.
+
+Both agents independently compiled the exact mathematical source with empty strict
+logs and default limits. All 58 public/private/generated declarations use only
+standard axioms. There are 18 intended user API names and 20 generated structure
+API names, with no unexplained API; all 38 type hashes agree between agents.
+The selected audit has 323 standard-dependency public types, retaining all 305
+preceding types exactly. Scalar source modules and their public statements are
+unchanged. Full library/book, whole-library and exact-head CI evidence belongs
+to the published checkpoint report; dependency validation is not source coverage.
+
+Seven older bridge modules change only in scope headers. Book, shared goal and
+the existing source annotation record the same scope. An older book paragraph
+that still listed finite-tuple Krull dimension as open now points to its proved
+coordinate-ring theorem. Original source outside the existing annotation, all
+48 statement blocks and 44 proof blocks, the goal objective/completion criteria
+and frozen M4a remain unchanged. The following field module proves the general
+generated-tuple field clauses. The finite-generic-fibre equivalence, component-field/compositum dictionary,
+threefold incidence-component comparison, scalar specialization, higher-dimensional family argument,
+packaged generic extension, general curve-coset and original group/scheme/action
+obligations remain open. C2 and the full shared goal remain open.
+
+## Rank and finite generated-field extensions in the tuple calculus (#5 C2)
+
+`Correspondence.TupleCompositionField` derives the second rank-one clause of
+(8.1) and the generated-field finiteness clauses of the same source paragraph.
+`TupleCorrespondencePair.target_rank` needs no finiteness or ACF hypothesis.
+Its one private generic step identifies transcendence degrees along an
+algebraic extension of intermediate fields. Mathlib's canonical tower on
+`extendScalars` gives a zero relative summand; an identity algebra equivalence
+transfers back to the actual containing field. The target-rank proof uses this
+twice, with algebraicity derived internally from the two closure clauses.
+
+`endpointField_le_jointField` proves the actual inclusion of k(x,z) in
+k(x,y,z), without extra hypotheses. `jointField_finiteDimensional` proves
+finiteness over k(x,z) when the middle index is finite and y is algebraic
+over that endpoint field. Both outer index types, the base and the ambient
+field are arbitrary. `jointField_finiteDimensional_over_ends` proves
+finiteness over each of k(x) and k(z), for finite indices and the four genuine
+closure clauses of (8.1); neither rank one nor ACF is needed. The actual
+inclusions are used in Mathlib's `extendScalars`, and all generator identities
+and closure transitivity are derived internally. Restriction of scalars reduces
+the fields to finite algebraic field adjoins, then `finiteDimensional_adjoin`
+proves the conclusions. No duplicate of the incidence module's custom inclusion
+algebra transfer and no new public normalization helper is introduced.
+
+The field module has five declarations: four public source producers and one
+private rank step, with no generated matcher. Both agents independently compiled
+the exact tuple and field sources, with empty strict logs and default limits.
+All 63 declarations in the two-module bundle use only standard axioms, and
+all 63 raw type hashes agree between agents. All 58 tuple declarations and the
+first three field API types are retained. The selected audit now has 327
+standard-dependency public types and preserves all 323 preceding tuple-checkpoint
+types exactly, including all 305 main types. The field module's five universes
+are independent, and target rank uses four. Full library/book, whole-library
+and exact-head CI evidence belongs to the checkpoint report on #5. Dependency
+validation is not complete source coverage.
+
+These field clauses are part of the same finite-tuple calculus checkpoint as
+the carrier-set equality, relational associativity and nonempty composition.
+The joint field may remain a proper finite extension of the endpoint-image
+field. The finite-generic-fibre equivalence, component-function-field/compositum
+dictionary, threefold incidence-component comparison, scalar specialization
+and higher-dimensional family argument remain open,
+as do the original packaged generic-extension, curve-coset and group/scheme/action
+obligations. All original source outside its existing annotation, all 48
+statement blocks and 44 proof blocks, goal objective/completion criteria and
+frozen M4a are preserved. C2 and the full shared goal remain open.
+
+The final module-scope headers of both new modules now point to the field
+producers and the precise remaining §8.1 dictionary obligations. Only their
+module docstrings differ from the independently compiled frozen sources;
+imports, declaration docstrings, attributes, statements and proofs are exact.
+This removes an earlier open-field marker without altering mathematical code.

@@ -23,6 +23,8 @@ import AclGeom.Correspondence.LocusQuotient
 import AclGeom.Correspondence.LocusIncidence
 import AclGeom.Correspondence.LocusQuotientComponents
 import AclGeom.Correspondence.LocusJointComponent
+import AclGeom.Correspondence.TupleComposition
+import AclGeom.Correspondence.TupleCompositionField
 import AclGeom.Correspondence.LocusDimension
 
 open Verso.Genre Manual
@@ -143,9 +145,10 @@ canonical-coordinate affine fiber product below consumes it. The literal
 relative quotient maps and their spectrum components are identified below.
 The incidence quotient and its actual projections are identified below.
 The chosen joint point's component status under a source algebraicity clause
-is proved below. Tuple germs and the family's generic-component argument
-remain separate obligations. General curve
-function fields are retained throughout.
+is proved below. The tuple germ layer below identifies composite germs with
+endpoint images of the actual components and proves relational associativity.
+The family's generic-component argument remains a separate obligation.
+General curve function fields are retained throughout.
 
 # Components of the actual affine fiber product
 %%%
@@ -354,8 +357,92 @@ ideals constructs embeddings of the generated fields that fix the middle
 field, giving the same contracted kernel. The comparison also supplies the
 previous chosen-point theorem, whose statement remains unchanged.
 
-Tuple germs, relational associativity, endpoint-image comparison and the
-higher-dimensional family generic-component argument remain obligations.
+# Tuple correspondence germs and actual components
+%%%
+tag := "tuple-correspondence-germs"
+%%%
+
+A tuple presentation stores a source of rank one and the two coordinatewise
+algebraicity clauses of (8.1). Its ideal is the vanishing ideal of the joint
+tuple. Presentations compose at a literally shared middle tuple; a germ is
+an ideal with the existence of a presentation:
+
+{docstring AclGeom.TupleCorrespondencePair}
+
+{docstring AclGeom.TupleCorrespondenceGerm}
+
+Composition keeps all possible shared-middle presentations. It is a
+relation, with no binary composite selected:
+
+{docstring AclGeom.TupleCorrespondenceGerm.Composes}
+
+In an algebraically closed ambient field, the relation is associative for
+four finite tuple index types, in independent universes:
+
+{docstring AclGeom.TupleCorrespondenceGerm.composes_assoc}
+
+A composite exists whenever the contracted middle ideals agree. This
+existence theorem requires only finiteness of the middle index type:
+
+{docstring AclGeom.TupleCorrespondenceGerm.exists_composes_of_middle_ideal_eq}
+
+For fixed presentations with literally shared middle tuple, and three
+finite index types, the following equality of sets of ideals proves both
+directions of the geometric link. Every middle-dominating component of the
+actual incidence spectrum produces a composite germ whose carrier is its
+vanishing ideal contracted to the endpoint variables. Every composite
+carrier arises in this way:
+
+{docstring AclGeom.TupleCorrespondenceGerm.composes_ofPair_carriers_eq}
+
+The incidence ideal stays fixed. An ambient automorphism aligns the middle
+tuples or the intermediate endpoint tuples. Equality of pair ideals
+transfers rank and closure to new presentations. Primality of the mapped
+joint ideal and the quotient contraction formula identify the endpoint
+ideal; the all-component classification supplies both directions. The
+presentations are arbitrary finite tuples, so their function fields need
+not be rational; the base field is arbitrary. All three theorems derive
+their alignment and component facts internally.
+
+# Field clauses of tuple correspondences
+%%%
+tag := "tuple-correspondence-fields"
+%%%
+
+The target rank-one clause of (8.1) follows from the stored source rank and
+mutual algebraicity. This needs no finite-index or algebraic-closedness
+hypothesis:
+
+{docstring AclGeom.TupleCorrespondencePair.target_rank}
+
+For actual generated tuple fields, the endpoint field lies in the joint
+field:
+
+{docstring AclGeom.endpointField_le_jointField}
+
+If the middle tuple is finite and algebraic over the endpoint field, the
+joint field is finite over it. The outer tuples, base field and ambient
+field are arbitrary:
+
+{docstring AclGeom.jointField_finiteDimensional}
+
+Under the four closure clauses of (8.1) and three finite index types, the
+joint field is also finite over each end field. Rank-one and
+algebraic-closedness premises are unnecessary for this field conclusion:
+
+{docstring AclGeom.jointField_finiteDimensional_over_ends}
+
+These statements use the actual generated subfields and Mathlib's inclusion
+structures. Restriction of scalars identifies each extension with a field
+adjoin of a finite algebraic tuple, and Mathlib proves finite dimension.
+For target rank, both fields have the same transcendence degree as the
+joint field: the relative tower summand is zero, so no infinite-cardinal
+cancellation is used. The finite-dimension and target-rank conclusions are
+derived internally.
+
+The finite-generic-fibre equivalence, component-function-field/compositum
+dictionary, threefold incidence-component comparison, scalar specialization
+and higher-dimensional family argument remain obligations.
 C2 remains open.
 
 # Component fields and endpoint images
@@ -380,14 +467,17 @@ field. This corrects the endpoint-field reading of the original §8.1 wording,
 reported on issue #5 before the source annotation. The original paragraph is
 retained. Relational germ associativity remains proved.
 
-The canonical fiber-product, literal relative tensor and full incidence
-quotient results above apply to arbitrary tuples and general curve function
-fields. The chosen joint prime is a middle-dominating component under the
-stated source algebraicity clause. Under the finite-outer-tuple and
-algebraically closed ambient hypotheses above, every middle-dominating
-component is realized by a joint locus. Tuple germ comparison, relational
-associativity and the higher-dimensional family argument remain open. The
-field distinction is separate from those remaining obligations.
+The canonical fiber-product, literal relative tensor and full incidence quotient results above
+apply to arbitrary tuples and general curve function fields. The chosen joint prime is a
+middle-dominating component under the stated source algebraicity clause. Under the
+finite-outer-tuple and algebraically closed ambient hypotheses above, every middle-dominating
+component is realized by a joint locus. The tuple theorem above realizes every component's
+endpoint contraction with an internally constructed composite germ, and composition is
+relationally associative. The generated joint field's inclusion and finite extension of the
+endpoint field, and its finiteness over both end fields, are proved above. The
+finite-generic-fibre equivalence, component-function-field/compositum dictionary, threefold
+incidence-component comparison, scalar specialization and higher-dimensional family argument
+remain open. The actual endpoint contraction retains the scalar field distinction.
 
 # Tensor-domain regularity
 %%%
@@ -615,11 +705,13 @@ For a closed ambient no enlargement is needed. The finite hypothesis is
 essential for the cancellation argument and for extension inside the
 unchanged ambient. The theorem makes no claim for infinite tuples.
 The field content of (a), finite (b) and literal (c) now has formal proofs;
-the numerical field degree follows below. Geometric rank, Krull dimension,
-the packaged variety-level lemma and the geometric fiber-product
-identification of composites remain open (#5), as do the original
-scheme/action statements (#21). The guarded initial chart and rank-five ACF
-completeness are proved. Frozen M4a is unchanged.
+the numerical field degree follows below. The finite-tuple coordinate-ring
+Krull dimension equals this transcendence degree by the theorem above, and
+the tuple germ theorem identifies composites with endpoint images of the
+actual incidence components. The packaged variety-level lemma, its geometric
+formulation and the higher-dimensional family argument remain open (#5), as
+do the original scheme/action statements (#21). The guarded initial chart
+and rank-five ACF completeness are proved. Frozen M4a is unchanged.
 
 # Generic-point dimensions after scalar extension
 %%%

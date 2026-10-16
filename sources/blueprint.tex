@@ -1340,15 +1340,14 @@ Thus the associativity explanation must pass from joint components to their endp
 images. The relational associativity conclusion below is unchanged. This clarification
 was reported on issue \#5 before this annotation; all original source paragraphs,
 statements and proofs are preserved. The chosen joint point's component status under
-a source algebraicity clause is proved below; tuple-germ comparison and the
-higher-dimensional family applications remain obligations.
+a source algebraicity clause and the tuple-germ comparison are proved below;
+the higher-dimensional family applications remain obligations.
 For any finite tuple $a$ over arbitrary base and ambient fields,
 \lean{exists_locusCoordinateRing_dimension} proves that the Krull dimension
 of the literal coordinate ring $k[X]/I(a/k)$ and $\trdeg_k k(a)$ are the
 same finite natural number, chosen internally. This supplies the dimension
 assertion in the opening paragraph of \cref{sec:rigidity}, without
-algebraic-closedness,
-rank-one or rationality assumptions. Noether normalization and the integral
+algebraic-closedness, rank-one or rationality assumptions. Noether normalization and the integral
 extension dimension comparison are proved through Mathlib's actual coordinate
 ring and fraction-field structures.
 The domain-level localization step is proved in
@@ -1420,8 +1419,36 @@ component embeddings used by the scalar realization. The polynomial
 comparison identifies their contracted kernels with the images of the joint
 ideals; in the reverse direction, equal pair ideals give isomorphisms of the
 generated fields, whose composites with the inclusions are shown to fix $k(y)$.
-Tuple germs, relational associativity, endpoint-image comparison and the
-higher-dimensional family generic-component argument remain owed.
+For finite tuples in an algebraically closed ambient field, the new
+\lean{TupleCorrespondencePair} stores source rank one and the two coordinatewise
+closure clauses of (8.1); \lean{TupleCorrespondenceGerm} retains the joint ideal
+and existence of a presentation. Composition keeps all shared-middle realizations.
+The theorem \lean{TupleCorrespondenceGerm.composes_assoc} proves relational
+associativity for four finite index types in independent universes, over an
+arbitrary base. Equal contracted middle ideals give a composite by
+\lean{TupleCorrespondenceGerm.exists_composes_of_middle_ideal_eq}, requiring
+only finiteness of the middle index type. For fixed shared-middle presentations
+and three finite index types,
+\lean{TupleCorrespondenceGerm.composes_ofPair_carriers_eq} identifies the possible
+composite ideals exactly with the endpoint-variable contractions of the
+vanishing ideals of the actual middle-dominating incidence components.
+This is an equality of sets of ideals: every such component yields a composite
+germ with that carrier, constructed internally, and every composite carrier
+arises this way. The incidence ideal stays fixed; ambient automorphisms
+align presentations, and the mapped joint prime and quotient contraction
+formula give the endpoint image. No binary composite or rational
+parametrization is selected. The target rank-one clause is derived by
+\lean{TupleCorrespondencePair.target_rank}, without finiteness or ACF.
+The actual generated field inclusion $k(x,z)\subseteq k(x,y,z)$ is
+\lean{endpointField_le_jointField}; \lean{jointField_finiteDimensional}
+proves finiteness when $y$ is finite and algebraic over $k(x,z)$, with no
+condition on the outer index types, base or ambient field. Under the four
+closure clauses of (8.1) and three finite index types,
+\lean{jointField_finiteDimensional_over_ends} proves finiteness of the joint
+field over each of $k(x)$ and $k(z)$; rank-one and ACF assumptions are not
+needed for this field conclusion. The finite-generic-fibre equivalence, component-function-field/compositum
+dictionary, threefold incidence-component comparison, scalar specialization
+and higher-dimensional family generic-component argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

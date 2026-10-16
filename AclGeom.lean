@@ -42,6 +42,8 @@ import AclGeom.Correspondence.LocusQuotient
 import AclGeom.Correspondence.LocusIncidence
 import AclGeom.Correspondence.LocusQuotientComponents
 import AclGeom.Correspondence.LocusJointComponent
+import AclGeom.Correspondence.TupleComposition
+import AclGeom.Correspondence.TupleCompositionField
 import AclGeom.Correspondence.TensorRealization
 import AclGeom.Correspondence.CurveEquation
 import AclGeom.Correspondence.CurveEquationTransport
