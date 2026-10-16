@@ -37,9 +37,12 @@ Both presentations are aligned by ambient automorphisms extending equalities of 
 
 This is the tuple germ layer of the geometric fiber-product bridge of blueprint §8.1 (#5).
 `TupleCompositionField` derives target rank one and proves the generated joint-field inclusion
-and finite-extension clauses. The finite-generic-fibre equivalence, component-function-field
-and compositum dictionary, threefold incidence-component comparison, scalar specialization
-and higher-dimensional family generic-component argument remain open.
+and finite-extension clauses.
+
+`LocusComponentField` identifies each actual middle-dominating component's coordinate ring and
+fraction field with the realized joint generated ring and compositum, including polynomial
+representative formulas. The remaining source obligations are recorded in the book's hard-kernel
+chapter and the current frontier of `PROJECT_GOAL.md`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

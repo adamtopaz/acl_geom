@@ -40,9 +40,10 @@ endpoint contractions of these components, in an algebraically closed ambient fi
 `TupleCompositionField` derives target rank one and proves finiteness of the actual generated
 joint field over the endpoint field and over both end fields, under the relevant finite-index
 and algebraicity hypotheses. These field results work over arbitrary base and ambient fields.
-The finite-generic-fibre equivalence, component-function-field/compositum dictionary, threefold
-incidence-component comparison, scalar specialization and higher-dimensional family
-generic-component argument remain open.
+`LocusComponentField` identifies each actual middle-dominating component's coordinate ring and
+fraction field with the realized joint generated ring and compositum, including polynomial
+representative formulas. The remaining source obligations are recorded in the book's hard-kernel
+chapter and the current frontier of `PROJECT_GOAL.md`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

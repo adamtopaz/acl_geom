@@ -1450,10 +1450,21 @@ needed for this field conclusion. For two finite tuples,
 \lean{pairField_finiteDimensional_iff} proves the function-field criterion of
 (8.1): $k(v,w)$ is finite over each of $k(v)$ and $k(w)$ if and only if the
 two coordinatewise algebraicity clauses hold. Both canonical inclusions
-are used; no rank-one or ACF hypothesis is needed. The scheme-level
-finite-generic-fibre dictionary, component-function-field/compositum dictionary,
-threefold incidence-component comparison, scalar specialization and
-higher-dimensional family generic-component argument remain owed.
+are used; no rank-one or ACF hypothesis is needed. For every actual middle-dominating incidence component $Z$,
+\lean{exists_locusIncidence_component_algEquiv} chooses $x',z'$ preserving
+both pair ideals and identifies the component's reduced coordinate ring,
+the incidence quotient modulo $\operatorname{vanishingIdeal}(Z)$, with
+$k[x',y,z']$. Its actual fraction ring is identified with the compositum
+$k(x',y)\vee k(y,z')$ inside $\Omega$. Both identifications send every
+polynomial representative to its evaluation at $(x',y,z')$.
+Only the outer tuples need be finite and algebraic over $k(y)$, and the
+ambient field is algebraically closed; the base and middle tuple are
+arbitrary, in five independent universes. No rank-one or rationality
+hypothesis is used. The component field remains distinct from its
+possibly smaller endpoint-image field.
+The scheme-level finite-generic-fibre dictionary, threefold incidence-component
+comparison, scalar specialization and higher-dimensional family
+generic-component argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

@@ -28,9 +28,10 @@ Field-theoretic clauses of blueprint §8.1 for tuple presentations:
 
 The endpoint field can be a proper subfield of the joint field, as
 `exists_compositeBranchField_lt_chainField` shows for scalar branches; no equality is claimed.
-The scheme-level finite-generic-fibre dictionary, component-function-field/compositum dictionary,
-threefold incidence-component comparison, scalar specialization and higher-dimensional family
-generic-component argument remain open.
+`LocusComponentField` identifies each actual middle-dominating component's coordinate ring and
+fraction field with the realized joint generated ring and compositum, including polynomial
+representative formulas. The remaining source obligations are recorded in the book's hard-kernel
+chapter and the current frontier of `PROJECT_GOAL.md`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
