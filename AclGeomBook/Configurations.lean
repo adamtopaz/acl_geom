@@ -253,11 +253,10 @@ These arguments use only joins, meets, order, finite rank and bijective
 point transport. They need no perfection, semantic completeness,
 rank-five bound or fresh element. Corrected interpretation-relation transport,
 quotient-carrier and geometric operation-graph naturality are proved in the
-interpretation chapter; actual inducing existence and the public lattice-form
-target are proved conditionally in the reconstruction chapter. Both exact
-perfected ACF J-completeness inputs remain explicit in these internal APIs. The public
-reconstruction theorem supplies them internally; the broader
-perfection-choice equivalence and final validation remain open. Guarded geometric projection
+interpretation chapter. The internal inducing-existence APIs keep both exact perfected
+ACF J-completeness inputs explicit. The public reconstruction theorem proves the lattice
+target by supplying these inputs internally. The remaining source validation obligations
+remain open. Guarded geometric projection
 completeness follows from the new guarded Q theorem below. The frozen M4a record
 and literal source obligations are preserved.
 

@@ -23,7 +23,10 @@ the entry kit, the line-pair independences, and the rank clauses.
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M4, checklist G4 forward half).
+**Status:** the forward multiplication-diagram table and semantic Q′/J soundness are
+proved. The multiplication converse and ACF completeness are proved in
+`Config.MultiplicationConverse` and `Config.Completeness`. Original source group/chunk
+and scheme/action statements remain separate obligations.
 -/
 
 namespace AclGeom
@@ -440,6 +443,7 @@ theorem mtable_ay_notMem_empty : a * y ∉ racl k (∅ : Set K) := fun h ↦
   mtable_ay_notMem_bot hind
     (ClosedIF.mem_bot_iff.2 (isAlgebraic_of_mem_racl_empty h))
 
+omit hind in
 theorem mtable_racl_div_le :
     racl k ({x / y} : Set K) ≤ racl k ({x, y} : Set K) := by
   refine racl_le_of_subset_racl (Set.singleton_subset_iff.2 ?_)
@@ -448,6 +452,7 @@ theorem mtable_racl_div_le :
   rw [div_eq_mul_inv]
   exact MulMemClass.mul_mem hx (inv_mem hy)
 
+omit hind in
 theorem mtable_racl_mul_le :
     racl k ({x * y} : Set K) ≤ racl k ({x, y} : Set K) := by
   refine racl_le_of_subset_racl (Set.singleton_subset_iff.2 ?_)
@@ -455,6 +460,7 @@ theorem mtable_racl_mul_le :
   have hy : y ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
   exact MulMemClass.mul_mem hx hy
 
+omit hind in
 theorem mtable_racl_ax_le :
     racl k ({a * x} : Set K) ≤ racl k ({a, x} : Set K) := by
   refine racl_le_of_subset_racl (Set.singleton_subset_iff.2 ?_)
@@ -462,6 +468,7 @@ theorem mtable_racl_ax_le :
   have hx : x ∈ racl k ({a, x} : Set K) := subset_racl k _ (by simp)
   exact MulMemClass.mul_mem ha hx
 
+omit hind in
 theorem mtable_racl_ay_le :
     racl k ({a * y} : Set K) ≤ racl k ({a, y} : Set K) := by
   refine racl_le_of_subset_racl (Set.singleton_subset_iff.2 ?_)
@@ -504,7 +511,7 @@ theorem mtable_ne06 : a * y ∉ racl k ({x} : Set K) := by
   have h' : a * y ∈ racl k (insert x (∅ : Set K)) := by simpa using h
   have h2 := racl_exchange h' (mtable_ay_notMem_empty hind)
   have h3 : x ∈ racl k ({a * y} : Set K) := by simpa using h2
-  exact mtable_x_notMem_ay hind (mtable_racl_ay_le hind h3)
+  exact mtable_x_notMem_ay hind (mtable_racl_ay_le h3)
 
 theorem mtable_ne07 : a * x * y ∉ racl k ({x} : Set K) := by
   intro h
@@ -533,7 +540,7 @@ theorem mtable_ne15 : a * x ∉ racl k ({y} : Set K) := by
   have h' : a * x ∈ racl k (insert y (∅ : Set K)) := by simpa using h
   have h2 := racl_exchange h' (mtable_ax_notMem_empty hind)
   have h3 : y ∈ racl k ({a * x} : Set K) := by simpa using h2
-  exact mtable_y_notMem_ax hind (mtable_racl_ax_le hind h3)
+  exact mtable_y_notMem_ax hind (mtable_racl_ax_le h3)
 
 theorem mtable_ne16 : a * y ∉ racl k ({y} : Set K) := by
   intro h
@@ -572,14 +579,14 @@ theorem mtable_ne23 : x * y ∉ racl k ({x / y} : Set K) := by
   exact mtable_y_notMem_x hind (mem_of_mul_mem_left h3 hq0 hprod2)
 
 theorem mtable_ne24 : a ∉ racl k ({x / y} : Set K) := fun h ↦
-  mtable_a_notMem_xy hind (mtable_racl_div_le hind h)
+  mtable_a_notMem_xy hind (mtable_racl_div_le h)
 
 theorem mtable_ne25 : a * x ∉ racl k ({x / y} : Set K) := by
   intro h
   have h' : a * x ∈ racl k (insert (x / y) (∅ : Set K)) := by simpa using h
   have h2 := racl_exchange h' (mtable_ax_notMem_empty hind)
   have h3 : x / y ∈ racl k ({a * x} : Set K) := by simpa using h2
-  have h4 : x / y ∈ racl k ({a, x} : Set K) := mtable_racl_ax_le hind h3
+  have h4 : x / y ∈ racl k ({a, x} : Set K) := mtable_racl_ax_le h3
   have hq0 : x / y ≠ 0 :=
     div_ne_zero (mtable_x_ne_zero hind) (mtable_y_ne_zero hind)
   have hprod : (x / y) * y ∈ racl k ({a, x} : Set K) := by
@@ -592,7 +599,7 @@ theorem mtable_ne26 : a * y ∉ racl k ({x / y} : Set K) := by
   have h' : a * y ∈ racl k (insert (x / y) (∅ : Set K)) := by simpa using h
   have h2 := racl_exchange h' (mtable_ay_notMem_empty hind)
   have h3 : x / y ∈ racl k ({a * y} : Set K) := by simpa using h2
-  have h4 : x / y ∈ racl k ({a, y} : Set K) := mtable_racl_ay_le hind h3
+  have h4 : x / y ∈ racl k ({a, y} : Set K) := mtable_racl_ay_le h3
   have hy : y ∈ racl k ({a, y} : Set K) := subset_racl k _ (by simp)
   have hx := MulMemClass.mul_mem h4 hy
   rw [div_mul_cancel₀ x (mtable_y_ne_zero hind)] at hx
@@ -600,7 +607,7 @@ theorem mtable_ne26 : a * y ∉ racl k ({x / y} : Set K) := by
 
 theorem mtable_ne27 : a * x * y ∉ racl k ({x / y} : Set K) := by
   intro h
-  have h2 : a * x * y ∈ racl k ({x, y} : Set K) := mtable_racl_div_le hind h
+  have h2 : a * x * y ∈ racl k ({x, y} : Set K) := mtable_racl_div_le h
   have hxy : x * y ∈ racl k ({x, y} : Set K) := by
     have hx : x ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
     have hy : y ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
@@ -614,25 +621,25 @@ theorem mtable_ne27 : a * x * y ∉ racl k ({x / y} : Set K) := by
     (mem_of_mul_mem_right hxy hxy0 h')
 
 theorem mtable_ne34 : a ∉ racl k ({x * y} : Set K) := fun h ↦
-  mtable_a_notMem_xy hind (mtable_racl_mul_le hind h)
+  mtable_a_notMem_xy hind (mtable_racl_mul_le h)
 
 theorem mtable_ne35 : a * x ∉ racl k ({x * y} : Set K) := by
   intro h
-  have h2 : a * x ∈ racl k ({x, y} : Set K) := mtable_racl_mul_le hind h
+  have h2 : a * x ∈ racl k ({x, y} : Set K) := mtable_racl_mul_le h
   have hx : x ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
   exact mtable_a_notMem_xy hind
     (mem_of_mul_mem_right hx (mtable_x_ne_zero hind) h2)
 
 theorem mtable_ne36 : a * y ∉ racl k ({x * y} : Set K) := by
   intro h
-  have h2 : a * y ∈ racl k ({x, y} : Set K) := mtable_racl_mul_le hind h
+  have h2 : a * y ∈ racl k ({x, y} : Set K) := mtable_racl_mul_le h
   have hy : y ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
   exact mtable_a_notMem_xy hind
     (mem_of_mul_mem_right hy (mtable_y_ne_zero hind) h2)
 
 theorem mtable_ne37 : a * x * y ∉ racl k ({x * y} : Set K) := by
   intro h
-  have h2 : a * x * y ∈ racl k ({x, y} : Set K) := mtable_racl_mul_le hind h
+  have h2 : a * x * y ∈ racl k ({x, y} : Set K) := mtable_racl_mul_le h
   have hxy : x * y ∈ racl k ({x, y} : Set K) := by
     have hx : x ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
     have hy : y ∈ racl k ({x, y} : Set K) := subset_racl k _ (by simp)
@@ -668,18 +675,18 @@ theorem mtable_ne47 : a * x * y ∉ racl k ({a} : Set K) := by
   have hxy' : x * y ∈ racl k (insert a (∅ : Set K)) := by simpa using hxy
   have h2 := racl_exchange hxy' (mtable_mul_notMem_empty hind)
   have h3 : a ∈ racl k ({x * y} : Set K) := by simpa using h2
-  exact mtable_a_notMem_xy hind (mtable_racl_mul_le hind h3)
+  exact mtable_a_notMem_xy hind (mtable_racl_mul_le h3)
 
 theorem mtable_ne56 : a * y ∉ racl k ({a * x} : Set K) := by
   intro h
-  have h2 : a * y ∈ racl k ({a, x} : Set K) := mtable_racl_ax_le hind h
+  have h2 : a * y ∈ racl k ({a, x} : Set K) := mtable_racl_ax_le h
   have ha : a ∈ racl k ({a, x} : Set K) := subset_racl k _ (by simp)
   exact mtable_y_notMem_ax hind
     (mem_of_mul_mem_left ha (mtable_a_ne_zero hind) h2)
 
 theorem mtable_ne57 : a * x * y ∉ racl k ({a * x} : Set K) := by
   intro h
-  have h2 : a * x * y ∈ racl k ({a, x} : Set K) := mtable_racl_ax_le hind h
+  have h2 : a * x * y ∈ racl k ({a, x} : Set K) := mtable_racl_ax_le h
   have hax : a * x ∈ racl k ({a, x} : Set K) := by
     have ha : a ∈ racl k ({a, x} : Set K) := subset_racl k _ (by simp)
     have hx : x ∈ racl k ({a, x} : Set K) := subset_racl k _ (by simp)
@@ -691,7 +698,7 @@ theorem mtable_ne57 : a * x * y ∉ racl k ({a * x} : Set K) := by
 
 theorem mtable_ne67 : a * x * y ∉ racl k ({a * y} : Set K) := by
   intro h
-  have h2 : a * x * y ∈ racl k ({a, y} : Set K) := mtable_racl_ay_le hind h
+  have h2 : a * x * y ∈ racl k ({a, y} : Set K) := mtable_racl_ay_le h
   have hay : a * y ∈ racl k ({a, y} : Set K) := by
     have ha : a ∈ racl k ({a, y} : Set K) := subset_racl k _ (by simp)
     have hy : y ∈ racl k ({a, y} : Set K) := subset_racl k _ (by simp)
@@ -743,79 +750,79 @@ theorem mulDiagram_of_indep :
       intro i j hlt
       fin_cases i <;> fin_cases j
       · exact absurd hlt (by decide)
-      · show Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
+      · change Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
           Point.mk' k (y) (mtable_y_notMem_bot hind)
         exact Point.mk'_ne (mtable_y_notMem_x hind)
-      · show Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
+      · change Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
           Point.mk' k (x / y) (mtable_div_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne02 hind)
-      · show Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
+      · change Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
           Point.mk' k (x * y) (mtable_mul_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne03 hind)
-      · show Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
+      · change Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
           Point.mk' k (a) (mtable_a_notMem_bot hind)
         exact Point.mk'_ne (mtable_a_notMem_x hind)
-      · show Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
+      · change Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
           Point.mk' k (a * x) (mtable_ax_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne05 hind)
-      · show Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
+      · change Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
           Point.mk' k (a * y) (mtable_ay_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne06 hind)
-      · show Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
+      · change Point.mk' k (x) (mtable_x_notMem_bot hind) ≠
           Point.mk' k (a * x * y) (mtable_axy_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne07 hind)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
-      · show Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
+      · change Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
           Point.mk' k (x / y) (mtable_div_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne12 hind)
-      · show Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
+      · change Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
           Point.mk' k (x * y) (mtable_mul_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne13 hind)
-      · show Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
+      · change Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
           Point.mk' k (a) (mtable_a_notMem_bot hind)
         exact Point.mk'_ne (mtable_a_notMem_y hind)
-      · show Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
+      · change Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
           Point.mk' k (a * x) (mtable_ax_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne15 hind)
-      · show Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
+      · change Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
           Point.mk' k (a * y) (mtable_ay_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne16 hind)
-      · show Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
+      · change Point.mk' k (y) (mtable_y_notMem_bot hind) ≠
           Point.mk' k (a * x * y) (mtable_axy_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne17 hind)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
-      · show Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
+      · change Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
           Point.mk' k (x * y) (mtable_mul_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne23 hind)
-      · show Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
+      · change Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
           Point.mk' k (a) (mtable_a_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne24 hind)
-      · show Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
+      · change Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
           Point.mk' k (a * x) (mtable_ax_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne25 hind)
-      · show Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
+      · change Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
           Point.mk' k (a * y) (mtable_ay_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne26 hind)
-      · show Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
+      · change Point.mk' k (x / y) (mtable_div_notMem_bot hind) ≠
           Point.mk' k (a * x * y) (mtable_axy_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne27 hind)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
-      · show Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
+      · change Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
           Point.mk' k (a) (mtable_a_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne34 hind)
-      · show Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
+      · change Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
           Point.mk' k (a * x) (mtable_ax_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne35 hind)
-      · show Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
+      · change Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
           Point.mk' k (a * y) (mtable_ay_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne36 hind)
-      · show Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
+      · change Point.mk' k (x * y) (mtable_mul_notMem_bot hind) ≠
           Point.mk' k (a * x * y) (mtable_axy_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne37 hind)
       · exact absurd hlt (by decide)
@@ -823,13 +830,13 @@ theorem mulDiagram_of_indep :
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
-      · show Point.mk' k (a) (mtable_a_notMem_bot hind) ≠
+      · change Point.mk' k (a) (mtable_a_notMem_bot hind) ≠
           Point.mk' k (a * x) (mtable_ax_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne45 hind)
-      · show Point.mk' k (a) (mtable_a_notMem_bot hind) ≠
+      · change Point.mk' k (a) (mtable_a_notMem_bot hind) ≠
           Point.mk' k (a * y) (mtable_ay_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne46 hind)
-      · show Point.mk' k (a) (mtable_a_notMem_bot hind) ≠
+      · change Point.mk' k (a) (mtable_a_notMem_bot hind) ≠
           Point.mk' k (a * x * y) (mtable_axy_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne47 hind)
       · exact absurd hlt (by decide)
@@ -838,10 +845,10 @@ theorem mulDiagram_of_indep :
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
-      · show Point.mk' k (a * x) (mtable_ax_notMem_bot hind) ≠
+      · change Point.mk' k (a * x) (mtable_ax_notMem_bot hind) ≠
           Point.mk' k (a * y) (mtable_ay_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne56 hind)
-      · show Point.mk' k (a * x) (mtable_ax_notMem_bot hind) ≠
+      · change Point.mk' k (a * x) (mtable_ax_notMem_bot hind) ≠
           Point.mk' k (a * x * y) (mtable_axy_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne57 hind)
       · exact absurd hlt (by decide)
@@ -851,7 +858,7 @@ theorem mulDiagram_of_indep :
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
       · exact absurd hlt (by decide)
-      · show Point.mk' k (a * y) (mtable_ay_notMem_bot hind) ≠
+      · change Point.mk' k (a * y) (mtable_ay_notMem_bot hind) ≠
           Point.mk' k (a * x * y) (mtable_axy_notMem_bot hind)
         exact Point.mk'_ne (mtable_ne67 hind)
       · exact absurd hlt (by decide)
@@ -867,28 +874,28 @@ theorem mulDiagram_of_indep :
     · exact absurd hij (hne i j h)
     · exact h
     · exact absurd hij.symm (hne j i h)
-  · show RankEq 2 (ClosedIF.point k x ⊔
+  · change RankEq 2 (ClosedIF.point k x ⊔
       (ClosedIF.point k a ⊔ ClosedIF.point k (a * x)))
     exact mtable_line_XAB hind
-  · show RankEq 2 (ClosedIF.point k a ⊔
+  · change RankEq 2 (ClosedIF.point k a ⊔
       (ClosedIF.point k y ⊔ ClosedIF.point k (a * y)))
     exact mtable_line_AYC hind
-  · show RankEq 2 (ClosedIF.point k a ⊔
+  · change RankEq 2 (ClosedIF.point k a ⊔
       (ClosedIF.point k (x * y) ⊔ ClosedIF.point k (a * x * y)))
     exact mtable_line_AED hind
-  · show RankEq 2 (ClosedIF.point k (a * x) ⊔
+  · change RankEq 2 (ClosedIF.point k (a * x) ⊔
       (ClosedIF.point k y ⊔ ClosedIF.point k (a * x * y)))
     exact mtable_line_BYD hind
-  · show RankEq 2 (ClosedIF.point k x ⊔
+  · change RankEq 2 (ClosedIF.point k x ⊔
       (ClosedIF.point k (a * y) ⊔ ClosedIF.point k (a * x * y)))
     exact mtable_line_XCD hind
-  · show RankEq 2 (ClosedIF.point k (a * x) ⊔
+  · change RankEq 2 (ClosedIF.point k (a * x) ⊔
       (ClosedIF.point k (a * y) ⊔ ClosedIF.point k (x / y)))
     exact mtable_line_BCV hind
-  · show RankEq 2 (ClosedIF.point k x ⊔ (ClosedIF.point k y ⊔
+  · change RankEq 2 (ClosedIF.point k x ⊔ (ClosedIF.point k y ⊔
       (ClosedIF.point k (x * y) ⊔ ClosedIF.point k (x / y))))
     exact mtable_line_XYEV hind
-  · show RankEq 3 (ClosedIF.point k x ⊔
+  · change RankEq 3 (ClosedIF.point k x ⊔
       (ClosedIF.point k y ⊔ ClosedIF.point k a))
     exact mtable_rank_XYA hind
 

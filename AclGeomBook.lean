@@ -11,6 +11,7 @@ import AclGeomBook.Curves
 import AclGeomBook.Interpretation
 import AclGeomBook.Reconstruction
 import AclGeomBook.Functorial
+import AclGeomBook.Validation
 
 -- The manual genre, used for book-like documents with chapters, cross-references,
 -- citations, and an index.
@@ -72,8 +73,8 @@ exactly these hypotheses. The point-geometry formulation, automorphism exact seq
 rank-five fully faithful Frobenius-quotient functor are also proved and documented below.
 The guarded ACF chart and rank-five J completeness supply the reconstruction inputs
 internally. The project remains incomplete: true bypassed source statements, the original
-scheme/action bridges, literal interpretation/provenance items, perfection-choice
-equivalence and final validation obligations are still tracked on the repository issues.
+scheme/action bridges, literal interpretation/provenance items and the remaining validation
+obligations are still tracked on the repository issues.
 The architecture below includes both established layers and these remaining obligations.
 
 # Architecture of the formalization
@@ -132,6 +133,8 @@ elaborated against the actual development.
 {include 0 AclGeomBook.Reconstruction}
 
 {include 0 AclGeomBook.Functorial}
+
+{include 0 AclGeomBook.Validation}
 
 # About this document
 %%%

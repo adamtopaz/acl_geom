@@ -13,11 +13,11 @@ One `#check` per Mathlib API name cited in the blueprint's audit table
 project's Mathlib version. Where the blueprint's guessed name differs from the
 actual declaration, the actual name is used and the discrepancy noted.
 
-This file is deliberately imported by nothing; it exists so that a Mathlib bump
-that breaks an assumed API fails the build here, with a pointer back to the
-blueprint item that relies on it.
+The `AclGeom` root imports this file so that a Mathlib bump that breaks an assumed API
+fails the library build here, with a pointer back to the blueprint item that relies on it.
 -/
 
+-- This API inventory intentionally uses #check to verify the cited Mathlib names.
 set_option linter.hashCommand false
 
 /-! ## Relative algebraic closure (blueprint: F1) -/

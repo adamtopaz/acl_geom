@@ -239,3 +239,5 @@ import AclGeom.Test.ConfigRank
 import AclGeom.Reconstruct.PointVariant
 import AclGeom.Variants
 import AclGeom.Transfer.JCorrectness
+import AclGeom.Functorial.ChoiceIndependence
+import AclGeom.Test.Validation

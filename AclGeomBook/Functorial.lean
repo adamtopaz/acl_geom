@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude, Codex
 import VersoManual
 import AclGeom.Functorial.Literal
 import AclGeom.Functorial.FrobeniusQuotient
+import AclGeom.Functorial.ChoiceIndependence
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -30,8 +31,8 @@ already fully faithful; in positive characteristic it is not faithful.
 The geometry side uses the closed-lattice presentation permitted after blueprint (20.3): the
 groupoid `Core PartOrd` of partial orders and order isomorphisms, with `𝒢(K/k)` as the image of
 `K/k`. Blueprint §20.1 also shows that the source groupoids for two choices of perfections are
-canonically equivalent. That equivalence is not formalized here; `Perfection.induces_liftEquiv`
-proves that the comparison isomorphisms induce the identity of `𝒢(K/k)`.
+canonically equivalent. `ChoiceIndependence` proves this equivalence and equality of the
+geometry functors under its canonical transport.
 
 # Objects and arrows
 %%%
@@ -142,3 +143,40 @@ transcendence degree is used here; fullness is claimed only at rank five:
 {docstring AclGeom.PerfExt.frobHom_one_ne_id}
 
 {docstring AclGeom.geomLit_map_not_injective}
+
+# Independence of perfection choices
+%%%
+tag := "perfection-choice-independence"
+%%%
+
+The comparison `u_K` between two chosen perfections is the unique arrow restricting to
+the identity of the original field. It carries the perfected base onto the perfected base,
+and its action on the original geometry is the identity:
+
+{docstring AclGeom.PerfExt.withPerf}
+
+{docstring AclGeom.PerfExt.comparison}
+
+{docstring AclGeom.PerfExt.eq_comparison}
+
+{docstring AclGeom.PerfExt.geomLit_map_comparison}
+
+`RACExt` records an extension without a perfection. A global choice of perfections gives
+its choice-dependent groupoid. Transport between two choices is the identity on objects
+and conjugates each arrow by the two canonical comparisons. It is full, faithful and
+essentially surjective, and the geometry functors agree under that transport:
+
+{docstring AclGeom.RACExt}
+
+{docstring AclGeom.ChoiceGroupoid}
+
+{docstring AclGeom.choiceTransport}
+
+{docstring AclGeom.choiceEquivalence}
+
+{docstring AclGeom.choiceTransport_comp_geomLit}
+
+Arrows preserve transcendence degree, so the rank-five condition used for reconstruction
+is invariant under arrows:
+
+{docstring AclGeom.PerfExt.trdeg_eq_of_hom}

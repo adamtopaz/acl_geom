@@ -25,8 +25,10 @@ transcendence degree at least five. The public theorems in
 RAC bases, source rank five, the chosen perfections and lattice isomorphism are their only
 hypotheses. The point-geometry formulation, automorphism exact sequence and rank-five
 literal/Frobenius-quotient functorial statements are also proved. Original scheme/action
-bridges, true bypassed source lemmas, perfection-choice equivalence and final validation
-remain obligations.
+bridges, true bypassed source lemmas and remaining source validation are still obligations.
+Changing all perfection choices gives equivalent source groupoids and the same geometry
+functor. Validation also proves the theorem on rational function fields over arbitrary
+bases and distinctness of Frobenius iterates in positive characteristic at positive transcendence degree.
 
 ## Layout
 
@@ -46,6 +48,21 @@ remain obligations.
 lake exe cache get   # fetch Mathlib build cache (first time / after updates)
 lake build           # builds the library, the document, and the renderer
 ```
+
+## Auditing theorem dependencies
+
+After installing the toolchain, run:
+
+```
+lake env python3 scripts/audit_axioms.py --output /tmp/acl_geom_axiom_audit
+```
+
+Choose a new or empty output directory. The command builds both mathematical libraries,
+checks that their imported module inventory equals the mathematical source inventory, and records
+declaration dependencies, source hashes and logs. It fails for project axioms or dependencies
+outside `propext`, `Classical.choice` and `Quot.sound`. The audit covers generated public
+declarations and declarations outside the project namespaces. Source coverage remains a
+separate obligation.
 
 ## Generating and viewing the webpage
 

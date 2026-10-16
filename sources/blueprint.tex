@@ -304,7 +304,10 @@ The point-geometry variant is proved by \lean{point_reconstruction_target};
 \lean{Perfection.pairAutAction} has the exact Frobenius kernel and is surjective under
 the RAC/rank-five hypotheses.  The literal and Frobenius-quotient functors are proved
 on their precise rank and characteristic scopes below.  True bypassed source statements,
-perfection-choice groupoid equivalence and final validation remain obligations.
+the remaining source validation and provenance statements remain obligations.
+The canonical comparison between two global perfection choices gives
+\lean{choiceEquivalence}; \lean{choiceTransport_comp_geomLit} proves agreement of their
+geometry functors.  \lean{PerfExt.trdeg_eq_of_hom} proves rank invariance under arrows.
 
 Earlier conditional-interface progress descriptions and the final guarded-configuration
 audit record historical checkpoints, including inputs that were then open.  They preserve
@@ -4571,8 +4574,9 @@ the two completeness parameters have been removed.
 The point-geometry and automorphism variants below are proved in
 \lean{Reconstruct.PointVariant} and \lean{Variants}.  The literal functor laws, exact Hom
 fibres and rank-five fully faithful quotient functor are proved in \lean{Functorial}.
-Original literal calculations, true bypassed source statements, perfection-choice
-equivalence and final validation remain obligations.  The
+Original literal calculations, true bypassed source statements and remaining source
+validation are still obligations.  The perfection-choice equivalence and agreement of
+the geometry functors are proved in \lean{Functorial.ChoiceIndependence}.  The
 original theorem statements, all proof blocks and their qualifications retain their
 wording and provenance; the Lean proof supplies the formerly open inputs by the proved
 configuration route.
@@ -5028,10 +5032,14 @@ the ordinary category quotient is a groupoid and \lean{geomQuot} is its descende
 to the rank-five full subgroupoid.  The literal characteristic-zero restriction is also
 full and faithful.  Positive-characteristic failure of literal faithfulness is proved
 for every object of positive transcendence degree, with no rank-five hypothesis.
-The equivalence between the groupoids for two global choices of perfections is not yet
-formalized; comparison maps inducing the identity are provided by
-\lean{Perfection.induces_liftEquiv}.  The full validation suite and all-public dependency
-audit are still obligations.
+\lean{Functorial.ChoiceIndependence} proves the equivalence between the groupoids for any
+two global perfection choices.  The canonical comparison is the unique arrow fixing the
+original field and induces the identity on its geometry.  \lean{choiceTransport} is the
+identity on objects and conjugates arrows by these comparisons;
+\lean{choiceEquivalence} gives the equivalence, and
+\lean{choiceTransport_comp_geomLit} proves equality of the geometry functors under it.
+\lean{PerfExt.trdeg_eq_of_hom} proves invariance of the rank-five condition under arrows.
+Remaining source validation and provenance obligations are recorded below.
 
 \section{Proposed Lean file layout}
 
@@ -5207,6 +5215,31 @@ equation (20.20) and both quotient-category unit laws.
 \item Verify that the literal Hom map is surjective, that its equality fibres satisfy
 (20.16), and that passing to \lean{Quotient} makes the induced Hom map injective.
 \end{enumerate}
+
+\paragraph{Current Lean validation evidence.}
+\lean{Perfection.frobZPow_injective} proves TEST-2 distinctness in positive characteristic
+for every positive original transcendence degree, without RAC or a rank-five restriction.  The existing
+\lean{Perfection.inducedIso_frobZPow} supplies the identity on the lattice under RAC;
+restriction to atoms gives the identity on points.
+\lean{Test.isRAC_bot_ratFn}, \lean{Test.trdeg_ratFn} and \lean{reconstruction_ratFn}
+prove TEST-8 over arbitrary base fields and with arbitrary chosen perfections, in every
+characteristic.  The reconstruction test derives equality of the numbers of variables,
+constructs the compatible isomorphism and identifies its exact Frobenius fibre.
+
+The Verso validation chapter records existing evidence for the other checks, including
+both Frobenius directions and the corrected ratio witnesses.  Literal generic addition,
+multiplication and ratio-equivalence graphs have Lean refutations.  The literal negation
+detour and total-nonzero-addition statement remain obligations: a mathematical negation
+counterexample was reported on issue 23 before separate formal refutation work.  The
+corrected coupled predicates do not silently discharge the original statements.
+
+\lean{scripts/audit_axioms.py} makes the dependency audit reproducible.  It builds both
+mathematical roots, requires their imported module inventory to match all mathematical
+source modules, and records every loaded project declaration's dependencies by declaring
+module, including generated public declarations.  It fails for project axioms or
+nonstandard dependencies and saves source hashes and logs.  This is a whole-library
+dependency audit, not a source-coverage certificate; the remaining validation and source
+dispositions are still tracked.
 
 \section{Lean transcription checklist}
 

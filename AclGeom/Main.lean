@@ -33,8 +33,10 @@ is supplied by `jCompletenessACF` (`Config.Completeness`, #27).
 target are proved (#9/#10) from the blueprint hypotheses alone. Reconstructs is a reducible
 alias of Induces. Point-geometry reconstruction is proved in `Reconstruct.PointVariant`,
 the automorphism exact sequence in `Variants`, and the literal and Frobenius-quotient
-functors in `Functorial`. Perfection-choice equivalence, the full validation suite, literal
-provenance items, true bypassed source statements and frozen M4a obligations remain open.
+functors in `Functorial`. `Functorial.ChoiceIndependence` proves equivalence under changing
+all perfection choices and agreement of the geometry functors. The full validation suite,
+literal provenance items, true bypassed source statements and frozen M4a obligations
+remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

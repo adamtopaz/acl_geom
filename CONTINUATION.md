@@ -25,8 +25,9 @@ internally. Their only hypotheses are the two original RAC bases, source rank fi
 chosen perfections and lattice isomorphism. The exact Frobenius fibre and converse are
 included. Original scheme/action algebraization and descent and true bypassed source
 statements remain obligations. Point-geometry reconstruction, the automorphism exact sequence and
-the rank-five literal/Frobenius-quotient functorial statements are proved. Perfection-choice
-equivalence and final validation remain open. Read PROJECT_GOAL.md for
+the rank-five literal/Frobenius-quotient functorial statements are proved. The canonical
+perfection-choice equivalence and its geometry compatibility are proved too. Remaining
+source validation and auxiliary statements are still open. Read PROJECT_GOAL.md for
 the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -11029,3 +11030,48 @@ The shared goal remains incomplete. Perfection-choice groupoid equivalence, the 
 source validation suite, final all-public dependency audit, literal/provenance obligations,
 true bypassed source results and original scheme/action bridges remain tracked. The source
 mathematical statements/proofs and frozen M4a log are preserved.
+
+## Perfection-choice equivalence and reproducible dependency audit (#10)
+
+`Functorial.ChoiceIndependence` proves the literal §20.1 statement for two arbitrary global
+choices of perfections. Each canonical comparison is the unique arrow fixing the original
+field and induces the identity on its lattice. The choice-dependent groupoids are equivalent
+via the identity on objects and conjugation of arrows by comparisons. Their geometry
+functors agree under this transport. Arrows preserve transcendence degree.
+
+`Test.Validation` supplies meaningful missing statements from TEST-2 and TEST-8. In positive characteristic, integral
+Frobenius iterates are injectively indexed as soon as the original transcendence degree is
+positive. Every base field is relatively algebraically closed in its rational function
+field, whose degree is its number of variables. The actual reconstruction theorem then
+gives equality of variable counts, a compatible reconstruction of arbitrary chosen
+perfections and the exact Frobenius fibre. No ACF or characteristic restriction is added.
+
+Both proof modules were independently compiled by both agents from the exact frozen
+sources. Root's two fresh outputs have empty strict logs; 161 selected declarations use
+standard axioms and all 141 preceding selected public types are unchanged. These checks
+are scoped; the reproducible full dependency audit below covers the mathematical libraries.
+
+Run `lake env python3 scripts/audit_axioms.py --output /tmp/acl_geom_axiom_audit` with a
+new or empty output directory, under the agent memory cap when applicable. It builds both
+roots to avoid stale artifacts, requires the imported module inventory to match all
+mathematical source modules, selects declarations by their declaring modules and uses
+Lean's `collectAxioms` (the `#print axioms` implementation). It writes source hashes, the
+Git head/tree status, declaration records and a summary, and fails for project axioms or
+nonstandard dependencies. Generated public declarations are included. The audit on the
+preceding 6e878f4 covered all 412 modules, 12,226 public declarations and 9,161 public
+theorems. Every loaded project declaration used only standard axioms. Rerun on later heads;
+this is a dependency audit, not a proof of blueprint coverage.
+
+The book's validation chapter records existing evidence and remaining obligations without
+adding forwarding-only public wrappers. The literal negation detour and total nonzero
+addition remain source obligations; the new mathematical negation counterexample was
+reported on #23 before formal refutation work. Corrected coupled predicates remain distinct
+from those literal claims. Original statements/proofs, goal endpoint/criteria and frozen
+M4a are preserved. Full local library/book and exact-head CI evidence is recorded on #10.
+
+The touched multiplication-diagram module also receives a bounded warning cleanup: four
+closure helper lemmas no longer require an unrelated independence hypothesis, with all
+local callers updated. Goal-changing `show` tactics use `change`, retaining their type
+ascriptions. A strict independent check of all 81 public declarations has an empty log;
+77 types are exact and precisely the four helper types are stronger. Failed cleanup
+attempts are retained in the issue evidence.
