@@ -1493,8 +1493,34 @@ are related by private converters; transcendence and rank one are proved
 equivalent through the dimension theorem, and the point-ideal reindexing
 is proved in both directions. This discharges the actual scalar
 specialization, rather than merely observing that scalar coordinates are
-one-element tuples. The threefold incidence-component comparison and
-higher-dimensional family generic-component argument remain owed.
+one-element tuples.
+The threefold comparison is proved in
+\lean{TupleCorrespondenceGerm.composes_threefold_components_eq}.
+For correspondence presentations $(x,y)$, $(y,z)$ and $(z,w)$
+with finite index types and literally shared middle tuples, the final carrier ideals of both
+parenthesizations are exactly the endpoint contractions of all components
+of the actual four-block incidence spectrum having dense image under the
+literal projection to $\Loc_k(y,z)$. The base is arbitrary and the ambient
+field is algebraically closed; the four index types and two fields have
+six independent universes. The closure clauses are derived from the given
+presentations. The consumed germ-side theorem
+\lean{TupleCorrespondenceGerm.composes_threefold_carriers_eq} fixes both
+middle tuples and preserves the two outer pair ideals.
+For every irreducible component, let $\mathfrak p$ be its vanishing ideal
+contracted to the polynomial ring, put $A=k[X,Y,Z,W]/\mathfrak p$, and let
+$N$ be the integral closure of $A$ in its fraction field. The same public
+theorem proves that $N$ is integrally closed and gives a
+fraction-field isomorphism with $\operatorname{Frac}(A)$, fixing the
+original coordinates. The normalized generic endpoint kernel is exactly
+$\mathfrak p$ contracted to the endpoint variables. Thus the normalized
+components have the same endpoint generic germs, with normalization
+formed componentwise. No normalization of the whole non-domain ring is
+claimed. Algebraic incomparability proves pair-ideal equality and minimality;
+no dimension certificate or extra rank or freshness premise is supplied.
+The joint and endpoint-image fields remain distinguished: the joint field
+can be properly larger than the endpoint-image field. The general
+curve-function-field presentation bridge and higher-dimensional family
+generic-component argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]
@@ -1512,9 +1538,12 @@ The equal endpoint-pair ideals in either parenthesization give an ambient
 base-field automorphism.  Transporting the intermediate coordinate aligns
 the presentations in a single chain of four generic coordinates, which can
 then be regrouped.  The argument preserves every possible final germ.
-It does not select one component as a binary operation.  The identification
-with dominating components of geometric fiber products, including over
-nonclosed function-field bases, remains a separate obligation.
+It does not select one component as a binary operation.  The scalar and tuple identifications with dominating incidence components
+are proved above for canonical finite-tuple loci, in an algebraically closed
+ambient over an arbitrary base, including nonclosed function-field bases.
+The threefold normalized generic-component comparison is also proved there.
+The general curve-function-field presentation bridge and higher-dimensional
+family argument remain obligations.
 \end{remark}
 
 \begin{lemma}[generic extension and specialization]\label{lem:generic-extension}
@@ -2344,8 +2373,10 @@ The correspondence inputs in the formal argument are $(u_1,u_2)$ and the degener
 pair $(b,b)$. The original proof above instead names $(u_1,b)$ and $(u_2,b)$; these do
 not satisfy the required independence between correspondence points. That proof
 qualification was reported on issue 5 before this addition. The statement is not
-refuted, and its original wording and proof are preserved exactly. The broader
-abstract group, torus-subgroup, general curve-coset and geometric fiber-product obligations remain open.
+refuted, and its original wording and proof are preserved exactly. The broader abstract group and general curve-coset obligations remain open.
+The connected torus-subgroup classification and canonical finite-tuple
+geometric fiber-product bridge are proved. The general curve-function-field
+presentation bridge and higher-dimensional family argument remain separate.
 
 \begin{lemma}[simultaneous additive--multiplicative cosets]\label{lem:simultaneous-coset}
 Suppose two independent finite-correspondence curves $C_1,C_2\subseteq\mathbb A^2$
@@ -4173,7 +4204,10 @@ the current public theorem scope and remaining source obligations.
 The original proof above uses the literal \lean{RatioEq} refuted in the
 interpretation audit (issue 23); it is preserved exactly. This qualification
 and current progress scope were reported on issue 9 before integration.
-The broader group, geometric fiber-product and frozen M4a obligations are retained.
+The original group/chunk, general curve-function-field presentation and
+higher-dimensional family obligations are retained. The canonical finite-tuple
+fiber-product bridge is proved above; the frozen M4a log is historical,
+not a list of deliverables.
 
 \subsection{Eliminating the global scalar}
 
@@ -6082,8 +6116,10 @@ The original independent-left linear-relation argument does not establish
 absence of zero divisors; this proof-sketch gap is recorded in issue~11,
 with the original wording retained.
 The older regularity declarations are unchanged and marked superseded.
-The full generic-point statement, correspondence composition and reconstruction
-completeness remain separate obligations; frozen M4a sources stay unchanged.
+The packaged variety-level generic-extension lemma remains an obligation.
+Finite-tuple correspondence composition and its actual component comparisons,
+the guarded chart and public reconstruction are proved. Original group/chunk
+and scheme/action obligations remain separate; frozen M4a sources are unchanged.
 
 \clearpage
 \paragraph{Prime polynomial ideals after scalar extension.}
@@ -6100,8 +6136,10 @@ coordinates remain independent over $E$, with no caller domain or point oracle.
 The absolute transcendence-degree equality in the original proof of
 Lemma~\ref{lem:generic-extension} does not alone imply independence for infinite
 transcendence degree; issue~5 records that inference gap, retaining the original
-wording. General locus-relative bases, ambient automorphisms, composition and
-reconstruction completeness remain separate obligations; frozen M4a is unchanged.
+wording. Field freeness, numerical field degrees, finite-tuple ambient automorphisms
+and the finite-tuple Krull-dimension bridge are proved in the annotations below
+and above. The packaged variety-level lemma and general curve-function-field
+presentation bridge remain obligations; frozen M4a is unchanged.
 
 \clearpage
 \paragraph{Generic points and coordinate-independent subfamilies.}
@@ -6120,9 +6158,11 @@ A private consumer derives maximal coordinate independence over $E$; another
 tests a dependent repeated tuple with an independent singleton and retains
 its relation. This proves the coordinate form of
 Lemma~\ref{lem:generic-extension}(a) directly, without infinite-cardinal
-cancellation. Explicit rank/dimension, rational-field freeness and algebraically
-closed ambient bridges, automorphisms, composition and reconstruction
-completeness remain separate obligations; frozen M4a is unchanged.
+cancellation. Rational-field freeness, numerical field degrees, finite-tuple ambient
+automorphisms and the finite-tuple Krull-dimension bridge are proved by the
+other stated producers. The packaged variety-level lemma, general
+curve-function-field presentation and family arguments remain obligations;
+frozen M4a is unchanged.
 
 \clearpage
 \paragraph{Every generic point has field freeness.}
@@ -6142,9 +6182,12 @@ A checked private consumer derives genericity from the constructive theorem,
 embeds the same point into an algebraic closure and derives both exact
 ideals, full field freeness and all coordinate-subfamily independence there.
 Thus existence and the universal implication are checked at the same point.
-Explicit rank/dimension statements, automorphisms~(b), rational identities~(c),
-composition and reconstruction completeness remain separate obligations;
-frozen M4a is unchanged. The original source statement and proof are retained.
+Numerical field degrees, finite-tuple Krull dimension and ambient
+automorphisms~(b), and literal rational identities~(c), are proved by the
+stated producers. Finite-tuple component comparisons, the guarded chart and
+public reconstruction are proved; the packaged variety-level lemma and
+original group/chunk and scheme/action obligations remain separate.
+Frozen M4a is unchanged. The original source statement and proof are retained.
 
 \clearpage
 \paragraph{Existing function-field and rational-identity clauses.}
@@ -6156,9 +6199,10 @@ by the project's existing equivalence:
 Equal vanishing ideals of two tuples in their common ambient field give
 an isomorphism of the generated rational fields, sending each coordinate
 to its counterpart, with coherent reflexivity, symmetry and composition
-laws. Arbitrary fields and index types are allowed. Extending this
-isomorphism to an ambient automorphism after possible enlargement, the
-second clause of (b), remains open.
+laws. Arbitrary fields and index types are allowed. For finite tuples in a common algebraically closed ambient, the theorem
+below extends this entire isomorphism to an ambient automorphism without
+enlargement. No assertion for arbitrary infinite tuples in an unchanged
+ambient is made.
 Mathlib already proves the rational-identity clause (c):
 \par\noindent
 \texttt{AlgebraicIndependent.aevalEquivField}.
@@ -6170,9 +6214,12 @@ equality of genuine fractions and zero under canonical fraction evaluation.
 Both evaluated denominators are derived nonzero from independence.
 No mathematical declaration, mathematical source or dependency is changed.
 This audit supersedes earlier open-status descriptions of these two
-clauses only. Explicit rank/dimension, ambient automorphism extension,
-the full lemma, composition, charts, actions and reconstruction completeness
-remain separate obligations; frozen M4a is unchanged. The original source
+clauses only.
+Numerical field degrees, finite-tuple Krull dimension and ambient
+extensions are proved by the stated producers. The packaged variety-level
+lemma, general curve-function-field presentation and family arguments, and
+original group/chunk and scheme/action statements remain obligations;
+frozen M4a is unchanged. The original source
 statement and proof are retained.
 
 \clearpage
@@ -6199,10 +6246,13 @@ nonclosed ambient, embeds the finite points in its algebraic closure, and
 obtains an automorphism there. No enlargement is needed in a closed ambient.
 This supersedes earlier open-status descriptions of the finite field
 clause only; infinite tuples in an unchanged ambient are not claimed.
-Geometric rank and Krull dimension, the packaged variety-level lemma and the geometric
-fiber-product identification of composites remain obligations (issue 5), as do the original
-scheme/action statements (issue 21). The guarded initial chart and rank-five ACF completeness
-are proved. Frozen M4a is unchanged. Original source statements and proofs are retained.
+The finite-tuple Krull-dimension and actual incidence-component bridges
+are proved, including the scalar specialization and threefold normalized
+generic-germ comparison over an arbitrary base in an algebraically closed
+ambient. The packaged variety-level lemma, general curve-function-field
+presentation and family arguments remain obligations (issue 5), as do the
+original scheme/action statements (issue 21). The guarded chart, rank-five
+ACF completeness and public reconstruction are proved. Frozen M4a is unchanged. Original source statements and proofs are retained.
 
 \clearpage
 \paragraph{Generic-point field dimensions after scalar extension.}
@@ -6227,12 +6277,14 @@ with the original locus degree. A further four-universe example checks
 the lifted equation, measuring the locus at the constructed point.
 No point, exact ideal, independence, basis or rank conclusion is supplied
 by the caller. Algebraic closedness of the base is used only by the
-existing point construction. Locus dimension here means function-field
-transcendence degree, as in the existing dictionary; no Krull or geometric
-dimension bridge or packaged variety lemma is claimed. The reported
-independence-inference gap and original source proof are retained.
-Over arbitrary bases, function-field tensor components give actual composite germs;
-their identification with geometric fiber-product components remains open (issue 5).
+existing point construction. This field-degree theorem measures locus dimension by function-field
+transcendence degree; the separate finite-tuple Krull-dimension bridge is
+proved above. The reported independence-inference gap and original source
+proof are retained. Actual incidence-component comparisons are proved for
+finite-tuple germs over arbitrary bases in an algebraically closed ambient,
+including scalar germs and threefold normalized generic germs. The packaged
+variety-level lemma, general curve-function-field presentation and
+higher-dimensional family arguments remain obligations (issue 5).
 The guarded initial chart and rank-five ACF completeness are proved. Original scheme/action
 statements remain obligations (issue 21); frozen M4a is unchanged.
 

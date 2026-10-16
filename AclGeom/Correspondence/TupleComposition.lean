@@ -29,7 +29,12 @@ ambient field, for finite index types:
   the vanishing ideals of the irreducible components of
   `Spec (k[X, Y, Z] ⧸ (I(x, y) + I(y, z)))` with dense image in `Spec (k[Y] ⧸ I(y))`. This is the
   source's composition by components of `C ×_W D`; a composite germ is the locus of the endpoint
-  image of such a component, which can be smaller than the component itself.
+  image of such a component, which can be smaller than the component itself;
+* `TupleCorrespondenceGerm.composes_threefold_carriers_eq`: with both middle tuples fixed, the
+  final germs of either parenthesization of a threefold composite are exactly the loci of the
+  endpoint pairs `(x', w')` for which `(x', y)` has the locus of `(x, y)` and `(z, w')` has the
+  locus of `(z, w)`. `ThreefoldIncidence` identifies them with the components of the threefold
+  fiber product.
 
 Both presentations are aligned by ambient automorphisms extending equalities of loci
 (`exists_ambientAutomorphism_of_idealOf_eq`), and the components are identified by
@@ -222,6 +227,78 @@ theorem exists_composes_of_middle_ideal_eq [Finite β] [IsAlgClosed Ω]
   have h : P.target = Q'.source := (funext hσ).symm
   exact ⟨ofPair (P.comp Q' h), P, Q', h, hP,
     hQ.trans (idealOf_comp_elim σ Q.source Q.target).symm, rfl⟩
+
+/-- **Threefold composites.** For finite index types in an algebraically closed ambient field, the
+final germs of either parenthesization of a composite of the germs of `(x, y)`, `(y, z)` and
+`(z, w)`, with literally shared middle tuples, are exactly the loci of the endpoint pairs `(x', w')`
+for which `(x', y)` has the locus of `(x, y)` and `(z, w')` has the locus of `(z, w)`. Both middle
+tuples stay fixed. -/
+theorem composes_threefold_carriers_eq [Finite α] [Finite β] [Finite γ] [Finite δ]
+    [IsAlgClosed Ω] (P : TupleCorrespondencePair k Ω α β) (Q : TupleCorrespondencePair k Ω β γ)
+    (S : TupleCorrespondencePair k Ω γ δ) (hPQ : P.target = Q.source)
+    (hQS : Q.target = S.source) :
+    {I | ∃ (E : TupleCorrespondenceGerm k Ω α γ) (F : TupleCorrespondenceGerm k Ω α δ),
+        Composes (ofPair P) (ofPair Q) E ∧ Composes E (ofPair S) F ∧ F.carrier = I} =
+      {I | ∃ (x' : α → Ω) (w' : δ → Ω),
+        idealOf k (Sum.elim x' P.target) = idealOf k (Sum.elim P.source P.target) ∧
+        idealOf k (Sum.elim Q.target w') = idealOf k (Sum.elim Q.target S.target) ∧
+        I = idealOf k (Sum.elim x' w')} ∧
+    {I | ∃ (E : TupleCorrespondenceGerm k Ω β δ) (F : TupleCorrespondenceGerm k Ω α δ),
+        Composes (ofPair Q) (ofPair S) E ∧ Composes (ofPair P) E F ∧ F.carrier = I} =
+      {I | ∃ (x' : α → Ω) (w' : δ → Ω),
+        idealOf k (Sum.elim x' P.target) = idealOf k (Sum.elim P.source P.target) ∧
+        idealOf k (Sum.elim Q.target w') = idealOf k (Sum.elim Q.target S.target) ∧
+        I = idealOf k (Sum.elim x' w')} := by
+  have hS : S.ideal = idealOf k (Sum.elim Q.target S.target) := by
+    change idealOf k (Sum.elim S.source S.target) = _
+    rw [hQS]
+  -- The middle pair ideal of any presentation of the middle germ.
+  have hQ : Q.ideal = idealOf k (Sum.elim P.target Q.target) := by
+    change idealOf k (Sum.elim Q.source Q.target) = _
+    rw [hPQ]
+  -- The second parenthesization has the same final germs by associativity.
+  have hassoc : {I | ∃ (E : TupleCorrespondenceGerm k Ω β δ) (F : TupleCorrespondenceGerm k Ω α δ),
+        Composes (ofPair Q) (ofPair S) E ∧ Composes (ofPair P) E F ∧ F.carrier = I} =
+      {I | ∃ (E : TupleCorrespondenceGerm k Ω α γ) (F : TupleCorrespondenceGerm k Ω α δ),
+        Composes (ofPair P) (ofPair Q) E ∧ Composes E (ofPair S) F ∧ F.carrier = I} := by
+    ext I
+    constructor
+    · rintro ⟨E, F, hE, hF, rfl⟩
+      obtain ⟨E', h₁, h₂⟩ := (composes_assoc (ofPair P) (ofPair Q) (ofPair S) F).2 ⟨E, hE, hF⟩
+      exact ⟨E', F, h₁, h₂, rfl⟩
+    · rintro ⟨E, F, hE, hF, rfl⟩
+      obtain ⟨E', h₁, h₂⟩ := (composes_assoc (ofPair P) (ofPair Q) (ofPair S) F).1 ⟨E, hE, hF⟩
+      exact ⟨E', F, h₁, h₂, rfl⟩
+  rw [hassoc, and_self]
+  ext I
+  constructor
+  · rintro ⟨E, F, ⟨P₁, Q₁, h₁, hP₁, hQ₁, hE⟩, ⟨R₁, S₁, h₂, hR₁, hS₁, hF⟩, rfl⟩
+    obtain ⟨σ, -, hσ⟩ := exists_ambientAutomorphism_of_idealOf_eq
+      (a := Sum.elim P₁.source Q₁.target) (b := Sum.elim R₁.source R₁.target)
+      (hE.symm.trans hR₁)
+    have hσx : ⇑σ ∘ P₁.source = R₁.source := funext fun a ↦ hσ (Sum.inl a)
+    have hσz : ⇑σ ∘ Q₁.target = R₁.target := funext fun c ↦ hσ (Sum.inr c)
+    have hmid : idealOf k (Sum.elim (⇑σ ∘ P₁.target) (⇑σ ∘ Q₁.target)) =
+        idealOf k (Sum.elim P.target Q.target) := by
+      rw [idealOf_comp_elim, h₁]
+      exact hQ₁.symm.trans hQ
+    obtain ⟨τ, -, hτ⟩ := exists_ambientAutomorphism_of_idealOf_eq hmid
+    have hτy : ⇑τ ∘ (⇑σ ∘ P₁.target) = P.target := funext fun b ↦ hτ (Sum.inl b)
+    have hτz : ⇑τ ∘ (⇑σ ∘ Q₁.target) = Q.target := funext fun c ↦ hτ (Sum.inr c)
+    have hx : idealOf k (Sum.elim (⇑τ ∘ R₁.source) P.target) = P.ideal := by
+      rw [← hτy, ← hσx, idealOf_comp_elim, idealOf_comp_elim]
+      exact hP₁.symm
+    have hw : idealOf k (Sum.elim Q.target (⇑τ ∘ S₁.target)) = S.ideal := by
+      rw [← hτz, hσz, h₂, idealOf_comp_elim]
+      exact hS₁.symm
+    exact ⟨⇑τ ∘ R₁.source, ⇑τ ∘ S₁.target, hx, hw.trans hS,
+      hF.trans (idealOf_comp_elim τ R₁.source S₁.target).symm⟩
+  · rintro ⟨x', w', hx', hw', rfl⟩
+    let P' := ofIdealEq P x' P.target hx'
+    let S' := ofIdealEq S Q.target w' (hw'.trans hS.symm)
+    exact ⟨ofPair (P'.comp Q hPQ), ofPair ((P'.comp Q hPQ).comp S' rfl),
+      ⟨P', Q, hPQ, hx'.symm, rfl, rfl⟩,
+      ⟨P'.comp Q hPQ, S', rfl, rfl, (hw'.trans hS.symm).symm, rfl⟩, rfl⟩
 
 section Link
 

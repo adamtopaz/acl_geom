@@ -11960,3 +11960,78 @@ and frozen M4a are preserved. This discharges B4's actual scalar bridge. The
 threefold incidence-component comparison, higher-dimensional family argument,
 packaged generic extension and original group/chunk, curve-coset and scheme/action
 obligations remain open. C2 and the full shared goal remain open.
+
+
+## Threefold incidence components and normalized generic germs (#5 C2 B3)
+
+`TupleCorrespondenceGerm.composes_threefold_components_eq` proves the source's
+threefold comparison for finite tuple correspondence presentations with literally
+shared middles. BOTH parenthesizations' final carrier ideals are exactly the
+endpoint contractions of the vanishing ideals of all actual four-block incidence
+components whose image under the LITERAL middle-pair projection is dense.
+The incidence ideal is the sum of the three extended consecutive pair ideals.
+The base is arbitrary, the ambient field algebraically closed, and the four
+index types and fields have six independent universes. The source closure
+clauses are derived from the genuine presentations; no rank, freshness,
+component, realization or field-isomorphism certificate is added.
+
+The third conjunct also handles EVERY irreducible component, including those
+not dominating the middle. For its vanishing ideal contracted to the polynomial
+ring p, let A be the literal polynomial quotient by p and N the integral closure
+of A in FractionRing A. It proves N integrally closed, gives a
+FractionRing N equivalence with FractionRing A, fixes every original A-element,
+and identifies the literal normalized generic endpoint kernel with p contracted
+to the endpoint variables. This is normalization formed componentwise, without
+a claim about a normalization object for the whole non-domain ring. The joint
+field is still not identified with its possibly smaller endpoint-image field.
+
+The new focused `ThreefoldIncidence` module clears denominators to obtain
+polynomial annihilators with a coefficient outside the middle locus. In a prime
+quotient with the correct middle contraction these coefficients survive, so
+IsAlgClosed.lift realizes the prime with both middles fixed. Algebraic
+incomparability gives equality of the outer pair ideals and minimality of every
+realized joint prime. This avoids dimension comparison and any promotion of
+private transcendence-degree lemmas. Direct quotient algebras avoid a custom
+fraction-field scalar tower. Its private normalization helper specializes
+Mathlib's integral-closure and localization equivalences, and has the third
+public conclusion as its sole consumer.
+
+The consumed `composes_threefold_carriers_eq` is the one public addition to
+TupleComposition. Ambient automorphisms align the intermediate presentation
+and then the middle pair, leaving the same fixed-middle endpoint-ideal set.
+The second parenthesization reuses the existing relational associativity proof.
+All preceding declarations, attributes and proofs in that module are unchanged;
+its existing header only gains the accurate new producer bullet.
+
+ThreefoldIncidence has twenty-two declarations: its public source producer,
+twelve consumed private theorems and nine private notation/macro declarations,
+including the generated quotient-map app unexpander. TupleComposition gains one
+declaration. Both agents independently checked the exact mathematical sources
+with four empty strict-module logs and default limits. All 101 bundle
+declarations use only standard axioms and every raw type hash and declaring
+module agrees; all 78 preceding rows are exact. The selected audit has 334
+standard-dependency public types and preserves all 332 preceding main types
+exactly. Root's first checker run failed only because its generated inventory
+had a long line; wrapping that fixture fixed the strict style diagnostic without
+changing a mathematical source or checking limit. Full library/book,
+whole-library and exact-head CI evidence belongs to the checkpoint report on #5.
+Dependency validation is not complete source coverage.
+
+The book removes stale open-status descriptions of the already-proved
+finite-tuple dimension, actual generic-fibre and scalar component bridges,
+composition, guarded chart and public reconstruction. The shared goal compresses
+its checkpoint/API catalogue into scoped capabilities, retains every genuine
+open target including the general curve-function-field presentation bridge,
+and corrects stale GroupConfig chart/actual-rank-two status lines. Its objective,
+endpoint and completion criteria are byte-exact. The original general affine-action,
+algebraization, scheme/action, normal-subgroup and witness-descent obligations
+remain visible. Eleven current Lean-status passages outside the existing
+annotation are corrected with an exact old/new whitelist; reversing those
+status-only corrections preserves every other original source byte. All 48
+statement blocks and 44 proof blocks and frozen M4a are preserved; this guide
+is append-only. B3 is discharged in the canonical finite-tuple generic-component
+model, including componentwise normalization. The general curve-function-field
+presentation bridge, higher-dimensional family argument, packaged generic
+extension and remaining original group/chunk,
+curve-coset and scheme/action obligations remain open. C2 and the full shared
+goal remain open.
