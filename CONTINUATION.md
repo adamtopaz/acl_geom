@@ -15,14 +15,16 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-15; #12)
+## Current status (2026-10-16; #9)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
 five. The actual chart and its original-field coordinate descent are internal. The public
-reconstruction API still carries its two completeness inputs; removing them is the next
-consumer checkpoint. Original scheme/action algebraization and descent, bypassed source
-statements and endpoint variants remain obligations. Read PROJECT_GOAL.md for
+`exists_reconstruction` and `reconstruction_target` now supply both completeness proofs
+internally. Their only hypotheses are the two original RAC bases, source rank five, the
+chosen perfections and lattice isomorphism. The exact Frobenius fibre and converse are
+included. Original scheme/action algebraization and descent, bypassed source statements
+and point/automorphism/functorial variants remain obligations. Read PROJECT_GOAL.md for
 the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -10960,3 +10962,30 @@ The frozen M4a log and original blueprint provenance are preserved.
 Both agents independently checked the complete private proof before integration. The
 checkpoint's final full library/book, selected public-type/standard-axiom and exact-head CI
 results are recorded on #27; no selected check is a whole-library axiom audit.
+
+## Unconditional lattice reconstruction checkpoint (#9/#10)
+
+`AclGeom.exists_reconstruction` and `AclGeom.reconstruction_target` now have exactly the
+blueprint hypotheses. Their conclusions are unchanged: equality of relative degrees,
+compatible reconstruction of arbitrary chosen perfections, the original-field intersection
+formula, the exact integral Frobenius fibre, characteristic-zero uniqueness,
+positive-characteristic exponent uniqueness and the converse. There is no completeness,
+chart, action or reconstruction oracle in either public statement.
+
+A shared private producer supplies the two ACF completeness inputs of the existing generic
+`Perfection.exists_induces`. Source rank five transports to each chosen perfection, using
+the supplied lattice isomorphism for the target. `five_le_trdeg_algebraicClosure` gives
+rank five over each perfected base's algebraic closure. Two local algebraic-closedness
+proofs and the proved `jCompletenessACF` discharge the inputs. The generic internal APIs
+retain their explicit parameters; no duplicate reconstruction relation is introduced.
+
+Both agents independently checked the two proof modules with empty strict logs. The
+complete conclusions and remaining binders agree with the preceding checkpoint; only the
+two completeness binders are deleted. Ninety other selected public types are unchanged,
+and ninety-three selected declarations use only standard Lean axioms. Full local
+library/book and exact-head CI evidence is recorded on #9. These are scoped checks.
+
+The project remains incomplete: the point-geometry, automorphism and functorial variants,
+true bypassed source statements, original scheme/action bridges and remaining source
+provenance obligations are still owed. The shared mathematical endpoint and acceptance
+criteria, original source statements/proofs, and frozen M4a log are preserved.

@@ -411,8 +411,10 @@ These are the three GC4 clauses for the proposed actual six-point input.
 The theorem statements retain ambient algebraic closedness and a universal
 domain; the original base field may be arbitrary. The complete sixteen-triple
 input and its canonical universal ambient are constructed below, including the
-literal image tuples. Finite-ambient chart/action descent remains open. These
-identifications do not extract the guarded chart, a group or its action.
+literal image tuples. These identifications alone do not extract the guarded chart, a group or
+its action.
+The guarded ACF chart and its original-field coordinate descent are proved in the
+configuration chapter; original scheme/action descent remains open.
 
 # Representatives, graph ideals and germ automorphisms
 %%%
@@ -1405,7 +1407,7 @@ the chosen application formulas. The finite algebraicity application and origina
 chart independence are now proved in `FiniteIncidenceDescent` and `Config.GuardedAffineGrid`.
 
 The group and homogeneous-space presentations are constructed below.
-Original scheme/action descent, group algebraization and unconditional reconstruction
+Original scheme/action descent, group algebraization and endpoint variants
 remain obligations. The actual rank-two affine classification and guarded chart descent
 are proved in the modules described above.
 
@@ -1466,7 +1468,7 @@ interalgebraicity clauses refer to the same extracted data.
 
 {docstring AclGeom.QWitness.PsiCore.exists_constructibleGroupSpace}
 
-Original algebraization, scheme/action descent and unconditional reconstruction remain
+Original algebraization, scheme/action descent and endpoint variants remain
 separate targets. The actual HW affine generator and guarded chart are proved above.
 
 # The rank-one partial-quadrangle configuration
@@ -1535,7 +1537,7 @@ rank one over its literal final base.
 These existence theorems choose parameters separately. The joint theorem below
 realizes both conclusions over one finite independent extension. The algebraic
 groups over the original base, $`\pi`, its normal subgroup, original scheme/action
-descent and unconditional reconstruction remain obligations. The guarded chart is proved
+descent and endpoint variants remain obligations. The guarded chart is proved
 by the actual rank-two consumer above.
 
 # Both actual Ψ configurations over one fresh base
@@ -1571,7 +1573,7 @@ ambient field is a universal domain.
 This is a joint realization by groups of germs up to interalgebraicity.
 It does not construct the original algebraic groups over the original base,
 the homomorphism $`\pi`, its normal subgroup or an affine chart. Weil
-algebraization, original scheme/action descent and unconditional reconstruction remain
+algebraization, original scheme/action descent and endpoint variants remain
 obligations. The guarded chart uses the rank-two consumer above.
 
 # The nonfaithful product-group example
@@ -1699,7 +1701,7 @@ and applies the proved core projection.
 The configuration lives in the chosen extension over its algebraic base.
 This construction supplies the input for group extraction. The actual guarded chart
 and its original-field coordinate descent are proved in the configuration chapter.
-Original scheme/action descent, algebraization and unconditional reconstruction remain
+Original scheme/action descent, algebraization and endpoint variants remain
 separate targets.
 
 # Constructible sets
@@ -1811,7 +1813,8 @@ group-of-germs extraction and independent parameter descent are proved above.
 The actual constructible presentations follow below. The guarded initial affine chart
 and original-field coordinate descent are proved above and in the configuration chapter.
 Original scheme/action descent and algebraization remain obligations. The public
-reconstruction API still carries its two completeness inputs; their discharge is next.
+reconstruction theorem supplies both completeness proofs internally; its point, automorphism
+and functorial variants remain separate obligations.
 
 
 # The constructible group and homogeneous space
@@ -1905,5 +1908,5 @@ one; its public statement is unchanged.
 {docstring GroupConfig.GroupConfiguration.exists_main_constructible}
 
 These are constructible quotient presentations. Original algebraization,
-scheme/action descent and unconditional reconstruction remain obligations of the shared
+scheme/action descent and endpoint variants remain obligations of the shared
 project goal. The actual affine classification and guarded chart are proved above.

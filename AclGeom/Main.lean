@@ -3,6 +3,7 @@ Copyright (c) 2026 Adam Topaz. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
+import AclGeom.Config.Completeness
 import AclGeom.Reconstruct.Target
 import AclGeom.Reconstruct.Uniqueness
 
@@ -10,7 +11,7 @@ import AclGeom.Reconstruct.Uniqueness
 # The public theorems
 
 The reconstruction theorem in lattice form for chosen perfections (blueprint Thm `target`,
-§Assembly), CONDITIONAL on ACF J-completeness for the two perfections' algebraic-closure pairs.
+§Assembly).
 
 * `Reconstructs π ρ φ Φ`: `Φ : K^perf ≃+* L^perf` reconstructs `φ : 𝒢(K/k) ≃o 𝒢(L/l)`, i.e.
   `(φ M)^perf = Φ(M^perf)` for every closed `M`.  This is the blueprint's `Reconstructs` record,
@@ -23,18 +24,16 @@ The reconstruction theorem in lattice form for chosen perfections (blueprint Thm
   exponent is unique in positive characteristic.  Conversely, every isomorphism of perfections
   carrying `k^perf` onto `l^perf` reconstructs its transported lattice map.
 
-The chosen perfections are arbitrary, with their own characteristic exponents.  The only
-hypotheses beyond the blueprint's (relatively algebraically closed bases, `trdeg(K/k) ≥ 5`) are
-the two perfected ACF J-completeness inputs, which remain OPEN.
+The chosen perfections are arbitrary, with their own characteristic exponents.  The hypotheses
+are exactly the blueprint's: relatively algebraically closed bases and `trdeg(K/k) ≥ 5`.  ACF
+J-completeness of the two perfections' algebraic-closure pairs, needed by the existence proof,
+is supplied by `jCompletenessACF` (`Config.Completeness`, #27).
 
-**Status:** the public reconstruction relation, existence and assembled lattice-form target
-are proved (#9/#10), conditional on both exact perfected ACF J-completeness inputs.
-Reconstructs is a reducible alias of Induces; exactly three public declarations add no
-helper, generated declaration, instance or duplicate relation. Only original RAC bases
-and source rank five are supplied, with arbitrary chosen bundles and separate exponents.
-Unconditional ACF J-completeness, the point-geometry variant, the automorphism exact
-sequence and the functorial fully faithful formulation remain open, as do the literal
-provenance items recorded in the blueprint and the frozen M4a obligations.
+**Status:** the public reconstruction relation, existence and the assembled lattice-form
+target are proved (#9/#10) from the blueprint hypotheses alone. Reconstructs is a reducible
+alias of Induces. The point-geometry variant, the automorphism exact sequence and the
+functorial fully faithful formulation remain open, as do the literal provenance items
+recorded in the blueprint, bypassed source statements and the frozen M4a obligations.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -54,24 +53,35 @@ abbrev Reconstructs (π : Perfection K) (ρ : Perfection L) (φ : ClosedIF k K �
     (Φ : π.carrier ≃+* ρ.carrier) : Prop :=
   π.Induces ρ φ Φ
 
-/-- **Existence of a reconstruction** (blueprint §Assembly, `exists_reconstruction`), conditional
-on ACF J-completeness for the two perfections' algebraic-closure pairs: for relatively
-algebraically closed `K/k` and `L/l` with `trdeg(K/k) ≥ 5`, every order isomorphism of
-closed-subfield lattices has a reconstruction between the chosen perfections. -/
+/-- An inducing isomorphism of the chosen perfections, with both ACF J-completeness inputs of
+`Perfection.exists_induces` supplied by `jCompletenessACF` at rank five. -/
+private theorem exists_induces_of_five_le_trdeg (π : Perfection K) (ρ : Perfection L)
+    (hk : IsRAC (⊥ : IntermediateField k K)) (hl : IsRAC (⊥ : IntermediateField l L))
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K) (φ : ClosedIF k K ≃o ClosedIF l L) :
+    ∃ Φ : π.carrier ≃+* ρ.carrier,
+      CrossBase.Compatible (k := π.basePerf k) (l := ρ.basePerf l) Φ ∧ π.Induces ρ φ Φ := by
+  have : IsAlgClosed ↥(algebraicClosure (↥(π.basePerf k)) (AlgebraicClosure π.carrier)) :=
+    IsAlgClosure.isAlgClosed (↥(π.basePerf k))
+  have : IsAlgClosed ↥(algebraicClosure (↥(ρ.basePerf l)) (AlgebraicClosure ρ.carrier)) :=
+    IsAlgClosure.isAlgClosed (↥(ρ.basePerf l))
+  exact π.exists_induces ρ hk hl htr
+    (jCompletenessACF (five_le_trdeg_algebraicClosure
+      (Perfection.five_le_trdeg_basePerf π (OrderIso.refl (ClosedIF k K)) htr)))
+    (jCompletenessACF (five_le_trdeg_algebraicClosure
+      (Perfection.five_le_trdeg_basePerf ρ φ htr))) φ
+
+/-- **Existence of a reconstruction** (blueprint §Assembly, `exists_reconstruction`): for
+relatively algebraically closed `K/k` and `L/l` with `trdeg(K/k) ≥ 5`, every order isomorphism
+of closed-subfield lattices has a reconstruction between the chosen perfections. -/
 theorem exists_reconstruction (π : Perfection K) (ρ : Perfection L)
     (hk : IsRAC (⊥ : IntermediateField k K)) (hl : IsRAC (⊥ : IntermediateField l L))
-    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
-    (hcomp : JCompletenessACF (↥(algebraicClosure (↥(π.basePerf k)) (AlgebraicClosure π.carrier)))
-      (AlgebraicClosure π.carrier))
-    (hcomp' : JCompletenessACF (↥(algebraicClosure (↥(ρ.basePerf l)) (AlgebraicClosure ρ.carrier)))
-      (AlgebraicClosure ρ.carrier))
-    (φ : ClosedIF k K ≃o ClosedIF l L) :
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K) (φ : ClosedIF k K ≃o ClosedIF l L) :
     ∃ Φ : π.carrier ≃+* ρ.carrier, Reconstructs π ρ φ Φ :=
-  (π.exists_induces ρ hk hl htr hcomp hcomp' φ).imp fun _ h ↦ h.2
+  (exists_induces_of_five_le_trdeg π ρ hk hl htr φ).imp fun _ h ↦ h.2
 
-/-- **The reconstruction theorem in lattice form** (blueprint Thm `target`), conditional on ACF
-J-completeness for the two perfections' algebraic-closure pairs.  Let `K/k` and `L/l` be
-relatively algebraically closed with `trdeg(K/k) ≥ 5`, and let `φ : 𝒢(K/k) ≃o 𝒢(L/l)`.  Then:
+/-- **The reconstruction theorem in lattice form** (blueprint Thm `target`).  Let `K/k` and
+`L/l` be relatively algebraically closed with `trdeg(K/k) ≥ 5`, and let
+`φ : 𝒢(K/k) ≃o 𝒢(L/l)`.  Then:
 * `K/k` and `L/l` have the same transcendence degree;
 * some `Φ : K^perf ≃+* L^perf` carries `k^perf` onto `l^perf`, reconstructs `φ`, and satisfies
   `φ(M) = Φ(M^perf) ∩ L`;
@@ -81,12 +91,7 @@ relatively algebraically closed with `trdeg(K/k) ≥ 5`, and let `φ : 𝒢(K/k)
   transported lattice map. -/
 theorem reconstruction_target (π : Perfection K) (ρ : Perfection L)
     (hk : IsRAC (⊥ : IntermediateField k K)) (hl : IsRAC (⊥ : IntermediateField l L))
-    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
-    (hcomp : JCompletenessACF (↥(algebraicClosure (↥(π.basePerf k)) (AlgebraicClosure π.carrier)))
-      (AlgebraicClosure π.carrier))
-    (hcomp' : JCompletenessACF (↥(algebraicClosure (↥(ρ.basePerf l)) (AlgebraicClosure ρ.carrier)))
-      (AlgebraicClosure ρ.carrier))
-    (φ : ClosedIF k K ≃o ClosedIF l L) :
+    (htr : (5 : Cardinal) ≤ Algebra.trdeg k K) (φ : ClosedIF k K ≃o ClosedIF l L) :
     Cardinal.lift.{v} (Algebra.trdeg k K) = Cardinal.lift.{u} (Algebra.trdeg l L) ∧
       ∃ Φ : π.carrier ≃+* ρ.carrier,
         CrossBase.Compatible (k := π.basePerf k) (l := ρ.basePerf l) Φ ∧
@@ -100,7 +105,7 @@ theorem reconstruction_target (π : Perfection K) (ρ : Perfection L)
         ∀ (Ψ : π.carrier ≃+* ρ.carrier)
           (hΨ : CrossBase.Compatible (k := π.basePerf k) (l := ρ.basePerf l) Ψ),
           Reconstructs π ρ (π.inducedIso ρ hΨ) Ψ := by
-  obtain ⟨Φ, hΦ, h⟩ := π.exists_induces ρ hk hl htr hcomp hcomp' φ
+  obtain ⟨Φ, hΦ, h⟩ := exists_induces_of_five_le_trdeg π ρ hk hl htr φ
   exact ⟨lift_trdeg_eq_of_orderIso φ, Φ, hΦ, h, fun _ _ ↦ h.mem_iff,
     fun _ ↦ h.iff_exists_eq_trans_frobZPow htr,
     fun hp _ hΨ ↦ (h.eq_of_p_eq_one hΨ htr hp).symm,

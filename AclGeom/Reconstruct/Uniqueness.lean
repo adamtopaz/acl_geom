@@ -19,7 +19,8 @@ and `Φ₁ = Φ₂` when `p = 1`.
   Both isomorphisms carry `M^perf` onto `φ(M)^perf`, and every closed subextension of the
   perfected target has this form.
 * Rank five transports from `K/k` to `L^perf/l^perf` along `φ` and the perfection order
-  isomorphism, so the Frobenius kernel theorem applies (`Induces.exists_eq_trans_frobZPow`).
+  isomorphism (`five_le_trdeg_basePerf`), so the Frobenius kernel theorem applies
+  (`Induces.exists_eq_trans_frobZPow`).
 * Frobenius twists induce the same map (`Induces.trans_frobZPow`), which gives the fibre
   description `Induces.iff_exists_eq_trans_frobZPow`.
 * The exponent is unique in positive characteristic (`trans_frobZPow_injective`), and the
@@ -29,9 +30,9 @@ No hypothesis on the bases is needed: relative algebraic closedness of `k` and `
 base clause `Induces.compatible`.  The existence of an inducing isomorphism is not claimed here.
 
 **Status:** uniqueness and the Frobenius fibre for supplied inducing maps are proved (#9).
-Conditional original-field reconstruction existence and the public lattice-form target
-are proved in Main with both original RAC bases, source rank five and both exact perfected
-ACF J-completeness inputs explicit. Unconditional completeness and reconstruction remain open.
+Main proves original-field reconstruction existence and the public lattice-form target from
+both original RAC bases and source rank five; it also uses `five_le_trdeg_basePerf` to supply
+the perfected ACF J-completeness inputs.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
@@ -48,7 +49,7 @@ variable {k K l L : Type*} [Field k] [Field K] [Algebra k K] [Field l] [Field L]
 
 /-- Rank five transports to the perfected target along an order isomorphism of closed lattices
 and the perfection order isomorphism. -/
-private theorem five_le_trdeg_basePerf (ρ : Perfection L) (φ : ClosedIF k K ≃o ClosedIF l L)
+theorem five_le_trdeg_basePerf (ρ : Perfection L) (φ : ClosedIF k K ≃o ClosedIF l L)
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K) :
     (5 : Cardinal) ≤ Algebra.trdeg (ρ.basePerf l) ρ.carrier :=
   Cardinal.ofNat_le_lift_iff.1 <| (Cardinal.ofNat_le_lift_iff.2 htr).trans

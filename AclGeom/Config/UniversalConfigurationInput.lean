@@ -30,8 +30,9 @@ domain instance, actual witness lift and its six-point input/ranks are proved.
 The literal comparison with image tuples is proved in
 `Config.UniversalImageConfigurationInput`. The original-field guarded chart consumer is
 `Config.GuardedAffineGrid`; it uses the original-base universal-domain instance below.
-Original scheme/action descent, algebraization and unconditional reconstruction remain
-separate obligations. This construction alone does not give semantic representatives.
+Original scheme/action descent, algebraization and endpoint variants remain separate
+obligations. The public reconstruction theorem consumes the proved guarded chart internally. This
+construction alone does not give semantic representatives.
 -/
 
 namespace AclGeom

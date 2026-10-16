@@ -23,8 +23,9 @@ by the actual degenerate `Psi` witness in Counterexamples.QDegenerate, even for 
 with five independent elements. The multiplication-diagram product converse is proved.
 It reduces rank-five ACF `Q′` and `J` completeness to guarded `Q` completeness, now proved
 in `Config.GuardedAffineGrid`. `Config.Completeness` supplies the resulting rank-five ACF
-`J` theorem. The existing conditional reconstruction API still requests `JCompletenessACF`;
-discharging those inputs and the remaining four-way descent obligations is separate work.
+`J` theorem. The public reconstruction theorem supplies these completeness proofs internally.
+The generic conditional APIs remain reusable; the remaining four-way/source descent
+formulations are tracked separately.
 Counterexamples.QRefutation retains
 the characteristic-zero arbitrary-field `Q′` refutation and the earlier `Q` example (#25).
 

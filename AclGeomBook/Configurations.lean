@@ -57,8 +57,8 @@ invariance and concrete geometric invariance are proved. Unguarded Q
 completeness/extraction and geometric Q
 projection are refuted even over ACF pairs. Guarded Q completeness is proved for every
 ACF pair (#27), and the multiplication converse gives rank-five ACF Q′/J completeness.
-The current interpretation and public lattice-form APIs still keep both perfected
-J-completeness inputs explicit; their direct discharge is the next consumer checkpoint.
+The internal interpretation APIs retain explicit perfected J-completeness parameters.
+The public lattice reconstruction theorem now supplies those proofs internally.
 The arbitrary-field Q/Q′ versions have
 concrete characteristic-zero Lean refutations. This chapter distinguishes
 the proved guarded chart from the remaining original scheme/action obligations.
@@ -255,8 +255,8 @@ rank-five bound or fresh element. Corrected interpretation-relation transport,
 quotient-carrier and geometric operation-graph naturality are proved in the
 interpretation chapter; actual inducing existence and the public lattice-form
 target are proved conditionally in the reconstruction chapter. Both exact
-perfected ACF J-completeness inputs remain explicit in these APIs. Their discharge and
-public unconditional reconstruction are the next consumer checkpoint; the broader
+perfected ACF J-completeness inputs remain explicit in these internal APIs. The public
+reconstruction theorem supplies them internally; the broader
 point/automorphism/functorial variants remain open. Guarded geometric projection
 completeness follows from the new guarded Q theorem below. The frozen M4a record
 and literal source obligations are preserved.
@@ -470,8 +470,8 @@ for every algebraically closed pair of rank at least five:
 {docstring AclGeom.jGeom_iff_jSem_of_isAlgClosed}
 
 The unguarded Q input remains refuted (#27). Both ratio inequalities are supplied by
-multiplication distinctness in J. The public reconstruction API still carries its two
-ACF completeness inputs; removing them is the next consumer checkpoint.
+multiplication distinctness in J. The public reconstruction theorem now supplies its two
+ACF completeness proofs internally.
 
 # Incidence germs recover their parameter fields
 %%%
@@ -516,7 +516,7 @@ This covers the rank-two field-of-definition step. The common-closed-base
 composition step follows below. Relational germ composition is associative
 over arbitrary bases, as proved below. Its identification with components
 of geometric fiber products over nonclosed function-field bases, group chunks,
-the original scheme/action bridges and unconditional reconstruction remain open.
+the original scheme/action bridges and endpoint variants remain open.
 Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
 
@@ -571,8 +571,8 @@ The universally quantified Ψ is never transported.
 
 No new public rank wrapper, field definition, normalization interface or
 checking option is added. The geometric fiber-product/function-field bridge,
-group chunks, original scheme/action bridges and unconditional reconstruction remain
-open. Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
+group chunks, original scheme/action bridges and endpoint variants remain open. Guarded initial
+charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
 
 # Relational correspondence composition is associative

@@ -48,7 +48,10 @@ proved below, given the canonical image-base equality and the actual
 carriers' semantic inputs. The same geometric map gives an actual RingEquiv
 and its composition with the decodings below. The canonical image base and
 conditional field-isomorphism existence are also proved below, keeping both
-ACF-completeness hypotheses explicit. General inducing reconstruction remains open.
+ACF-completeness hypotheses explicit. Rank-five ACF `J` completeness is proved
+(`jCompletenessACF`) and supplies these inputs; inducing reconstruction is completed in the
+reconstruction chapter, whose public `reconstruction_target` discharges them internally. The
+statements of this chapter keep the inputs explicit.
 The historical addition and multiplication incidences are projections
 of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
@@ -76,8 +79,9 @@ orientation, the undirected edge is symmetric definitionally:
 {docstring AclGeom.DirectFrobEdge.symm}
 
 The two-step bridge is the geometric Frobenius-class relation. Its semantic
-characterization under explicit ACF completeness is displayed below;
-unconditional completeness and the resulting setoid laws remain open:
+characterization under explicit ACF completeness is displayed below; that input is
+supplied at rank five by `jCompletenessACF`, while the resulting setoid laws are not stated
+and remain open (#8):
 
 {docstring AclGeom.FrobEq}
 
@@ -112,15 +116,16 @@ identify the three lines, without configuration completeness:
 
 The two-link bridge uses semantic coordinates for its geometric middle
 tuple as the explicit hypothesis `hJ`. Its canonical form obtains them
-for perfect K of rank at least five from the still-open ACF
-`JCompletenessACF` input:
+for perfect K of rank at least five from the explicit ACF
+`JCompletenessACF` input (supplied at rank five by `jCompletenessACF`):
 
 {docstring AclGeom.FrobEq.frobenius_of_witnesses}
 
 {docstring AclGeom.FrobEq.frobenius_of_witnesses_of_completeness}
 
-Unconditional geometric bridge completeness and the original
-common-representative calculation remain open (#23). These statements
+The completeness input is supplied at rank five by `jCompletenessACF`; no separate
+unconditional bridge statement is given, and the original common-representative
+calculation remains open (#23). These statements
 preserve the original geometric relations.
 
 Semantic tuples with the same literal parameter are related by a fresh
@@ -178,8 +183,7 @@ Coupled arithmetic and corrected totalization/ratio transport are proved
 below. Conditional carrier/graph transport is proved later, given the
 canonical image-base equality and carrier inputs. Conditional image-base
 existence and the field-isomorphism endpoint are proved below under ACF
-completeness. General interpreted reconstruction, unconditional completeness
-and unconditional R1/R2 remain open
+completeness. General interpreted reconstruction in its original scope remains open
 (#23/#8). The literal source obligations and frozen M4a record are
 preserved.
 
@@ -190,7 +194,8 @@ tag := "conditional-frobenius-class"
 
 Combining the two-link rigidity implication with geometric soundness gives
 the exact relation between semantic tuples. Perfection, rank five and
-the still-open ACF `JCompletenessACF` input remain explicit; the reverse
+the explicit ACF `JCompletenessACF` input (supplied at rank five by `jCompletenessACF`) remain
+explicit; the reverse
 twist-to-class direction uses soundness alone:
 
 {docstring AclGeom.frobEq_iff_frobenius_twist}
@@ -241,7 +246,8 @@ the elements outside the parameter's relative closure:
 
 {docstring AclGeom.jClassEquiv_ne_zero}
 
-Perfection, rank five and the still-open ACF `JCompletenessACF` input
+Perfection, rank five and the explicit ACF `JCompletenessACF` input (supplied at rank five by
+`jCompletenessACF`)
 remain explicit for that class description. No infinite-base or relatively
 closed base hypothesis is added. The map's domain is the original geometric
 `FrobEq` class, and its inverse encodes the same point tuple. Corrected
@@ -328,7 +334,8 @@ and corrected total geometric graphs, then a named transported field
 structure and its actual decoding ring equivalence. Coupled arithmetic
 and corrected totalization/ratio naturality are proved next, followed by
 conditional carrier/graph transport with the image-base equality explicit.
-Discharging that equality and interpreted reconstruction remain open (#23/#8).
+Image-base existence is proved below under ACF completeness; general interpreted
+reconstruction in its original scope remains open (#23/#8).
 
 # Coupled arithmetic naturality
 %%%
@@ -363,9 +370,8 @@ addition, ratio equivalence and the full-carrier product graph.
 Corrected totalization/ratio transport is proved next, followed by
 conditional carrier/graph transport with the image-base equality explicit.
 Conditional image-base existence is proved below under ACF completeness.
-General interpreted reconstruction,
-unconditional completeness and unconditional R1/R2 remain open (#23/#8). The literal source obligations and
-frozen M4a record are preserved.
+General interpreted reconstruction in its original scope remains open (#23/#8). The
+literal source obligations and frozen M4a record are preserved.
 
 # Totalization and ratio naturality
 %%%
@@ -403,9 +409,8 @@ class-pair quotient well-definedness and full-carrier graph preservation.
 Conditional carrier/graph transport is proved next with the canonical
 image-base equality and carrier inputs explicit. Conditional image-base
 existence is proved below under ACF completeness. General interpreted
-reconstruction, unconditional
-completeness and unconditional R1/R2 remain open
-(#23/#8). The literal source obligations and frozen M4a record remain.
+reconstruction in its original scope remains open (#23/#8). The literal source
+obligations and frozen M4a record remain.
 
 # Conditional carrier and graph naturality
 %%%
@@ -449,9 +454,9 @@ This accepts I6b3 under the stated image-base equality and carrier inputs.
 The following section bundles this same geometric map as an actual RingEquiv
 and composes it with both decoding equivalences. The canonical image base
 and conditional field-isomorphism endpoint follow in the next section.
-General interpreted reconstruction remains open (I6b/I6c), along with
-unconditional completeness, global Frobenius setoid, literal source
-obligations and unconditional R1/R2; the frozen M4a record is preserved.
+General interpreted reconstruction in its original scope remains open (I6b/I6c), along
+with the global Frobenius setoid and literal source obligations; the frozen M4a record is
+preserved.
 
 # Conditional induced ring isomorphisms
 %%%
@@ -477,7 +482,8 @@ image-base equality:
 
 Its pointwise value is exactly `D_L ∘ Φ ∘ D_K⁻¹`, with the same geometric
 map in the middle. Pointwise forward and inverse composite values are
-checked definitionally; the decoding diagram commutes by the inverse laws. Both perfections, separate exponential-characteristic
+checked definitionally; the decoding diagram commutes by the inverse laws. Both perfections,
+separate exponential-characteristic
 parameters, rank-five bounds, ACF-completeness inputs and the canonical
 image-base equality remain explicit across independent bases and universes.
 This accepts the constructive part I6c1. The next section proves the
@@ -485,9 +491,8 @@ canonical image-base existence and conditional field-isomorphism endpoint
 I6c2. General I6b/I6c remain open under their original scope. The named
 consumers are that conditional existence endpoint, accepted conditional R1b
 base recovery and corrected conditional scalar one in the reconstruction
-chapter. General inducing
-reconstruction, unconditional completeness, global Frobenius setoid,
-literal source obligations and the frozen M4a record remain open/preserved.
+chapter. The global Frobenius setoid and literal source obligations remain open, and
+the frozen M4a record is preserved.
 
 The reconstruction chapter proves actual base-range compatibility for
 this same `interpretedRingEquiv` under explicit RAC bases and these carrier
@@ -497,8 +502,9 @@ recovery without RAC, and assembles actual inducing equality and compatible
 inducing existence in perfect fields under RAC bases and explicit completeness.
 Conditional original-field inducing existence through chosen perfections is
 proved in the reconstruction chapter with both perfected completeness inputs
-explicit. Main also assembles the public conditional lattice-form target.
-General unconditional R1/R2 and unconditional completeness remain open.
+explicit. Main assembles the public lattice-form target and supplies both inputs by
+`jCompletenessACF`, so `reconstruction_target` is unconditional. The base-image and scalar
+steps (R1/R2) of the reconstruction chapter keep their completeness inputs explicit.
 
 # Conditional image-base and field-isomorphism existence
 %%%
@@ -525,13 +531,14 @@ geometric RingEquiv:
 This accepts I6c2 in its conditional scope. The conclusion is the actual
 `Nonempty (K ≃+* L)`, with no supplied pair, target rank or image-base
 equality. Both perfections, separate exponential-characteristic parameters
-and both still-open ACF J-completeness hypotheses remain explicit, across
+and both ACF J-completeness hypotheses remain explicit (each supplied at rank five by
+`jCompletenessACF`), across
 independent bases/universes and including finite bases and characteristics
 zero/two. No helper, global instance or evaluation declaration is added.
 
 The existence theorem does not assert `Induces` compatibility with the
-supplied lattice map or recovery of the base fields. unconditional R1/R2, unconditional
-completeness, full inducing reconstruction, general I6b/I6c and all literal
+supplied lattice map or recovery of the base fields; those are proved in the
+reconstruction chapter. General I6b/I6c in their original scope and all literal
 source/setoid/TOT obligations remain open. The frozen M4a record is preserved.
 
 # Generic arithmetic on the fixed class
@@ -554,7 +561,8 @@ coordinate bijection computes the corresponding field operation:
 
 {docstring AclGeom.JDivRel.jClassEquiv_div}
 
-Perfection, rank five and the still-open ACF `JCompletenessACF` input remain
+Perfection, rank five and the explicit ACF `JCompletenessACF` input (supplied at rank five by
+`jCompletenessACF`) remain
 explicit. There is no infinite-base or relatively closed base assumption.
 The output is a geometric point tuple, and its class membership is proved
 rather than assumed. These are the coupled EH95 relations, with the original
@@ -562,10 +570,9 @@ genericity clause; the refuted literal projections retain their provenance.
 
 This proves corrected generic fixed-class semantics. The following
 sections construct the corrected ratio quotient and its nonzero decoding.
-Corrected total graphs are proved later under the explicit input.
-Unconditional ACF completeness, unconditional R1/R2 and unconditional
-reconstruction existence remain open; conditional chosen-perfection existence
-is proved in the reconstruction chapter.
+Corrected total graphs are proved later under the explicit input. Rank-five ACF
+completeness is `jCompletenessACF`, and chosen-perfection reconstruction is proved in the
+reconstruction chapter.
 
 
 # Corrected ratio semantics
@@ -597,7 +604,8 @@ an input pair need not be generic with one another:
 
 {docstring AclGeom.ratioEq_iff}
 
-Perfection, rank five and the still-open ACF `JCompletenessACF` input remain
+Perfection, rank five and the explicit ACF `JCompletenessACF` input (supplied at rank five by
+`jCompletenessACF`) remain
 explicit. No infinite-base or relatively closed base assumption is added.
 The corrected relation keeps the geometry and exact rank budget. The literal
 predicate and its counterexample remain preserved.
@@ -606,7 +614,6 @@ This proves the corrected ratio equivalence with decoded equality. The
 next section packages its geometric setoid/quotient and bijective nonzero
 decoding, followed by the full adjoined-zero carrier equivalence.
 Corrected total field graphs are proved later under the same explicit inputs.
-unconditional R1/R2, unconditional completeness and unconditional reconstruction remain open.
 
 # The ratio quotient and nonzero decoding
 %%%
@@ -640,12 +647,12 @@ members `j(z*t,a)` and `j(t,a)`; their quotient decodes to `z`:
 {docstring AclGeom.ratioDecodeEquiv}
 
 This proves the nonzero part of blueprint `decode-equiv` for the corrected
-geometric quotient. Perfection, rank five and still-open ACF
-`JCompletenessACF` remain explicit, over arbitrary base fields.
+geometric quotient. Perfection, rank five and explicit ACF
+`JCompletenessACF` (supplied at rank five by `jCompletenessACF`) remain explicit, over arbitrary
+base fields.
 No global Frobenius setoid is claimed. The next section adjoins zero and
 decodes the full carrier, followed by corrected total operation graphs.
-The transported field structure is proved below. Unconditional completeness,
-unconditional R1/R2 and unconditional reconstruction remain open. Historical literal definitions and
+The transported field structure is proved below. Historical literal definitions and
 their refutation stay preserved.
 
 
@@ -673,12 +680,13 @@ Both evaluation laws reduce by definition:
 {docstring AclGeom.ratioInterpDecode_coe}
 
 This proves the full corrected blueprint `decode-equiv` under explicit
-perfection, rank five and still-open ACF `JCompletenessACF`.
+perfection, rank five and explicit ACF `JCompletenessACF` (supplied at rank five by
+`jCompletenessACF`).
 The carrier is the geometric ratio quotient with its new zero. A named
 transported field structure and actual decoding ring equivalence are proved
-below after the total geometric graphs. Naturality, global Frobenius setoid,
-unconditional completeness, unconditional R1/R2 and unconditional reconstruction remain open. The original literal
-construction and its counterexample remain preserved.
+below after the total geometric graphs, and naturality is proved later. The global
+Frobenius setoid remains open. The original literal construction and its counterexample
+remain preserved.
 
 
 # Corrected total negation
@@ -713,19 +721,19 @@ rank-five or completeness input:
 
 {docstring AclGeom.pointTripleIndependent_jTupleOf}
 
-Perfection, rank five and still-open ACF `JCompletenessACF` remain
+Perfection, rank five and explicit ACF `JCompletenessACF` (supplied at rank five by
+`jCompletenessACF`) remain
 explicit for the semantic negation equivalence. There is no genericity
 assumption between the two original inputs. This proves the corrected
 counterpart of the blueprint's two-addition negation detour.
 The original literal negation/totalization derivation retains its
 historical/open status; no separate negation counterexample is claimed.
 The corrected nonzero-addition detour is displayed next, followed by total
-ratio-carrier graphs. The named transported field structure is proved below. Global Frobenius
-setoid, unconditional completeness, unconditional R1/R2 and unconditional reconstruction remain open.
-Conditional carrier/graph transport is proved above with the canonical
-image-base equality and carrier inputs explicit; conditional image-base
-existence and the field-isomorphism endpoint are also proved above.
-General interpreted reconstruction remains open.
+ratio-carrier graphs. The named transported field structure is proved below. The global
+Frobenius setoid remains open. Conditional carrier/graph transport is proved above with the
+canonical image-base equality and carrier inputs explicit; conditional image-base existence
+and the field-isomorphism endpoint are also proved above. General interpreted
+reconstruction in its original scope remains open.
 
 
 # Corrected total nonzero addition
@@ -762,16 +770,16 @@ existential on the right of the equivalence. For canonical inputs, if
 raw output equals `j(x+y,a)`. This is the blueprint's actual output
 condition; being merely nonzero in `K` is insufficient.
 
-Perfection, uniform rank five and still-open ACF `JCompletenessACF`
+Perfection, uniform rank five and explicit ACF `JCompletenessACF` (supplied at rank five by
+`jCompletenessACF`)
 remain explicit. This establishes the corrected class-level detour,
 and the following section gives the full ratio-carrier graphs.
 The historical literal negation/TOT derivation retains its open status and
-exact provenance. The named transported field structure is proved below. Global Frobenius
-setoid, unconditional completeness, unconditional R1/R2 and unconditional reconstruction remain open.
-Conditional carrier/graph transport is proved above with the canonical
-image-base equality and carrier inputs explicit; conditional image-base
-existence and the field-isomorphism endpoint are also proved above.
-General interpreted reconstruction remains open.
+exact provenance. The named transported field structure is proved below. The global
+Frobenius setoid remains open. Conditional carrier/graph transport is proved above with the
+canonical image-base equality and carrier inputs explicit; conditional image-base existence
+and the field-isomorphism endpoint are also proved above. General interpreted
+reconstruction in its original scope remains open.
 
 
 # Corrected total geometric field graphs
@@ -823,7 +831,8 @@ one graph output:
 
 This proves the corrected totality/functionality and decoded-operation
 part of blueprint `total-field-graphs`, with explicit perfection,
-rank five and still-open ACF `JCompletenessACF` over arbitrary base fields.
+rank five and explicit ACF `JCompletenessACF` (supplied at rank five by `jCompletenessACF`) over
+arbitrary base fields.
 Graph representative invariance comes from the geometric ratio quotient.
 The common denominator is chosen existentially: an arbitrary choice
 can put the numerator sum inside `racl k {a}`.
@@ -832,10 +841,9 @@ The following section installs a named transported field structure with
 these exact geometric graphs. Conditional carrier/graph transport is proved
 above with the canonical image-base equality and carrier inputs explicit.
 Conditional image-base existence and the field-isomorphism endpoint are
-proved above under ACF completeness. Global Frobenius setoid,
-unconditional completeness, simultaneous representatives, unconditional R1/R2 and
-reconstruction remain open. The literal TOT argument retains its
-historical/open status and exact provenance.
+proved above under ACF completeness. The global Frobenius setoid and simultaneous
+representatives remain open. The literal TOT argument retains its historical/open status
+and exact provenance.
 
 
 # Named interpreted field structure
@@ -865,11 +873,12 @@ The geometric graphs agree exactly with the installed sum and product:
 
 This completes the corrected conditional field-transport part of
 blueprint `decode-equiv` and I5c, under explicit perfection, rank five
-and still-open ACF J completeness over arbitrary base fields. It supplies
+and explicit ACF J completeness (supplied at rank five by `jCompletenessACF`) over
+arbitrary base fields. It supplies
 the field structures for later interpreted reconstruction. Conditional
 carrier/graph transport is proved above with the canonical image-base
 equality and carrier inputs explicit. Conditional image-base existence and
-the field-isomorphism endpoint are also proved above. Unconditional
-completeness, the global Frobenius setoid,
-simultaneous representatives, unconditional R1/R2 and unconditional full reconstruction remain open. The literal source construction and TOT argument retain
-their historical/open status.
+the field-isomorphism endpoint are also proved above. The explicit completeness input is
+supplied at rank five by `jCompletenessACF`, and the public reconstruction theorem is
+unconditional. The global Frobenius setoid and simultaneous representatives remain open.
+The literal source construction and TOT argument retain their historical/open status.

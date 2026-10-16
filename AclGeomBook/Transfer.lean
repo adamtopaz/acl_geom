@@ -24,7 +24,8 @@ tag := "transfer"
 Gismatullin's transfer principle (blueprint §9, milestone M5) supplies the
 field-theoretic steps toward transferring geometric `J` correctness to
 perfect fields with a relatively algebraically closed base. The `J`
-equivalence still depends on open algebraically closed completeness.
+equivalence uses algebraically closed completeness, which is proved at rank five
+(`jCompletenessACF`).
 The blueprint's claimed arbitrary-field `Q` and `Q′` consequences have
 mathematical counterexamples tracked in #25; their Lean refutations are
 open. The statements the transfer principle handles are Boolean combinations of
@@ -247,16 +248,17 @@ The geometric `(4) ⇒ (3)` arrow uses the configuration lifts below:
 
 Rank-five `(1) ⇒ (4)` soundness works over finite bases as well.
 The remaining `(3) ⇒ (2)` input is explicitly `JCompletenessACF`.
-The proved semantic assembly reduces it to the still-open ACF Q/Q′
-completeness statements. Assuming that input, the canonical algebraic
+The semantic assembly reduces it to guarded ACF `Q` and `Q′` completeness, both now proved,
+so `jCompletenessACF` supplies it at rank five. With that input the canonical algebraic
 closure gives the geometric/semantic J equivalence over perfect K:
 
 {docstring AclGeom.five_le_trdeg_algebraicClosure}
 
 {docstring AclGeom.jGeom_iff_jSem}
 
-This conditional theorem leaves the unconditional blueprint T4 obligation
-open on #7.
+The theorem keeps `hcomp` explicit. At rank five `jCompletenessACF`, applied through
+`five_le_trdeg_algebraicClosure`, supplies it; the unconditional blueprint T4 statement is
+not stated separately and remains tracked on #7.
 
 The lattice and point lift is now proved for a `k`-embedding into an
 overfield and any enlarged base algebraic over `k`. It preserves closure

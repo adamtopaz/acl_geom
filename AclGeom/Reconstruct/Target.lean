@@ -24,21 +24,24 @@ induces `φ` (`Perfection.exists_induces`).
   `exists_ringEquiv_closedIFMap_eq` to the perfections, and recognize the result as the
   transported lattice map of the inducing isomorphism (`induces_iff_eq_inducedIso`).
 
-ACF J-completeness of the two perfections' algebraic-closure pairs is an explicit hypothesis.
-Uniqueness up to Frobenius is the landed `Induces.iff_exists_eq_trans_frobZPow`; the converse is
+ACF J-completeness of the two perfections' algebraic-closure pairs is explicit in this
+reusable internal theorem. `AclGeom.Main` supplies both proofs from `Config.Completeness`
+and the transported rank-five bounds. Uniqueness up to Frobenius is the landed
+`Induces.iff_exists_eq_trans_frobZPow`; the converse is
 `induces_inducedIso`.
 
 **Status:** perfected-base RAC and actual inducing existence through arbitrary chosen
 perfections of the original fields are proved (#9, conditional original-field existence).
-Only original-base RAC on both sides, source rank five and both still-open perfected ACF
+Only original-base RAC on both sides, source rank five and both explicit perfected ACF
 J-completeness hypotheses are supplied; perfected-base RAC, perfected source rank and the
 actual conjugated lattice map are derived. The original fields need not be perfect. The
 bundles supply separate exponential characteristics and two local Prop-valued PerfectField
 witnesses; no global instance, local Algebra instance, supplied point/scalar/inducing oracle
-or duplicate RingEquiv is added. Main assembles the public conditional target with rank,
+or duplicate RingEquiv is added. Main assembles the public target with rank,
 base/intersection formulas, the exact Frobenius fibre, characteristic-zero uniqueness,
-positive-characteristic exponent uniqueness and converse. Unconditional completeness and
-literal/TOT/group/three-pair/tensor/frozen obligations remain open.
+positive-characteristic exponent uniqueness and converse, supplying completeness internally.
+Point/automorphism/functorial variants and literal/TOT/group/three-pair/tensor/frozen
+obligations remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

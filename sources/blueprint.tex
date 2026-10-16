@@ -290,20 +290,18 @@ the bottom only recovers the perfected relative algebraic closure of the base.
 % open (issues 8--10).
 % \end{remark}
 \begin{remark}[Lean induced-map status, October 2026]
-\lean{AclGeom.Perfection.Induces} formalizes the displayed equality and proves its
-intersection formula, uniqueness of the induced lattice map and compatible induced-map
-converse.  Recovery of the literal perfected bases explicitly assumes both bases relatively
-algebraically closed; the intersection formula and converse need no such hypothesis.
-Integral Frobenius twists induce the same map. The uniqueness-up-to-Frobenius
-converse is proved for supplied inducing maps. Conditional original-field
-inducing existence through chosen perfections is proved with original-base RAC
-and both perfected ACF completeness inputs explicit. Unconditional target assembly,
-unconditional completeness and full literal/quotient functorial assembly remain
-open (issues 8--10).
+\lean{AclGeom.Perfection.Induces} formalizes equality of the perfected subfields and proves
+the intersection formula, uniqueness of the induced lattice map and the compatible
+converse.  Recovery of the literal perfected bases assumes both original bases are RAC,
+as in \cref{thm:target}.  The generic internal existence theorem keeps its two ACF
+completeness parameters.  The public \lean{exists_reconstruction} and
+\lean{reconstruction_target} now supply both proofs internally from the transported
+rank-five bounds and \lean{jCompletenessACF}.  Their only hypotheses are the blueprint's
+RAC bases, source rank five, chosen perfections and lattice isomorphism.  The original
+fields need not be perfect.  The exact Frobenius fibre and converse are included.
+Point-geometry, automorphism and functorial variants, and true bypassed source statements,
+remain separate obligations (issues 8--10).
 \end{remark}
-The public lattice-form target is assembled conditionally in Lean below, with both
-exact perfected ACF completeness hypotheses explicit. Unconditional completeness,
-point/automorphism variants and functorial assembly remain open.
 
 \section{What may be taken from Mathlib}
 
@@ -885,8 +883,9 @@ This refutes the unguarded completeness and extraction statements, even over
 algebraically closed pairs with five independent elements.  The proof uses the actual
 predicates, with no completeness hypothesis:
 \lean{AclGeom.Counterexamples.QDegenerate}.  It also refutes the unguarded geometric
-projection of $\Qrel$ to $\Jrel$.  Both guards below are necessary; their sufficiency
-is still open (issue 27).  The witness also has $P\leq A$ and $Q\leq B$, the extra
+projection of $\Qrel$ to $\Jrel$.  Both guards below are necessary for semantic $\Qrel$;
+the guarded sufficiency over ACF pairs is now proved by \lean{guardedQCompletenessACF}
+(issue 27).  The witness also has $P\leq A$ and $Q\leq B$, the extra
 incidences in the published EH95 formulation.
 \end{remark}
 
@@ -1146,8 +1145,8 @@ The proved reductions
 derive $\Qprel$ and $\Jrel$ completeness from guarded $\Qrel$ completeness, now proved by
 \lean{guardedQCompletenessACF}.  The canonical rank-five ACF consumers are
 \lean{q'Geom_iff_q'Sem_of_isAlgClosed} and \lean{jCompletenessACF}.  The public reconstruction
-API still carries its two completeness inputs; their discharge is the next consumer
-checkpoint.  The original scheme/action bridges and endpoint variants remain obligations.
+theorem now supplies its two completeness proofs internally from the transported rank-five
+bounds.  The original scheme/action bridges and endpoint variants remain obligations.
 \end{remark}
 
 Define
@@ -4537,46 +4536,33 @@ positive characteristic.  This also proves all geometry-input and automorphism-g
 corollaries.
 \end{proof}
 
-\subsection{The public conditional lattice-form target in Lean}
+\subsection{The public lattice-form target in Lean}
 
-The public \lean{AclGeom.Main} module now assembles the chosen-perfection
-lattice-form theorem. \lean{Reconstructs} is a reducible alias of the actual
-\lean{Perfection.Induces} equality of perfected subfields, rather than a
-second compatibility relation. \lean{exists_reconstruction} proves public
-existence with both original bases RAC, original source rank five, arbitrary
-chosen bundles and both exact perfected ACF $J$-completeness hypotheses.
-The original ambient fields need not be perfect.
+\lean{AclGeom.Main} proves \cref{thm:target} under its stated hypotheses.
+\lean{Reconstructs} is a reducible alias of \lean{Perfection.Induces}, the actual equality
+of perfected subfields.  \lean{exists_reconstruction} requires the two original RAC bases,
+source rank at least five, the arbitrary chosen perfections and the lattice isomorphism.
+No completeness, chart, action, point or reconstruction oracle is supplied.
 
-\lean{reconstruction_target} proves the lifted equality of transcendence
-degrees and constructs one compatible isomorphism of chosen perfections.
-For that SAME witness it gives the literal equality of perfected images,
-every original-field intersection formula, the entire Frobenius fibre,
-characteristic-zero literal uniqueness and positive-characteristic
-injectivity of the integral exponent. Every compatible isomorphism of
-chosen perfections reconstructs its conjugated original lattice map.
-The two bundle characteristic parameters stay separate and the ambient
-universes are independent. No pair, target rank, image equality, point,
-scalar or inducing oracle is supplied.
+A shared private producer derives rank five on both chosen perfections, using the supplied
+lattice isomorphism for the target.  \lean{five_le_trdeg_algebraicClosure} transports these
+bounds to the two algebraic-closure pairs.  Two local algebraic-closedness proofs and
+\lean{jCompletenessACF} supply the explicit parameters of the internal
+\lean{Perfection.exists_induces} theorem.
 
-Exactly three public declarations replace the empty Main skeleton, with
-imports Target and Uniqueness only. There is no helper, private/generated
-item, global/local instance, evaluation or duplicate relation. The frozen
-source passes unchanged and the accepted final changes only its status header.
-Fifteen independent typed behaviors check actual perfected-base Subfield
-image and actual set intersection in the ORIGINAL target field, both fibre
-directions, existence and uniqueness of the exponent, literal uniqueness
-of the reconstruction, compatible converse, induced-lattice uniqueness,
-finite bases and ORIGINAL characteristics zero/two for arbitrary bundles.
-All57 previous behavior fixtures stay byte-exact.
+\lean{reconstruction_target} gives equality of the relative transcendence degrees,
+compatibility of the reconstructed bases, the original-field intersection formula and
+the exact integral Frobenius fibre.  It includes literal uniqueness in characteristic
+zero, uniqueness of the exponent in positive characteristic, and the converse.  The two
+recorded characteristic parameters remain separate and the ambient universes are
+independent.  The conclusions of the former conditional statements are unchanged; only
+the two completeness parameters have been removed.
 
-Only the CONDITIONAL public lattice-form target is accepted. Both exact
-perfected completeness hypotheses remain explicit and open in general.
-Unconditional recovery and reconstruction, point-geometry and automorphism
-variants, fully faithful functorial assembly, literal ratio, totalization and scalar
-arguments, bypassed linear-disjointness and broader group, three-pair,
-tensor and frozen M4a obligations remain open. Current status corrections
-were reported on issue 9 before integration; every original statement,
-proof, assembly sketch and proposed proof retains its wording and provenance.
+The point-geometry, automorphism and fully faithful functorial variants below, original
+literal calculations and true bypassed source statements remain obligations.  The
+original theorem statements, all proof blocks and their qualifications retain their
+wording and provenance; the Lean proof supplies the formerly open inputs by the proved
+configuration route.
 
 \section{The functorial formulation}
 \label{sec:functorial}
