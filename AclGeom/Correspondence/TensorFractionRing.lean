@@ -24,17 +24,22 @@ over `A`, so `1 ⊗ c` is a nonzerodivisor.  In the first step, a minimal prime 
 nonzero element of `A` avoids every `b ⊗ 1`: localizing at `A∖0` through the `C` side gives
 `B ⊗[A] (C ⊗[A] K)`, which is flat over `B` because `C ⊗[A] K` is flat over `A`.
 
-This theorem is consumed by `ComponentGeometry` and, through it, the canonical tuple-locus
-fiber product of blueprint §8.1 (#5). `LocusPullback` proves the actual affine-scheme
-middle-dominating components, and
-`LocusEndDominance` proves their endpoint-density criterion under the source closure clauses.
-`LocusQuotient` matches the literal rename-induced quotient maps, and
+This theorem is consumed by `ComponentGeometry` and, through it, the canonical tuple-locus fiber
+product of blueprint §8.1 (#5). `LocusPullback` proves the actual affine-scheme middle-
+dominating components, and `LocusEndDominance` proves their endpoint-density criterion under the
+source closure clauses. `LocusQuotient` matches the literal rename-induced quotient maps, and
 `LocusQuotientComponents` identifies their spectrum components and endpoint-density criterion.
 `LocusIncidence` identifies the full incidence quotient, and `LocusQuotientComponents` also
 proves its spectrum-component and actual projection-density criteria. `LocusJointComponent`
-identifies the actual joint evaluation prime as a middle-dominating component when each coordinate
-of `z` is algebraic over `k(y)`. Tuple germs, all-component realization, relational associativity
-and the higher-dimensional family argument remain open.
+identifies the actual joint evaluation kernel as a middle-dominating component when each
+coordinate of `z` is algebraic over `k(y)`. It also proves
+`locusIncidence_dominatingComponents_eq_jointLoci`: for finite outer tuples in an algebraically
+closed ambient field, with both `x` and `z` algebraic over `k(y)`, these components are exactly
+the joint loci of realizations with the two original pair ideals. The middle tuple and the base
+field remain arbitrary.
+
+Endpoint-image comparison, tuple germs, relational associativity and the higher-dimensional
+family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -11565,3 +11565,52 @@ associativity, endpoint-image comparison and the higher-dimensional family
 generic-component argument remain obligations. The actual joint component
 field must remain distinct from the possibly smaller endpoint-image field.
 C2 and the full shared goal remain open.
+
+## All finite-tuple incidence components are joint loci (#5 C2)
+
+`locusIncidence_dominatingComponents_eq_jointLoci` proves an equality of
+sets: the actual incidence spectrum's irreducible components with dense
+image along the actual middle renaming projection are exactly the zero loci
+of the images of joint vanishing ideals `I(x′,y,z′)`, where both pair
+ideals equal the original ones. It proves both directions in one theorem.
+The outer index types are finite, x and z are algebraic over k(y), and the
+ambient field is algebraically closed. The middle tuple and its index type,
+the base field and all five universes remain arbitrary. No rank-one,
+rationality, component, density or finite-extension conclusion is an input.
+
+`TensorRealization.exists_productMap_ker_of_isPrime` is now public and has
+two actual consumers: the existing scalar component embedding theorem and
+the new tuple classification. Its proof, imports and all old scalar public
+types are unchanged. Its generated simp declaration also becomes public;
+all public/private/generated declarations are included in the checks.
+
+The proof derives both finite generated-field extensions over k(y) using
+Mathlib's finiteDimensional_adjoin and a surjective map to the actual
+inclusion algebra. A private generic core matches the proved component
+classification with the contracted kernels of all pairs of embeddings.
+Polynomial generator formulas then identify these kernels with the images
+of the actual joint ideals. The embeddings preserve both pair ideals and
+fix y. Conversely, the existing locusFunctionFieldEquivOfIdealEq gives
+isomorphisms of the generated fields. Composing with the inclusions and
+checking the middle generators produces embeddings fixing k(y); their same
+polynomial comparison gives the desired joint locus. No new copy of the finite-component
+embedding proof or ambient automorphism extension is introduced.
+
+The generalized polynomial comparison has two consumers: the new set
+equality and the previous chosen-joint-prime theorem. The latter and its
+containment theorem retain their public statements. Supporting private
+finite-dimensionality and ideal/embedding lemmas each have these concrete
+uses. Both agents independently compiled the exact mathematical bundle
+with default limits and checked all public/private/generated dependencies.
+Six older geometric bridge modules change only in their scope headers;
+imports, declaration docstrings, attributes and mathematical code are exact.
+
+Original source outside the existing annotation, all 48 statement blocks
+and 44 proof blocks, the goal objective/completion criteria and frozen M4a
+are preserved. Source annotation, book and goal record this finite-tuple
+classification precisely. Dependency validation does not establish source
+coverage; full library/book and exact-head CI evidence belongs to the issue
+checkpoint report. Tuple germs, relational associativity, endpoint-image
+comparison and the higher-dimensional family generic-component argument
+remain owed. The joint component field remains distinct from its possibly
+smaller endpoint-image field. C2 and the full shared goal remain open.

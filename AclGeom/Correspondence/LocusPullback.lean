@@ -17,14 +17,20 @@ components of `C ×_W D` with dense image under `π` are exactly the images, und
 `pullbackSpecIso`, of the zero loci of the contracted minimal primes of `k(x, y) ⊗[k(y)] k(y, z)`
 (`locusPullback_dominatingComponents`).  Only the tuples are data.
 
-This is the middle-dominance clause of the geometric fiber-product bridge of blueprint §8.1 (#5).
-`LocusEndDominance` proves its endpoint-density criterion under the source's four tuple closure
-hypotheses, for arbitrary subsets of the actual pullback. `LocusQuotient` matches the literal
-relative quotient maps, and `LocusQuotientComponents` transports the components and projection
-density to their spectrum and to the full incidence quotient identified by `LocusIncidence`.
-`LocusJointComponent` identifies the actual joint evaluation prime as a middle-dominating component
-when each coordinate of `z` is algebraic over `k(y)`. Tuple germs, all-component realization,
-relational associativity and the higher-dimensional family argument remain open.
+This is the middle-dominance clause of the geometric fiber-product bridge of blueprint §8.1
+(#5). `LocusEndDominance` proves its endpoint-density criterion under the source's four tuple
+closure hypotheses, for arbitrary subsets of the actual pullback. `LocusQuotient` matches the
+literal relative quotient maps, and `LocusQuotientComponents` transports the components and
+projection density to their spectrum and to the full incidence quotient identified by
+`LocusIncidence`. `LocusJointComponent` identifies the actual joint evaluation kernel as a
+middle-dominating component when each coordinate of `z` is algebraic over `k(y)`. It also proves
+`locusIncidence_dominatingComponents_eq_jointLoci`: for finite outer tuples in an algebraically
+closed ambient field, with both `x` and `z` algebraic over `k(y)`, these components are exactly
+the joint loci of realizations with the two original pair ideals. The middle tuple and the base
+field remain arbitrary.
+
+Endpoint-image comparison, tuple germs, relational associativity and the higher-dimensional
+family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

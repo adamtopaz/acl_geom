@@ -37,9 +37,15 @@ universes. The incidence versions are transported from these along the homeomorp
 
 This is the literal-quotient form of the middle-base component and endpoint-density clauses of
 the geometric fiber-product bridge of blueprint §8.1 (8.4c, 8.6) (#5). `LocusJointComponent`
-identifies the actual joint evaluation prime as a middle-dominating component when each coordinate
-of `z` is algebraic over `k(y)`. The endpoint image, tuple germs, all-component realization,
-relational associativity and the higher-dimensional family argument remain open.
+identifies the actual joint evaluation kernel as a middle-dominating component when each
+coordinate of `z` is algebraic over `k(y)`. It also proves
+`locusIncidence_dominatingComponents_eq_jointLoci`: for finite outer tuples in an algebraically
+closed ambient field, with both `x` and `z` algebraic over `k(y)`, these components are exactly
+the joint loci of realizations with the two original pair ideals. The middle tuple and the base
+field remain arbitrary.
+
+Endpoint-image comparison, tuple germs, relational associativity and the higher-dimensional
+family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

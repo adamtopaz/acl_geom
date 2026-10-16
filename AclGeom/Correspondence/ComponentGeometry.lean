@@ -14,15 +14,20 @@ of `Spec (B ⊗[A] C)` whose images in `Spec A` are dense. This is the middle-ba
 component clause of the C2 geometric bridge. Only genuine domain, fraction-field
 and scalar-tower data are used. No component or dominance conclusion is an input.
 
-`LocusPullback` transports this theorem to the actual canonical tuple-locus
-scheme fiber product through Mathlib's `pullbackSpecIso`, with the actual
-projection checked. `LocusEndDominance` proves the endpoint-density criterion
-from the source closure hypotheses. `LocusQuotientComponents` transports the
-components and actual projection-density criteria to the literal relative
-quotient spectrum using `LocusQuotient`, and to the full incidence quotient
-identified by `LocusIncidence`. `LocusJointComponent` identifies the actual joint evaluation prime
-as a middle-dominating component when each coordinate of `z` is algebraic over `k(y)`. Tuple germs,
-all-component realization, relational associativity and the family argument remain obligations.
+`LocusPullback` transports this theorem to the actual canonical tuple-locus scheme fiber product
+through Mathlib's `pullbackSpecIso`, with the actual projection checked. `LocusEndDominance`
+proves the endpoint-density criterion from the source closure hypotheses.
+`LocusQuotientComponents` transports the components and actual projection-density criteria to
+the literal relative quotient spectrum using `LocusQuotient`, and to the full incidence quotient
+identified by `LocusIncidence`. `LocusJointComponent` identifies the actual joint evaluation
+kernel as a middle-dominating component when each coordinate of `z` is algebraic over `k(y)`. It
+also proves `locusIncidence_dominatingComponents_eq_jointLoci`: for finite outer tuples in an
+algebraically closed ambient field, with both `x` and `z` algebraic over `k(y)`, these
+components are exactly the joint loci of realizations with the two original pair ideals. The
+middle tuple and the base field remain arbitrary.
+
+Endpoint-image comparison, tuple germs, relational associativity and the higher-dimensional
+family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

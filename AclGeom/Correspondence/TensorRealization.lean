@@ -13,7 +13,11 @@ import Mathlib.FieldTheory.IsAlgClosed.Basic
 Every prime component of a tensor product of finite field extensions is
 realized by two embeddings into an algebraically closed ambient extension.
 For actual branches, these embeddings give a represented composite of the
-original germs with the selected tensor kernel.
+original germs with the selected tensor kernel. The generic
+`exists_productMap_ker_of_isPrime` is also consumed by `LocusJointComponent`
+to realize every middle-dominating incidence component for finite outer
+tuples with the two source algebraicity clauses in an algebraically closed
+ambient field. The existing scalar public statements are unchanged.
 -/
 
 namespace AclGeom
@@ -22,8 +26,9 @@ open IntermediateField
 open scoped TensorProduct
 
 /-- Every prime tensor component of two finite extensions embeds in an
-algebraically closed ambient extension of the base. -/
-private theorem exists_productMap_ker_of_isPrime
+algebraically closed ambient extension of the base: there are embeddings of the two factors over
+the base whose multiplication map has exactly the given prime as kernel. -/
+theorem exists_productMap_ker_of_isPrime
     {E F G Ω : Type*} [Field E] [Field F] [Field G] [Field Ω]
     [Algebra E F] [Algebra E G] [Algebra E Ω] [IsAlgClosed Ω]
     [FiniteDimensional E F] [FiniteDimensional E G]

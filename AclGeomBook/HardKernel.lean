@@ -294,10 +294,45 @@ the incidence quotient. Algebraicity and all maps are derived from the
 tuples; no condition on $`x`, rank, finiteness, rationality or algebraic
 closedness is needed. All five universes remain independent.
 
-This identifies a chosen joint point's component under the stated clause.
-Tuple germs, realization of every dominating component, relational
-associativity and the higher-dimensional family generic-component argument
-remain obligations. C2 remains open.
+The following classification realizes every dominating component when the
+outer tuples are finite and the ambient field is algebraically closed.
+
+# Realizing all dominating incidence components
+%%%
+tag := "all-incidence-components"
+%%%
+
+Assume the outer index types are finite, every coordinate of $`x` and of
+$`z` is algebraic over $`k(y)`, and the ambient field is algebraically
+closed. The actual incidence spectrum's middle-dominating irreducible
+components are exactly the joint loci $`(x',y,z')` that preserve both
+original pair ideals. Each joint ideal is mapped into the incidence
+quotient before taking its zero locus:
+
+{docstring AclGeom.locusIncidence_dominatingComponents_eq_jointLoci}
+
+The equality proves both directions. The middle tuple remains fixed, and
+its index type and the base field are arbitrary. Rank-one and rationality
+premises are unnecessary. All five universes remain independent.
+
+The two canonical generated fields are finite over $`k(y)` because the
+outer tuples are finite and algebraic over that field. Every prime
+component of their tensor product is realized by embeddings into the
+algebraically closed ambient field, using the same theorem as the existing
+scalar branch realization:
+
+{docstring AclGeom.exists_productMap_ker_of_isPrime}
+
+The polynomial comparison identifies the contracted multiplication kernel
+with the image of the joint vanishing ideal. The embeddings preserve the
+pair ideals and fix the middle tuple. Conversely, equality of the pair
+ideals constructs embeddings of the generated fields that fix the middle
+field, giving the same contracted kernel. The comparison also supplies the
+previous chosen-point theorem, whose statement remains unchanged.
+
+Tuple germs, relational associativity, endpoint-image comparison and the
+higher-dimensional family generic-component argument remain obligations.
+C2 remains open.
 
 # Component fields and endpoint images
 %%%
@@ -324,8 +359,10 @@ retained. Relational germ associativity remains proved.
 The canonical fiber-product, literal relative tensor and full incidence
 quotient results above apply to arbitrary tuples and general curve function
 fields. The chosen joint prime is a middle-dominating component under the
-stated source algebraicity clause. Tuple germ comparison, all-component
-realization and the higher-dimensional family argument remain open. The
+stated source algebraicity clause. Under the finite-outer-tuple and
+algebraically closed ambient hypotheses above, every middle-dominating
+component is realized by a joint locus. Tuple germ comparison, relational
+associativity and the higher-dimensional family argument remain open. The
 field distinction is separate from those remaining obligations.
 
 # Tensor-domain regularity

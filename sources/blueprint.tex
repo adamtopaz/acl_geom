@@ -1399,9 +1399,20 @@ The function-field tensor is integral over its left field; its multiplication
 kernel contracts to zero there and hence is minimal. The polynomial formulas
 identify its contraction with the actual joint evaluation kernel. This does
 not identify the joint field with the endpoint-image field, which may be
-smaller. Tuple germs, realization of every dominating component, relational
-associativity and the higher-dimensional family generic-component argument
-remain owed.
+smaller. For finite outer tuples $x,z$, with both algebraic over $k(y)$,
+and algebraically closed $\Omega$,
+\lean{locusIncidence_dominatingComponents_eq_jointLoci} identifies exactly
+all middle-dominating components with the joint loci $(x',y,z')$ preserving
+both original pair ideals. Their joint ideals are mapped into $R/J_{\rm inc}$
+before taking zero loci. Both directions are proved, with arbitrary middle
+tuple and base field. The finite generated-field extensions are derived
+internally, and \lean{exists_productMap_ker_of_isPrime} supplies the same
+component embeddings used by the scalar realization. The polynomial
+comparison identifies their contracted kernels with the images of the joint
+ideals; in the reverse direction, equal pair ideals give isomorphisms of the
+generated fields, whose composites with the inclusions are shown to fix $k(y)$.
+Tuple germs, relational associativity, endpoint-image comparison and the
+higher-dimensional family generic-component argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]
