@@ -1446,9 +1446,14 @@ condition on the outer index types, base or ambient field. Under the four
 closure clauses of (8.1) and three finite index types,
 \lean{jointField_finiteDimensional_over_ends} proves finiteness of the joint
 field over each of $k(x)$ and $k(z)$; rank-one and ACF assumptions are not
-needed for this field conclusion. The finite-generic-fibre equivalence, component-function-field/compositum
-dictionary, threefold incidence-component comparison, scalar specialization
-and higher-dimensional family generic-component argument remain owed.
+needed for this field conclusion. For two finite tuples,
+\lean{pairField_finiteDimensional_iff} proves the function-field criterion of
+(8.1): $k(v,w)$ is finite over each of $k(v)$ and $k(w)$ if and only if the
+two coordinatewise algebraicity clauses hold. Both canonical inclusions
+are used; no rank-one or ACF hypothesis is needed. The scheme-level
+finite-generic-fibre dictionary, component-function-field/compositum dictionary,
+threefold incidence-component comparison, scalar specialization and
+higher-dimensional family generic-component argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]
