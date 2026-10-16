@@ -40,7 +40,13 @@ from the constructive theorem before embedding the same point into an algebraic
 closure and applying the universal field-freeness implication there.
 Finite-tuple ambient automorphisms are proved in `AmbientAutomorphism`. The relative
 transcendence-degree equality is derived below from the same genericity premise.
-Geometric rank, the packaged variety-level lemma and reconstruction remain separate.
+Geometric rank, Krull dimension, the packaged variety-level lemma and the geometric
+fiber-product identification of composites remain open (#5). The guarded chart, rank-five ACF
+completeness and the public reconstruction theorem are proved elsewhere; the original
+scheme/action statements remain open (#21).
+For an element transcendental over an intermediate field `N`, the same theorem gives linear
+disjointness of `N` and the field it generates (`linearDisjoint_adjoin_simple_of_transcendental`),
+as used by the original proof of blueprint Lemma `two-generic-intersection` (#9).
 
 **Status:** constructive scalar-extension points with exact ideals and preservation
 of every coordinate-independent subfamily, and the universal relation/field-freeness
@@ -392,6 +398,26 @@ theorem trdeg_adjoin_of_isGeneric {k E Ω : Type*}
     exact hspan z.2
   have hty : IsTranscendenceBasis E y := hy.isTranscendenceBasis_iff_isAlgebraic.mpr halg
   exact hty.cardinalMk_eq_trdeg.symm.trans ht.cardinalMk_eq_trdeg
+
+/-- **Adjoining a transcendental element gives a linearly disjoint field.**  If `s` is
+transcendental over an intermediate field `N` of `Ω/F`, then `N` and `F⟮s⟯` are linearly
+disjoint over `F`.  Its consumers are two assertions of the original proof of blueprint Lemma
+`two-generic-intersection` (#9): with `N = Ē(t)`, that `Ē(t)` and `Ē(s)` are linearly
+disjoint over `Ē`; with `N` algebraic over `Ē(t)`, the linear disjointness of `N` and `Ē(s)`
+that its embedding-extension step needs. -/
+theorem linearDisjoint_adjoin_simple_of_transcendental {F Ω : Type*} [Field F] [Field Ω]
+    [Algebra F Ω] (N : IntermediateField F Ω) {s : Ω} (hs : Transcendental N s) :
+    N.LinearDisjoint (IntermediateField.adjoin F {s}) := by
+  have hgen : idealOf N ![s] =
+      (⊥ : Ideal (MvPolynomial (Fin 1) F)).map (MvPolynomial.map (algebraMap F N)) := by
+    rw [Ideal.map_bot]
+    exact algebraicIndependent_iff_ker_eq_bot.1 (algebraicIndependent_unique_type_iff.2 hs)
+  have H := (isGeneric_baseChange hgen).2
+  have hf : IsScalarTower.toAlgHom F N Ω = N.val := by
+    ext z
+    rfl
+  rw [hf, IntermediateField.fieldRange_val, Set.range_unique] at H
+  exact H
 
 end
 

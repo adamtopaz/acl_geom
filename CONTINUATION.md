@@ -40,8 +40,11 @@ classification, with primality of the canonical vanishing ideal derived from con
 Connected one-dimensional torus subgroups have the source character classification, with
 nonzero integer exponents and the equation of every coset. Both subgroup theorems use one
 shared connectedness-to-primality proof with concrete polynomial translations or scalings.
-The general curve-coset lemma remains open. Read PROJECT_GOAL.md for the unchanged full
-endpoint and current source obligations. The historical M4a
+The original two-generic proof's embedded-field assertions are checked independently in
+`Test.TwoGenericSource`, including the finite normal envelope and extension of embeddings
+fixing the other rational field pointwise; the algebraicity conclusion uses exchange.
+The original conjugate proof route is retained. The general curve-coset lemma remains open.
+Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
 The precise group configuration theorem, arbitrary-small-ACF base change,
@@ -97,11 +100,10 @@ library/book gates are required before every commit.
 
 ## Audit baseline (2026-10-07; #19, performance #18 and carryovers #24)
 
-Read the audit on #19 before starting new work. The accepted checkpoints
-include the target repairs and refutations, generic arithmetic, transfer and
-semantic consumers, and the foundational transport/existence/naturality
-carryovers. Full-build/book and compiled-axiom evidence is recorded at the end
-of this guide. The current mathematical boundaries are:
+This section records the historical #19 audit baseline. Its bullet-point boundaries
+retain that checkpoint's scope; later proofs supersede the old open-status descriptions.
+Read the current status above and the coverage overview and priorities below for the
+present frontier. The original diagnoses and checkpoint evidence are kept for provenance.
 
 - **No `sorry`, `admit` or project `axiom` in the sources.** The latest CI run
   at the start of the audit was on `ee31244` (run 31712093484), cancelled after about six hours (job
@@ -230,31 +232,30 @@ of this guide. The current mathematical boundaries are:
   library (#21). No module outside `Curves`/`Tate` uses the curve library
   yet.
 
-Coverage at a glance (details and file:line references on #19):
+Current coverage overview (precise hypotheses and source obligations are in PROJECT_GOAL.md):
 
-| Layer | Status |
+| Layer | Proved scope and remaining obligations |
 |---|---|
-| Foundations, perfection | Lattice, atoms, point geometry, finite representative calculus, all-characteristic perfection existence, compatible cross-base transport, point/lattice round trips, independence/rank/trdeg transport and chosen-perfection naturality proved. The explicit `Induces` relation, intersection formula, compatible induced-map converse and the Frobenius fibre/uniqueness for supplied inducing maps are proved (#24/#9). The public lattice-form target is assembled conditionally with both exact perfected completeness inputs explicit. Unconditional reconstruction and literal/quotient functors remain open (#8–#10) |
-| Configurations | Soundness of Q, Q′, J proved over any base field with rank-five freshness. Partial quadrangles, all 24 Ψ clauses, multiplication diagrams and geometric Q/Q′/J transport across arbitrary closed-lattice order isomorphisms, bases and universes (#23/#8 I6b1). Semantic J assembly is proved; geometric J completeness reduces to explicit, still-open ACF Q/Q′ completeness inputs (#6/#22). Arbitrary-field Q/Q′ equivalence has concrete Lean refutations over characteristic-zero rational function fields in five variables (#25); general witness descent remains open |
-| Hard kernel | `j_rigidity` and the two-pair correspondence theorems proved. The no-fresh relative base-ratio corollary and its actual base-membership form under explicit IsRAC are proved. The literal three-pair additive statement and group/action construction remain open; the corrected affine-grid coordinate interface is stated but extraction is open |
-| Transfer | T1–T3 and full one-quantifier transfer proved. Algebraic-base lattice/point/rank and configuration lifts, point-level J (1)⇔(2), (4)⇒(3), and rank-five (1)⇒(4) are proved. J equivalence over perfect fields remains conditional on explicit ACF completeness; no infinite-base assumption remains on these arrows (#7) |
-| Interpretation, reconstruction, functorial | Frobenius-link language, soundness helpers, incidence reduction, literal arithmetic/ratio refutations and coupled generic meet/join arithmetic are proved. The rank-five Frobenius kernel, characteristic-zero identity, exponent separation and two-generic intersection are proved, with a concrete rank-free refutation (#9). Conditional all-point/lattice propagation from explicit base recovery and outside-point agreement is proved. Fixed-class correctness, corrected ratio quotient/full decoding, total geometric operation graphs, named field structure and actual decoding RingEquiv are proved under explicit perfection/rank-five/ACF completeness. Geometric J-locus, directed Frobenius-link/bridge, coupled meet/join arithmetic and corrected total/ratio invariance need no such input. Conditional class/carrier maps and graph transport are proved with a supplied canonical image-base equality and explicit carrier inputs. The same geometric map gives the induced RingEquiv and its actual K-to-L composite under those inputs. Canonical image-base and conditional field-isomorphism existence are proved with both ACF-completeness hypotheses explicit; source pair and target rank are derived inline. Actual conditional base-range compatibility and inverse naturality are proved under explicit carrier/completeness and RAC inputs. Corrected conditional scalar one and outside-point recovery for the same map need no RAC. Actual compatible inducing equality and existence are proved in perfect fields under explicit RAC/completeness inputs, with no supplied pair or target rank. Original-field chosen-perfection inducing existence is proved with original RAC and both perfected completeness inputs explicit. The public target is assembled conditionally with both perfected completeness inputs explicit. Unconditional recovery and functorial theorems remain open |
+| Foundations, perfection | Closure lattices, points, rank/independence transport, all-characteristic perfections and chosen-perfection naturality are proved. The public reconstruction target has the genuine RAC/source-rank-five hypotheses and supplies both ACF completeness proofs internally. Point reconstruction, automorphism variants, literal functor laws/exact fibres, the rank-five fully faithful Frobenius quotient and perfection-choice equivalence are proved. |
+| Configurations | Q/Q′/J soundness, geometric transport and semantic J assembly are proved in their stated scopes. The guarded affine-grid chart and Q completeness are proved for every ACF pair, keeping both guards explicit. The multiplication converse gives rank-five ACF Q′ and J completeness. Unguarded Q and arbitrary-field Q/Q′ correctness have proved refutations (#25/#27); general existential-witness descent and the remaining original group/chunk/action obligations stay open. |
+| Hard kernel | The source three-pair additive and literal multiplicative correspondence theorems, simultaneous-coset classification, j-rigidity and both connected additive/torus subgroup classifications are proved. Generic-point field freeness and numerical field degrees are proved; field-theoretic tensor components realize composite germs in an ACF ambient over an arbitrary base. The geometric fiber-product identification, packaged generic extension, general curve-coset, original group/chunk/six-point and scheme/action statements remain open (#5/#12/#21). |
+| Transfer | T1–T3, point/configuration lifts and their explicit-instance reflections are proved. Four-way J descent and geometric/semantic J correctness hold over perfect ambient fields at rank five, with no RAC or infinite-base hypothesis. General existential-witness descent remains a separate obligation (#7/#25). |
+| Interpretation, reconstruction, functorial | Corrected coupled interpretation semantics and the generic internal APIs under explicit carrier/completeness inputs are proved. The public reconstruction theorem discharges those completeness inputs internally. Frobenius kernel/uniqueness, public variants and perfection-choice equivalence are proved. The original two-generic embedded-field assertions have separate source validation, including the normal envelope and extension fixing the other rational field. Literal full-carrier TOT/ratio and original general interpretation/provenance obligations remain open (#8/#9/#23). |
 
-Immediate priorities, in order:
+Current priorities:
 
-1. complete the remaining geometric and transfer completeness obligations
-   (#6/#7), with a full library build and rendered book; the measured #18
-   build gate is satisfied by the focused-module checkpoint;
-2. keep the corrected extraction and withdrawn Q/Q′ consequences explicit
-   (#22/#25); the public conditional target now assembles original-field
-   chosen-perfection existence, rank, base/intersection, Frobenius uniqueness
-   and converse. Next bounded public variants are assessed after that checkpoint (#9/#10);
-3. reassess the arbitrary-field Q/Q′ and §10 semantics using the proved #25
-   refutations; retain the explicit-instance boundary and general descent obligation;
-4. re-plan M4 (#12, #21), keeping the old M4a bookkeeping chain frozen;
-5. continue recovery and the literal/quotient functorial definitions using the
-   proved kernel, intersection, conditional point propagation and supplied-endpoint Induces fibre APIs;
-   keep both perfected completeness hypotheses explicit for every public variant (#8–#10).
+1. Advance the remaining original and supplementary source mathematics, including the
+   coordinate-ring/localization bridge to geometric fiber products, packaged generic extension,
+   general curve-coset, group/chunk/six-point and original scheme/action statements (#5/#12/#21).
+2. Complete the source validation/disposition ledger and the literal interpretation/provenance
+   work (#8–#10/#23), retaining every refutation and justified correction (#22/#25/#27/#31).
+   True bypassed source statements remain obligations; the frozen M4a history is not a new
+   deliverables list.
+3. Keep general witness descent and definability-in-families requirements distinct from the
+   proved guarded chart, rank-five J correctness and public reconstruction. Public theorems
+   supply completeness internally; reusable internal APIs may retain explicit parameters.
+4. Validate every checkpoint with the full library and rendered book, strict checks and
+   appropriately scoped dependency/source evidence; commit, push and verify exact-head CI.
 
 ## How work is coordinated
 
@@ -11271,3 +11272,42 @@ scheme/action statements. The two matching active generic-extension source-statu
 annotations are aligned. The remaining mathematical-header audit still includes the
 previously listed Correspondence/Config files and `Correspondence.AmbientAutomorphism`;
 this checkpoint does not claim an exhaustive status cleanup.
+
+## Original two-generic embedded-field validation (#9)
+
+`linearDisjoint_adjoin_simple_of_transcendental` is the sole new public theorem. For any
+fields `F → Ω`, intermediate field `N` and `s` transcendental over `N`, it proves actual
+embedded linear disjointness of `N` and `F(s)` over `F`. It specializes the existing
+`isGeneric_baseChange` to a singleton tuple with zero relation ideal. Every earlier
+declaration in `GenericExtension` is unchanged; its header distinguishes the proved
+guarded chart/completeness/reconstruction from the open geometric fiber-product and
+original scheme/action obligations.
+
+`Test.TwoGenericSource` has private source-validation theorems, with no public interface.
+It checks A0 closure identities, A1 rational-field linear disjointness, A2 closure
+intersection, A3 stronger linear disjointness and actual embedding extension fixing
+the whole other rational field, A4 the algebraicity conclusion and A5 intersection
+with the original field. The finite normal envelope is constructed from Mathlib's
+normal closure of a simple algebraic extension in an algebraically closed ambient;
+the ambient is not assumed normal over the rational field. The other fixtures allow
+an arbitrary ambient extension and derive their field independence from the original
+closure-independence hypotheses. No expected extension or linear-disjointness conclusion
+is an input. The embedding to be extended is the source's universally quantified variable.
+
+The original argument's extension step needs the stronger disjointness of the finite
+normal extension and the other rational field. Transcendence over the algebraic extension
+supplies it. This corrects the justification gap reported on #9 while retaining every
+original source proof block. The algebraicity conclusion is checked using exchange;
+the conjugate-comparison proof route is not transcribed. The active source annotation,
+TwoGeneric and Existence headers and reconstruction book agree on that scope. Closed
+#11's abstract tensor-domain theorem and the distinct (8.9a) audit on #5 are unaffected.
+
+Both agents independently compiled the final proof bundle with empty strict logs; root
+also freshly compiled its import root. All 283 preceding selected public types remain
+exact, with the new theorem giving 284 standard-axiom records. All declarations of the
+two proof modules, private and generated ones included, were independently checked for
+standard dependencies. Full library/book, whole-library and exact-head CI evidence
+belongs to the published checkpoint report on #9. Original 48 statement blocks and
+44 proof blocks, the full goal and frozen M4a are preserved. The original general
+R1/R2 interpretation/provenance, broader source and scheme/action obligations remain
+open. This checkpoint does not complete the full shared goal.

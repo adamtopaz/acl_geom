@@ -251,3 +251,4 @@ import AclGeom.Variants
 import AclGeom.Transfer.JCorrectness
 import AclGeom.Functorial.ChoiceIndependence
 import AclGeom.Test.Validation
+import AclGeom.Test.TwoGenericSource

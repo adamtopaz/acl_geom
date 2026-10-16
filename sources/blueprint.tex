@@ -4143,11 +4143,20 @@ closedness.  This proves the identity.
 Its proof uses exchange, through the stronger arbitrary-set interface
 \lean{racl_insert_inf_racl_insert}. Corrected conditional all-point propagation is proved
 in \lean{Reconstruct/Points}; the public rank-five reconstruction theorem supplies its inputs
-internally. The embedded linear-disjointness assertions in the original proof above retain a
-separate source-audit obligation (issue 9); their base $\bar E$ is algebraically closed.
-The exchange proof does not discharge those assertions. The proved tensor-domain theorem
-(closed issue 11) is unchanged; the distinct (8.9a) proof passage is audited on issue 5.
-Original general interpretation arguments and their provenance remain obligations (issues 9 and 23).
+internally. The separate embedded-field assertions of the original proof are checked in
+\lean{Test/TwoGenericSource} (issue 9). The theorem
+\lean{linearDisjoint_adjoin_simple_of_transcendental} specializes the generic-point field-freeness
+theorem to one transcendental generator; it proves both rational-field linear disjointness and
+the stronger disjointness needed for a finite normal extension. The validation checks the
+finite normal envelope, extension of embeddings fixing $\bar E(s)$ pointwise, closure transport
+and intersection with $K$. The algebraicity conclusion is obtained from the exchange
+intersection theorem; the original conjugate-comparison route is not transcribed.
+The embedding-extension sentence above needs more than linear disjointness of the two
+rational fields: $s$ stays transcendental over the finite algebraic extension, giving its
+linear disjointness from $\bar E(s)$. This fills the justification gap reported on issue 9,
+without changing the original proof. Closed issue 11's tensor-domain theorem is unchanged;
+the distinct (8.9a) proof passage stays on issue 5. Original general interpretation arguments
+and their provenance remain obligations (issues 9 and 23).
 
 \begin{proposition}[recovery of all points]\label{prop:all-points}
 For every $x\in K\setminus k$, $F([x])=[\widetilde F(x)]$.

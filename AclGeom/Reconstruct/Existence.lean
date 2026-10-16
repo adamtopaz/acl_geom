@@ -39,10 +39,12 @@ point/scalar oracle is assumed. Target proves perfected-base RAC and original-fi
 existence through arbitrary chosen perfections under explicit perfected ACF completeness.
 `Main` supplies these proofs internally and assembles the public lattice-form target, including
 Frobenius uniqueness and converse. Original literal RatioEq/TOT/scalar arguments retain their
-provenance on #23. The embedded linear-disjointness assertions in the original proof of
-`two-generic-intersection` retain a separate source-audit obligation on #9; its exchange proof
-does not discharge those assertions. The distinct (8.9a) argument is audited on #5. The proved
-tensor-domain theorem on closed #11 is unchanged, and frozen M4a remains historical (#19).
+provenance on #23. `Test.TwoGenericSource` separately validates the original two-generic
+proof's embedded-field assertions (#9), including the finite normal envelope and extension
+of embeddings fixing the other rational field pointwise. The algebraicity conclusion is
+checked by exchange; the original conjugate proof route is retained. The distinct (8.9a)
+argument is audited on #5. Closed #11's tensor-domain theorem is unchanged, and frozen M4a
+remains historical (#19).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

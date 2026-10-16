@@ -20,11 +20,14 @@ an infimum-equality wrapper around the existing exchange consequence
 
 **Status:** the intersection part of M7/R3 is proved. `Reconstruct.Points` proves conditional
 all-point propagation; `Reconstruct.Existence` and `Main` supply its inputs for the public
-rank-five reconstruction theorem. The embedded linear-disjointness assertions in the original
-proof of `two-generic-intersection` retain a separate source-audit obligation on #9. The base
-there is the algebraically closed field Ē. The exchange proof does not discharge those
-assertions. Closed #11 proves the tensor-domain theorem; the distinct (8.9a) proof passage is
-audited on #5. Original general interpretation/provenance obligations remain on #9/#23.
+rank-five reconstruction theorem. `Test.TwoGenericSource` separately validates the original
+proof's embedded-field assertions (#9): rational-field linear disjointness, closure transport,
+the finite normal envelope, extension of embeddings fixing Ē(s) pointwise, and the algebraicity
+conclusion. The last conclusion uses exchange rather than transcribing the conjugate argument.
+The extension step uses the stronger disjointness of the normal extension and Ē(s), obtained
+because s remains transcendental over that extension. Closed #11's tensor-domain theorem and
+the distinct (8.9a) audit on #5 are unchanged. Original general interpretation/provenance
+obligations remain on #9/#23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
