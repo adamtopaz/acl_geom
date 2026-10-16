@@ -24,6 +24,7 @@ import AclGeom.Perfection.Naturality
 import AclGeom.Perfection.Induces
 import AclGeom.Correspondence.AddPolynomial
 import AclGeom.Correspondence.FunctionField
+import AclGeom.Correspondence.LocusDimension
 import AclGeom.Correspondence.Regular
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.GeometricPrime

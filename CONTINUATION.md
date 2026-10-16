@@ -11614,3 +11614,41 @@ checkpoint report. Tuple germs, relational associativity, endpoint-image
 comparison and the higher-dimensional family generic-component argument
 remain owed. The joint component field remains distinct from its possibly
 smaller endpoint-image field. C2 and the full shared goal remain open.
+
+## Actual coordinate-ring dimension of every finite tuple locus (#5 C2)
+
+`Correspondence.LocusDimension` proves `exists_locusCoordinateRing_dimension`:
+the Krull dimension of the literal quotient `MvPolynomial ι k ⧸ idealOf k a`
+equals the transcendence degree of the actual generated field `k(a)` over k.
+Both equal one internally chosen natural number. Only finiteness of the index
+type is required; the base, ambient and index universes are independent. No
+algebraic-closedness, rank-one, rationality or dimension conclusion is supplied.
+
+The first private helper compares Krull dimensions for integral faithful
+extensions, using strict contraction of prime chains in one direction and
+Mathlib's going up in the other. Its named consumer is the second private
+helper: Noether normalization of an actual finite-type domain yields an
+integral injective polynomial algebra, whose number of variables computes
+both the Krull dimension and its fraction field's transcendence degree.
+The public finite-tuple producer derives finite type for the generated ring
+and transfers the result along the existing `locusCoordinateRingEquiv`.
+These two private helpers and one generated simp declaration are included
+in the dependency inventory. No separate normalization interface is added.
+
+Both agents independently compiled the exact mathematical source at default
+strict limits and checked all four public/private/generated declarations.
+The proper module header and public docstring were then added without any
+change to imports or mathematical code. The new public theorem has exactly
+three independent universes and type hash 2188149426. The selected audit
+includes 305 standard-dependency public types, with all 304 preceding types
+unchanged. Full library/book, whole-library dependency and exact-head CI
+validation belong to the published checkpoint report on #5. Dependency
+validation is not complete source coverage.
+
+The root module exports the result, the loci dictionary points to it, and the
+book and existing source annotation state the same scope. All original source
+outside that annotation, all 48 statement blocks and 44 proof blocks, the goal
+objective/completion criteria and frozen M4a remain unchanged. The function-field
+module changes only in its scope header. Tuple germs, relational associativity,
+endpoint-image comparison and the higher-dimensional family generic-component
+argument remain obligations. C2 and the full shared goal remain open.

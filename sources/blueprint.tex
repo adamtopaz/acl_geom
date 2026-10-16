@@ -1342,6 +1342,15 @@ was reported on issue \#5 before this annotation; all original source paragraphs
 statements and proofs are preserved. The chosen joint point's component status under
 a source algebraicity clause is proved below; tuple-germ comparison and the
 higher-dimensional family applications remain obligations.
+For any finite tuple $a$ over arbitrary base and ambient fields,
+\lean{exists_locusCoordinateRing_dimension} proves that the Krull dimension
+of the literal coordinate ring $k[X]/I(a/k)$ and $\trdeg_k k(a)$ are the
+same finite natural number, chosen internally. This supplies the dimension
+assertion in the opening paragraph of \cref{sec:rigidity}, without
+algebraic-closedness,
+rank-one or rationality assumptions. Noether normalization and the integral
+extension dimension comparison are proved through Mathlib's actual coordinate
+ring and fraction-field structures.
 The domain-level localization step is proved in
 \lean{minimalPrimes_tensorProduct_fractionRing}: for domains $A\to B$, $A\to C$
 with compatible fraction fields $K,L,M$, the minimal primes of $B\otimes_A C$

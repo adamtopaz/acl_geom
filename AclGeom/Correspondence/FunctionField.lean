@@ -21,10 +21,12 @@ for a tuple `a` of elements of an extension `Ω/k`,
 * equivariance of `idealOf` under `k`-embeddings of the ambient field, the
   seed of blueprint Lemma `generic-extension` (b).
 
-The locus `Loc_k(a)` of the blueprint is this prime ideal; its "dimension"
-is `trdeg k k(a)`, and all statements about generic points of loci are
-statements about the tuples themselves. Finite correspondences and their
-composition build on this in later slices of checklist C2.
+The locus `Loc_k(a)` of the blueprint is this prime ideal. For finite tuples,
+`LocusDimension` proves `exists_locusCoordinateRing_dimension`: the Krull
+dimension of its literal coordinate ring equals `trdeg k k(a)`, both a finite
+natural number. All statements about generic points of loci are statements
+about the tuples themselves. Finite correspondences and their composition
+build on this in later slices of checklist C2.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

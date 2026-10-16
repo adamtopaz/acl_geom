@@ -23,6 +23,7 @@ import AclGeom.Correspondence.LocusQuotient
 import AclGeom.Correspondence.LocusIncidence
 import AclGeom.Correspondence.LocusQuotientComponents
 import AclGeom.Correspondence.LocusJointComponent
+import AclGeom.Correspondence.LocusDimension
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -94,6 +95,29 @@ ideal have coordinates in exactly the same `racl`-relations:
 {docstring AclGeom.mem_racl_image_of_idealOf_eq}
 
 {docstring AclGeom.transcendental_of_idealOf_eq}
+
+# Dimension of a finite tuple locus
+%%%
+tag := "finite-locus-dimension"
+%%%
+
+For a finite tuple $`a`, the Krull dimension of the literal coordinate ring
+$`k[\iota]/I(a/k)` equals the transcendence degree of the generated field
+$`k(a)` over $`k`. Both are the same finite natural number:
+
+{docstring AclGeom.exists_locusCoordinateRing_dimension}
+
+The finite number is constructed internally. No algebraic-closedness,
+rank-one, rationality or caller-supplied dimension premise is needed; the
+base field, ambient field and index type have independent universes.
+Noether normalization embeds a polynomial ring integrally into the
+finite-type generated ring. Going up and incomparability compare their
+Krull dimensions, and the resulting transcendence basis computes the
+fraction field's transcendence degree. The existing coordinate-ring
+isomorphism transfers this to the actual quotient by the vanishing ideal.
+
+This proves the dimension assertion in the first paragraph of blueprint §8.
+It does not discharge the separate tuple-composition or family obligations.
 
 # Localizing tensor components
 %%%
