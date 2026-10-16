@@ -12088,3 +12088,58 @@ source statements/proofs, the unchanged eleven-pair status whitelist, goal
 objective/completion criteria and frozen M4a are preserved; this guide is
 append-only. The mathematical module is byte-exact to the independently checked
 freeze outside two clarifications in its module header.
+
+
+## Generic points of arbitrary affine loci (#5, source (8.1))
+
+`exists_idealOf_eq_iff` starts from an arbitrary prime P in a polynomial
+ring over k with a finite coordinate index type. It chooses the finite
+Krull dimension n of the literal quotient internally and proves that some
+tuple in an algebraically closed ambient field has vanishing ideal exactly
+P if and only if the ambient transcendence degree over k is at least n.
+The base is arbitrary; the two fields and index type have three independent
+universes. The caller supplies neither a dimension certificate nor a generic
+point. The necessary size bound is proved as well as the sufficient bound.
+
+The private embedding helper takes a finite transcendence basis of the
+quotient fraction field, embeds it in an ambient transcendence basis using
+explicit cardinal lifts, identifies the generated rational function fields
+by evaluation, and extends across the algebraic remainder. Injectivity of
+the quotient-to-fraction-field map and the resulting field embedding gives
+the exact prime ideal of the coordinate tuple. The reverse direction uses
+the existing locus dimension theorem and the generated field's transcendence
+basis in the ambient. The original private Noether-normalization helper is
+reused without promotion. The module gains exactly the public producer and
+its privately consumed embedding proof; no preceding public or private type
+changes and no generated public match helper remains.
+
+Both agents independently compiled all seven affected modules with empty
+strict logs and default checking limits. LocusGenericFiber does not import
+LocusDimension and is not an affected consumer. All 149 bundle declarations
+use only standard axioms, every raw type hash and declaring module agrees,
+and all 147 preceding rows are exact. The selected audit has 336 public
+standard-dependency statements, preserving all 335 preceding main statements
+exactly. Full library/book, clean-commit whole-library and exact-head CI
+evidence belongs to the checkpoint report on #5. Dependency validation is
+not complete source coverage.
+
+This supplies the retained variety-to-joint-generic-point presentation bridge
+for arbitrary irreducible affine correspondence curves, including non-rational
+function fields. Splitting a joint tuple and applying idealOf_eq_comap_rename
+gives both end loci along the literal coordinate inclusions. The book now
+records this existence theorem and corrects its obsolete opening description
+that excluded scheme machinery despite its proved affine-scheme bridges.
+Eight of the eleven existing current Lean-status passages in the source
+annotation whitelist are refreshed. Every original OLD side remains exact;
+normalizing parent and candidate with their respective eleven NEW sides
+preserves every original byte outside the existing joint-component annotation.
+All 48 mathematical statement blocks and 44 proof blocks, goal objective and
+completion criteria and frozen M4a are preserved; this guide is append-only.
+The mathematical module is byte-exact to both independent freezes.
+
+The full generic-extension lemma, including its universal rank criterion over
+a coefficient extension, remains owed. A producer assuming the exact extended
+ideal does not itself prove that universal clause from locus membership and
+rank. Parameter-field family identities and other finite branches, original
+group/chunk, six-point, affine-action, curve-coset and scheme/action statements
+also remain obligations. C2 and the full shared goal remain open.

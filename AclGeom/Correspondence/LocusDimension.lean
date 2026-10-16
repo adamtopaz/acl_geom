@@ -10,6 +10,9 @@ import Mathlib.RingTheory.Ideal.HasGoingUp
 import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.AlgebraicIndependent.TranscendenceBasis
+import Mathlib.RingTheory.AlgebraicIndependent.Adjoin
+import Mathlib.FieldTheory.FinTrdeg
+import Mathlib.FieldTheory.IsAlgClosed.Basic
 
 /-!
 # Krull dimension of a finite tuple locus
@@ -25,11 +28,21 @@ Two private helpers compare Krull dimensions under integral faithful extensions
 and apply Noether normalization to a finite-type domain and its fraction field.
 Their consumer is the actual finite-tuple locus theorem below.
 
+Conversely, `exists_idealOf_eq_iff` realizes every prime `P` of a polynomial ring in finitely many
+variables as the vanishing ideal of a tuple in an algebraically closed field `Ω` exactly when the
+transcendence degree of `Ω` over `k` is at least the Krull dimension of `k[ι] ⧸ P`, an internally
+chosen natural number. A private helper embeds the fraction field of `k[ι] ⧸ P` into `Ω`: a finite
+transcendence basis goes to an independent family of `Ω`, and the algebraic remainder lifts
+because `Ω` is algebraically closed. This is the generic-point existence used by the source's
+(8.1) for an arbitrary irreducible curve; the end loci of a joint generic point are its
+contractions (`idealOf_eq_comap_rename`). The full generic-extension package of blueprint
+`lem:generic-extension` remains separate.
+
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex` (#5 C2).
 
-**Status:** proved for finite tuples; tuple composition and the remaining C2
-source obligations are separate.
+**Status:** proved for finite tuples, including the realization of primes; tuple composition and
+the remaining C2 source obligations are separate.
 -/
 namespace AclGeom
 
@@ -83,4 +96,77 @@ theorem exists_locusCoordinateRing_dimension {k Ω ι : Type*} [Field k] [Field 
   obtain ⟨n, hdim, htr⟩ := exists_dimension_trdeg_eq k A F
   exact ⟨n, (ringKrullDim_eq_of_ringEquiv (locusCoordinateRingEquiv a).toRingEquiv).trans hdim,
     htr⟩
+
+universe u v w
+
+/-- A field of finite transcendence degree `n` over `k` embeds over `k` into every algebraically
+closed extension of `k` of transcendence degree at least `n`. -/
+private theorem nonempty_algHom_of_trdeg_le {k : Type u} {K : Type v} {Ω : Type w}
+    [Field k] [Field K] [Field Ω] [Algebra k K]
+    [Algebra k Ω] [IsAlgClosed Ω] {n : ℕ} (hK : Algebra.trdeg k K = n)
+    (hΩ : (n : Cardinal) ≤ Algebra.trdeg k Ω) : Nonempty (K →ₐ[k] Ω) := by
+  have : FinTrdeg k K := FinTrdeg.of_trdeg (hK ▸ Cardinal.natCast_lt_aleph0)
+  obtain ⟨s, hs⟩ := exists_finset_isTranscendenceBasis k K
+  have : FaithfulSMul k Ω := (faithfulSMul_iff_algebraMap_injective k Ω).2
+    (algebraMap k Ω).injective
+  obtain ⟨B, hB⟩ := exists_isTranscendenceBasis k Ω
+  have hsn : Cardinal.mk s = n := hs.cardinalMk_eq_trdeg.trans hK
+  obtain ⟨e⟩ : Nonempty (s ↪ B) := by
+    refine Cardinal.lift_mk_le'.1 ?_
+    calc Cardinal.lift.{w} (Cardinal.mk s) = (n : Cardinal.{max v w}) := by
+          rw [hsn, Cardinal.lift_natCast]
+      _ = Cardinal.lift.{v} (n : Cardinal.{w}) := (Cardinal.lift_natCast n).symm
+      _ ≤ Cardinal.lift.{v} (Cardinal.mk B) := by
+          rw [hB.cardinalMk_eq_trdeg]
+          exact Cardinal.lift_le.2 hΩ
+  let u : s → Ω := fun i ↦ (e i : Ω)
+  have hu : AlgebraicIndependent k u := hB.1.comp e e.injective
+  let K₀ := IntermediateField.adjoin k (Set.range ((↑) : s → K))
+  let ψ : K₀ →ₐ[k] Ω := (IntermediateField.adjoin k (Set.range u)).val.comp
+    (hs.1.aevalEquivField.symm.trans hu.aevalEquivField).toAlgHom
+  let _ : Algebra K₀ Ω := ψ.toRingHom.toAlgebra
+  have : IsScalarTower k K₀ Ω := IsScalarTower.of_algebraMap_eq fun c ↦ (ψ.commutes c).symm
+  have : Algebra.IsAlgebraic K₀ K := hs.isAlgebraic_field
+  exact ⟨(IsAlgClosed.lift : K →ₐ[K₀] Ω).restrictScalars k⟩
+
+/-- **Realizing a prime as the locus of a tuple.** Let `P` be a prime of the polynomial ring in
+finitely many variables over a field `k`, and let `n` be the Krull dimension of `k[ι] ⧸ P`, an
+internally chosen natural number. Some tuple in an algebraically closed field `Ω` over `k` has
+vanishing ideal exactly `P` if and only if `Ω` has transcendence degree at least `n` over `k`.
+Thus every irreducible affine locus over `k` has a generic point in every sufficiently large
+algebraically closed ambient field, and the size condition cannot be dropped. -/
+theorem exists_idealOf_eq_iff {k Ω ι : Type*} [Field k] [Field Ω] [Algebra k Ω] [IsAlgClosed Ω]
+    [Finite ι] (P : Ideal (MvPolynomial ι k)) [P.IsPrime] :
+    ∃ n : ℕ, ringKrullDim (MvPolynomial ι k ⧸ P) = n ∧
+      ((∃ a : ι → Ω, idealOf k a = P) ↔ (n : Cardinal) ≤ Algebra.trdeg k Ω) := by
+  let A := MvPolynomial ι k ⧸ P
+  let K := FractionRing A
+  have : Algebra.FiniteType k A :=
+    .of_surjective (Ideal.Quotient.mkₐ k P) Ideal.Quotient.mk_surjective
+  obtain ⟨n, hdim, htr⟩ := exists_dimension_trdeg_eq k A K
+  refine ⟨n, hdim, ⟨fun h ↦ ?_, fun hΩ ↦ ?_⟩⟩
+  · obtain ⟨a, ha⟩ := h
+    obtain ⟨m, hm, htm⟩ := exists_locusCoordinateRing_dimension (k := k) a
+    rw [ha] at hm
+    have hmn : m = n := by exact_mod_cast hm.symm.trans hdim
+    let F := IntermediateField.adjoin k (Set.range a)
+    have : FaithfulSMul k F := (faithfulSMul_iff_algebraMap_injective k F).2
+      (algebraMap k F).injective
+    obtain ⟨_, x, hx⟩ := exists_isTranscendenceBasis' k F
+    rw [← hmn, ← htm, ← hx.cardinalMk_eq_trdeg]
+    exact (hx.1.map' (f := F.val) Subtype.val_injective).cardinalMk_le_trdeg
+  · obtain ⟨φ⟩ := nonempty_algHom_of_trdeg_le htr hΩ
+    refine ⟨fun i ↦ φ (algebraMap A K (Ideal.Quotient.mk P (MvPolynomial.X i))), ?_⟩
+    have hφ : (MvPolynomial.aeval fun i ↦ φ (algebraMap A K (Ideal.Quotient.mk P
+        (MvPolynomial.X i))) : MvPolynomial ι k →ₐ[k] Ω) =
+        (φ.comp (IsScalarTower.toAlgHom k A K)).comp (Ideal.Quotient.mkₐ k P) :=
+      MvPolynomial.algHom_ext fun i ↦ by
+        rw [MvPolynomial.aeval_X]
+        rfl
+    ext p
+    rw [mem_idealOf_iff, hφ, AlgHom.comp_apply, AlgHom.comp_apply,
+      map_eq_zero_iff φ φ.toRingHom.injective, IsScalarTower.coe_toAlgHom',
+      map_eq_zero_iff _ (IsFractionRing.injective A K), Ideal.Quotient.mkₐ_eq_mk,
+      Ideal.Quotient.eq_zero_iff_mem]
+
 end AclGeom

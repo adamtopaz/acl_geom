@@ -47,9 +47,10 @@ M3) shows that the additive and multiplicative structure of the field can be
 recovered from the dependence geometry: any two-way finite correspondence
 that commutes with addition on independent generic points is, after
 normalization by additive polynomials, a power of Frobenius. This chapter
-presents the stable lower layers of that argument. Everything here works
-*elementwise with tuples* — a locus is the vanishing ideal of a tuple of
-field elements, and no scheme-theoretic machinery is involved.
+presents the stable lower layers of that argument. Tuples of field elements
+define loci by their vanishing ideals. The affine-scheme and coordinate-ring
+bridges identify literal projections and fiber-product components, while the
+field arguments track their generic tuples.
 
 # Additive polynomials
 %%%
@@ -124,6 +125,43 @@ isomorphism transfers this to the actual quotient by the vanishing ideal.
 
 This proves the dimension assertion in the first paragraph of blueprint §8.
 It does not discharge the separate tuple-composition or family obligations.
+
+# Generic points of arbitrary affine loci
+%%%
+tag := "realizing-affine-primes"
+%%%
+
+Conversely, let $`P` be any prime ideal in a polynomial ring in finitely many
+variables over $`k`. Its literal quotient has an internally chosen finite
+Krull dimension $`n`. The following theorem proves that some tuple in an
+algebraically closed extension $`\Omega/k` has vanishing ideal exactly $`P`
+if and only if $`n\leq\operatorname{trdeg}_k\Omega`:
+
+{docstring AclGeom.exists_idealOf_eq_iff}
+
+The base field is arbitrary. The base, ambient field and coordinate index
+type have three independent universes; neither a dimension certificate nor
+a generic point is supplied by the caller.
+
+Noether normalization computes $`n` as the transcendence degree of the
+fraction field of $`k[\iota]/P`. A finite transcendence basis of that field
+embeds into a transcendence basis of $`\Omega/k`; explicit cardinal lifts
+retain the independent universes. Evaluation identifies their rational
+function fields, and algebraic closedness extends the embedding across
+the remaining algebraic extension. The images of the coordinate classes
+then have vanishing ideal exactly $`P`. Conversely, any realizing tuple
+has generated-field transcendence degree $`n`, which cannot exceed that
+of the ambient field.
+
+For an irreducible correspondence curve, take its prime ideal in the joint
+variables $`\alpha\oplus\beta`. Split the realizing tuple into $`v` and
+$`w`. The existing `idealOf_eq_comap_rename` identifies their two
+vanishing ideals with the contractions of $`P` along the literal coordinate
+inclusions. Thus the finite-tuple calculus covers arbitrary irreducible
+correspondence curves, including non-rational function fields, once the
+necessary ambient-size condition holds. This proves the geometric
+presentation step. The full generic-extension lemma, including its
+universal rank criterion over a coefficient extension, remains separate.
 
 # Localizing tensor components
 %%%
@@ -358,12 +396,11 @@ coordinate ring for the dimension computation.
 This supplies the chosen-point component and dimension step used in
 (8.4c) and (8.6), allowing positive relative dimension on both sides.
 Identifying the parameter-field family members and carrying the other
-finite branches still require separate proofs. Finite tuples already allow
-non-rational curve fields; the remaining geometric presentation step is to
-construct a joint generic point of an arbitrary irreducible correspondence
-curve in a sufficiently large ambient field. That belongs to the packaged
-variety-level generic-extension obligation. The complete family identities
-and original group/chunk statements remain obligations.
+finite branches still require separate proofs. The geometric presentation
+step for arbitrary irreducible correspondence curves is proved above by
+`exists_idealOf_eq_iff`, with the necessary ambient-size condition.
+The complete family identities, full generic-extension package and original
+group/chunk statements remain obligations.
 
 The following classification realizes every dominating component when the
 outer tuples are finite and the ambient field is algebraically closed.
@@ -695,8 +732,10 @@ endpoint field, and its finiteness over both end fields, are proved above. The a
 coordinate-ring and function-field/compositum identifications are also proved above, with
 polynomial representative formulas. The scalar specialization and the threefold
 incidence-component comparison, including normalized generic germs, are proved above.
-The general curve-function-field presentation bridge and higher-dimensional family
-argument remain open. The actual endpoint contraction retains the scalar field distinction.
+The geometric generic-point presentation bridge is proved above by
+`exists_idealOf_eq_iff`. The full generic-extension package and the
+higher-dimensional parameter-family identities remain open. The actual endpoint
+contraction retains the scalar field distinction.
 
 # Tensor-domain regularity
 %%%
@@ -1404,7 +1443,8 @@ and `j_rigidity` are proved uniformly in the exponential characteristic,
 meeting M3's rigidity acceptance test. The original three-pair additive and multiplicative
 correspondence statements are proved above without freshness hypotheses. The connected
 additive- and torus-subgroup classifications are also proved. The general curve-coset
-statement, general curve-function-field presentation bridge, higher-dimensional family
-argument and packaged generic-extension lemma remain open in #5.
+statement, higher-dimensional parameter-family identities and full packaged
+generic-extension lemma remain open in #5. The geometric generic-point
+presentation bridge is proved above, with its necessary ambient-size bound.
 The tensor-domain obligation #11 is proved above;
 the rational group and affine action construction remain open in #12 and #21.
