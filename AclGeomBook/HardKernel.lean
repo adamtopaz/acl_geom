@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import VersoManual
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Correspondence.AdditiveThreePair
+import AclGeom.Correspondence.AdditiveSubgroupConnected
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.GeometricPrime
@@ -621,8 +622,40 @@ universal-domain hypothesis: they pass to the algebraically closed extension
 `FreshAmbient Ω`, use its four independent variables, and pull the equations back through
 the injective embedding. Closure transport reuses `algHom_racl_image_eq_of_racl_eq`.
 The additive theorem omits the unused independence premise for the second triple and is
-therefore stronger than the source statement. These coordinate proofs do not discharge
-the original abstract subgroup-classification or general curve-coset lemmas.
+therefore stronger than the source statement. The separate additive-subgroup classification
+is proved next. The torus-subgroup classification and general curve-coset lemma remain
+obligations.
+
+# Connected additive subgroups
+%%%
+tag := "connected-additive-subgroups"
+%%%
+
+For a closed additive subgroup `H ⊆ k²`, its canonical coordinate ring is
+`k[X₀,X₁] ⧸ I(H)`, where `I(H)` is its vanishing ideal. Closedness means that the zero locus
+of `I(H)` is `H`. Connectedness is connectedness of the prime spectrum of this coordinate
+ring, and dimension is its Krull dimension. Under the source hypotheses, the theorem
+classifies the ideal and the point locus with two nonzero additive polynomials:
+
+{docstring AclGeom.addSubgroup_classification_of_connected}
+
+The proof derives primality of `I(H)` from connectedness. If two irreducible components
+meet at `c`, the closure of their sum minus `c` has a prime vanishing ideal lying between
+`I(H)` and both component ideals, so minimality makes the components equal. Distinct
+components are disjoint and their ideals are comaximal. The Chinese remainder theorem
+would then give a nontrivial idempotent in the coordinate ring; connectedness of its
+spectrum forces every idempotent to be zero or one. Thus only one component remains.
+
+The one-dimensional prime-ideal step uses the Nullstellensatz, translation invariance
+and the additive defect's degree bound:
+
+{docstring AclGeom.addSubgroup_classification}
+
+The characteristic clauses follow from the existing `IsAdditive.eq_C_mul_X` in
+characteristic zero and `IsAdditive.coeff_eq_zero_of_ne_pow` in characteristic `p`:
+the polynomials are linear in the first case and have only `p`-power exponents in the
+second. These give the additive part of blueprint `subgroup-classification` in its
+connected source scope. The multiplicative part and general curve-coset lemma remain open.
 
 # The simultaneous-coset lemma
 %%%
@@ -705,7 +738,8 @@ $`\lambda = 1`:
 The elementwise correspondence results, simultaneous-coset classification,
 and `j_rigidity` are proved uniformly in the exponential characteristic,
 meeting M3's rigidity acceptance test. The original three-pair additive and multiplicative
-correspondence statements are proved above without freshness hypotheses. The abstract
-subgroup/coset statements, geometric fiber-product bridge and full generic-extension
-lemma remain open in #5. The tensor-domain obligation #11 is proved above;
+correspondence statements are proved above without freshness hypotheses. The connected
+additive-subgroup classification is also proved. The torus-subgroup and general curve-coset
+statements, geometric fiber-product bridge and full generic-extension lemma remain open in #5.
+The tensor-domain obligation #11 is proved above;
 the rational group and affine action construction remain open in #12 and #21.

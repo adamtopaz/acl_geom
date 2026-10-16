@@ -2031,6 +2031,19 @@ they are equal.  Translating changes the value of the character from $1$ to a no
 constant, giving the coset statement.
 \end{proof}
 
+\paragraph{Lean status of additive subgroup classification.}
+The theorem \lean{addSubgroup_classification_of_connected} proves part (a) of
+\cref{lem:subgroup-classification} over algebraically closed $k$. For a closed additive
+subgroup $H\subseteq k^2$, it uses the canonical coordinate ring
+$k[X_0,X_1]/I(H)$: connectedness is connectedness of its prime spectrum and dimension one
+is its Krull dimension. Primality of $I(H)$ is proved internally from connectedness.
+The conclusion gives both the exact ideal equation $I(H)=(P(X_0)-Q(X_1))$ and the exact
+point-locus equation, with $P,Q$ additive and nonzero.
+The prime-ideal step is \lean{addSubgroup_classification}. The characteristic-zero and
+characteristic-$p$ shape clauses follow by applying \lean{IsAdditive.eq_C_mul_X} and
+\lean{IsAdditive.coeff_eq_zero_of_ne_pow}. The torus part (b) and general
+\cref{lem:curve-coset} remain separate obligations (issue 5).
+
 \begin{theorem}[additive correspondence]\label{thm:addcorr}
 Let $(x_1,x_2,x_3)$ and $(y_1,y_2,y_3)$ be algebraically independent triples, assume
 $[x_i]=[y_i]$, and assume
@@ -2082,9 +2095,9 @@ algebraically closed fields and impose no extra ambient-rank, freshness or unive
 hypothesis. The auxiliary extension \lean{FreshAmbient} and its proved rank bound in
 \lean{Closure/FreshExtension} supply fresh elements internally; injectivity pulls the
 polynomial and integer-power equations back. Closure transport reuses
-\lean{algHom_racl_image_eq_of_racl_eq}. The original abstract subgroup-classification and
-general curve-coset lemmas remain separate obligations; these coordinate proofs do not
-silently discharge them (issue 5).
+\lean{algHom_racl_image_eq_of_racl_eq}. The separate additive-subgroup classification is
+proved above. The torus-subgroup classification and general curve-coset lemma remain
+obligations (issue 5).
 
 \begin{corollary}[base-ratio lemma]\label{cor:base-ratio}
 Let $b$ be transcendental over $k$, let $u_1,u_2$ be nonzero and independent from $b$,
@@ -2150,7 +2163,7 @@ pair $(b,b)$. The original proof above instead names $(u_1,b)$ and $(u_2,b)$; th
 not satisfy the required independence between correspondence points. That proof
 qualification was reported on issue 5 before this addition. The statement is not
 refuted, and its original wording and proof are preserved exactly. The broader
-abstract group/subgroup, general curve-coset and geometric fiber-product obligations remain open.
+abstract group, torus-subgroup, general curve-coset and geometric fiber-product obligations remain open.
 
 \begin{lemma}[simultaneous additive--multiplicative cosets]\label{lem:simultaneous-coset}
 Suppose two independent finite-correspondence curves $C_1,C_2\subseteq\mathbb A^2$

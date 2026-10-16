@@ -34,7 +34,10 @@ perfect ambient fields at rank five, without RAC or an infinite base. The litera
 full-carrier TOT/ratio-field claims and remaining
 source validation and auxiliary statements are still open. The original three-pair additive
 and literal multiplicative correspondence theorems are proved without extra ambient-rank
-or freshness hypotheses, including both sum constants and both nonzero exponents/constants. Read PROJECT_GOAL.md for
+or freshness hypotheses, including both sum constants and both nonzero exponents/constants.
+Connected one-dimensional additive subgroups of the plane now have the source polynomial
+classification, with primality of the canonical vanishing ideal derived from connectedness.
+The torus-subgroup classification and general curve-coset lemma remain open. Read PROJECT_GOAL.md for
 the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -11153,3 +11156,34 @@ criteria and frozen M4a log remain unchanged. Full library/book, selected-type a
 whole-library dependency gates and exact-head CI are recorded on #5 for this checkpoint.
 The abstract subgroup-classification, general curve-coset, geometric fiber-product,
 packaged generic-extension, group-chunk and scheme/action statements remain obligations.
+
+## Connected additive-subgroup classification (#5 C4)
+
+`Correspondence.AdditiveSubgroup` proves the prime-ideal curve step, with an exact ideal
+and point-locus equation for two nonzero additive polynomials. Its generic Hopf/degree
+argument is consumed by this source theorem. `Correspondence.AdditiveSubgroupConnected`
+proves the full connected source form as `addSubgroup_classification_of_connected`.
+The canonical ideal is `I(H) = vanishingIdeal k H`; closedness means `zeroLocus I(H) = H`,
+connectedness is `ConnectedSpace` of its coordinate ring's prime spectrum, and dimension
+one is its Krull dimension. Nonconstant projections remain explicit. There is no
+caller-supplied prime-ideal premise in the connected theorem.
+
+Primality follows from finite minimal primes. Two components meeting at any point `c`
+have a translated-sum closure with prime ideal between the vanishing ideal and both
+minimal primes, so they coincide. Disjoint components are comaximal by the Nullstellensatz.
+The Chinese remainder theorem would supply a nontrivial coordinate-ring idempotent;
+connectedness of its spectrum excludes that, leaving one minimal prime. The prime-curve
+step then gives the polynomial classification. Existing additive-polynomial theorems give
+the linear characteristic-zero and finite p-power-support characteristic-p clauses.
+No additional scheme or tensor-product infrastructure is introduced.
+
+Both agents independently compiled the exact two-module proof bundle with empty strict
+logs. Root's review checks 263 selected types and standard axioms, including all 260
+preceding types unchanged and the two existing characteristic-shape APIs. The core's
+module header now points to the connected theorem; all its declaration code remains
+byte-identical to the independently reviewed source. The connected module is unchanged.
+Original source statement/proof blocks, goal objective/acceptance criteria and the
+frozen M4a record are preserved. Full library/book, selected-type and whole-library
+validation and exact-head CI are recorded on #5 for the committed checkpoint.
+The torus part, general curve-coset, geometric fiber-product, packaged generic-extension,
+group-chunk, six-point and original scheme/action statements remain obligations.
