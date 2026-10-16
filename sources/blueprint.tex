@@ -1518,9 +1518,25 @@ formed componentwise. No normalization of the whole non-domain ring is
 claimed. Algebraic incomparability proves pair-ideal equality and minimality;
 no dimension certificate or extra rank or freshness premise is supplied.
 The joint and endpoint-image fields remain distinguished: the joint field
-can be properly larger than the endpoint-image field. The general
-curve-function-field presentation bridge and higher-dimensional family
-generic-component argument remain owed.
+can be properly larger than the endpoint-image field.
+For finite tuples satisfying
+$\trdeg_k k(x,y,z)+\trdeg_k k(y)=\trdeg_k k(x,y)+\trdeg_k k(y,z)$,
+\lean{locusIncidence_jointPrime_dominating_of_rank} proves that the
+actual joint evaluation kernel is a minimal prime of the literal incidence
+quotient, with dense image under the literal middle projection. Its
+endpoint contraction is exactly $I(x,z)$, and the coordinate ring of this
+selected component has finite Krull dimension equal to
+$\trdeg_k k(x,y,z)$. The base and ambient fields are arbitrary, with
+five independent universes. A maximal independent subfamily, finite rank
+cancellation and integral tensor base change derive the component claim;
+quotient-to-range isomorphisms give its dimension.
+This supplies the chosen-point component step of (8.4c) and (8.6).
+The parameter-field family identities and the other finite branches
+remain obligations, alongside the general curve-function-field
+presentation bridge at the variety-to-joint-generic-point step and the
+separate original group/chunk statements. Finite tuple presentations
+already allow non-rational curve fields; the geometric generic-point
+packaging remains part of the variety-level generic-extension obligation.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

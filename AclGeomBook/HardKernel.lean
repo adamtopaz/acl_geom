@@ -325,6 +325,46 @@ the incidence quotient. Algebraicity and all maps are derived from the
 tuples; no condition on $`x`, rank, finiteness, rationality or algebraic
 closedness is needed. All five universes remain independent.
 
+# Finite rank and higher-dimensional components
+%%%
+tag := "rank-additive-incidence-component"
+%%%
+
+For finite tuples, the chosen joint point also selects an actual component
+under the rank-additivity equation
+$`\operatorname{rk}(x,y,z)+\operatorname{rk}(y)=\operatorname{rk}(x,y)+\operatorname{rk}(y,z)`.
+Here ranks are transcendence degrees of the generated fields over $`k`.
+The base and ambient fields are arbitrary, with five independent universes:
+
+{docstring AclGeom.locusIncidence_jointPrime_dominating_of_rank}
+
+The joint evaluation kernel in the literal incidence quotient is minimal,
+and its zero locus has dense image under the literal middle projection.
+Contracting its ideal to the endpoint variables gives exactly $`I(x,z)`.
+The coordinate ring of this selected component, the incidence quotient
+further divided by that kernel, has finite Krull dimension equal to
+$`\operatorname{trdeg}_k k(x,y,z)`.
+
+The proof chooses a maximal independent subfamily of $`x` over $`k(y)`.
+It spans $`k(x,y)` algebraically. Finite rank cancellation shows that it
+stays independent over $`k(y,z)`. Generic base change gives linear
+disjointness for its purely transcendental field; the remaining algebraic
+extension makes the tensor product integral over that smaller tensor.
+The joint multiplication kernel contracts to zero there and is therefore
+minimal. The two evaluation maps have the same range, so their quotient
+isomorphisms identify the selected component ring with the joint locus
+coordinate ring for the dimension computation.
+
+This supplies the chosen-point component and dimension step used in
+(8.4c) and (8.6), allowing positive relative dimension on both sides.
+Identifying the parameter-field family members and carrying the other
+finite branches still require separate proofs. Finite tuples already allow
+non-rational curve fields; the remaining geometric presentation step is to
+construct a joint generic point of an arbitrary irreducible correspondence
+curve in a sufficiently large ambient field. That belongs to the packaged
+variety-level generic-extension obligation. The complete family identities
+and original group/chunk statements remain obligations.
+
 The following classification realizes every dominating component when the
 outer tuples are finite and the ambient field is algebraically closed.
 

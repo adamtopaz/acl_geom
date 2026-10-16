@@ -12035,3 +12035,56 @@ presentation bridge, higher-dimensional family argument, packaged generic
 extension and remaining original group/chunk,
 curve-coset and scheme/action obligations remain open. C2 and the full shared
 goal remain open.
+
+
+## Rank-additive joint components (#5, source (8.4c)/(8.6))
+
+`locusIncidence_jointPrime_dominating_of_rank` proves the chosen-point
+component step for finite tuples x, y, z satisfying
+rk(x,y,z) + rk(y) = rk(x,y) + rk(y,z), with ranks the generated fields'
+transcendence degrees over k. Its joint evaluation kernel is a minimal prime
+of the literal incidence quotient. The corresponding component has dense
+image under the literal middle projection, and contracting its ideal to
+endpoint variables gives exactly I(x,z). Its actual coordinate ring, the
+incidence quotient further divided by that kernel, has finite Krull dimension
+equal to the joint transcendence degree. The base and ambient fields are
+arbitrary, in five independent universes; no ACF, algebraicity, basis or
+component certificate is supplied by the caller.
+
+A maximal independent subfamily of x over k(y) spans k(x,y) algebraically.
+Finite cardinal cancellation in the actual towers makes it independent
+over k(y,z). Generic base change gives linear disjointness for the smaller
+purely transcendental field; integral tensor base change then makes the joint
+multiplication kernel minimal. The existing incidence classification transfers
+this to the literal quotient. Two quotient-to-range isomorphisms and the public
+locus dimension theorem compute the selected component's dimension.
+
+LocusJointComponent gains six declarations: the public producer, two consumed
+private proofs and three private notation declarations. The existing private
+kernel-transfer helper now accepts proved minimality, with its two public
+callers supplying either the old algebraic proof or the new rank proof. The
+old algebraic core remains for its infinite-tuple public consumer. No other
+preceding declaration type changes. Both agents independently checked all six
+affected modules with empty strict logs and default checking limits. All 143
+bundle declarations use only standard axioms; every raw type hash and declaring
+module agrees. Of the 137 preceding rows, only the agreed private helper's
+type changes. The selected audit has 335 standard-dependency public types,
+retaining all 334 preceding main types exactly. Full library/book,
+whole-library and exact-head CI evidence belongs to the checkpoint report on #5.
+Dependency validation is not complete source coverage.
+
+The book, goal and existing blueprint annotation record precisely this
+chosen-point step. Finite tuples already allow non-rational curve fields;
+the remaining geometric presentation bridge constructs simultaneous joint
+generic points of arbitrary irreducible correspondence curves in sufficiently
+large ambient fields. It stays owed under packaged variety-level generic
+extension. The vague earlier curve-field presentation phrase came from the
+scalar-only checkpoint dfd0d10; no abstract-field interface is added without
+a source consumer. Identifying the parameter-field family members and carrying
+other finite branches in (8.4c)/(8.6), packaged generic extension and the original
+group/chunk, six-point, affine-action, curve-coset and scheme/action statements
+remain obligations. C2 and the full goal remain open. All original mathematical
+source statements/proofs, the unchanged eleven-pair status whitelist, goal
+objective/completion criteria and frozen M4a are preserved; this guide is
+append-only. The mathematical module is byte-exact to the independently checked
+freeze outside two clarifications in its module header.
