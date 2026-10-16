@@ -12143,3 +12143,128 @@ ideal does not itself prove that universal clause from locus membership and
 rank. Parameter-field family identities and other finite branches, original
 group/chunk, six-point, affine-action, curve-coset and scheme/action statements
 also remain obligations. C2 and the full shared goal remain open.
+
+
+## Full finite-coordinate generic extension and source coverage (#5)
+
+`genericExtension_genericPoint` proves the original generic-extension (a)
+from locus membership and the source rank, rather than an assumed exact ideal.
+For an algebraically closed k, any field E/k, a prime polynomial ideal P
+in finitely many variables, and any coherent E-field ambient Ω, it chooses
+internally the common finite dimension n of k[ι]/P and E[ι]/Pᵉ. Every
+v with P ≤ I(v/k) and trdeg_E E(v) = n satisfies I(v/E) = Pᵉ,
+I(v/k) = P and linear disjointness of the E-image and k(v) over k.
+The universal clause has no closedness, size or infinite-rank hypothesis on Ω.
+If Ω is algebraically closed, a tuple with the extended ideal exists exactly
+when n ≤ trdeg_E Ω. All four universes are independent.
+
+The proof constructs an auxiliary algebraically closed reference field of
+infinite transcendence degree over E internally. The preceding prime-realization
+producer, exact-ideal field-freeness theorem and dimension theorem give a
+reference tuple and both dimensions. A maximal independent coordinate subfamily
+and algebraic incomparability prove that every point with the required rank
+has that same ideal. Three consumed private lemmas handle the reference rank,
+coordinate basis and same-rank comparison. The auxiliary reference field is not
+an assumption on the ambient in the public statement.
+
+The former private threefold-incidence lemmas H and I are moved, with identical
+statements, to the focused `LocusIncomparability` module as
+`exists_poly_of_mem_racl` and `idealOf_eq_of_le_of_comap_eq`. Their actual
+consumers are this proof and `ThreefoldIncidence`; the target ideal in the
+second lemma need not be prime. The old private coercion lemma remains because
+three actual threefold-incidence proof sites consume it. The other twenty
+preceding declarations in that module retain their exact types and declaring
+module. The new generic-extension module has exactly one public theorem and
+three consumed private lemmas; no auxiliary public interfaces are added.
+
+Both agents independently compiled all three mathematical modules with empty
+strict logs and default checking limits. All twenty-six bundle declarations
+use only standard axioms and agree in raw type hash and declaring module.
+The two removed private rows map to the identical types of the new public
+lemmas; all other twenty preceding rows are exact. The selected dependency
+audit has 339 public statements, preserving all 336 preceding main statements
+exactly. Full library/book, clean-commit whole-library and exact-head CI
+validation are recorded in the checkpoint report on #5. Dependency checks
+are distinct from source coverage.
+
+The two agents audited the original section-eight opening and subsection 8.1
+through generic-extension (a)--(c), rather than closing obligations merely
+because later reconstruction bypasses them. The coverage is:
+
+- Locus primality and irreducibility of the literal coordinate spectrum follow
+  by instances; its canonical fraction field is isomorphic to k(a) via
+  `IsFractionRing.algEquivOfAlgEquiv (locusCoordinateRingEquiv a)`, including
+  polynomial representatives. The finite-tuple dimension identity is
+  `exists_locusCoordinateRing_dimension`.
+- The finite-correspondence equivalence (8.1), both actual projection-dominance
+  facts and finite generic fibres are `pairLocus_finiteCorrespondence_iff`;
+  `pairField_finiteDimensional_iff` supplies the function-field formulation.
+- Composition uses the actual scheme fibre product and literal incidence
+  quotient. All middle-dominating components and their endpoint contractions
+  are identified with tuple and original scalar germ composites. Matching
+  middle loci give nonempty composition. The component fraction field is
+  the realized joint compositum and is finite over both ends and over its
+  endpoint-image field. The latter field can be properly smaller, as the
+  proved chain (t²,t,t²) shows; the source correction retains its provenance.
+- Both parenthesizations have exactly the endpoint contractions of the actual
+  four-block components dominating the middle pair. Componentwise integral
+  closure in the component fraction field is normal, preserves that fraction
+  field and preserves the endpoint generic ideal. This completes the scoped
+  normalized generic-component comparison.
+- Generic-extension (a) is the new theorem. For (b), its application with
+  E = k derives I(a/k) = I(b/k) = P from the two membership and rank clauses.
+  `exists_ambientAutomorphism_of_idealOf_eq` extends the exact canonical
+  `locusFunctionFieldEquivOfIdealEq` on every generated-field element, as
+  well as mapping coordinates. Finite tuples in the source algebraically
+  closed ambient require no enlargement.
+- For (c), `AlgebraicIndependent.aevalEquivField` is injective, and its
+  algebra-map formula together with `map_div₀` gives literal fraction
+  evaluation. Algebraic independence ensures nonzero denominators stay
+  nonzero. The original displayed absolute-degree identity is true by the
+  tower formula; its infinite-cardinal equality alone does not imply
+  independence. The existing separate freeness proof supplies independence.
+
+Seven additional actual Lean consumer declarations were compiled under the
+same strict defaults and checked for standard dependencies: the three
+(b)/(c)/fraction-evaluation consumers and four prime/irreducible/function-field/
+polynomial-formula consumers. These are source-coverage checks, not seven
+additional project API declarations. The exact sources and logs are frozen in
+`/tmp/acl_geom_codex_generic_extension_review/frozen1` and
+`/tmp/acl_geom_codex_generic_extension_review/opening_frozen1`; their manifest
+SHA-256 values are respectively
+`812e9733d16c0a74addc407ff9fa84d246f4017eff336b396d558a610251f259` and
+`bbca91a19f487197533cfbaeca9f44c9270259d8d475e58e6477426b640ae10d`.
+They are also rerun against the integrated modules in the checkpoint gates.
+The source-level compositions can be reproduced from these public calls:
+
+```lean
+-- (b), after obtaining the source dimension n from the new theorem:
+obtain ⟨n, hn, -, hgen, -⟩ :=
+  genericExtension_genericPoint (k := k) (E := k) (Ω := Ω) P
+have h : idealOf k a = idealOf k b :=
+  (hgen a ha hra).2.1.trans (hgen b hb hrb).2.1.symm
+exact exists_ambientAutomorphism_of_idealOf_eq h
+-- (c), with ha : AlgebraicIndependent k a and equality of evaluated fractions h:
+exact ha.aevalEquivField.injective (Subtype.ext h)
+```
+
+After full checkpoint validation and exact-head CI, the jointly audited scope
+permits marking exactly three existing #5 rows complete: loci/prime ideals/
+generic points; C2 finite one-variable correspondence calculus; and generic
+extension (a)--(c). Preserve all sixteen row texts and ordering, and the other
+thirteen states. The issue and shared goal remain open. The inverse-correspondence
+sentence occurs in the later group-chunk argument, not in this subsection's
+composition definition; its group/family consumer is still owed. The parameter-field
+family identities in (8.4c)/(8.6), their other finite branches, original rational
+group chunk, six-point configurations, affine-action, general curve-coset,
+algebraization and scheme/action/descent obligations remain separate. No bypass
+or auxiliary chart closes them.
+
+The root export, book and shared goal now describe the full finite-coordinate
+lemma. Nine of the eleven current Lean-status NEW sides in the existing source
+whitelist are refreshed; every original OLD side is unchanged. Normalizing
+parent and candidate with their respective eleven NEW sides preserves every
+original byte outside the existing joint-component annotation. All 48 original
+mathematical statement blocks and 44 proof blocks, the goal's objective and
+completion criteria, and frozen M4a are byte-exact. This guide is append-only.
+All three mathematical sources are byte-exact to both independent freezes.
