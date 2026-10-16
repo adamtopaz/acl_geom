@@ -13,6 +13,7 @@ import AclGeom.Interpretation.JArithTransport
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
+import AclGeom.Interpretation.FrobSetoid
 import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Interpretation.Ratio
@@ -36,8 +37,9 @@ tag := "interpretation"
 %%%
 
 The interpretation layer (milestone M6) aims to quotient the
-geometric `J`-locus by Frobenius ambiguity and construct a field. The quotient
-by a global Frobenius setoid remains open (#8). The corrected geometric ratio
+geometric `J`-locus by Frobenius ambiguity and construct a field. The global
+Frobenius relation is now a setoid over perfect ambient fields at rank five (#8).
+The corrected geometric ratio
 quotient, full carrier decoding and total operation graphs are proved below
 under explicit ACF completeness. A named transported field structure and
 the actual decoding ring equivalence are proved below under the same inputs.
@@ -80,8 +82,16 @@ orientation, the undirected edge is symmetric definitionally:
 
 The two-step bridge is the geometric Frobenius-class relation. Its semantic
 characterization under explicit ACF completeness is displayed below; that input is
-supplied at rank five by `jCompletenessACF`, while the resulting setoid laws are not stated
-and remain open (#8):
+supplied at rank five by `jCompletenessACF`. `FrobSetoid` now proves the global equivalence
+relation on all geometric J-tuples over perfect ambient fields at rank five, without a RAC
+or infinite-base hypothesis. Its proof chooses a single semantic middle tuple and adds the
+two Frobenius exponents; it supplies ACF completeness internally:
+
+{docstring AclGeom.frobEq_equivalence}
+
+{docstring AclGeom.frobEqSetoid}
+
+The underlying relation and symmetry are:
 
 {docstring AclGeom.FrobEq}
 
@@ -455,8 +465,8 @@ The following section bundles this same geometric map as an actual RingEquiv
 and composes it with both decoding equivalences. The canonical image base
 and conditional field-isomorphism endpoint follow in the next section.
 General interpreted reconstruction in its original scope remains open (I6b/I6c), along
-with the global Frobenius setoid and literal source obligations; the frozen M4a record is
-preserved.
+with the literal source obligations. The global Frobenius setoid is proved above under
+perfection and rank five; the frozen M4a record is preserved.
 
 # Conditional induced ring isomorphisms
 %%%
@@ -491,8 +501,8 @@ canonical image-base existence and conditional field-isomorphism endpoint
 I6c2. General I6b/I6c remain open under their original scope. The named
 consumers are that conditional existence endpoint, accepted conditional R1b
 base recovery and corrected conditional scalar one in the reconstruction
-chapter. The global Frobenius setoid and literal source obligations remain open, and
-the frozen M4a record is preserved.
+chapter. The global Frobenius setoid is proved above under perfection and rank five.
+The literal source obligations remain open, and the frozen M4a record is preserved.
 
 The reconstruction chapter proves actual base-range compatibility for
 this same `interpretedRingEquiv` under explicit RAC bases and these carrier
@@ -539,7 +549,8 @@ zero/two. No helper, global instance or evaluation declaration is added.
 The existence theorem does not assert `Induces` compatibility with the
 supplied lattice map or recovery of the base fields; those are proved in the
 reconstruction chapter. General I6b/I6c in their original scope and all literal
-source/setoid/TOT obligations remain open. The frozen M4a record is preserved.
+source/TOT obligations remain open; the rank-five global Frobenius setoid is proved above. The
+frozen M4a record is preserved.
 
 # Generic arithmetic on the fixed class
 %%%
@@ -650,7 +661,8 @@ This proves the nonzero part of blueprint `decode-equiv` for the corrected
 geometric quotient. Perfection, rank five and explicit ACF
 `JCompletenessACF` (supplied at rank five by `jCompletenessACF`) remain explicit, over arbitrary
 base fields.
-No global Frobenius setoid is claimed. The next section adjoins zero and
+This corrected ratio construction does not use the global Frobenius setoid proved above. The
+next section adjoins zero and
 decodes the full carrier, followed by corrected total operation graphs.
 The transported field structure is proved below. Historical literal definitions and
 their refutation stay preserved.
@@ -685,8 +697,8 @@ perfection, rank five and explicit ACF `JCompletenessACF` (supplied at rank five
 The carrier is the geometric ratio quotient with its new zero. A named
 transported field structure and actual decoding ring equivalence are proved
 below after the total geometric graphs, and naturality is proved later. The global
-Frobenius setoid remains open. The original literal construction and its counterexample
-remain preserved.
+Frobenius setoid is proved above under perfection and rank five. The original literal
+construction and its counterexample remain preserved.
 
 
 # Corrected total negation
@@ -726,11 +738,13 @@ Perfection, rank five and explicit ACF `JCompletenessACF` (supplied at rank five
 explicit for the semantic negation equivalence. There is no genericity
 assumption between the two original inputs. This proves the corrected
 counterpart of the blueprint's two-addition negation detour.
-The original literal negation/totalization derivation retains its
-historical/open status; no separate negation counterexample is claimed.
+The original literal negation/total-nonzero-addition claims are separately refuted in
+`Counterexamples.GenericNegation`; their formulas and proof retain their provenance.
+The validation chapter displays the class-level refutations.
 The corrected nonzero-addition detour is displayed next, followed by total
 ratio-carrier graphs. The named transported field structure is proved below. The global
-Frobenius setoid remains open. Conditional carrier/graph transport is proved above with the
+Frobenius setoid is proved above under perfection and rank five. Conditional carrier/graph
+transport is proved above with the
 canonical image-base equality and carrier inputs explicit; conditional image-base existence
 and the field-isomorphism endpoint are also proved above. General interpreted
 reconstruction in its original scope remains open.
@@ -774,9 +788,11 @@ Perfection, uniform rank five and explicit ACF `JCompletenessACF` (supplied at r
 `jCompletenessACF`)
 remain explicit. This establishes the corrected class-level detour,
 and the following section gives the full ratio-carrier graphs.
-The historical literal negation/TOT derivation retains its open status and
-exact provenance. The named transported field structure is proved below. The global
-Frobenius setoid remains open. Conditional carrier/graph transport is proved above with the
+The literal negation/total-nonzero-addition claims are refuted with their original provenance
+preserved; the later literal full-carrier TOT claim remains open. The named transported field
+structure is proved below. The global
+Frobenius setoid is proved above under perfection and rank five. Conditional carrier/graph
+transport is proved above with the
 canonical image-base equality and carrier inputs explicit; conditional image-base existence
 and the field-isomorphism endpoint are also proved above. General interpreted
 reconstruction in its original scope remains open.
@@ -841,8 +857,9 @@ The following section installs a named transported field structure with
 these exact geometric graphs. Conditional carrier/graph transport is proved
 above with the canonical image-base equality and carrier inputs explicit.
 Conditional image-base existence and the field-isomorphism endpoint are
-proved above under ACF completeness. The global Frobenius setoid and simultaneous
-representatives remain open. The literal TOT argument retains its historical/open status
+proved above under ACF completeness. The global Frobenius setoid is proved under perfection
+and rank five. Original simultaneous-representative obligations remain open. The literal TOT
+argument retains its historical/open status
 and exact provenance.
 
 
@@ -880,5 +897,6 @@ carrier/graph transport is proved above with the canonical image-base
 equality and carrier inputs explicit. Conditional image-base existence and
 the field-isomorphism endpoint are also proved above. The explicit completeness input is
 supplied at rank five by `jCompletenessACF`, and the public reconstruction theorem is
-unconditional. The global Frobenius setoid and simultaneous representatives remain open.
+unconditional. The global Frobenius setoid is proved under perfection and rank five;
+original simultaneous-representative obligations remain open.
 The literal source construction and TOT argument retain their historical/open status.

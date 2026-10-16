@@ -26,7 +26,12 @@ chosen perfections and lattice isomorphism. The exact Frobenius fibre and conver
 included. Original scheme/action algebraization and descent and true bypassed source
 statements remain obligations. Point-geometry reconstruction, the automorphism exact sequence and
 the rank-five literal/Frobenius-quotient functorial statements are proved. The canonical
-perfection-choice equivalence and its geometry compatibility are proved too. Remaining
+perfection-choice equivalence and its geometry compatibility are proved too. The literal
+negation and total-nonzero-addition graphs are separately refuted, with all auxiliary
+class conditions, over infinite bases at rank five; their corrected coupled replacements
+have proved semantics. The global Frobenius setoid is proved on geometric J-tuples over
+perfect ambient fields at rank five, without RAC or an infinite base. The literal
+full-carrier TOT/ratio-field claims and remaining
 source validation and auxiliary statements are still open. Read PROJECT_GOAL.md for
 the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
@@ -11075,3 +11080,44 @@ local callers updated. Goal-changing `show` tactics use `change`, retaining thei
 ascriptions. A strict independent check of all 81 public declarations has an empty log;
 77 types are exact and precisely the four helper types are stronger. Failed cleanup
 attempts are retained in the issue evidence.
+
+## Literal negation and total-nonzero-addition refutations (#23)
+
+`Counterexamples.GenericNegation` records the original §11 formulas as `BlueprintJNeg`
+and `BlueprintJAddTotalNZ`, including every auxiliary Frobenius-class constraint.
+Over an infinite base and at rank five, `blueprintJNeg_smul` constructs every nonzero
+scalar multiple as a literal negation; `blueprintJNeg_self` gives self-negation when
+`2 ≠ 0`. `blueprintJAddTotalNZ_kappa` constructs the output `j(κ*x+y,a)` for every
+nonzero base scalar. The two `_not_functional` theorems prove distinct wrong outputs,
+and their `_on_class` forms put all inputs and outputs in one actual Frobenius class.
+No completeness input is used. Independent `x,y,a` satisfy all hypotheses of the
+source total-nonzero-addition lemma. The corrected `JNegTotalRel` and `JAddTotalNZRel`
+already have proved semantics; the literal full-carrier TOT and ratio-field claims
+remain separate obligations.
+
+The mathematical negation and addition counterexamples were reported on #23 before
+source status edits (comments 6210013012 and 6210631348). Original theorem/lemma/
+proposition/corollary/proof blocks are retained, including the literal detour proof.
+The new source warning preserves commit `ee31244` provenance and distinguishes the
+refuted formulas from their corrected replacements. The Verso validation chapter
+now displays both actual class-level refutations.
+
+Both agents independently compiled the exact new module with empty strict logs.
+The integrated source is byte-identical to the peer's frozen `a9f90d28` artifact.
+Root's independent review checks all 242 previously selected types unchanged and
+nine additional definitions/theorems using standard axioms. Full library/book,
+selected-type and whole-library dependency gates, plus exact-head CI, are recorded
+on #23 for the committed checkpoint. These checks do not establish full source coverage.
+
+`Interpretation.FrobSetoid` proves the separately owed equivalence-relation conclusion
+of `lem:frobeq-correct` on all geometric J-tuples over perfect ambient fields at rank five,
+and bundles it as `frobEqSetoid`. No RAC, infinite-base or caller-supplied completeness
+hypothesis is needed. Its proof obtains semantic representatives of the three endpoints,
+keeps one middle representative and composes the two integral Frobenius exponents.
+It supplies the algebraic-closure completeness proof internally through the public
+Mathlib `IsAlgClosure.isAlgClosed` instance and `jCompletenessACF`.
+The binary semantic-characterization interface keeps its existing input explicit.
+Both agents independently compiled the exact frozen `3a097fbf` module with empty strict
+logs. Root's fresh two-module check verifies 253 selected types, including all previous
+251 unchanged, with standard axioms. Module/book/source status descriptions now record
+the global setoid while preserving the original literal and full-carrier obligations.

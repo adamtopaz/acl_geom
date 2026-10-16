@@ -18,8 +18,12 @@ characterization and fixed-class description under explicit ACF J-completeness.
 The conditional coordinate bijection is proved in `ClassCoordinates`.
 Corrected generic class arithmetic is proved in `ClassArithmetic` under the same inputs.
 `Field` proves corrected total geometric graphs, a named transported field structure and the
-actual decoding ring equivalence under the same explicit inputs. Unconditional completeness,
-global Frobenius setoid laws, naturality and reconstruction remain open (M6, checklist I1).
+actual decoding ring equivalence under the same explicit inputs. Rank-five ACF J completeness
+is proved in `Config.Completeness`. `FrobSetoid` proves the global equivalence relation on
+geometric J-tuples over perfect ambient fields at rank five, without RAC or an infinite base.
+Conditional naturality is proved in `Naturality` under explicit carrier inputs, and `Main`
+supplies the completeness inputs internally.
+Original literal arithmetic and simultaneous-representative obligations remain on #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

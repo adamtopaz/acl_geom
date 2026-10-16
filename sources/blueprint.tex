@@ -2567,11 +2567,14 @@ that obligation must be explicit. These gaps are tracked in
 \noindent\textbf{Lean status (conditional).}
 \lean{frobEq_iff_frobenius_twist} proves the natural-exponent form of the displayed
 semantic equivalence. \lean{frobEq_iff_exists_frobeniusZPow} proves its integral-exponent
-form. Both require perfection, rank at least five and the explicit, still-open
-\lean{JCompletenessACF} input over the algebraically closed pair. The converse uses rank-five soundness alone, including over finite
-base fields. \lean{exists_frobeniusZPow_iff} identifies the natural two-sided
-and integral exponent forms. Unconditional completeness and the setoid laws
-remain open (issue 23).
+form. Both internal interfaces require perfection, rank at least five and an explicit
+\lean{JCompletenessACF} input over the algebraically closed pair; the proved
+\lean{jCompletenessACF} supplies it at rank five. The converse uses rank-five soundness
+alone, including over finite base fields. \lean{exists_frobeniusZPow_iff} identifies the
+natural two-sided and integral exponent forms. The global equivalence-relation conclusion
+is proved by \lean{frobEq_equivalence}, and \lean{frobEqSetoid} bundles it on all geometric
+J-tuples over perfect ambient fields at rank five. These two public results supply
+completeness internally and require neither RAC nor an infinite base (issues 8 and 23).
 
 \section{A fixed class and its generic arithmetic}\label{sec:genericops}
 
@@ -2840,7 +2843,8 @@ The purely geometric predicate \lean{JNegTotalRel} is
 For input class members, \lean{JNegTotalRel.neg_eq} applies to every witness,
 and \lean{jNegTotalRel_of_neg_eq} constructs a witness when $\mu(v)=-\mu(u)$.
 The exact equivalence is \lean{jNegTotalRel_iff}, under explicit perfection,
-rank-five and still-open ACF J-completeness hypotheses.
+rank-five and explicit ACF J-completeness hypotheses, supplied at rank five by
+\lean{jCompletenessACF}.
 
 For the converse, use $y=-x$, choose $z$ outside $\acl_k(a,x)$, and put $r=x+z$.
 The triples $(x,z,a)$ and $(-x,x+z,a)$ are independent by insertion and mutual
@@ -2850,12 +2854,13 @@ public lemma in \path{Interpretation/FrobLinkSoundness.lean}, with unchanged
 type/doc/proof and no rank-five or completeness input. It serves direct links,
 corrected ratios and this negation detour, avoiding another duplicated proof.
 
-The corrected nonzero-addition detour is formalized next, followed by conditional
-total geometric graphs and a named transported field structure. Naturality remains open
-(issues 8 and 23).
-The following original literal negation and totalization expressions and argument
-remain historical/open, since their proof uses refuted generic semantics.
-No separate negation-detour counterexample is asserted.
+The corrected nonzero-addition detour is formalized next, followed by total geometric
+graphs and a named transported field structure. These internal APIs keep their completeness
+input explicit; the proved rank-five ACF J completeness supplies it in the source setting.
+Conditional naturality is proved under explicit carrier inputs, and the public reconstruction
+theorem supplies completeness internally. The following original
+literal negation and totalization expressions and argument are retained for provenance;
+both displayed correctness claims have separate Lean refutations, recorded below (issue 23).
 
 \subsection{The corrected geometric nonzero-addition detour in Lean}
 
@@ -2876,7 +2881,7 @@ Output membership is not assumed by the predicate. For input class members,
 $w\in[j_0]_{\operatorname{FrobEq}}$ with $\mu(w)=\mu(u)+\mu(v)$.
 The converse is \lean{jAddTotalNZRel_of_add_eq}, and the exact equivalence
 with arbitrary output is \lean{jAddTotalNZRel_iff}. Perfection, uniform rank five
-and still-open ACF J completeness remain explicit.
+and ACF J completeness remain explicit; the latter is proved at rank five.
 
 For the converse, write $c=x+y$, choose $z$ outside $\acl_k(a,x,y)$ and use
 $j(z,a)$, $j(-z,a)$, $j(x+z,a)$ and $j(y-z,a)$ as the four witnesses.
@@ -2889,8 +2894,29 @@ For canonical inputs with $x+y\notin\acl_k(a)$, this proves the corrected
 counterpart of \cref{lem:total-nonzero-add}: the arbitrary raw output is
 exactly $j(x+y,a)$. The output condition is stronger than merely $x+y\ne0$.
 The corrected full-carrier graphs are formalized below under the same explicit
-inputs, followed by the named transported field structure. Naturality remains open. The following literal definitions and proof retain their
-historical/open status and exact provenance.
+inputs, followed by the named transported field structure. Conditional naturality is proved
+under explicit carrier inputs.
+The following literal definitions and proof retain their exact provenance from commit
+\texttt{ee31244}.
+
+\begin{warning}[Refuted literal negation and total nonzero addition]
+The module \lean{Counterexamples/GenericNegation} transcribes both literal predicates,
+including every auxiliary Frobenius-class membership condition, as \lean{BlueprintJNeg}
+and \lean{BlueprintJAddTotalNZ}. Over an infinite base and at rank five,
+\lean{blueprintJNeg_smul} accepts $j(cx,a)$ as a negation of $j(x,a)$ for every
+$c\in k^\times$. In characteristic different from two, \lean{blueprintJNeg_self}
+even accepts $j(x,a)$ itself, which differs from $j(-x,a)$.
+For independent $x,y,a$, \lean{blueprintJAddTotalNZ_kappa} accepts $j(\kappa x+y,a)$
+for every nonzero base scalar $\kappa$; \lean{blueprintJAddTotalNZ_not_functional}
+proves this differs from the claimed $j(x+y,a)$ when $\kappa\ne1$.
+The input hypotheses of \cref{lem:total-nonzero-add} hold for these independent inputs.
+Both nonfunctionality statements are also proved entirely on a single Frobenius class.
+No completeness hypothesis is used. Mathematical counterexamples were reported on
+issue 23 before changing these status descriptions. The corrected coupled predicates
+\lean{JNegTotalRel} and \lean{JAddTotalNZRel} have the proved semantics above;
+they do not validate the literal formulas below. The later literal full-carrier
+TOT/ratio-field claims remain separate obligations.
+\end{warning}
 
 For negation, avoid trying to use $[0]$, which is not a point.  Define
 \[
@@ -2999,7 +3025,8 @@ ratios. Their equivalence \lean{ratioEq_iff} proves
  \Longleftrightarrow \frac{\mu(r_1)}{\mu(r_2)}
                      =\frac{\mu(s_1)}{\mu(s_2)},
 \]
-under explicit perfection, rank-five and still-open ACF J-completeness hypotheses.
+under explicit perfection, rank-five and explicit ACF J-completeness hypotheses, supplied at rank five by
+\lean{jCompletenessACF}.
 
 % Earlier image-base/existence progress scope (before I6c2; reported on issue 23):
 % For the reverse implication, present the inputs with coordinates $x_1,x_2,y_1,y_2$
@@ -3081,7 +3108,8 @@ Conditional carrier and graph transport is proved below with a supplied canonica
 image-base equality and explicit carrier inputs. Conditional image-base existence and the
 field-isomorphism endpoint are proved below under explicit ACF completeness. Unconditional
 completeness and reconstruction remain open (issues 8 and 23).
-No global Frobenius setoid is asserted. The later historical literal construction
+This ratio construction does not use the global Frobenius setoid proved above.
+The later historical literal construction
 and its proofs are preserved.
 
 \subsection{The corrected adjoined-zero carrier and full decoding in Lean}
@@ -3104,7 +3132,9 @@ Both are definitional. This proves the full corrected counterpart of
 Lemma \ref{lem:decode-equiv}, under explicit perfection, rank-five and still-open
 ACF J-completeness inputs. Corrected total geometric graphs are formalized below
 under the same inputs, followed by a named transported field structure and the actual decoding
-ring equivalence. Naturality and reconstruction remain open (issues 8 and 23). The original literal construction below is preserved.
+ring equivalence. Conditional naturality is proved under explicit carrier inputs, and the
+public reconstruction theorem supplies completeness internally. The original literal
+construction below is preserved (issues 8 and 23).
 
 \subsection{A geometry-only ratio equivalence}
 
@@ -3632,8 +3662,10 @@ and ACF-completeness inputs on both sides, across independent bases and universe
 The induced ring isomorphism and its composition with both decoding equivalences are
 formalized next under these same inputs. Conditional image-base existence and the
 field-isomorphism endpoint are proved below under explicit ACF completeness. General interpreted
-reconstruction remains open (issues 8 and 23), as do unconditional completeness, global
-Frobenius setoid, unconditional base recovery and scalar-one inputs.
+reconstruction in the original literal scope and the original base-recovery/scalar-one
+arguments remain obligations (issues 8 and 23). Rank-five ACF completeness, the global
+Frobenius setoid over perfect rank-five ambient fields and the public corrected
+reconstruction theorem are proved. Internal carrier inputs remain explicit.
 The original literal statements and proofs retain their exact provenance.
 
 \subsection{Conditional induced ring isomorphisms in Lean}
@@ -3707,9 +3739,10 @@ characteristic and still-open ACF-completeness inputs, across independent bases 
 The named consumers are the following conditional existence endpoint and conditional base
 recovery and corrected conditional scalar one below.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
-explicit ACF completeness. General interpreted reconstruction, unconditional completeness,
-global Frobenius setoid, unconditional R1/R2 and literal source obligations remain open (issues
-8 and 23).
+explicit ACF completeness. Rank-five ACF completeness, the global Frobenius setoid over
+perfect rank-five ambient fields and the public corrected reconstruction theorem are
+proved. The original literal interpreted-reconstruction, R1/R2 and other source arguments
+retain their separate obligations (issues 8 and 23).
 The original statements and proofs retain their exact provenance.
 
 \subsection{Conditional image-base and field-isomorphism existence in Lean}
@@ -3741,9 +3774,12 @@ and universes. No pair, target rank or image-base equality is supplied to this e
 % obligations remain open (issues 8, 9 and 23). Original statements and proofs are preserved.
 This proves the corrected conditional existence counterpart of
 \cref{prop:interpreted-reconstruction}. It does not assert that the field isomorphism
-induces the supplied lattice map or recovers the base fields. unconditional R1/R2, unconditional
-completeness, full inducing reconstruction, global Frobenius setoid and literal/TOT
-obligations remain open (issues 8, 9 and 23). Original statements and proofs are preserved.
+induces the supplied lattice map or recovers the base fields. The reconstruction chapter
+now proves these conclusions under the genuine source hypotheses, supplying ACF
+completeness internally. The global Frobenius setoid is proved for perfect rank-five
+ambient fields. The original literal R1/R2, interpreted-reconstruction and full-carrier
+TOT arguments retain their separate obligations (issues 8, 9 and 23).
+Original statements and proofs are preserved.
 
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which
@@ -5229,9 +5265,12 @@ constructs the compatible isomorphism and identifies its exact Frobenius fibre.
 The Verso validation chapter records existing evidence for the other checks, including
 both Frobenius directions and the corrected ratio witnesses.  Literal generic addition,
 multiplication and ratio-equivalence graphs have Lean refutations.  The literal negation
-detour and total-nonzero-addition statement remain obligations: a mathematical negation
-counterexample was reported on issue 23 before separate formal refutation work.  The
-corrected coupled predicates do not silently discharge the original statements.
+detour and total-nonzero-addition statement now also have Lean refutations in
+\lean{Counterexamples/GenericNegation}, including all class-membership constraints,
+over infinite bases at rank five and without a completeness hypothesis. The original
+formulas and proof retain their provenance. Corrected coupled predicates have proved
+semantics, while the literal full-carrier TOT/ratio-field and remaining source claims
+still require a separate disposition.
 
 \lean{scripts/audit_axioms.py} makes the dependency audit reproducible.  It builds both
 mathematical roots, requires their imported module inventory to match all mathematical

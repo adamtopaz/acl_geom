@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude, Codex
 -/
 import VersoManual
 import AclGeom.Test.Validation
+import AclGeom.Counterexamples.GenericNegation
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -72,7 +73,10 @@ For TEST-4, `frobEq_iff_frobenius_twist` includes both natural-number directions
 `frobEq_iff_exists_frobeniusZPow` gives the integral-exponent formulation. The reverse
 construction `frobEq_of_frobenius_twist` uses the rank-five bound. The forward completeness
 interface keeps its ACF input explicit; the proved `jCompletenessACF`, with the transported
-rank-five bound, supplies that input in the source setting. These results do not settle
+rank-five bound, supplies that input in the source setting. `frobEq_equivalence` and
+`frobEqSetoid` prove the global equivalence-relation conclusion over perfect ambient fields
+at rank five, supplying completeness internally and requiring neither RAC nor an infinite
+base. These results do not settle
 every original simultaneous-representative or interpreted-carrier claim.
 
 For TEST-5, the literal `BlueprintRatioEq` is refuted by
@@ -83,11 +87,27 @@ statement retains its explicit completeness and carrier hypotheses.
 
 TEST-6 has a proved corrected zero-addition branch: `JNegTotalRel` on the common-denominator
 numerators, `jNegTotalRel_iff`, and `ratioAddGraph_iff` identify the decoded sum with zero.
-The literal blueprint negation detour and literal total-nonzero-addition claim remain
-obligations. A mathematical counterexample to the negation claim was reported on
-[issue #23](https://github.com/adamtopaz/acl_geom/issues/23#issuecomment-6210013012);
-its separate Lean refutation is not yet part of this checkpoint. The corrected predicates
-cannot be used to silently discharge these original statements.
+The literal negation detour and literal total-nonzero-addition claim are refuted in
+`Counterexamples.GenericNegation`. Both predicates retain every auxiliary class-membership
+condition. Over an infinite base at rank five, each graph admits two distinct outputs
+inside one Frobenius class, with no completeness hypothesis:
+
+{docstring AclGeom.blueprintJNeg_not_functional_on_class}
+
+{docstring AclGeom.blueprintJAddTotalNZ_not_functional_on_class}
+
+The explicit families are `blueprintJNeg_smul` and `blueprintJAddTotalNZ_kappa`.
+Negation accepts every `j(c*x,a)` for nonzero base scalars `c`; when `2 ≠ 0`,
+`blueprintJNeg_self` even makes `j(x,a)` its own negation, distinct from `j(-x,a)`.
+For independent `x,y,a`, the total-addition detour accepts `j(κ*x+y,a)` for every
+nonzero `κ`, giving the wrong output when `κ ≠ 1`. These inputs satisfy the original
+lemma's nonvanishing-over-`acl(a)` hypotheses. The original source formulas and proof
+are retained, following the counterexamples reported on
+[issue #23](https://github.com/adamtopaz/acl_geom/issues/23#issuecomment-6210013012) and
+[its total-addition follow-up](https://github.com/adamtopaz/acl_geom/issues/23#issuecomment-6210631348).
+The corrected coupled negation/addition predicates have the proved semantics cited above.
+The literal full-carrier TOT/ratio-field construction and the remaining source provenance
+claims still require their own disposition.
 
 # Dimension and endpoint hypotheses
 %%%

@@ -206,9 +206,11 @@ import AclGeom.Interpretation.FrobLinkRelative
 import AclGeom.Interpretation.FrobLinkSemantic
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
+import AclGeom.Interpretation.FrobSetoid
 import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Counterexamples.GenericArithmetic
+import AclGeom.Counterexamples.GenericNegation
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic
 import AclGeom.Counterexamples.KernelRank
