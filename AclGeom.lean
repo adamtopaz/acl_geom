@@ -6,6 +6,7 @@ Authors: Adam Topaz, Claude
 import AclGeom.Closure.Basic
 import AclGeom.Closure.RationalFunctions
 import AclGeom.Closure.Ambient
+import AclGeom.Closure.FreshExtension
 import AclGeom.Closure.ClosedLattice
 import AclGeom.Closure.CrossBase
 import AclGeom.Geometry.Points
@@ -70,6 +71,7 @@ import AclGeom.Correspondence.FiniteExtensionCompositum
 import AclGeom.Correspondence.GroupConfiguration
 import AclGeom.Correspondence.AffineAction
 import AclGeom.Correspondence.Additive
+import AclGeom.Correspondence.AdditiveThreePair
 import AclGeom.Correspondence.DifferenceCocycle
 import AclGeom.Correspondence.AffineRelocation
 import AclGeom.Correspondence.MultiplierCurve
@@ -103,6 +105,7 @@ import AclGeom.Curves.Specialty
 import AclGeom.Curves.TateResidue
 import AclGeom.Tate.FinitePotent
 import AclGeom.Correspondence.Multiplicative
+import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeQuotient
 import AclGeom.Correspondence.WeightedSupport
 import AclGeom.Correspondence.JRigidity

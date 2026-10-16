@@ -32,7 +32,9 @@ class conditions, over infinite bases at rank five; their corrected coupled repl
 have proved semantics. The global Frobenius setoid is proved on geometric J-tuples over
 perfect ambient fields at rank five, without RAC or an infinite base. The literal
 full-carrier TOT/ratio-field claims and remaining
-source validation and auxiliary statements are still open. Read PROJECT_GOAL.md for
+source validation and auxiliary statements are still open. The original three-pair additive
+and literal multiplicative correspondence theorems are proved without extra ambient-rank
+or freshness hypotheses, including both sum constants and both nonzero exponents/constants. Read PROJECT_GOAL.md for
 the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -11121,3 +11123,33 @@ Both agents independently compiled the exact frozen `3a097fbf` module with empty
 logs. Root's fresh two-module check verifies 253 selected types, including all previous
 251 unchanged, with standard axioms. Module/book/source status descriptions now record
 the global setoid while preserving the original literal and full-carrier obligations.
+
+## Original additive and multiplicative correspondence statements (#5 C6/C7)
+
+`Correspondence.AdditiveThreePair` proves `addcorr`: one common pair of nonzero additive
+polynomials works for all three source pairs, and the two sum constants are the sums of
+the original constants. The unused second-triple independence hypothesis is omitted,
+so the statement is stronger than the source. `Correspondence.MultiplicativeLiteral`
+proves `mulcorr` in the original orientation with both integer exponents and both
+constants nonzero. Both endpoints assume the source ACF setting and impose no additional
+ambient rank, freshness or universal-domain hypothesis.
+
+`Closure.FreshExtension` supplies an algebraically closed extension with four independent
+variables. Both consumers use the existing `algHom_racl_image_eq_of_racl_eq`, apply their
+two-pair cores in that extension, and pull the equations back by injectivity. The additive
+proof compares two translated prime generators through the same first curve's principal
+prime ideal. `IsAdditive.aeval_add` extends pointwise additivity to arbitrary commutative
+algebras; its named consumers are the prime-translation identity and both sum equations.
+No duplicate closure-transport lemma is added.
+
+Both agents independently compiled the exact three-module frozen bundle with empty
+strict logs. Root's review checks 258 selected types with standard axioms, including all
+255 previous types unchanged. The additive v2 reuses the shared extension and existing
+closure transport; its two public types are unchanged from independently checked v1.
+The two legacy core headers now state their exact fresh-element scopes; the only changes
+to their declaration code replace two deprecated `Prime.not_unit` references with
+`Prime.not_isUnit`. The original source statements/proofs, goal objective/acceptance
+criteria and frozen M4a log remain unchanged. Full library/book, selected-type and
+whole-library dependency gates and exact-head CI are recorded on #5 for this checkpoint.
+The abstract subgroup-classification, general curve-coset, geometric fiber-product,
+packaged generic-extension, group-chunk and scheme/action statements remain obligations.

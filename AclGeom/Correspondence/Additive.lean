@@ -12,26 +12,20 @@ import AclGeom.Correspondence.TranslationDescent
 import AclGeom.Closure.ClosedLattice
 
 /-!
-# The additive correspondence theorem: setup and bookkeeping
+# The additive correspondence theorem: two-pair core
 
-The hypothesis block of blueprint Theorem `addcorr` (8.8), two-pair core:
-two finite correspondences `(x₁, y₁)`, `(x₂, y₂)` over `k` whose independent
-generic points have interalgebraic sums. This file develops the pregeometry
-bookkeeping of the fused curve-coset chain (design on the tracking issue):
+Two finite correspondences `(x₁, y₁)`, `(x₂, y₂)` over `k`, with independent generic points
+and interalgebraic sums, satisfy additive coset equations with common nonzero additive
+polynomials. `AddCorrSetup` records the hypotheses. The relocation, prime-curve and Hopf
+arguments culminate in `exists_delta_gen_data` and `exists_coset_equations`.
 
-* `AddCorrSetup`: the hypothesis block;
-* `AddCorrSetup.transcendental_x₂`: `x₂` remains transcendental over
-  `k(x₁, y₁)` — the base for the joint relocation;
-* `AddCorrSetup.y₂_mem_baseRacl`: the correspondence relation persists over
-  the enlarged base.
-
-The conclusion of the theorem (equations `Q(yᵢ) = P(xᵢ) + dᵢ` with additive
-`P, Q`) is assembled in later slices.
+**Status:** the two-pair core is proved with two explicitly supplied fresh elements.
+The module `AdditiveThreePair` proves the full blueprint theorem as `AclGeom.addcorr`:
+all three pairs and both sum constants, without a freshness
+or ambient-rank hypothesis. The abstract subgroup and curve-coset statements remain on #5.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
-
-**Status:** in progress (M3a, checklist C6).
 -/
 
 namespace AclGeom
@@ -1218,7 +1212,7 @@ theorem JointRel.translate_delta_self_eq [IsAlgClosed k]
       have hC := totalDegree_eq_zero_iff_eq_C.1 h0
       have ha : G.coeff 0 ≠ 0 := fun h00 ↦
         hGp.ne_zero (by rw [hC, h00, map_zero])
-      exact hGp.not_unit
+      exact hGp.not_isUnit
         (by rw [hC]; exact (isUnit_iff_ne_zero.2 ha).map C)
     · exact h
   have hposK : 0 < (MvPolynomial.map
@@ -1400,7 +1394,7 @@ theorem JointRel.addSubst_delta_gen_eq [IsAlgClosed k]
       have hC := totalDegree_eq_zero_iff_eq_C.1 h0
       have ha : G.coeff 0 ≠ 0 := fun h00 ↦
         hGp.ne_zero (by rw [hC, h00, map_zero])
-      exact hGp.not_unit
+      exact hGp.not_isUnit
         (by rw [hC]; exact (isUnit_iff_ne_zero.2 ha).map C)
     · exact h
   have htotl : (rename (Sum.inl : Fin 2 → Fin 2 ⊕ Fin 2) G).totalDegree =

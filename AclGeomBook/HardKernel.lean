@@ -5,6 +5,8 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Correspondence.JRigidity
+import AclGeom.Correspondence.AdditiveThreePair
+import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -540,8 +542,8 @@ nonzero integer powers:
 
 {docstring AclGeom.MulCorrSetup.exists_coset_equations}
 
-This completes the multiplicative correspondence theorem (blueprint
-Theorem 8.9).
+This core keeps one fresh element explicit. The literal source endpoint below supplies
+freshness internally and uses the blueprint's orientation of both equations.
 
 # The additive endgame
 %%%
@@ -589,7 +591,38 @@ polynomials of the classification:
 {docstring AclGeom.AddCorrSetup.exists_coset_equations}
 
 This is the two-pair core of the additive correspondence theorem
-(blueprint Theorem 8.8).
+(blueprint Theorem 8.8), with two fresh elements explicit.
+
+# The original correspondence statements
+%%%
+tag := "literal-correspondence-statements"
+%%%
+
+The original additive theorem concerns three pairs with a common first curve. Each of
+the two-pair results yields a prime split generator. Translating each generator by a
+root of its additive polynomial preserves primality. Both translated generators belong
+to the same principal prime ideal of the first curve, so they are associates. This gives
+one pair of nonzero additive polynomials for all three original pairs:
+
+{docstring AclGeom.addcorr}
+
+The two sum-translation constants are part of the conclusion. Evaluation in an arbitrary
+commutative algebra preserves the additivity of a polynomial over an infinite field:
+
+{docstring AclGeom.IsAdditive.aeval_add}
+
+The multiplicative endpoint gives the original orientation with both nonzero integer
+exponents and both nonzero constants:
+
+{docstring AclGeom.mulcorr}
+
+Both theorems assume the source ACF setting. They impose no ambient rank, freshness or
+universal-domain hypothesis: they pass to the algebraically closed extension
+`FreshAmbient Ω`, use its four independent variables, and pull the equations back through
+the injective embedding. Closure transport reuses `algHom_racl_image_eq_of_racl_eq`.
+The additive theorem omits the unused independence premise for the second triple and is
+therefore stronger than the source statement. These coordinate proofs do not discharge
+the original abstract subgroup-classification or general curve-coset lemmas.
 
 # The simultaneous-coset lemma
 %%%
@@ -671,7 +704,8 @@ $`\lambda = 1`:
 
 The elementwise correspondence results, simultaneous-coset classification,
 and `j_rigidity` are proved uniformly in the exponential characteristic,
-meeting M3's rigidity acceptance test.  The literal three-pair additive
-packaging, abstract subgroup/coset statements and the full generic-extension
+meeting M3's rigidity acceptance test. The original three-pair additive and multiplicative
+correspondence statements are proved above without freshness hypotheses. The abstract
+subgroup/coset statements, geometric fiber-product bridge and full generic-extension
 lemma remain open in #5. The tensor-domain obligation #11 is proved above;
 the rational group and affine action construction remain open in #12 and #21.

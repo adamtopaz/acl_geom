@@ -2072,6 +2072,20 @@ coset equations in the displayed form.  The same $m,n$ occur because the subgrou
 the coset, determines them.
 \end{proof}
 
+\paragraph{Lean status of the two correspondence theorems.}
+The theorem \lean{addcorr} in \lean{Correspondence/AdditiveThreePair} proves all three
+additive equations and the two sum-translation constants. It omits the unused independence
+premise for the second triple. The theorem \lean{mulcorr} in
+\lean{Correspondence/MultiplicativeLiteral} proves both original multiplicative equations,
+with both integer exponents and both constants nonzero. Both endpoints assume the source
+algebraically closed fields and impose no extra ambient-rank, freshness or universal-domain
+hypothesis. The auxiliary extension \lean{FreshAmbient} and its proved rank bound in
+\lean{Closure/FreshExtension} supply fresh elements internally; injectivity pulls the
+polynomial and integer-power equations back. Closure transport reuses
+\lean{algHom_racl_image_eq_of_racl_eq}. The original abstract subgroup-classification and
+general curve-coset lemmas remain separate obligations; these coordinate proofs do not
+silently discharge them (issue 5).
+
 \begin{corollary}[base-ratio lemma]\label{cor:base-ratio}
 Let $b$ be transcendental over $k$, let $u_1,u_2$ be nonzero and independent from $b$,
 and suppose
@@ -2136,7 +2150,7 @@ pair $(b,b)$. The original proof above instead names $(u_1,b)$ and $(u_2,b)$; th
 not satisfy the required independence between correspondence points. That proof
 qualification was reported on issue 5 before this addition. The statement is not
 refuted, and its original wording and proof are preserved exactly. The broader
-multiplicative/group and three-pair obligations remain open.
+abstract group/subgroup, general curve-coset and geometric fiber-product obligations remain open.
 
 \begin{lemma}[simultaneous additive--multiplicative cosets]\label{lem:simultaneous-coset}
 Suppose two independent finite-correspondence curves $C_1,C_2\subseteq\mathbb A^2$
@@ -3964,7 +3978,7 @@ the current public theorem scope and remaining source obligations.
 The original proof above uses the literal \lean{RatioEq} refuted in the
 interpretation audit (issue 23); it is preserved exactly. This qualification
 and current progress scope were reported on issue 9 before integration.
-The broader C7/group/three-pair/tensor and frozen M4a obligations are retained.
+The broader group, geometric fiber-product and frozen M4a obligations are retained.
 
 \subsection{Eliminating the global scalar}
 
@@ -4065,7 +4079,7 @@ is introduced. This accepts corrected conditional R2a/b/c. Conditional
 original-field chosen-perfection existence is proved below with original RAC
 and both perfected completeness inputs explicit. Unconditional target assembly,
 general unconditional R1/R2, unconditional completeness and the global,
-literal, TOT, three-pair, tensor and frozen M4a obligations remain open.
+literal, TOT, geometric fiber-product and frozen M4a obligations remain open.
 Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for
 the current public theorem scope and remaining source obligations.
 
@@ -4299,7 +4313,7 @@ Its named consumer is the assembled public conditional target below, combining r
 base and intersection formulas, Frobenius uniqueness and the converse. Unconditional
 target assembly, unconditional completeness, general unconditional recovery,
 literal ratio, totalization and scalar arguments, bypassed linear-disjointness
-and the broader group, three-pair, tensor and frozen M4a obligations remain open.
+and the broader group, geometric fiber-product and frozen M4a obligations remain open.
 The scope and stale status correction were reported on issue 9 before integration.
 Every original statement and proof, including the proposed assembly proof, is preserved.
 Historical conditional-interface checkpoint; see \cref{rem:lean-current-status} for

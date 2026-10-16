@@ -78,7 +78,7 @@ The next section proves the named R1b consumer: base-element membership and
 carrier and RAC inputs. Conditional scalar one is proved after it without RAC.
 The internal `Induces` existence API retains both perfected completeness parameters.
 The public target below supplies them internally, giving original-field reconstruction
-under the blueprint hypotheses. The broader C7/group/three-pair/tensor obligations
+under the blueprint hypotheses. The broader group/geometric-fiber-product obligations
 and frozen M4a scope are preserved. The original source proof is retained;
 its incorrect correspondence-pair ordering was reported on issue #5.
 
@@ -124,7 +124,7 @@ This accepts corrected conditional R1b. The next section proves scalar
 elimination for this same map without RAC. Original-field inducing existence
 is a reusable conditional API. The public target below supplies the completeness inputs
 and proves lattice reconstruction under the blueprint hypotheses. The original literal
-RatioEq proof, broader C7/group/three-pair/tensor obligations and frozen
+RatioEq proof, broader group/geometric-fiber-product obligations and frozen
 M4a scope remain preserved.
 
 # Conditional scalar one and outside points
@@ -172,7 +172,7 @@ J-completeness inputs and the actual canonical image-base equality remain
 explicit. No extra target genericity, freshness witness, scalar oracle,
 helper, global instance or generated declaration is introduced. The new
 module imports Base only. This accepts corrected conditional R2a/b/c;
-the public theorem supplies completeness internally. Global/literal/TOT/three-pair/tensor
+the public theorem supplies completeness internally. Original literal/TOT/geometric-fiber-product
 and frozen M4a source obligations remain separately tracked. The named
 next section proves its actual inducing direction under explicit RAC bases.
 
@@ -257,7 +257,7 @@ declaration, global instance or duplicate RingEquiv, are added.
 This proves the reusable internal original-field inducing theorem. The next section
 supplies its completeness parameters internally and derives the public target with rank,
 base/intersection formulas, Frobenius uniqueness and the converse. Literal RatioEq/TOT/
-scalar arguments, bypassed linear-disjointness and broader group/three-pair/tensor/frozen
+scalar arguments, bypassed linear-disjointness and broader group/geometric-fiber-product/frozen
 M4a source obligations remain tracked. Every original source statement and proof is preserved.
 
 # Public reconstruction theorem

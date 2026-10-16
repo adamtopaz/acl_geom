@@ -9,20 +9,19 @@ import AclGeom.Correspondence.BaseChange
 import AclGeom.Closure.ClosedLattice
 
 /-!
-# The multiplicative correspondence theorem: setup and bookkeeping
+# The multiplicative correspondence theorem: two-pair core
 
-The hypothesis block of blueprint Theorem `mulcorr` (8.9), two-pair core:
-two finite correspondences with independent generic points whose *products*
-are interalgebraic, all coordinates nonzero. The chain mirrors the additive
-one — relocation over the enlarged base, product-locus preservation
-(`idealOf_mul_eq_of_joint`), the scaling machinery in place of translation —
-with the classification running through the support-comparison lemma
-`monomial_prod_eq_of_span_scale_eq` instead of the Hopf argument.
+Two finite correspondences with independent generic points, interalgebraic products and
+nonzero coordinates satisfy multiplicative coset equations. Relocation and product-locus
+preservation lead to support comparison and `MulCorrSetup.exists_coset_equations`.
+
+**Status:** the core is proved with an explicitly supplied fresh element.
+`MultiplicativeLiteral` proves the full blueprint Theorem `mulcorr` as `AclGeom.mulcorr`,
+with both nonzero exponents and constants, without a freshness or ambient-rank hypothesis.
+The abstract subgroup and curve-coset statements remain separate obligations on #5.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
-
-**Status:** in progress (M3, checklist C5/C7).
 -/
 
 namespace AclGeom
