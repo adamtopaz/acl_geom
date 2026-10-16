@@ -1462,9 +1462,24 @@ ambient field is algebraically closed; the base and middle tuple are
 arbitrary, in five independent universes. No rank-one or rationality
 hypothesis is used. The component field remains distinct from its
 possibly smaller endpoint-image field.
-The scheme-level finite-generic-fibre dictionary, threefold incidence-component
-comparison, scalar specialization and higher-dimensional family
-generic-component argument remain owed.
+For finite $w$, the actual generic-fibre ring
+$k(v)\otimes_{k[v]} k[v,w]$ is identified with $k(v)[w]$ by
+\lean{exists_pairGenericFiber_algEquiv}, with $a\otimes b\mapsto ab$.
+Under that same finite-tuple hypothesis, it proves finite dimension over
+$k(v)$ and finiteness of
+the actual spectrum projection exactly when $w$ is algebraic over $k(v)$;
+the first tuple, base and ambient field are arbitrary.
+For finite $v,w$, \lean{pairLocus_finiteCorrespondence_iff} proves the
+full criterion of (8.1): both literal locus projections are dominant,
+and dimension one of the literal joint coordinate quotient together with
+finiteness of both actual generic-fibre projections is equivalent to
+the two coordinatewise algebraicity and two rank-one clauses.
+The reverse generic fibre uses the canonically reordered generated ring
+$k[w,v]=k[v,w]$. The prime joint ideal supplies irreducibility, while
+dimension, rank and dominance are proved internally. All four universes
+are independent; no ACF hypothesis or extra certificate is supplied.
+The threefold incidence-component comparison, scalar specialization and
+higher-dimensional family generic-component argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

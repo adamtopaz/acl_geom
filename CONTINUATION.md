@@ -11846,3 +11846,68 @@ dictionary, threefold incidence-component comparison, scalar specialization,
 higher-dimensional family argument, packaged generic extension and original
 group/chunk, curve-coset and scheme/action obligations remain open. C2 and the
 full shared goal remain open.
+
+## Generic fibres and the full finite-correspondence criterion (#5 C2 B1)
+
+`Correspondence.LocusGenericFiber` proves `exists_pairGenericFiber_algEquiv`.
+For the actual inclusion k[v] ⊆ k[v,w], its generic-fibre ring
+k(v) ⊗[k[v]] k[v,w] is k(v)-isomorphic to k(v)[w], sending a ⊗ b to ab.
+Only w must be finite; v and the fields are arbitrary. Both finite dimension
+of this ring and finiteness of its actual spectrum projection are equivalent
+to coordinatewise algebraicity of w over k(v). Mathlib's `pullbackSpecIso`
+identifies this spectrum with the scheme generic fibre, and the existing
+coordinate-ring map identification matches the literal quotient projection.
+
+One private generic helper proves injectivity of the multiplication map using
+flatness of the fraction field and `IsLocalization.algebraLid`. Its sole
+consumer is the generic-fibre producer. The map's range is the actual algebra
+adjoin; finite integral generators and the finite-affine-morphism criterion
+give the two finiteness conclusions. Direct algebra maps avoid a custom
+scalar tower. This module has eleven declarations: the public
+producer, its consumed private helper and nine private notation declarations.
+
+`pairLocus_finiteCorrespondence_iff`, in `TupleCompositionField`, proves the
+full "(8.1) says precisely" criterion for two finite tuples. Both LITERAL
+rename-induced quotient projections have dense image, proved from the
+coordinate-ring equivalence and injectivity of the generated-ring inclusions.
+The literal joint coordinate quotient has Krull dimension one and the two
+actual generic-fibre spectrum projections are finite exactly when both
+coordinatewise closure and both rank-one clauses hold. The prime joint ideal
+already gives irreducibility. The reverse generic fibre uses the canonically
+reordered generated ring k[w,v] = k[v,w]. Base, ambient and index types lie in
+four independent universes; no ACF, rationality or extra result certificate
+is assumed. The algebraicity and rank clauses occur on the appropriate side
+of the equivalence, rather than as additional caller hypotheses.
+
+The dimension theorem supplies a finite natural number for joint dimension
+and transcendence degree. The EXISTING private algebraic-extension rank step
+now has this second actual consumer; nothing is promoted. The two generic-fibre
+criteria and rank comparisons prove both directions. All preceding field
+statements, declaration docstrings, attributes and proofs are unchanged; only
+two imports and this source producer are added before the scope-header update.
+The field module now has seven declarations: six public producers and the
+existing private rank step, with no new generated declarations.
+
+Both agents independently checked the exact mathematical bundle with default
+limits and three empty strict-module logs. All 76 declarations use only standard
+axioms; all 64 preceding tuple/field and eleven generic-fibre raw type hashes
+are preserved, and all 76 raw hashes agree between agents. The selected audit
+has 331 standard-dependency public types and retains all 330 preceding selected
+types, including all 329 previous main types, exactly. Full library/book,
+whole-library and exact-head CI evidence belongs to the checkpoint report on
+#5. Dependency validation is not complete source coverage.
+
+This discharges B1 for the canonical tuple-locus model. It does not erase the
+required scalar-germ specialization or the threefold incidence-component
+comparison. Those, the higher-dimensional family argument, packaged generic
+extension and original group/chunk, curve-coset and scheme/action obligations
+remain open. All source outside the existing annotation, all 48 statement
+blocks and 44 proof blocks, goal objective/completion criteria and frozen M4a
+are preserved. C2 and the full shared goal remain open.
+
+The final generic-fibre module header and its new public declaration docstring
+explicitly place finiteness of w on the entire theorem, including the
+isomorphism. Only these two docstrings differ from the independently checked
+source; the private helper docstring, imports, attributes, statements and proofs
+are exact. The field module differs from its frozen proof source only in its
+module-scope header.

@@ -27,6 +27,7 @@ import AclGeom.Correspondence.LocusComponentField
 import AclGeom.Correspondence.TupleComposition
 import AclGeom.Correspondence.TupleCompositionField
 import AclGeom.Correspondence.LocusDimension
+import AclGeom.Correspondence.LocusGenericFiber
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -389,6 +390,51 @@ field. The union of the two pair-generator sets gives the compositum.
 The endpoint-image field $`k(x',z')` can still be properly smaller; no
 component field is identified with that endpoint field.
 
+# Generic fibres and the finite-correspondence criterion
+%%%
+tag := "finite-correspondence-criterion"
+%%%
+
+The generic fibre of the canonical projection from the locus of $`(v,w)`
+to the locus of $`v` is the spectrum of
+$`k(v) \otimes_{k[v]} k[v,w]`. For finite $`w`, the next theorem identifies
+this actual ring with the subalgebra $`k(v)[w]`, sending $`a \otimes b` to
+$`ab`. It also proves both finite dimension over $`k(v)` and finiteness of
+the actual spectrum projection exactly when the coordinates of $`w` are
+algebraic over $`k(v)`. The tuple $`v`, base field and ambient field remain
+arbitrary:
+
+{docstring AclGeom.exists_pairGenericFiber_algEquiv}
+
+Flatness of the fraction field over the generated coordinate ring makes
+the multiplication map injective. Its range is the indicated subalgebra.
+Finite algebraic generators give finite dimension, and the converse makes
+every coordinate algebraic. Mathlib's criterion for finite affine scheme
+morphisms gives the actual generic-fibre projection's finiteness.
+
+For two finite tuples, the full assertion that (8.1) says precisely
+"finite correspondence" is now proved. The literal projections of
+$`k[X,Y]/I(v,w)` to the two tuple loci have dense image. The literal
+coordinate quotient has Krull dimension one and both generic-fibre
+projections are finite if and only if the two algebraicity and two
+rank-one clauses hold:
+
+{docstring AclGeom.pairLocus_finiteCorrespondence_iff}
+
+The two literal quotient maps correspond to injective inclusions of the
+generated rings, which proves dominance. The prime vanishing ideal
+already makes the joint locus irreducible. The finite-tuple dimension
+theorem and algebraic-extension invariance of transcendence degree give
+the rank clauses in both directions. The reverse projection uses the
+canonically reordered generated ring $`k[w,v] = k[v,w]`. These are the
+actual generic-fibre tensor rings. Mathlib's `pullbackSpecIso` identifies
+their spectra with the scheme-theoretic generic fibres; the theorem is
+stated for the tensor rings and their spectrum projections. The existing
+coordinate-ring equivalence matches the literal projection maps. No rationality premise or supplied rank,
+algebraicity or dominance certificate is added outside the equivalence.
+The base, ambient and two index types lie in four independent universes;
+no algebraic-closedness hypothesis is used.
+
 # Tuple correspondence germs and actual components
 %%%
 tag := "tuple-correspondence-germs"
@@ -486,7 +532,7 @@ joint field: the relative tower summand is zero, so no infinite-cardinal
 cancellation is used. The finite-dimension and target-rank conclusions are
 derived internally.
 
-The scheme-level finite-generic-fibre dictionary, threefold incidence-component comparison,
+The threefold incidence-component comparison,
 scalar specialization
 and higher-dimensional family argument remain obligations.
 C2 remains open.
@@ -522,8 +568,8 @@ endpoint contraction with an internally constructed composite germ, and composit
 relationally associative. The generated joint field's inclusion and finite extension of the
 endpoint field, and its finiteness over both end fields, are proved above. The actual component
 coordinate-ring and function-field/compositum identifications are also proved above, with
-polynomial representative formulas. The scheme-level finite-generic-fibre dictionary,
-threefold incidence-component comparison, scalar specialization and higher-dimensional
+polynomial representative formulas. The threefold incidence-component comparison, scalar
+specialization and higher-dimensional
 family argument remain open. The actual endpoint contraction retains the scalar field distinction.
 
 # Tensor-domain regularity
