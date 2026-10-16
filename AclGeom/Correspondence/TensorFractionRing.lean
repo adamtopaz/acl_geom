@@ -24,9 +24,12 @@ over `A`, so `1 ⊗ c` is a nonzerodivisor.  In the first step, a minimal prime 
 nonzero element of `A` avoids every `b ⊗ 1`: localizing at `A∖0` through the `C` side gives
 `B ⊗[A] (C ⊗[A] K)`, which is flat over `B` because `C ⊗[A] K` is flat over `A`.
 
-Its named consumer is the geometric fiber-product bridge of blueprint §8.1 (#5): for curves `C`,
-`D` over `W` given by their canonical affine loci, the components of `C ×_W D` dominating `W`
-are the minimal primes of `k(C) ⊗_{k(W)} k(D)`.  That bridge and its tuple form remain open.
+This theorem is consumed by `ComponentGeometry` and, through it, the canonical tuple-locus
+fiber product of blueprint §8.1 (#5). `LocusPullback` proves the actual affine-scheme
+middle-dominating components, and
+`LocusEndDominance` proves their endpoint-density criterion under the source closure clauses.
+The literal relative quotient maps, tuple germs/associativity and the higher-dimensional
+family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

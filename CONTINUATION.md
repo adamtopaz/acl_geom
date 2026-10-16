@@ -11391,3 +11391,40 @@ report on #5; dependency checks are not complete source coverage. Both agents in
 compiled the exact two proof modules with empty strict logs. Root checks all 23 new
 declarations, including private and generated ones, for standard dependencies and checks
 288 selected type/dependency records, with all 286 preceding public types unchanged.
+
+## Endpoint dominance on the actual canonical fiber product (#5 C2)
+
+`Correspondence.LocusEndDominance` proves `locusPullback_endDominance` for the
+actual affine-scheme fiber product of the canonical tuple coordinate rings.
+Under the four algebraicity/closure clauses of (8.1), any subset has dense
+middle image if and only if it has dense image under the actual first endpoint
+projection, and likewise under the second endpoint projection. The rank-one clauses are not needed for this criterion. All four
+coordinate-ring algebraicity facts and injective maps are derived internally;
+no algebraicity, component or density conclusion is supplied by the caller.
+
+Two private ingredients reflect density through an injective algebraic domain
+extension and derive `Algebra.IsAlgebraic k[S] k[T]` from `S ⊆ T ⊆ racl k S`.
+The density lemma allows an arbitrary tensor/target ring, including nonreduced
+ones, and arbitrary subsets. One further private generic scheme helper is
+consumed twice by the public theorem; it pushes the subset through the actual
+projections, using the pullback equation for the middle map. The proof needs
+no pullback-isomorphism or component-classification calculation. Each helper
+has this immediate consumer and none is published as an isolated interface.
+
+Both agents independently compiled the exact new module with an empty strict
+log. All 21 new declarations, including private/generated ones, have standard
+dependencies. Root checks 289 selected type/dependency records with all 288
+preceding public types unchanged. The three touched module headers now identify
+the proved canonical fiber-product and endpoint results while retaining the
+literal relative quotient maps, tuple germs/relational associativity and the
+family generic-component argument as obligations. In those three modules, all
+imports, declaration docstrings, attributes and proofs outside the headers are
+unchanged.
+
+The source annotation, hard-kernel book and shared goal record the same scope.
+All original blueprint text outside its existing annotation, the 48 original
+statement blocks and 44 proof blocks, the goal objective/completion criteria
+and frozen M4a remain unchanged. Full library/book, whole-library dependency
+and exact-head CI evidence belongs to the published checkpoint report on #5.
+Those dependency checks do not establish complete source coverage. C2 and the
+full shared project goal remain open.

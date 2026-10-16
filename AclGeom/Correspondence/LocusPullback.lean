@@ -18,9 +18,10 @@ components of `C ×_W D` with dense image under `π` are exactly the images, und
 (`locusPullback_dominatingComponents`).  Only the tuples are data.
 
 This is the middle-dominance clause of the geometric fiber-product bridge of blueprint §8.1 (#5).
-Dominance at both endpoints, the literal relative quotient transport over `MvPolynomial ⧸ idealOf`
-(8.4c, 8.6), the tuple germ layer with relational associativity, and the higher-dimensional family
-argument remain open.
+`LocusEndDominance` proves its endpoint-density criterion under the source's four tuple closure
+hypotheses, for arbitrary subsets of the actual pullback. The literal relative quotient transport
+over `MvPolynomial ⧸ idealOf` (8.4c, 8.6), the tuple germ layer with relational associativity, and
+the higher-dimensional family generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

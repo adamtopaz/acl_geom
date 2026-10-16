@@ -1339,9 +1339,9 @@ extension are already proved in
 Thus the associativity explanation must pass from joint components to their endpoint
 images. The relational associativity conclusion below is unchanged. This clarification
 was reported on issue \#5 before this annotation; all original source paragraphs,
-statements and proofs are preserved. The geometric fiber-product bridge for finite
-tuples and nonrational curves, and its higher-dimensional family applications,
-remain separate obligations. The domain-level localization step is proved in
+statements and proofs are preserved. The literal relative quotient-map transport,
+tuple-germ comparison and higher-dimensional family applications remain separate
+obligations. The domain-level localization step is proved in
 \lean{minimalPrimes_tensorProduct_fractionRing}: for domains $A\to B$, $A\to C$
 with compatible fraction fields $K,L,M$, the minimal primes of $B\otimes_A C$
 avoiding $A\setminus\{0\}$ are exactly the contractions of the minimal primes
@@ -1360,9 +1360,17 @@ pullback isomorphism. All inclusion and fraction-field structures are derived
 from the tuples. The supporting spectrum theorem is
 \lean{dominatingComponents_tensorProduct_fractionRing}. The fields are arbitrary
 and the tuple coordinates need not be scalar or rational curve parameters.
-Matching the relative maps on the literal polynomial quotients, proving dominance
-at both correspondence endpoints, the tuple-germ and associativity bridge, and the
-higher-dimensional family generic-component argument remain owed.
+Under the four algebraicity clauses of (8.1),
+\lean{locusPullback_endDominance} proves that every subset of this actual fiber
+product has dense middle image if and only if it has dense image under the
+actual first endpoint projection, and likewise under the second endpoint
+projection. Coordinate-ring algebraicity is derived from the tuple closure
+hypotheses; injectivity holds because the maps are subalgebra inclusions. The
+rank-one clauses are not needed for this criterion. Hence the middle-dominating components are exactly
+the components dominating both ends in this canonical model. Matching the
+relative maps on the literal polynomial quotients, the tuple-germ and
+associativity bridge, and the higher-dimensional family generic-component
+argument remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

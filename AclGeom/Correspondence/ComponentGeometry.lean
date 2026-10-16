@@ -14,10 +14,12 @@ of `Spec (B ⊗[A] C)` whose images in `Spec A` are dense. This is the middle-ba
 component clause of the C2 geometric bridge. Only genuine domain, fraction-field
 and scalar-tower data are used. No component or dominance conclusion is an input.
 
-Mathlib's `pullbackSpecIso` identifies this tensor spectrum with the affine
-scheme fiber product. Transport to literal locus quotient maps, dominance at
-both finite-correspondence endpoints, tuple germs and the higher-dimensional
-family generic-component argument remain separate obligations.
+`LocusPullback` transports this theorem to the actual canonical tuple-locus
+scheme fiber product through Mathlib's `pullbackSpecIso`, with the actual
+projection checked. `LocusEndDominance` proves the endpoint-density criterion
+from the source closure hypotheses. The literal relative quotient maps,
+tuple germs/associativity and the higher-dimensional family generic-component
+argument remain separate obligations.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
