@@ -1478,7 +1478,22 @@ The reverse generic fibre uses the canonically reordered generated ring
 $k[w,v]=k[v,w]$. The prime joint ideal supplies irreducibility, while
 dimension, rank and dominance are proved internally. All four universes
 are independent; no ACF hypothesis or extra certificate is supplied.
-The threefold incidence-component comparison, scalar specialization and
+The original scalar API is linked to these actual incidence components by
+\lean{FiniteCorrespondenceGerm.composes_ofPair_carriers_eq}. It identifies
+all scalar composite carrier ideals in $k[X_0,X_1]$ with the reindexed
+endpoint contractions of the vanishing ideals of all middle-dominating
+components, constructing a scalar germ for every component and proving
+both inclusions. The actual incidence cube uses three tuples indexed by
+$\operatorname{Fin}1$, with the literal middle projection. Only the
+endpoint carrier is reindexed by the explicit map
+$![\operatorname{inl}0,\operatorname{inr}0]$; no spectrum transport is needed.
+The ambient field is algebraically closed, the base is arbitrary, and the
+two field universes are independent. The scalar and tuple presentations
+are related by private converters; transcendence and rank one are proved
+equivalent through the dimension theorem, and the point-ideal reindexing
+is proved in both directions. This discharges the actual scalar
+specialization, rather than merely observing that scalar coordinates are
+one-element tuples. The threefold incidence-component comparison and
 higher-dimensional family generic-component argument remain owed.
 \end{remark}
 

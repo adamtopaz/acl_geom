@@ -26,6 +26,7 @@ import AclGeom.Correspondence.LocusJointComponent
 import AclGeom.Correspondence.LocusComponentField
 import AclGeom.Correspondence.TupleComposition
 import AclGeom.Correspondence.TupleCompositionField
+import AclGeom.Correspondence.ScalarCompositionGeometry
 import AclGeom.Correspondence.LocusDimension
 import AclGeom.Correspondence.LocusGenericFiber
 
@@ -430,7 +431,8 @@ canonically reordered generated ring $`k[w,v] = k[v,w]`. These are the
 actual generic-fibre tensor rings. Mathlib's `pullbackSpecIso` identifies
 their spectra with the scheme-theoretic generic fibres; the theorem is
 stated for the tensor rings and their spectrum projections. The existing
-coordinate-ring equivalence matches the literal projection maps. No rationality premise or supplied rank,
+coordinate-ring equivalence matches the literal projection maps. No rationality premise or
+supplied rank,
 algebraicity or dominance certificate is added outside the equivalence.
 The base, ambient and two index types lie in four independent universes;
 no algebraic-closedness hypothesis is used.
@@ -482,6 +484,39 @@ presentations are arbitrary finite tuples, so their function fields need
 not be rational; the base field is arbitrary. All three theorems derive
 their alignment and component facts internally.
 
+# Scalar germs and actual incidence components
+%%%
+tag := "scalar-incidence-components"
+%%%
+
+The original scalar API stores branch ideals in $`k[X_0,X_1]`.
+The next theorem identifies the carrier ideals of its scalar composites
+with the endpoint contractions of all actual middle-dominating incidence
+components. It constructs a scalar composite for every such component,
+and proves that every scalar composite carrier arises this way:
+
+{docstring AclGeom.FiniteCorrespondenceGerm.composes_ofPair_carriers_eq}
+
+The actual incidence ring uses three single-coordinate tuples, indexed by
+$`(\operatorname{Fin}1\oplus\operatorname{Fin}1)\oplus\operatorname{Fin}1`.
+Its ideal is the sum of the two extended pair ideals, and the middle
+projection is the literal quotient map. The explicit map
+$`![\operatorname{inl}0,\operatorname{inr}0]` reindexes only the endpoint
+carrier to $`k[X_0,X_1]`; no spectrum transport is supplied or needed.
+The ambient field is algebraically closed, while the base is arbitrary;
+the two field universes remain independent. The given scalar
+presentations retain their genuine genericity and algebraicity clauses.
+
+Two private converters relate scalar presentations and tuples indexed by
+$`\operatorname{Fin}1`. The dimension theorem turns a transcendental
+coordinate into the tuple rank-one clause. Conversely, rank one excludes
+algebraicity over the base, so a tuple presentation gives a genuine
+scalar presentation. Reindexing the point ideals in both directions
+transports the tuple carrier-set equality to the original scalar API.
+This supplies the actual incidence-spectrum link beyond the earlier
+function-field tensor realization. The component's joint field remains
+distinct from its possibly smaller endpoint-image field.
+
 # Field clauses of tuple correspondences
 %%%
 tag := "tuple-correspondence-fields"
@@ -532,9 +567,8 @@ joint field: the relative tower summand is zero, so no infinite-cardinal
 cancellation is used. The finite-dimension and target-rank conclusions are
 derived internally.
 
-The threefold incidence-component comparison,
-scalar specialization
-and higher-dimensional family argument remain obligations.
+The threefold incidence-component comparison and higher-dimensional family argument
+remain obligations.
 C2 remains open.
 
 # Component fields and endpoint images

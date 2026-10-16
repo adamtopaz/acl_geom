@@ -11911,3 +11911,52 @@ isomorphism. Only these two docstrings differ from the independently checked
 source; the private helper docstring, imports, attributes, statements and proofs
 are exact. The field module differs from its frozen proof source only in its
 module-scope header.
+
+## Scalar correspondence germs and actual incidence components (#5 C2 B4)
+
+`Correspondence.ScalarCompositionGeometry` proves
+`FiniteCorrespondenceGerm.composes_ofPair_carriers_eq` for the ORIGINAL scalar
+API. For shared-middle scalar presentations in an algebraically closed ambient
+field, the carrier ideals of all scalar composites are exactly the reindexed
+endpoint contractions of the vanishing ideals of all actual middle-dominating
+incidence components. Every component constructs a scalar germ, and both set
+inclusions are proved. The scalar carrier stays in the original two-variable
+polynomial ring. The base is arbitrary and the two field universes are
+independent; no rank, freshness, base-ACF or result certificate is added.
+
+The actual cube is indexed by (Fin 1 ⊕ Fin 1) ⊕ Fin 1, with the sum of the two
+extended point-pair ideals and the literal middle projection. Only its endpoint
+carrier is reindexed by ![inl 0,inr 0]. No Fin 3 spectrum homeomorphism or
+unconsumed coordinate-normalization interface is introduced. The joint component
+field is not identified with the possibly smaller endpoint-image field.
+
+Two private pair converters have this theorem as their sole consumer. To pass
+from a scalar pair to a tuple pair, a local algebraic-independence proof makes
+the one-coordinate ideal zero; the existing dimension theorem and polynomial
+Krull dimension give rank one. Conversely, algebraicity over the base would make
+the one-coordinate generated field algebraic and of transcendence degree zero,
+contradicting rank one. Closure clauses transfer along the singleton ranges.
+Local P1 reindexing in both directions then transports the STRONG tuple
+carrier-set equality to the scalar calculus, including scalar-germ existence
+for every component. The earlier scalar function-field tensor realization
+remains proved, and now has the actual incidence-spectrum interpretation.
+
+The new module imports only Composition, LocusDimension and TupleComposition.
+It has thirteen declarations: one public source producer, the two private pair
+converters, eight generated private proof auxiliaries and two private notation
+declarations. Both agents independently checked its exact mathematical source
+with empty strict logs and default limits. All thirteen declarations use only
+standard axioms and all thirteen raw type hashes agree. The selected audit has
+332 standard-dependency public types and preserves all 331 preceding main types
+exactly. Full library/book, whole-library and exact-head CI evidence belongs to
+the checkpoint report on #5. Dependency validation is not complete source coverage.
+
+Only the final module-scope header clarifies the ambient ACF hypothesis and
+arbitrary base; imports, declaration docstrings, attributes, statements and proofs
+are byte-exact to the independently checked source. All prior mathematical
+modules are unchanged. All original source outside the existing annotation,
+all 48 statement blocks and 44 proof blocks, goal objective/completion criteria
+and frozen M4a are preserved. This discharges B4's actual scalar bridge. The
+threefold incidence-component comparison, higher-dimensional family argument,
+packaged generic extension and original group/chunk, curve-coset and scheme/action
+obligations remain open. C2 and the full shared goal remain open.
