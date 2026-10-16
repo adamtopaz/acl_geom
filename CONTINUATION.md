@@ -11187,3 +11187,42 @@ frozen M4a record are preserved. Full library/book, selected-type and whole-libr
 validation and exact-head CI are recorded on #5 for the committed checkpoint.
 The torus part, general curve-coset, geometric fiber-product, packaged generic-extension,
 group-chunk, six-point and original scheme/action statements remain obligations.
+
+## Status-claim cleanup after the source subgroup checkpoint (#1/#5)
+
+A coordinated read-only audit identified older headers that still called the guarded ACF
+completeness theorem, public reconstruction, functorial packaging and existing Q/Q′
+refutations open. This bounded cleanup corrects twenty-nine mathematical module headers and
+two book chapters against the actual named proofs. Every mathematical import, declaration,
+docstring, attribute and proof outside those module headers is byte-identical. The book
+now displays the two actual arbitrary-field Q/Q′ refutations and points to the proved
+literal/quotient functors and perfection-choice equivalence.
+
+The internal interpretation/reconstruction APIs keep their ACF-completeness and carrier
+inputs explicit; the corrected status text identifies the rank-five producer
+`jCompletenessACF` and its use inside `Main`. Conditional carrier naturality remains
+qualified. The original general R1/R2 interpretation arguments, literal construction and
+provenance, general existential-witness descent and scheme/action obligations are retained.
+The embedded linear-disjointness assertions in the original proof of
+`lem:two-generic-intersection`, over the algebraically closed base Ē, retain a separate
+[source-audit obligation on #9](https://github.com/adamtopaz/acl_geom/issues/9#issuecomment-6213314770).
+The exchange proof establishes the intersection theorem but does not discharge those
+assertions. This is distinct from the (8.9a) proof passage audited on #5. Closed #11's
+tensor-domain theorem stays proved. The active R3 source-status annotation is aligned;
+all original blueprint statements and proof blocks are preserved. Frozen M4a remains
+a historical record.
+
+The shared goal's old application paragraph now records the proved guarded chart's finite
+formulas, independence recovery and original-ACF-ambient coordinate descent, while keeping
+original scheme/action descent open. The objective and acceptance criteria are unchanged.
+The remaining status audit is tracked on #1: five Correspondence headers
+(`AffineLocusCommutation`, `AffineRelocation`, `FiniteCurveLoci`, `MultiplierCurve`,
+`MultiplierPrimeCurve`); chart descriptions in `AffineGridNormalization`, `PsiLattice`,
+`RemainingAffineMeets`, `ShiftedAffineMeets` and `CanonicalBaseInput`; and the HardKernel
+book's chart/completeness/recovery passages. These need a follow-up; this checkpoint is
+not an exhaustive correction of all historical status text.
+
+Full library/book, selected-type comparisons, the reproducible whole-library dependency
+audit and exact-head CI are recorded on #1 for the committed cleanup checkpoint. This is
+a correction of progress descriptions; it does not discharge the remaining original and
+supplementary source statements or complete the full project goal.

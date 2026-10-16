@@ -245,8 +245,10 @@ Mathlib ring-language elementary embedding, with the same underlying map and pre
 of every finite-arity formula. The proof uses constructibility of actual bounded formulas
 and a Tarski–Vaught fibre fixing the existing parameters. No universal-domain or rank
 hypothesis is used. This supplies the logical input cited in `rem:psi-hyp`(c) and
-`rem:finite-trdeg`; actual application formulas, independence recovery and original-field
-chart/action descent remain obligations.
+`rem:finite-trdeg`. The guarded Ψ chart's finite formulas, independence recovery and
+coordinate descent to the original ACF ambient are proved in
+[AclGeom/Config/GuardedAffineGrid.lean](AclGeom/Config/GuardedAffineGrid.lean).
+The original scheme/action descent remains a separate obligation.
 [GroupConfig/ConfigurationNecessity.lean](GroupConfig/ConfigurationNecessity.lean) descends
 configurations from a small independent base field. Applied to the actual main conclusion
 over a finite independent extension, it recovers the original configuration, including GC4

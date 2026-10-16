@@ -16,8 +16,8 @@ different inputs, and both stay visible in the statements.
 
 * `FrobEq ⇒` twist (`FrobEq.frobenius_of_witnesses_of_completeness`) needs `K` perfect of rank
   at least five, and completeness of geometric `J` over the algebraically closed pair `k̄ ⊆ K̄`
-  (`hcomp`, still open).  The bridge tuple of `FrobEq` is only geometric, and `hcomp` makes it
-  semantic.
+  (`hcomp`, supplied at rank five by `jCompletenessACF`). The bridge tuple of `FrobEq` is only
+  geometric, and `hcomp` makes it semantic.
 * twist `⇒ FrobEq` (`frobEq_of_frobenius_twist`) needs only soundness: rank at least five.
 
 `frobEq_iff_frobenius_twist` states the twist with natural exponents in either direction, and
@@ -36,8 +36,11 @@ Corrected ratio semantics is proved in `Ratio` under the same inputs.
 `Decode` packages the geometric ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
 `Field` proves corrected total geometric graphs, a named transported field structure and the
-actual decoding ring equivalence under the same explicit inputs. Unconditional completeness,
-graph naturality and reconstruction remain open.
+actual decoding ring equivalence under the same explicit inputs. Conditional carrier/graph
+naturality is proved in `Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

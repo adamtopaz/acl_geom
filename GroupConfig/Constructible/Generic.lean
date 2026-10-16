@@ -29,8 +29,10 @@ with algebraically closed base and ambient fields in a universal domain where
 stated. The coefficient field M is only assumed small, not algebraically closed.
 The sampling theorem also permits zero-dimensional loci. Arbitrary-prime
 realization is in `GroupConfig.PrimeLocus`, and group-of-germs extraction is in
-`GroupConfig.Main`. The constructible presentation, chart and reconstruction
-conclusions remain separate obligations.
+`GroupConfig.Main`. The constructible presentation is assembled in
+`GroupConfig.Constructible.CanonicalPresentation`, the guarded chart is proved in
+`AclGeom.Config.GuardedAffineGrid`, and the public reconstruction theorem in `AclGeom.Main`.
+Original scheme/action algebraization and descent remain separate obligations on #21.
 -/
 
 set_option linter.mathlibStandardSet true

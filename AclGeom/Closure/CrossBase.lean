@@ -15,7 +15,8 @@ an order isomorphism of closed lattices `ClosedIF k K ≃o ClosedIF l L` (bluepr
 the transport (20.5) of §functorial formulation).  The same-base statement is `racl_map`.
 
 **Status:** compatible scalar, closure and closed-lattice transport are proved (#24);
-functorial packaging remains a separate target (#10).
+the functorial packaging is proved in `Functorial.Literal`, `Functorial.FrobeniusQuotient`
+and `Functorial.ChoiceIndependence`, with the stated rank and characteristic restrictions (#10).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

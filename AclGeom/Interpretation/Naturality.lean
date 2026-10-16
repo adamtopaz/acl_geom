@@ -52,8 +52,11 @@ Conditional base recovery for this actual decoded isomorphism is proved in `Reco
 under explicit RAC bases and the same carrier inputs. Corrected conditional scalar one and the
 outside-point formula for this same map are proved in `Reconstruct.Scalar` without RAC. The
 perfect-field compatible inducing/existence consumer is proved in `Reconstruct.Existence`.
-General unconditional R1/R2, original-field `Induces` assembly, unconditional completeness, full
-reconstruction and literal source obligations remain open.
+`Reconstruct.Target` proves original-field `Induces` existence through arbitrary chosen
+perfections under explicit perfected completeness. `jCompletenessACF` (in `Config.Completeness`)
+supplies the rank-five ACF proofs, and `Main` uses them internally in public reconstruction.
+Original general R1/R2 interpretation arguments and literal source provenance remain
+obligations on #9/#23; these are distinct from the proved corrected reconstruction.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

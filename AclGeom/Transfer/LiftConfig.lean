@@ -19,14 +19,16 @@ over `k`.
   `MulDiagram.lift`, `Q'Geom.lift`.
 * **Reflection** (`Ω/K₀ → K/k`, for configurations of lifted points): `IsPartialQuadrangle.of_lift`,
   `MulDiagram.of_lift`, `QWitness.Psi.of_lift` (with explicitly lifted clause-(vi) witnesses) and
-  `QGeom.of_lift_witness`.  These provide explicit-instance reflection for the planned #25
+  `QGeom.of_lift_witness`. These provide explicit-instance reflection for the #25
   `Counterexamples.QDescent` consumer, with the clause-(vi) witnesses supplied over `K`.
 
 The module needs only the lift of `AclGeom.Transfer.Lift` and the configuration language; no
 completeness hypothesis (`JAssembly`) enters.
 
-**Status:** the listed lifts and explicit-instance reflections are proved. General witness
-descent and the concrete #25 refutations remain open.
+**Status:** the listed lifts and explicit-instance reflections are proved.
+`Counterexamples.QDescent` uses them in the concrete #25 refutations, proved in
+`Counterexamples.QRefutation`.
+General existential-witness descent remains open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

@@ -22,7 +22,11 @@ Mathlib's `WithZero.withZeroUnitsEquiv : WithZero Kˣ ≃* K`.
 **Status:** the corrected ratio quotient with an adjoined zero decodes bijectively to the field,
 under explicit perfection, rank-five and ACF J-completeness inputs (#23). `Field` proves
 corrected total geometric graphs, a named transported field structure and the actual decoding
-ring equivalence under the same inputs. Graph naturality and reconstruction remain open.
+ring equivalence under the same inputs. Conditional carrier/graph naturality is proved in
+`Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

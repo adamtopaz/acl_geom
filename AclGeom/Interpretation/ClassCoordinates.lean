@@ -28,7 +28,11 @@ Corrected ratio semantics is proved in `Ratio` under the same explicit inputs.
 `Decode` packages the corrected geometric ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
 `Field` proves corrected total geometric graphs, a named transported field structure and the
-actual decoding ring equivalence under the same explicit inputs. Naturality remains open.
+actual decoding ring equivalence under the same explicit inputs. Conditional carrier/graph
+naturality is proved in `Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 The public `pair_of_notMem` supplies class encoding
 and the two generic product triples, with no rank-five, perfection or completeness input.
 

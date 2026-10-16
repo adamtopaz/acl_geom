@@ -40,8 +40,11 @@ witnesses; no global instance, local Algebra instance, supplied point/scalar/ind
 or duplicate RingEquiv is added. Main assembles the public target with rank,
 base/intersection formulas, the exact Frobenius fibre, characteristic-zero uniqueness,
 positive-characteristic exponent uniqueness and converse, supplying completeness internally.
-Point/automorphism/functorial variants and literal/TOT/group/three-pair/tensor/frozen
-obligations remain open.
+Point and automorphism variants are proved in `Reconstruct.PointVariant` and `Variants`;
+literal and Frobenius-quotient functors and perfection-choice equivalence are proved in
+`Functorial`. The original three-pair correspondence and tensor-domain theorems are also
+proved. Original literal/TOT interpretation, group-chunk, geometric fiber-product and
+scheme/action obligations remain open; frozen M4a is historical (#19).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

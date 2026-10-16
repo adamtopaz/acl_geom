@@ -25,8 +25,11 @@ Surjectivity: for `z ≠ 0` take `t` outside `racl_k {a, z, x₀}`; then `t` and
 elements under explicit perfection, rank-five and ACF J-completeness inputs (#23).
 `Interp` adjoins zero and decodes the full carrier bijectively to `K` under the same inputs.
 `Field` proves corrected total geometric graphs, a named transported field structure and the
-actual decoding ring equivalence under the same inputs. Graph naturality and reconstruction remain
-open.
+actual decoding ring equivalence under the same inputs. Conditional carrier/graph naturality is
+proved in `Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

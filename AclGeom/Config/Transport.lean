@@ -32,10 +32,11 @@ and its composition with both decodings are proved in `Naturality` under explici
 Canonical image-base existence and conditional field-isomorphism existence are also proved there;
 the source pair and target rank are derived inline from source rank five and the lattice map.
 Both perfections, separate exponential characteristics and both ACF-completeness inputs remain
-explicit. Corrected base/scalar recovery, actual original-field inducing existence and the
-public lattice-form target are proved conditionally in Reconstruct and Main with both exact
-perfected completeness inputs explicit. Unconditional completeness/reconstruction, literal
-provenance, point/automorphism and functorial variants remain open.
+explicit. Corrected base/scalar recovery and original-field inducing existence are proved in
+`Reconstruct` with both perfected completeness inputs explicit. `Main` supplies them through
+`jCompletenessACF` and proves the public lattice-form target under the blueprint hypotheses.
+The point, automorphism, literal/quotient functorial and perfection-choice variants are proved.
+Original literal construction and provenance obligations remain on #8 and #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

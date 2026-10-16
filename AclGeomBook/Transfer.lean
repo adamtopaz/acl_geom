@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz, Claude
 -/
 import VersoManual
+import AclGeom.Counterexamples.QRefutation
 import AclGeom.Config.Correctness
 import AclGeom.Transfer.OneQuantifier
 import AclGeom.Transfer.Descent
@@ -28,8 +29,8 @@ perfect fields with a relatively algebraically closed base. The `J`
 equivalence uses algebraically closed completeness, which is proved at rank five
 (`jCompletenessACF`).
 The blueprint's claimed arbitrary-field `Q` and `Q′` consequences have
-mathematical counterexamples tracked in #25; their Lean refutations are
-open. The statements the transfer principle handles are Boolean combinations of
+Lean refutations in `Counterexamples.QRefutation`, tracked in #25. The statements the transfer
+principle handles are Boolean combinations of
 closure-membership assertions, so no first-order syntax is formalized: the
 entire principle reduces to three pieces of field theory about the
 closures `racl k A` inside a fixed algebraically closed overfield.
@@ -304,6 +305,10 @@ quadrangle witnesses are explicitly supplied as lifted `K`-points:
 
 {docstring AclGeom.QGeom.of_lift_witness}
 
-These focused results use no completeness hypothesis. They prepare the
-specific #25 geometric counterexamples; they do not descend arbitrary
-existential witnesses. The concrete Q/Q′ Lean refutations remain open.
+These focused results use no completeness hypothesis. They supply the concrete #25
+geometric witnesses in `Counterexamples.QDescent`; general existential-witness descent
+remains a separate obligation. The literal arbitrary-field consequences are refuted by:
+
+{docstring AclGeom.not_forall_qGeom_imp_qSem}
+
+{docstring AclGeom.not_forall_q'Geom_imp_q'Sem}

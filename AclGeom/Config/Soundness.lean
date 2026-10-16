@@ -22,7 +22,7 @@ reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
 **Status:** soundness proved over any base field, assuming the stated
 supply of fresh elements. Unguarded completeness is refuted; guarded ACF completeness
-remains open (#27).
+is proved by `guardedQCompletenessACF` with both guards explicit (#27).
 -/
 
 namespace AclGeom

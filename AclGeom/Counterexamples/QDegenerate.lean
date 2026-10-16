@@ -42,7 +42,8 @@ This witness does not refute geometric `J`: the multiplication
 diagram's distinctness clause separates the ratio point of every `Q`-instance inside `Q'Geom`
 and `JGeom` from its second point.  Completeness under that guard is not addressed here.
 
-**Status:** refutations proved (#27). Guarded completeness remains open.
+**Status:** refutations proved (#27). The guarded replacement is proved for every ACF pair
+by `guardedQCompletenessACF`, with both nondegeneracy guards explicit.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

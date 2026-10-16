@@ -18,8 +18,8 @@ compatible with the bases, and intertwines the perfection order isomorphisms:
 `σ` the identity, `liftEquiv` is the unique comparison `u_K` between two chosen perfections of `K`.
 
 **Status:** the extension, uniqueness, groupoid laws and compatible-perfection naturality
-are proved (#24 and the #10 carryover). The literal/quotient functors and reconstruction
-conclusions remain separate obligations.
+are proved (#24 and the #10 carryover). The literal and Frobenius-quotient functors are proved in
+`Functorial`; `Main` proves the public reconstruction theorem under the blueprint hypotheses.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

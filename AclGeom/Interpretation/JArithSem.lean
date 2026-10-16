@@ -31,8 +31,11 @@ closed subfields.  This file transports them to five-tuples of points of the geo
 `Decode` packages the ratio quotient and bijective nonzero decoding.
 `Interp` adjoins zero and gives full carrier decoding under the same inputs.
 `Field` proves corrected total geometric graphs, a named transported field structure and the
-actual decoding ring equivalence under the same explicit inputs. Unconditional completeness,
-graph naturality and reconstruction remain open.
+actual decoding ring equivalence under the same explicit inputs. Conditional carrier/graph
+naturality is proved in `Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

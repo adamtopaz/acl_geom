@@ -15,8 +15,11 @@ their semantic correctness on independent representatives
 **Status:** historical skeleton, superseded by the corrected implementation (#23).
 `JArith`, `JArithSem` and `ClassArithmetic` implement coupled generic/fixed-class arithmetic;
 `TotalOps` and `Field` give corrected totalization and the named transported field structure
-under explicit completeness inputs. The literal projected arithmetic is refuted; unconditional
-completeness, naturality and full reconstruction remain open.
+under explicit completeness inputs. The literal projected arithmetic is refuted. Conditional
+carrier/graph naturality is proved in `Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

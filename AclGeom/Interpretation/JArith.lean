@@ -25,8 +25,11 @@ is `(X, P, Q, R, A)`, so `j(x, a) = ([x], [x + a], [x a], [x + x a], [a])`.
 **Status:** the generic coordinate computations are proved (#23). `ClassArithmetic` proves
 corrected fixed-class correctness, `Ratio` proves corrected ratio semantics, and `Field` proves
 corrected total graphs, a named transported field structure and the actual decoding ring
-equivalence under explicit perfection, rank-five and ACF J-completeness inputs. Unconditional
-completeness, naturality and reconstruction remain open.
+equivalence under explicit perfection, rank-five and ACF J-completeness inputs. Conditional
+carrier/graph naturality is proved in `Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

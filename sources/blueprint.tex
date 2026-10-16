@@ -4133,9 +4133,13 @@ closedness.  This proves the identity.
 \noindent\textbf{Lean status.}
 \lean{racl_pair_mul_inf_racl_pair_mul} proves the two-generic intersection lemma.
 Its proof uses exchange, through the stronger arbitrary-set interface
-\lean{racl_insert_inf_racl_insert}. Corrected conditional all-point recovery is proved below. General unconditional
-recovery of all points remains open (issue 9);
-the bypassed linear-disjointness statements remain obligations (issue 11).
+\lean{racl_insert_inf_racl_insert}. Corrected conditional all-point propagation is proved
+in \lean{Reconstruct/Points}; the public rank-five reconstruction theorem supplies its inputs
+internally. The embedded linear-disjointness assertions in the original proof above retain a
+separate source-audit obligation (issue 9); their base $\bar E$ is algebraically closed.
+The exchange proof does not discharge those assertions. The proved tensor-domain theorem
+(closed issue 11) is unchanged; the distinct (8.9a) proof passage is audited on issue 5.
+Original general interpretation arguments and their provenance remain obligations (issues 9 and 23).
 
 \begin{proposition}[recovery of all points]\label{prop:all-points}
 For every $x\in K\setminus k$, $F([x])=[\widetilde F(x)]$.

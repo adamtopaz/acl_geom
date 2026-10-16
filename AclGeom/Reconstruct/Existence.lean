@@ -24,22 +24,25 @@ isomorphism compatible with the bases:
   pair of `K` is chosen fresh, the rank of `L` is read off from `e`, and the image base exists by
   `exists_map_jTupleOf_eq`.
 
-These results live in the perfected, relatively algebraically closed setting, under the explicit
-open ACF J-completeness inputs.  The blueprint's scalar elimination is replaced by the geometric
-transport of genericity (`interpretedRingEquiv_base_coord`).  The literal ratio, totalization and
-scalar arguments keep their recorded status.
+These results live in the perfected, relatively algebraically closed setting, under explicit
+ACF J-completeness inputs, supplied at rank five by `jCompletenessACF`. The blueprint's scalar
+elimination is replaced by geometric transport of genericity
+(`interpretedRingEquiv_base_coord`). The literal ratio, totalization and scalar arguments keep
+their recorded status.
 
 **Status:** actual inducing equality and inducing field-isomorphism existence are proved (#9,
 corrected conditional R3/R4 in the perfect-field setting). Both relatively algebraically closed
 bases, both perfections and separate exponential characteristics, source rank five and both
-still-open ACF J-completeness inputs remain explicit. The existence endpoint derives the source
-pair, target rank and actual image pair inline; no supplied pair, target rank or point/scalar oracle
-is assumed. Target proves perfected-base RAC and original-field inducing existence through
-arbitrary chosen perfections under explicit perfected ACF completeness. Main assembles the
-public conditional lattice-form target, including Frobenius uniqueness and converse.
-Unconditional ACF J-completeness remains open. Literal
-RatioEq/TOT/scalar arguments, bypassed
-linear-disjointness and frozen M4a obligations retain their recorded provenance.
+ACF J-completeness inputs remain explicit in this internal API. The existence endpoint derives
+the source pair, target rank and actual image pair inline; no supplied pair, target rank or
+point/scalar oracle is assumed. Target proves perfected-base RAC and original-field inducing
+existence through arbitrary chosen perfections under explicit perfected ACF completeness.
+`Main` supplies these proofs internally and assembles the public lattice-form target, including
+Frobenius uniqueness and converse. Original literal RatioEq/TOT/scalar arguments retain their
+provenance on #23. The embedded linear-disjointness assertions in the original proof of
+`two-generic-intersection` retain a separate source-audit obligation on #9; its exchange proof
+does not discharge those assertions. The distinct (8.9a) argument is audited on #5. The proved
+tensor-domain theorem on closed #11 is unchanged, and frozen M4a remains historical (#19).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

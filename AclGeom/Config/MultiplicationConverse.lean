@@ -27,8 +27,9 @@ from the fresh parameter field to the original base.
 Coherent specialization to the original base then produces the full auxiliary
 coordinate table when the base is algebraically closed. This proves both
 converse clauses of blueprint Lemma `mul-diagram` under the stated ACF and
-rank-five hypotheses. Guarded geometric `Q` completeness remains open. No
-group extraction statement is assumed or discharged by these proofs.
+rank-five hypotheses. Guarded geometric `Q` completeness is proved in `Config.GuardedAffineGrid`;
+together these give rank-five ACF `Q′` and `J` correctness in `Config.Completeness`.
+The original group-extraction statements remain separate source obligations.
 -/
 
 namespace AclGeom

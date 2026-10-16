@@ -151,8 +151,9 @@ The two perfection order isomorphisms intertwine the original transport:
 Taking the original field map to be the identity compares two choices of
 perfection and induces the identity on the original closed-field lattice.
 These establish the foundational naturality carryover in issues #24 and #10.
-The explicit Induces relation is described below. The literal and quotient
-functors remain open.
+The explicit Induces relation is described below. The literal and Frobenius-quotient
+functors and perfection-choice equivalence are proved in the functorial chapter, which
+states their rank and characteristic restrictions for fullness and faithfulness.
 
 
 # Induced lattice maps
@@ -201,13 +202,13 @@ Integral Frobenius twists induce the same lattice map:
 
 {docstring AclGeom.Perfection.Induces.trans_frobZPow}
 
-These complete the foundational carryovers in issue #24. Conditional
-original-field inducing existence through arbitrary chosen perfections is
-proved in Reconstruct.Target with both original RAC bases, source rank five
-and both perfected ACF completeness hypotheses explicit. Main assembles the
-public conditional target with rank, base/intersection, Frobenius uniqueness
-and converse. Unconditional completeness and literal/quotient functorial
-assembly remain open in issues #8–#10.
+These complete the foundational carryovers in issue #24. The internal
+`Reconstruct.Target` API keeps both original RAC bases, source rank five and both
+perfected ACF completeness inputs explicit. `Main` supplies the two completeness proofs
+internally and assembles the public target, with rank, base/intersection, the exact
+Frobenius fibre and converse. The literal and quotient functors are proved in the
+functorial chapter. Original literal construction and provenance obligations remain
+tracked in issues #8 and #23.
 
 
 For two supplied inducing maps and source transcendence degree at least five,

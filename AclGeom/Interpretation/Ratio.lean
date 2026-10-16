@@ -35,7 +35,10 @@ explicit perfection, rank-five and ACF J-completeness inputs (#23). `Decode` con
 setoid/quotient and bijective nonzero decoding under the same inputs. `Interp` adjoins zero
 and decodes the full carrier bijectively to `K`. `Field` proves corrected total geometric
 operation graphs, a named transported field structure and the actual decoding ring equivalence
-under the same inputs. Naturality remains open.
+under the same inputs. Conditional carrier/graph naturality is proved in `Interpretation.Naturality`
+under explicit carrier inputs. The rank-five ACF input is supplied by `jCompletenessACF`;
+these internal interfaces keep it explicit. `Main` supplies both inputs internally for the
+public reconstruction theorem. Original literal construction obligations remain on #23.
 The public `mul_fresh_notMem` supplies the existing ratio witnesses and both operation-graph
 converses in `Field`; its type and proof use no rank-five or completeness input.
 

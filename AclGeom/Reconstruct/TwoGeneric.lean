@@ -18,8 +18,13 @@ an infimum-equality wrapper around the existing exchange consequence
 `acl(X ∪ {t}) ∩ acl(X ∪ {s}) = acl(X)`. Neither finiteness of `X` nor
 `s ∉ acl(X)` is required. The literal pair statement recovers `x` by division by `s` or `t`.
 
-**Status:** the intersection part of M7/R3 is proved; all-point recovery remains open (#9).
-The bypassed linear-disjointness obligations remain open (#11).
+**Status:** the intersection part of M7/R3 is proved. `Reconstruct.Points` proves conditional
+all-point propagation; `Reconstruct.Existence` and `Main` supply its inputs for the public
+rank-five reconstruction theorem. The embedded linear-disjointness assertions in the original
+proof of `two-generic-intersection` retain a separate source-audit obligation on #9. The base
+there is the algebraically closed field Ē. The exchange proof does not discharge those
+assertions. Closed #11 proves the tensor-domain theorem; the distinct (8.9a) proof passage is
+audited on #5. Original general interpretation/provenance obligations remain on #9/#23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

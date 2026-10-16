@@ -31,8 +31,10 @@ freshness is used.
 **Status:** general conditional point propagation and lattice extension are proved (#9). The
 actual corrected conditional base-recovery and outside-point inputs are proved separately, and
 `Reconstruct.Existence` assembles the actual inducing equality and compatible inducing existence
-for perfect fields under explicit RAC/completeness inputs. General unconditional R1/R2,
-original-field chosen-perfection reconstruction and unconditional completeness remain open.
+for perfect fields under explicit RAC/completeness inputs. `Reconstruct.Target` transports
+existence through arbitrary chosen perfections of the original fields. `Main` supplies the
+rank-five ACF completeness proofs internally for public reconstruction. The original general
+R1/R2 interpretation arguments and literal source provenance remain obligations on #9/#23.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.
