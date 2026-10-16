@@ -37,6 +37,8 @@ import AclGeom.Correspondence.TensorFractionRing
 import AclGeom.Correspondence.ComponentGeometry
 import AclGeom.Correspondence.LocusPullback
 import AclGeom.Correspondence.LocusEndDominance
+import AclGeom.Correspondence.LocusQuotient
+import AclGeom.Correspondence.LocusQuotientComponents
 import AclGeom.Correspondence.TensorRealization
 import AclGeom.Correspondence.CurveEquation
 import AclGeom.Correspondence.CurveEquationTransport

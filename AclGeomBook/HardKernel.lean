@@ -19,6 +19,8 @@ import AclGeom.Correspondence.TensorFractionRing
 import AclGeom.Correspondence.ComponentGeometry
 import AclGeom.Correspondence.LocusPullback
 import AclGeom.Correspondence.LocusEndDominance
+import AclGeom.Correspondence.LocusQuotient
+import AclGeom.Correspondence.LocusQuotientComponents
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -112,9 +114,10 @@ localization and minimality conclusions are proved internally.
 
 This supplies the domain-level localization step for C2. The actual
 canonical-coordinate affine fiber product below consumes it. The literal
-relative quotient maps, tuple germs and the family's
-generic-component argument remain separate obligations. General curve
-function fields are retained throughout.
+relative quotient maps and their spectrum components are identified below.
+The full incidence quotient, tuple germs and the family's generic-component
+argument remain separate obligations. General curve function fields are
+retained throughout.
 
 # Components of the actual affine fiber product
 %%%
@@ -167,11 +170,59 @@ Pushing a subset through the actual two pullback projections therefore
 compares all three images. No component classification, rank-one premise,
 Noetherian hypothesis or density input is needed for this criterion.
 
+{docstring AclGeom.denseImage_iff_of_isAlgebraic}
+
 Thus the components dominating the middle are exactly those dominating both
-ends, in the canonical generated-ring model. Matching the relative maps of
-the literal polynomial quotients, the tuple germ and associativity layer,
-and the higher-dimensional family generic-component argument remain owed.
-C2 remains open.
+ends, in the canonical generated-ring model. The next section transports
+these conclusions to the literal relative coordinate rings.
+
+# Literal relative coordinate rings
+%%%
+tag := "literal-relative-coordinate-rings"
+%%%
+
+Write $`Q_y=k[Y]/I(y)`, $`Q_{xy}=k[X,Y]/I(x,y)` and
+$`Q_{yz}=k[Y,Z]/I(y,z)`. The two relative maps are induced by the actual
+inclusions of the variables $`Y`. Contraction along a variable renaming
+recovers the ideal of the reindexed tuple, and the coordinate-ring
+identifications commute with those maps:
+
+{docstring AclGeom.idealOf_eq_comap_rename}
+
+{docstring AclGeom.locusCoordinateRingEquiv_comp_quotientMapₐ}
+
+Consequently the literal relative tensor is isomorphic, as a $`k`-algebra,
+to the tensor of the generated coordinate rings. The theorem specifies the
+image of every pure tensor and every base element:
+
+{docstring AclGeom.exists_locusQuotientTensor_algEquiv}
+
+The induced spectrum homeomorphism intertwines the actual middle and endpoint
+projections with the induced homeomorphisms of the base spectra. The minimal primes of
+the canonical fraction-field tensor therefore identify exactly the literal spectrum's
+components with dense middle image. The map to that tensor is constructed internally and
+is specified on pure tensors:
+
+{docstring AclGeom.exists_locusQuotient_dominatingComponents}
+
+Under the four algebraicity clauses of (8.1), every subset has dense middle
+image if and only if it has dense first-endpoint image, and likewise for the
+second endpoint:
+
+{docstring AclGeom.locusQuotient_endDominance}
+
+The two generic domain/algebraicity lemmas already used for the canonical
+scheme criterion are reused here. All rings, maps and fraction-field
+structures are derived from the tuples. Base, ambient and index universes
+remain independent, without algebraic-closedness or rationality assumptions.
+
+The full incidence quotient
+$`k[X,Y,Z]/(I(x,y)+I(y,z))`, where the ideals are extended along the two
+variable inclusions, remains to be identified explicitly with this tensor.
+The prime ideal of a chosen joint tuple must still be proved minimal to
+represent a component; its endpoint image may have a smaller function field.
+The tuple germ and relational-associativity layer and the higher-dimensional
+family generic-component argument also remain owed. C2 remains open.
 
 # Component fields and endpoint images
 %%%
@@ -195,11 +246,11 @@ field. This corrects the endpoint-field reading of the original §8.1 wording,
 reported on issue #5 before the source annotation. The original paragraph is
 retained. Relational germ associativity remains proved.
 
-The actual canonical-coordinate fiber-product components and endpoint-density
-criterion above apply to arbitrary tuples and general curve function fields. The
-literal relative quotient-map transport, tuple germ comparison and the later
-higher-dimensional family generic-component argument remain open. The field
-distinction is separate from those remaining obligations.
+The canonical fiber-product and literal relative quotient-spectrum results
+above apply to arbitrary tuples and general curve function fields. The full
+incidence quotient, tuple germ comparison and higher-dimensional family
+generic-component argument remain open. The field distinction is separate
+from those remaining obligations.
 
 # Tensor-domain regularity
 %%%

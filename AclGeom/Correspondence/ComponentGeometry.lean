@@ -17,8 +17,10 @@ and scalar-tower data are used. No component or dominance conclusion is an input
 `LocusPullback` transports this theorem to the actual canonical tuple-locus
 scheme fiber product through Mathlib's `pullbackSpecIso`, with the actual
 projection checked. `LocusEndDominance` proves the endpoint-density criterion
-from the source closure hypotheses. The literal relative quotient maps,
-tuple germs/associativity and the higher-dimensional family generic-component
+from the source closure hypotheses. `LocusQuotientComponents` transports the
+components and actual projection-density criteria to the literal relative
+quotient spectrum using `LocusQuotient`. The full incidence quotient, tuple
+germs/associativity and the higher-dimensional family generic-component
 argument remain separate obligations.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin

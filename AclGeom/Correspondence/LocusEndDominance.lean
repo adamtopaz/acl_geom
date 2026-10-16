@@ -24,7 +24,9 @@ components dominating the middle base exactly those dominating both ends.
 
 The proof pushes the subset to `Spec k[x, y]` (resp. `Spec k[y, z]`) and reflects density along
 the injective algebraic extensions `k[y] → k[x, y] ← k[x]`; the algebraicity is derived from the
-closure hypotheses.  No component classification is used.
+closure hypotheses.  No component classification is used.  Both steps are public
+(`denseImage_iff_of_isAlgebraic`, `isAlgebraic_adjoin_of_subset_racl`); `LocusQuotientComponents`
+also applies them to the literal quotient spectrum.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -38,7 +40,10 @@ open AlgebraicGeometry CategoryTheory Limits
 
 namespace AclGeom
 
-private theorem denseImage_iff_of_isAlgebraic
+/-- An injective algebraic extension of domains `A → B` reflects density of spectrum images: for
+any `B`-algebra `T` over `A` and any subset `Z` of `Spec T`, the image of `Z` in `Spec A` is dense
+if and only if its image in `Spec B` is dense. -/
+theorem denseImage_iff_of_isAlgebraic
     {A B T : Type*} [CommRing A] [IsDomain A] [CommRing B] [IsDomain B]
     [CommRing T] [Algebra A B] [Algebra B T] [Algebra A T] [IsScalarTower A B T]
     [Algebra.IsAlgebraic A B] (hinj : Function.Injective (algebraMap A B))
@@ -70,7 +75,9 @@ private theorem denseImage_iff_of_isAlgebraic
     exact Ideal.comap_bot_of_injective (f := algebraMap A B) hinj
 
 open scoped IntermediateField.algebraAdjoinAdjoin in
-private theorem isAlgebraic_adjoin_of_subset_racl
+/-- If `S ⊆ T ⊆ racl k S`, then the subalgebra `k[T]` is algebraic over `k[S]`, for the inclusion
+structure. -/
+theorem isAlgebraic_adjoin_of_subset_racl
     {k Ω : Type*} [Field k] [Field Ω] [Algebra k Ω]
     (S T : Set Ω) (hST : S ⊆ T) (hT : T ⊆ racl k S) :
     let A := Algebra.adjoin k S

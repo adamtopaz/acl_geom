@@ -1339,9 +1339,9 @@ extension are already proved in
 Thus the associativity explanation must pass from joint components to their endpoint
 images. The relational associativity conclusion below is unchanged. This clarification
 was reported on issue \#5 before this annotation; all original source paragraphs,
-statements and proofs are preserved. The literal relative quotient-map transport,
-tuple-germ comparison and higher-dimensional family applications remain separate
-obligations. The domain-level localization step is proved in
+statements and proofs are preserved. The full incidence quotient, tuple-germ
+comparison and higher-dimensional family applications remain separate obligations.
+The domain-level localization step is proved in
 \lean{minimalPrimes_tensorProduct_fractionRing}: for domains $A\to B$, $A\to C$
 with compatible fraction fields $K,L,M$, the minimal primes of $B\otimes_A C$
 avoiding $A\setminus\{0\}$ are exactly the contractions of the minimal primes
@@ -1367,10 +1367,22 @@ actual first endpoint projection, and likewise under the second endpoint
 projection. Coordinate-ring algebraicity is derived from the tuple closure
 hypotheses; injectivity holds because the maps are subalgebra inclusions. The
 rank-one clauses are not needed for this criterion. Hence the middle-dominating components are exactly
-the components dominating both ends in this canonical model. Matching the
-relative maps on the literal polynomial quotients, the tuple-germ and
-associativity bridge, and the higher-dimensional family generic-component
-argument remain owed.
+the components dominating both ends in this canonical model.
+The literal quotient maps induced by the inclusions of the middle variables are
+proved compatible with \lean{locusCoordinateRingEquiv}.
+The theorem \lean{exists_locusQuotientTensor_algEquiv} identifies their relative
+tensor with the generated-ring tensor as a $k$-algebra, specifying pure tensors
+and the base map. The actual literal spectrum's middle-dominating components
+are identified in \lean{exists_locusQuotient_dominatingComponents}, and
+\lean{locusQuotient_endDominance} proves the corresponding endpoint-density
+criterion under the same four closure clauses. All structures are derived
+from the tuples; no component or density conclusion is an input.
+The full incidence quotient $k[X,Y,Z]/(I(x,y)+I(y,z))$, with both ideals
+extended along the variable inclusions, remains to be identified explicitly.
+The prime ideal of a chosen joint tuple must still be proved minimal to
+represent a component; its endpoint image may have a smaller function field.
+The tuple-germ and associativity bridge and the
+higher-dimensional family generic-component argument also remain owed.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]

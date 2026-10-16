@@ -28,8 +28,10 @@ This theorem is consumed by `ComponentGeometry` and, through it, the canonical t
 fiber product of blueprint §8.1 (#5). `LocusPullback` proves the actual affine-scheme
 middle-dominating components, and
 `LocusEndDominance` proves their endpoint-density criterion under the source closure clauses.
-The literal relative quotient maps, tuple germs/associativity and the higher-dimensional
-family generic-component argument remain open.
+`LocusQuotient` matches the literal rename-induced quotient maps, and
+`LocusQuotientComponents` identifies their spectrum components and endpoint-density criterion.
+The full incidence quotient, tuple germs/associativity and the higher-dimensional family
+generic-component argument remain open.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

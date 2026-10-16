@@ -11428,3 +11428,46 @@ and frozen M4a remain unchanged. Full library/book, whole-library dependency
 and exact-head CI evidence belongs to the published checkpoint report on #5.
 Those dependency checks do not establish complete source coverage. C2 and the
 full shared project goal remain open.
+
+## Literal relative quotient spectra and their projections (#5 C2)
+
+`Correspondence.LocusQuotient` proves contraction of tuple ideals along
+variable renaming and the commutation of the literal induced quotient map
+with `locusCoordinateRingEquiv`. Its relative tensor theorem constructs a
+base-field algebra equivalence to the generated-ring tensor, with explicit
+pure-tensor and base-map formulas. The two actual middle-variable inclusions
+are used; the quotient maps are not defined by transporting the desired
+inclusions. One private generic heterobasic tensor helper has this immediate
+consumer, using Mathlib's `mapRingHom` and its inverse.
+
+`Correspondence.LocusQuotientComponents` consumes that equivalence. Its
+`exists_locusQuotient_dominatingComponents` identifies the literal spectrum's
+irreducible components with dense middle projection image by contracting
+the minimal primes of the canonical fraction-field tensor. The map is
+constructed internally and specified on pure tensors. Its
+`locusQuotient_endDominance` compares the actual first/middle/second
+projection images for every subset under the four algebraicity clauses of
+(8.1). No rank-one, rationality or algebraic-closedness premise is needed.
+The base, ambient and three index universes remain independent.
+
+The existing `denseImage_iff_of_isAlgebraic` and
+`isAlgebraic_adjoin_of_subset_racl` are public reusable lemmas, consumed by
+both the canonical scheme criterion and the literal spectrum criterion.
+Their proofs are unchanged; only visibility and docstrings change in
+`LocusEndDominance`. The three older localization/component/pullback modules
+have header-only scope updates, with their proofs, attributes, declaration
+docstrings and imports unchanged. Both agents independently compiled the exact
+mathematical proof bundle, including all public/private/generated dependency records,
+and all preceding selected public types remain unchanged. Full library/book,
+whole-library and exact-head CI evidence belongs to the checkpoint issue
+report; dependency checking does not establish complete source coverage.
+
+The full incidence quotient by the sum of the two extended pair ideals is
+still owed. The comparison with the prime quotient of a selected joint
+tuple and with the endpoint image must retain the component/minimality proof.
+Tuple germs/relational associativity,
+all-component realization and the higher-dimensional finite-relative-degree
+family argument remain obligations. The source annotation, book and shared
+goal retain that scope. All original source outside the existing annotation,
+all 48 statement blocks and 44 proof blocks, the goal objective/completion
+criteria and frozen M4a are preserved. C2 and the full shared goal remain open.
