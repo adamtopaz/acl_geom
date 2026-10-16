@@ -372,6 +372,19 @@ theorem functionFieldAction_injective : Function.Injective (hw.functionFieldActi
   have h2 : γ⁻¹ = 1 := Subtype.ext (Units.ext h1)
   exact inv_eq_one.1 h2
 
+/-- **The action at generic points.** Let `r` be an exponent-zero representative of `γ⁻¹` and
+let `y` be generic over a field `M ⊇ M_r`. If `h` has value `c` at `r(y)`, then `γ · h` has value
+`c` at `y`. -/
+theorem hasValue_functionFieldAction (γ : ↥hw.prodSubgroup) {r : Representative k K v v}
+    (hr : r.f.e = 0)
+    (hrγ : (⟦r⟧ : Germ k v v) = (((γ⁻¹ : ↥hw.prodSubgroup) : (Germ k v v)ˣ) : Germ k v v))
+    {M : IntermediateField k K} (hrM : r.M ≤ M) {y : ι → K} (hy : IsGenericOver M v y)
+    {h : LocusFunctionField k v} {c : K} (hh : HasValue M (r.f.eval y) h c) :
+    HasValue M y (hw.functionFieldAction hv γ h) c := by
+  change HasValue M y (hw.substOf hv γ⁻¹ h) c
+  rw [hw.substOf_eq hv γ⁻¹ hr hrγ]
+  exact r.hasValue_subst hr hrM hy hh
+
 end Germ.IsHW
 
 end

@@ -10842,3 +10842,50 @@ The original algebraic groups over the original base, Weil algebraization,
 pi, its normal subgroup, scheme/action classification, original-field descent,
 guarded charts and unconditional reconstruction remain obligations. All eight
 original #21 classification requirements stay open.
+
+
+## The complete constructible determinant-one HW lift (#21, 2026-10-15)
+
+`Germ.IsHWBij.exists_constructible_slLift` starts with actual HW bijection data,
+a member of its difference set, a finite rank-one source tuple and ordinary
+canonical-base rank at least two. It internally chooses the function-field
+generator, small algebraically closed coefficient field M, canonical
+presentation, generic samples and subgroup of SL2(K). Every actual group
+element has a lift; the subgroup consists of all and only these lifts.
+Two lifts differ by a sign in every characteristic. Matrices for the image
+of the generator compose in the reversed order. Ordinary canonical bases
+and matrix entries have equal relative algebraic closures over M, giving
+the actual HW rank bound with equality attained by a fresh generic element.
+
+The uniform canonical family and actual word relation give the generic
+evaluation test. Polynomial cells and ordinary projection make that test
+constructible. The existing finite generic quantifier then makes the whole
+lift relation constructible. Equivariance of the actual parameter and pair
+germs, pair domain and surjective presentation map supplies both canonical-
+base algebraicity directions, using sign uniqueness and faithfulness.
+Automorphism invariance is used after constructibility has been proved.
+The general coefficient-field value bridge reuses the existing substitution
+lemma. Shared value calculus is moved from the graph module to FunctionField;
+the graph induction stays private and no narrower evaluation proof is kept.
+
+Claude supplied the complete six-module lane and checked the full library.
+The primary agent read every proof and independently compiled exact frozen
+copies of all six modules and all three committed baseline modules with
+empty standard-lint logs and default checking limits. All 27 existing
+expanded public declaration types are unchanged. The 18 new public
+declarations and those 27 existing declarations have 45 selected expanded
+type/dependency reports using standard Lean axioms; the baseline also has
+27 standard reports. This scoped audit is not a whole-library axiom audit.
+The enforced 20 GB, two-thread independent family took 23.21 s and peaked
+at 3.75 GiB, without memory events or a safety stop. Full final library/book
+and integrated lint/type/dependency gates are required after every final
+edit; exact checkpoint evidence is recorded on #21.
+
+The aggregate, module statuses, book and shared goal frontier match this
+complete actual-action consumer. Original source TeX, original goal endpoint
+and completion criteria, and the full historical continuation prefix are
+preserved; the supplemental PDF remains excluded. M is not claimed fresh
+from the original Ψ witness. Affine classification, the original scheme
+action and normal-subgroup producers, Weil algebraization, original-field
+descent, guarded chart extraction and unconditional reconstruction remain
+obligations. All eight original #21 requirements remain open.

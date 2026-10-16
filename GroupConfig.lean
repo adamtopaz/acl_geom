@@ -42,6 +42,7 @@ import GroupConfig.Germ.FunctionFieldGraph
 import GroupConfig.Germ.DerivationConstants
 import GroupConfig.Germ.CurveGenus
 import GroupConfig.Germ.MoebiusAction
+import GroupConfig.Germ.MoebiusLift
 import GroupConfig.Germ.Translation
 import GroupConfig.Germ.Difference
 import GroupConfig.Germ.Definable
@@ -106,6 +107,8 @@ import GroupConfig.Constructible.GroupPresentation
 import GroupConfig.Constructible.SpaceWords
 import GroupConfig.Constructible.SpacePresentation
 import GroupConfig.Constructible.CanonicalPresentation
+import GroupConfig.Constructible.Equivariance
+import GroupConfig.Constructible.SLLift
 import GroupConfig.ConfigurationNecessity
 import GroupConfig.MainConstructible
 import GroupConfig.PsiConstructible

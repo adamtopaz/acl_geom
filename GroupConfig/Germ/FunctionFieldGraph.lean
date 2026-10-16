@@ -34,48 +34,6 @@ noncomputable section
 variable {k K : Type*} [Field k] [Field K] [Algebra k K] [IsAlgClosed k] [IsAlgClosed K]
   [UniversalDomain k K] {ι : Type*} [Finite ι] {v : ι → K}
 
-/-! ### Values of sums and products -/
-
-section Calculus
-
-variable {M : IntermediateField k K} {y : ι → K}
-
-omit [IsAlgClosed K] [UniversalDomain k K] [Finite ι] in
-private theorem HasValue.add' (hy : IsGenericOver M v y) {h h' : LocusFunctionField k v}
-    {c c' : K} (h₁ : HasValue M y h c) (h₂ : HasValue M y h' c') :
-    HasValue M y (h + h') (c + c') := by
-  obtain ⟨A, B, hB, rfl, rfl⟩ := h₁
-  obtain ⟨A', B', hB', rfl, rfl⟩ := h₂
-  refine ⟨A * B' + B * A', B * B', by rw [map_mul]; exact mul_ne_zero hB hB', ?_, ?_⟩
-  · rw [div_add_div _ _ (mk_map_ne_zero hy hB) (mk_map_ne_zero hy hB')]
-    simp only [map_add, map_mul]
-  · rw [div_add_div _ _ hB hB']
-    simp only [map_add, map_mul]
-
-omit [IsAlgClosed K] [UniversalDomain k K] [Finite ι] in
-private theorem HasValue.mul' {h h' : LocusFunctionField k v} {c c' : K}
-    (h₁ : HasValue M y h c) (h₂ : HasValue M y h' c') : HasValue M y (h * h') (c * c') := by
-  obtain ⟨A, B, hB, rfl, rfl⟩ := h₁
-  obtain ⟨A', B', hB', rfl, rfl⟩ := h₂
-  refine ⟨A * A', B * B', by rw [map_mul]; exact mul_ne_zero hB hB', ?_, ?_⟩
-  · rw [div_mul_div_comm]
-    simp only [map_mul]
-  · rw [div_mul_div_comm]
-    simp only [map_mul]
-
-omit [IsAlgClosed K] [UniversalDomain k K] [Finite ι] in
-private theorem hasValue_algebraMap {C : IntermediateField k K} (hCM : C ≤ M) (c : C) :
-    HasValue M y (algebraMap C (LocusFunctionField k v) c) (algebraMap C K c) := by
-  have h := hasValue_mk (k := k) (v := v) (y := y) (MvPolynomial.C
-    (IntermediateField.inclusion hCM c))
-  rw [MvPolynomial.map_C, aeval_C] at h
-  convert h using 1
-  · rw [← MvPolynomial.algebraMap_eq, AlgHom.commutes]
-    rfl
-  · rfl
-
-end Calculus
-
 namespace Representative
 
 variable (r : Representative k K v v)
@@ -97,10 +55,10 @@ private theorem hasValue_aeval_graph (hr : r.f.e = 0) {C : IntermediateField k K
     exact hasValue_algebraMap hCM c
   | add p q hp hq =>
     rw [map_add, map_add]
-    exact HasValue.add' hy hp hq
+    exact HasValue.add hy hp hq
   | mul_X p j hp =>
     rw [map_mul, map_mul, aeval_X, aeval_X]
-    refine HasValue.mul' hp ?_
+    refine HasValue.mul hp ?_
     cases j with
     | inl i => exact hasValue_coord i
     | inr i => exact r.hasValue_subst_coord hr hy i

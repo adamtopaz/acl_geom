@@ -688,10 +688,44 @@ no coordinate or rationality certificate is assumed.
 
 {docstring GroupConfig.Germ.IsHW.exists_generator_moebius}
 
-This states the formula for each field automorphism. It does not construct a
-scheme action or classify the connected subgroup of projective transformations.
-That classification, the affine coordinates, original scheme/action bridge,
-normal-subgroup producer, group algebraization and original-field chart/action
+The whole actual action also has a constructible determinant-one matrix lift.
+The nonzero-determinant representatives of a projective transformation have an
+extra scalar parameter; determinant-one normalization leaves only the two
+possibilities $`m` and $`-m`, which coincide in characteristic two. Every actual
+HW element has a lift, and the lifted matrices form a subgroup of $`SL_2(K)`.
+The matrices describing the images of the generator compose in the reversed
+order: lifts $`m,n` of $`\gamma,\delta` give the lift $`nm` of $`\gamma\delta`.
+
+{docstring GroupConfig.Germ.IsHW.IsMoebiusLift}
+
+{docstring GroupConfig.Germ.IsHW.IsMoebiusLift.eq_or_eq_neg}
+
+{docstring GroupConfig.Germ.IsHW.IsMoebiusLift.mul}
+
+The actual canonical presentation is equivariant under automorphisms of K
+over k. Its word relation evaluates the inverse germ at generic points.
+Values of the function-field action agree with those evaluations over any
+common coefficient field. Polynomial equations, ordinary projection and the
+proved generic quantifier therefore give a constructible relation between
+presentation parameters and the lifted matrices.
+
+{docstring GroupConfig.Germ.IsHW.hasValue_functionFieldAction}
+
+{docstring GroupConfig.QuasiRational.val_pairDomainMap_comp_algEquiv}
+
+The complete theorem chooses the generator, small algebraically closed field M,
+presentation, samples and subgroup internally. Its subgroup contains all and
+only the actual lifts. The entries of each lift and the ordinary canonical
+base of its germ have the same algebraic closure over M. This gives the actual
+HW rank bound for every matrix and attains it at an internally chosen
+generic group element independent from M; no rank or constructibility certificate is an input.
+
+{docstring GroupConfig.Germ.IsHWBij.exists_constructible_slLift}
+
+M contains arbitrary generator coefficients and the samples. Freshness of M
+from the original Ψ witness is not a conclusion. Classification of this
+constructible subgroup, affine coordinates, the original scheme/action and
+normal-subgroup producers, group algebraization and original-field chart/action
 descent remain obligations of the original blueprint.
 
 For an orbit of invertible germs between two loci, independent pairs give

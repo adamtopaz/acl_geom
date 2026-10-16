@@ -141,6 +141,39 @@ theorem HasValue.eq (hy : IsGenericOver M v y) {h h' : LocusFunctionField k v} {
     ← map_mul, ← map_mul, ← sub_eq_zero, ← map_sub, ← map_sub, mk_map_eq_zero_iff hy]
   exact heq
 
+/-- Values at a generic point are additive. -/
+theorem HasValue.add (hy : IsGenericOver M v y) {h h' : LocusFunctionField k v} {c c' : K}
+    (h₁ : HasValue M y h c) (h₂ : HasValue M y h' c') : HasValue M y (h + h') (c + c') := by
+  obtain ⟨A, B, hB, rfl, rfl⟩ := h₁
+  obtain ⟨A', B', hB', rfl, rfl⟩ := h₂
+  refine ⟨A * B' + B * A', B * B', by rw [map_mul]; exact mul_ne_zero hB hB', ?_, ?_⟩
+  · rw [div_add_div _ _ (mk_map_ne_zero hy hB) (mk_map_ne_zero hy hB')]
+    simp only [map_add, map_mul]
+  · rw [div_add_div _ _ hB hB']
+    simp only [map_add, map_mul]
+
+/-- Values are multiplicative. -/
+theorem HasValue.mul {h h' : LocusFunctionField k v} {c c' : K} (h₁ : HasValue M y h c)
+    (h₂ : HasValue M y h' c') : HasValue M y (h * h') (c * c') := by
+  obtain ⟨A, B, hB, rfl, rfl⟩ := h₁
+  obtain ⟨A', B', hB', rfl, rfl⟩ := h₂
+  refine ⟨A * A', B * B', by rw [map_mul]; exact mul_ne_zero hB hB', ?_, ?_⟩
+  · rw [div_mul_div_comm]
+    simp only [map_mul]
+  · rw [div_mul_div_comm]
+    simp only [map_mul]
+
+/-- A constant from a subfield of `M` has itself as value. -/
+theorem hasValue_algebraMap {C : IntermediateField k K} (hCM : C ≤ M) (c : C) :
+    HasValue M y (algebraMap C (LocusFunctionField k v) c) (algebraMap C K c) := by
+  have h := hasValue_mk (k := k) (v := v) (y := y) (MvPolynomial.C
+    (IntermediateField.inclusion hCM c))
+  rw [MvPolynomial.map_C, aeval_C] at h
+  convert h using 1
+  · rw [← MvPolynomial.algebraMap_eq, AlgHom.commutes]
+    rfl
+  · rfl
+
 variable [IsAlgClosed K] [UniversalDomain k K] [Finite ι]
 
 omit [UniversalDomain k K] [Finite ι] in
