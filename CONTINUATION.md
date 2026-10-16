@@ -37,8 +37,11 @@ and literal multiplicative correspondence theorems are proved without extra ambi
 or freshness hypotheses, including both sum constants and both nonzero exponents/constants.
 Connected one-dimensional additive subgroups of the plane now have the source polynomial
 classification, with primality of the canonical vanishing ideal derived from connectedness.
-The torus-subgroup classification and general curve-coset lemma remain open. Read PROJECT_GOAL.md for
-the unchanged full endpoint and current source obligations. The historical M4a
+Connected one-dimensional torus subgroups have the source character classification, with
+nonzero integer exponents and the equation of every coset. Both subgroup theorems use one
+shared connectedness-to-primality proof with concrete polynomial translations or scalings.
+The general curve-coset lemma remains open. Read PROJECT_GOAL.md for the unchanged full
+endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
 The precise group configuration theorem, arbitrary-small-ACF base change,
@@ -11226,3 +11229,45 @@ Full library/book, selected-type comparisons, the reproducible whole-library dep
 audit and exact-head CI are recorded on #1 for the committed cleanup checkpoint. This is
 a correction of progress descriptions; it does not discharge the remaining original and
 supplementary source statements or complete the full project goal.
+
+## Torus-subgroup classification and the shared connectedness bridge (#5, C5)
+
+`mulSubgroup_classification_of_connected` proves part (b) of blueprint
+`lem:subgroup-classification` over an algebraically closed field. It takes a subgroup of
+`kˣ × kˣ`, closedness under the canonical embedding `(u,v) ↦ (u,v,u⁻¹,v⁻¹)` into affine
+four-space, connectedness of its canonical coordinate-ring spectrum, Krull dimension one
+and two nonconstant projections. It concludes the exact kernel equation `u^m = v^n` for
+nonzero integers, and the equation of every coset with its nonzero unit constant. No prime
+ideal is supplied by the caller. Closedness in affine two-space is not substituted.
+
+The new `SubgroupConnectedPrime` module shares the component/minimal-prime and
+CRT/idempotent argument between the additive and torus consumers. Each supplies concrete
+polynomial endomorphisms for its ternary operation: translations for `u + v - c`, scalings
+for `u * v * c⁻¹`. The existing additive public type is unchanged, while duplicated private
+bridge proofs are removed. The shared proof reuses Mathlib's prime Nullstellensatz and
+idempotent basic-open APIs. `TorusCoordinates` supplies actual denominator-clearing and
+character consumers, including one general positive/negative integer-power identity.
+
+The torus proof passes to the plane closure, derives a nonzero height-one prime ideal
+and a character relation from scaling invariance, and removes the common integer factor
+using primality over the algebraically closed base. Nonconstant projections exclude zero
+exponents. A Bézout cocharacter parametrizes the kernel; a proper closed preimage would
+be finite, contradicting infinitude. This avoids the original proof's all-support-rank
+argument without changing the source theorem. Original statement and proof blocks,
+the goal's objective/completion criteria and frozen M4a are preserved.
+
+Both agents independently compiled all four exact candidate modules with empty strict
+logs. Root also freshly compiled the unchanged import root and checked 283 selected
+standard-axiom records, with all 263 preceding types exact. The additive endpoint keeps
+its old public type. Full integrated library/book and whole-library dependency validation
+and exact-head CI belong to the published checkpoint report on #5. The general
+curve-coset theorem, geometric fiber-product bridge, packaged generic extension,
+group-chunk, six-point and original scheme/action/provenance obligations remain open.
+The shared project goal is incomplete.
+
+The four deferred HardKernel book passages now distinguish proved guarded charts and
+rank-five completeness/reconstruction from the open geometric fiber-product and original
+scheme/action statements. The two matching active generic-extension source-status
+annotations are aligned. The remaining mathematical-header audit still includes the
+previously listed Correspondence/Config files and `Correspondence.AmbientAutomorphism`;
+this checkpoint does not claim an exhaustive status cleanup.

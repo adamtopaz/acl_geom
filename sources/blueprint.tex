@@ -2031,18 +2031,26 @@ they are equal.  Translating changes the value of the character from $1$ to a no
 constant, giving the coset statement.
 \end{proof}
 
-\paragraph{Lean status of additive subgroup classification.}
+\paragraph{Lean status of the subgroup classifications.}
 The theorem \lean{addSubgroup_classification_of_connected} proves part (a) of
 \cref{lem:subgroup-classification} over algebraically closed $k$. For a closed additive
-subgroup $H\subseteq k^2$, it uses the canonical coordinate ring
+subgroup $H\subseteq k^2$ with nonconstant projections, it uses the canonical coordinate ring
 $k[X_0,X_1]/I(H)$: connectedness is connectedness of its prime spectrum and dimension one
 is its Krull dimension. Primality of $I(H)$ is proved internally from connectedness.
 The conclusion gives both the exact ideal equation $I(H)=(P(X_0)-Q(X_1))$ and the exact
 point-locus equation, with $P,Q$ additive and nonzero.
 The prime-ideal step is \lean{addSubgroup_classification}. The characteristic-zero and
 characteristic-$p$ shape clauses follow by applying \lean{IsAdditive.eq_C_mul_X} and
-\lean{IsAdditive.coeff_eq_zero_of_ne_pow}. The torus part (b) and general
-\cref{lem:curve-coset} remain separate obligations (issue 5).
+\lean{IsAdditive.coeff_eq_zero_of_ne_pow}.
+The theorem \lean{mulSubgroup_classification_of_connected} proves part (b), with both
+integer exponents nonzero and the exact equation of every coset, including its nonzero
+constant. For a subgroup whose image under the canonical closed embedding of $\Gm^2$ into
+$\mathbb A^4$, $(u,v)\mapsto(u,v,u^{-1},v^{-1})$, is closed, the hypotheses are connectedness
+of its canonical coordinate-ring spectrum, Krull dimension one and nonconstant projections.
+Primality is derived internally, using
+\lean{isPrime_vanishingIdeal_of_connected}; the additive consumer of that same theorem
+supplies translations, and the torus consumer supplies scalings. The general
+\cref{lem:curve-coset} remains a separate obligation (issue 5).
 
 \begin{theorem}[additive correspondence]\label{thm:addcorr}
 Let $(x_1,x_2,x_3)$ and $(y_1,y_2,y_3)$ be algebraically independent triples, assume
@@ -2095,9 +2103,9 @@ algebraically closed fields and impose no extra ambient-rank, freshness or unive
 hypothesis. The auxiliary extension \lean{FreshAmbient} and its proved rank bound in
 \lean{Closure/FreshExtension} supply fresh elements internally; injectivity pulls the
 polynomial and integer-power equations back. Closure transport reuses
-\lean{algHom_racl_image_eq_of_racl_eq}. The separate additive-subgroup classification is
-proved above. The torus-subgroup classification and general curve-coset lemma remain
-obligations (issue 5).
+\lean{algHom_racl_image_eq_of_racl_eq}. The separate additive- and torus-subgroup
+classifications are proved above. The general curve-coset lemma remains an obligation
+(issue 5).
 
 \begin{corollary}[base-ratio lemma]\label{cor:base-ratio}
 Let $b$ be transcendental over $k$, let $u_1,u_2$ be nonzero and independent from $b$,
@@ -6008,9 +6016,10 @@ nonclosed ambient, embeds the finite points in its algebraic closure, and
 obtains an automorphism there. No enlargement is needed in a closed ambient.
 This supersedes earlier open-status descriptions of the finite field
 clause only; infinite tuples in an unchanged ambient are not claimed.
-Explicit rank/dimension, the packaged variety-level lemma, composition,
-charts, actions and reconstruction completeness remain separate obligations;
-frozen M4a is unchanged. Original source statements and proofs are retained.
+Geometric rank and Krull dimension, the packaged variety-level lemma and the geometric
+fiber-product identification of composites remain obligations (issue 5), as do the original
+scheme/action statements (issue 21). The guarded initial chart and rank-five ACF completeness
+are proved. Frozen M4a is unchanged. Original source statements and proofs are retained.
 
 \clearpage
 \paragraph{Generic-point field dimensions after scalar extension.}
@@ -6039,8 +6048,10 @@ existing point construction. Locus dimension here means function-field
 transcendence degree, as in the existing dictionary; no Krull or geometric
 dimension bridge or packaged variety lemma is claimed. The reported
 independence-inference gap and original source proof are retained.
-Composition, charts, actions and reconstruction completeness remain
-separate obligations; frozen M4a is unchanged.
+Over arbitrary bases, function-field tensor components give actual composite germs;
+their identification with geometric fiber-product components remains open (issue 5).
+The guarded initial chart and rank-five ACF completeness are proved. Original scheme/action
+statements remain obligations (issue 21); frozen M4a is unchanged.
 
 \clearpage
 \paragraph{Actual incidence germs recover their parameter fields.}

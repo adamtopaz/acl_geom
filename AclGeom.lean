@@ -72,8 +72,11 @@ import AclGeom.Correspondence.GroupConfiguration
 import AclGeom.Correspondence.AffineAction
 import AclGeom.Correspondence.Additive
 import AclGeom.Correspondence.AdditiveSubgroup
+import AclGeom.Correspondence.SubgroupConnectedPrime
 import AclGeom.Correspondence.AdditiveSubgroupConnected
 import AclGeom.Correspondence.AdditiveThreePair
+import AclGeom.Correspondence.TorusCoordinates
+import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.DifferenceCocycle
 import AclGeom.Correspondence.AffineRelocation
 import AclGeom.Correspondence.MultiplierCurve

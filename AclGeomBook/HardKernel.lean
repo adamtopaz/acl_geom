@@ -8,6 +8,7 @@ import AclGeom.Correspondence.JRigidity
 import AclGeom.Correspondence.AdditiveThreePair
 import AclGeom.Correspondence.AdditiveSubgroupConnected
 import AclGeom.Correspondence.MultiplicativeLiteral
+import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -181,8 +182,10 @@ the old single-ambient closure lemma is not used across fields.
 Full field freeness and a closed ambient are proved in the next section.
 Numerical field dimension and finite-tuple ambient automorphisms follow
 below. Geometric rank, Krull dimension and the packaged variety-level lemma
-remain separate. Composition, charts, actions and reconstruction completeness
-remain open; frozen M4a is unchanged.
+remain separate. The guarded initial chart and rank-five ACF completeness
+are proved (`guardedAffineGridExtraction`, `jCompletenessACF`). The
+geometric fiber-product identification of composites and the original
+scheme/action statements remain open (#5, #21); frozen M4a is unchanged.
 
 # Every generic point has field freeness
 %%%
@@ -261,11 +264,14 @@ Its three examples were checked with standard Mathlib lint and the default
 kernel. Its 125 earlier fixture inputs and outputs were retained byte for
 byte and were not rerun for that documentation checkpoint.
 
-Geometric rank, Krull dimension, the packaged variety-level lemma,
-correspondence composition over a nonclosed base, initial charts, actions
-and reconstruction completeness remain open. Finite-tuple ambient
-automorphisms and numerical field dimension are proved below; frozen M4a
-is unchanged.
+Geometric rank, Krull dimension and the packaged variety-level lemma remain
+open. Over an arbitrary base, function-field tensor components give actual
+composite germs (configurations chapter); their identification with
+geometric fiber-product components, including over nonclosed bases, remains
+open (#5). The guarded initial chart and rank-five ACF completeness are
+proved; the original scheme/action statements remain open (#21).
+Finite-tuple ambient automorphisms and numerical field dimension are proved
+below; frozen M4a is unchanged.
 
 # Ambient automorphisms of finite generic points
 %%%
@@ -307,9 +313,10 @@ essential for the cancellation argument and for extension inside the
 unchanged ambient. The theorem makes no claim for infinite tuples.
 The field content of (a), finite (b) and literal (c) now has formal proofs;
 the numerical field degree follows below. Geometric rank, Krull dimension,
-the packaged variety-level lemma, correspondence composition over a nonclosed
-base, initial charts, actions and reconstruction completeness remain open.
-Frozen M4a is unchanged.
+the packaged variety-level lemma and the geometric fiber-product
+identification of composites remain open (#5), as do the original
+scheme/action statements (#21). The guarded initial chart and rank-five ACF
+completeness are proved. Frozen M4a is unchanged.
 
 # Generic-point dimensions after scalar extension
 %%%
@@ -622,9 +629,8 @@ universal-domain hypothesis: they pass to the algebraically closed extension
 `FreshAmbient Ω`, use its four independent variables, and pull the equations back through
 the injective embedding. Closure transport reuses `algHom_racl_image_eq_of_racl_eq`.
 The additive theorem omits the unused independence premise for the second triple and is
-therefore stronger than the source statement. The separate additive-subgroup classification
-is proved next. The torus-subgroup classification and general curve-coset lemma remain
-obligations.
+therefore stronger than the source statement. The separate additive- and torus-subgroup
+classifications are proved below. The general curve-coset lemma remains an obligation.
 
 # Connected additive subgroups
 %%%
@@ -655,7 +661,43 @@ The characteristic clauses follow from the existing `IsAdditive.eq_C_mul_X` in
 characteristic zero and `IsAdditive.coeff_eq_zero_of_ne_pow` in characteristic `p`:
 the polynomials are linear in the first case and have only `p`-power exponents in the
 second. These give the additive part of blueprint `subgroup-classification` in its
-connected source scope. The multiplicative part and general curve-coset lemma remain open.
+connected source scope. The multiplicative part follows next; the general curve-coset
+lemma remains open.
+
+# Connected subgroups of the torus
+%%%
+tag := "connected-torus-subgroups"
+%%%
+
+For a subgroup `H ≤ kˣ × kˣ`, use the standard closed embedding
+`(u,v) ↦ (u,v,u⁻¹,v⁻¹)` into affine four-space. Its canonical coordinate ring is
+`k[X₀,X₁,X₂,X₃] ⧸ I(H)`, where `I(H)` is the vanishing ideal of the image. Connectedness
+and dimension are those of this coordinate ring's prime spectrum. With closedness and
+both projections nonconstant, the source theorem gives nonzero integer exponents and the
+equation of every coset, including its nonzero constant:
+
+{docstring AclGeom.mulSubgroup_classification_of_connected}
+
+The proof derives primality internally. One shared theorem handles both subgroup
+classifications using concrete polynomial operations:
+
+{docstring AclGeom.isPrime_vanishingIdeal_of_connected}
+
+The additive consumer supplies translations for `u + v - c`; the torus consumer supplies
+coordinate scalings for `u * v * c⁻¹`. Closedness is in the torus, expressed through its
+embedding into affine four-space. Closedness in affine two-space would be a stronger
+hypothesis, excluding the nonzero diagonal. Connectedness of the plane closure gives the
+wrong test: in characteristic different from two, `u² = v²` is disconnected in the torus
+while its plane closure is connected.
+
+After clearing denominators, the plane closure has a height-one prime ideal generated by
+an irreducible polynomial. Scaling invariance and two support monomials give a character
+relation. Primality and algebraic closedness remove its common integer factor; the
+nonconstant projections make both exponents nonzero. Bézout's identity parametrizes the
+primitive character kernel. If the subgroup missed a point of that kernel, a nonzero
+one-variable polynomial would make its preimage finite, contradicting infinitude of the
+subgroup. Translation then gives every coset equation. This proves part (b) of blueprint
+`subgroup-classification`; the general curve-coset result remains a separate obligation.
 
 # The simultaneous-coset lemma
 %%%
@@ -713,9 +755,13 @@ reconstruction chapter now proves the no-fresh relative base-ratio
 corollary and actual base membership under an explicit relatively closed
 base hypothesis, by adjoining a rational-function variable. It also proves
 corrected conditional base recovery for the actual interpreted ring
-equivalence, under explicit carrier/completeness and RAC inputs. General
-unconditional recovery remains open; corrected conditional scalar one and
-outside-point recovery are proved there without RAC.
+equivalence, under explicit carrier/completeness and RAC inputs; corrected
+conditional scalar one and outside-point recovery are proved there without
+RAC. The public `reconstruction_target` supplies both completeness inputs
+internally: under the blueprint hypotheses its Φ carries the perfected base
+onto the perfected base and satisfies φ(M) = Φ(M^perf) ∩ L. The original
+general R1/R2 interpretation arguments and literal provenance remain
+obligations (#9, #23).
 
 Second, perfection: the base field is algebraically closed, so the coset
 constant has roots of every Frobenius order, and injectivity of the
@@ -739,7 +785,7 @@ The elementwise correspondence results, simultaneous-coset classification,
 and `j_rigidity` are proved uniformly in the exponential characteristic,
 meeting M3's rigidity acceptance test. The original three-pair additive and multiplicative
 correspondence statements are proved above without freshness hypotheses. The connected
-additive-subgroup classification is also proved. The torus-subgroup and general curve-coset
-statements, geometric fiber-product bridge and full generic-extension lemma remain open in #5.
+additive- and torus-subgroup classifications are also proved. The general curve-coset
+statement, geometric fiber-product bridge and full generic-extension lemma remain open in #5.
 The tensor-domain obligation #11 is proved above;
 the rational group and affine action construction remain open in #12 and #21.
