@@ -116,8 +116,11 @@ at rank five, with arbitrary bases and internally supplied completeness.
 `blueprintRatioEq_not_transitive` refutes transitivity over arbitrary fields at rank five,
 with no completeness or perfection hypothesis. The literal relation therefore does not
 define a setoid. `BlueprintTotalGraphs` transcribes both raw representative-level recipes
-and proves their geometric invariance with all literal replacement witnesses. Source
-totality, decoded-operation claims and the remaining provenance retain separate obligations. The bare field-isomorphism existence result is now stated
+and proves their geometric invariance with all literal replacement witnesses.
+`blueprintRatioAddGraph_wrong_sum` and `blueprintRatioMulGraph_wrong_product` refute both
+forward advertised operation laws on explicit semantic representatives, over infinite
+bases and perfect ambient fields at rank five. No decoder is assumed. Totality, reverse
+directions and the remaining provenance retain separate obligations. The bare field-isomorphism existence result is now stated
 without completeness inputs as `nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`;
 its bases need not be relatively algebraically closed. Remaining source provenance
 obligations still require their own disposition.

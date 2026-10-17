@@ -28,6 +28,7 @@ import AclGeom.Counterexamples.BlueprintTransport
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Counterexamples.RatioTransitivity
 import AclGeom.Counterexamples.RatioReflexivity
+import AclGeom.Counterexamples.RatioGraphValues
 import AclGeom.Counterexamples.BlueprintTotalGraphs
 
 open Verso.Genre Manual
@@ -381,9 +382,10 @@ of the literal ratio relation; no field operations or decoding are asserted on t
 
 The literal equivalence-relation assertion is refuted above at transitivity; symmetry and
 fixed-class reflexivity in the source setting are proved. The following section transcribes
-the two raw operation recipes and proves their geometric invariance. Their totality and
-decoded-operation claims retain separate obligations, with no quotient operation descent
-asserted.
+the two raw operation recipes and proves their geometric invariance. The advertised
+forward operation laws are refuted on semantic representatives below. Totality, reverse
+directions and the remaining provenance retain separate obligations, with no quotient
+operation descent asserted.
 This progress leaves the full I6b and I6c source-validation obligations open.
 
 # Literal operation recipes on representatives
@@ -416,9 +418,45 @@ independent universes, with all replacement, comparison, arithmetic and class wi
 {docstring AclGeom.blueprintRatioMulGraph_map_iff}
 
 These are representative-level formulas with explicit relation witnesses. They do not
-replace those witnesses with quotient equality. The source totality and decoded-operation
-claims remain separately tracked. No quotient operation descent or field structure is
-asserted for these literal formulas.
+replace those witnesses with quotient equality. The next section refutes the advertised
+forward operation laws on semantic representatives. Totality and reverse directions
+remain separately tracked. No quotient operation descent or field structure is asserted
+for these literal formulas.
+
+# Wrong values in the literal operation recipes
+%%%
+tag := "literal-operation-wrong-values"
+%%%
+
+The two raw recipes admit outputs with the wrong sums and products of their explicit
+semantic generator ratios. Both counterexamples use an infinite base, a perfect ambient
+field and transcendence degree at least five. Every numerator and denominator tuple
+belongs to the actual Frobenius class of `j(x,a)`. No quotient decoder is assumed.
+
+For independent `x,y,a` and a base scalar `κ` different from zero and one, addition
+accepts the common-denominator inputs `(j(x,a),j(y,a))` and `(j(y,a),j(y,a))`, with
+output `(j(κx+y,a),j(y,a))`. Its ratio differs from `x/y + y/y`:
+
+{docstring AclGeom.blueprintRatioAddGraph_wrong_sum}
+
+Multiplication accepts the reciprocal inputs `(j(x,a),j(y,a))` and `(j(y,a),j(x,a))`,
+with output `(j(κxy,a),j(xy,a))`. Its ratio is `κ`, whereas the input ratios multiply
+to one:
+
+{docstring AclGeom.blueprintRatioMulGraph_wrong_product}
+
+The scalar-family arithmetic producers supply these outputs. Literal ratio reflexivity
+supplies all input replacements and output comparisons, and the common-parameter bridges
+supply every tuple's class membership. The addition proof uses the existing denominator
+`y`; no extra independence or rank-six assumption is needed.
+
+These refute both forward advertised operation laws on semantic representatives.
+Totality remains a separate obligation. Reverse directions require a precise domain:
+the raw addition clause at a zero input requires equality of output representatives,
+so equal ratios alone cannot justify replacing that output. No quotient functionality
+or descent is claimed. The corrected coupled graphs, decoding and reconstruction remain
+proved. The source error was reported on issue #8 before source annotations; the original
+statements and proofs are preserved.
 
 # Coupled generic arithmetic
 %%%

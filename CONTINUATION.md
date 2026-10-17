@@ -12831,3 +12831,34 @@ M4a record remain exact. Source/TOTAL and original provenance obligations are no
 merely by these invariance proofs. Full library/book, strict, selected-type, exhaustive
 committed-head dependency and exact CI evidence are reported on #8. The durable goal remains
 incomplete.
+
+## Wrong values for both literal operation recipes (#8)
+
+`Counterexamples.RatioGraphValues` has exactly two public theorems and no auxiliary
+or private declarations. `blueprintRatioAddGraph_wrong_sum` gives semantic input pairs
+`(j(x,a),j(y,a))`, `(j(y,a),j(y,a))` and output `(j(κx+y,a),j(y,a))` satisfying the
+literal raw addition graph, with output ratio different from `x/y+y/y`.
+`blueprintRatioMulGraph_wrong_product` gives reciprocal inputs and output
+`(j(κxy,a),j(xy,a))` satisfying the literal raw multiplication graph, whose ratio is
+`κ` rather than one. The statements identify every input/output pair with its actual
+semantic tuples, and every numerator and denominator tuple belongs to the actual
+Frobenius class of `j(x,a)`. They assume no decoder.
+
+The hypotheses are an infinite base, a perfect ambient field and transcendence degree
+at least five. A base scalar outside `{0,1}` is chosen internally; arithmetic scalar
+producers provide the outputs and proved literal ratio reflexivity supplies every
+replacement and output comparison. Addition uses the denominator already present in the
+independent triple, with no rank-six or simultaneous freshness premise. Both agents
+independently checked the exact mathematical source, preserving all 373 preceding
+selected types and all 82 preceding scoped records; the expanded checks cover 375
+selected declarations and 84 scoped records using standard axioms.
+
+The forward-law error was reported on #8 (6230285952) before source annotations. All 48
+original statement blocks and 44 proof blocks remain exact, and reversing the documented
+annotations recovers the complete preceding source. Totality remains separately owed.
+Reverse directions require careful source-domain statements: the raw addition completion
+at a zero input forces equality of representatives, so equality of generator ratios
+alone cannot justify replacing that output. No quotient functionality, descent or field
+structure is asserted. The corrected coupled interpretation and reconstruction remain
+proved. I6b/I6c and the durable project goal remain open. Full library/book, exact-head CI,
+selected and exhaustive committed-head dependency evidence is reported on #8.

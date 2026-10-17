@@ -3776,7 +3776,9 @@ prove the geometric invariance assertion of the interpreted-reconstruction proof
 over arbitrary fields in four independent universes. No ratio-relation witness is
 silently replaced by equality in its equivalence closure. These formulas assert no
 quotient operation descent, field structure, functionality or totality. The following
-historical theorem's totality and decoded-operation claims retain their own obligations.
+historical theorem's forward operation laws are refuted on semantic representatives in
+\cref{rem:literal-operation-values}; totality and reverse directions retain their own
+obligations.
 \end{remark}
 
 \begin{theorem}[total geometric field graphs]\label{thm:total-field-graphs}
@@ -3819,6 +3821,32 @@ The equivalences show functionality because decode is injective, and the explici
 constructions show totality.  They also show that the definitions are independent of every
 generic choice.  No sixth independent element is used.
 \end{proof}
+
+\begin{remark}[Wrong values for the literal recipes in Lean]\label{rem:literal-operation-values}
+The two forward decoded-operation laws in \cref{thm:total-field-graphs} fail already
+on explicit semantic representatives. Over an infinite base and a perfect ambient field
+at transcendence degree at least five, take independent $x,y,a$ and $\kappa\in k$
+with $\kappa\ne0,1$. Every numerator and denominator tuple below belongs to the
+Frobenius class of $j(x,a)$.
+
+The theorem \lean{blueprintRatioAddGraph_wrong_sum} gives the literal addition graph
+for inputs $(j(x,a),j(y,a))$ and $(j(y,a),j(y,a))$ and output
+$(j(\kappa x+y,a),j(y,a))$, although
+$(\kappa x+y)/y\ne x/y+y/y$.
+The theorem \lean{blueprintRatioMulGraph_wrong_product} gives the literal multiplication
+graph for reciprocal inputs $(j(x,a),j(y,a))$ and $(j(y,a),j(x,a))$ and output
+$(j(\kappa xy,a),j(xy,a))$, although $\kappa xy/(xy)\ne(x/y)(y/x)=1$.
+The scalar-family arithmetic producers give the outputs, and literal ratio reflexivity
+supplies every replacement and output comparison. No quotient decoder is assumed.
+
+This refutes the forward laws on semantic representatives, independently of the
+already refuted literal decoder. Totality remains a separate obligation. Reverse
+directions require a precise domain: the raw zero-addition completion uses equality
+of representatives, which cannot be silently replaced by equality of ratios. No quotient
+functionality or operation descent is asserted here. The corrected coupled graphs have
+proved totality and exact operation laws. The error was reported on issue 8 before this
+annotation; every historical statement and proof above is preserved for provenance.
+\end{remark}
 
 \begin{proposition}[field reconstructed from a chosen class]\label{prop:interpreted-reconstruction}
 A point-geometry isomorphism maps a chosen $\Jrel_1$ class to a $\Jrel_1$ class and
