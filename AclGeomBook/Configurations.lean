@@ -245,9 +245,8 @@ using Mathlib's polynomial height, Jacobson and PID theorems.
 This represents each family's branches individually. The automorphisms need
 not preserve F, so no action on its fixed ideal set is asserted. No converse
 for arbitrary automorphisms is stated. Coherent triples of branches, a common
-normal cover, the parameter-family k-locus forms of (8.4c) and (8.6), the
-remaining Ψ branch instantiation and the original group/chunk and action
-statements remain obligations. The shared goal stays open.
+normal cover, the parameter-family k-locus forms of (8.4c) and (8.6), and
+the original group/chunk and action statements remain obligations. The shared goal stays open.
 
 # The semantic relations
 %%%
@@ -623,7 +622,7 @@ over arbitrary bases, as proved below. The finite-tuple calculus already identif
 it with the actual dominating
 components of geometric fiber products over arbitrary field bases in an ACF
 ambient. The literal six-point family branches are treated above. The remaining
-parameter-family identities, other branches, normal covers, group chunks and
+parameter-family identities, coherent choices of branches, normal covers, group chunks and
 original scheme/action bridges remain obligations.
 Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
@@ -683,7 +682,7 @@ No new public rank wrapper, field definition, normalization interface or
 checking option is added. The geometric fiber-product and generic-point
 presentation bridges are proved in the correspondence chapter. Literal selected
 six-point branches are treated above; the higher-dimensional family identities,
-other branches, normal covers, group chunks and original scheme/action bridges
+coherent choices of branches, normal covers, group chunks and original scheme/action bridges
 remain obligations.
 Guarded initial
 charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
@@ -733,10 +732,52 @@ Dependency checks do not establish source coverage.
 
 This proves the selected germ-level literal-field step of (8.6).
 The higher-dimensional parameter-family locus forms of (8.4c) and (8.6),
-the other finite branches, their common normal cover, original group/chunk
+coherent choices of branches, their common normal cover, original group/chunk
 uses and the full six-point algebraic-group theorem remain obligations.
 The original affine-action, general curve-coset, algebraization and
 scheme/action/descent statements also remain owed.
+
+# Every branch of a literal Ψ family
+%%%
+tag := "psi-family-conjugate-branches"
+%%%
+
+The three literal Ψ families now have the same individual-branch description
+as the six-point families. In an algebraically closed ambient field:
+
+{docstring AclGeom.QWitness.Psi.literal_family_branches_are_conjugates}
+
+Its only source input is the actual Ψ witness. The base field is arbitrary,
+and the base and ambient field universes are independent. Put
+$`F_6=k(a_1,a_2,b_1,b_2,c_1,c_2)`. Every minimal prime of each original
+two-generator family ideal after extension to $`F_6` is realized by an
+actual finite correspondence over $`F_6`:
+the A-family has endpoints Y to X and an automorphism over $`k(a_1,a_2)`;
+the B-family has endpoints Y to Z and an automorphism over $`k(b_1,b_2)`;
+the C-family has endpoints X to Z and an automorphism over $`k(c_1,c_2)`.
+Each output source remains transcendental over $`F_6`.
+
+The proof obtains the original three families, their endpoints and the
+larger-field generic source from the existing public literal-germ producer.
+Three calls to the generic-conjugate theorem give the exact requested ideals
+and endpoint images. No rank, span or coefficient proof is repeated.
+This adds one public theorem, no helpers and no checking option.
+The original families retain coefficient closures A, B and C by the
+preceding producer; no such assertion is made for split larger-field factors.
+
+Both agents compiled the exact frozen proof source and unchanged actual root
+importer with empty strict logs. The integrated file differs only by one old
+docstring status line, rebuilt in the final gates. All twenty-five affected declarations have standard
+dependencies, retaining all twenty-four preceding rows. The selected audit
+has 346 public standard-dependency statements with all 345 preceding types
+unchanged. These are dependency checks, not source-coverage claims.
+
+This represents each family's branches individually. The automorphisms
+need not preserve $`F_6`, so there is no action on its fixed ideal set or
+converse for arbitrary automorphisms. Coherent triples of branches, their
+common normal cover, both parameter-family k-locus forms (8.4c)/(8.6), the
+original group/chunk and full six-point theorem, affine-action, curve-coset,
+algebraization and scheme/action/descent statements remain obligations.
 
 # Relational correspondence composition is associative
 %%%

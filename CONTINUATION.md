@@ -12552,3 +12552,72 @@ algebraic-group theorem remain owed. Original affine-action, curve-coset,
 algebraization and scheme/action/descent obligations also remain. The root's
 temporary family-locus target/rank draft is not a proved project theorem.
 The issue and full shared goal remain open.
+
+
+## Every literal Ψ family branch is a generic conjugate (2026-10-16, #5)
+
+`QWitness.Psi.literal_family_branches_are_conjugates` supplies the actual
+three-family branch instantiation of (8.6). Its only inputs are Ψ and an ACF
+ambient, over an arbitrary base with independent base and ambient universes.
+Over F₆ = k(a₁,a₂,b₁,b₂,c₁,c₂), EVERY minimal prime of each extended original
+family ideal is the ideal of an actual F₆ finite correspondence. Its endpoints
+are an automorphic image of the original Y→X, Y→Z or X→Z pair over the family's
+own k(a₁,a₂), k(b₁,b₂) or k(c₁,c₂). Each source remains transcendental over F₆.
+
+The public literal-germ producer supplies G_A, L_A, L_B, L_C and their original
+endpoint equations. G_A.source_generic supplies the ambient capacity for all
+three applications of the existing generic-conjugate theorem. Rewriting the
+obtained family ideals gives the literal source expressions. Exactly one public
+theorem is added, with no helper, new core, repeated rank/span/coefficient proof,
+helper promotion or checking option. The explicit subset proofs in the statement
+are copied from the already compiled literal Ψ theorem. The original families
+retain coefficient closures A, B and C by that theorem. No such assertion is
+made for split F₆ factors. The automorphisms need not preserve F₆, and there is
+no action on the fixed-F₆ ideals or converse for arbitrary automorphisms.
+
+Peer freeze /tmp/acl_geom_claude_psi_lambda2/frozen1 has manifest
+383de4f41cd71dd430d876b7b67e6ec8e1889cb1faadf2521d8c12bcac54af05 (20 pins).
+Its first module-only check was strict-empty and passed; the final scoped chain
+passed on its first try, with empty strict PF and actual-root logs and no
+generated row. SelectedBaseChange stayed unchanged and was not recompiled.
+The scoped inventory has 25 standard-dependency rows and preserves all 24
+preceding rows. The only addition is the new public theorem, type hash
+2932239274, with two universes.
+
+Root independent freeze /tmp/acl_geom_codex_psi_lambda2_review/frozen1 has
+manifest 7baa37aa8a037eec27c7af39b4a86c7c09d0a2501a4adc6e347d69cd29a25847
+(18 pins). All five compiler phases passed on the first try: old inventory,
+exact PF, unchanged actual root, new inventory and selected audit. Both strict
+logs are empty; all 25 rows agree with the peer in raw type hash and declaring
+module, and all 24 old rows and all 345 preceding selected types are exact.
+The selected audit now has 346 public standard-dependency statements.
+The run took 29.25 seconds and peaked at 7.41 GiB, with verified 20 GB cap, no
+swap, two threads, no memory events and no stop. Dependency checks remain
+distinct from source coverage. Full build/book, clean-commit whole-library and
+exact-head CI evidence belongs to the checkpoint report on #5.
+
+The configuration chapter documents all three Ψ branches, and the correspondence
+chapter and shared frontier record the same scope. The obsolete old PF coefficient
+docstring now lists coherent choices of branches as open; this is the sole exact
+docstring correction relative to both proof freezes. All old mathematical
+statements and proofs are unchanged. Book status passages likewise distinguish
+individual branch realization from coherent triples.
+
+Source changes consist of the existing joint-component annotation and status
+updates to the NEW sides of two of the three separately recorded exposition
+corrections (indices 0 and 2). Their OLD sides remain exact, the third correction
+is unchanged, and every OLD and NEW side of the eleven earlier status pairs is
+unchanged. Reversing the exact corrections and removing the joint annotation
+recovers every original source byte; all 48 original statement blocks and 44
+proof blocks are exact. The goal core and frozen M4a are unchanged, and this
+guide is append-only. All sixteen #5 checklist texts/order/states are preserved.
+
+The individual branches of both the six-point and Ψ families are now covered.
+Coherent triples, the common normal cover, both parameter-family k-locus forms,
+original group/chunk uses, the full six-point algebraic-group theorem, affine-action,
+general curve-coset, algebraization and scheme/action/descent remain owed.
+The temporary private family-rank prototype is not a public family-locus result.
+The peer's next-target audit requires both dense legs of the finite function-field
+cover and an explicit partial-evaluation contraction bridge before claiming the
+identity of generic components. That bridge and the actual component consumer
+remain separate work. The issue and full shared goal remain open.

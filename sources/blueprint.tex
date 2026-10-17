@@ -1581,10 +1581,24 @@ data and the required transcendental element internally from the existing
 public literal-branch producer. Both public statements have two independent
 field universes. The automorphism need not preserve $F$: this is individual
 branch representation, not an action on the fixed-$F$ ideals or a converse
-for arbitrary automorphisms. Coherent branch triples, their common normal
-cover, the remaining $\Psi$ branch instantiation, the parameter-family
-k-locus forms of (8.4c) and (8.6), and the separate original group/chunk
-statements remain obligations.
+for arbitrary automorphisms.
+The actual $\Psi$ consumer
+\lean{QWitness.Psi.literal_family_branches_are_conjugates} now proves the
+individual-branch statement for all three literal families over
+$F_6=k(a_1,a_2,b_1,b_2,c_1,c_2)$. The A, B and C families have original
+endpoints $Y\to X$, $Y\to Z$ and $X\to Z$, and their conjugating
+automorphisms fix $k(a_1,a_2)$, $k(b_1,b_2)$ and $k(c_1,c_2)$ respectively.
+Its only source inputs are $\Psi$ and an ACF ambient, over an arbitrary
+base. The public literal-germ producer supplies all original families,
+their endpoints and the required larger-field generic element. Three
+further calls to the generic-conjugate theorem give each requested exact
+ideal and endpoint pair, with source transcendental over $F_6$.
+Exactly one public theorem and no helper are added, with two independent
+field universes. The original families' coefficient closures remain
+$A,B,C$ by the earlier producer; no corresponding assertion for the split
+$F_6$ factors is made. Coherent branch triples, their common normal cover,
+the parameter-family k-locus forms of (8.4c) and (8.6), and the separate
+original group/chunk statements remain obligations.
 The geometric generic-point presentation step is proved by
 \lean{exists_idealOf_eq_iff}: for any prime ideal $P$ in a polynomial ring
 with finitely many variables, the literal quotient $k[\iota]/P$ has an
@@ -1634,8 +1648,8 @@ subsection through generic-extension (a)--(c). The earlier endpoint-image
 qualification and infinite-degree independence-inference gap are retained;
 the displayed degree identity is true, while field freeness supplies
 independence by a different argument. The parameter-family identities,
-other finite branches and original group/chunk and scheme/action
-obligations remain separate.
+coherent choices of branches, a common normal cover and original
+group/chunk and scheme/action obligations remain separate.
 \end{remark}
 
 \begin{remark}[Relational associativity in Lean]
@@ -6442,7 +6456,7 @@ conclusion is supplied. Selected germ composition over the closed and literal
 parameter fields is proved, as are finite-tuple correspondence composition,
 the guarded initial chart, rank-five completeness and public reconstruction
 under the genuine blueprint hypotheses. The parameter-family locus identities,
-other branches, common normal cover and original group/action extraction
+coherent choices of branches, common normal cover and original group/action extraction
 remain obligations; reported proof gaps and frozen M4a are retained.
 
 \clearpage
@@ -6480,8 +6494,8 @@ common-field endomorphism. The globally quantified $\Psi$ is never transported.
 Finite-generator coefficient fields may split; this argument uses closed
 parameter fields. Closure equality is not literal generated-field equality.
 The selected literal-field germ and finite-tuple correspondence composition
-are proved. The parameter-family locus identities, other branches, common
-normal cover and original group/chunk and action/classification statements
+are proved. The parameter-family locus identities, coherent choices of branches,
+the common normal cover and original group/chunk and action/classification statements
 remain obligations. The guarded initial chart, rank-five completeness and
 public reconstruction under the genuine blueprint hypotheses are proved
 elsewhere; all reported proof gaps and frozen M4a are retained.

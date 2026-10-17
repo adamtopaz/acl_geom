@@ -478,9 +478,12 @@ This does not assert those coefficient closures for split larger-field factors.
 In an ACF ambient, every branch of each literal six-point family is now
 realized as an actual larger-field generic conjugate of the original endpoints
 over that family's own parameter field, as proved in the configuration chapter.
-This treats branches individually. Coherent triples, their common normal cover,
-the remaining Ψ branch instantiation and the parameter-family locus forms of
-(8.4c) and (8.6) still require separate proofs.
+The Ψ analogue now realizes every branch of each of its three literal
+two-generator families over the six-generator parameter compositum in the
+same way, from Ψ and an ACF ambient alone. It reuses the public literal
+producer and asks for no branch-genericity conclusion. Both results treat
+branches individually. Coherent triples, their common normal cover and the
+parameter-family locus forms of (8.4c) and (8.6) still require separate proofs.
 The geometric presentation
 step for arbitrary irreducible correspondence curves is proved above by
 `exists_idealOf_eq_iff`, with the necessary ambient-size condition.
