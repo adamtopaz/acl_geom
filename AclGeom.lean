@@ -292,6 +292,7 @@ import AclGeom.Correspondence.CurveCosetCommutative
 import AclGeom.Correspondence.AlgebraicGroupProduct
 import AclGeom.Correspondence.AffineGroupGeometry
 import AclGeom.Correspondence.AffineSchemeAction
+import AclGeom.Correspondence.SchemeCurveFunctionField
 import AclGeom.Functorial.ChoiceIndependence
 import AclGeom.Test.Validation
 import AclGeom.Test.TwoGenericSource

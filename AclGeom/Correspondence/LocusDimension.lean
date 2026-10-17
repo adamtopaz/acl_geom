@@ -82,6 +82,15 @@ private theorem exists_dimension_trdeg_eq (k A F : Type*) [Field k] [CommRing A]
     simpa only [Cardinal.lift_mk_fin, Cardinal.lift_eq_nat_iff] using hcard.symm
   exact ⟨n, hdim, htr⟩
 
+/-- A finite-type domain and its fraction field have the same finite dimension.
+Named consumer: the one-variable function field of an actual integral curve scheme.
+This exposes the existing Noether-normalization proof without a second implementation. -/
+theorem exists_ringKrullDim_trdeg_eq_of_finiteType (k A F : Type*) [Field k]
+    [CommRing A] [IsDomain A] [Field F] [Algebra k A] [Algebra A F]
+    [IsFractionRing A F] [Algebra k F] [IsScalarTower k A F] [Algebra.FiniteType k A] :
+    ∃ n : ℕ, ringKrullDim A = n ∧ Algebra.trdeg k F = n :=
+  exists_dimension_trdeg_eq k A F
+
 open scoped IntermediateField.algebraAdjoinAdjoin
 
 /-- The Krull dimension of the literal coordinate ring `k[ι]/I(a)` and the transcendence degree

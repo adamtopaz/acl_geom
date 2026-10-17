@@ -2156,6 +2156,24 @@ an arbitrary source action, the required normal-subgroup producer, birational
 identifications, algebraization and descent remain open (issue 21). The original
 lemma and proof above retain their provenance unchanged.
 
+\paragraph{Lean status of the scheme/function-field bridge.}
+The theorem \lean{scheme_functionField_isFunctionFieldOneVar} derives the existing
+one-variable function-field hypothesis from an actual integral curve scheme, locally
+of finite type and of dimension one, over an arbitrary field. Its field is the actual
+generic stalk; the structure morphism supplies the base algebra, and an internally
+chosen affine open supplies finite generation. The theorem
+\lean{ActionFunctionField.functionFieldAction} constructs the contravariant pullback
+homomorphism of an actual regular scheme action into the opposite group of
+$k$-algebra automorphisms of that field. The same base algebra is used by both results.
+For a curve separated over $k$, \lean{ActionFunctionField.functionFieldAction_injective}
+proves injectivity under the explicit hypothesis that no nontrivial $k$-point acts as
+the identity scheme morphism. This point-kernel criterion is not asserted equivalent
+to scheme-theoretic faithfulness in positive characteristic. These results bridge
+schemes to the curve-field library; they do not regularize a rational action, construct
+the action on places or prove the arbitrary-action classification. All eight original
+issue-21 work items remain open. The original statement and proof retain their
+provenance unchanged.
+
 % Original unguarded affine-grid-extraction from ed61c33, refuted in issue 27.
 \iffalse
 \begin{lemma}[affine grid and meet extraction]\label{lem:affine-grid-extraction}

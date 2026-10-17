@@ -13,6 +13,7 @@ import AclGeom.Correspondence.CurveCosetCommutative
 import AclGeom.Correspondence.AlgebraicGroupProduct
 import AclGeom.Correspondence.AffineGroupGeometry
 import AclGeom.Correspondence.AffineSchemeAction
+import AclGeom.Correspondence.SchemeCurveFunctionField
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
@@ -1756,3 +1757,66 @@ normal subgroup, original group/chunk and six-point producers, and scheme/action
 algebraization and descent remain open. All eight original requirements of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain obligations. The full shared
 goal remains active and incomplete.
+
+
+# From scheme curves to function-field actions
+%%%
+tag := "scheme-curve-function-field"
+%%%
+
+An integral curve scheme, locally of finite type over an arbitrary field k and of scheme
+dimension one, now supplies the curve library's one-variable field hypothesis internally.
+Its field is the actual stalk at the scheme's generic point. The base algebra comes from
+the given morphism to Spec k, rather than from an additional caller choice.
+
+{docstring AclGeom.scheme_functionField_isFunctionFieldOneVar}
+
+The class asks for a transcendental element t and finiteness over k(t); this needs no
+perfectness or separability premise. The proof chooses a nonempty affine open of dimension
+one, identifies its section domain's fraction field with the actual generic stalk, and
+uses the existing Noether-normalization dimension calculation. The affine open comes
+from a strict chain of irreducible closed subsets and Mathlib's order isomorphism for an
+open embedding; no general open-cover dimension interface is introduced.
+
+{docstring AclGeom.exists_isAffineOpen_dimension_one}
+
+{docstring AclGeom.exists_ringKrullDim_trdeg_eq_of_finiteType}
+
+A regular scheme action also supplies actual automorphisms over Spec k. Mathlib already
+makes morphisms into a group object act on morphisms into its space; global points give
+these scheme automorphisms. Pulling back functions is contravariant, so the resulting
+homomorphism lands in the opposite group of k-algebra automorphisms.
+
+{docstring CategoryTheory.ModObj.pointAut}
+
+{docstring AclGeom.ActionFunctionField.functionFieldAction}
+
+{docstring AclGeom.ActionFunctionField.algEquivOfIso_apply}
+
+The two constructions use the same derived base algebra. The spectrum/global-section
+adjunction identifies pullback along the generic-point morphism with the canonical global
+section followed by its generic germ. This supplies the scalar tower in the curve-field
+proof without another implementation of pullback.
+
+{docstring AclGeom.ActionFunctionField.functionFieldAlgebra_eq_germ}
+
+For an integral scheme separated over k, an automorphism over Spec k is determined by its
+function-field action. The proof uses the dominant generic-stalk inclusion and Mathlib's
+separated-morphism extensionality theorem. The base compatibility is part of the data of
+an automorphism over Spec k.
+
+{docstring AclGeom.ActionFunctionField.autFunctionField_injective}
+
+Consequently the scheme action gives an injective field homomorphism when its point-action
+kernel is trivial. The hypothesis states exactly that no nontrivial k-point acts as the
+identity of the scheme. In positive characteristic, this is weaker than scheme-theoretic
+faithfulness, since nonreduced kernels can be invisible on k-points.
+
+{docstring AclGeom.ActionFunctionField.functionFieldAction_injective}
+
+These are genuine scheme/function-field bridges in the second work item of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21). The action input here is regular;
+the original source assumes a rational action. Rational-action regularization, the action
+on places, the arbitrary curve-action classifier, the normal-subgroup producer and the
+original algebraization/descent requirements remain separate. All eight original work
+items remain open, and the full shared goal remains active and incomplete.

@@ -84,6 +84,12 @@ The affine group has dimension two and an ACF connected algebraic-group package.
 standard affine scheme action satisfies the literal ax+b formula and is faithful over every
 commutative coefficient algebra in the base universe. This constructs the (8.4a) target
 model; the arbitrary-action classifier and all eight original #21 items remain open.
+The actual scheme/function-field bridge now derives the one-variable class for the genuine
+generic stalk of an integral locally finite-type curve of dimension one over arbitrary fields.
+A regular scheme action gives a contravariant field-automorphism homomorphism on base-field
+points, injective for a separated scheme under the explicit point-action kernel criterion.
+Both results share one internally constructed base algebra. The places action, rational-action
+regularization and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
 The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
@@ -13541,3 +13547,47 @@ and normal-subgroup bridges, group/chunk and six-point producers, algebraization
 descent. The original source statement/proof blocks, TEST clauses, shared objective and
 completion core, and frozen M4a history remain exact. The full durable goal is active
 and incomplete.
+
+
+## Checkpoint: actual scheme curves and function-field actions (#21)
+
+`Correspondence.ActionFunctionField` constructs the function-field action of an actual
+regular scheme action. Mathlib's Hom.mulAction gives global points acting by scheme
+automorphisms over Spec k. Dominant morphisms induce contravariant function-field maps,
+with identity and composition proved from the existing FunctionFieldEquivalence API.
+The base algebra is the structure morphism's pullback from the function field of Spec k;
+explicit local instances avoid a global algebra diamond. The actual homomorphism lands
+in the opposite group of k-algebra automorphisms. For a scheme separated over k, its
+injectivity follows from the genuine point-action kernel criterion and the dominant
+generic-stalk inclusion. This is not a scheme-faithfulness equivalence in characteristic p.
+
+`CurveFunctionFieldAlgebra` proves that an essentially finite-type field of transcendence
+degree one is a one-variable function field, without perfectness. It also chooses a
+nonempty affine open of dimension one in any dimension-one scheme. A point of the bottom
+member of a strict irreducible-closed chain chooses the open; Mathlib's open-embedding
+order isomorphism preserves the chain. Subspace dimension supplies the other inequality.
+No general cover-dimension API is added.
+
+`SchemeFunctionFieldBase` identifies the pullback algebra with the canonical map through
+global sections and their generic germ. Its proof postcomposes the generic-point morphism
+with toSpecΓ and uses Spec.map injectivity and naturality. `SchemeCurveFunctionField`
+then proves the one-variable class for the ACTUAL generic-stalk field of an integral,
+locally finite-type curve scheme of dimension one. Its base algebra is exactly the one
+used by ActionFunctionField. The proof constructs the affine section algebra and scalar
+tower internally, uses Mathlib's fraction-ring theorem, and derives both dimension and
+transcendence degree from the same natural number. A single public access theorem in
+LocusDimension exposes its existing private Noether-normalization proof; no implementation
+is copied and all previous declarations remain unchanged.
+
+Both agents read the complete proofs and independently checked each other's modules.
+The original source statement/proof blocks and TEST clauses, shared objective/completion
+core and frozen M4a history remain exact. The checkpoint report records strict checks,
+complete selected types, declaration/axiom inventories, parent preservation, actual book
+content, full library/book gates and exact-head CI. A finite dependency inventory is not
+a whole-source coverage certificate.
+
+The bridge takes a regular action; source Lemma affine-action takes a rational action.
+Rational-action regularization, the action on places, the normal-subgroup and original
+group/chunk/six-point producers, arbitrary-action classification, algebraization and
+descent remain owed. All eight original #21 work items stay open. The complete durable
+goal remains active and incomplete.
