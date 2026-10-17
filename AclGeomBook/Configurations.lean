@@ -568,11 +568,14 @@ The result strengthens the product clause of source `mul-diagram`; the original 
 surrounding ACF discussion and its curve-coset proof retain their provenance. It does not
 assert that the original section lacked an implicit closed-field setting.
 
-The named consumers are that source product clause and the corrected Q′ statement on
-[#25](https://github.com/adamtopaz/acl_geom/issues/25). Corrected arbitrary-field Q/Q′
-statements and general existential-witness descent remain separate there; this result
-does not prove the refuted raw Q/Q′ equivalences. Original group/chunk, coherent-cover
-and scheme/action obligations remain open.
+The named consumers are that source product clause and
+`q'Sem_iff_exists_jGeom_mulDiagram`, the corrected Q′ statement proved in the transfer
+chapter. The corrected Q formula is projected geometric J; the Q′ formula adds an actual
+multiplication diagram. Both equivalences hold over arbitrary bases and perfect ambient
+fields at rank five, with every existential point in K and no RAC hypothesis.
+The raw Q/Q′ equivalences remain refuted. No separate general raw existential-witness
+descent theorem is stated by the source; that exploratory question is unresolved.
+Original group/chunk, coherent-cover and scheme/action obligations remain open.
 
 # Semantic assembly of J
 %%%
@@ -1322,6 +1325,7 @@ nonzero x, giving both refutations with no completeness hypothesis:
 The reflection applies to these supplied table and quadrangle witnesses.
 The finite polynomial witness descent and guarded ACF completeness are proved above.
 The four-way J API retains its explicit ACF input; the new rank-five ACF theorem supplies
-it. The original arbitrary-field Q/Q′ consequences remain refuted.
+it. The original arbitrary-field Q/Q′ consequences remain refuted; the transfer chapter
+proves their corrected projected replacements over perfect ambient fields at rank five.
 
 {include 0 AclGeomBook.Configurations.GroupChunkRecord}

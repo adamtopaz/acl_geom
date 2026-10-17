@@ -24,12 +24,16 @@ with five independent elements. The multiplication-diagram product converse is p
 It reduces rank-five ACF `Q′` and `J` completeness to guarded `Q` completeness, now proved
 in `Config.GuardedAffineGrid`. `Config.Completeness` supplies the resulting rank-five ACF
 `J` theorem. The public reconstruction theorem supplies these completeness proofs internally.
-The generic conditional APIs remain reusable; the remaining four-way/source descent
-formulations are tracked separately.
+The generic conditional APIs remain reusable. `Transfer.JCorrectness` supplies the full
+four-way `J` theorem over perfect ambient fields of rank at least five, without RAC.
+`Transfer.ProjectedConfigurations` proves corrected projected `Q`/`Q′` equivalences under
+those hypotheses; their existential `J` point belongs to the original ambient field.
 Counterexamples.QRefutation retains
 the characteristic-zero arbitrary-field `Q′` refutation and the earlier `Q` example (#25).
 
-**Status:** in progress (M4–M5).
+**Status:** the soundness and conditional completeness APIs in this module are proved.
+Their completeness inputs and the source's four-way `J` theorem are supplied by the
+modules named above. The refuted raw `Q`/`Q′` consequences are not asserted.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

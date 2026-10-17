@@ -22,8 +22,10 @@ and the multiplication converse gives ACF J completeness at transcendence degree
 five. The product-output clause now also holds over arbitrary fields for an actual diagram
 and representatives X=[x], Y=[y], V=[x/y], with no closedness, perfection or rank premise:
 `MulDiagram.product_point`. Only E=[xy] reflects from the algebraic closure; the full
-auxiliary table remains an ACF result. Corrected arbitrary-field Q/Q′ and general
-existential-witness descent remain separate on #25. The actual chart and its original-field
+auxiliary table remains an ACF result. Corrected projected Q/Q′ equivalences are now proved
+over arbitrary bases and perfect ambient fields at rank five, with every existential
+point over K. The raw consequences remain refuted. General raw existential-witness
+descent is an unresolved exploratory question, not a separately stated source theorem. The actual chart and its original-field
 coordinate descent are internal. The public
 `exists_reconstruction` and `reconstruction_target` now supply both completeness proofs
 internally. Their only hypotheses are the two original RAC bases, source rank five, the
@@ -13276,3 +13278,53 @@ selected types/inventory, clean-head exhaustive dependency and exact-head CI evi
 are reported on #25 before this checkpoint is final. #7/#25 and the durable project goal
 remain open. Corrected arbitrary-field Q/Q′, general existential-witness descent and true
 group/chunk, coherent-cover and scheme/action obligations are not discharged here.
+
+
+## Checkpoint: corrected projected configurations and the M5 source audit (#25, #7)
+
+`Transfer.ProjectedConfigurations` proves `qSem_iff_exists_jGeom` and
+`q'Sem_iff_exists_jGeom_mulDiagram`. Over arbitrary base fields and perfect ambient fields
+of transcendence degree at least five, semantic Q is exactly `∃ P, JGeom X P Y S V`;
+semantic Q′ is exactly `∃ V P A B C D, JGeom X P Y S V ∧ MulDiagram X Y V E A B C D`.
+Every existential is a point over K. Both public types retain perfection and rank five;
+there is no RAC, ACF, infinite-base, caller completeness or freshness premise.
+
+The first proof composes semantic J projection with the proved perfect-field J theorem.
+The second chooses a parameter fresh over only the two semantic representatives, uses
+the explicit multiplication table, and reads the reverse product via
+`MulDiagram.product_point`. The old raw predicates are unchanged. The formulas are finite
+and nonrecursive: geometric J was defined with the original raw predicates and proved
+correct before these projections. No arbitrary-witness descent or arbitrary-field full
+auxiliary coordinate table is claimed.
+
+Peer and independent checks agree on the exact leaf (SHA-256
+`6ecf791ad8ba2c54cd657bc853ad7de7d5891e23294ad7b412a343153e3047ae`), all full public
+types and scoped records. Both new declarations have two independent universe levels
+and standard axioms; their type hashes are 1565943284 and 1306459126. The peer's first
+proof passed mathematics/type checking but an inventory guard caught one generated
+auxiliary from an omega cardinality proof. Replacing only that finite-set bound with
+`Finset.card_le_two.trans (by decide)` removed the auxiliary; both statements and full
+types stayed exact. The final leaf required no repair in the independent check.
+The selected scope is 390 standard-axiom declarations and 100 records, preserving every
+preceding 388 type and 98 record exactly, with exactly two new public declarations and
+no helper, private, internal or generated addition.
+
+The source-scope audit compared the original J-descent statement and proof with T1--T4.
+Its only arbitrary-field Q/Q′ assertion was the false consequence already refuted with
+provenance. No separate general raw existential-witness descent theorem is stated.
+J descent lifts supplied witnesses in one direction and descends the semantic pair before
+constructing K-witnesses in the other; it never needs descent of arbitrary lifted raw
+witnesses. That question stays explicitly unknown and exploratory, not proved or refuted.
+The source's §10 alignment clauses have their separate common-representative/global
+Frobenius/M6 dispositions. This scope correction does not narrow the project endpoint.
+
+Only headers change in four old mathematical modules: LiftConfig, OneQuantifier,
+Correctness and Multiplication. All their statements and proof bodies stay exact.
+Original source statements/proofs and TEST clauses, the shared objective/completion
+criteria and frozen 117-item M4a record remain exact. The source/book/goal distinguish
+raw refutations, proved projected replacements and the unresolved exploratory question.
+Full build/book, strict checks, selected and exhaustive dependency audits and exact-head
+CI are reported on #25 before this checkpoint is final. #7/#25 may close after these
+gates and the recorded dispositions; the full durable goal remains active. Original
+and supplementary group/chunk, coherent-cover, curve/scheme/action, algebraization and
+descent obligations remain open.

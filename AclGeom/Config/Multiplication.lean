@@ -21,13 +21,18 @@ The projective multiplication diagram, stated without a picture
   `(X, Y, S, V)` together with a multiplication diagram converting the
   ratio point `V` into the product point `E`.
 
-The coordinate check (blueprint Lemma mul-diagram) and the correctness
-theorem for `Q′` (blueprint Thm qp-correct) arrive with checklist G4.
+The coordinate check is proved in `Config.MulDiagramCheck`, and the full coordinate
+converse over ACF base and ambient fields is proved in `Config.MultiplicationConverse`,
+without a rank bound. `Transfer.MulDiagramProduct` strengthens its product clause to
+arbitrary fields for actual bottom representatives, without descending the auxiliary table.
+`Config.Completeness` supplies rank-five ACF `Q′` completeness, and
+`Transfer.ProjectedConfigurations` gives its corrected projected form over perfect ambient
+fields at rank five. The original raw arbitrary-field consequence remains refuted.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M4, checklist G4 definition side).
+**Status:** the definitions and guard lemmas in this module are complete (M4, G4).
 -/
 
 namespace AclGeom

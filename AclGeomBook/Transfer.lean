@@ -11,6 +11,7 @@ import AclGeom.Transfer.Descent
 import AclGeom.Transfer.LiftConfig
 import AclGeom.Transfer.JDescent
 import AclGeom.Transfer.JCorrectness
+import AclGeom.Transfer.ProjectedConfigurations
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -24,8 +25,8 @@ tag := "transfer"
 %%%
 
 Gismatullin's transfer principle (blueprint §9, milestone M5) supplies the
-field-theoretic steps toward transferring geometric `J` correctness to
-perfect fields with a relatively algebraically closed base. The `J`
+field-theoretic steps for transferring geometric `J` correctness to perfect ambient fields.
+The original relatively algebraically closed base hypothesis is unnecessary for this step. The `J`
 equivalence uses algebraically closed completeness, which is proved at rank five
 (`jCompletenessACF`).
 The blueprint's claimed arbitrary-field `Q` and `Q′` consequences have
@@ -178,9 +179,8 @@ of the descent theorem:
 tag := "descent-foundation"
 %%%
 
-The remaining piece of this layer is the application to the geometric
-`J`-predicate (blueprint §9's descent theorem), whose foundations are in
-place. The opening line of the blueprint's proof — the point geometry of a
+The application to the geometric `J`-predicate (blueprint §9's descent theorem) is proved. The
+opening line of the blueprint's proof — the point geometry of a
 subextension embeds in that of the ambient field — is the ambient
 invariance of `racl`, proved by transporting ambient-coefficient
 annihilators along the inclusion:
@@ -306,9 +306,55 @@ quadrangle witnesses are explicitly supplied as lifted `K`-points:
 {docstring AclGeom.QGeom.of_lift_witness}
 
 These focused results use no completeness hypothesis. They supply the concrete #25
-geometric witnesses in `Counterexamples.QDescent`; general existential-witness descent
-remains a separate obligation. The literal arbitrary-field consequences are refuted by:
+geometric witnesses in `Counterexamples.QDescent`. No separate general raw
+existential-witness descent theorem is stated in the source. That exploratory question is
+unresolved, and these explicit-instance results assert none. The literal arbitrary-field
+consequences are refuted by:
 
 {docstring AclGeom.not_forall_qGeom_imp_qSem}
 
 {docstring AclGeom.not_forall_q'Geom_imp_q'Sem}
+
+
+# Corrected projected Q and Q′
+%%%
+tag := "projected-q-corrections"
+%%%
+
+Over an arbitrary base field and a perfect ambient field of transcendence degree at
+least five, the corrected geometric Q formula retains the missing point in the ambient
+field K:
+
+`QSem X Y S V ↔ ∃ P : Point k K, JGeom X P Y S V`.
+
+{docstring AclGeom.qSem_iff_exists_jGeom}
+
+The semantic projection of J and the proved geometric/semantic J equivalence give this
+formula. In particular, the existential point P belongs to K; it is not chosen only in
+an algebraic closure. For Q′ the actual ratio point is followed by a multiplication diagram:
+
+The six existential points V, P, A, B, C, D lie over K, with body
+`JGeom X P Y S V ∧ MulDiagram X Y V E A B C D`.
+
+{docstring AclGeom.q'Sem_iff_exists_jGeom_mulDiagram}
+
+The forward direction chooses a parameter fresh only over the two actual representatives
+and uses the explicit multiplication table. The reverse direction reads those representatives
+from projected J and applies `MulDiagram.product_point`. Every existential witness is a
+point over K. No RAC, algebraic closedness, infinite-base, caller completeness or supplied
+freshness hypothesis occurs. The perfectness and rank-five hypotheses remain visible in
+both public equivalences. The two field universe levels are independent, and both theorems
+have only the standard Lean axioms, with no helper or generated auxiliary declaration.
+
+The raw predicates QGeom and Q′Geom retain their original definitions and refutations.
+These are corrected projected formulas; they assert no general descent of arbitrary
+configuration witnesses and no full auxiliary coordinate table over arbitrary fields.
+The formulas are finite and nonrecursive: JGeom uses the original raw configuration
+predicates, and its correctness theorem was proved before these projections.
+
+This disposes of the false arbitrary-field consequence with its recorded counterexamples
+and proved replacements. No separate general raw existential-witness descent theorem is
+stated in the source or asserted either way here. That question remains unresolved and
+exploratory. The source's four-way J theorem, transfer steps and original §10 alignment
+claims have their separate proved or refuted dispositions; original group/chunk,
+coherent-cover and scheme/action obligations remain open.

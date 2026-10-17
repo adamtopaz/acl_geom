@@ -2807,7 +2807,7 @@ any embedding into an algebraically closed field, and
 \lean{jGeom_iff_jSem_of_perfectField}, its consequence over every perfect ambient field
 of transcendence degree at least five.  The original RAC hypothesis is unnecessary.
 The proof supplies the completeness implication internally from \lean{jCompletenessACF}.
-The following Q/Q-prime correction remains separate.
+The following audit records the false Q/Q-prime consequence and its proved correction.
 
 \begin{remark}[Audit correction: the arbitrary-field $\Qrel,\Qprel$ consequences]
 \label{rem:q-descent-audit}
@@ -2888,16 +2888,54 @@ characteristic zero fixes the ratio, and $(2,1)$-weighted homogeneity makes $s/x
 algebraic. In a rational function field this is a constant, contradicting the nonsquare
 property of a nonzero constant times $s$. The $\Qprel$ proof supplies the ratio using the
 multiplicative-correspondence quotient theorem and an independent fresh element.
-Corrected arbitrary-field Q/Q-prime statements and general existential-witness descent
-remain separate on issue 25; no such witness-descent theorem is asserted here.
+Corrected projected Q/Q-prime statements are proved in \cref{rem:projected-q-correction}.
+No separate general descent theorem for arbitrary raw configuration witnesses is stated
+in the source. That exploratory question is unresolved; no such theorem or refutation is
+asserted here.
 \lean{jDescent_tfae} proves the four-way $\Jrel$ equivalence over perfect ambient fields
 at rank five, with no RAC or infinite-base requirement. \lean{jCompletenessACF} supplies
 its ACF implication internally from proved guarded Q completeness and the multiplication
 converse. \lean{MulDiagram.product_point} now gives the product-output clause for actual
 representatives over arbitrary fields, but supplies no missing Q-projection point or
-auxiliary witness descent. The interpretation's original literal defects have their
+auxiliary witness descent. The projected corrections instead retain the missing point
+inside $K$. The interpretation's original literal defects have their
 refutations and proved coupled replacements in \cref{rem:literal-m6-disposition}.
 The false original Q/Q-prime consequences and their proofs retain their provenance.
+\end{remark}
+
+\begin{remark}[Proved correction: projected Q and Q-prime over perfect fields]
+\label{rem:projected-q-correction}
+Let $k\subseteq K$ be arbitrary fields, with $K$ perfect and
+$\operatorname{trdeg}(K/k)\geq5$. Then
+\[
+ \Qrel_{\rm sem}(X,Y,S,V)\quad\Longleftrightarrow\quad
+ \exists P\in\mathcal G_1(K/k),\ \Jrel_{\rm geom}(X,P,Y,S,V).
+\]
+Here $\mathcal G_1(K/k)$ is the set of atoms of $\G(K/k)$ and $\Qrel_{\rm sem}$ is the
+semantic coordinate condition; the right side is the corrected
+geometric formula, with its missing point required over $K$. Lean proves this as
+\lean{qSem_iff_exists_jGeom}, by semantic J projection and
+\lean{jGeom_iff_jSem_of_perfectField}. Likewise,
+\[
+ \Qprel_{\rm sem}(X,Y,S,E)\quad\Longleftrightarrow\quad
+ \exists V,P,A,B,C,D\in\mathcal G_1(K/k),\quad
+ \Jrel_{\rm geom}(X,P,Y,S,V)\ \wedge\ \operatorname{MulDiagram}(X,Y,V,E,A,B,C,D).
+\]
+This is \lean{q'Sem_iff_exists_jGeom_mulDiagram}. Its forward direction uses actual
+semantic representatives $x,y$, a parameter fresh over just $\{x,y\}$ and the explicit
+multiplication table. Its reverse direction uses projected J to recover actual
+representatives and \lean{MulDiagram.product_point} to identify $E=[xy]$.
+Every existential point belongs to the original geometry over $K$. No RAC, ACF,
+infinite-base or supplied completeness/freshness premise is required. Perfection of $K$
+and rank five are hypotheses of both public equivalences.
+
+The raw predicates $\Qrel$ and $\Qprel$ and their refutations remain unchanged. These
+finite formulas are nonrecursive: $\Jrel$ uses the original raw predicates and its
+correctness was proved independently of these projections. Neither equivalence claims
+general descent of arbitrary raw witnesses or a full auxiliary table over arbitrary
+fields. The false original consequence retains its provenance; the separate general
+raw-witness question remains exploratory and unresolved, not an additional statement
+of the source. Original group/chunk, coherent-cover and scheme/action obligations remain.
 \end{remark}
 
 \section[The Frobenius-class relation on J]
@@ -6161,7 +6199,9 @@ using Frobenius naturality, including (20.20). Both quotient-category unit laws 
 quotient injectivity under source rank five.
 \end{itemize}
 This resolves the numbered validation suite, not the full source-coverage audit. The
-arbitrary-field Q/Q-prime correction and general witness-descent scope remain on issue 25.
+arbitrary-field Q/Q-prime correction is proved in \cref{rem:projected-q-correction}.
+The general raw-witness descent question is unresolved and exploratory; it is not a
+separately stated source theorem.
 Original group/chunk, coherent-branch/common-normal-cover, scheme/action and other true
 source statements remain obligations. All original TEST clauses, statements and proofs
 retain their provenance and exact wording.

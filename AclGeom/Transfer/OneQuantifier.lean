@@ -27,8 +27,8 @@ strict-inclusion transfer.
 
 As long as at least one membership conjunct is present, *no
 transcendence-degree hypothesis is needed* — blueprint hypothesis (9.4)
-enters only the degenerate case with no `Aᵢ`, deferred to the descent
-milestone where its trdeg interface lives.
+enters only the case with no `Aᵢ`. `one_quantifier_transfer_full` covers both its
+equal-finite-degree and both-infinite-degree branches.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -28,7 +28,10 @@ completeness hypothesis (`JAssembly`) enters.
 **Status:** the listed lifts and explicit-instance reflections are proved.
 `Counterexamples.QDescent` uses them in the concrete #25 refutations, proved in
 `Counterexamples.QRefutation`.
-General existential-witness descent remains open.
+`Transfer.JCorrectness` proves the source's four-way `J` theorem, and
+`Transfer.ProjectedConfigurations` proves corrected projected `Q`/`Q′` equivalences.
+No separate general raw existential-witness descent theorem is stated in the source.
+That exploratory question is unresolved; none is asserted here.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

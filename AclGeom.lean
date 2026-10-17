@@ -285,6 +285,7 @@ import AclGeom.Reconstruct.PointVariant
 import AclGeom.Variants
 import AclGeom.Transfer.JCorrectness
 import AclGeom.Transfer.MulDiagramProduct
+import AclGeom.Transfer.ProjectedConfigurations
 import AclGeom.Functorial.ChoiceIndependence
 import AclGeom.Test.Validation
 import AclGeom.Test.TwoGenericSource
