@@ -10,6 +10,9 @@ import AclGeom.Correspondence.AdditiveThreePair
 import AclGeom.Correspondence.AdditiveSubgroupConnected
 import AclGeom.Correspondence.CurveCosetAdditive
 import AclGeom.Correspondence.CurveCosetCommutative
+import AclGeom.Correspondence.AlgebraicGroupProduct
+import AclGeom.Correspondence.AffineGroupGeometry
+import AclGeom.Correspondence.AffineSchemeAction
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
@@ -1635,8 +1638,9 @@ This additive theorem has standard axioms and no helper, private, internal or ge
 additions. Its explicit polynomial ideals, projection witnesses and field-tuple input supply
 the source additive-correspondence argument. These retain their own useful scope alongside
 the general group theorem below. It allows abstract torus and constant-coordinate cases
-once the ambient group is presented as an `AlgebraicGroup`; no concrete such object is
-constructed in this chapter.
+once the ambient group is presented as an `AlgebraicGroup`. The concrete additive-plane
+and torus objects are constructed below; the tuple-to-scheme generic-product bridge
+remains separate.
 The full shared goal remains open on [#5](https://github.com/adamtopaz/acl_geom/issues/5).
 
 
@@ -1658,8 +1662,10 @@ ambient group, a closed immersion and dimension one. Writing its image as `H`, t
 curves are exactly `g₁ H`, `H g₂` and `g₁ H g₂`. There is no supplied subgroup, product
 irreducibility, operator restriction, ambient rank, freshness or completeness premise.
 The statement permits abstract torus and constant-coordinate cases once the ambient
-group is presented as an `AlgebraicGroup`. No concrete additive-plane or torus group
-object is constructed here; the earlier additive theorem has its own coordinate interface.
+group is presented as an `AlgebraicGroup`. The concrete additive-plane and torus objects
+appear below. Turning the source tuple loci and independence into the required scheme
+curves and jointly generic product point remains separate; the earlier additive theorem
+has its own coordinate interface.
 
 For a commutative ambient group, all three are left cosets of the same subgroup:
 
@@ -1684,3 +1690,69 @@ scheme structure as an open hypothesis. The source's original statement and proo
 preserved. Original group/chunk, six-point, affine-action, coherent-cover, algebraization
 and scheme/action/descent obligations remain open; this theorem does not supply an
 ambient algebraic group for an earlier group-extraction argument.
+
+
+# Concrete group schemes and the affine action on the line
+%%%
+tag := "concrete-affine-action"
+%%%
+
+The target action in blueprint (8.4a) now exists as an actual scheme action over every
+field k. The additive vector group uses the symmetric algebra with primitive generators;
+its antipode is negation. Mathlib already supplies the bialgebra and the passage from a
+Hopf algebra to a group scheme. The new antipode and the point-coordinate equivalences
+complete this construction.
+
+{docstring AclGeom.AdditiveGroupScheme.algebraicGroup}
+
+{docstring AclGeom.AdditiveGroupScheme.pointsMulEquiv}
+
+Its scheme dimension is n. The multiplicative group is the spectrum of the Laurent
+polynomial algebra `k[ℤ]`,  with its usual group-like Hopf structure. Its base-field points
+are the units of k, and products give the actual torus Gm².
+
+{docstring AclGeom.multiplicativeGroup}
+
+{docstring AclGeom.multiplicativeGroupSq.pointsMulEquiv}
+
+These commutative group schemes make the additive plane and torus available as ambient
+objects for the general curve-coset theorem. The source tuple-locus-to-scheme-curves and
+jointly generic product bridge is still needed to instantiate that theorem directly
+from the correspondence hypotheses.
+
+The affine group has coordinate algebra `k[a,a⁻¹,b]`. Its comultiplication sends a to a⊗a
+and b to a⊗b+b⊗1; thus the scheme multiplication is the semidirect-product law, and its
+base-field points form the existing group of invertible affine transformations.
+
+{docstring AclGeom.AffineGroupScheme.pointsMulEquiv}
+
+The coordinate ring is a polynomial ring in b over the Laurent polynomial ring. The
+latter is a nonfield principal ideal domain, so it has dimension one. The affine group
+has dimension two over every field, and over an algebraically closed base the actual
+connected algebraic-group package is constructed internally.
+
+{docstring AclGeom.AffineGroupScheme.dimension}
+
+{docstring AclGeom.AffineGroupScheme.connectedAlgebraicGroup}
+
+The action morphism is the spectrum of X↦a⊗X+b⊗1. Its unit and associativity identities
+are checked on points over arbitrary commutative k-algebras, using the actual affine
+spectrum isomorphism for the products. Mathlib's existing ModObj interface records the
+scheme action laws.
+
+{docstring AclGeom.AffineSchemeAction.modObj}
+
+{docstring AclGeom.AffineSchemeAction.lift_groupPoint_linePoint_smul}
+
+Faithfulness holds for points over every commutative coefficient algebra C in the base
+universe: fixing 0 and 1 forces b=0 and a=1. The ring-level coordinate formulas allow an
+independent coefficient universe. No Hopf structure is required on C.
+
+{docstring AclGeom.AffineSchemeAction.eq_one_of_lift_smul_eq}
+
+This realizes the concrete standard affine model in (8.4a). The classification of an
+arbitrary connected two-dimensional algebraic group acting on a curve, the required
+normal subgroup, original group/chunk and six-point producers, and scheme/action
+algebraization and descent remain open. All eight original requirements of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21) remain obligations. The full shared
+goal remains active and incomplete.

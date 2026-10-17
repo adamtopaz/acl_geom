@@ -2140,6 +2140,22 @@ $(c,d)$ gives exactly (8.4a).  Every cover used above is finite, so old and new 
 coordinates are algebraic over one another.
 \end{proof}
 
+\paragraph{Lean status of the concrete model (8.4a).}
+The actual model \lean{AffineGroupScheme.algebraicGroup} is constructed over every
+field, with the semidirect-product Hopf operations and base-field point group
+\lean{AffineTransformation}. Its scheme dimension is two
+(\lean{AffineGroupScheme.dimension}); over an algebraically closed base,
+\lean{AffineGroupScheme.connectedAlgebraicGroup} supplies the actual connected
+algebraic group. The additive line is one-dimensional (\lean{additiveGroup_dimension}). The actual affine scheme
+action \lean{AffineSchemeAction.modObj} has the literal formula $x\mapsto ax+b$
+and is faithful on points over every commutative coefficient algebra in the base
+universe (\lean{AffineSchemeAction.lift_groupPoint_linePoint_smul} and
+\lean{AffineSchemeAction.eq_one_of_lift_smul_eq}). The coefficient algebra needs no
+Hopf structure. This constructs the target model of (8.4a); the classification of
+an arbitrary source action, the required normal-subgroup producer, birational
+identifications, algebraization and descent remain open (issue 21). The original
+lemma and proof above retain their provenance unchanged.
+
 % Original unguarded affine-grid-extraction from ed61c33, refuted in issue 27.
 \iffalse
 \begin{lemma}[affine grid and meet extraction]\label{lem:affine-grid-extraction}
@@ -2397,8 +2413,10 @@ one-dimensional algebraic group, its closed-immersion group morphism into $G$ an
 three coset identities. The theorem \lean{curveCoset_of_genericProduct_commutative}
 gives $C_1=g_1H$, $C_2=g_2H$ and $D=(g_1g_2)H$ in the commutative case. The abstract
 torus and constant-coordinate cases are permitted once the ambient group is presented
-as an \lean{AlgebraicGroup}; no concrete additive-plane or torus group object is constructed
-here. The earlier additive theorem uses its own coordinate interface. All group operations restrict
+as an \lean{AlgebraicGroup}. The concrete additive-plane and torus objects are now
+constructed in \lean{AdditiveGroupScheme.algebraicGroup} and \lean{multiplicativeGroupSq}.
+The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate;
+the earlier additive theorem uses its own coordinate interface. All group operations restrict
 as actual scheme morphisms; no subgroup structure, product irreducibility, rank,
 freshness or completeness is supplied by the caller. The original lemma and proof above
 remain verbatim. The earlier additive theorem retains its explicit polynomial-ideal and

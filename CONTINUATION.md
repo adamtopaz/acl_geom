@@ -78,9 +78,14 @@ and all three noncommutative cosets. The commutative clause gives three left cos
 same subgroup. The ambient group need not be connected. The existential jointly generic
 scheme-product input only requires its product to lie in the third curve; product integrality
 and all restricted group operations are derived. Abstract torus and constant-coordinate
-cases are permitted once the ambient group is presented as an AlgebraicGroup; this checkpoint
-constructs no concrete additive-plane or torus group object. The earlier additive theorem has
-its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
+cases are permitted once the ambient group is presented as an AlgebraicGroup. Concrete
+Gaⁿ, Gm, Gm² and affine group schemes now have actual operations and point coordinates.
+The affine group has dimension two and an ACF connected algebraic-group package. Its
+standard affine scheme action satisfies the literal ax+b formula and is faithful over every
+commutative coefficient algebra in the base universe. This constructs the (8.4a) target
+model; the arbitrary-action classifier and all eight original #21 items remain open.
+The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
+The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -13495,3 +13500,44 @@ whole-library standard-dependency audit and exact-head CI. These are dependency 
 source-inventory checks, not a certificate of complete source coverage. Group/chunk,
 six-point, affine-action, coherent-cover, algebraization and scheme/action/descent remain
 open. The full durable goal remains active and incomplete.
+
+
+## Checkpoint: concrete group schemes and the affine action on the line (#21)
+
+Nine focused modules now construct the actual target model in source (8.4a).
+`SymmetricHopf` adds the antipode to Mathlib's existing primitive-generator bialgebra.
+`HopfSpecPoints` identifies unit-over-Spec points with convolution characters, including
+the actual Spec-of-evaluation formula. `AdditiveGroupScheme` constructs Gaⁿ and its
+additive coordinate group; `MultiplicativeGroupScheme` constructs Gm with unit coordinates.
+`AlgebraicGroupProduct` constructs products, including Gm² with its pair-of-units point
+group. These are concrete commutative ambient algebraic groups for the general curve-coset
+theorem; the tuple-locus-to-scheme-curves and jointly generic product bridge remains owed.
+
+`AffineCoordinateRing` proves the universal property of k[a,a⁻¹,b]. `AffineGroupScheme`
+checks the semidirect comultiplication, counit and antipode, constructs the actual finite-type
+group scheme and identifies its base-field points with `AffineTransformation k`.
+`AffineGroupGeometry` proves dimension(Gaⁿ)=n, dimension(Gm)=1 and dimension(Aff)=2.
+It uses Laurent localization of k[X] to obtain a nonfield PID and a polynomial-ring
+presentation of the affine coordinate ring. Over an ACF base, geometric integrality
+supplies the actual connected algebraic-group package internally.
+
+`AffineSchemeAction` constructs the action by the coaction X↦a⊗X+b⊗1. Mathlib's ModObj
+records the actual scheme morphism's unit and associativity laws. Those are proved by
+cancelling affine Spec isomorphisms and checking on all commutative coefficient-algebra
+points. The action formula is literally ax+b, and fixing 0 and 1 proves faithfulness
+for every such algebra C in the base universe. Pure coordinate-ring formulas allow an
+independent coefficient universe; C requires no bialgebra or Hopf structure.
+
+Both agents checked the exact mathematical sources and independently compiled each
+other's modules. The primary agent owns integration and all tracked files. Two unused
+generated unfolding equations were avoided by direct definitional proof steps; the remaining internal
+rows, including structure-proof fields and one simp auxiliary lemma, all have consumers. The checkpoint report records
+the full types, standard-dependency inventory, parent declaration preservation, strict
+module checks, full library/book gates and exact-head CI.
+
+This is the concrete model of (8.4a), not the classification of an arbitrary curve action.
+All eight original #21 requirements remain open, including the source action/function-field
+and normal-subgroup bridges, group/chunk and six-point producers, algebraization and
+descent. The original source statement/proof blocks, TEST clauses, shared objective and
+completion core, and frozen M4a history remain exact. The full durable goal is active
+and incomplete.
