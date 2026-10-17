@@ -469,7 +469,13 @@ For the actual six-point partial quadrangle, the configuration chapter now
 constructs the selected incidence germs over the closed parameter join, retaining
 the three parameter closures. Over the literal compositum $`k(s,t,u)`, each
 selected branch, including the composite, is a minimal prime of its original
-parameter-field ideal after extension. The other branches and normal cover,
+parameter-field ideal after extension. The literal Ψ producer in the same
+chapter gives the selected (8.6) germ over
+$`k(a_1,a_2,b_1,b_2,c_1,c_2)`, from Ψ alone over arbitrary fields. Its
+original three two-generator families retain coefficient closures A, B and C;
+the selected larger-field ideals are minimal over their extended family ideals.
+This does not assert those coefficient closures for split larger-field factors.
+The other branches and normal cover,
 and the parameter-family locus forms of (8.4c) and (8.6), still require separate proofs.
 The geometric presentation
 step for arbitrary irreducible correspondence curves is proved above by
@@ -771,8 +777,8 @@ cancellation is used. The finite-dimension and target-rank conclusions are
 derived internally.
 
 The threefold incidence-component comparison, including componentwise normalization,
-is proved above. The higher-dimensional family argument remains an obligation.
-C2 remains open.
+is proved above. The finite-coordinate correspondence calculus of §8.1 is
+proved; the higher-dimensional parameter-family identities remain obligations.
 
 # Component fields and endpoint images
 %%%

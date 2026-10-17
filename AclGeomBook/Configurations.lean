@@ -582,8 +582,9 @@ unchanged.
 tag := "psi-closed-germ-composition"
 %%%
 
-The parameter form of source equation (8.6) is derived from the actual Ψ
-in an algebraically closed ambient field, over an arbitrary base:
+The selected germ form of source equation (8.6), over the common closed
+parameter field, is derived from the actual Ψ in an algebraically closed
+ambient field, over an arbitrary base:
 
 {docstring AclGeom.QWitness.Psi.exists_composing_closed_incidence_germs}
 
@@ -609,7 +610,8 @@ X to Y, follows it by the B-germ Y to Z and obtains the C-germ X to Z.
 This selector uses the same endpoints after the substantive no-splitting
 and coefficient proof.
 
-The closed-field route is essential to the argument. Finite-generator
+The closed-field route preserves the coefficient closures. Over the literal
+parameter fields, the selected minimal-prime form is proved below. Finite-generator
 presentations may split on extension to their closed parameter planes.
 The existing FiniteCorrespondenceFamilyMember.pairOverIndependentExtension
 constructs pairs over an independent extension of a finite-generator
@@ -635,6 +637,55 @@ remain obligations.
 Guarded initial
 charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
+
+# Literal parameter-field composition for Ψ
+%%%
+tag := "psi-literal-germ-composition"
+%%%
+
+The selected germ of source equation (8.6) also exists over the literal
+parameter compositum, over arbitrary base and ambient fields:
+
+{docstring AclGeom.QWitness.Psi.exists_literal_composing_incidence_germs}
+
+The only input is the actual Ψ witness. Put
+$`F_6=k(a_1,a_2,b_1,b_2,c_1,c_2)`, using the chosen representatives of the
+six parameter points. The theorem constructs actual finite correspondences
+$`G_A:Y\to X` and $`G_B:Y\to Z` over $`F_6`, with a shared middle for
+$`G_A^\mathrm{op}:X\to Y` followed by $`G_B`. Their endpoint composite is
+$`X\to Z`, with the orientation correction recorded on #27.
+
+The original three families $`L_A,L_B,L_C` remain over
+$`k(a_1,a_2)`, $`k(b_1,b_2)` and $`k(c_1,c_2)`. Their canonical coefficient
+sets have relative closures exactly A, B and C. Each selected larger-field
+ideal, including the composite, is a minimal prime of the corresponding
+original family ideal extended to $`F_6`. These extensions may split.
+The coefficient-closure assertion concerns the original families.
+No coefficient-closure assertion for a split larger-field factor is used.
+
+The proof obtains the three original families from the existing public
+coefficient theorem. Equal rank four puts C below A join B; internally,
+the relative closure of all six parameter generators is exactly A join B.
+The c-generators are included explicitly because containment after relative
+closure does not put them in $`k(a_1,a_2,b_1,b_2)` itself. The literal Ψ
+non-incidences keep X, Y and Z generic over the larger field. The existing
+private incidence constructor gives the larger-field germs, and three uses
+of the minimal-prime base-change theorem compare their ideals to the
+original families. The original coefficient proof is reused.
+
+This adds one public theorem, no helper declarations and no checking option,
+with two independent field universes. Both agents compiled the exact source
+and the unchanged actual root importer with empty strict logs. All twenty
+affected declarations have standard dependencies; the nineteen preceding
+rows and all 342 preceding selected public statements are unchanged.
+Dependency checks do not establish source coverage.
+
+This proves the selected germ-level literal-field step of (8.6).
+The higher-dimensional parameter-family locus forms of (8.4c) and (8.6),
+the other finite branches, their common normal cover, original group/chunk
+uses and the full six-point algebraic-group theorem remain obligations.
+The original affine-action, general curve-coset, algebraization and
+scheme/action/descent statements also remain owed.
 
 # Relational correspondence composition is associative
 %%%
@@ -666,11 +717,12 @@ regrouping. The input uses a transcendental element and constructs all branch
 memberships and compositions; the theorem produces the other intermediate
 germ. Algebraic closedness of the base and an ambient rank bound are unnecessary.
 
-The relation keeps all possible components. Identifying these represented
-germs with dominating components of geometric fiber products remains a
-separate C2 obligation, including the nonclosed function-field base case.
-This theorem supplies neither a component-selection operation nor a group
-chunk, initial chart or configuration-completeness input.
+The relation keeps all possible composite germs. The correspondence chapter
+identifies these scalar carriers with the endpoint contractions of all actual
+middle-dominating incidence components, over an arbitrary base in an ACF
+ambient, including nonclosed coefficient fields. Associativity here makes no
+coherent component choice and supplies no group chunk. Guarded initial charts
+and rank-five completeness are proved elsewhere.
 
 # Selected function-field tensor components
 %%%
@@ -703,10 +755,12 @@ by its transpose checks all three conclusions: its selected quotient is a
 field and its compositum is exactly `k(t)` for transcendental t.
 
 This proves the component selected by an actual shared-middle chain.
-Every tensor component has a realization by the theorem below. Connecting
-these fields to dominating components of geometric fiber products via
-coordinate rings and localization remains an obligation. These component
-results supply no group chunk or initial affine chart.
+Every tensor component has a realization by the theorem below. In an ACF
+ambient, the correspondence chapter identifies the literal finite-tuple
+incidence quotient with the coordinate-ring tensor and identifies its
+dominating-component fields with realized joint composita, over an arbitrary
+base. Localization supplies the fraction-field component comparison.
+These component results supply no group chunk or initial affine chart.
 
 # Realizing every function-field tensor component
 %%%
@@ -746,9 +800,11 @@ middle coordinate; the derived composite has diagonal or antidiagonal
 endpoints. A second realization of that component has the same endpoint germ.
 The tests construct the branches and derive composition without an input oracle.
 
-The coordinate-ring/localization identification with geometric fiber-product
-components remains open. No group chunk, coherent cover, initial affine chart
-or reconstruction-completeness hypothesis is supplied by these results.
+For canonical finite-tuple loci in an ACF ambient over an arbitrary base,
+the coordinate-ring/localization bridge and scalar component-carrier
+comparison are proved in the correspondence chapter. The common normal cover
+and original group/chunk statements remain obligations. Guarded initial charts
+and rank-five completeness are proved elsewhere.
 
 # The affine-grid extraction boundary
 %%%

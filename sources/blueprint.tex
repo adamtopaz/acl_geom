@@ -1545,9 +1545,24 @@ families are presented over $k(t)$, $k(s)$ and $k(u)$. Each selected ideal
 over $F$, including the composite ideal, is a minimal prime of the
 corresponding extended family ideal. These extensions may split.
 The helper \lean{FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange}
-has three actual uses: the nonzero extended equation gives height at
+has three actual uses in that producer: the nonzero extended equation gives height at
 least one, while the selected principal prime gives height at most one.
 All three public statements have two independent field universes.
+For the actual $\Psi$ witness alone,
+\lean{QWitness.Psi.exists_literal_composing_incidence_germs} proves the
+selected germ-level (8.6) branch over arbitrary fields. Over
+$F_6=k(a_1,a_2,b_1,b_2,c_1,c_2)$ it constructs the original-endpoint
+$Y\to X$ and $Y\to Z$ germs; transposing the first and following it by
+the second gives an $X\to Z$ germ. The original families over
+$k(a_1,a_2)$, $k(b_1,b_2)$ and $k(c_1,c_2)$ retain coefficient closures
+$A,B,C$. Each selected $F_6$ ideal, including the composite, is minimal
+over its corresponding extended family ideal. No coefficient-closure
+claim is made for a split $F_6$ factor. The existing public coefficient
+producer and three further uses of the base-change theorem supply this
+proof, with no new helper declarations and two independent field universes.
+The relative closure of the six generators is derived internally as
+$A\vee B$; the $c$-generators are explicitly included, since relative
+closure containment is weaker than literal generated-field containment.
 The other finite branches and their common normal cover, the
 parameter-family locus forms of (8.4c) and (8.6) and the separate original
 group/chunk statements remain obligations. A conjugate-branch
@@ -6406,14 +6421,17 @@ original parameter closures. A further endomorphism example derives
 the equation at moved endpoints while fixing the displayed parameter
 field; the universally quantified $\Psi$ is never transported.
 No chart, group action, prime ideal, rank or coefficient-closure
-conclusion is supplied. Correspondence composition, group/action
-extraction, initial charts, completeness and unconditional reconstruction
-remain open; the reported proof gaps and frozen M4a remain retained.
+conclusion is supplied. Selected germ composition over the closed and literal
+parameter fields is proved, as are finite-tuple correspondence composition,
+the guarded initial chart, rank-five completeness and public reconstruction
+under the genuine blueprint hypotheses. The parameter-family locus identities,
+other branches, common normal cover and original group/action extraction
+remain obligations; reported proof gaps and frozen M4a are retained.
 
 \clearpage
 \paragraph{Selected incidence germs over the common closed parameter field.}
 From the actual $\Psi$ and an algebraically closed ambient field, Lean proves
-the parameter form of the selected-germ identity in (8.6):
+the selected germ form of (8.6) over the common closed parameter field:
 \par\noindent
 \texttt{AclGeom.QWitness.Psi.exists\_composing\_closed\_incidence\_germs}.
 \par\noindent
@@ -6444,9 +6462,12 @@ original closures and composition, and the equation under a genuine
 common-field endomorphism. The globally quantified $\Psi$ is never transported.
 Finite-generator coefficient fields may split; this argument uses closed
 parameter fields. Closure equality is not literal generated-field equality.
-Composition over nonclosed function fields, group chunks, actions/classification,
-initial charts, completeness and unconditional reconstruction remain open;
-all reported proof gaps and frozen M4a are retained.
+The selected literal-field germ and finite-tuple correspondence composition
+are proved. The parameter-family locus identities, other branches, common
+normal cover and original group/chunk and action/classification statements
+remain obligations. The guarded initial chart, rank-five completeness and
+public reconstruction under the genuine blueprint hypotheses are proved
+elsewhere; all reported proof gaps and frozen M4a are retained.
 
 \clearpage
 \section{Bibliography}

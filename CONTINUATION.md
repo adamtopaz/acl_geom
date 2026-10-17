@@ -12378,3 +12378,87 @@ The issue and shared goal remain open. A future conjugate-branch parametrization
 must preserve genericity over the coefficient field; arbitrary automorphisms
 of the base extension do not define a permutation action on its fixed ideal
 set. This qualifies a proposed audit interface, not the original source wording.
+
+
+## Literal Ψ incidence branch over its six-generator parameter field (2026-10-16, #5)
+
+`QWitness.Psi.exists_literal_composing_incidence_germs` now constructs the
+selected germ-level (8.6) branch from only the actual Ψ witness, over arbitrary
+base and ambient fields with two independent universes. The common literal
+coefficient field is F₆ = k(a₁,a₂,b₁,b₂,c₁,c₂). The c-generators are included:
+C ≤ A join B holds after relative closure, not necessarily in the literal
+four-generator field. The proof derives that the relative closure of all six
+generators is A join B. Ψ's non-incidences give generic X, Y and Z over F₆.
+
+The theorem obtains L_A, L_B and L_C from the existing public full-coefficient
+producer, over their original two-generator fields. Their endpoints are Y→X,
+Y→Z and X→Z, and their canonical coefficient closures remain A, B and C.
+The existing private incidence constructor gives G_A and G_B over F₆; the
+transposed G_A followed by G_B shares the literal middle and gives the endpoint
+X→Z composite. Three uses of the existing minimal-prime base-change theorem
+compare G_A, G_B and the composite to the extensions of L_A, L_B and L_C.
+These extensions may split. Coefficient closures are retained for the ORIGINAL
+families; no corresponding assertion for a split larger-field factor is made.
+
+Exactly one public theorem and no helper declarations are added. Old mathematical
+statements and proofs are unchanged. Peer whole-root inventory retained all
+11,098 AclGeom-owned rows and adds exactly the one new theorem, with no generated
+internal row. Its 7,044 preceding API rows are exact. That inventory checks axioms
+ONLY for ParameterField and SelectedBaseChange: nineteen preceding declarations
+become twenty, all with standard dependencies. The other rows' empty axiom lists
+are not dependency evidence. This scope is not the whole two-library audit.
+
+Both agents independently compiled the exact ParameterField source and unchanged
+actual root AclGeom.lean with empty strict logs. Root's scoped inventory preserves
+all nineteen preceding rows and agrees with the peer in declaring module and raw
+type hash. Its 343 selected public statements have standard dependencies, with
+all 342 preceding main statements byte-exact in the pretty-type audit. The new
+type hash is 3958319325. All checks use the default checking limits.
+
+Peer freeze `/tmp/acl_geom_claude_psi_literal/frozen1` has manifest
+`daa437209c9b1eca596163e40b5d6362019224319a7b8558ad3bb00c64a5f08c`.
+All four attempts and logs are retained: subset simp failures; a compiled version
+with a rejected generated simp row; an indentation parse error; then the final
+explicit-term subset proofs with no generated row. Root freeze
+`/tmp/acl_geom_codex_psi_literal_review/frozen1` has manifest
+`37408af9fde0f7411da907ba87bdd9e6c059b552fd0d0dab774f77d4313a76d0`.
+Root's five compiler phases all exited zero; its initial postprocessor mistakenly
+expected 343 parent types instead of 342. The correction verified the exact
+completed logs, old 342/new 343 types, source pins and scoped inventories without
+repeating compiler work. This is recorded with the original failed runner result.
+The final build/book, clean-commit whole-library audit and exact-head CI evidence
+belong to the checkpoint report on #5. Both agents now iterate future syntax fixes
+with strict module-only checks before repeating expensive final inventories.
+The canonical inner compiler slot, 20 GB family cap, no swap and two threads apply.
+
+The configuration chapter documents the literal Ψ consumer. The correspondence
+chapter and shared frontier record its scope. Source changes are confined to the existing joint-component
+annotation and three exact, separately recorded exposition corrections found in
+peer review: two stale open-status passages and the ambiguous phrase "parameter
+form" for a closed-field germ result. Public reconstruction is already proved
+under the genuine hypotheses, as checked directly in AclGeom/Main.lean. All 48
+original statement blocks, 44 proof blocks and every OLD and NEW side of the
+preceding eleven-pair status whitelist remain exact. Reversing that whitelist
+and the three exact exposition corrections, then removing the existing joint
+annotation, gives the original source bytes. The book clarifies the closed
+route's coefficient-preservation purpose and uses "selected germ form". The
+shared objective/completion criteria and frozen M4a log are unchanged; this guide
+is append-only. Every #5 checklist text, order and state is retained.
+
+The parameter-family k-locus forms of (8.4c) and (8.6), the other finite branches,
+their common normal cover, original group/chunk uses and full six-point
+algebraic-group theorem remain owed. The original affine-action, general
+curve-coset, algebraization and scheme/action/descent obligations also remain.
+The full shared goal and issue stay open.
+
+
+The final book-status review also corrects three pre-existing paragraphs in
+Configurations that still called the finite-tuple geometric component bridge
+open, and HardKernel's stale "C2 remains open" sentence. The scalar-carrier,
+incidence quotient, localization and component-field APIs already prove these
+bridges over arbitrary bases in an ACF ambient. The revised paragraphs retain
+the precise finite-tuple/ACF scope and all higher-dimensional family, common-cover
+and original group/chunk obligations. These are exposition corrections, not new
+mathematical declarations or checklist changes. The initial full six-phase gates
+were green and are archived as round1; full build/book and audits are repeated
+on the final documentation before the checkpoint commit.
