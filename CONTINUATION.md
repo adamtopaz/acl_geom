@@ -13045,3 +13045,37 @@ criteria and frozen M4a record are unchanged. Full library/book, clean-head exha
 dependency and exact-head CI evidence is reported on #8. I6b/I6c stay open pending the
 clause-by-clause disposition of the original literal construction/provenance. The durable
 goal and remaining true bypassed source obligations are incomplete.
+
+
+## Checkpoint: the direct-link common representative (source (10.1), #23)
+
+`Interpretation.FrobLinkRepresentative.DirectFrobLink.exists_common_representative`
+proves the original common-representative claim for supplied semantic direct-link
+endpoints, over arbitrary bases and perfect ambient fields, with no rank bound. For
+every chosen multiplier point satisfying its first two clauses, one representative
+generates that point and gives all three equalities of (10.1). The direct-link hypothesis
+itself retains its existential multiplier with all three clauses. The theorem does not
+remove that hypothesis. Applying it to the link's own multiplier recovers the source claim.
+
+The proof first uses the existing incidence-rigidity Frobenius twist, chooses a power or
+root representative (perfection in the inverse direction), then identifies its point
+with the chosen multiplier by uniqueness on two distinct rank-two lines. The original
+inference from separately chosen product representatives remains unjustified provenance;
+the statement is proved by this different route. No extra rigidity wrapper is added.
+Existing source-setting Frobenius characterization/setoid and completeness results stay
+separate. Six stale Frobenius-family headers now reflect these proved inputs and the
+common-representative result; every old declaration and entire proof body is unchanged.
+
+Both agents independently checked the exact final leaf, one public theorem in two
+independent universes, standard axioms, and no helper/private/internal/generated
+auxiliary. The final source differs from the original draft only by an explicit `x ≠ 0`
+have before cancellation, repairing an unreduced vector index in a rewrite. All failed
+and successful peer attempts are retained. The independent root check preserves all
+384 preceding selected types and 94 scoped records exactly; the expanded audit has
+385 selected standard-axiom declarations and 95 scoped records, with the new full type
+and record identical to the peer's. The original 48 statement blocks and 44 proofs are
+exact, and reversing the recorded annotations recovers the entire preceding source.
+The shared objective/completion criteria and frozen 117-item M4a record are unchanged.
+Full library/book, clean committed-head exhaustive dependency and exact-head CI evidence
+is reported on #23. Original literal M6 construction/provenance, group/chunk/coherent-cover
+and scheme/action obligations remain separate; the durable goal stays active and incomplete.

@@ -34,9 +34,12 @@ reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
 **Status:** the displayed soundness statements are proved over arbitrary base fields. The reverse
 implication is proved in `FrobEqForward` under an explicit semantic-bridge or ACF-completeness
-hypothesis; unconditional bridge completeness remains open (#23).
-`pointTripleIndependent_jTupleOf` supplies rank-free genericity from an independent triple;
-direct links, corrected ratios and total-negation witnesses share this public helper.
+hypothesis, supplied by `jCompletenessACF` in the perfect rank-five source setting (see
+`frobEq_equivalence`). `FrobLinkRepresentative` proves the common-representative claim (10.1) for
+semantic direct-link endpoints over perfect fields. The original separate-representative
+inference remains unjustified provenance (#23). `pointTripleIndependent_jTupleOf` supplies
+rank-free genericity from an independent triple; direct links, corrected ratios and
+total-negation witnesses share this public helper.
 -/
 
 namespace AclGeom

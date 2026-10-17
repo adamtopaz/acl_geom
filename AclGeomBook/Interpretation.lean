@@ -11,6 +11,7 @@ import AclGeom.Interpretation.FrobLinkSoundness
 import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.JArithTransport
 import AclGeom.Interpretation.FrobLinkIncidence
+import AclGeom.Interpretation.FrobLinkRepresentative
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
 import AclGeom.Interpretation.FrobSetoid
@@ -147,10 +148,11 @@ for perfect K of rank at least five from the explicit ACF
 
 {docstring AclGeom.FrobEq.frobenius_of_witnesses_of_completeness}
 
-The completeness input is supplied at rank five by `jCompletenessACF`; no separate
-unconditional bridge statement is given, and the original common-representative
-calculation remains open (#23). These statements
-preserve the original geometric relations.
+The completeness input is supplied at rank five by `jCompletenessACF`, and the global
+equivalence laws are proved above in this source setting. The original common-representative
+claim (10.1) is proved in the next section, with semantic endpoints and perfection explicit.
+The original inference from separate representatives remains unjustified provenance (#23).
+The geometric relations themselves are unchanged.
 
 Semantic tuples with the same literal parameter are related by a fresh
 bridge `j(t,a)`. Raising both representatives to the same positive
@@ -165,6 +167,39 @@ soundness and require no completeness hypothesis:
 {docstring AclGeom.frobEq_jTupleOf_of_common}
 
 {docstring AclGeom.frobEq_of_frobenius_twist}
+
+# A common representative for a direct-link multiplier
+%%%
+tag := "direct-link-common-representative"
+%%%
+
+The source audit's claim (10.1) asks for a single representative of the multiplier point
+that works in all three products. The claim holds over an arbitrary base and a perfect
+ambient field, for supplied semantic direct-link endpoints, without a rank bound:
+
+{docstring AclGeom.DirectFrobLink.exists_common_representative}
+
+The chosen point `C` is constrained only by its first two multiplier clauses. One `c`
+generates it and satisfies `[c*y]=[x]`, `[c*y*a']=[x*a]` and
+`[c*y*(1+a')]=[x*(1+a)]`. The direct link itself still contains its full existential
+three-clause multiplier hypothesis. The theorem does not remove that hypothesis; it
+derives the third equality for every chosen point with the first two clauses. Applying
+it to the link's own multiplier gives exactly (10.1), including its representative.
+
+The existing incidence-rigidity theorem first gives `a'=a^Q` or `a=a'^Q`. In the first
+case choose `c=x^Q/y`; in the second use a `Q`-th root of `x`, which needs perfection.
+Both candidates give all three point equalities. The candidate and `C` lie on the two
+lines `[y] ⊔ [x]` and `[y*a'] ⊔ [x*a]`. The link's rank clause makes `x,y,a`
+independent, so these rank-two lines are distinct; uniqueness of their common point
+identifies the candidate's point with `C`.
+
+This proves the statement by a different route. The original inference that separate
+product representatives automatically give a common choice remains unjustified and
+is retained as provenance. No ACF completeness, relative algebraic closedness, infinite
+base or ambient rank bound is assumed. There is one public theorem in two independent
+universes and no helper or generated auxiliary declaration. The global Frobenius-class
+theorem above is a separate proved result; this leaf addresses the direct-link claim.
+The literal construction/provenance and remaining original source obligations stay separate.
 
 # Frobenius-link naturality
 %%%
@@ -244,7 +279,8 @@ not prove ACF completeness or non-generic totalization. The conditional
 coordinate bijection, corrected generic class arithmetic, exact corrected
 ratio semantics, bijective nonzero quotient decoding and the full adjoined-zero
 carrier equivalence are displayed below.
-The common-representative calculation remains a separate open obligation
+The common-representative statement (10.1) is proved above by a different route;
+its original separate-representative inference is kept as unjustified provenance
 ([issue #23](https://github.com/adamtopaz/acl_geom/issues/23)).
 
 # Coordinates on a fixed class
@@ -1232,7 +1268,8 @@ these exact geometric graphs. Conditional carrier/graph transport is proved
 above with the canonical image-base equality and carrier inputs explicit.
 Conditional image-base existence and the field-isomorphism endpoint are
 proved above under ACF completeness. The global Frobenius setoid is proved under perfection
-and rank five. Original simultaneous-representative obligations remain open. The literal TOT
+and rank five. Claim (10.1) is proved by a different route, with its original
+separate-representative inference kept as provenance. The literal TOT
 argument retains its historical/open status
 and exact provenance.
 
@@ -1272,5 +1309,6 @@ equality and carrier inputs explicit. Conditional image-base existence and
 the field-isomorphism endpoint are also proved above. The explicit completeness input is
 supplied at rank five by `jCompletenessACF`, and the public reconstruction theorem is
 unconditional. The global Frobenius setoid is proved under perfection and rank five;
-original simultaneous-representative obligations remain open.
+claim (10.1) is proved by a different route, with its original separate-representative
+inference kept as provenance.
 The literal source construction and TOT argument retain their historical/open status.

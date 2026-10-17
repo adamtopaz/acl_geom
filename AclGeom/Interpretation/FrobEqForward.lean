@@ -21,8 +21,13 @@ by `FrobEq`, then `a' = a^{q^s}` or `a = a'^{q^s}`.
 * The two direct-link twists compose by `frobenius_twist_trans`, which needs only injectivity of
   Frobenius powers in a field. No perfection or inverse Frobenius is used.
 
-**Status:** the two-link implication is proved under the explicit semantic-bridge hypothesis
-or its canonical ACF-completeness form. Unconditional completeness remains open (#23).
+**Status:** the two-link implication is proved under the explicit semantic-bridge hypothesis or
+its canonical ACF-completeness form. In the source setting (perfect ambient field, rank at least
+five), `jCompletenessACF` supplies this input internally in `frobEq_equivalence`;
+`frobEq_jTupleOf_iff` keeps it as an explicit parameter. The common-representative claim (10.1)
+is proved for semantic direct-link endpoints over perfect fields in `FrobLinkRepresentative`, by
+a different route. The original separate-representative inference is retained as unjustified
+provenance (#23).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

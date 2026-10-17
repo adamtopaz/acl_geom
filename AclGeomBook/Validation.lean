@@ -39,6 +39,15 @@ transcendence degree, with no rank-five or RAC hypothesis:
 
 {docstring AclGeom.Perfection.frobZPow_injective}
 
+The source audit's common-representative claim (10.1) is
+`DirectFrobLink.exists_common_representative`: for supplied semantic direct-link endpoints
+over arbitrary bases and perfect ambient fields, every chosen multiplier point satisfying
+its first two clauses has one representative giving all three point equalities. The full
+direct-link hypothesis, including its existential three-clause multiplier, is retained.
+No rank, RAC, infinite-base or completeness premise is added. The proof uses incidence
+rigidity and concurrency uniqueness; the original separate-representative inference stays
+unjustified provenance. The leaf adds one public two-universe theorem and no auxiliary.
+
 # Rational function fields
 %%%
 tag := "validation-rational-function-fields"
@@ -76,8 +85,8 @@ interface keeps its ACF input explicit; the proved `jCompletenessACF`, with the 
 rank-five bound, supplies that input in the source setting. `frobEq_equivalence` and
 `frobEqSetoid` prove the global equivalence-relation conclusion over perfect ambient fields
 at rank five, supplying completeness internally and requiring neither RAC nor an infinite
-base. These results do not settle
-every original simultaneous-representative or interpreted-carrier claim.
+base. The common-representative claim (10.1) is proved in the separate leaf described above;
+the literal interpreted-carrier claims retain their separate dispositions.
 
 For TEST-5, the literal `BlueprintRatioEq` is refuted by
 `blueprintRatioEq_counterexample`. The corrected `ratioEq_iff` combines `RatioEq.div_eq`

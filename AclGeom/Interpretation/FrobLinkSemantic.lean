@@ -28,7 +28,11 @@ holding `hu : JSem u` writes `obtain ⟨x, a, -, hu⟩ := hu`.  The two-link bri
 separate, later step.
 
 **Status:** direct-link rigidity for the displayed semantic witnesses is proved over any base
-field. Geometric bridge completeness remains open (#23).
+field. In the perfect rank-five source setting, `jGeom_iff_jSem_of_perfectField` supplies
+semantic endpoint witnesses. `FrobLinkRepresentative` proves the common-representative claim
+(10.1) for semantic direct-link endpoints over perfect fields by incidence rigidity and
+concurrency uniqueness; the original separate-representative inference remains unjustified
+provenance (#23).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

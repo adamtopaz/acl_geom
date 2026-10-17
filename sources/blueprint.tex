@@ -2952,10 +2952,22 @@ $c$ of the multiplier point in all three \lean{MulPoint} clauses, asserting
 \]
 Even assuming $\Qprel$ completeness over algebraically closed fields, each
 existential clause supplies its own independent representatives. Equality of their
-points does not supply the common choice used in (10.1). That common-representative
-calculation remains unproved; the audited incidence-rigidity argument below proves the
-exact-twist conclusion from supplied semantic endpoint witnesses. The Frobenius-link
-target has not been refuted.
+points does not justify the common choice used in (10.1); that inference remains
+unjustified as written. The common-representative statement (10.1) itself is now proved
+by \lean{DirectFrobLink.exists_common_representative}, for supplied semantic direct-link
+endpoints over arbitrary bases and perfect ambient fields, without a rank bound.
+For every chosen multiplier point $C$ satisfying the first two displayed product clauses,
+it gives one $c$ with $[c]=C$ and all three equalities in (10.1). The direct-link hypothesis
+itself retains its full existential three-clause multiplier; only the chosen $C$ needs
+no separate third clause. Taking the link's own multiplier recovers the source claim.
+
+The proof uses the incidence-rigidity twist, then chooses $c=x^Q/x'$ if $a'=a^Q$ or
+a $Q$-th root of $x$ divided by $x'$ if $a=a'^Q$. Perfection supplies that root.
+The candidate and $C$ lie on the two distinct lines $[x']\vee[x]$ and
+$[x'a']\vee[xa]$; independence from the link's rank clause makes them distinct.
+Uniqueness of their common point gives $[c]=C$. No ACF completeness, RAC or infinite-base
+hypothesis is used. This proves the statement by a different route and does not validate
+the original separate-representative inference, which is retained as provenance.
 
 The primary-source route in EH95~\cite[Lemma 2.8, Figure 3]{EH1995} first uses
 concurrent lines through the given coordinates. It then applies the
@@ -2971,13 +2983,19 @@ Frobenius twist from the three concurrent closure lines, including over arbitrar
 They compare scaled curve loci and use common primitive signed exponents with shifted-binomial
 rigidity. \lean{FrobLinkSemantic} applies this to supplied semantic endpoint witnesses.
 The two-link consumer \lean{FrobEqForward} names semantic middle-tuple completeness explicitly;
-its canonical form uses perfection, rank at least five and the still-open algebraically
-closed $\Jrel$ completeness input. It asserts no unconditional bridge completeness.
+its canonical form keeps perfection, rank at least five and algebraically closed
+$\Jrel$ completeness explicit. The proved \lean{jCompletenessACF} supplies that input in
+the source setting, internally in \lean{frobEq_equivalence}; \lean{frobEq_jTupleOf_iff}
+keeps it as an explicit parameter.
+The global equivalence laws below supply completeness internally.
 
 The displayed forward witnesses retain their role once their geometric soundness
 hypotheses are supplied. For the two-link converse, the geometric bridge tuple must
-also be given semantic representatives by a proved $\Jrel$-completeness statement;
-that obligation must be explicit. These gaps are tracked in
+also be given semantic representatives by a proved $\Jrel$-completeness statement.
+That input remains explicit in the internal interface and is supplied by
+\lean{jCompletenessACF} in the perfect rank-five source setting. The common-representative
+statement is now proved as above; the original inference and displayed formula retain
+their provenance. Literal construction/ratio-field dispositions remain separate on
 \url{https://github.com/adamtopaz/acl_geom/issues/23}.
 \end{remark}
 

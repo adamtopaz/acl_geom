@@ -32,8 +32,11 @@ The proof runs over the base `M`, the algebraic closure of `k(p)`, and has four 
   `[(1+a)x] ⊔ [(1+a')y]` give two characters with the same exponents, read off from the curve of
   `(x, y)`.  Each character is algebraic over both `p` and `a`, hence constant.
 
-**Status:** the incidence-rigidity theorem and its algebraic prerequisites are proved.
-Unconditional geometric bridge completeness remains open (#23).
+**Status:** the incidence-rigidity theorem and its algebraic prerequisites are proved. In the
+perfect rank-five source setting, `jCompletenessACF` supplies bridge completeness (see
+`frobEq_equivalence`). `FrobLinkRepresentative` also proves the common-representative claim
+(10.1) for semantic direct-link endpoints over perfect fields by this incidence route; the
+original separate-representative inference remains unjustified provenance (#23).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

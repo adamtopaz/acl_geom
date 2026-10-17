@@ -15,8 +15,11 @@ which is the incidence configuration of EH95 Lemma 2.8 (Fig. 3).  No correctness
 `Q`/`Q′` is used.
 
 **Status:** the incidence reduction is proved (#23). `FrobLinkSemantic` proves direct-link
-rigidity for supplied semantic endpoint witnesses over arbitrary base fields. Unconditional
-geometric bridge completeness remains open.
+rigidity for supplied semantic endpoint witnesses over arbitrary base fields; those witnesses are
+supplied by `jGeom_iff_jSem_of_perfectField` in the perfect rank-five source setting.
+`FrobLinkRepresentative` proves the common-representative claim (10.1) for semantic direct-link
+endpoints over perfect fields, using incidence rigidity and concurrency uniqueness. The original
+separate-representative inference remains unjustified provenance.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

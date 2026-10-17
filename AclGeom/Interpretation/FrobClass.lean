@@ -23,7 +23,9 @@ is proved in `Config.Completeness`. `FrobSetoid` proves the global equivalence r
 geometric J-tuples over perfect ambient fields at rank five, without RAC or an infinite base.
 Conditional naturality is proved in `Naturality` under explicit carrier inputs, and `Main`
 supplies the completeness inputs internally.
-Original literal arithmetic and simultaneous-representative obligations remain on #23.
+Original literal arithmetic obligations remain on #23. Claim (10.1) is proved in
+`FrobLinkRepresentative`, with its original separate-representative inference kept as
+provenance.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
