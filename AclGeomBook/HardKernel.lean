@@ -20,6 +20,7 @@ import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.PointwiseFaithfulness
+import AclGeom.Correspondence.SchemeGenericTranslate
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.Family
@@ -2040,3 +2041,79 @@ completion/points bridge, the normal-subgroup and arbitrary-action classificatio
 group/chunk/six-point producers, algebraization and descent remain obligations. All eight
 original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open;
 the full shared goal remains active and incomplete.
+
+
+# The generic parameter acts on the actual curve field
+%%%
+tag := "scheme-generic-translate"
+%%%
+
+Let G be an integral group scheme over an algebraically closed field k, acting regularly on
+an integral affine scheme V. Its own generic point supplies a parameter over k(G). The action
+then gives a k(G)-algebra automorphism of the fraction field of k(G) tensor k(V). The theorem
+constructs the parameter and the comparison with global sections internally, with the literal
+formula sending a tensor of a coefficient and a generic germ to the corresponding tensor of
+a global section. No dimension, finite-type or faithfulness assumption is needed for this
+construction.
+
+{docstring AclGeom.SchemeGenericTranslate.exists_functionField_genericTranslate}
+
+This is the actual generic-action input for the coefficient-field proof of Lemma 8.4. The
+generic translate on the global-section tensor ring comes from the given regular action,
+rather than from a caller-supplied coordinate automorphism. Over an arbitrary field, this
+construction already makes sense on the total fraction ring, even before proving it is a
+field.
+
+{docstring AclGeom.SchemeGenericTranslate.genericTranslate}
+
+For any group object acting on X, a parameter g from T into the group acts on T times X by
+sending (t,x) to (t,g(t) acting on x). It preserves t; its inverse uses the inverse parameter.
+This construction works in any cartesian monoidal category, in independent object and morphism
+universes.
+
+{docstring CategoryTheory.ModObj.parameterAct}
+
+{docstring CategoryTheory.ModObj.parameterAut}
+
+For spectra of commutative algebras A and R, pullback gives an A-algebra automorphism of
+A tensor R. The projection identity proves A-linearity. The displayed spectrum formula is
+the literal conjugation by Mathlib's tensor-product spectrum isomorphism.
+
+{docstring AclGeom.SchemeParameterAction.tensorAut}
+
+{docstring AclGeom.SchemeParameterAction.spec_map_tensorAut}
+
+{docstring AclGeom.SchemeParameterAction.tensorAut_inv}
+
+The scheme's structural morphism supplies the base algebra on its global sections. Its
+affine spectrum presentation respects that same morphism. Transporting the given action
+along this presentation gives the coordinate action. The group parameter itself is the
+canonical map from the spectrum of its generic stalk, over the internally derived base
+algebra already used by the scheme/function-field bridge.
+
+{docstring AclGeom.SchemeGenericTranslate.sectionsSpecIso}
+
+{docstring AclGeom.SchemeGenericTranslate.sectionsTensorAut}
+
+{docstring AclGeom.SchemeGenericTranslate.genericParameter}
+
+For integral affine V, Mathlib identifies the fraction field of its global sections with
+the actual generic stalk. The base-algebra scalar tower and the generic-germ formula are
+proved for these particular maps. Over an algebraically closed base, flatness embeds each
+extended coordinate ring into the tensor product of the two fields, which is a domain.
+Passing to fractions before or after this comparison gives the same constant extension.
+
+{docstring AclGeom.SchemeGenericTranslate.sectionsFunctionFieldEquiv}
+
+{docstring AclGeom.SchemeGenericTranslate.isDomain_tensor_sections}
+
+{docstring AclGeom.SchemeGenericTranslate.exists_tensorSections_functionFieldEquiv}
+
+The construction proves the generic-field action for regular affine actions. The finite
+coefficient field, its actual point-map faithfulness and rank, faithful coefficient variation,
+and the genus-zero producer remain open. Constant-field rationality and genus-zero descent
+also remain open. Rational-action regularization, completion and points identification,
+the original normal-subgroup and arbitrary-action classifier, group/chunk/six-point results,
+algebraization and descent remain separate obligations. All eight original work items of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open; the full shared goal remains
+active and incomplete.

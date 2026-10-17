@@ -13727,10 +13727,53 @@ inventory is not a source-coverage certificate.
 
 This is the algebraic input for retaining the actual generic-action coefficient rank.
 The coefficient map and its faithfulness still have to be constructed from the actual scheme
-action. Generic-translate producers remain isolated while their actual function-field
-comparison is completed; they are not on main at this checkpoint. Coefficient variation,
+action. The generic-translate construction was isolated at this checkpoint; the next
+checkpoint below integrates its completed actual function-field comparison. Coefficient variation,
 the genus producer and constant-field rationality/genus-zero descent remain open. The source
 rational-action regularization, completion/points bridge, original normal-subgroup and
 arbitrary-action classifier, group/chunk/six-point producers, algebraization and descent
 remain obligations. All eight original #21 rows stay open; the durable goal is active
 and incomplete.
+
+
+## Checkpoint: the actual generic parameter acts on the curve field (#21)
+
+`Correspondence.SchemeGenericTranslate.exists_functionField_genericTranslate` now constructs
+the actual generic action on Frac(k(G) tensor_k k(V)). Its hypotheses are an algebraically
+closed base field, an integral group scheme, and its given regular action on an integral
+affine scheme. It derives the canonical base algebras, the generic parameter, the tensor-domain
+fact and the literal global-section/function-field comparison internally. No dimension,
+finite-type, faithfulness, derivative, coefficient-variation or genus premise is supplied.
+The conjugation formula identifies the resulting field automorphism with the actual action
+on Frac(k(G) tensor_k Gamma(V)). No genus or classification conclusion is proved here.
+
+`Correspondence.ParameterAction` constructs the parameter-preserving automorphism of T times X
+in any cartesian monoidal category. `SchemeParameterAction` pulls it back to an A-algebra
+automorphism of A tensor_k R and records the literal Spec formula and inverse-parameter law.
+It uses Mathlib's tensor-product spectrum isomorphism directly, without importing the concrete
+affine-group action. The generic consumer transports the given action through the actual
+affine spectrum presentation and extends it to fractions. Its canonical coordinate fraction
+field is compared with the actual generic stalk as a k-algebra; flatness and the ACF tensor
+domain theorem supply the constant-extension comparison and its literal generic-germ formula.
+
+The three modules have twenty public API declarations, three consumed private declarations
+(including one compiler proof field) and twenty-nine consumed internal fields. Their complete
+types, axioms and consumers are checked with strict flags; the report records full library/book
+validation, the whole-library dependency audit, preservation of all parent declarations and
+exact-head CI. Original source statement/proof/TEST blocks, the shared objective/completion core
+and frozen M4a history retain their provenance. A declaration inventory is not source coverage.
+
+Next is the finite actual coaction coefficient field C0, using both the action and its inverse,
+and the proof that its coefficients give faithful variation. The pointwise-faithfulness
+algebraicity theorem must then be applied to the actual coefficient map to retain group rank.
+The actual finite-type integral-group dimension/function-field-rank bridge is still required.
+Constant-field rationality and genus-zero descent remain the peer's separate source-only task.
+A formal Frobenius-twist refutation must accompany the corrected variation producer: faithfulness
+on field-valued points alone does not imply injective infinitesimal variation. This is a rejected
+proof target, not a refutation of the original genus/classification claim.
+
+The source rational-action regularization, completion/points identification, original
+normal-subgroup and arbitrary-action classifier, group/chunk/six-point producers, algebraization
+and descent remain obligations. All eight original #21 work items stay open. The full durable
+goal remains active and incomplete; the issue report records the continuing ownership and next
+mathematical consumers.
