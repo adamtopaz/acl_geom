@@ -115,7 +115,11 @@ fields. `blueprintRatioEq_refl` proves fixed-class reflexivity over perfect ambi
 at rank five, with arbitrary bases and internally supplied completeness.
 `blueprintRatioEq_not_transitive` refutes transitivity over arbitrary fields at rank five,
 with no completeness or perfection hypothesis. The literal relation therefore does not
-define a setoid. `BlueprintTotalGraphs` transcribes both raw representative-level recipes
+define a setoid. `blueprintRatioEq_of_mul_eq` separately proves the true reverse
+implication of literal ratio semantics on semantic representatives with a common parameter,
+over arbitrary base and ambient fields at rank five, without perfection or completeness.
+It does not restore the refuted forward implication or a quotient decoder.
+`BlueprintTotalGraphs` transcribes both raw representative-level recipes
 and proves their geometric invariance with all literal replacement witnesses.
 `blueprintRatioAddGraph_wrong_sum` and `blueprintRatioMulGraph_wrong_product` refute both
 forward advertised operation laws on explicit semantic representatives, over infinite

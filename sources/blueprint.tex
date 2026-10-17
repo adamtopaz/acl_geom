@@ -3592,6 +3592,21 @@ change.  Thus the four generic products exist and give a \lean{RatioEq} witness.
 fresh element uses the fifth and final rank allowed by the hypothesis.
 \end{proof}
 
+\begin{remark}[The true converse of literal ratio semantics in Lean]\label{rem:literal-ratio-converse}
+The reverse implication of \cref{lem:ratio-semantics} is proved for semantic
+representatives by \lean{blueprintRatioEq_of_mul_eq}, over arbitrary base and ambient
+fields at transcendence degree at least five. Its base is any semantic tuple $j(x_0,a)$,
+and all four endpoint tuples have the same parameter $a$. No perfection, infinite-base
+or completeness hypothesis is needed.
+For $p_1q_2=p_2q_1$, choose $t$ fresh over $\{a,p_1,p_2,q_1\}$; this closure also
+contains $q_2=p_2q_1/p_1$. The four honest generic products have multipliers $q_2t,p_2t$
+and common outputs $p_1q_2t=q_1p_2t$, $p_2q_2t$, just as in the source proof.
+Their auxiliary tuples lie in the actual Frobenius class by the common-parameter
+bridges. Only the fifth rank is used. The forward implication remains refuted;
+this true converse does not supply the advertised setoid or decoder. The historical
+lemma, proof and following three-law assertion are preserved for provenance.
+\end{remark}
+
 Reflexivity, symmetry, and transitivity of \lean{RatioEq} now follow from equality in
 $K$; use \cref{lem:ratio-semantics} to construct the setoid rather than manipulating
 witnesses.

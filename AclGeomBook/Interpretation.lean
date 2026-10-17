@@ -29,6 +29,7 @@ import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Counterexamples.RatioTransitivity
 import AclGeom.Counterexamples.RatioReflexivity
 import AclGeom.Counterexamples.RatioGraphValues
+import AclGeom.Counterexamples.RatioConverse
 import AclGeom.Counterexamples.BlueprintTotalGraphs
 
 open Verso.Genre Manual
@@ -351,6 +352,33 @@ ratio setoid and decoder are proved. The literal equivalence-closure carrier cor
 below asserts no field structure or decoder. The positive scalar families also now work
 over arbitrary bases when their scalar is specified; infinite bases are used to select
 scalars in the existential counterexamples.
+
+# The true converse of literal ratio semantics
+%%%
+tag := "literal-ratio-semantics-converse"
+%%%
+
+Although literal relation witnesses need not preserve generator ratios, equal generator
+ratios do give literal relation witnesses on semantic representatives:
+
+{docstring AclGeom.blueprintRatioEq_of_mul_eq}
+
+This proves the true reverse implication of the historical ratio-semantics lemma at
+transcendence degree at least five, over arbitrary base and ambient fields. Every endpoint
+is a semantic tuple with the same parameter `a`, and the base is any semantic tuple
+`j(x₀,a)`. No perfection, infinite base or completeness input is required.
+
+Write the pairs as `(j(p₁,a),j(p₂,a))` and `(j(q₁,a),j(q₂,a))`, with
+`p₁*q₂=p₂*q₁`. The nonzero value `p₁` gives `q₂=p₂*q₁/p₁`. Choose one multiplier `t`
+fresh over `{a,p₁,p₂,q₁}`, a set of at most four elements. The four honest generic
+products have multipliers `q₂*t`, `p₂*t` and common outputs `p₁*q₂*t=q₁*p₂*t`,
+`p₂*q₂*t`. Their tuples all belong to the actual class by the common-parameter bridges.
+The fresh multiplier uses the fifth rank; no larger rank or caller freshness oracle is
+needed. There is one public theorem and no auxiliary declarations.
+
+The forward implication remains refuted, as does transitivity. This converse supplies
+neither a setoid nor a quotient decoder. Literal operation totality and carefully scoped
+reverse operation laws remain separate obligations.
 
 # Naturality of the literal predicates and quotient carriers
 %%%

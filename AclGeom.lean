@@ -243,6 +243,7 @@ import AclGeom.Counterexamples.GenericNegation
 import AclGeom.Counterexamples.BlueprintTransport
 import AclGeom.Counterexamples.BlueprintTotalGraphs
 import AclGeom.Counterexamples.RatioGraphValues
+import AclGeom.Counterexamples.RatioConverse
 import AclGeom.Counterexamples.EndpointImage
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic

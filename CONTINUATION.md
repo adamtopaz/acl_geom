@@ -12862,3 +12862,31 @@ alone cannot justify replacing that output. No quotient functionality, descent o
 structure is asserted. The corrected coupled interpretation and reconstruction remain
 proved. I6b/I6c and the durable project goal remain open. Full library/book, exact-head CI,
 selected and exhaustive committed-head dependency evidence is reported on #8.
+
+## True converse of literal ratio semantics (#8)
+
+`blueprintRatioEq_of_mul_eq` in `Counterexamples.RatioConverse`
+proves the true reverse implication of the source `lem:ratio-semantics`. Its base is
+an actual semantic tuple `j(x₀,a)` with an independent pair, each of the four endpoints
+is `j(p,a)` with its independent pair, and the hypothesis is the cross-product identity
+`p₁*q₂=p₂*q₁`. The conclusion is the literal `BlueprintRatioEq` for these semantic
+pairs. The base and ambient fields are arbitrary and only rank five is needed; no
+perfection, infinite base, completeness, characteristic or caller freshness input occurs.
+
+The source proof chooses `t` fresh over the at-most-four-element set `{a,p₁,p₂,q₁}`.
+This closure contains `q₂=p₂*q₁/p₁`; nonzero coefficients preserve the freshness.
+Four κ=1 generic products give multipliers `q₂*t`, `p₂*t` and the two common outputs.
+The common-parameter bridges supply every auxiliary tuple's actual class membership.
+There is one public theorem in two independent universes and no helper/private/generated
+auxiliary declarations. Both agents independently checked the exact source; all 375
+preceding selected types and 84 scoped records are exact, with the expanded checks
+covering 376 selected standard-axiom declarations and 85 scoped records.
+
+This is a genuine true source implication, separately recorded from the refuted forward
+implication, transitivity and decoder. The literal relation still cannot provide the
+advertised setoid. Raw operation totality, carefully scoped reverse operation laws and
+remaining original construction/provenance obligations remain separate. All 48 original
+source statement blocks and 44 proof blocks are unchanged; reversing the new annotation
+recovers the entire preceding source. The shared objective/completion criteria and frozen
+M4a record remain exact. Full library/book, exact-head CI and exhaustive committed-head
+dependency evidence is reported on #8. I6b/I6c and the durable goal remain open.
