@@ -87,7 +87,7 @@ statement retains its explicit completeness and carrier hypotheses.
 
 TEST-6 has a proved corrected zero-addition branch: `JNegTotalRel` on the common-denominator
 numerators, `jNegTotalRel_iff`, and `ratioAddGraph_iff` identify the decoded sum with zero.
-The literal negation detour and literal total-nonzero-addition claim are refuted in
+The literal negation correctness and total-nonzero-addition unique-output claims are refuted in
 `Counterexamples.GenericNegation`. Both predicates retain every auxiliary class-membership
 condition. Over an infinite base at rank five, each graph admits two distinct outputs
 inside one Frobenius class, with no completeness hypothesis:
@@ -106,6 +106,11 @@ are retained, following the counterexamples reported on
 [issue #23](https://github.com/adamtopaz/acl_geom/issues/23#issuecomment-6210013012) and
 [its total-addition follow-up](https://github.com/adamtopaz/acl_geom/issues/23#issuecomment-6210631348).
 The corrected coupled negation/addition predicates have the proved semantics cited above.
+The true existence half of literal total nonzero addition is separately proved by
+`blueprintJAddTotalNZ_of_pairs`: the actual sum output exists under the three individual
+independent-pair hypotheses for `x`, `y`, `x+y` with the common parameter `a`. It needs
+only arbitrary fields and rank five, with no joint independence of `x` and `y`, perfection,
+infinite-base or completeness input. The unique-output claim remains refuted.
 The additional theorem `blueprintRatioEq_no_decoder` rules out the advertised literal
 decoder on a fixed class, even after passage to the equivalence closure of the relation.
 `BlueprintTransport` proves literal predicate invariance and the correspondence of

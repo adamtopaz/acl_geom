@@ -31,6 +31,7 @@ import AclGeom.Counterexamples.RatioReflexivity
 import AclGeom.Counterexamples.RatioGraphValues
 import AclGeom.Counterexamples.RatioConverse
 import AclGeom.Counterexamples.RatioMulGraphLaws
+import AclGeom.Counterexamples.TotalNonzeroExistence
 import AclGeom.Counterexamples.BlueprintTotalGraphs
 
 open Verso.Genre Manual
@@ -319,6 +320,35 @@ respecting that relation send every semantic pair to its ratio:
 These refutations preserve the original predicates for provenance. The
 faithful generic arithmetic below follows the meet/join construction of
 EH95 Lemma 2.11, keeping the original tuple coordinates coupled.
+
+# The literal nonzero-addition detour has the sum output
+%%%
+tag := "literal-total-nonzero-existence"
+%%%
+
+The original total nonzero addition lemma's unique-output claim is refuted. Its
+existence half is true under the stated individual pair hypotheses:
+
+{docstring AclGeom.blueprintJAddTotalNZ_of_pairs}
+
+The actual base is any semantic tuple `j(x₀,a)`. The pairs `(x,a)`, `(y,a)` and
+`(x+y,a)` are algebraically independent. No joint independence of `x` and `y` is
+assumed. Over arbitrary base and ambient fields at transcendence degree at least five,
+the literal detour relates `j(x,a)` and `j(y,a)` to the actual sum tuple `j(x+y,a)`.
+There is no perfection, infinite-base, completeness or caller freshness input.
+
+Choose `z` fresh over `{x,y,a}`. The source detour uses `j(z,a)`, `j(-z,a)`,
+`j(x+z,a)` and `j(y-z,a)`. The first two generic additions follow from the two input
+pair hypotheses. For the third, dependence of `(x+z,y-z,a)` would put `x+y` in the
+closure of `{x+z,a}`. Exchange, using independence of `(x+y,a)`, would then put `z`
+in the closure of `{x,y,a}`, contradicting freshness. Three honest additions and the
+literal negation at scalar minus one supply all clauses. Every auxiliary tuple belongs
+to the actual class, and all fresh choices stay within rank five.
+
+This proves the true source existence claim with one public theorem and no auxiliary
+declarations. It restores no uniqueness or forward semantics. The corrected coupled
+nonzero-addition detour has proved exact semantics. Raw addition totality and its
+carefully scoped representative reverse laws remain separate obligations.
 
 # Laws of the literal ratio relation
 %%%

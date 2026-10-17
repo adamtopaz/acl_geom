@@ -245,6 +245,7 @@ import AclGeom.Counterexamples.BlueprintTotalGraphs
 import AclGeom.Counterexamples.RatioGraphValues
 import AclGeom.Counterexamples.RatioConverse
 import AclGeom.Counterexamples.RatioMulGraphLaws
+import AclGeom.Counterexamples.TotalNonzeroExistence
 import AclGeom.Counterexamples.EndpointImage
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic

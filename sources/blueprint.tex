@@ -3378,6 +3378,29 @@ $(r,s,a)$ is independent.  Thus the last addition is generic and its output is
 $j(h,a)$.
 \end{proof}
 
+\begin{remark}[True literal nonzero-addition existence in Lean]\label{rem:literal-total-nonzero-existence}
+The existence half of \cref{lem:total-nonzero-add} is proved by
+\lean{blueprintJAddTotalNZ_of_pairs}, under the three stated individual pair conditions
+for $x$, $y$ and $x+y$ with $a$. The base is any actual semantic tuple $j(x_0,a)$.
+The base and ambient fields are arbitrary and only rank five is needed. No joint
+independence of $x,y,a$, perfection, infinite base or completeness hypothesis occurs.
+The conclusion is the literal detour with actual output $j(x+y,a)$.
+
+The source construction chooses $z$ fresh over $\{x,y,a\}$. The first two addition
+triples follow from the individual input pairs. For the last triple, dependence of
+$(x+z,y-z,a)$ would put $x+y$ in $\acl(x+z,a)$; exchange using $x+y\notin\acl(a)$
+would put $z$ in $\acl(x,y,a)$, contradicting freshness. Three honest generic additions
+and the literal negation with scalar $-1$ give every clause, and all four auxiliary
+tuples belong to the actual Frobenius class by the common-parameter bridges.
+The construction stays within the rank-five bound in every characteristic.
+
+The unique-output/forward implication remains refuted by the scalar-family
+counterexample above. This true existence result supplies no uniqueness or quotient
+semantics. Raw addition totality, its carefully scoped reverse laws and remaining
+original construction/provenance obligations remain separate. The original lemma
+and proof are preserved in full.
+\end{remark}
+
 This detour is essential:
 even when $u+v\neq0$, the original pair may be dependent (for example $v=cu$ for a
 base scalar $c$), so \lean{JAdd u v w} need not be defined.

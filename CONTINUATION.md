@@ -12928,3 +12928,34 @@ new annotations recovers the complete preceding source. The shared objective/com
 criteria and frozen M4a record are unchanged; only the goal review date and frontier are
 updated. Full library/book, exhaustive committed-head dependency and exact-head CI evidence
 are reported on #8. I6b/I6c and the durable project goal remain open.
+
+## True existence half of literal total nonzero addition (#8)
+
+`blueprintJAddTotalNZ_of_pairs` in `Counterexamples.TotalNonzeroExistence` proves the true source existence claim. Its actual semantic base has an
+independent pair, and its three individual hypotheses are independent pairs `(x,a)`,
+`(y,a)` and `(x+y,a)`. There is no joint independence assumption on `x,y,a`.
+The literal conclusion has output `j(x+y,a)`. Arbitrary base and ambient fields and rank
+five suffice; no perfection, infinite base, completeness or caller freshness is supplied.
+
+The source detour chooses `z` outside the closure of `{x,y,a}`. Two input pair hypotheses
+give the first two generic additions. The third triple `(x+z,y-z,a)` is independent
+because otherwise exchange, using the given pair `(x+y,a)`, would put `z` back in that
+closure. Three κ=1 additions and the literal negation at scalar minus one give all
+clauses, including all four auxiliary Frobenius-class memberships. The argument works
+in every characteristic within rank five. The module imports only GenericNegation and
+has exactly one public theorem with no helper/private/generated auxiliary declarations.
+
+Both agents independently checked the exact source, preserving all 378 preceding
+selected types and 87 scoped records. The expanded check covers 379 selected
+standard-axiom declarations and 88 scoped records, with the new theorem in two
+independent universes. The mathematical source is identical to the reviewed first draft.
+All 48 original source statement blocks and 44 proof blocks remain exact, and reversing
+the annotation recovers the complete preceding source. The shared objective/completion
+criteria and frozen M4a record are unchanged.
+
+The unique-output/forward implication of the literal lemma remains refuted; the corrected
+coupled detour has proved exact semantics. Raw addition totality, its carefully scoped
+representative reverse laws and remaining original provenance obligations stay separate.
+The checked zero-input reverse obstruction (#8, 6230508633) will accompany the corrected
+nonzero-input statement. Full library/book, exhaustive committed-head dependency and
+exact-head CI evidence is reported on #8. I6b/I6c and the durable goal remain open.
