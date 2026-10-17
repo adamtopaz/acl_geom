@@ -134,7 +134,15 @@ class over perfect ambient fields at rank five, without caller completeness.
 `blueprintRatioMulGraph_of_mul_ratio` proves the corrected representative-level reverse
 law for nonzero semantic inputs over arbitrary fields at rank five. It retains explicit
 endpoint pair hypotheses and tuple identities and supplies no quotient operation descent.
-Addition totality, its carefully scoped reverse laws and remaining provenance stay open. The bare field-isomorphism existence result is now stated
+`blueprintRatioAddGraph_total` also proves raw addition totality on the actual class,
+with perfection and rank five and internal completeness. Its two corrected representative
+reverse branches are `blueprintRatioAddGraph_of_add_ratio_eq_zero` and
+`blueprintRatioAddGraph_of_add_ratio`, for nonzero semantic inputs over arbitrary fields
+at rank five. The nonzero-output theorem derives sum nonvanishing from its cross identity.
+`blueprintRatioAddGraph_zero_reverse_counterexample` refutes extending the raw reverse law
+to arbitrary zero inputs, where the literal completion uses equality of representatives.
+Remaining original construction/provenance claims stay separate; no quotient functionality
+or operation descent is asserted. The bare field-isomorphism existence result is now stated
 without completeness inputs as `nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`;
 its bases need not be relatively algebraically closed. Remaining source provenance
 obligations still require their own disposition.

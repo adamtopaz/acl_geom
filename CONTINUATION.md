@@ -12959,3 +12959,53 @@ representative reverse laws and remaining original provenance obligations stay s
 The checked zero-input reverse obstruction (#8, 6230508633) will accompany the corrected
 nonzero-input statement. Full library/book, exhaustive committed-head dependency and
 exact-head CI evidence is reported on #8. I6b/I6c and the durable goal remain open.
+
+## Literal addition totality, reverse laws and zero-input obstruction (#8)
+
+`Counterexamples.RatioAddGraphLaws` proves three public source components. For an actual
+semantic base, `blueprintRatioAddGraph_of_add_ratio_eq_zero` gives the named-zero output
+from the zero cross sum of two NONZERO semantic inputs. All four endpoint independent
+pairs and underlying tuple identities are explicit. `blueprintRatioAddGraph_of_add_ratio`
+gives any semantic nonzero output satisfying the cross identity for the sum of the two
+input ratios, with all six pair hypotheses and three tuple identities explicit. The sum
+is nonzero as a consequence of the cross identity and semantic output, not a caller input.
+Both are representative-level corrections of the invalid quotient claim, over arbitrary
+fields at rank five without perfection or completeness.
+
+`blueprintRatioAddGraph_total` proves totality for all Option of raw class-pair inputs,
+over a perfect ambient field at rank five and an arbitrary base. Normalization, ACF
+completeness and characteristic are supplied internally. The literal named-zero clauses
+return the other raw input exactly. For nonzero inputs, a common denominator fresh over
+`{a,c,d}` gives both literal replacements. A zero sum uses negation at scalar minus one;
+a nonzero sum uses the proved literal total-nonzero-addition existence result and the
+true ratio converse for output comparison. There is no joint independence of the two
+numerators. Totality chooses a fresh semantic target denominator over `{a,c+d}` and
+consumes these branches. Every choice is local within rank five. The one private
+common-denominator producer is consumed by both reverse branches; no extra internal
+or generated declaration is introduced.
+
+`blueprintRatioAddGraph_zero_reverse_counterexample` in `Counterexamples.RawZeroAddition` records the domain obstruction alongside the corrected
+statements. Over arbitrary fields at rank five, two different diagonal semantic pairs
+in the actual class have ratio one, but the second is not an output of zero plus the
+first. The literal zero completion requires equality of raw representatives. No decoder,
+perfection, infinite base or completeness is assumed. The source-domain error was reported
+on #8 (6230508633) before these annotations. This does not refute totality or the proved
+corrected coupled quotient operation laws.
+
+Both agents independently checked the ADD source and the zero refutation, and the root
+combined check preserves all 379 preceding selected types and 88 scoped records exactly.
+The expanded audit covers 383 selected standard-axiom declarations and 93 scoped records:
+four new public theorems in two independent universes and one consumed private lemma,
+with no other internal/generated declarations. The ADD mathematical source equals its
+reviewed first draft. The zero source has only header status/tense corrections; its
+statement and entire proof are unchanged. The original two constructor-elimination type
+errors and their two-line `cases` repair are retained in the proof evidence.
+
+All 48 original source statement blocks and 44 proofs remain exact, and reversing the
+new annotations recovers the complete preceding source. The shared objective/completion
+criteria and frozen M4a record are unchanged. Both advertised forward operation laws
+remain refuted; no literal quotient functionality, operation descent, decoder or field
+structure is asserted. The remaining original construction/provenance dispositions are
+separate, including the chosen-class field-map record. Full library/book, exhaustive
+committed-head dependency and exact-head CI evidence is reported on #8. I6b/I6c and the
+durable goal remain open; the original group/chunk and scheme/action obligations remain.

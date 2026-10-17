@@ -3396,9 +3396,10 @@ The construction stays within the rank-five bound in every characteristic.
 
 The unique-output/forward implication remains refuted by the scalar-family
 counterexample above. This true existence result supplies no uniqueness or quotient
-semantics. Raw addition totality, its carefully scoped reverse laws and remaining
-original construction/provenance obligations remain separate. The original lemma
-and proof are preserved in full.
+semantics. Raw addition totality and its corrected nonzero-input reverse laws are
+recorded in \cref{rem:literal-addition-laws}, with the zero-input obstruction in
+\cref{rem:literal-addition-zero-reverse}. Remaining original construction/provenance
+claims stay separate. The original lemma and proof are preserved in full.
 \end{remark}
 
 This detour is essential:
@@ -3815,9 +3816,10 @@ over arbitrary fields in four independent universes. No ratio-relation witness i
 silently replaced by equality in its equivalence closure. These formulas assert no
 quotient operation descent, field structure, functionality or totality. The following
 historical theorem's forward operation laws are refuted on semantic representatives in
-\cref{rem:literal-operation-values}. Multiplication totality and a corrected
-representative-level reverse law are proved in \cref{rem:literal-multiplication-laws};
-addition retains its separate obligations.
+\cref{rem:literal-operation-values}. Raw multiplication and addition totality and
+their corrected nonzero-input representative reverse laws are recorded in
+\cref{rem:literal-multiplication-laws,rem:literal-addition-laws}. No quotient
+operation descent is asserted.
 \end{remark}
 
 \begin{theorem}[total geometric field graphs]\label{thm:total-field-graphs}
@@ -3879,9 +3881,9 @@ The scalar-family arithmetic producers give the outputs, and literal ratio refle
 supplies every replacement and output comparison. No quotient decoder is assumed.
 
 This refutes the forward laws on semantic representatives, independently of the
-already refuted literal decoder. Multiplication totality and a corrected representative
-reverse law are recorded in \cref{rem:literal-multiplication-laws}; addition retains
-its separate obligations. Reverse directions require a precise domain: the raw zero-addition completion uses equality
+already refuted literal decoder. Raw totality and the corrected nonzero-input reverse
+laws are recorded in \cref{rem:literal-multiplication-laws,rem:literal-addition-laws}.
+Reverse directions require a precise domain: the raw zero-addition completion uses equality
 of representatives, which cannot be silently replaced by equality of ratios. No quotient
 functionality or operation descent is asserted here. The corrected coupled graphs have
 proved totality and exact operation laws. The error was reported on issue 8 before this
@@ -3908,9 +3910,54 @@ $(j(cde,a),j(e,a))$ with $e$ fresh over $\{a,cd\}$, then apply the reverse law; 
 factors have output zero. Each fresh choice is local and uses at most the fifth rank.
 
 The forward product law remains refuted. These results supply no quotient functionality,
-operation descent, decoder or field structure. Addition totality, its carefully scoped
-reverse laws and the remaining original construction/provenance claims remain separate.
+operation descent, decoder or field structure. Addition totality and its corrected
+nonzero-input reverse laws are recorded next; the remaining original construction/
+provenance claims stay separate.
 The historical theorem and proof are preserved in full above.
+\end{remark}
+
+\begin{remark}[True addition components in Lean]\label{rem:literal-addition-laws}
+The theorem \lean{blueprintRatioAddGraph_total} proves raw addition totality on the
+actual Frobenius class of a semantic base tuple, over perfect ambient fields at rank
+five and arbitrary bases. Characteristic, ACF completeness and normalization are internal.
+A zero input returns the other raw input exactly.
+
+The two representative-level reverse statements correct the invalid quotient claim and
+restrict their inputs to nonzero semantic class pairs. All endpoint independent-pair
+hypotheses and underlying tuple identities are explicit, over arbitrary fields at rank
+five with no perfection or completeness. The theorem
+\lean{blueprintRatioAddGraph_of_add_ratio_eq_zero} gives output zero from
+$pq'+p'q=0$. The theorem \lean{blueprintRatioAddGraph_of_add_ratio} gives a semantic
+output pair $(j(p'',a),j(q'',a))$ from $p''(qq')=q''(pq'+p'q)$. Its sum-nonzero condition
+is derived from this identity and the nonzero semantic output, not supplied by the caller.
+
+For $c=p/q$ and $d=p'/q'$, a denominator $e$ fresh over $\{a,c,d\}$ gives both
+literal input replacements by the true ratio-semantics converse. If $c+d=0$, scalar
+$-1$ supplies literal negation. Otherwise the three pairs for $ce$, $de$ and their sum
+with $a$ are independent; the true literal nonzero-addition existence theorem supplies
+the sum, and the ratio converse compares its output with the specified semantic pair.
+One private common-denominator producer is consumed by both reverse branches.
+For totality, normalize the inputs and use the zero-sum branch or a target denominator
+fresh over $\{a,c+d\}$ and the nonzero-output branch. Every fresh choice is local within
+rank five, with all auxiliary class memberships retained and no joint input independence.
+The forward sum law remains refuted. No quotient functionality, operation descent,
+decoder or field structure is asserted for the literal recipes.
+\end{remark}
+
+\begin{remark}[Zero-input reverse obstruction in Lean]\label{rem:literal-addition-zero-reverse}
+The theorem \lean{blueprintRatioAddGraph_zero_reverse_counterexample} refutes extending
+the raw representative reverse law to arbitrary zero inputs. For independent $x,y,a$,
+the diagonal pairs $s=(j(x,a),j(x,a))$ and $t=(j(y,a),j(y,a))$ belong to the actual class
+of $j(x,a)$ and have $y/y=0+x/x=1$. Nevertheless zero plus $s$ does not have output $t$:
+the raw completion requires $t=s$, contradicting same-parameter tuple injectivity and
+independence. Arbitrary fields and rank five suffice; no perfection, infinite base,
+completeness or decoder is assumed.
+
+This is the refutation accompanying the corrected nonzero-input statements. Totality
+is unaffected, since zero plus $s$ has output $s$. The source-domain obstruction was
+reported on issue 8 before this annotation. The original formulas, theorem and proof
+are preserved for provenance. The corrected coupled quotient graphs retain their exact
+operation laws; remaining original construction/provenance claims stay separate.
 \end{remark}
 
 \begin{proposition}[field reconstructed from a chosen class]\label{prop:interpreted-reconstruction}
@@ -3946,8 +3993,11 @@ universes. For an arbitrary base tuple and its actual image,
 a named zero, using \lean{Quot}, hence the equivalence closure of the literal
 relation. No field structure or decoding is asserted on this carrier.
 The representative-level recipe formulas and their transport are now recorded in
-\cref{rem:literal-recipe-invariance}. Their totality and decoded-operation claims,
-and the remaining literal construction/provenance obligations, remain separate.
+\cref{rem:literal-recipe-invariance}. Their raw totality and corrected nonzero-input
+reverse laws are recorded in \cref{rem:literal-multiplication-laws,rem:literal-addition-laws};
+the advertised forward laws remain refuted, with the zero-input reverse obstruction in
+\cref{rem:literal-addition-zero-reverse}. Remaining original construction/provenance
+claims require their own dispositions.
 The advertised literal decoder is refuted as explained above; the intended
 field reconstruction is proved using the corrected coupled interpretation.
 \end{remark}

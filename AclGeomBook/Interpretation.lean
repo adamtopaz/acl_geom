@@ -32,6 +32,8 @@ import AclGeom.Counterexamples.RatioGraphValues
 import AclGeom.Counterexamples.RatioConverse
 import AclGeom.Counterexamples.RatioMulGraphLaws
 import AclGeom.Counterexamples.TotalNonzeroExistence
+import AclGeom.Counterexamples.RatioAddGraphLaws
+import AclGeom.Counterexamples.RawZeroAddition
 import AclGeom.Counterexamples.BlueprintTotalGraphs
 
 open Verso.Genre Manual
@@ -348,7 +350,8 @@ to the actual class, and all fresh choices stay within rank five.
 This proves the true source existence claim with one public theorem and no auxiliary
 declarations. It restores no uniqueness or forward semantics. The corrected coupled
 nonzero-addition detour has proved exact semantics. Raw addition totality and its
-carefully scoped representative reverse laws remain separate obligations.
+nonzero-input representative reverse laws are proved below, alongside the obstruction
+to extending the raw reverse law to arbitrary zero inputs.
 
 # Laws of the literal ratio relation
 %%%
@@ -408,8 +411,9 @@ The fresh multiplier uses the fifth rank; no larger rank or caller freshness ora
 needed. There is one public theorem and no auxiliary declarations.
 
 The forward implication remains refuted, as does transitivity. This converse supplies
-neither a setoid nor a quotient decoder. The multiplication totality and representative
-reverse law are proved below; addition totality and reverse laws remain separate obligations.
+neither a setoid nor a quotient decoder. Both raw operation totality statements and their
+nonzero-input representative reverse laws are proved below; quotient construction and
+remaining provenance claims retain their separate dispositions.
 
 # Naturality of the literal predicates and quotient carriers
 %%%
@@ -442,10 +446,10 @@ of the literal ratio relation; no field operations or decoding are asserted on t
 The literal equivalence-relation assertion is refuted above at transitivity; symmetry and
 fixed-class reflexivity in the source setting are proved. The following section transcribes
 the two raw operation recipes and proves their geometric invariance. The advertised
-forward operation laws are refuted on semantic representatives below. Multiplication
-totality and its representative reverse law are proved after those refutations. Addition
-totality, reverse laws and the remaining provenance retain separate obligations, with
-no quotient operation descent asserted.
+forward operation laws are refuted on semantic representatives below. Both raw totality
+statements and their corrected nonzero-input representative reverse laws are proved after
+those refutations. No quotient operation descent is asserted, and the remaining original
+construction/provenance claims stay separate.
 This progress leaves the full I6b and I6c source-validation obligations open.
 
 # Literal operation recipes on representatives
@@ -479,9 +483,9 @@ independent universes, with all replacement, comparison, arithmetic and class wi
 
 These are representative-level formulas with explicit relation witnesses. They do not
 replace those witnesses with quotient equality. The next section refutes the advertised
-forward operation laws on semantic representatives. Multiplication totality and its
-representative reverse law are proved below; addition retains separate obligations.
-No quotient operation descent or field structure is asserted for these literal formulas.
+forward operation laws on semantic representatives. Both raw totality statements and their
+corrected representative reverse laws for nonzero inputs are proved below. No quotient
+operation descent or field structure is asserted for these literal formulas.
 
 # Wrong values in the literal operation recipes
 %%%
@@ -511,10 +515,9 @@ supply every tuple's class membership. The addition proof uses the existing deno
 `y`; no extra independence or rank-six assumption is needed.
 
 These refute both forward advertised operation laws on semantic representatives.
-The following section proves raw multiplication totality and its representative reverse
-law. Addition totality and reverse laws remain separate. Reverse directions require a
-precise domain:
-the raw addition clause at a zero input requires equality of output representatives,
+The following sections prove raw multiplication and addition totality and their corrected
+representative reverse laws for nonzero inputs. The domain matters: the raw addition
+clause at a zero input requires equality of output representatives,
 so equal ratios alone cannot justify replacing that output. No quotient functionality
 or descent is claimed. The corrected coupled graphs, decoding and reconstruction remain
 proved. The source error was reported on issue #8 before source annotations; the original
@@ -554,9 +557,75 @@ There are exactly two public theorems and no auxiliary declarations.
 
 The forward product law remains refuted above. These results assert no quotient
 functionality, operation descent, decoder or field structure. Addition totality and its
-carefully scoped reverse laws remain separate obligations, as do the remaining original
-construction/provenance claims. The corrected coupled field graphs and reconstruction
+corrected nonzero-input reverse laws are proved next. The remaining original construction/
+provenance claims stay separate; the corrected coupled field graphs and reconstruction
 remain proved.
+
+# Totality and the reverse laws for literal addition
+%%%
+tag := "literal-addition-laws"
+%%%
+
+The raw addition recipe is total on the actual class of a semantic base tuple, over a
+perfect ambient field at transcendence degree at least five and an arbitrary base.
+Characteristic, completeness and input normalization are supplied internally:
+
+{docstring AclGeom.blueprintRatioAddGraph_total}
+
+The representative-level reverse laws are corrections of the invalid quotient statement.
+They concern nonzero semantic inputs, with all endpoint pair hypotheses and underlying
+tuple identities explicit. A zero cross sum gives the named-zero output:
+
+{docstring AclGeom.blueprintRatioAddGraph_of_add_ratio_eq_zero}
+
+A semantic output whose generator ratio equals the sum also satisfies the literal graph:
+
+{docstring AclGeom.blueprintRatioAddGraph_of_add_ratio}
+
+Both reverse statements hold over arbitrary base and ambient fields at rank five,
+without perfection or completeness. In the nonzero-output theorem the cross identity
+and semantic output force the sum to be nonzero; no separate caller hypothesis is added.
+
+For `c=p/q` and `d=p'/q'`, choose a common denominator `e` fresh over `{a,c,d}`.
+The true converse of ratio semantics supplies both replacements. When `c+d=0`, the
+numerators are literal negatives, using scalar minus one. Otherwise `c*e`, `d*e` and
+their sum are each independent from `a`, and the proved existence half of the literal
+nonzero-addition detour gives the sum output. It needs no joint independence of the two
+numerators. One private common-denominator lemma is consumed by both reverse branches.
+
+For totality, normalize the four input class members inline. A zero sum uses the first
+reverse branch. A nonzero sum chooses a target denominator fresh over `{a,c+d}` and
+uses the second branch. A zero input returns the other raw input exactly. All fresh
+choices are local and stay within rank five, with no caller normalization or freshness
+oracle. Every replacement, arithmetic and output comparison retains its class witnesses.
+
+The forward sum law remains refuted. No quotient functionality, operation descent,
+decoder or field structure is asserted for the literal recipe. The following refutation
+explains why the raw representative reverse statement restricts its inputs. The corrected
+coupled quotient graphs retain their exact operation laws.
+
+# A zero-input obstruction to the raw reverse law
+%%%
+tag := "literal-addition-zero-reverse"
+%%%
+
+At a zero input, the raw addition recipe requires equality of representatives. Equality
+of their generator ratios alone cannot replace that equality:
+
+{docstring AclGeom.blueprintRatioAddGraph_zero_reverse_counterexample}
+
+For independent `x,y,a`, take the diagonal pairs `s=(j(x,a),j(x,a))` and
+`t=(j(y,a),j(y,a))` in the actual class of `j(x,a)`. Their ratios satisfy
+`y/y = 0 + x/x = 1`, but zero plus `s` does not have output `t`. The zero clause would
+force `t=s`; same-parameter tuple injectivity and independence give a contradiction.
+This needs only arbitrary fields and rank five, without perfection, an infinite base,
+completeness or a decoder.
+
+This is the refutation accompanying the corrected nonzero-input reverse statements.
+It does not refute raw totality: zero plus `s` has output `s`. The source-domain error
+was reported on issue #8 before these annotations, and the historical formulas and
+proofs are preserved. Remaining original construction/provenance claims and the full
+project goal stay open.
 
 # Coupled generic arithmetic
 %%%
