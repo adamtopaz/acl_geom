@@ -162,7 +162,11 @@ coupled field/graphs/naturality/chosen-class map proved. No operation descent is
 for the literal recipes. The bare field-isomorphism existence result is now stated
 without completeness inputs as `nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`;
 its bases need not be relatively algebraically closed. The original M6 formulas and proofs
-retain their provenance; R1/R2 and other true source auxiliary obligations stay separate.
+retain their provenance. The actual-H R1--R4 statements are proved: the full tuple image is
+`interpretedRingEquiv_jTupleOf`, and the stronger `closedIFMap_interpretedRingEquiv` gives
+all-point and closed-field image formulas. The proved producers supply every explicit input in
+the source setting. Compatibility/all-point propagation use both RAC bases; scalar one and
+the tuple formula do not. Other true source auxiliary obligations stay separate.
 
 # Dimension and endpoint hypotheses
 %%%

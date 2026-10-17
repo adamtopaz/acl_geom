@@ -247,7 +247,8 @@ existence and the field-isomorphism endpoint are proved below under ACF
 completeness. The original literal decoded construction is refuted, while its corrected
 source-setting
 chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
-are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
+are recorded in this chapter. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements remain separate.
 
 # Conditional Frobenius classes
 %%%
@@ -667,8 +668,8 @@ This is the refutation accompanying the corrected nonzero-input reverse statemen
 It does not refute raw totality: zero plus `s` has output `s`. The source-domain error
 was reported on issue #8 before these annotations, and the historical formulas and
 proofs are preserved. The literal field construction has the recorded refutations and
-corrected replacement below; R1/R2, true bypassed source statements and the full project
-goal remain open.
+corrected replacement below. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements and the full project goal remain open.
 
 # Disposition of the literal field construction
 %%%
@@ -744,8 +745,12 @@ The clauses of source `interpreted-reconstruction` (I6c) are likewise recorded:
 
 These recorded refutations, true components and proved corrected replacements resolve
 the original I6b/I6c construction clauses. They do not validate the literal predicates.
-R1/R2 source-disposition work, original group/chunk, coherent-cover, scheme/action and
-other true bypassed source statements remain obligations. The full project is incomplete.
+R1--R4 are proved for the actual reconstruction in the next chapter, with both RAC bases
+for compatibility and all-point propagation, and no RAC for scalar one or the tuple formula.
+The proved completeness, rank, characteristic and image-base producers supply every explicit
+input in the source setting. Original proof routes retain their provenance. Original group/chunk,
+coherent-cover, scheme/action and other true bypassed source statements remain obligations.
+The full project is incomplete.
 
 # Coupled generic arithmetic
 %%%
@@ -789,7 +794,8 @@ and corrected totalization/ratio naturality are proved next, followed by
 conditional carrier/graph transport with the image-base equality explicit.
 The original literal decoded construction is refuted, while its corrected source-setting
 chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
-are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
+are recorded in this chapter. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements remain separate.
 
 # Coupled arithmetic naturality
 %%%
@@ -826,7 +832,8 @@ conditional carrier/graph transport with the image-base equality explicit.
 Conditional image-base existence is proved below under ACF completeness.
 The original literal decoded construction is refuted, while its corrected source-setting
 chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
-are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
+are recorded in this chapter. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements remain separate.
 
 # Totalization and ratio naturality
 %%%
@@ -866,7 +873,8 @@ image-base equality and carrier inputs explicit. Conditional image-base
 existence is proved below under ACF completeness. The original literal decoded construction is
 refuted, while its corrected source-setting
 chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
-are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
+are recorded in this chapter. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements remain separate.
 
 # Conditional carrier and graph naturality
 %%%
@@ -912,7 +920,8 @@ and composes it with both decoding equivalences. The canonical image base
 and conditional field-isomorphism endpoint follow in the next section.
 The original literal decoded construction is refuted, while its corrected source-setting
 chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
-are recorded in this chapter; R1/R2 and true bypassed source statements remain separate. The
+are recorded in this chapter. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements remain separate. The
 global Frobenius setoid is proved above under
 perfection and rank five; the frozen M4a record is preserved.
 
@@ -1049,8 +1058,8 @@ class and its ratio diagram. It supplies no new global reconstruction endpoint a
 not repair the refuted literal decoder. Base recovery and compatibility with the whole
 lattice map remain the stronger RAC-base reconstruction conclusions. The original
 literal construction has a recorded refutation and this corrected replacement. The
-original formulas/proofs remain as provenance; R1/R2, true bypassed source statements
-and the full project goal remain separate obligations.
+original formulas/proofs remain as provenance. R1--R4 are proved for the actual reconstruction
+in the next chapter; true bypassed source statements and the full project goal remain open.
 
 # Generic arithmetic on the fixed class
 %%%
@@ -1249,7 +1258,8 @@ canonical image-base equality and carrier inputs explicit; conditional image-bas
 and the field-isomorphism endpoint are also proved above. The original literal decoded
 construction is refuted, while its corrected source-setting
 chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
-are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
+are recorded in this chapter. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements remain separate.
 
 
 # Corrected total nonzero addition
@@ -1300,7 +1310,8 @@ canonical image-base equality and carrier inputs explicit; conditional image-bas
 and the field-isomorphism endpoint are also proved above. The original literal decoded
 construction is refuted, while its corrected source-setting
 chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
-are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
+are recorded in this chapter. R1--R4 are proved for the actual reconstruction in the next
+chapter; true bypassed source statements remain separate.
 
 
 # Corrected total geometric field graphs

@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-17; #8/#9/#23)
+## Current status (2026-10-17; #9)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
@@ -36,7 +36,13 @@ replacement. Addition remains nonfunctional after any identification of nonzero 
 the named zero adjoined when `2 ≠ 0`, independently of a decoder. Its true raw totality and
 nonzero-input reverse components and geometric transport are proved. The original I6b/I6c
 clauses are disposed of with their precise hypotheses and original provenance retained;
-R1/R2 source-disposition work, remaining validation and true auxiliary statements stay open. The original three-pair additive
+R1--R4 are proved for the actual reconstructed map, with every explicit input supplied by
+its proved producer in the source setting. The full canonical tuple image is now named
+`interpretedRingEquiv_jTupleOf`; it needs no RAC. Compatibility and all-point recovery
+use both genuine RAC bases. The actual-H lattice equality supplies every closed-field
+image and, on chosen perfections, the original-field intersection formula for that H.
+The original literal RatioEq/JMul proofs retain their provenance. Remaining validation
+and true auxiliary statements stay open. The original three-pair additive
 and literal multiplicative correspondence theorems are proved without extra ambient-rank
 or freshness hypotheses, including both sum constants and both nonzero exponents/constants.
 Connected one-dimensional additive subgroups of the plane now have the source polynomial
@@ -13129,3 +13135,55 @@ clean committed-head exhaustive dependency and exact-head CI evidence is reporte
 #8/#23 before resolving their M6 tracker rows. The durable project goal remains active
 and incomplete; these are dispositions of the original literal construction, not proofs
 of its refuted predicates.
+
+
+## Checkpoint: full tuple images and the R1--R4 source dispositions (#9)
+
+`Reconstruct.TupleImage.interpretedRingEquiv_jTupleOf` exposes the first conclusion of
+blueprint Prop `scalar-one`: for every `x` outside `racl_k {a}`, the actual reconstructed
+`H = interpretedRingEquiv … e …` carries the canonical source tuple to `j(H(x),a')`,
+and the target pair is independent. It retains every chosen semantic base and every
+admissible image pair. Both perfections, rank bounds, completeness proofs, exponential
+characteristics and actual image-base equality are explicit in this reusable internal API,
+exactly as in Scalar. No RAC, extra target genericity, fresh/scalar oracle or new global
+reconstruction endpoint is introduced. The module imports only Scalar and adds one public
+theorem in four independent universes, with standard axioms and no auxiliary declarations.
+
+The proof retains information discarded by the existing point-formula proof: Frobenius
+transport and the class description produce a semantic image `j(y,a')`; the coordinate
+and base-coordinate laws give `y = H(x)`, so the whole tuple is returned. The source,
+book and Scalar header now name this theorem in place of uncommitted typed fixtures.
+The mathematical leaf is byte-identical to the independently checked source from both
+agents. All 386 preceding selected types and 96 scoped records remain exact, expanding
+to 387 selected standard-axiom declarations and 97 scoped records.
+
+The joint source audit records every remaining #9 clause for this actual H:
+
+- R1: `interpretedRingEquiv_compatible` gives base recovery for every chosen class and
+  image pair, under both genuine RAC bases.
+- R2: the new tuple formula and existing `interpretedRingEquiv_point` give both source
+  conclusions, without RAC. The coordinate and scalar-one laws are already proved.
+- R3b: apply `congrArg` at a principal closure to `closedIFMap_interpretedRingEquiv`,
+  then `CrossBase.closedIFMap_point`. The result holds for every x, including inside
+  `racl_k {a}`. Both RAC bases are needed for compatibility, as in the source.
+- R4: the same named actual-H equality, with `CrossBase.coe_closedIFMap`, is the image
+  formula for every closed field. On the chosen perfections, use their conjugated
+  lattice isomorphism, `Perfection.isRAC_basePerf`, and the proved rank/completeness
+  producers. Convert the equality through `Perfection.induces_iff_eq_inducedIso`, then
+  `Perfection.Induces.mem_iff`, to get the original-field intersection formula for that
+  same chosen-class H. Bare existential reconstruction is not used to identify H.
+
+In the source setting `jCompletenessACF`, lattice rank transfer, characteristic exponents
+and `exists_map_jTupleOf_eq` supply every internal input. Original fields need not be
+perfect; only their chosen perfections are used. No duplicate chosen-class or all-point
+wrapper is added, since the existing stronger public equality exposes every needed clause.
+The original RatioEq/JMul proofs and larger-freshness scalar route remain provenance;
+the Lean route uses geometric transport, exchange and bijectivity. Seven old mathematical
+files change module headers only; every old statement and entire proof body is unchanged.
+
+All 48 original source statements and 44 proofs, the shared objective/completion criteria
+and frozen 117-item M4a record remain exact. Full library/book, strict modules, selected
+types/inventory, clean committed-head exhaustive dependency and exact-head CI evidence
+are reported on #9 before its remaining four rows are resolved. The original group/chunk,
+coherent-branch/common-normal-cover and scheme/action statements remain obligations.
+The durable project goal stays active and incomplete.

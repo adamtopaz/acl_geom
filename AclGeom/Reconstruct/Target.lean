@@ -43,8 +43,10 @@ positive-characteristic exponent uniqueness and converse, supplying completeness
 Point and automorphism variants are proved in `Reconstruct.PointVariant` and `Variants`;
 literal and Frobenius-quotient functors and perfection-choice equivalence are proved in
 `Functorial`. The original three-pair correspondence and tensor-domain theorems are also
-proved. Original literal/TOT interpretation, group-chunk, geometric fiber-product and
-scheme/action obligations remain open; frozen M4a is historical (#19).
+proved. The literal TOT/decoded interpretation is refuted with a proved corrected replacement
+(#8), and the canonical finite-tuple geometric fiber-product bridge is proved. The group-chunk,
+coherent-branch/common-normal-cover and scheme/action obligations remain open; frozen M4a is
+historical (#19).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

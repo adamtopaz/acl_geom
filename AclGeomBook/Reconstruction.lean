@@ -8,6 +8,7 @@ import AclGeom.Counterexamples.KernelRank
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Scalar
+import AclGeom.Reconstruct.TupleImage
 import AclGeom.Reconstruct.Existence
 import AclGeom.Reconstruct.Target
 import AclGeom.Main
@@ -121,8 +122,10 @@ target RAC only. The statements include independent universes, finite bases
 and characteristics zero/two. The two accepted no-fresh ratio declarations
 are unchanged, and no helper, generated declaration or global instance is added.
 
-This accepts corrected conditional R1b. The next section proves scalar
-elimination for this same map without RAC. Original-field inducing existence
+This accepts corrected conditional R1b. In the source setting the proved producers supply
+every explicit input, so Prop `base-recovery` holds for the actual reconstruction, for every
+chosen class and image pair. The next section proves scalar elimination for this same map
+without RAC. Original-field inducing existence
 is a reusable conditional API. The public target below supplies the completeness inputs
 and proves lattice reconstruction under the blueprint hypotheses. The original literal
 RatioEq proof, broader group/geometric-fiber-product obligations and frozen
@@ -154,27 +157,34 @@ cancellation yields `H(x₀)=x₀'`.
 
 This route replaces the original blueprint choice over `acl(a,x₀,t₀)`
 by geometric transport of target genericity. The original proposition and
-proof remain preserved exactly; their literal RatioEq/JMul argument remains a separate
-source obligation. The corrected proof supplies the public reconstruction below.
+proof remain preserved exactly; their literal RatioEq/JMul argument retains its provenance.
+The corrected proof supplies the public reconstruction below.
 
 The first tuple coordinate then gives the outside-point formula:
 
 {docstring AclGeom.interpretedRingEquiv_point}
 
-B1 plus the coordinate and scalar-one laws also give the full tuple-image
-consequence: an independent `(x,a)` maps to the independent target pair
-`(H(x),a')` and its canonical tuple. This consequence, actual inverse/base
-coordinates, and feeding compatibility plus this point law to the existing
-whole-lattice propagation API are checked by independent typed interfaces.
+The same steps give the full tuple formula, the first displayed conclusion of
+Prop `scalar-one`: for `x` outside `acl_k(a)`, the pair `(H(x),a')` is independent and
+`e(j(x,a)) = j(H(x),a')`.
 
-All three statements need no RAC hypothesis. Both perfections/rank-five
-bounds, separate exponential characteristics, both explicit ACF
-J-completeness inputs and the actual canonical image-base equality remain
-explicit. No extra target genericity, freshness witness, scalar oracle,
-helper, global instance or generated declaration is introduced. The new
-module imports Base only. This accepts corrected conditional R2a/b/c;
-the public theorem supplies completeness internally. Original literal/TOT/geometric-fiber-product
-and frozen M4a source obligations remain separately tracked. The named
+{docstring AclGeom.interpretedRingEquiv_jTupleOf}
+
+It is stated for the actual `H`, with the same explicit inputs and no RAC. In the source
+setting `jCompletenessACF` supplies both completeness inputs, the lattice isomorphism the
+target rank and `exists_map_jTupleOf_eq` the image pair.
+
+The three Scalar statements and the tuple formula need no RAC hypothesis. Both
+perfections/rank-five bounds, separate exponential characteristics, both explicit ACF
+J-completeness inputs and the actual canonical image-base equality remain explicit. No extra
+target genericity, freshness witness, scalar oracle, helper, global instance or generated
+declaration is introduced. `Reconstruct.Scalar` imports Base only, and
+`Reconstruct.TupleImage` imports Scalar only. This accepts corrected R2a/b/c and the tuple
+formula: with base recovery above, Props `base-recovery` and `scalar-one` hold for the actual
+reconstruction. The public theorem supplies completeness internally. The original literal
+RatioEq/JMul proofs keep their provenance. The canonical finite-tuple geometric fibre-product
+bridge is proved; coherent branches/common normal covers and the original group/chunk and
+scheme/action statements remain obligations. The frozen M4a record is historical. The named
 next section proves its actual inducing direction under explicit RAC bases.
 
 # Conditional inducing equality and existence
@@ -189,11 +199,17 @@ supplied lattice isomorphism:
 
 {docstring AclGeom.closedIFMap_interpretedRingEquiv}
 
-This is the corrected conditional counterpart of all-point recovery and
-the atomistic extension. Both RAC bases and the exact carrier inputs
-remain explicit. There is no supplied point or scalar oracle. Every
-principal point, every closed-field set image and the full inverse point
-formula follow from this actual equality.
+This is the corrected counterpart of Prop `all-points` and the atomistic
+extension for the actual reconstruction. `CrossBase.closedIFMap_point` turns it into
+`e([x]) = [H(x)]` for every `x`, and `CrossBase.coe_closedIFMap` into `e(M) = H(M)` for
+every closed `M`. Both RAC bases and the exact carrier inputs remain explicit, and the
+proved producers supply them in the source setting. There is no supplied point or scalar
+oracle. The full inverse point formula also follows from this actual equality. For the
+original fields, the same equality on the chosen perfections, with the conjugated lattice
+isomorphism, gives `φ(M) = H(M^perf) ∩ L` for that actual `H` through
+`Perfection.induces_iff_eq_inducedIso` and `Perfection.Induces.mem_iff`. The source proof's
+two-generic intersection route is replaced by exchange and bijectivity of point maps; the
+original proof is retained.
 
 Choosing the source pair and its actual target image gives existence:
 
@@ -217,8 +233,9 @@ the original nonperfect-field statement.
 The next section proves original-field inducing existence through chosen
 perfection lattices, deriving RAC of the perfected base from original RAC.
 The following public target section assembles Frobenius uniqueness.
-The public theorem supplies completeness internally. Original literal RatioEq/TOT/scalar
-arguments remain tracked on #23. The embedded-field assertions of the original two-generic
+The public theorem supplies completeness internally. The original literal RatioEq/scalar
+proofs keep their provenance on #23, and the literal TOT theorem is refuted (#8). The
+embedded-field assertions of the original two-generic
 proof are checked separately below; frozen M4a remains historical. The original
 larger-freshness scalar argument is preserved. Exactly two public results
 are added in a focused module importing Points and Scalar only, with no
@@ -257,8 +274,9 @@ declaration, global instance or duplicate RingEquiv, are added.
 
 This proves the reusable internal original-field inducing theorem. The next section
 supplies its completeness parameters internally and derives the public target with rank,
-base/intersection formulas, Frobenius uniqueness and the converse. Literal RatioEq/TOT/
-scalar arguments and broader group/geometric-fiber-product source obligations remain tracked.
+base/intersection formulas, Frobenius uniqueness and the converse. The literal RatioEq/scalar
+proofs keep their provenance and the literal TOT theorem is refuted; broader
+group/chunk, coherent-cover and scheme/action source obligations remain tracked.
 The original two-generic embedded-field assertions are checked below; frozen M4a remains
 historical. Every original source statement and proof is preserved.
 
@@ -298,7 +316,8 @@ The two characteristic parameters stay separate, and the ambient universes are
 independent. The conclusions of the former conditional statements are unchanged; only
 the two completeness parameters have been removed. The point-geometry and automorphism
 variants follow; the functorial variants are in the next chapter. Original literal
-calculations and true bypassed source statements remain obligations. The original theorem,
+formulas and proofs retain their provenance; true bypassed source statements remain obligations.
+The original theorem,
 assembly sketch and proof retain their provenance and wording.
 
 # Point-geometry reconstruction
@@ -400,7 +419,8 @@ justification gap and its correction are recorded on
 [issue #9](https://github.com/adamtopaz/acl_geom/issues/9#issuecomment-6213953033), with the
 original proof preserved. Closed [#11](https://github.com/adamtopaz/acl_geom/issues/11)
 proves the separate abstract tensor-domain theorem. The distinct (8.9a) audit on #5 and
-the original general interpretation/provenance obligations remain separate.
+the remaining true source auxiliary obligations stay separate. The actual-H R1--R4
+statements are proved with their original literal proof routes retained as provenance.
 
 # Integral Frobenius powers
 %%%

@@ -33,8 +33,10 @@ actual corrected conditional base-recovery and outside-point inputs are proved s
 `Reconstruct.Existence` assembles the actual inducing equality and compatible inducing existence
 for perfect fields under explicit RAC/completeness inputs. `Reconstruct.Target` transports
 existence through arbitrary chosen perfections of the original fields. `Main` supplies the
-rank-five ACF completeness proofs internally for public reconstruction. The original general
-R1/R2 interpretation arguments and literal source provenance remain obligations on #9/#23.
+rank-five ACF completeness proofs internally for public reconstruction. For the actual
+reconstruction, `closedIFMap_interpretedRingEquiv` is the atomistic extension (R4) and, with
+`CrossBase.closedIFMap_point`, gives the point formula for every `x` (R3b), under both RAC bases;
+the original literal interpretation arguments retain their provenance (#9/#23).
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

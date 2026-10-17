@@ -55,7 +55,9 @@ perfect-field compatible inducing/existence consumer is proved in `Reconstruct.E
 `Reconstruct.Target` proves original-field `Induces` existence through arbitrary chosen
 perfections under explicit perfected completeness. `jCompletenessACF` (in `Config.Completeness`)
 supplies the rank-five ACF proofs, and `Main` uses them internally in public reconstruction.
-The R1/R2 source-disposition work remains on #9. The literal M6 decoded construction has
+Base recovery, both scalar-one conclusions, all-point recovery and atomistic extension are
+proved for the actual reconstruction in `Reconstruct`, with the proved producers supplying
+every explicit input in the source setting (#9). The literal M6 decoded construction has
 recorded refutations and a proved corrected replacement; its original formulas and proofs
 retain their provenance. These dispositions are distinct from the stronger RAC-base
 reconstruction conclusions.

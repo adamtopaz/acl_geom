@@ -45,8 +45,11 @@ compatibility. Corrected conditional scalar one and outside-point recovery are p
 `Reconstruct.Scalar` under the same carrier inputs, without RAC. The actual perfect-field
 inducing/existence consumer is proved in `Reconstruct.Existence` with both RAC bases and
 completeness explicit. `Main` supplies both completeness inputs and proves reconstruction with
-original-field `Induces` assembly (`exists_reconstruction`). The original-scope R1/R2 statements
-(#9) and literal source obligations (#8) remain separate. The two ratio declarations are
+original-field `Induces` assembly (`exists_reconstruction`). Prop `base-recovery` (here) and
+Prop `scalar-one` (`Reconstruct.Scalar`, `Reconstruct.TupleImage`) are proved for the actual
+reconstruction, with every explicit input supplied by its proved producer in the source setting
+(#9). Their original literal proofs retain their provenance; the literal M6 construction
+has recorded refutations and a proved corrected replacement (#8). The two ratio declarations are
 unchanged.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin

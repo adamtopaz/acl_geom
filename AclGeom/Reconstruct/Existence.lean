@@ -38,8 +38,9 @@ the source pair, target rank and actual image pair inline; no supplied pair, tar
 point/scalar oracle is assumed. Target proves perfected-base RAC and original-field inducing
 existence through arbitrary chosen perfections under explicit perfected ACF completeness.
 `Main` supplies these proofs internally and assembles the public lattice-form target, including
-Frobenius uniqueness and converse. Original literal RatioEq/TOT/scalar arguments retain their
-provenance on #23. `Test.TwoGenericSource` separately validates the original two-generic
+Frobenius uniqueness and converse. The original literal RatioEq and scalar arguments retain
+their provenance (#23, #9), and the literal TOT/decoded construction is refuted with a proved
+corrected replacement (#8). `Test.TwoGenericSource` separately validates the original two-generic
 proof's embedded-field assertions (#9), including the finite normal envelope and extension
 of embeddings fixing the other rational field pointwise. The algebraicity conclusion is
 checked by exchange; the original conjugate proof route is retained. The distinct (8.9a)

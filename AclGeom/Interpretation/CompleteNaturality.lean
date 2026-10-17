@@ -30,8 +30,10 @@ The literal operation recipes and their invariance are proved in
 proved separately. `Counterexamples.RatioAddQuotient` refutes addition functionality after
 any identification of nonzero representatives with the named zero adjoined, when `2 ≠ 0`.
 The literal decoded construction has a recorded refutation and a proved corrected replacement.
-The original formulas and proofs retain their provenance; true bypassed source statements
-and the R1/R2 source-disposition work remain separate.
+The original formulas and proofs retain their provenance. Base recovery, both scalar-one
+conclusions, all-point recovery and atomistic extension are proved for the actual reconstruction,
+with all explicit inputs supplied by proved producers in the source setting (#9).
+True bypassed source statements remain separate obligations.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
