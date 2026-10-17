@@ -230,8 +230,9 @@ subsection through generic-extension (a)--(c). The two source qualifications
 remain: the joint component field can be properly larger than its endpoint
 image field, and an infinite absolute-degree equality alone does not imply
 independence. Field freeness supplies the latter conclusion. The original
-group/chunk, six-point, affine-action, curve-coset and parameter-family
-identities with their other branches remain separate obligations.
+group/chunk, six-point, affine-action, curve-coset and coherent branch/normal-cover
+obligations remain separate. The selected parameter-family component identities
+are proved in the configuration chapter.
 
 # Localizing tensor components
 %%%
@@ -482,14 +483,16 @@ The Ψ analogue now realizes every branch of each of its three literal
 two-generator families over the six-generator parameter compositum in the
 same way, from Ψ and an ACF ambient alone. It reuses the public literal
 producer and asks for no branch-genericity conclusion. Both results treat
-branches individually. Coherent triples, their common normal cover and the
-parameter-family locus forms of (8.4c) and (8.6) still require separate proofs.
+branches individually. The selected parameter-family locus forms of (8.4c)
+and (8.6) are proved in the configuration chapter by the actual components,
+dense projections, canonical finite function fields and exact scalar contractions.
+Coherent triples and their common normal cover still require separate proofs.
 The geometric presentation
 step for arbitrary irreducible correspondence curves is proved above by
 `exists_idealOf_eq_iff`, with the necessary ambient-size condition.
 The full finite-coordinate generic-extension lemma is proved above.
-The complete parameter-family identities and original group/chunk statements
-remain obligations.
+Coherent-branch and common-normal-cover statements and the original group/chunk
+statements remain obligations.
 
 The following classification realizes every dominating component when the
 outer tuples are finite and the ambient field is algebraically closed.
@@ -785,7 +788,8 @@ derived internally.
 
 The threefold incidence-component comparison, including componentwise normalization,
 is proved above. The finite-coordinate correspondence calculus of §8.1 is
-proved; the higher-dimensional parameter-family identities remain obligations.
+proved; the selected parameter-family component identities are proved in the
+configuration chapter. Coherent branches and their common normal cover remain obligations.
 
 # Component fields and endpoint images
 %%%
@@ -823,7 +827,8 @@ polynomial representative formulas. The scalar specialization and the threefold
 incidence-component comparison, including normalized generic germs, are proved above.
 The geometric generic-point presentation bridge is proved above by
 `exists_idealOf_eq_iff`, and the full finite-coordinate generic-extension
-lemma is proved above. The higher-dimensional parameter-family identities
+lemma is proved above. The selected parameter-family component identities are
+proved in the configuration chapter; coherent branches and their common normal cover
 remain open. The actual endpoint contraction retains the scalar field distinction.
 
 # Tensor-domain regularity
@@ -1010,8 +1015,9 @@ byte and were not rerun for that documentation checkpoint.
 The finite-tuple Krull-dimension and actual incidence-component bridges are
 proved above, including the scalar specialization and threefold normalized
 generic-germ comparison over an arbitrary base in an ACF ambient. The full
-finite-coordinate generic-extension lemma is proved above. The parameter-family
-identities remain open (#5). The guarded initial
+finite-coordinate generic-extension lemma is proved above. The selected parameter-family
+component identities are proved in the configuration chapter; coherent branches and their
+common normal cover remain open (#5). The guarded initial
 chart and rank-five ACF completeness are proved; the original scheme/action
 statements remain open (#21).
 Finite-tuple ambient automorphisms and numerical field dimension are proved
@@ -1061,8 +1067,9 @@ Krull dimension equals this transcendence degree by the theorem above, and
 the tuple germ theorem identifies composites with endpoint images of the
 actual incidence components. The full finite-coordinate generic-extension
 lemma is proved above, including the source membership and rank criterion.
-The higher-dimensional parameter-family identities remain open (#5), as do
-the original scheme/action statements (#21). The guarded initial chart
+The selected parameter-family component identities are proved in the configuration chapter.
+Coherent branches, their common normal cover (#5) and the original scheme/action
+statements (#21) remain open. The guarded initial chart
 and rank-five ACF completeness are proved. Frozen M4a is unchanged.
 
 # Generic-point dimensions after scalar extension
@@ -1534,8 +1541,9 @@ and `j_rigidity` are proved uniformly in the exponential characteristic,
 meeting M3's rigidity acceptance test. The original three-pair additive and multiplicative
 correspondence statements are proved above without freshness hypotheses. The connected
 additive- and torus-subgroup classifications are also proved. The general curve-coset
-statement and higher-dimensional parameter-family identities remain open
-in #5. The geometric generic-point presentation bridge and full finite-coordinate
+statement, coherent branch triples and their common normal cover remain open
+in #5. The selected parameter-family component identities are proved in the configuration
+chapter. The geometric generic-point presentation bridge and full finite-coordinate
 generic-extension lemma are proved above, with the necessary ambient-size
 bounds for existence.
 The tensor-domain obligation #11 is proved above;

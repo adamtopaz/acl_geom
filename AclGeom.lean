@@ -138,6 +138,7 @@ import AclGeom.Config.JCoordinates
 import AclGeom.Config.Psi
 import AclGeom.Config.PsiLattice
 import AclGeom.Config.ParameterField
+import AclGeom.Config.FamilyLoci
 import AclGeom.Config.CanonicalBaseInput
 import AclGeom.Config.ConfigurationInput
 import AclGeom.Config.PsiNonfaithfulObstruction

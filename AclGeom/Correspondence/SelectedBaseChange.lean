@@ -32,8 +32,8 @@ normal cover require separate arguments.
 
 **Status:** selected-branch minimality is proved over arbitrary fields, and the description of
 every minimal prime by a generic conjugate in an algebraically closed ambient field. A coherent
-choice of branches, the common normal cover and the parameter-family forms of (8.4c) and (8.6)
-remain open (#5).
+choice of branches and the common normal cover remain open (#5). The selected parameter-family
+locus forms of (8.4c) and (8.6) are proved in Config.FamilyLoci.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin reconstruction
 theorem; the source of truth is `sources/blueprint.tex`.

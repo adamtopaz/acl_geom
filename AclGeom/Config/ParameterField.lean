@@ -6,6 +6,8 @@ Authors: Adam Topaz, Codex, Claude
 import AclGeom.Config.PsiLattice
 import AclGeom.Correspondence.CurveEquation
 import AclGeom.Correspondence.SelectedBaseChange
+import AclGeom.Correspondence.GenericPoints
+import AclGeom.Correspondence.LocusQuotient
 
 /-!
 # Parameter fields recovered from actual incidence germs
@@ -63,9 +65,10 @@ over the literal six-generator parameter compositum. The selected (8.4c) composi
 a partial quadrangle is proved over its closed parameter join and, as a selected minimal
 prime, over the literal parameter fields. In an algebraically closed ambient field every
 branch of each extended literal family ideal, for the partial quadrangle and for Ψ, is a
-generic conjugate of the original endpoints. A coherent choice of branches, the common
-normal cover, the parameter-family (k-locus) forms of (8.4c) and (8.6), the original group
-extraction and the full six-point theorem remain open (#27/#5). The guarded initial chart,
+generic conjugate of the original endpoints. The selected parameter-family (k-locus)
+forms of (8.4c) and (8.6) are proved in Config.FamilyLoci. A coherent choice of branches,
+the common normal cover, the original group extraction and the full six-point theorem
+remain open (#27/#5). The guarded initial chart,
 rank-five configuration completeness and the public reconstruction theorem are proved
 elsewhere.
 
@@ -78,6 +81,15 @@ namespace AclGeom
 noncomputable section
 
 variable {k K : Type*} [Field k] [Field K] [Algebra k K]
+
+/-- The locus of a parameter tuple from a coefficient field followed by an endpoint tuple is the
+contraction, under evaluation of the parameters, of the endpoint locus over that field. -/
+private theorem idealOf_sumElim_eq_comap_partialAeval {m n : ℕ} (E : IntermediateField k K)
+    (c : Fin m → ↥E) (x : Fin n → K) :
+    idealOf k (Sum.elim (fun i ↦ (c i : K)) x) =
+      (idealOf E x).comap (partialAeval (Ω := K) E c) := by
+  ext p
+  rw [Ideal.mem_comap, mem_idealOf_iff, mem_idealOf_iff, aeval_partialAeval]
 
 namespace QWitness
 
@@ -551,6 +563,63 @@ theorem Psi.literal_family_branches_are_conjugates [IsAlgClosed K] (hw : w.Psi) 
         G_A.source_generic (hL ▸ hJ)
     exact ⟨Q, σ, hQ, hQs.trans (by rw [hLCS]), hQt.trans (by rw [hLCT])⟩
 
+/-- **The selected Psi composite over the parameter locus** (blueprint (8.6), clearing
+denominators). Let `F₆ = k(a₁, a₂, b₁, b₂, c₁, c₂)`. The transposed literal germ `Γ_A` followed by
+`Γ_B` over `F₆` is a minimal prime of the extension of the original family ideal
+`I_{k(c₁, c₂)}(x, z)`. The `k`-locus of `(a₁, a₂, b₁, b₂, c₁, c₂, x, z)` is the contraction of that
+composite germ ideal under evaluation of the parameters, and the `k`-locus of `(c₁, c₂, x, z)` is
+the contraction of the original family ideal. The joint tuple uses the exact parameter-family
+indices, joined by a canonical renaming before partial evaluation. Only these contractions
+are asserted: neither an
+identification of the minimal primes over `F₆` with components over the parameter locus, nor an
+image equality, finiteness, normalization or common cover. -/
+theorem Psi.literal_composite_locus_eq_comap (hw : w.Psi) :
+    ∃ (G_A G_B : FiniteCorrespondencePair ↥(IntermediateField.adjoin k
+        {w.A₁.rep, w.A₂.rep, w.B₁.rep, w.B₂.rep, w.C₁.rep, w.C₂.rep}) K)
+      (hAB : G_A.swap.target = G_B.source),
+      G_A.target = w.X.rep ∧ G_B.target = w.Z.rep ∧
+      (G_A.swap.comp G_B hAB).ideal ∈ Ideal.minimalPrimes
+        ((idealOf ↥(IntermediateField.adjoin k {w.C₁.rep, w.C₂.rep}) ![w.X.rep, w.Z.rep]).map
+          (MvPolynomial.map (IntermediateField.inclusion (IntermediateField.adjoin.mono k
+            {w.C₁.rep, w.C₂.rep} {w.A₁.rep, w.A₂.rep, w.B₁.rep, w.B₂.rep, w.C₁.rep, w.C₂.rep}
+            (by exact (Set.subset_insert _ _).trans <| (Set.subset_insert _ _).trans <|
+                (Set.subset_insert _ _).trans <| Set.subset_insert _ _)) : _ →+* _))) ∧
+      idealOf k (Sum.elim
+          (Sum.elim ![w.A₁.rep, w.A₂.rep, w.B₁.rep, w.B₂.rep] ![w.C₁.rep, w.C₂.rep])
+          ![w.X.rep, w.Z.rep]) =
+        (G_A.swap.comp G_B hAB).ideal.comap ((partialAeval (Ω := K)
+          (IntermediateField.adjoin k
+            {w.A₁.rep, w.A₂.rep, w.B₁.rep, w.B₂.rep, w.C₁.rep, w.C₂.rep})
+          ![⟨w.A₁.rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+            ⟨w.A₂.rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+            ⟨w.B₁.rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+            ⟨w.B₂.rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+            ⟨w.C₁.rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+            ⟨w.C₂.rep, IntermediateField.subset_adjoin k _ (by simp)⟩]).comp
+            (MvPolynomial.rename (Sum.map (finSumFinEquiv : (Fin 4 ⊕ Fin 2) ≃ Fin 6) id))) ∧
+      idealOf k (Sum.elim ![w.C₁.rep, w.C₂.rep] ![w.X.rep, w.Z.rep]) =
+        (idealOf ↥(IntermediateField.adjoin k {w.C₁.rep, w.C₂.rep}) ![w.X.rep, w.Z.rep]).comap
+          (partialAeval (Ω := K) (IntermediateField.adjoin k {w.C₁.rep, w.C₂.rep})
+            ![⟨w.C₁.rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+              ⟨w.C₂.rep, IntermediateField.subset_adjoin k _ (by simp)⟩]) := by
+  obtain ⟨G_A, G_B, hAB, -, -, L_C, -, hGAT, hGBT, -, -, -, -, hLCS, hLCT, -, -, -, hC, -,
+    -⟩ := Psi.exists_literal_composing_incidence_germs hw
+  have hL : L_C.ideal = idealOf _ ![w.X.rep, w.Z.rep] := by
+    change idealOf _ ![L_C.source, L_C.target] = _
+    rw [hLCS, hLCT]
+  have hcomp : (G_A.swap.comp G_B hAB).ideal = idealOf _ ![w.X.rep, w.Z.rep] := by
+    change idealOf _ ![G_A.target, G_B.target] = _
+    rw [hGAT, hGBT]
+  refine ⟨G_A, G_B, hAB, hGAT, hGBT, hL ▸ hC, ?_, ?_⟩
+  · rw [hcomp, ← Ideal.comap_comapₐ, ← idealOf_sumElim_eq_comap_partialAeval]
+    apply idealOf_eq_comap_rename
+    funext i
+    rcases i with (i | i) | i <;> fin_cases i <;> rfl
+  · rw [← idealOf_sumElim_eq_comap_partialAeval]
+    congr 1
+    funext i
+    rcases i with i | i <;> fin_cases i <;> rfl
+
 end QWitness
 
 /-! ### The selected composite germ of a partial quadrangle -/
@@ -855,6 +924,57 @@ theorem IsPartialQuadrangle.literal_family_branches_are_conjugates [IsAlgClosed 
       FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange _ L_U
         G_T.source_generic (hL ▸ hJ)
     exact ⟨Q, σ, hQ, hQs.trans (by rw [hLUS]), hQt.trans (by rw [hLUT])⟩
+
+/-- **The selected six-point composite over the parameter locus** (blueprint (8.4c), clearing
+denominators). For a partial quadrangle with representatives `s, t, u, s', t', u'` and
+`F = k(s, t, u)`, the composite of the literal germs `Γ^T : s' → u'` and `Γ^S : u' → t'` over `F`
+is a minimal prime of the extension of the original family ideal `I_{k(u)}(s', t')`. The
+`k`-locus of `(s, t, u, s', t')` is the contraction of the composite germ ideal under evaluation
+of the parameters, and the `k`-locus of `(u, s', t')` is the contraction of the original family
+ideal. The joint tuple uses the exact parameter-family indices, joined by a canonical renaming
+before partial evaluation. Only these contractions are asserted: neither an identification of
+the minimal primes
+over `F` with components over the parameter locus, nor an image equality, finiteness,
+normalization or common cover. -/
+theorem IsPartialQuadrangle.literal_composite_locus_eq_comap {f : Fin 6 → Point k K}
+    (h : IsPartialQuadrangle f) :
+    ∃ (G_T G_S : FiniteCorrespondencePair
+        ↥(IntermediateField.adjoin k {(f 0).rep, (f 1).rep, (f 2).rep}) K)
+      (hTS : G_T.target = G_S.source),
+      G_T.source = (f 3).rep ∧ G_S.target = (f 4).rep ∧
+      (G_T.comp G_S hTS).ideal ∈ Ideal.minimalPrimes
+        ((idealOf ↥(IntermediateField.adjoin k {(f 2).rep}) ![(f 3).rep, (f 4).rep]).map
+          (MvPolynomial.map (IntermediateField.inclusion (IntermediateField.adjoin.mono k
+            {(f 2).rep} {(f 0).rep, (f 1).rep, (f 2).rep} (by simp)) : _ →+* _))) ∧
+      idealOf k (Sum.elim (Sum.elim ![(f 0).rep, (f 1).rep] ![(f 2).rep])
+          ![(f 3).rep, (f 4).rep]) =
+        (G_T.comp G_S hTS).ideal.comap ((partialAeval (Ω := K)
+          (IntermediateField.adjoin k {(f 0).rep, (f 1).rep, (f 2).rep})
+          ![⟨(f 0).rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+            ⟨(f 1).rep, IntermediateField.subset_adjoin k _ (by simp)⟩,
+            ⟨(f 2).rep, IntermediateField.subset_adjoin k _ (by simp)⟩]).comp
+            (MvPolynomial.rename (Sum.map (finSumFinEquiv : (Fin 2 ⊕ Fin 1) ≃ Fin 3) id))) ∧
+      idealOf k (Sum.elim ![(f 2).rep] ![(f 3).rep, (f 4).rep]) =
+        (idealOf ↥(IntermediateField.adjoin k {(f 2).rep}) ![(f 3).rep, (f 4).rep]).comap
+          (partialAeval (Ω := K) (IntermediateField.adjoin k {(f 2).rep})
+            ![⟨(f 2).rep, IntermediateField.subset_adjoin k _ (by simp)⟩]) := by
+  obtain ⟨G_T, G_S, hTS, -, -, L_U, hGTS, -, hGST, -, -, -, -, hLUS, hLUT, hU, -, -⟩ :=
+    h.exists_literal_composing_incidence_germs
+  have hL : L_U.ideal = idealOf _ ![(f 3).rep, (f 4).rep] := by
+    change idealOf _ ![L_U.source, L_U.target] = _
+    rw [hLUS, hLUT]
+  have hcomp : (G_T.comp G_S hTS).ideal = idealOf _ ![(f 3).rep, (f 4).rep] := by
+    change idealOf _ ![G_T.source, G_S.target] = _
+    rw [hGTS, hGST]
+  refine ⟨G_T, G_S, hTS, hGTS, hGST, hL ▸ hU, ?_, ?_⟩
+  · rw [hcomp, ← Ideal.comap_comapₐ, ← idealOf_sumElim_eq_comap_partialAeval]
+    apply idealOf_eq_comap_rename
+    funext i
+    rcases i with (i | i) | i <;> fin_cases i <;> rfl
+  · rw [← idealOf_sumElim_eq_comap_partialAeval]
+    congr 1
+    funext i
+    rcases i with i | i <;> fin_cases i <;> rfl
 
 end PartialQuadrangle
 

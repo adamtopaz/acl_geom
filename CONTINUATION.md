@@ -12621,3 +12621,138 @@ The peer's next-target audit requires both dense legs of the finite function-fie
 cover and an explicit partial-evaluation contraction bridge before claiming the
 identity of generic components. That bridge and the actual component consumer
 remain separate work. The issue and full shared goal remain open.
+
+## Selected parameter-family locus identities (2026-10-16, #5)
+
+The chosen generic-component locus forms of (8.4c) and (8.6) are proved by
+six actual source consumers. Their only mathematical inputs are the genuine
+partial quadrangle or Ψ, over arbitrary base and ambient fields with independent
+universes. No algebraic closure, rank, span, component, dense-image or
+function-field-finiteness conclusion is supplied by the caller.
+
+AclGeom/Config/FamilyLoci.lean contains four public theorems:
+IsPartialQuadrangle.parameter_family_components and its QWitness.Psi counterpart,
+and IsPartialQuadrangle.family_common_function_field_cover and its Ψ counterpart.
+For six points, the source incidence x=(t,s′), y=u′, z=(s,t′) has ranks
+3+1=2+2. The parameter-family incidence p=(s,t), q=u, r=(s′,t′) has the
+same rank equation. For Ψ, the source x=(α,X), y=Y, z=(β,Z) has ranks
+5+1=3+3; the parameter incidence p=(α,β), q=γ, r=(X,Z) has ranks
+5+2=4+3. Both source and parameter joint ideals are minimal over the literal
+sums of renamed pair ideals, by the existing rank-additive component theorem.
+The component dimensions are 3/3 and 5/5; the parameter and original family
+dimensions are respectively 2/2 and 4/3. The free S,T,S′ triple spans the
+whole partial quadrangle. Equal-rank Ψ joins supply C≤A∨B and the missing
+Y closure. All tuple ranks and algebraicity clauses are derived internally.
+
+The full six- or nine-tuple W has four actual coordinate-forgetting maps, to
+the two joint components, the parameter locus M and the original U- or C-family
+locus. The public cover theorems return the exact tuple identifications and
+density under the literal maps of polynomial coordinate quotients. Injectivity
+of these quotient maps gives kernel zero and dense comap on prime spectra.
+The literal generated field k(W) is finite over each component field, with
+the scalar action supplied by IntermediateField.extendScalars of the actual
+inclusion. Restriction of scalars identifies this with a finite algebraic
+field adjunction. The missing u or γ is algebraic over the source joint,
+and u′ or Y is algebraic over the parameter joint. Finiteness is asserted
+for the function fields; it is not a global finite affine morphism claim.
+
+The two new literal_composite_locus_eq_comap source consumers in ParameterField
+supply the exact contraction bridge. The contracted composite ideal is the
+literal B2 joint ideal of parameter_family_components, with the same nested
+sum indices. The map first uses rename (Sum.map finSumFinEquiv id) to join
+the two parameter index blocks, then partialAeval evaluates the full actual
+parameter tuple in k(s,t,u) or k(a₁,a₂,b₁,b₂,c₁,c₂). The selected composite
+is still a minimal prime of the extended original family ideal; the original
+U- or C-family also has its own-field contraction. Relations among parameters
+are allowed: the raw parameter polynomial map is not treated as an injective
+localization. The old public literal-germ producers supply all family data.
+
+Exactly six public theorems and fourteen consumed private lemmas are added:
+thirteen private lemmas in the focused FamilyLoci module and one generic
+partial-evaluation contraction lemma in ParameterField. Shared rank, minimality,
+dimension, density and field-adjunction proofs are kept once; three copied
+prototype helpers were removed on consolidation. There is no helper promotion,
+project axiom, new generated auxiliary row or checking-limit change. All old main
+ParameterField mathematical statements and proofs are unchanged. Removing the new imports
+and three new declaration blocks, and reversing the one exact module-status correction,
+recovers every preceding ParameterField byte. SelectedBaseChange also has one exact
+docstring-status correction and no mathematical change. The actual root differs only
+by the new import.
+
+The peer's Ψ source/rank/component/cover prototypes are frozen in
+/tmp/acl_geom_claude_psi_family_ranks/frozen3, manifest
+a3fe58cc25ffa13edca7b0cda5bf0dd399b7c129f84a5bdc103579028ca886e3 (23 pins).
+Its final inventory has eleven standard-dependency rows, preserving all eight
+preceding type hashes and adding only the two copied helpers and actual cover.
+The first two cover checks required explicit sets and a range-subset witness
+for adjoin.mono/finite_field_cover; attempt 06 was strict-empty and green.
+Those known fixes were applied to the six-point analogue before its first check.
+The earlier R3 support had independent checks, but its final public types were
+aligned with B2 before integration; they are not the earlier linear-index types.
+The peer reviewed that composition order and exact index alignment.
+
+Root froze the consolidated proof source in
+/tmp/acl_geom_family_integration/frozen1, manifest
+f7f17f9c5891cc8057c241d606fce91b7f31d7b8c90f742280676a6dfaa15a06 (32 pins).
+Bundle 01 exposed two unqualified polynomial renames and consequent elaboration
+timeouts; qualifying MvPolynomial.rename fixed them without weakening checking.
+Its broad old-root inventory was slow, so bundle 02 used focused inventory
+imports with the same declaring-module filter; the actual root remained a
+separate compilation step. Bundle 02 passed all six phases: old inventory,
+ParameterField, FamilyLoci, actual root, new inventory and selected audit.
+All three strict module logs are empty. All forty-five affected rows have
+standard dependencies and retain all twenty-five preceding rows exactly.
+The selected audit has 352 public statements and retains all 346 preceding
+pretty-printed types. Every new public theorem has two universes.
+The run took 36.46 seconds and peaked at 7.42 GiB under the verified 20 GB
+cap, no swap, two threads, no memory events or stop. Source documentation
+corrections are recorded exactly and preserve every compiled proof byte.
+The peer independently compiled the same three frozen final sources with empty
+strict logs. Its review freeze /tmp/acl_geom_claude_family_bundle_review/frozen1
+has manifest c11a7f94e729603cf18f29cd9c8c8697e322969b1a960eb1bf8b2d5ede549296
+(22 pins). The final run took 229.99 seconds, peaking at 7.40 GiB under the
+same cap with no events or stop. All 11,104 preceding AclGeom-module rows
+(7,048 public API rows) retain their raw type hashes and declaring modules; all 45
+affected rows agree with the root, and the only 20 additions are the six
+public results and fourteen private lemmas. This AclGeom-module filter is
+not the whole two-root library: the root found 77 of the 346 selected parent
+names outside that filter, including GroupConfig declarations. A supplemental
+selected audit addresses that scope separately: addendum
+/tmp/acl_geom_claude_family_bundle_review/frozen2_audit, manifest
+27054e36f1d85fdc8cafa7249f3efc7e8da7263f533febbee89f0d6efcf77db8,
+checks all 352 pretty-printed types against the root and all 346 preceding
+types exactly, with 352 standard-axiom blocks. It reused the already compiled
+exact-source overlay; no mathematical compilation or broad inventory was
+repeated. This 6.77-second run peaked at 7.43 GiB with no events or stop.
+The root rehashed every addendum pin and verified both exact type comparisons.
+The peer's first attempt
+had an inventory-only parse error from using the keyword scoped as a variable;
+renaming it fixed the audit without changing source.
+The peer reviewed the actual source argument and the exact B2 contraction.
+Its two stale-status findings in PF and SelectedBaseChange are corrected in
+this candidate. The FamilyLoci scope header now distinguishes the original
+coherent-branch/normal-cover obligations from stronger results not asserted;
+all such source changes are exact recorded docstring corrections. No finite
+morphism of entire affine loci or all-components classification is added as
+a new completion requirement.
+
+The independent final-source peer validation, exact candidate rebuild,
+clean-commit whole-library audit and exact-head CI evidence are recorded on #5.
+Dependency audits remain distinct from source coverage.
+
+The book and shared frontier now record these selected locus identities.
+All 48 original mathematical statement blocks, 44 proof blocks and all original
+source bytes are preserved under the exact recorded annotation reversals.
+Every OLD side of all eleven earlier status pairs is unchanged; only NEW
+indices 0,1,2,5,8,9,10 update this frontier. All three exposition-correction OLD
+sides are unchanged; only NEW indices 0 and 2 update the selected-family status.
+The source joint-component annotation documents the new consumers. The goal
+objective/completion criteria and frozen 117-item M4a log are unchanged;
+this guide is append-only. All sixteen #5 checklist texts, order and states
+stay unchanged, including the open full six-point group row.
+
+No classification of all parameter-family components is asserted. Coherent
+branch triples, their common normal cover and the original group/chunk,
+six-point algebraic-group theorem, affine-action, general curve-coset,
+algebraization and scheme/action/descent obligations remain. The full shared
+goal and issue #5 stay open.

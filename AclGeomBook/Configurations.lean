@@ -11,6 +11,7 @@ import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
 import AclGeom.Config.PsiLattice
 import AclGeom.Config.ParameterField
+import AclGeom.Config.FamilyLoci
 import AclGeom.Config.ShiftedAffineMeets
 import AclGeom.Config.RemainingAffineMeets
 import AclGeom.Config.AffineGridNormalization
@@ -192,8 +193,8 @@ Both source producers and the helper have two independent field universes.
 These results prove the selected geometric and literal branch steps of
 (8.4c). They do not construct the other branches' common normal cover,
 a group chunk or the algebraic group in the full six-point theorem.
-The parameter-family locus forms of (8.4c) and (8.6), the original group/chunk
-and scheme/action obligations remain separate. A branch
+The selected parameter-family locus forms of (8.4c) and (8.6) are proved
+below. The original group/chunk and scheme/action obligations remain separate. A branch
 parametrization by conjugate points must retain genericity over the
 chosen coefficient field; arbitrary base-field automorphisms need not
 preserve that field or its generic points.
@@ -245,8 +246,9 @@ using Mathlib's polynomial height, Jacobson and PID theorems.
 This represents each family's branches individually. The automorphisms need
 not preserve F, so no action on its fixed ideal set is asserted. No converse
 for arbitrary automorphisms is stated. Coherent triples of branches, a common
-normal cover, the parameter-family k-locus forms of (8.4c) and (8.6), and
-the original group/chunk and action statements remain obligations. The shared goal stays open.
+normal cover, and the original group/chunk and action statements remain obligations.
+The selected parameter-family k-locus forms of (8.4c) and (8.6) are proved below.
+The shared goal stays open.
 
 # The semantic relations
 %%%
@@ -621,9 +623,9 @@ composition step follows below. Relational germ composition is associative
 over arbitrary bases, as proved below. The finite-tuple calculus already identifies
 it with the actual dominating
 components of geometric fiber products over arbitrary field bases in an ACF
-ambient. The literal six-point family branches are treated above. The remaining
-parameter-family identities, coherent choices of branches, normal covers, group chunks and
-original scheme/action bridges remain obligations.
+ambient. The literal six-point family branches are treated above; the selected
+parameter-family component identities are proved below. Coherent choices of branches,
+normal covers, group chunks and original scheme/action bridges remain obligations.
 Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
 
@@ -681,9 +683,9 @@ The universally quantified Ψ is never transported.
 No new public rank wrapper, field definition, normalization interface or
 checking option is added. The geometric fiber-product and generic-point
 presentation bridges are proved in the correspondence chapter. Literal selected
-six-point branches are treated above; the higher-dimensional family identities,
-coherent choices of branches, normal covers, group chunks and original scheme/action bridges
-remain obligations.
+six-point branches are treated above; the selected parameter-family component identities
+are proved below. Coherent choices of branches, normal covers, group chunks and original
+scheme/action bridges remain obligations.
 Guarded initial
 charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
@@ -731,8 +733,8 @@ rows and all 342 preceding selected public statements are unchanged.
 Dependency checks do not establish source coverage.
 
 This proves the selected germ-level literal-field step of (8.6).
-The higher-dimensional parameter-family locus forms of (8.4c) and (8.6),
-coherent choices of branches, their common normal cover, original group/chunk
+The selected parameter-family locus forms of (8.4c) and (8.6) are proved below.
+Coherent choices of branches, their common normal cover, original group/chunk
 uses and the full six-point algebraic-group theorem remain obligations.
 The original affine-action, general curve-coset, algebraization and
 scheme/action/descent statements also remain owed.
@@ -767,7 +769,8 @@ preceding producer; no such assertion is made for split larger-field factors.
 
 Both agents compiled the exact frozen proof source and unchanged actual root
 importer with empty strict logs. The integrated file differs only by one old
-docstring status line, rebuilt in the final gates. All twenty-five affected declarations have standard
+docstring status line, rebuilt in the final gates. All twenty-five affected declarations
+have standard
 dependencies, retaining all twenty-four preceding rows. The selected audit
 has 346 public standard-dependency statements with all 345 preceding types
 unchanged. These are dependency checks, not source-coverage claims.
@@ -775,9 +778,101 @@ unchanged. These are dependency checks, not source-coverage claims.
 This represents each family's branches individually. The automorphisms
 need not preserve $`F_6`, so there is no action on its fixed ideal set or
 converse for arbitrary automorphisms. Coherent triples of branches, their
-common normal cover, both parameter-family k-locus forms (8.4c)/(8.6), the
-original group/chunk and full six-point theorem, affine-action, curve-coset,
-algebraization and scheme/action/descent statements remain obligations.
+common normal cover, the original group/chunk and full six-point theorem,
+affine-action, curve-coset, algebraization and scheme/action/descent statements
+remain obligations. The selected parameter-family k-locus forms (8.4c)/(8.6)
+are proved in the next section.
+
+
+# Selected parameter-family locus identities
+%%%
+tag := "selected-parameter-family-components"
+%%%
+
+The selected generic-component forms of (8.4c) and (8.6) hold over arbitrary
+base and ambient fields, under only the genuine partial quadrangle or Ψ.
+The proof uses two actual incidence components, their common full tuple
+locus, and the exact contraction of the scalar composite ideal.
+
+For six points, put $`x=(t,s')`, $`y=u'` and $`z=(s,t')`.
+The joint rank is three, the middle rank one and both pair ranks two:
+$`3+1=2+2`. A second incidence uses $`p=(s,t)`, $`q=u` and
+$`r=(s',t')`, with the same rank equation. Its left factor is the
+parameter locus $`M=\operatorname{Loc}_k(s,t,u)` and its right factor
+is the original U-family locus. The source-derived rank equations give:
+
+{docstring AclGeom.IsPartialQuadrangle.parameter_family_components}
+
+Both actual joint ideals are minimal over the respective sums of renamed
+pair ideals. Thus they define actual components of the two literal fibre
+products, each of dimension three. The parameter locus and U-family locus
+have dimension two. The free S, T, S′ triple spans the full six-point closure;
+the theorem supplies its ranks internally.
+
+The full six-point locus has four actual coordinate-forgetting projections,
+to the source component, parameter-family component, M and U-family locus.
+Each projection is dense. Its literal generated field is finite over each
+component's function field under the actual inclusion:
+
+{docstring AclGeom.IsPartialQuadrangle.family_common_function_field_cover}
+
+Adjoining u to the source joint, or u′ to the parameter joint, is algebraic.
+Finite-dimensional field adjunction gives the two finite extensions.
+Injective maps of the literal coordinate quotients give all four dense
+spectral projections. Finiteness is asserted for the function fields.
+
+The scalar composite and the parameter-family component are linked by an
+exact equality of polynomial ideals:
+
+{docstring AclGeom.IsPartialQuadrangle.literal_composite_locus_eq_comap}
+
+The left side is literally the parameter-family joint tuple above.
+The polynomial map joins its two parameter index blocks and then evaluates
+$`s,t,u` in $`F=k(s,t,u)`. Contracting the selected composite ideal along
+this map gives exactly that joint ideal. The original U-family has its
+corresponding own-field contraction. Relations among the parameters are
+allowed; injectivity of the raw parameter polynomial map is not assumed.
+
+For Ψ, the source incidence has $`x=(\alpha,X)`, $`y=Y` and
+$`z=(\beta,Z)`, with ranks $`5+1=3+3`. The parameter incidence has
+$`p=(\alpha,\beta)`, $`q=\gamma` and $`r=(X,Z)`, with ranks
+$`5+2=4+3`. This respects the transposed A-arrow $`X\to Y`
+followed by the B-arrow $`Y\to Z`.
+
+{docstring AclGeom.QWitness.Psi.parameter_family_components}
+
+Both selected components have dimension five. The parameter locus has
+dimension four and the original C-family locus dimension three. The
+non-incidences and equal-rank closed joins derive all four tuple ranks.
+No rank, span or component conclusion is supplied by the caller.
+
+{docstring AclGeom.QWitness.Psi.family_common_function_field_cover}
+
+Here W is the actual nine-tuple $`(\alpha,\beta,\gamma,X,Y,Z)`.
+Its four literal projections to the two components, parameter locus and
+C-family locus are dense. Its generated field is finite over both component
+fields: the missing γ coordinates are algebraic over the source joint,
+and Y is algebraic over the parameter joint.
+
+{docstring AclGeom.QWitness.Psi.literal_composite_locus_eq_comap}
+
+This contracts the selected scalar composite over
+$`F_6=k(a_1,a_2,b_1,b_2,c_1,c_2)` to exactly the same parameter joint
+ideal as the component theorem. The original C-family has its own-field
+contraction. These are global locus ideals at generic tuples, so this
+supplies the selected component identities, including their parameter loci.
+
+The six public statements have two independent field universes. The scoped
+audit checks 45 declaration rows, retaining all 25 preceding rows; the
+selected audit checks 352 public standard-dependency statements and retains
+all 346 preceding types. These dependency checks are distinct from source
+coverage and the whole-library audit.
+
+The function-field covers here do not assert finite morphisms of the whole
+affine loci, and no classification of all parameter-family components is
+asserted. Coherent triples of branches, the common normal cover, the group/chunk and full
+six-point algebraic-group theorem, affine-action, general curve-coset,
+algebraization and scheme/action/descent remain obligations.
 
 # Relational correspondence composition is associative
 %%%

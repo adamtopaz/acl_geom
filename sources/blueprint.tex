@@ -1596,9 +1596,52 @@ ideal and endpoint pair, with source transcendental over $F_6$.
 Exactly one public theorem and no helper are added, with two independent
 field universes. The original families' coefficient closures remain
 $A,B,C$ by the earlier producer; no corresponding assertion for the split
-$F_6$ factors is made. Coherent branch triples, their common normal cover,
-the parameter-family k-locus forms of (8.4c) and (8.6), and the separate
-original group/chunk statements remain obligations.
+$F_6$ factors is made. Coherent branch triples, their common normal cover and the separate
+original group/chunk statements remain obligations. The selected parameter-family
+k-locus forms are proved by the actual source consumers described next.
+The selected parameter-family k-locus forms of (8.4c) and (8.6) are now
+proved over arbitrary base and ambient fields. For a genuine partial quadrangle,
+\lean{IsPartialQuadrangle.parameter_family_components} constructs the actual
+composition component of the loci of $(t,s',u')$ and $(u',s,t')$ over $u'$,
+and the component of $M=\Loc_k(s,t,u)$ times the original U-family locus
+over $\Loc_k(u)$ selected by $(s,t,u,s',t')$. Both joint ideals are minimal
+over the respective sums of renamed pair ideals. Their dimensions are three,
+and the parameter and U-family dimensions are two. The source supplies the
+rank equations $3+1=2+2$ internally. For a genuine $\Psi$ witness,
+\lean{QWitness.Psi.parameter_family_components} supplies the analogous two
+components: the source incidence over $Y$ has ranks $5+1=3+3$ and the
+parameter-family incidence over $\gamma$ has ranks $5+2=4+3$.
+Both components have dimension five, the parameter locus dimension four and
+the original C-family dimension three.
+
+\lean{IsPartialQuadrangle.family_common_function_field_cover} and
+\lean{QWitness.Psi.family_common_function_field_cover} construct the four
+actual dense coordinate projections of the full six- or nine-tuple locus
+to the two components, the parameter locus and the original U- or C-family.
+The literal generated field of the full tuple is finite over each component
+field under its canonical inclusion. The missing $u$ or $\gamma$ coordinates
+are algebraic over the source joint; $u'$ or $Y$ is algebraic over the
+parameter joint. This is a finite function-field cover, not a claim of
+finiteness for a morphism of the entire affine loci.
+
+Finally, \lean{IsPartialQuadrangle.literal_composite_locus_eq_comap} and
+\lean{QWitness.Psi.literal_composite_locus_eq_comap} identify the selected
+scalar composite with exactly the parameter-family joint ideal above by
+contraction under partial evaluation, preceded by the canonical joining of
+the two parameter index blocks. The original U- and C-family ideals have
+their own-field contractions. The parameter fields are literally
+$k(s,t,u)$ and $k(a_1,a_2,b_1,b_2,c_1,c_2)$, including all displayed
+generators. Relations among these parameters are allowed; the proof does
+not treat the raw polynomial map as an injective localization. This is
+the identity of the selected generic components, with the actual
+parameter loci retained. Each public result has two independent field
+universes and only the genuine source configuration as input.
+No classification of all parameter-family components is asserted.
+Coherent triples of branches, their common normal cover and the original
+group/chunk, six-point group, affine-action,
+general curve-coset, algebraization and scheme/action/descent statements
+remain separate obligations.
+
 The geometric generic-point presentation step is proved by
 \lean{exists_idealOf_eq_iff}: for any prime ideal $P$ in a polynomial ring
 with finitely many variables, the literal quotient $k[\iota]/P$ has an
@@ -1674,8 +1717,8 @@ The threefold normalized generic-component comparison and geometric
 generic-point presentation bridge are proved there, with the necessary
 ambient-size bound for existence. The full finite-coordinate generic-extension
 lemma is proved above by \lean{genericExtension_genericPoint} and the
-stated public APIs for (b) and (c). The higher-dimensional parameter-family
-identities remain obligations.
+stated public APIs for (b) and (c). The selected parameter-family component identities are proved below;
+coherent branch triples and their common normal cover remain obligations.
 \end{remark}
 
 \begin{lemma}[generic extension and specialization]\label{lem:generic-extension}
@@ -2509,8 +2552,8 @@ refuted, and its original wording and proof are preserved exactly. The broader a
 The connected torus-subgroup classification and canonical finite-tuple
 geometric fiber-product bridge are proved. The geometric generic-point
 presentation bridge and full finite-coordinate generic-extension lemma
-are proved above; the higher-dimensional parameter-family identities
-remain separate.
+are proved above. The selected parameter-family component identities
+are proved below; coherent branches and their common normal cover remain separate.
 
 \begin{lemma}[simultaneous additive--multiplicative cosets]\label{lem:simultaneous-coset}
 Suppose two independent finite-correspondence curves $C_1,C_2\subseteq\mathbb A^2$
@@ -4338,8 +4381,9 @@ the current public theorem scope and remaining source obligations.
 The original proof above uses the literal \lean{RatioEq} refuted in the
 interpretation audit (issue 23); it is preserved exactly. This qualification
 and current progress scope were reported on issue 9 before integration.
-The original group/chunk and higher-dimensional parameter-family obligations
-are retained. The canonical finite-tuple fiber-product and geometric
+The original group/chunk obligations are retained. The selected parameter-family
+component identities are proved below; coherent branches and their common normal
+cover remain obligations. The canonical finite-tuple fiber-product and geometric
 generic-point presentation bridges are proved above; the frozen M4a log is
 historical, not a list of deliverables.
 
@@ -6298,7 +6342,9 @@ cancellation. Rational-field freeness, numerical field degrees, finite-tuple amb
 automorphisms and the finite-tuple Krull-dimension bridge are proved by the
 other stated producers. The geometric generic-point presentation bridge and
 full finite-coordinate generic-extension lemma are proved above.
-Parameter-family identities remain obligations; frozen M4a is unchanged.
+The selected parameter-family component identities are proved above;
+coherent branches and their common normal cover remain obligations.
+Frozen M4a is unchanged.
 
 \clearpage
 \paragraph{Every generic point has field freeness.}
@@ -6355,7 +6401,8 @@ clauses only.
 Numerical field degrees, finite-tuple Krull dimension and ambient
 extensions are proved by the stated producers. The geometric generic-point
 presentation bridge and full finite-coordinate generic-extension lemma
-are proved above. Parameter-family identities and original group/chunk and
+are proved above, including the selected parameter-family component identities.
+Coherent branches, their common normal cover and original group/chunk and
 scheme/action statements remain obligations; frozen M4a is unchanged. The original source
 statement and proof are retained.
 
@@ -6388,8 +6435,9 @@ are proved, including the scalar specialization and threefold normalized
 generic-germ comparison over an arbitrary base in an algebraically closed
 ambient. The geometric generic-point presentation bridge is proved above at
 the necessary ambient-size bound, as is the full finite-coordinate
-generic-extension lemma. Parameter-family identities remain obligations
-(issue 5), as do the original scheme/action statements (issue 21). The guarded
+generic-extension lemma. The selected parameter-family component identities
+are proved below. Coherent branch triples and their common normal cover
+remain obligations (issue 5), as do the original scheme/action statements (issue 21). The guarded
 chart, rank-five ACF completeness and public reconstruction are proved. Frozen M4a is unchanged. Original source statements and proofs are retained.
 
 \clearpage
@@ -6422,7 +6470,8 @@ proof are retained. Actual incidence-component comparisons are proved for
 finite-tuple germs over arbitrary bases in an algebraically closed ambient,
 including scalar germs and threefold normalized generic germs. The geometric
 generic-point presentation bridge and full finite-coordinate generic-extension
-lemma are proved above. Higher-dimensional parameter-family identities remain
+lemma are proved above. The selected parameter-family component identities
+are proved above; coherent branches and their common normal cover remain
 obligations (issue 5).
 The guarded initial chart and rank-five ACF completeness are proved. Original scheme/action
 statements remain obligations (issue 21); frozen M4a is unchanged.
@@ -6455,9 +6504,10 @@ No chart, group action, prime ideal, rank or coefficient-closure
 conclusion is supplied. Selected germ composition over the closed and literal
 parameter fields is proved, as are finite-tuple correspondence composition,
 the guarded initial chart, rank-five completeness and public reconstruction
-under the genuine blueprint hypotheses. The parameter-family locus identities,
-coherent choices of branches, common normal cover and original group/action extraction
-remain obligations; reported proof gaps and frozen M4a are retained.
+under the genuine blueprint hypotheses. The selected parameter-family component
+locus identities are proved by the actual source consumers above. Coherent choices
+of branches, the common normal cover and original group/action extraction remain
+obligations; reported proof gaps and frozen M4a are retained.
 
 \clearpage
 \paragraph{Selected incidence germs over the common closed parameter field.}
@@ -6494,9 +6544,9 @@ common-field endomorphism. The globally quantified $\Psi$ is never transported.
 Finite-generator coefficient fields may split; this argument uses closed
 parameter fields. Closure equality is not literal generated-field equality.
 The selected literal-field germ and finite-tuple correspondence composition
-are proved. The parameter-family locus identities, coherent choices of branches,
-the common normal cover and original group/chunk and action/classification statements
-remain obligations. The guarded initial chart, rank-five completeness and
+are proved, including the selected parameter-family component locus identities.
+Coherent choices of branches, the common normal cover and original group/chunk
+and action/classification statements remain obligations. The guarded initial chart, rank-five completeness and
 public reconstruction under the genuine blueprint hypotheses are proved
 elsewhere; all reported proof gaps and frozen M4a are retained.
 
