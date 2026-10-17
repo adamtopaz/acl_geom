@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-17; #9)
+## Current status (2026-10-17; #10)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
@@ -41,8 +41,11 @@ its proved producer in the source setting. The full canonical tuple image is now
 `interpretedRingEquiv_jTupleOf`; it needs no RAC. Compatibility and all-point recovery
 use both genuine RAC bases. The actual-H lattice equality supplies every closed-field
 image and, on chosen perfections, the original-field intersection formula for that H.
-The original literal RatioEq/JMul proofs retain their provenance. Remaining validation
-and true auxiliary statements stay open. The original three-pair additive
+The original literal RatioEq/JMul proofs retain their provenance. All eleven numbered
+validation checks have their precise Lean dispositions. Literal intended-coordinate
+soundness and the prescribed-witness ratio reverse are proved; literal uniqueness/forward
+defects retain their refutations and corrected replacements. The complete original and
+supplementary source-disposition audit and true auxiliary statements stay open. The original three-pair additive
 and literal multiplicative correspondence theorems are proved without extra ambient-rank
 or freshness hypotheses, including both sum constants and both nonzero exponents/constants.
 Connected one-dimensional additive subgroups of the plane now have the source polynomial
@@ -13185,5 +13188,46 @@ All 48 original source statements and 44 proofs, the shared objective/completion
 and frozen 117-item M4a record remain exact. Full library/book, strict modules, selected
 types/inventory, clean committed-head exhaustive dependency and exact-head CI evidence
 are reported on #9 before its remaining four rows are resolved. The original group/chunk,
+coherent-branch/common-normal-cover and scheme/action statements remain obligations.
+The durable project goal stays active and incomplete.
+
+
+## Checkpoint: numbered validation-suite source reconciliation (#10)
+
+The joint source audit maps every TEST-1 through TEST-11 clause to existing named Lean
+evidence or a direct instance, at its precise hypotheses. This checkpoint changes only
+the book, source progress annotations, shared frontier and this guide. Every mathematical
+source file and public declaration is byte-identical to the preceding green 3437a9f head.
+No new declaration, weaker checking, predicate or reconstruction endpoint is introduced.
+
+Three book paragraphs understated true source clauses. TEST-2 now cites the direct
+`point_frobeniusZPow` identity on every point of a perfect field, without RAC; the original
+lattice identity still uses RAC. TEST-3's intended literal coordinates are proved by
+`blueprintJAdd_kappa` and `blueprintJMul_kappa` at κ=1 over arbitrary fields at rank five
+for independent x,y,a. Their uniqueness is refuted when a nonzero κ≠1 is supplied.
+TEST-5's true literal reverse is `blueprintRatioEq_of_mul_eq`, using exactly c₁=s₂t and
+c₂=r₂t with one fresh t, over arbitrary fields at rank five on semantic representatives
+with a common parameter. Its forward semantics is refuted over infinite bases at rank five.
+The corrected coupled iff laws retain their exact carrier/completeness APIs.
+
+TEST-6 now names its true literal zero-sum reverse and the 2≠0 self-negation witness
+refuting the converse; the latter outputs stay distinct under every identification
+retaining the named zero. This witness makes no characteristic-two assertion, while
+the corrected zero-addition iff covers every source characteristic. The other tests retain
+their exact established scopes: both Frobenius directions, lattice dimension transport,
+rational-function-field reconstruction with arbitrary bases/perfections, the rank-five
+reconstruction and characteristic-zero uniqueness boundaries, modified-composite
+congruence/quotient unit laws, and literal Hom surjectivity/exact fibres/quotient injectivity.
+
+The source records the complete eleven-item ledger without changing any original TEST
+clause. Its transcription-table preamble no longer calls proved completeness, corrected
+field operations or public reconstruction open. Every original 48 statement block and
+44 proof block, the shared objective/completion criteria and frozen 117-item M4a record
+remain exact. Full library/book, mathematical source identity, clean-head exhaustive
+dependency and exact-head CI evidence are reported on #10 before its two final rows
+are resolved. Dependency auditing is not source-coverage certification.
+
+The full original/supplementary disposition audit remains open. In particular, #7/#25's
+corrected arbitrary-field Q/Q′ and general witness-descent scope, the original group/chunk,
 coherent-branch/common-normal-cover and scheme/action statements remain obligations.
 The durable project goal stays active and incomplete.

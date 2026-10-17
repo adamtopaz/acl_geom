@@ -18,10 +18,12 @@ set_option pp.rawOnError true
 tag := "validation"
 %%%
 
-The blueprint asks for eleven mathematical checks. Several are already public theorems;
-others involve literal operation graphs whose representative choices are defective. This
-chapter records the evidence and its precise scope. The entire suite is still open, as is
-the complete disposition audit for the original and supplementary blueprints.
+The blueprint asks for eleven mathematical checks. Each has Lean evidence below at its
+precise hypotheses. Where a check involves the literal operation graphs, the true literal
+direction is proved and the failing direction is refuted, separately from the corrected
+coupled replacements. The complete disposition audit for the original and supplementary
+blueprints remains open, including the original group/chunk, coherent-cover and
+scheme/action obligations.
 
 # Characteristic and Frobenius checks
 %%%
@@ -32,9 +34,11 @@ TEST-1 is covered by `frobeniusZPow_eq_one_of_eq_one`, `PerfExt.frobHom_eq_id` a
 `Perfection.Induces.eq_of_p_eq_one`: in characteristic zero the integral action is the
 identity, and the rank-five reconstruction fibre reduces to literal uniqueness.
 
-For TEST-2, `Perfection.inducedIso_frobZPow` proves that every integral iterate induces the
-identity on the original closed-field lattice when the base is RAC. Restriction to its
-atoms gives the identity on points. In positive characteristic, distinctness requires positive
+For TEST-2, `point_frobeniusZPow` proves directly that every integral Frobenius iterate fixes
+every point of a perfect field, `[Frob^n z] = [z]`, with no RAC hypothesis.
+`Perfection.inducedIso_frobZPow` proves that every integral iterate induces the identity on the
+original closed-field lattice when the base is RAC; restriction to its atoms gives the
+identity on the original points. In positive characteristic, distinctness requires positive
 transcendence degree, with no rank-five or RAC hypothesis:
 
 {docstring AclGeom.Perfection.frobZPow_injective}
@@ -73,8 +77,12 @@ tag := "validation-interpretation"
 
 TEST-3's seven multiplication-diagram lines and rank assertion are proved in
 `Config.MulDiagramCheck`: `mulDiagram_of_indep`, the seven `mtable_line_…` lemmas and
-`mtable_rank_XYA`. The literal `BlueprintJAdd` and `BlueprintJMul` coordinate graphs are
-refuted in `Counterexamples.GenericArithmetic`. The corrected coupled coordinate checks
+`mtable_rank_XYA`. The literal coordinate checks hold: for independent `x,y,a` at rank five
+over arbitrary fields, `blueprintJAdd_kappa` and `blueprintJMul_kappa` at `κ = 1` give
+`BlueprintJAdd(j(x,a), j(y,a), j(x+y,a))` and `BlueprintJMul(j(x,a), j(y,a), j(x*y,a))`.
+What fails is uniqueness of the output: for `κ ≠ 0, 1` the same families give the literal
+graphs' nonfunctionality (`blueprintJAdd_not_functional`, `blueprintJMul_not_functional`).
+The corrected coupled coordinate checks
 are `jAddRel_jTupleOf_iff` and `jMulRel_jTupleOf_iff` in `Interpretation.JArithSem`.
 They retain their explicit class-correctness inputs.
 
@@ -88,14 +96,25 @@ at rank five, supplying completeness internally and requiring neither RAC nor an
 base. The common-representative claim (10.1) is proved in the separate leaf described above;
 the literal interpreted-carrier claims retain their separate dispositions.
 
-For TEST-5, the literal `BlueprintRatioEq` is refuted by
-`blueprintRatioEq_counterexample`. The corrected `ratioEq_iff` combines `RatioEq.div_eq`
-and `ratioEq_of_div_eq`. Its converse uses a fresh `t` and the prescribed witnesses
-`c₁ = s₂*t`, `c₂ = r₂*t`, with the corresponding two common products. The corrected
+For TEST-5, the forward literal `BlueprintRatioEq` semantics is refuted by
+`blueprintRatioEq_counterexample` over infinite bases at rank five. The literal reverse
+direction holds: `blueprintRatioEq_of_mul_eq` proves it on semantic representatives with a
+common parameter, over arbitrary fields at rank five, using a fresh `t` and exactly the
+prescribed witnesses `c₁ = s₂*t`, `c₂ = r₂*t`. The corrected `ratioEq_iff` combines
+`RatioEq.div_eq` and `ratioEq_of_div_eq`; its converse uses the same witnesses with the
+corresponding two common products. The corrected
 statement retains its explicit completeness and carrier hypotheses.
 
 TEST-6 has a proved corrected zero-addition branch: `JNegTotalRel` on the common-denominator
 numerators, `jNegTotalRel_iff`, and `ratioAddGraph_iff` identify the decoded sum with zero.
+For the literal graph, a zero sum of semantic ratios gives the zero branch:
+`blueprintRatioAddGraph_of_add_ratio_eq_zero` derives output zero from `p*q' + p'*q = 0` for
+nonzero semantic inputs over arbitrary fields at rank five, with literal negation supplied by
+the scalar `-1`. The converse fails when `2 ≠ 0` in the base: by `blueprintJNeg_self` the
+diagonal pair is its own literal negation although its semantic ratio sum `2` is nonzero, and
+`blueprintRatioAddGraph_not_functional_after_map` shows that the resulting zero and nonzero
+outputs remain distinct after every identification of nonzero representatives retaining the
+named zero. This witness makes no claim in characteristic two.
 The literal negation correctness and total-nonzero-addition unique-output claims are refuted in
 `Counterexamples.GenericNegation`. Both predicates retain every auxiliary class-membership
 condition. Over an infinite base at rank five, each graph admits two distinct outputs

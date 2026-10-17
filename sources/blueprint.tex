@@ -6064,16 +6064,24 @@ equation (20.20) and both quotient-category unit laws.
 \paragraph{Current Lean validation evidence.}
 \lean{Perfection.frobZPow_injective} proves TEST-2 distinctness in positive characteristic
 for every positive original transcendence degree, without RAC or a rank-five restriction.  The existing
-\lean{Perfection.inducedIso_frobZPow} supplies the identity on the lattice under RAC;
-restriction to atoms gives the identity on points.
+\lean{point_frobeniusZPow} directly fixes every principal point under every integral
+Frobenius iterate of a perfect field, without RAC. The existing
+\lean{Perfection.inducedIso_frobZPow} supplies the identity on the original lattice under RAC;
+restriction to atoms gives the identity on original points.
 \lean{Test.isRAC_bot_ratFn}, \lean{Test.trdeg_ratFn} and \lean{reconstruction_ratFn}
 prove TEST-8 over arbitrary base fields and with arbitrary chosen perfections, in every
 characteristic.  The reconstruction test derives equality of the numbers of variables,
 constructs the compatible isomorphism and identifies its exact Frobenius fibre.
 
-The Verso validation chapter records existing evidence for the other checks, including
-both Frobenius directions and the corrected ratio witnesses.  Literal generic addition,
-multiplication and ratio-equivalence graphs have Lean refutations.  The literal negation
+The Verso validation chapter records a precise disposition of every numbered check.
+The literal intended addition and multiplication coordinates are proved by
+\lean{blueprintJAdd_kappa} and \lean{blueprintJMul_kappa} at $\kappa=1$, over arbitrary
+fields at rank five for independent $x,y,a$; uniqueness is refuted when a nonzero
+$\kappa\ne1$ is available. For literal ratio semantics, the forward direction is refuted
+over infinite bases at rank five, while \lean{blueprintRatioEq_of_mul_eq} proves the reverse
+on semantic representatives with a common parameter over arbitrary fields at rank five,
+using exactly the prescribed witnesses $c_1=s_2t$, $c_2=r_2t$ and one fresh $t$.  The literal
+negation
 detour and total-nonzero-addition statement now also have Lean refutations in
 \lean{Counterexamples/GenericNegation}, including all class-membership constraints,
 over infinite bases at rank five and without a completeness hypothesis. The original
@@ -6087,8 +6095,60 @@ mathematical roots, requires their imported module inventory to match all mathem
 source modules, and records every loaded project declaration's dependencies by declaring
 module, including generated public declarations.  It fails for project axioms or
 nonstandard dependencies and saves source hashes and logs.  This is a whole-library
-dependency audit, not a source-coverage certificate; the remaining validation and source
-dispositions are still tracked.
+dependency audit, not a source-coverage certificate. All eleven numbered validation
+checks have their precise proved/refuted dispositions; the complete disposition audit
+for the original and supplementary blueprints remains open.
+
+
+\paragraph{Disposition of TEST-1 through TEST-11.}
+The following are named Lean evidence or direct instances; no new mathematical hypothesis
+is hidden in this record. Literal false directions retain their refutations and the
+corrected coupled replacements; they are not reported as proved literal equivalences.
+\begin{itemize}
+\item TEST-1: \lean{frobeniusZPow_eq_one_of_eq_one}, \lean{PerfExt.frobHom_eq_id} and
+\lean{Perfection.Induces.eq_of_p_eq_one} give characteristic-zero identity and rank-five
+literal reconstruction uniqueness.
+\item TEST-2: the direct point identity and positive-transcendence-degree injectivity are
+recorded above. Neither requires RAC; the original-lattice identity uses RAC.
+\item TEST-3: \lean{mulDiagram_of_indep}, the seven \texttt{mtable\_line\_} lemmas and
+\lean{mtable_rank_XYA} give all seven lines and rank. The literal coordinate soundness
+instances at $\kappa=1$ are recorded above. The corrected coupled coordinate iff laws
+are \lean{jAddRel_jTupleOf_iff} and \lean{jMulRel_jTupleOf_iff}.
+\item TEST-4: \lean{frobEq_iff_frobenius_twist} gives both natural-number directions;
+\lean{frobEq_iff_exists_frobeniusZPow} gives the integral form. The reverse construction
+and bridge are \lean{frobEq_of_frobenius_twist} and \lean{frobEq_jTupleOf}.
+The proved \lean{jCompletenessACF} supplies the explicit completeness API in the
+perfect/rank-five source setting, including finite bases.
+\item TEST-5: the literal true reverse, refuted forward and prescribed witnesses are
+recorded above. The corrected \lean{ratioEq_iff} combines \lean{RatioEq.div_eq} and
+\lean{ratioEq_of_div_eq}, with its internal carrier/completeness inputs explicit.
+\item TEST-6: \lean{jNegTotalRel_iff} and \lean{ratioAddGraph_iff} prove the corrected
+zero-addition iff. For nonzero semantic raw inputs at rank five over arbitrary fields,
+\lean{blueprintRatioAddGraph_of_add_ratio_eq_zero} proves zero sum implies the literal
+zero branch. The converse fails when $2\ne0$ in the base by \lean{blueprintJNeg_self};
+\lean{blueprintRatioAddGraph_not_functional_after_map} keeps its zero/nonzero outputs
+distinct after every identification retaining the named zero. This witness makes no
+claim in characteristic two; the corrected replacement covers every source characteristic.
+\item TEST-7: \lean{lift_trdeg_eq_of_orderIso}, \lean{trdeg_eq_of_orderIso} and
+\lean{PerfExt.trdeg_eq_of_hom} give dimension/rank transport, with universe lifts as needed.
+\item TEST-8: the actual rational-function-field reconstruction and its supporting RAC/rank
+theorems are recorded above, for arbitrary bases and arbitrary chosen perfections.
+\item TEST-9: the public reconstruction/fullness statements retain source rank five;
+literal uniqueness is restricted to characteristic zero. Positive characteristic has
+the exact Frobenius fibre and exponent uniqueness. This is a check of reconstruction
+scope; rank-free auxiliary lemmas do not assert reconstruction below five.
+\item TEST-10: \lean{PerfExt.congruence_frobRel} verifies modified-composite independence
+using Frobenius naturality, including (20.20). Both quotient-category unit laws are the
+\lean{CategoryTheory.Quotient} category laws.
+\item TEST-11: \lean{geomLit_map_surjective}, \lean{geomLit_map_eq_iff} and
+\lean{geomQuot_map_bijective} give literal surjectivity, exact Frobenius fibres and
+quotient injectivity under source rank five.
+\end{itemize}
+This resolves the numbered validation suite, not the full source-coverage audit. The
+arbitrary-field Q/Q-prime correction and general witness-descent scope remain on issue 25.
+Original group/chunk, coherent-branch/common-normal-cover, scheme/action and other true
+source statements remain obligations. All original TEST clauses, statements and proofs
+retain their provenance and exact wording.
 
 \section{Lean transcription checklist}
 
@@ -6099,9 +6159,14 @@ dispositions are still tracked.
 This table tracks transcription targets and their proposed prose arguments. Entries are
 not blanket proof claims: the library, book and issue tracker distinguish imported
 Mathlib facts, checked adapters, conditional theorems, open obligations and refuted
-literal targets. Corrected ratio quotient with an adjoined zero and full carrier decoding
-are proved under explicit completeness. Unconditional completeness, totalization, quotient
-field operations and the dependent reconstruction assembly still require proof.
+literal targets. The corrected ratio quotient, adjoined-zero carrier, decoding and field
+operations are proved in their internal APIs; \lean{jCompletenessACF} supplies completeness
+in the perfect/rank-five source setting. The public reconstruction theorem supplies its
+two perfected completeness proofs internally under the genuine RAC/source-rank-five
+hypotheses. The original literal construction is refuted with a proved corrected
+replacement (\cref{rem:literal-m6-disposition}), and R1--R4 are proved for the actual
+reconstruction. This table does not discharge true bypassed source statements or the
+remaining original/supplementary source-coverage obligations.
 
 \begin{longtable}{p{0.08\linewidth}p{0.67\linewidth}p{0.15\linewidth}}
 \toprule
