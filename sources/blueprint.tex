@@ -2210,10 +2210,18 @@ coordinate action are constructed internally. For a given parameter-field evalua
 that actual family, its effective coefficient field, lifted field generators, essential finite
 type and both tensor-ring automorphism directions are now constructed from the same
 coefficients, retaining the raw matrix and every evaluation formula
-(\lean{SchemeGenericTranslate.exists_effective_sectionsTensorAut}). Choosing the actual
-group chart and parameter field, the fraction-field comparison, actual point-map faithfulness
-and rank, faithful coefficient variation, the genus producer and constant-field
-rationality/genus-zero descent remain open.
+(\lean{SchemeGenericTranslate.exists_effective_sectionsTensorAut}). Over an algebraically
+closed base and for integral affine V, that same family and field evaluation now construct the
+action on $\operatorname{Frac}(C_0\otimes_k k(V))$, its actual coordinate-field comparison
+and an injective ordinary coefficient-variation map, retaining the same raw matrix,
+independent sections and field generators
+(\lean{SchemeGenericTranslate.exists_effective_functionFieldAut}). Tensor domains and the
+finite matrix premises are derived internally. The formal Frobenius affine-family example
+(\lean{field_point_faithfulness_does_not_detect_coefficient_derivations}) refutes the attempted
+coefficient-detection inference from field-point faithfulness over the original parameter
+field; it does not refute this source lemma. Choosing the actual group chart and parameter
+field, point-map faithfulness/rank, independent regular variations, the genus producer and
+constant-field rationality/genus-zero descent remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action
 regularization and the arbitrary-action classifier remain open. All eight original issue-21 work items stay open. The original lemma and

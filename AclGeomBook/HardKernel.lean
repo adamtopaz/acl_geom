@@ -23,6 +23,8 @@ import AclGeom.Correspondence.PointwiseFaithfulness
 import AclGeom.Correspondence.SchemeGenericTranslate
 import AclGeom.Correspondence.ParameterCoefficients
 import AclGeom.Correspondence.SchemeEffectiveCoefficients
+import AclGeom.Correspondence.SchemeEffectiveFunctionField
+import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.Family
@@ -2111,9 +2113,10 @@ Passing to fractions before or after this comparison gives the same constant ext
 
 {docstring AclGeom.SchemeGenericTranslate.exists_tensorSections_functionFieldEquiv}
 
-The construction proves the generic-field action for regular affine actions. The finite
-coefficient field, its actual point-map faithfulness and rank, faithful coefficient variation,
-and the genus-zero producer remain open. Constant-field rationality and genus-zero descent
+The construction proves the generic-field action for regular affine actions. Later sections
+construct the effective field and faithful coefficient variation for a given family and field
+evaluation. Actual group-chart selection, point-map faithfulness/rank and the genus producer
+remain open. Constant-field rationality and genus-zero descent
 also remain open. Rational-action regularization, completion and points identification,
 the original normal-subgroup and arbitrary-action classifier, group/chunk/six-point results,
 algebraization and descent remain separate obligations. All eight original work items of
@@ -2167,9 +2170,9 @@ morphism universes.
 Parameter evaluation is proved for every commutative k-algebra in the base universe,
 including nonreduced ones. This is a compatibility theorem; it asserts no infinitesimal
 faithfulness. The effective coefficient field and both tensor-ring action directions are
-proved in the following section for a given family and parameter-field evaluation. Actual
-point-map faithfulness and rank, faithful coefficient variation, and the genus producer
-remain open. Constant-field rationality and genus-zero descent remain open too.
+proved in the following section for a given family and parameter-field evaluation. A later
+section constructs its function-field action and faithful coefficient variation. Actual
+point-map faithfulness/rank and the genus producer remain open. Constant-field rationality and genus-zero descent remain open too.
 Rational-action regularization, completion and points identification, the original normal
 subgroup and arbitrary-action classifier, group/chunk/six-point statements, algebraization
 and descent remain obligations. All eight original work items of
@@ -2212,10 +2215,69 @@ equivalence constructs the descended automorphism. No field-domain assumption is
 {docstring AclGeom.TensorCoefficientDescent.exists_tensorAut_of_generator_images}
 
 The actual group chart and parameter field still need to be chosen for the source consumer.
-The fraction-field lift and its comparison with the actual function-field action, point-map
-faithfulness and rank, faithful coefficient variation and the genus producer remain open.
+The following section constructs the fraction-field action, its actual comparison and faithful
+coefficient variation for the given family and field evaluation. Point-map faithfulness/rank,
+independent regular variations and the genus producer remain open.
 Constant-field rationality and genus-zero descent remain open. Rational-action regularization,
 completion and points identification, the normal-subgroup and arbitrary-action classifier,
 group/chunk/six-point statements, algebraization and descent remain obligations. All eight
 original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open;
 the full shared goal remains active and incomplete.
+
+
+# Faithful variation over the actual coefficient field
+%%%
+tag := "faithful-effective-variation"
+%%%
+
+Let a group scheme act regularly on an integral affine locally finite-type scheme V over
+an algebraically closed field k. Fix a Spec A-family of group points and a field evaluation
+phi from A to C. The actual producer retains the same finite algebra generators, independent
+sections, raw A-coefficients and every parameter-algebra evaluation formula. Those coefficients
+construct C0 inside C, their lifts generate C0 as a field over k, and C0 is essentially of
+finite type over k. The descended action extends to Frac(C0 tensor k(V)). Its ordinary
+coefficient-variation map is injective.
+
+{docstring AclGeom.SchemeGenericTranslate.exists_effective_functionFieldAut}
+
+The three tensor domains, fraction embeddings and actual global-section/function-field
+comparison are constructed internally. The field action has the literal forward and inverse
+germ-matrix formulas. Its comparison with the original C-action uses the canonical fraction
+injection. No coefficient, domain, field-comparison, variation or genus certificate is supplied
+by the caller. The actual family and the field evaluation remain inputs. The statement does
+not assume a dimension bound or faithfulness of the group action; the chosen C0 can have
+no nonzero ordinary k-derivations.
+
+The algebraic fraction-field helper injects the smaller tensor ring by flatness, derives its
+domain property, extends the given ring automorphism and retains the literal comparison.
+Its derived domain witness is returned and bound in the result, so the field instances and
+their public types can be reconstructed.
+
+{docstring AclGeom.TensorCoefficientDescent.exists_fractionTensorAut_comparison}
+
+Faithful variation follows from the same independent sections and lifted field generators.
+Zero variation means that the horizontal coefficient connection commutes with the action
+and its inverse. Applying it to both matrix formulas gives zero sums with coefficients D(c0).
+Flatness and the actual generic-germ injection preserve independence, so all D(c0) vanish.
+Their field-generation property, including inverses, forces D to be zero. The generic criterion
+has explicit finite matrix and tensor-domain premises; the actual producer derives them.
+
+{docstring AclGeom.coefficientVariationLinear_injective_of_generating_coefficients}
+
+Using the original parameter field in this last argument can fail in positive characteristic.
+For prime p, the family sends x to a^p times x plus b^p. Its field-valued parameters are
+distinct, and members are bijective over every field extension of k. Ordinary derivations
+kill both coefficients. The partial derivative in X0 is nonzero on the fraction field
+in X0 and X1; the counterexample constructs it internally. This refutes coefficient detection
+inferred from field-point faithfulness. It does not refute the source genus or affine-action
+statement. The proved variation theorem uses the field generated by the actual coefficients.
+
+{docstring AclGeom.field_point_faithfulness_does_not_detect_coefficient_derivations}
+
+The actual group chart and parameter field, the coefficient point-map's faithfulness and rank,
+two independent regular variations and the genus producer remain open. Constant-field
+rationality and genus-zero descent remain open. Rational regularization, completion and points
+identification, the normal subgroup and arbitrary-action classifier, group/chunk/six-point
+statements, algebraization and descent remain obligations. All eight original work items of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
+active and incomplete.

@@ -17,8 +17,8 @@ on the total fraction ring of the tensor product with its global sections.
 Named consumer: the coefficient-field reparametrization in the curve-action genus argument.
 
 **Status:** proved for regular actions on integral affine schemes over an ACF base.
-`SchemeEffectiveCoefficients` constructs the effective coefficient field and tensor-ring descent
-for a given family and field evaluation. The faithful-variation and genus conclusions remain open.
+`SchemeEffectiveFunctionField` constructs the effective-field action and faithful coefficient
+variation for a given family and field evaluation. Actual point-map rank and genus remain open.
 -/
 
 namespace AclGeom.SchemeGenericTranslate

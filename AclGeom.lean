@@ -32,6 +32,8 @@ import AclGeom.Correspondence.PointwiseFaithfulness
 import AclGeom.Correspondence.SchemeGenericTranslate
 import AclGeom.Correspondence.ParameterCoefficients
 import AclGeom.Correspondence.SchemeEffectiveCoefficients
+import AclGeom.Correspondence.SchemeEffectiveFunctionField
+import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.AmbientAutomorphism

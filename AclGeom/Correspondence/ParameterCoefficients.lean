@@ -17,8 +17,9 @@ every commutative parameter algebra. All finite data are constructed from the gi
 Named consumer: its effective coefficient field and the actual point-map faithfulness proof.
 
 **Status:** the finite coefficient family is proved for regular actions on affine finite-type
-schemes over arbitrary fields. Its effective field and tensor-ring descent are proved in
-`SchemeEffectiveCoefficients`; rank, faithful variation and the genus producer remain open.
+schemes over arbitrary fields. `SchemeEffectiveCoefficients` constructs its effective field and
+tensor-ring descent; `SchemeEffectiveFunctionField` proves the field action and faithful variation
+for given families over an ACF base. Actual point-map rank and the genus producer remain open.
 -/
 
 namespace AclGeom.SchemeParameterAction
