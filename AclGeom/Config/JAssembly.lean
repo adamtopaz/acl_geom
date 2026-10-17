@@ -646,9 +646,8 @@ theorem AddCorrSetup.exists_frobenius_affine [IsAlgClosed k] [IsAlgClosed Ω] (q
         simp only [map_neg, map_mul, map_inv₀]
         field_simp
         linear_combination -hval₂
-  · exact (rule_out_mixed_at_curve hx₁r hy₁r hc hmA hnA hmix hPne hP0 hQ0 hval₁).elim
-  · exact (rule_out_mixed_at_curve hx₁r hy₁r (inv_ne_zero hc) hmA hnA hmix hPne hP0 hQ0
-      hval₁).elim
+  · exact (rule_out_mixed_at_curve hx₁r hy₁r hmA hnA hmix hPne hP0 hval₁).elim
+  · exact (rule_out_mixed_at_curve hx₁r hy₁r hmA hnA hmix hPne hP0 hval₁).elim
 
 end AdditiveFrobenius
 

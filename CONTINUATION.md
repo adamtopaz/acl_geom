@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-17; #25)
+## Current status (2026-10-17; #32)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
@@ -63,7 +63,12 @@ shared connectedness-to-primality proof with concrete polynomial translations or
 The original two-generic proof's embedded-field assertions are checked independently in
 `Test.TwoGenericSource`, including the finite normal envelope and extension of embeddings
 fixing the other rational field pointwise; the algebraicity conclusion uses exchange.
-The original conjugate proof route is retained. The general curve-coset lemma remains open.
+The original conjugate proof route is retained. Actual equal j-tuples now have a unique
+normalized common Frobenius exponent over arbitrary bases and perfect ambient fields,
+without a rank bound, supplied freshness or completeness. The literal integer uniqueness
+is refuted in characteristic zero, where the pair is equal and every integer works; the
+normalized exponent is zero. Original statements/proofs and both downstream proof
+qualifications retain their provenance (#32). The general curve-coset lemma remains open.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -13328,3 +13333,59 @@ CI are reported on #25 before this checkpoint is final. #7/#25 may close after t
 gates and the recorded dispositions; the full durable goal remains active. Original
 and supplementary group/chunk, coherent-cover, curve/scheme/action, algebraization and
 descent obligations remain open.
+
+
+## Checkpoint: the source j-rigidity exponent and characteristic-zero correction (#32, #5)
+
+The source's literal unique-integer clause in `thm:jrigidity` is false in characteristic
+zero. Its explicit convention is exponential characteristic one and all integer Frobenius
+iterates. Even a self-pair of an independent j-tuple has distinct valid exponents zero
+and one. The source's nonzero-polynomial inference uses a polynomial that is zero at p=1.
+This was reported on #32 before source edits, and independently confirmed by the peer.
+Two downstream original proof steps repeat the same slip: J descent's orbit argument
+and the coordinate bijection's fixed-parameter polynomial argument. Their statements are
+true. Adjacent annotations provide the direct characteristic-zero pair-equality branch;
+the original theorem statements and all proof blocks are retained verbatim.
+
+`Transfer.JRigidityStatement` proves the corrected source-facing
+`existsUnique_normalized_frobeniusZPow_of_jTupleOf_eq`: actual equal j-tuples of two
+independent pairs over a perfect ambient K have a unique common exponent n with
+(q=1 → n=0). The base k is arbitrary. There is no ACF, RAC, ambient rank, supplied
+freshness or completeness premise. All five actual point equalities lift to
+`FreshAmbient K`; its four added variables supply the existing core's two fresh elements.
+The equalities of natural powers reflect by injectivity, perfection gives an integral
+iterate, and the existing exponent separator is used only at q≥2. At q=1 the pair is
+equal and normalization selects zero. Both field universes are independent.
+
+`jTupleOf_eq_charZero_and_exponent_not_unique` proves the source's characteristic-zero
+pair equality for every actual equal tuple pair and refutes the literal integer
+uniqueness, using zero and one. Both new declarations have standard axioms; their type
+hashes are 2189296325 and 3571323396. There are no helper, private, internal or generated
+additions. The selected scope is 392 declarations/102 records, preserving every preceding
+390 type and 100 record exactly.
+
+The original 110-line mathematical draft passed its first strict leaf/root check.
+A verification inventory initially forgot the new import and saw exactly the 100 old
+rows; the import-only driver fix passed without any proof change. After peer reading,
+the separate self/reflexive-conjunct counterexample was strengthened to the universal
+actual equal-tuple statement, also passing its first strict check. The normalized theorem's
+statement and full proof body stayed exact. The checked 116-line mathematical leaf changes at integration
+only in its proved-status and docstring wording. Two existing auxiliary mixed-relation lemmas lose four unused premises, and their five
+caller sites are adjusted. Seven deprecated aliases and three Prop-valued haveI bindings
+are updated to Mathlib's preferred forms. The two full old modules retain all 108
+declaration names, universes, axioms and private/internal flags; 106 raw type hashes stay
+exact and only the two deliberately strengthened helper types change. Four strict logs
+are empty. All thirteen inherited rigidity warnings are removed, with every other parent
+warning header required exact. The earlier clear-based cleanup and the intermediate
+newly-unused-premise warning remain recorded; no checking option was weakened.
+
+The source/book/goal distinguish normalized integer uniqueness, positive-characteristic
+raw exponent uniqueness and characteristic-zero pair equality. The book's stale R1/R2
+scope is also corrected to the actual-H results already proved on closed #9. The main
+reconstruction endpoint and all 48 original statement blocks, 44 proofs, eleven TEST
+clauses and frozen 117-item M4a record remain exact. The original-statement inventory
+includes archived variants; it is not full source-coverage certification.
+Full library/book, four strict modules, selected and whole-library dependency checks,
+independent peer review and exact-head CI are reported on #32 before this checkpoint is
+final. The full durable goal and original/supplementary group/chunk, coherent-cover,
+general curve-coset, curve/scheme/action, algebraization and descent obligations stay open.

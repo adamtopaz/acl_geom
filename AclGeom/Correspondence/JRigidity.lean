@@ -20,7 +20,12 @@ classification of `Binomial.lean` forces the common shape
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** in progress (M3, checklist C7).
+**Status:** the elementwise rigidity core is proved, with two explicit fresh elements.
+`Transfer.JRigidityStatement` supplies them internally in an extension, giving the actual
+j-tuple theorem over arbitrary bases and perfect ambient fields with no rank bound.
+It also corrects the source's literal characteristic-zero integer uniqueness (#32):
+uniqueness holds for the exponent normalized to zero when the exponential characteristic
+is one. The original unnormalized clause is refuted.
 -/
 
 namespace AclGeom
@@ -267,8 +272,8 @@ a transcendental parameter — clearing denominators produces a nonzero
 polynomial vanishing at the transcendental. -/
 theorem no_mixed_relation {t : Ω} (htr : Transcendental k t)
     {γ : k} (hγ : γ ≠ 0) {p q : Polynomial k} (hp : p ≠ 0)
-    (hp0 : p.coeff 0 = 0) (hq0 : q.coeff 0 = 0) {d : k}
-    {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
+    (hp0 : p.coeff 0 = 0) {d : k}
+    {m n : ℕ} (hn : n ≠ 0)
     (hval : Polynomial.aeval (algebraMap k Ω γ * t ^ n) p +
       Polynomial.aeval ((t ^ m)⁻¹) q = algebraMap k Ω d) :
     False := by
@@ -351,11 +356,11 @@ theorem no_mixed_relation {t : Ω} (htr : Transcendental k t)
         Polynomial.X ^ (N + n * i)).coeff (N + n * p.natDegree)) =
       p.coeff p.natDegree * γ ^ p.natDegree := by
     rw [Finset.sum_eq_single p.natDegree]
-    · rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl,
+    · rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_left rfl,
         mul_one]
     · intro i _ hne
       rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow,
-        if_neg (by
+        ite_eq_right (by
           intro heq
           exact hne (by
             have := Nat.add_left_cancel heq.symm
@@ -367,7 +372,7 @@ theorem no_mixed_relation {t : Ω} (htr : Transcendental k t)
       (Polynomial.C (q.coeff j) *
         Polynomial.X ^ (N - m * j)).coeff (N + n * p.natDegree)) = 0 := by
     refine Finset.sum_eq_zero fun j _ ↦ ?_
-    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_neg, mul_zero]
+    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_right, mul_zero]
     intro heq
     have h1 : N - m * j ≤ N := Nat.sub_le _ _
     have h2 : N < N + n * p.natDegree := by
@@ -376,7 +381,7 @@ theorem no_mixed_relation {t : Ω} (htr : Transcendental k t)
     omega
   have hsum3 : (Polynomial.C d *
       Polynomial.X ^ N).coeff (N + n * p.natDegree) = 0 := by
-    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_neg, mul_zero]
+    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_right, mul_zero]
     have := Nat.mul_le_mul (Nat.pos_of_ne_zero hn) hi₀
     omega
   rw [hsum1, hsum2, hsum3, add_zero, sub_zero] at hcoeff
@@ -393,10 +398,10 @@ first part — parametrize the point by a transcendental root and apply the
 denominator-clearing contradiction. -/
 theorem rule_out_mixed_at_curve [IsAlgClosed k] [IsAlgClosed Ω]
     {x y : Ω} (hxr : x ∉ racl k (∅ : Set Ω)) (hyr : y ∉ racl k (∅ : Set Ω))
-    {c' : k} (hc' : c' ≠ 0) {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
+    {c' : k} {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
     (hmix : x ^ m * y ^ n = algebraMap k Ω c')
     {p q : Polynomial k} (hp : p ≠ 0) (hp0 : p.coeff 0 = 0)
-    (hq0 : q.coeff 0 = 0) {d : k}
+    {d : k}
     (hval : Polynomial.aeval x p + Polynomial.aeval y q =
       algebraMap k Ω d) :
     False := by
@@ -446,7 +451,7 @@ theorem rule_out_mixed_at_curve [IsAlgClosed k] [IsAlgClosed Ω]
   have hxt : x = algebraMap k Ω γ * t ^ n := by
     rw [hγeq]
     field_simp
-  exact no_mixed_relation httr hγ0 hp hp0 hq0 hm hn
+  exact no_mixed_relation httr hγ0 hp hp0 hn
     (by rw [← hxt, ← hyt]; exact hval)
 
 end MixedRuleOut
@@ -464,11 +469,11 @@ theorem monomial_isAdditive_charZero [CharZero k] {l : k} (hl : l ≠ 0)
   have hC := h.eq_C_mul_X
   have hc := congrArg (fun r ↦ Polynomial.coeff r m) hC
   have hlhs : Polynomial.coeff (Polynomial.C l * Polynomial.X ^ m) m = l := by
-    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl, mul_one]
+    rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_left rfl, mul_one]
   have hrhs : Polynomial.coeff (Polynomial.C
       ((Polynomial.C l * Polynomial.X ^ m).coeff 1) * Polynomial.X) m = 0 := by
     rw [Polynomial.coeff_C_mul, Polynomial.coeff_X,
-      if_neg (fun h ↦ hne h.symm), mul_zero]
+      ite_eq_right (fun h ↦ hne h.symm), mul_zero]
   rw [hlhs, hrhs] at hc
   exact hl hc
 
@@ -481,7 +486,7 @@ theorem monomial_isAdditive_charP (p : ℕ) [CharP k p] (hp : p.Prime)
   by_contra hne
   push Not at hne
   have h0 := h.coeff_eq_zero_of_ne_pow p hp hne
-  rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, if_pos rfl,
+  rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_left rfl,
     mul_one] at h0
   exact hl h0
 
@@ -653,10 +658,10 @@ theorem simultaneous_coset [IsAlgClosed k] [IsAlgClosed Ω]
     rw [hcc]
     exact hbin₂
   · -- Mixed signs are impossible.
-    exact absurd hval₁ (fun hv ↦ rule_out_mixed_at_curve hx₁r hy₁r hc₁0
-      hmA hnA hmix₁ hPne hP0 hQ0 hv)
+    exact absurd hval₁ (fun hv ↦ rule_out_mixed_at_curve hx₁r hy₁r
+      hmA hnA hmix₁ hPne hP0 hv)
   · exact absurd hval₁ (fun hv ↦ rule_out_mixed_at_curve hx₁r hy₁r
-      (inv_ne_zero hc₁0) hmA hnA hmix₁ hPne hP0 hQ0 hv)
+      hmA hnA hmix₁ hPne hP0 hv)
 
 end Master
 
@@ -729,7 +734,7 @@ theorem pow_expChar_pow_injective (q : ℕ) [hq : ExpChar Ω q] (n : ℕ) :
   rcases hq with _ | hp
   · intro z w h
     simpa using h
-  · haveI : ExpChar Ω q := ExpChar.prime hp
+  · have : ExpChar Ω q := ExpChar.prime hp
     intro z w h
     have h2 : (frobenius Ω q)^[n] z = (frobenius Ω q)^[n] w := by
       rw [iterate_frobenius, iterate_frobenius]
@@ -753,7 +758,7 @@ theorem lambda_eq_one [IsAlgClosed k] [IsAlgClosed Ω] (q : ℕ) [ExpChar k q]
     {s : Ω} (hs : s ∉ racl k {x, a}) :
     lam = 1 := by
   classical
-  haveI : ExpChar Ω q :=
+  have : ExpChar Ω q :=
     expChar_of_injective_ringHom (algebraMap k Ω).injective q
   have hq0 : q ^ e ≠ 0 := (pow_pos (expChar_pos k q) e).ne'
   have haT : a ∉ racl k {x} := AlgebraicIndependent.notMem_racl_pair hind
@@ -951,7 +956,7 @@ theorem frobenius_normalize [IsAlgClosed k] (q : ℕ) [ExpChar k q]
         x = algebraMap k Ω lam * y ^ q ^ e ∧
         a = algebraMap k Ω lam * b ^ q ^ e) := by
   classical
-  haveI : ExpChar Ω q :=
+  have : ExpChar Ω q :=
     expChar_of_injective_ringHom (algebraMap k Ω).injective q
   rcases le_or_gt t r with hle | hlt
   · -- Extract a `q^t`-th root of the constant and cancel the outer power.

@@ -2591,6 +2591,15 @@ on both sides, giving $Y=\lambda X^{p^{s-t}}$.  The subgroup equation $P(X)=Q(Y)
 common to the two curves, so the same $\lambda$ and exponent work for both.
 \end{proof}
 
+\noindent\textbf{Audit qualification: integer uniqueness in characteristic zero (issue 32).}
+The following original wording and proof are retained as provenance. Their assertion that
+an integer exponent is unique is false in characteristic zero: the convention of this
+source has $p=1$, and every integer Frobenius iterate is the identity. Taking the same
+independent pair on both sides gives distinct valid exponents $0$ and $1$.
+The common-twist existence and the characteristic-zero pair equality remain true;
+positive-characteristic exponent uniqueness remains true. The proved normalized
+replacement is recorded in \cref{rem:jrigidity-exponent-correction}.
+
 \begin{theorem}[$j$-rigidity]\label{thm:jrigidity}
 If $x,a$ and $y,b$ are algebraically independent pairs and
 $j(x,a)=j(y,b)$, then there is a unique $r\in\mathbb Z$ such that
@@ -2636,6 +2645,33 @@ $x^{p^r}=x^{p^s}$; applying an inverse Frobenius reduces this to the nonzero pol
 $X^{p^{|r-s|}}-X$, so $r=s$.  In characteristic zero all Frobenius iterates are the
 identity.
 \end{proof}
+
+\begin{remark}[Proved correction: the normalized j-rigidity exponent]
+\label{rem:jrigidity-exponent-correction}
+Let $k\subseteq K$ be arbitrary fields with $K$ perfect, of exponential characteristic $p$,
+and let $(x,a)$ and $(y,b)$ be algebraically independent pairs over $k$ with
+$j(x,a)=j(y,b)$. Then
+\[
+ \exists!\,n\in\mathbb Z,\quad
+ (p=1\Rightarrow n=0)\ \land\ y=x^{p^n}\ \land\ b=a^{p^n}.
+\]
+This is \lean{existsUnique_normalized_frobeniusZPow_of_jTupleOf_eq}. It requires no ACF,
+RAC, ambient-rank, supplied freshness or completeness premise. Lift the actual
+representatives and tuple equality to the algebraically closed extension
+\lean{FreshAmbient K}; its four added variables supply the two fresh elements of the
+existing elementwise rigidity core. The resulting equalities of natural powers reflect
+by injectivity. Perfection converts them to a common integral iterate. For $p>1$, the
+actual first coordinate is transcendental and separates the integer exponents. For $p=1$,
+the pair is equal and the normalization selects $n=0$.
+
+The theorem \lean{jTupleOf_eq_charZero_and_exponent_not_unique} proves that, in
+characteristic zero, any such actual tuple equality gives $y=x$, $b=a$ and refutes the
+unnormalized unique-integer assertion. Its proof exhibits the distinct exponents $0$ and
+$1$. The original uniqueness proof's polynomial $X^{p^{|r-s|}}-X$ is zero when $p=1$.
+The original statement/proof remain unchanged, and the main reconstruction target already
+restricts integer uniqueness to $p>1$. No group/chunk, general curve-coset or scheme/action
+obligation is discharged by this correction.
+\end{remark}
 
 \section{Gismatullin's transfer to arbitrary fields}\label{sec:transfer}
 
@@ -2763,6 +2799,13 @@ If $K$ is perfect, $k$ is relatively algebraically closed in $K$, and
 $\trdeg_kK\geq5$, conditions (1)--(4) above are equivalent.  Consequently the geometric
 and semantic relations $\Jrel$ agree over $K/k$.
 \end{theorem}
+\noindent\textbf{Characteristic-zero qualification of the retained proof (issue 32).}
+In the orbit argument below, the claim of infinitely many distinct Frobenius iterates
+for a nonzero exponent applies only when $p>1$. When $p=1$, the common-twist conclusion
+already says $\sigma x=x$ and $\sigma a=a$; the normalized exponent in
+\cref{rem:jrigidity-exponent-correction} is zero. The four-way theorem is true and proved
+in Lean; the original proof block is preserved verbatim.
+
 \begin{proof}
 The closure relation on tuples from $K$ is unchanged after adjoining $\bar k$: an element
 is algebraic over $k(A)$ if and only if it is algebraic over $\bar k(A)$.  Thus the point
@@ -3111,6 +3154,12 @@ remains separate (issues 8 and 23).
 \begin{lemma}[coordinate bijection]\label{lem:mu-bij}
 $\mu:\Jrel_1\to K\setminus\acl_k(a)$ is a bijection.
 \end{lemma}
+\noindent\textbf{Characteristic-zero qualification of the retained proof (issue 32).}
+The polynomial argument below separates a nonzero exponent only when $p>1$. When $p=1$,
+every integral iterate is the identity, so the common-twist equation gives $x=y$ directly.
+Equivalently, use the normalized exponent of \cref{rem:jrigidity-exponent-correction}.
+The coordinate-bijection statement remains true; its original proof block is preserved.
+
 \begin{proof}
 Every $x\notin\acl(a)$ supplies $j(x,a)$, proving surjectivity.  If
 $j(x,a)=j(y,a)$, \cref{thm:jrigidity} gives an integer $n$ with

@@ -5,6 +5,7 @@ Authors: Adam Topaz, Claude
 -/
 import VersoManual
 import AclGeom.Correspondence.JRigidity
+import AclGeom.Transfer.JRigidityStatement
 import AclGeom.Correspondence.AdditiveThreePair
 import AclGeom.Correspondence.AdditiveSubgroupConnected
 import AclGeom.Correspondence.MultiplicativeLiteral
@@ -1508,15 +1509,13 @@ with a common generic factor remain interalgebraic differ by a constant:
 This algebraically closed core takes a supplied fresh third element. The
 reconstruction chapter now proves the no-fresh relative base-ratio
 corollary and actual base membership under an explicit relatively closed
-base hypothesis, by adjoining a rational-function variable. It also proves
-corrected conditional base recovery for the actual interpreted ring
-equivalence, under explicit carrier/completeness and RAC inputs; corrected
-conditional scalar one and outside-point recovery are proved there without
-RAC. The public `reconstruction_target` supplies both completeness inputs
-internally: under the blueprint hypotheses its Φ carries the perfected base
-onto the perfected base and satisfies φ(M) = Φ(M^perf) ∩ L. The original
-general R1/R2 interpretation arguments and literal provenance remain
-obligations (#9, #23).
+base hypothesis, by adjoining a rational-function variable. The actual reconstructed map
+now satisfies base recovery, both scalar-one conclusions, full tuple/outside-point recovery
+and all-point propagation, with the source-setting producers supplying the explicit inputs.
+The public `reconstruction_target` supplies both completeness proofs internally: under the
+blueprint hypotheses its Φ carries the perfected base onto the perfected base and satisfies
+φ(M) = Φ(M^perf) ∩ L. The original literal interpretation proofs retain their provenance;
+the corrected interpretation and R1--R4 dispositions are recorded on closed #8/#23/#9.
 
 Second, perfection: the base field is algebraically closed, so the coset
 constant has roots of every Frobenius order, and injectivity of the
@@ -1537,8 +1536,9 @@ $`\lambda = 1`:
 {docstring AclGeom.j_rigidity}
 
 The elementwise correspondence results, simultaneous-coset classification,
-and `j_rigidity` are proved uniformly in the exponential characteristic,
-meeting M3's rigidity acceptance test. The original three-pair additive and multiplicative
+and the power-equality core `j_rigidity` are proved uniformly in the exponential
+characteristic. The next section supplies its freshness internally and records the exact
+integer-uniqueness correction. The original three-pair additive and multiplicative
 correspondence statements are proved above without freshness hypotheses. The connected
 additive- and torus-subgroup classifications are also proved. The general curve-coset
 statement, coherent branch triples and their common normal cover remain open
@@ -1548,3 +1548,48 @@ generic-extension lemma are proved above, with the necessary ambient-size
 bounds for existence.
 The tensor-domain obligation #11 is proved above;
 the rational group and affine action construction remain open in #12 and #21.
+
+
+# The normalized exponent of an actual j-tuple
+%%%
+tag := "j-rigidity-normalized-exponent"
+%%%
+
+The source's literal claim of a unique integer exponent is false in characteristic zero.
+Its stated convention uses exponential characteristic one and every integral Frobenius
+iterate. For the self-pair of an independent j-tuple, zero and one are distinct valid
+exponents. More generally every pair of equal actual j-tuples in characteristic zero
+has equal entries, while its unnormalized integer exponent is not unique. The correction
+requires the exponent to be zero when the exponential characteristic is one.
+
+{docstring AclGeom.existsUnique_normalized_frobeniusZPow_of_jTupleOf_eq}
+
+This theorem takes both actual independent pairs and their actual five-point tuple equality.
+It works over an arbitrary base and a perfect ambient field, with no algebraic closedness,
+RAC, ambient-rank, supplied freshness or completeness input. Its two field universes are
+independent. In positive characteristic the normalization condition is vacuous, so the
+integer itself is unique. In characteristic zero the normalized integer is zero and the
+pair is equal.
+
+The proof lifts the representatives and all five point equalities to `FreshAmbient K`.
+The four added variables supply the two fresh elements required by the existing rigidity
+core. Its equalities of natural powers reflect through the injective embedding. Perfection
+turns them into one integral Frobenius exponent. Exponent separation is used only in
+positive characteristic, on the actual transcendental first coordinate.
+
+{docstring AclGeom.jTupleOf_eq_charZero_and_exponent_not_unique}
+
+The second theorem proves the source's characteristic-zero pair equality and refutes the
+literal integer uniqueness for every such actual tuple equality, using the distinct
+exponents zero and one. There are exactly two new public declarations, with standard
+axioms and no helper, private, internal or generated addition.
+
+[#32](https://github.com/adamtopaz/acl_geom/issues/32) records the counterexample before
+source edits and the independent convention review. The original theorem and proof stay
+as provenance. Two downstream source proof steps need the same characteristic split:
+J descent fixes the pair directly in characteristic zero, and same-parameter injectivity
+uses equality of the pair directly there. Their true statements are already proved;
+the source annotations qualify the original orbit/polynomial arguments without changing
+the proof blocks. The main reconstruction target already restricted exponent uniqueness
+to positive characteristic and is unchanged. Original group/chunk, coherent-cover,
+general curve-coset and scheme/action obligations remain open.
