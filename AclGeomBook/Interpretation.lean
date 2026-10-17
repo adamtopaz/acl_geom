@@ -12,6 +12,7 @@ import AclGeom.Interpretation.JArithSem
 import AclGeom.Interpretation.JArithTransport
 import AclGeom.Interpretation.FrobLinkIncidence
 import AclGeom.Interpretation.FrobLinkRepresentative
+import AclGeom.Counterexamples.RatioAddQuotient
 import AclGeom.Interpretation.FrobEqForward
 import AclGeom.Interpretation.FrobEqCorrect
 import AclGeom.Interpretation.FrobSetoid
@@ -49,8 +50,8 @@ set_option pp.rawOnError true
 tag := "interpretation"
 %%%
 
-The interpretation layer (milestone M6) aims to quotient the
-geometric `J`-locus by Frobenius ambiguity and construct a field. The global
+The interpretation layer (milestone M6) constructs the corrected Frobenius-class field
+interpretation and records the original literal construction's refutation. The global
 Frobenius relation is now a setoid over perfect ambient fields at rank five (#8).
 The corrected geometric ratio
 quotient, full carrier decoding and total operation graphs are proved below
@@ -199,7 +200,8 @@ is retained as provenance. No ACF completeness, relative algebraic closedness, i
 base or ambient rank bound is assumed. There is one public theorem in two independent
 universes and no helper or generated auxiliary declaration. The global Frobenius-class
 theorem above is a separate proved result; this leaf addresses the direct-link claim.
-The literal construction/provenance and remaining original source obligations stay separate.
+The literal construction has its recorded refutations and corrected replacement below;
+its original formulas/proofs and the remaining true source obligations retain their provenance.
 
 # Frobenius-link naturality
 %%%
@@ -242,9 +244,10 @@ Coupled arithmetic and corrected totalization/ratio transport are proved
 below. Conditional carrier/graph transport is proved later, given the
 canonical image-base equality and carrier inputs. Conditional image-base
 existence and the field-isomorphism endpoint are proved below under ACF
-completeness. General interpreted reconstruction in its original scope remains open
-(#23/#8). The literal source obligations and frozen M4a record are
-preserved.
+completeness. The original literal decoded construction is refuted, while its corrected
+source-setting
+chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
+are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
 
 # Conditional Frobenius classes
 %%%
@@ -485,9 +488,11 @@ fixed-class reflexivity in the source setting are proved. The following section 
 the two raw operation recipes and proves their geometric invariance. The advertised
 forward operation laws are refuted on semantic representatives below. Both raw totality
 statements and their corrected nonzero-input representative reverse laws are proved after
-those refutations. No quotient operation descent is asserted, and the remaining original
-construction/provenance claims stay separate.
-This progress leaves the full I6b and I6c source-validation obligations open.
+those refutations. No operation descent is asserted for the literal recipes.
+Their source construction has the recorded refutations and proved corrected replacement.
+The I6b/I6c source dispositions are recorded below: the advertised decoded construction
+is refuted, its true raw components and geometric transport are proved, and the corrected
+coupled field/graph construction and chosen-class field map are proved.
 
 # Literal operation recipes on representatives
 %%%
@@ -594,9 +599,9 @@ There are exactly two public theorems and no auxiliary declarations.
 
 The forward product law remains refuted above. These results assert no quotient
 functionality, operation descent, decoder or field structure. Addition totality and its
-corrected nonzero-input reverse laws are proved next. The remaining original construction/
-provenance claims stay separate; the corrected coupled field graphs and reconstruction
-remain proved.
+corrected nonzero-input reverse laws are proved next. The literal field-construction
+dispositions are recorded below; the corrected coupled field graphs and reconstruction
+are proved.
 
 # Totality and the reverse laws for literal addition
 %%%
@@ -661,8 +666,86 @@ completeness or a decoder.
 This is the refutation accompanying the corrected nonzero-input reverse statements.
 It does not refute raw totality: zero plus `s` has output `s`. The source-domain error
 was reported on issue #8 before these annotations, and the historical formulas and
-proofs are preserved. Remaining original construction/provenance claims and the full
-project goal stay open.
+proofs are preserved. The literal field construction has the recorded refutations and
+corrected replacement below; R1/R2, true bypassed source statements and the full project
+goal remain open.
+
+# Disposition of the literal field construction
+%%%
+tag := "literal-field-dispositions"
+%%%
+
+The literal addition graph is nonfunctional even after identifying nonzero representative
+pairs, with the source's named zero adjoined. This refutation is independent of a decoder:
+
+{docstring AclGeom.blueprintRatioAddGraph_not_functional_after_map}
+
+Work over arbitrary base and ambient fields at rank five with an actual semantic base
+`j(x,a)` and `2 ≠ 0` in the base. The diagonal input `r=(j(x,a),j(x,a))`, added to
+itself, has output `none` by literal self-negation. The true reverse sum law gives a
+second output `some t`, where `t=(j(2x,a),j(x,a))`. Nonzero scalar multiplication gives
+the independent pair `(2x,a)`; the cross identity is `2x*(x*x)=x*(x*x+x*x)`.
+
+Every map `f` of nonzero pairs, including an equivalence-closure quotient map and even a
+constant map, sends the two outputs to `none` and `some (f t)`. They remain distinct.
+No perfection, infinite base, completeness or decoder is used. The three universe levels
+for the two fields and the image type are independent. There is one public theorem and
+no helper or generated auxiliary declaration.
+
+This witness requires `2 ≠ 0`; it asserts nothing about the literal addition graph in
+characteristic two. The named zero stays separate from all nonzero images. No claim is
+made that an unrelated field structure on a quotient carrier is impossible. The error
+was reported on [issue #8](https://github.com/adamtopaz/acl_geom/issues/8#issuecomment-6231576509)
+before the source annotations. All original source formulas and proofs remain intact.
+
+The clauses of source `total-field-graphs` (I6b) now have these dispositions:
+
+* *Geometric formulas and invariance:* both raw recipes and every literal predicate
+  have proved map/iff laws over arbitrary fields and four independent universes.
+* *Totality:* both raw graphs are total on the actual class over perfect ambient
+  fields at rank five, with normalization and completeness internal. A surjective
+  identification transfers existence of outputs. This does not supply functionality.
+* *Functionality and generic choices:* addition is refuted after every identification
+  retaining the named zero when `2 ≠ 0`, as above. The source's multiplication
+  functionality belongs to its decoded-field theorem, whose decoder and forward
+  product law are refuted; no identification-independent multiplication claim is made.
+* *Decoded operation laws:* both forward laws have semantic-representative
+  counterexamples over infinite bases and perfect ambient fields at rank five.
+  The true representative reverse branches for nonzero semantic inputs are proved over
+  arbitrary fields at rank five. Multiplication's zero-factor clause is literal;
+  addition's raw zero-input reverse extension is separately refuted above. These raw
+  domains are kept distinct from the corrected quotient's exact zero identities.
+* *Corrected replacement:* `ratioAddGraph_iff`, `ratioMulGraph_iff`, both `existsUnique`
+  theorems, `ratioInterpField` and `ratioInterpRingEquiv` prove total functional field
+  graphs and exact decoded operations. `jCompletenessACF` supplies the internal APIs'
+  explicit completeness inputs in the perfect rank-five source setting.
+
+The clauses of source `interpreted-reconstruction` (I6c) are likewise recorded:
+
+* The point-geometry formulation is covered by `latticeIsoOfPointEquiv`,
+  `point_map_latticeIsoOfPointEquiv` and `latticeIsoOfPointEquiv_unique`.
+* `frobEqClassMap` transports raw actual-image classes; `ratioClassMap` transports
+  semantic classes, and `exists_map_jTupleOf_eq` produces the canonical image base.
+  The literal predicate map laws and `blueprintRatioCarrierMap` prove the
+  equivalence-closure carrier correspondence with named zero, without a decoder.
+* The advertised literal decoded construction is refuted: the decoder is ruled out
+  over infinite bases, and the literal addition is nonfunctional when `2 ≠ 0`.
+  These are refutations of universally quantified source claims; finite
+  characteristic-two bases remain allowed source instances, without an asserted
+  literal refutation there. The corrected replacement covers every source characteristic.
+* For the corrected interpretation, `ratioInterpMapRingEquiv` is the same geometric
+  carrier map preserving both graphs, and `interpretedRingEquiv` composes the two
+  decoding ring equivalences. Its zero/one laws are consequences of the RingEquiv.
+  The source's identity sentence adds no separate raw identity predicate.
+* `exists_interpretedRingEquiv_ratio` retains the chosen class, actual semantic image
+  base and ratio decoding diagram in four universes, with perfect ambient fields,
+  source rank five, arbitrary bases and all target-rank/completeness data internal.
+  Whole-lattice compatibility and base recovery are the stronger RAC-base conclusions.
+
+These recorded refutations, true components and proved corrected replacements resolve
+the original I6b/I6c construction clauses. They do not validate the literal predicates.
+R1/R2 source-disposition work, original group/chunk, coherent-cover, scheme/action and
+other true bypassed source statements remain obligations. The full project is incomplete.
 
 # Coupled generic arithmetic
 %%%
@@ -704,8 +787,9 @@ and corrected total geometric graphs, then a named transported field
 structure and its actual decoding ring equivalence. Coupled arithmetic
 and corrected totalization/ratio naturality are proved next, followed by
 conditional carrier/graph transport with the image-base equality explicit.
-Image-base existence is proved below under ACF completeness; general interpreted
-reconstruction in its original scope remains open (#23/#8).
+The original literal decoded construction is refuted, while its corrected source-setting
+chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
+are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
 
 # Coupled arithmetic naturality
 %%%
@@ -740,8 +824,9 @@ addition, ratio equivalence and the full-carrier product graph.
 Corrected totalization/ratio transport is proved next, followed by
 conditional carrier/graph transport with the image-base equality explicit.
 Conditional image-base existence is proved below under ACF completeness.
-General interpreted reconstruction in its original scope remains open (#23/#8). The
-literal source obligations and frozen M4a record are preserved.
+The original literal decoded construction is refuted, while its corrected source-setting
+chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
+are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
 
 # Totalization and ratio naturality
 %%%
@@ -778,9 +863,10 @@ of blueprint `interpreted-reconstruction`. Its named consumers are
 class-pair quotient well-definedness and full-carrier graph preservation.
 Conditional carrier/graph transport is proved next with the canonical
 image-base equality and carrier inputs explicit. Conditional image-base
-existence is proved below under ACF completeness. General interpreted
-reconstruction in its original scope remains open (#23/#8). The literal source
-obligations and frozen M4a record remain.
+existence is proved below under ACF completeness. The original literal decoded construction is
+refuted, while its corrected source-setting
+chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
+are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
 
 # Conditional carrier and graph naturality
 %%%
@@ -824,8 +910,10 @@ This accepts I6b3 under the stated image-base equality and carrier inputs.
 The following section bundles this same geometric map as an actual RingEquiv
 and composes it with both decoding equivalences. The canonical image base
 and conditional field-isomorphism endpoint follow in the next section.
-General interpreted reconstruction in its original scope remains open (I6b/I6c), along
-with the literal source obligations. The global Frobenius setoid is proved above under
+The original literal decoded construction is refuted, while its corrected source-setting
+chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
+are recorded in this chapter; R1/R2 and true bypassed source statements remain separate. The
+global Frobenius setoid is proved above under
 perfection and rank five; the frozen M4a record is preserved.
 
 # Conditional induced ring isomorphisms
@@ -858,11 +946,12 @@ parameters, rank-five bounds, ACF-completeness inputs and the canonical
 image-base equality remain explicit across independent bases and universes.
 This accepts the constructive part I6c1. The next section proves the
 canonical image-base existence and conditional field-isomorphism endpoint
-I6c2. General I6b/I6c remain open under their original scope. The named
+I6c2. The original I6b/I6c decoded construction is refuted, with its corrected
+source-setting counterpart and exact dispositions recorded in this chapter. The named
 consumers are that conditional existence endpoint, accepted conditional R1b
 base recovery and corrected conditional scalar one in the reconstruction
 chapter. The global Frobenius setoid is proved above under perfection and rank five.
-The literal source obligations remain open, and the frozen M4a record is preserved.
+The original literal formulas retain their provenance, and the frozen M4a record is preserved.
 
 The reconstruction chapter proves actual base-range compatibility for
 this same `interpretedRingEquiv` under explicit RAC bases and these carrier
@@ -908,8 +997,8 @@ zero/two. No helper, global instance or evaluation declaration is added.
 
 The existence theorem does not assert `Induces` compatibility with the supplied lattice map or
 recovery of the base fields; those are proved in the reconstruction chapter. The original literal
-I6b/I6c construction/provenance clauses remain open pending their clause-by-clause disposition;
-raw totality and the corrected source-setting ratio diagram are proved in this chapter; the
+I6b/I6c clauses have the recorded refuted/proved-correction dispositions in this chapter;
+raw totality and the corrected source-setting ratio diagram are proved here; the
 rank-five global Frobenius setoid is proved above. The frozen M4a record is preserved.
 
 # Field-isomorphism existence for perfect ambient fields
@@ -959,8 +1048,9 @@ This is a source-facing record of the existing corrected interpretation, with a 
 class and its ratio diagram. It supplies no new global reconstruction endpoint and does
 not repair the refuted literal decoder. Base recovery and compatibility with the whole
 lattice map remain the stronger RAC-base reconstruction conclusions. The original
-literal construction/provenance obligations, I6b/I6c and the full project goal remain
-separate pending their clause-by-clause disposition.
+literal construction has a recorded refutation and this corrected replacement. The
+original formulas/proofs remain as provenance; R1/R2, true bypassed source statements
+and the full project goal remain separate obligations.
 
 # Generic arithmetic on the fixed class
 %%%
@@ -1156,8 +1246,10 @@ ratio-carrier graphs. The named transported field structure is proved below. The
 Frobenius setoid is proved above under perfection and rank five. Conditional carrier/graph
 transport is proved above with the
 canonical image-base equality and carrier inputs explicit; conditional image-base existence
-and the field-isomorphism endpoint are also proved above. General interpreted
-reconstruction in its original scope remains open.
+and the field-isomorphism endpoint are also proved above. The original literal decoded
+construction is refuted, while its corrected source-setting
+chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
+are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
 
 
 # Corrected total nonzero addition
@@ -1199,13 +1291,16 @@ Perfection, uniform rank five and explicit ACF `JCompletenessACF` (supplied at r
 remain explicit. This establishes the corrected class-level detour,
 and the following section gives the full ratio-carrier graphs.
 The literal negation/total-nonzero-addition claims are refuted with their original provenance
-preserved; the later literal full-carrier TOT claim remains open. The named transported field
+preserved; the later literal full-carrier TOT claim is refuted as recorded above. The named
+transported field
 structure is proved below. The global
 Frobenius setoid is proved above under perfection and rank five. Conditional carrier/graph
 transport is proved above with the
 canonical image-base equality and carrier inputs explicit; conditional image-base existence
-and the field-isomorphism endpoint are also proved above. General interpreted
-reconstruction in its original scope remains open.
+and the field-isomorphism endpoint are also proved above. The original literal decoded
+construction is refuted, while its corrected source-setting
+chosen-class field map and ratio diagram are proved. Their clause-by-clause dispositions
+are recorded in this chapter; R1/R2 and true bypassed source statements remain separate.
 
 
 # Corrected total geometric field graphs
@@ -1269,9 +1364,10 @@ above with the canonical image-base equality and carrier inputs explicit.
 Conditional image-base existence and the field-isomorphism endpoint are
 proved above under ACF completeness. The global Frobenius setoid is proved under perfection
 and rank five. Claim (10.1) is proved by a different route, with its original
-separate-representative inference kept as provenance. The literal TOT
-argument retains its historical/open status
-and exact provenance.
+separate-representative inference kept as provenance. The literal TOT statement is refuted by
+the decoder/forward-law counterexamples and,
+when `2 ≠ 0`, by addition nonfunctionality after any identification of nonzero
+representatives with the named zero adjoined. Its original argument retains its provenance.
 
 
 # Named interpreted field structure
@@ -1311,4 +1407,5 @@ supplied at rank five by `jCompletenessACF`, and the public reconstruction theor
 unconditional. The global Frobenius setoid is proved under perfection and rank five;
 claim (10.1) is proved by a different route, with its original separate-representative
 inference kept as provenance.
-The literal source construction and TOT argument retain their historical/open status.
+The literal source construction and TOT statement have the recorded refutations and
+proved corrected replacement. Their original formulas and arguments retain their provenance.

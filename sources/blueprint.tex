@@ -3097,8 +3097,8 @@ zero are also proved conditionally below, followed by total geometric graphs and
 transported field structure under those inputs. Conditional carrier and graph transport
 is proved below with the canonical image-base equality and carrier inputs explicit.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
-explicit ACF completeness. Unconditional completeness and reconstruction remain open
-(issues 8 and 23).
+explicit ACF completeness. The proved \lean{jCompletenessACF} supplies those inputs in
+the source setting, and \lean{Main} proves reconstruction from the genuine source hypotheses.
 
 
 The generic operations can be defined explicitly from the four non-parameter coordinates.
@@ -3232,7 +3232,8 @@ quotient with an adjoined zero, full decoding, total geometric graphs and a name
 field structure are proved under those inputs. Conditional carrier and graph transport
 is proved below with the canonical image-base equality and carrier inputs explicit.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
-explicit ACF completeness. Unconditional completeness and reconstruction remain open.
+explicit ACF completeness. The proved \lean{jCompletenessACF} supplies those inputs in
+the source setting, and \lean{Main} proves reconstruction from the genuine source hypotheses.
 Literal provenance is retained.
 
 The ratio definition below is affected concretely. Take $t$ fresh over $x,y,a$ and put
@@ -3351,7 +3352,8 @@ No completeness hypothesis is used. Mathematical counterexamples were reported o
 issue 23 before changing these status descriptions. The corrected coupled predicates
 \lean{JNegTotalRel} and \lean{JAddTotalNZRel} have the proved semantics above;
 they do not validate the literal formulas below. The later literal full-carrier
-TOT/ratio-field claims remain separate obligations.
+TOT/decoded construction is refuted, with true raw components and a proved corrected
+replacement (\cref{rem:literal-addition-functionality,rem:literal-m6-disposition}).
 \end{warning}
 
 For negation, avoid trying to use $[0]$, which is not a point.  Define
@@ -3417,8 +3419,9 @@ The unique-output/forward implication remains refuted by the scalar-family
 counterexample above. This true existence result supplies no uniqueness or quotient
 semantics. Raw addition totality and its corrected nonzero-input reverse laws are
 recorded in \cref{rem:literal-addition-laws}, with the zero-input obstruction in
-\cref{rem:literal-addition-zero-reverse}. Remaining original construction/provenance
-claims stay separate. The original lemma and proof are preserved in full.
+\cref{rem:literal-addition-zero-reverse}. The original literal field construction has
+the recorded refutations and corrected replacement in \cref{rem:literal-m6-disposition}.
+The original lemma and proof are preserved in full.
 \end{remark}
 
 This detour is essential:
@@ -3934,8 +3937,9 @@ factors have output zero. Each fresh choice is local and uses at most the fifth 
 
 The forward product law remains refuted. These results supply no quotient functionality,
 operation descent, decoder or field structure. Addition totality and its corrected
-nonzero-input reverse laws are recorded next; the remaining original construction/
-provenance claims stay separate.
+nonzero-input reverse laws are recorded next. The field-construction dispositions are
+recorded in \cref{rem:literal-m6-disposition}; addition functionality is separately refuted
+in \cref{rem:literal-addition-functionality}.
 The historical theorem and proof are preserved in full above.
 \end{remark}
 
@@ -3980,7 +3984,28 @@ This is the refutation accompanying the corrected nonzero-input statements. Tota
 is unaffected, since zero plus $s$ has output $s$. The source-domain obstruction was
 reported on issue 8 before this annotation. The original formulas, theorem and proof
 are preserved for provenance. The corrected coupled quotient graphs retain their exact
-operation laws; remaining original construction/provenance claims stay separate.
+operation laws. The literal field-construction dispositions are recorded in
+\cref{rem:literal-m6-disposition}; its addition functionality is refuted next.
+\end{remark}
+
+\begin{remark}[Literal addition is not functional]\label{rem:literal-addition-functionality}
+The theorem \lean{blueprintRatioAddGraph_not_functional_after_map} refutes literal
+addition functionality after any identification of nonzero representative pairs with
+the named zero adjoined, when $2\ne0$ in $k$. For an actual semantic base $j(x,a)$,
+the diagonal input $r=(j(x,a),j(x,a))$ twice has output zero, by literal self-negation
+\lean{blueprintJNeg_self}, and nonzero output $t=(j(2x,a),j(x,a))$, by the true reverse
+sum law. Literal ratio reflexivity follows from the cross-product converse, and the
+independent pair $(2x,a)$ follows by nonzero scalar multiplication.
+
+For every map $f$ of nonzero pairs, including an equivalence-closure quotient map and
+a constant identification, the outputs remain \texttt{none} and \texttt{some}(f(t)).
+Arbitrary base and ambient fields at rank five suffice; no perfection, infinite base,
+completeness or decoder is used. This witness makes no claim in characteristic two,
+and does not assert impossibility of an unrelated field structure on a quotient carrier.
+The refutation applies in the characteristic-zero perfected RAC cases allowed by the
+source. The error was reported on issue 8 before this annotation:
+\url{https://github.com/adamtopaz/acl_geom/issues/8#issuecomment-6231576509}.
+The original source formulas and proofs are preserved.
 \end{remark}
 
 \begin{proposition}[field reconstructed from a chosen class]\label{prop:interpreted-reconstruction}
@@ -4019,8 +4044,10 @@ The representative-level recipe formulas and their transport are now recorded in
 \cref{rem:literal-recipe-invariance}. Their raw totality and corrected nonzero-input
 reverse laws are recorded in \cref{rem:literal-multiplication-laws,rem:literal-addition-laws};
 the advertised forward laws remain refuted, with the zero-input reverse obstruction in
-\cref{rem:literal-addition-zero-reverse}. Remaining original construction/provenance
-claims require their own dispositions.
+\cref{rem:literal-addition-zero-reverse}. The addition graph is also nonfunctional after
+any identification retaining the named zero when $2\ne0$
+(\cref{rem:literal-addition-functionality}). The full dispositions are recorded in
+\cref{rem:literal-m6-disposition}.
 The advertised literal decoder is refuted as explained above; the intended
 field reconstruction is proved using the corrected coupled interpretation.
 \end{remark}
@@ -4051,8 +4078,52 @@ endpoint. Compatibility with the whole lattice map and recovery of the bases rem
 the stronger RAC-base reconstruction conclusions.
 
 The advertised literal decoder remains refuted. The original proposition and proof
-are preserved above; original construction/provenance clauses and the true bypassed
-source statements retain their separate obligations.
+are preserved above. The literal construction has the recorded refutations and this proved
+corrected replacement (\cref{rem:literal-m6-disposition}). R1/R2 and true bypassed source
+statements retain their separate obligations.
+
+\begin{remark}[Dispositions of the literal field construction]\label{rem:literal-m6-disposition}
+The clauses of \cref{thm:total-field-graphs,prop:interpreted-reconstruction} have the
+following recorded dispositions (I6b/I6c on issue 8).
+\begin{itemize}
+\item The literal recipes and predicates are geometrically invariant on raw class pairs;
+\lean{frobEqClassMap} and \lean{blueprintRatioCarrierMap} give actual-image class and
+equivalence-closure carrier transport, with the named zero. No decoder is asserted there.
+\item Both raw totality components are proved over perfect ambient fields at rank five,
+with internal normalization and completeness. True reverse operation laws for nonzero
+semantic inputs are proved over arbitrary fields at rank five, including the zero-sum
+addition branch. A zero multiplication factor gives zero literally. The raw zero-input
+addition reverse extension is separately refuted in \cref{rem:literal-addition-zero-reverse}.
+\item The advertised decoder is refuted over infinite bases, and both forward operation
+laws are refuted on semantic representatives over infinite bases and perfect ambient
+fields at rank five. Addition functionality is refuted after every identification with
+the named zero adjoined when $2\ne0$ (\cref{rem:literal-addition-functionality}). These
+refute universally quantified source statements; finite characteristic-two bases remain
+allowed source instances, with no literal refutation asserted there. Multiplication
+functionality belongs to the decoded-field theorem whose decoder and forward product law
+are refuted; no identification-independent multiplication claim is asserted.
+\item The corrected coupled replacement is proved: \lean{ratioAddGraph_iff},
+\lean{ratioMulGraph_iff}, both unique-existence theorems, \lean{ratioInterpField} and
+\lean{ratioInterpRingEquiv} give total functional field graphs and exact operations.
+The proved \lean{jCompletenessACF} supplies the internal APIs' explicit completeness
+inputs in the perfect rank-five source setting, in every source characteristic.
+\item For the corrected interpretation, \lean{ratioInterpMapRingEquiv} bundles the same
+geometric carrier map preserving both graphs, and \lean{interpretedRingEquiv} composes
+the actual decoding ring equivalences. Its zero and one laws are consequences of the
+RingEquiv; the source identity sentence adds no separately quantified raw predicate.
+\lean{exists_interpretedRingEquiv_ratio} retains any chosen semantic base, its actual
+semantic image base and the ratio decoding diagram, in four universes, with target rank
+and both completeness proofs internal. The point-geometry formulation is covered by
+\lean{latticeIsoOfPointEquiv} and \lean{point_map_latticeIsoOfPointEquiv}. Base recovery
+and whole-lattice compatibility are the stronger RAC-base reconstruction conclusions.
+\end{itemize}
+Thus the original literal decoded construction has a refutation and a proved corrected
+replacement, while its true raw and geometric components are preserved. This validates
+no refuted literal predicate and claims no impossibility of unrelated field structures.
+Original formulas/proofs retain their provenance. R1/R2 source-disposition work and true
+bypassed group/chunk, coherent-cover, scheme/action and other source statements remain
+obligations; the full project is incomplete.
+\end{remark}
 
 \section{Naturality, recovery of the base, and recovery of points}
 
@@ -4341,9 +4412,10 @@ The actual carriers retain independent perfection, rank-five, exponential-charac
 and ACF-completeness inputs on both sides, across independent bases and universe levels.
 The induced ring isomorphism and its composition with both decoding equivalences are
 formalized next under these same inputs. Conditional image-base existence and the
-field-isomorphism endpoint are proved below under explicit ACF completeness. General interpreted
-reconstruction in the original literal scope and the original base-recovery/scalar-one
-arguments remain obligations (issues 8 and 23). Rank-five ACF completeness, the global
+field-isomorphism endpoint are proved below under explicit ACF completeness. The literal
+decoded construction has a recorded refutation and corrected source-setting replacement
+(\cref{rem:literal-m6-disposition}). R1/R2 source-disposition work remains on issue 9. Rank-five
+ACF completeness, the global
 Frobenius setoid over perfect rank-five ambient fields and the public corrected
 reconstruction theorem are proved. Internal carrier inputs remain explicit.
 The original literal statements and proofs retain their exact provenance.
@@ -4421,8 +4493,9 @@ recovery and corrected conditional scalar one below.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
 explicit ACF completeness. Rank-five ACF completeness, the global Frobenius setoid over
 perfect rank-five ambient fields and the public corrected reconstruction theorem are
-proved. The original literal interpreted-reconstruction, R1/R2 and other source arguments
-retain their separate obligations (issues 8 and 23).
+proved. The original literal interpreted construction has the recorded refutations and
+corrected replacement (\cref{rem:literal-m6-disposition}); R1/R2 and other true source
+statements retain their separate obligations (issue 9).
 The original statements and proofs retain their exact provenance.
 
 \subsection{Conditional image-base and field-isomorphism existence in Lean}
@@ -4457,8 +4530,9 @@ This proves the corrected conditional existence counterpart of
 induces the supplied lattice map or recovers the base fields. The reconstruction chapter
 now proves these conclusions under the genuine source hypotheses, supplying ACF
 completeness internally. The global Frobenius setoid is proved for perfect rank-five
-ambient fields. The original literal R1/R2, interpreted-reconstruction and full-carrier
-TOT arguments retain their separate obligations (issues 8, 9 and 23).
+ambient fields. The literal interpreted construction and TOT theorem have the recorded
+refutations and corrected replacement (\cref{rem:literal-m6-disposition}). R1/R2
+source-disposition work remains on issue 9.
 Original statements and proofs are preserved.
 
 \subsection{Field-isomorphism existence for perfect fields in Lean}
@@ -5980,8 +6054,9 @@ detour and total-nonzero-addition statement now also have Lean refutations in
 \lean{Counterexamples/GenericNegation}, including all class-membership constraints,
 over infinite bases at rank five and without a completeness hypothesis. The original
 formulas and proof retain their provenance. Corrected coupled predicates have proved
-semantics, while the literal full-carrier TOT/ratio-field and remaining source claims
-still require a separate disposition.
+semantics. The literal full-carrier TOT/decoded construction has recorded refutations
+(decoder, forward laws and addition functionality) and a proved corrected replacement
+(\cref{rem:literal-m6-disposition}). Remaining true source statements keep their obligations.
 
 \lean{scripts/audit_axioms.py} makes the dependency audit reproducible.  It builds both
 mathematical roots, requires their imported module inventory to match all mathematical

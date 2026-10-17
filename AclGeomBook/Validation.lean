@@ -150,11 +150,19 @@ reverse branches are `blueprintRatioAddGraph_of_add_ratio_eq_zero` and
 at rank five. The nonzero-output theorem derives sum nonvanishing from its cross identity.
 `blueprintRatioAddGraph_zero_reverse_counterexample` refutes extending the raw reverse law
 to arbitrary zero inputs, where the literal completion uses equality of representatives.
-Remaining original construction/provenance claims stay separate; no quotient functionality
-or operation descent is asserted. The bare field-isomorphism existence result is now stated
+`blueprintRatioAddGraph_not_functional_after_map` directly refutes literal addition
+functionality after any map of nonzero pairs with the named zero adjoined, when `2 ≠ 0`
+in the base. The same diagonal input twice has zero and nonzero outputs. It needs only
+arbitrary fields, source rank five and the actual semantic base pair, without perfection,
+an infinite base, completeness or a decoder. It asserts no characteristic-two refutation
+and no impossibility of an unrelated field structure. The interpretation chapter records
+each I6b/I6c clause: literal decoder/forward laws/functionality refuted at their precise
+hypotheses, true raw totality/reverse/invariance components proved, and the corrected
+coupled field/graphs/naturality/chosen-class map proved. No operation descent is asserted
+for the literal recipes. The bare field-isomorphism existence result is now stated
 without completeness inputs as `nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`;
-its bases need not be relatively algebraically closed. Remaining source provenance
-obligations still require their own disposition.
+its bases need not be relatively algebraically closed. The original M6 formulas and proofs
+retain their provenance; R1/R2 and other true source auxiliary obligations stay separate.
 
 # Dimension and endpoint hypotheses
 %%%
@@ -198,8 +206,8 @@ rank five, the closed-lattice isomorphism and the source independent pair. Targe
 both completeness proofs, characteristic exponents and image-base data are internal.
 No RAC or infinite-base input is assumed. This four-universe theorem has no helper or
 generated auxiliary declaration and keeps the corrected quotient/decoding construction.
-The refuted literal decoder and original source construction/provenance clauses have
-separate dispositions; this adds no new global reconstruction endpoint.
+The literal decoder/construction has the recorded refutations and corrected replacement;
+this adds no new global reconstruction endpoint. The original formulas/proofs are preserved.
 
 # Reproducing the dependency audit
 %%%

@@ -25,7 +25,13 @@ existence. The original literal decoder and advertised operation semantics are r
 (`Counterexamples.GenericArithmetic`, `Counterexamples.GenericNegation`). The separate
 geometric invariance assertions for the literal predicates and the correspondence of
 quotient carriers by equivalence closure are proved in `Counterexamples.BlueprintTransport`.
-The literal total-operation graph transcriptions and the remaining source claims remain open.
+The literal operation recipes and their invariance are proved in
+`Counterexamples.BlueprintTotalGraphs`; their true raw totality and reverse components are
+proved separately. `Counterexamples.RatioAddQuotient` refutes addition functionality after
+any identification of nonzero representatives with the named zero adjoined, when `2 ≠ 0`.
+The literal decoded construction has a recorded refutation and a proved corrected replacement.
+The original formulas and proofs retain their provenance; true bypassed source statements
+and the R1/R2 source-disposition work remain separate.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-16; #9)
+## Current status (2026-10-17; #8/#9/#23)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
@@ -31,8 +31,12 @@ negation and total-nonzero-addition graphs are separately refuted, with all auxi
 class conditions, over infinite bases at rank five; their corrected coupled replacements
 have proved semantics. The global Frobenius setoid is proved on geometric J-tuples over
 perfect ambient fields at rank five, without RAC or an infinite base. The literal
-full-carrier TOT/ratio-field claims and remaining
-source validation and auxiliary statements are still open. The original three-pair additive
+full-carrier TOT/decoded construction has recorded refutations and a proved corrected
+replacement. Addition remains nonfunctional after any identification of nonzero pairs with
+the named zero adjoined when `2 ≠ 0`, independently of a decoder. Its true raw totality and
+nonzero-input reverse components and geometric transport are proved. The original I6b/I6c
+clauses are disposed of with their precise hypotheses and original provenance retained;
+R1/R2 source-disposition work, remaining validation and true auxiliary statements stay open. The original three-pair additive
 and literal multiplicative correspondence theorems are proved without extra ambient-rank
 or freshness hypotheses, including both sum constants and both nonzero exponents/constants.
 Connected one-dimensional additive subgroups of the plane now have the source polynomial
@@ -13079,3 +13083,49 @@ The shared objective/completion criteria and frozen 117-item M4a record are unch
 Full library/book, clean committed-head exhaustive dependency and exact-head CI evidence
 is reported on #23. Original literal M6 construction/provenance, group/chunk/coherent-cover
 and scheme/action obligations remain separate; the durable goal stays active and incomplete.
+
+
+## Checkpoint: literal addition functionality and the M6 source dispositions (#8/#23)
+
+`Counterexamples.RatioAddQuotient.blueprintRatioAddGraph_not_functional_after_map`
+refutes literal addition functionality after any identification of nonzero representative
+pairs with the named zero adjoined. It works over arbitrary fields at source rank five,
+with the actual semantic base pair and `2 ≠ 0` in the base. No perfection, infinite-base,
+completeness or decoder input is used. The diagonal input `(j(x,a),j(x,a))` twice has
+output zero by literal self-negation and nonzero output `(j(2x,a),j(x,a))` by the true
+reverse sum law. Under every `Option.map f`, these outputs remain `none` and `some (f t)`.
+This includes the equivalence-closure quotient and a constant identification. No assertion
+is made in characteristic two or about unrelated field structures on a quotient carrier.
+The error was reported on #8 (6231576509) before the source annotations.
+
+Both agents independently checked the exact final mathematical leaf and root. There is
+one new public theorem in three independent universes, standard axioms and no helper,
+private, internal or generated auxiliary. The root check preserves all 385 preceding
+selected types and 95 scoped records exactly, expanding to 386 selected standard-axiom
+declarations and 96 scoped records. The peer's complete new type and declaration record
+are identical. The first draft needed no mathematical repair; only the agreed deterministic
+arithmetic tactic replaced `norm_num; ring` before the first successful check. Integration
+changes only the draft Status header, with its reversal recorded. The two old mathematical
+files touched in this checkpoint change only module docstrings; every old statement and
+entire proof body is unchanged.
+
+The source/book record every I6b/I6c clause: literal geometric invariance and true raw
+totality/reverse components proved; the literal decoder and forward decoded laws refuted
+under their documented infinite-base hypotheses; addition functionality refuted when
+`2 ≠ 0`; and the corrected coupled total functional field graphs, field structure,
+geometric naturality and chosen-class field isomorphism/ratio diagram proved. The
+point-geometry/lattice conversion and actual-image class/carrier maps are explicit.
+Multiplication functionality belongs to the refuted decoded-field theorem; no generic
+any-identification multiplication claim or extra raw identity predicate is introduced.
+All source characteristics remain in scope for the corrected replacement and endpoint.
+Finite characteristic-two bases are allowed source instances; these refutation families
+make no literal claim there. R1/R2 source-disposition work and true bypassed group/chunk,
+coherent-cover and scheme/action statements remain separate obligations.
+
+All 48 original source statement blocks and 44 proof blocks are exact. Reversing the
+recorded progress annotations recovers the entire preceding source. The shared objective,
+completion criteria and frozen 117-item M4a record are unchanged. Full library/book,
+clean committed-head exhaustive dependency and exact-head CI evidence is reported on
+#8/#23 before resolving their M6 tracker rows. The durable project goal remains active
+and incomplete; these are dispositions of the original literal construction, not proofs
+of its refuted predicates.
