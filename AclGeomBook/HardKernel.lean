@@ -475,8 +475,12 @@ $`k(a_1,a_2,b_1,b_2,c_1,c_2)`, from Ψ alone over arbitrary fields. Its
 original three two-generator families retain coefficient closures A, B and C;
 the selected larger-field ideals are minimal over their extended family ideals.
 This does not assert those coefficient closures for split larger-field factors.
-The other branches and normal cover,
-and the parameter-family locus forms of (8.4c) and (8.6), still require separate proofs.
+In an ACF ambient, every branch of each literal six-point family is now
+realized as an actual larger-field generic conjugate of the original endpoints
+over that family's own parameter field, as proved in the configuration chapter.
+This treats branches individually. Coherent triples, their common normal cover,
+the remaining Ψ branch instantiation and the parameter-family locus forms of
+(8.4c) and (8.6) still require separate proofs.
 The geometric presentation
 step for arbitrary irreducible correspondence curves is proved above by
 `exists_idealOf_eq_iff`, with the necessary ambient-size condition.

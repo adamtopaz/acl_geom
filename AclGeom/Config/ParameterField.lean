@@ -41,8 +41,13 @@ geometric branch over the closed parameter field. Over the literal parameter fie
 germs over `k(t)`, `k(s)` and `k(u)` and the first two over `F = k(s, t, u)`: there
 the composite germ, and each of the first two, is a minimal prime of the extension of
 the corresponding literal parameter-field germ, which may split
-(`FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange`). The other finite
-branches and the normal cover are not asserted.
+(`FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange`). In an algebraically
+closed ambient field, `IsPartialQuadrangle.literal_family_branches_are_conjugates` describes
+every branch of the three extended literal family ideals: each is the ideal of a finite
+correspondence over `F` at an automorphic image, over the family's own parameter field, of the
+original endpoints, with source transcendental over `F`
+(`FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange`). No coherent
+choice of branches across the three families and no common normal cover is asserted.
 
 All helpers are consumed. No chart, action, group or coefficient-rank
 conclusion is a caller oracle.
@@ -53,10 +58,12 @@ retain their full parameter closures and compose with the corrected orientation
 (#27). The selected germ-level (8.6) branch is also proved, as a selected minimal prime,
 over the literal six-generator parameter compositum. The selected (8.4c) composite germ of
 a partial quadrangle is proved over its closed parameter join and, as a selected minimal
-prime, over the literal parameter fields. The other finite branches, the normal cover, the
-parameter-family (k-locus) forms of (8.4c) and (8.6), the original group extraction and the
-full six-point theorem remain open (#27/#5). The guarded initial chart, rank-five
-configuration completeness and the public reconstruction theorem are proved elsewhere.
+prime, over the literal parameter fields. In an algebraically closed ambient field every
+branch of each extended literal family ideal is a generic conjugate of the original
+endpoints. A coherent choice of branches, the common normal cover, the parameter-family
+(k-locus) forms of (8.4c) and (8.6), the original group extraction and the full six-point
+theorem remain open (#27/#5). The guarded initial chart, rank-five configuration
+completeness and the public reconstruction theorem are proved elsewhere.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -716,6 +723,64 @@ theorem IsPartialQuadrangle.exists_literal_composing_incidence_germs
     exact FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange _ L_U G_U rfl rfl
   · exact FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange _ L_T G_T rfl rfl
   · exact FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange _ L_S G_S rfl rfl
+
+/-- **Every literal family branch of a partial quadrangle is a generic conjugate** (blueprint
+(8.4c), the finite branches of each family). Let `(S, T, U, S', T', U') = (f 0, …, f 5)` be a
+partial quadrangle in an algebraically closed field `K`, with representatives
+`s, t, u, s', t', u'`, and put `F = k(s, t, u)`. Every minimal prime of the extension to `F` of the
+literal family ideal `I_{k(t)}(s', u')` is the ideal of a finite correspondence over `F` at
+`(σ s', σ u')` for some automorphism `σ` of `K` over `k(t)`; its source is transcendental over
+`F`. The same holds for `I_{k(s)}(u', t')` over `k(s)` and for `I_{k(u)}(s', t')` over `k(u)`.
+The selected branches of `exists_literal_composing_incidence_germs` are among these. The
+automorphisms need not preserve `F`. No coherent choice of branches across the three families,
+common normal cover, parameter-family locus form or group statement is asserted. -/
+theorem IsPartialQuadrangle.literal_family_branches_are_conjugates [IsAlgClosed K]
+    {f : Fin 6 → Point k K} (h : IsPartialQuadrangle f) :
+    (∀ J ∈ ((idealOf ↥(IntermediateField.adjoin k {(f 1).rep}) ![(f 3).rep, (f 5).rep]).map
+        (MvPolynomial.map (IntermediateField.inclusion (IntermediateField.adjoin.mono k
+          {(f 1).rep} {(f 0).rep, (f 1).rep, (f 2).rep} (by simp)) : _ →+* _))).minimalPrimes,
+      ∃ (Q : FiniteCorrespondencePair
+          ↥(IntermediateField.adjoin k {(f 0).rep, (f 1).rep, (f 2).rep}) K)
+        (σ : K ≃ₐ[↥(IntermediateField.adjoin k {(f 1).rep})] K),
+        Q.ideal = J ∧ Q.source = σ (f 3).rep ∧ Q.target = σ (f 5).rep) ∧
+    (∀ J ∈ ((idealOf ↥(IntermediateField.adjoin k {(f 0).rep}) ![(f 5).rep, (f 4).rep]).map
+        (MvPolynomial.map (IntermediateField.inclusion (IntermediateField.adjoin.mono k
+          {(f 0).rep} {(f 0).rep, (f 1).rep, (f 2).rep} (by simp)) : _ →+* _))).minimalPrimes,
+      ∃ (Q : FiniteCorrespondencePair
+          ↥(IntermediateField.adjoin k {(f 0).rep, (f 1).rep, (f 2).rep}) K)
+        (σ : K ≃ₐ[↥(IntermediateField.adjoin k {(f 0).rep})] K),
+        Q.ideal = J ∧ Q.source = σ (f 5).rep ∧ Q.target = σ (f 4).rep) ∧
+    (∀ J ∈ ((idealOf ↥(IntermediateField.adjoin k {(f 2).rep}) ![(f 3).rep, (f 4).rep]).map
+        (MvPolynomial.map (IntermediateField.inclusion (IntermediateField.adjoin.mono k
+          {(f 2).rep} {(f 0).rep, (f 1).rep, (f 2).rep} (by simp)) : _ →+* _))).minimalPrimes,
+      ∃ (Q : FiniteCorrespondencePair
+          ↥(IntermediateField.adjoin k {(f 0).rep, (f 1).rep, (f 2).rep}) K)
+        (σ : K ≃ₐ[↥(IntermediateField.adjoin k {(f 2).rep})] K),
+        Q.ideal = J ∧ Q.source = σ (f 3).rep ∧ Q.target = σ (f 4).rep) := by
+  obtain ⟨G_T, -, -, L_T, L_S, L_U, -, -, -, hLTS, hLTT, hLSS, hLST, hLUS, hLUT, -, -, -⟩ :=
+    h.exists_literal_composing_incidence_germs
+  refine ⟨fun J hJ ↦ ?_, fun J hJ ↦ ?_, fun J hJ ↦ ?_⟩
+  · have hL : L_T.ideal = idealOf _ ![(f 3).rep, (f 5).rep] := by
+      change idealOf _ ![L_T.source, L_T.target] = _
+      rw [hLTS, hLTT]
+    obtain ⟨Q, σ, hQ, hQs, hQt⟩ :=
+      FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange _ L_T
+        G_T.source_generic (hL ▸ hJ)
+    exact ⟨Q, σ, hQ, hQs.trans (by rw [hLTS]), hQt.trans (by rw [hLTT])⟩
+  · have hL : L_S.ideal = idealOf _ ![(f 5).rep, (f 4).rep] := by
+      change idealOf _ ![L_S.source, L_S.target] = _
+      rw [hLSS, hLST]
+    obtain ⟨Q, σ, hQ, hQs, hQt⟩ :=
+      FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange _ L_S
+        G_T.source_generic (hL ▸ hJ)
+    exact ⟨Q, σ, hQ, hQs.trans (by rw [hLSS]), hQt.trans (by rw [hLST])⟩
+  · have hL : L_U.ideal = idealOf _ ![(f 3).rep, (f 4).rep] := by
+      change idealOf _ ![L_U.source, L_U.target] = _
+      rw [hLUS, hLUT]
+    obtain ⟨Q, σ, hQ, hQs, hQt⟩ :=
+      FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange _ L_U
+        G_T.source_generic (hL ▸ hJ)
+    exact ⟨Q, σ, hQ, hQs.trans (by rw [hLUS]), hQt.trans (by rw [hLUT])⟩
 
 end PartialQuadrangle
 

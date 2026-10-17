@@ -12462,3 +12462,93 @@ and original group/chunk obligations. These are exposition corrections, not new
 mathematical declarations or checklist changes. The initial full six-phase gates
 were green and are archived as round1; full build/book and audits are repeated
 on the final documentation before the checkpoint commit.
+
+
+## Every literal six-point family branch is a generic conjugate (2026-10-16, #5)
+
+`FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange`
+works for nested intermediate fields E ≤ F in an ACF ambient Ω, an actual
+E-correspondence P, one element transcendental over F, and any minimal prime J
+of P's curve ideal extended to F. It constructs an actual F-correspondence Q
+with Q.ideal = J and an E-automorphism σ of Ω carrying both original endpoints
+to Q's endpoints. Q's source remains transcendental over F. The automorphism
+need not preserve F; this is not an action on the fixed-F ideals, and no
+converse for arbitrary automorphisms is asserted.
+
+`IsPartialQuadrangle.literal_family_branches_are_conjugates` is its actual
+source consumer, with only the partial quadrangle and an ACF ambient as inputs.
+Over F = k(s,t,u), it treats EVERY minimal prime of each of
+I_k(t)(s′,u′), I_k(s)(u′,t′) and I_k(u)(s′,t′) after extension. Each is an
+actual F-correspondence at a conjugate of its original endpoints over its own
+parameter field. The proof obtains G_T and the three original families from
+the PUBLIC exists_literal_composing_incidence_germs. G_T.source supplies the
+needed F-transcendental element for all three calls. The obtained endpoint
+equations rewrite the family ideals to the literal source expressions. No
+span/rank/incidence proof is duplicated and no helper is promoted.
+
+The core realizes J by exists_idealOf_eq_iff. A mapped nonzero canonical curve
+equation bounds the quotient dimension by one. Krull's principal ideal theorem
+bounds J's height by one. If its realized tuple were algebraic over F, its
+coordinate quotient would be a zero-dimensional domain and hence a field;
+J would then be maximal of height two, a contradiction. A transcendental
+coordinate and the PUBLIC idealOf_eq_of_le_of_comap_eq recover the original
+E-ideal. The ambient generic-point automorphism theorem supplies σ, and
+transported mutual algebraicity derives the larger-field source genericity.
+
+Exactly two public theorems and two consumed private lemmas are added. The
+private base-monotonicity lemma has four uses; it applies the existing project
+lemma isAlgebraic_of_le (Closure/Basic) through Mathlib's actual
+IntermediateField.restrictScalars_adjoin_eq_sup descriptions.
+The private height lemma has one consumer. It identifies the two-variable
+polynomial ring with F[X][Y], uses Jacobson maximal contraction, polynomial
+height additivity and PID maximal height one. Both public results have two
+independent field universes. All twenty preceding affected declarations,
+including private statements and proofs, are unchanged; all twenty-four
+current affected declarations have standard dependencies and agree between
+agents in raw type hash and declaring module. The selected audit has 345
+public standard-dependency statements, retaining all 343 preceding types
+exactly. Dependency checks are distinct from source coverage.
+
+Peer freeze `/tmp/acl_geom_claude_lambda2/frozen1` has manifest
+`131db6daad8e0b9e1c98311cdb183f596f66807c94d3a2511e94600ceed71f7b`.
+Module-only attempts fixed an addition-order API mismatch and an incorrect
+namespace for trdeg_eq_zero, then corrected an overstated "both directions"
+status. The first full inventory found omega's consumed internal proof
+auxiliary. Its probe identified the exact arithmetic lemma, and the simpler
+Nat.le_of_lt_succ proof removed it. A module-only check preceded the final
+full scoped chain. All attempts and metrics are retained; no checking limit
+was weakened. Final peer strict logs for both sources and the actual root
+importer are empty, with exactly four added rows and no generated row.
+
+Root independent freeze `/tmp/acl_geom_codex_lambda2_review/frozen1` has
+manifest `49184e0f3e295f97b9bfaaef99abe8df433fb4f65837706cf3ff67eabfff7c45`.
+Its exact two sources and actual root importer also have empty strict logs.
+Its first checker stopped on an inventory-helper line-length warning; the
+next completed all six compiler phases but reported two long audit marker
+lines. A final audit-only check corrected those helper marker lines and
+verified all 345 statements, without repeating completed proof/inventory work.
+No mathematical source changed. Raw failures, final outputs, pins and metrics
+are retained. Crossed compiler messages caused one safe inner-lock refusal
+before Lean started; the canonical lock prevented concurrent families. The
+slot was explicitly returned to the peer, then independently retaken after
+its actual release. All builds use the 20 GB cap, no swap and two threads.
+
+The configuration chapter records the individual-branch result, its ambient
+capacity and genuine source consumer. The correspondence chapter and shared
+frontier match that scope. Source changes are confined to the existing joint
+component annotation. Every original statement and proof, all eleven previous
+status-correction pairs and all three separately recorded exposition corrections
+remain exact on both OLD and NEW sides. Reversing those exact corrections and
+removing the annotation recovers every original source byte. The goal core and
+frozen M4a are unchanged; this guide is append-only. All sixteen #5 checklist
+texts, order and states are preserved. Full build/book, clean-commit whole-library
+and exact-head CI evidence belongs to the checkpoint report on #5.
+
+This represents the three six-point families' branches INDIVIDUALLY. It does
+not align a coherent triple, construct a common normal cover or close words
+under multiplication. The remaining Ψ branch instantiation, the parameter-family
+k-locus forms of (8.4c)/(8.6), original group/chunk uses and full six-point
+algebraic-group theorem remain owed. Original affine-action, curve-coset,
+algebraization and scheme/action/descent obligations also remain. The root's
+temporary family-locus target/rank draft is not a proved project theorem.
+The issue and full shared goal remain open.

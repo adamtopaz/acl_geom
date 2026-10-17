@@ -1563,11 +1563,28 @@ proof, with no new helper declarations and two independent field universes.
 The relative closure of the six generators is derived internally as
 $A\vee B$; the $c$-generators are explicitly included, since relative
 closure containment is weaker than literal generated-field containment.
-The other finite branches and their common normal cover, the
-parameter-family locus forms of (8.4c) and (8.6) and the separate original
-group/chunk statements remain obligations. A conjugate-branch
-parametrization must retain genericity over the chosen coefficient field;
-arbitrary base-field automorphisms need not preserve that field.
+In an algebraically closed ambient field,
+\lean{IsPartialQuadrangle.literal_family_branches_are_conjugates} now realizes
+every minimal-prime branch of each literal six-point family over $F=k(s,t,u)$
+as an actual finite correspondence at a conjugate of the original endpoints,
+over that family's own parameter field. Its source remains transcendental
+over $F$. The general theorem
+\lean{FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange}
+is used three times. It takes nested fields $E\leq F$, an original finite
+correspondence over $E$, one element transcendental over $F$ in the ACF
+ambient, and the chosen minimal prime. A nonzero curve equation gives quotient
+dimension at most one. The principal ideal theorem excludes an algebraic
+realized tuple, whose maximal ideal would have height two. Algebraic
+incomparability recovers the original $E$-ideal, and the ambient automorphism
+theorem gives the conjugate endpoints. The source consumer obtains all family
+data and the required transcendental element internally from the existing
+public literal-branch producer. Both public statements have two independent
+field universes. The automorphism need not preserve $F$: this is individual
+branch representation, not an action on the fixed-$F$ ideals or a converse
+for arbitrary automorphisms. Coherent branch triples, their common normal
+cover, the remaining $\Psi$ branch instantiation, the parameter-family
+k-locus forms of (8.4c) and (8.6), and the separate original group/chunk
+statements remain obligations.
 The geometric generic-point presentation step is proved by
 \lean{exists_idealOf_eq_iff}: for any prime ideal $P$ in a polynomial ring
 with finitely many variables, the literal quotient $k[\iota]/P$ has an

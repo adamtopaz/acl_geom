@@ -198,6 +198,57 @@ parametrization by conjugate points must retain genericity over the
 chosen coefficient field; arbitrary base-field automorphisms need not
 preserve that field or its generic points.
 
+# Every branch of a literal six-point family
+%%%
+tag := "sixpoint-family-conjugate-branches"
+%%%
+
+Every minimal-prime branch of each of the three literal six-point family
+ideals has an actual finite-correspondence presentation over $`F=k(s,t,u)`:
+
+{docstring AclGeom.IsPartialQuadrangle.literal_family_branches_are_conjugates}
+
+The only source inputs are the actual partial quadrangle and an algebraically
+closed ambient field. The base field is arbitrary. For the original family
+$`I_{k(t)}(s',u')`, every branch is the ideal of a pair
+$`(\sigma s',\sigma u')`, for an ambient automorphism over $`k(t)`, whose
+source remains transcendental over F. The analogous statements hold for
+$`I_{k(s)}(u',t')` over $`k(s)` and $`I_{k(u)}(s',t')` over $`k(u)`.
+The correspondence presentation includes its larger-field genericity and both
+algebraicity clauses; these are proved internally for each requested branch.
+
+The general theorem used three times by this source consumer is:
+
+{docstring AclGeom.FiniteCorrespondencePair.exists_conjugate_of_mem_minimalPrimes_baseChange}
+
+Its inputs are nested coefficient fields $`E\leq F`, an actual finite
+correspondence over E, one element transcendental over F in the ACF ambient,
+and a minimal prime of the extended original ideal. Its output has that exact
+ideal and is a conjugate of the original endpoints over E. The source consumer
+obtains all three original families and the required larger-field
+transcendental element from the existing public literal-branch producer.
+It repeats no rank, span or incidence construction and asks the caller for
+no branch-genericity conclusion. Both public results have two independent
+field universes.
+
+The proof realizes the prime by the generic-point theorem. A mapped nonzero
+curve equation bounds its quotient dimension by one. If both realized
+coordinates were algebraic over F, their ideal would be maximal and have
+height two, contradicting the principal ideal theorem. A transcendental
+coordinate and algebraic incomparability recover the original E-ideal.
+The finite generic-point automorphism theorem then gives the ambient
+automorphism. Transported mutual algebraicity forces its source to remain
+transcendental over F. Two private lemmas are consumed: base monotonicity of
+relative algebraicity, and height two for maximal ideals in two variables,
+using Mathlib's polynomial height, Jacobson and PID theorems.
+
+This represents each family's branches individually. The automorphisms need
+not preserve F, so no action on its fixed ideal set is asserted. No converse
+for arbitrary automorphisms is stated. Coherent triples of branches, a common
+normal cover, the parameter-family k-locus forms of (8.4c) and (8.6), the
+remaining Ψ branch instantiation and the original group/chunk and action
+statements remain obligations. The shared goal stays open.
+
 # The semantic relations
 %%%
 tag := "semantic-relations"
