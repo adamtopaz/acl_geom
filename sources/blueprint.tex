@@ -2200,9 +2200,15 @@ field algebraic over a compatible coefficient field
 allows inseparability. For integral groups acting regularly on integral affine schemes over
 an algebraically closed base, the actual generic translate is now constructed internally
 on $\operatorname{Frac}(k(G)\otimes_k k(V))$, with its literal coordinate-field comparison
-(\lean{SchemeGenericTranslate.exists_functionField_genericTranslate}). The finite coefficient
-field, its actual point-map faithfulness and rank, faithful coefficient variation, the genus
-producer and constant-field rationality/genus-zero descent remain open.
+(\lean{SchemeGenericTranslate.exists_functionField_genericTranslate}). For a given actual
+affine parameter family of a regular action on an affine locally finite-type scheme over any
+field, finite global-section algebra generators and one common finite independent section
+family now have coefficients that evaluate uniformly over every commutative parameter
+algebra, for both action directions
+(\lean{SchemeGenericTranslate.exists_generating_sectionsCoefficients}). The finite data and
+coordinate action are constructed internally. The effective coefficient field, its
+automorphism descent, actual point-map faithfulness and rank, faithful coefficient variation,
+the genus producer and constant-field rationality/genus-zero descent remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action
 regularization and the arbitrary-action classifier remain open. All eight original issue-21 work items stay open. The original lemma and

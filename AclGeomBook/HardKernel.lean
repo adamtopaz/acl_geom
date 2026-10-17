@@ -21,6 +21,7 @@ import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
 import AclGeom.Correspondence.PointwiseFaithfulness
 import AclGeom.Correspondence.SchemeGenericTranslate
+import AclGeom.Correspondence.ParameterCoefficients
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.Family
@@ -2116,4 +2117,58 @@ also remain open. Rational-action regularization, completion and points identifi
 the original normal-subgroup and arbitrary-action classifier, group/chunk/six-point results,
 algebraization and descent remain separate obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open; the full shared goal remains
+active and incomplete.
+
+
+# One finite coefficient family for the actual action
+%%%
+tag := "finite-parameter-coefficients"
+%%%
+
+Let a group scheme act regularly on an affine scheme V locally of finite type over a field k.
+Fix an actual family of group points parametrized by Spec A, for a commutative k-algebra A.
+There are finite algebra generators s of the actual global-section algebra, a common finite
+family v of k-linearly independent sections, and coefficients c in A for both the parameter
+and its inverse. For every parameter-algebra map phi from A to B, the image of each generator
+under the evaluated action is the sum of phi(c(e,i,j)) tensor v(j). The finite data are chosen
+once, before phi or B, and work for both action directions.
+
+{docstring AclGeom.SchemeGenericTranslate.exists_generating_sectionsCoefficients}
+
+The theorem derives finite generation from the scheme's structural morphism and its affine
+presentation. It derives the tensor-coordinate action by transporting the given action
+through that same presentation. No generator list, independent-section family, coefficient
+matrix or coordinate-action certificate is supplied by the caller. The actual Spec A-family
+is an input; choosing a group chart and forming its effective coefficient field remain next
+consumers. The base field can be arbitrary, and no integrality or faithfulness hypothesis is
+needed for this finite-family construction.
+
+The coordinate theorem chooses algebra generators of R, a vector-space basis of R over k,
+and the finite union of the supports of their images in both action directions. Restricting
+the basis to this union gives the common independent family. Its coefficients lie in A.
+
+{docstring AclGeom.SchemeParameterAction.exists_generating_tensorCoefficients}
+
+The same coefficients specialize because the actual coordinate automorphism commutes with
+changing the parameter algebra. The parameter morphism is Mathlib's algSpec map. Naturality
+of its product comparison gives the literal tensor-product spectrum formula, and faithfulness
+of Spec transfers the action comparison to coordinate rings.
+
+{docstring AclGeom.SchemeParameterAction.tensorAut_baseChange}
+
+The underlying categorical fact preserves the parameter under any map into its parameter
+object. Its proof uses the two projections and the action law, in independent object and
+morphism universes.
+
+{docstring CategoryTheory.ModObj.parameterAct_natural}
+
+Parameter evaluation is proved for every commutative k-algebra in the base universe,
+including nonreduced ones. This is a compatibility theorem; it asserts no infinitesimal
+faithfulness. The effective coefficient field, descent of the automorphism and its inverse,
+actual point-map faithfulness and rank, faithful coefficient variation, and the genus
+producer remain open. Constant-field rationality and genus-zero descent remain open too.
+Rational-action regularization, completion and points identification, the original normal
+subgroup and arbitrary-action classifier, group/chunk/six-point statements, algebraization
+and descent remain obligations. All eight original work items of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
 active and incomplete.
