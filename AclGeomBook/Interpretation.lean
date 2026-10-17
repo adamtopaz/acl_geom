@@ -24,6 +24,7 @@ import AclGeom.Interpretation.TotalTransport
 import AclGeom.Interpretation.Field
 import AclGeom.Interpretation.Naturality
 import AclGeom.Interpretation.CompleteNaturality
+import AclGeom.Interpretation.ClassFieldMap
 import AclGeom.Counterexamples.BlueprintTransport
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Counterexamples.RatioTransitivity
@@ -869,11 +870,11 @@ and both ACF J-completeness hypotheses remain explicit (each supplied at rank fi
 independent bases/universes and including finite bases and characteristics
 zero/two. No helper, global instance or evaluation declaration is added.
 
-The existence theorem does not assert `Induces` compatibility with the
-supplied lattice map or recovery of the base fields; those are proved in the
-reconstruction chapter. General I6b/I6c in their original scope and all literal
-source/TOT obligations remain open; the rank-five global Frobenius setoid is proved above. The
-frozen M4a record is preserved.
+The existence theorem does not assert `Induces` compatibility with the supplied lattice map or
+recovery of the base fields; those are proved in the reconstruction chapter. The original literal
+I6b/I6c construction/provenance clauses remain open pending their clause-by-clause disposition;
+raw totality and the corrected source-setting ratio diagram are proved in this chapter; the
+rank-five global Frobenius setoid is proved above. The frozen M4a record is preserved.
 
 # Field-isomorphism existence for perfect ambient fields
 %%%
@@ -891,6 +892,39 @@ and the closed-lattice order isomorphism, over arbitrary bases and four independ
 universes. It asserts existence of a field isomorphism. Compatibility with the supplied
 lattice map and recovery of the bases are additional conclusions of the public
 reconstruction theorem under its relatively algebraically closed base hypotheses.
+
+# The chosen-class field map and its ratio diagram
+%%%
+tag := "source-setting-class-field-map"
+%%%
+
+The corrected source-setting counterpart of blueprint `interpreted-reconstruction`
+retains the chosen class and the decoding diagram, beyond bare field-isomorphism existence:
+
+{docstring AclGeom.exists_interpretedRingEquiv_ratio}
+
+For arbitrary bases and perfect ambient fields, a closed-lattice order isomorphism and
+source transcendence degree at least five carry the chosen semantic base `j(x₀,a)` to
+an actual semantic image base `j(x₀',a')`. Some `φ : K ≃+* L` satisfies
+`φ(x₁/x₂) = y₁/y₂` whenever the two source semantic tuples map to the two target tuples.
+Each endpoint's independent-pair hypothesis is retained. The target rank bound, both
+characteristic exponents, both completeness proofs and the image base are internal.
+There is no relatively algebraically closed base or infinite-base hypothesis, and all
+four fields have independent universe levels.
+
+The diagram is nonvacuous: source class members normalize to `j(x,a)`, their images lie
+in the target class by Frobenius transport, and the proved target class description
+gives semantic representatives with the common parameter `a'`. The construction uses
+the actual corrected `interpretedRingEquiv`. Its two coordinate equations cancel the
+same nonzero image-base factor, giving the ratio identity without a scalar oracle.
+There is one new public theorem and no helper or generated auxiliary declaration.
+
+This is a source-facing record of the existing corrected interpretation, with a chosen
+class and its ratio diagram. It supplies no new global reconstruction endpoint and does
+not repair the refuted literal decoder. Base recovery and compatibility with the whole
+lattice map remain the stronger RAC-base reconstruction conclusions. The original
+literal construction/provenance obligations, I6b/I6c and the full project goal remain
+separate pending their clause-by-clause disposition.
 
 # Generic arithmetic on the fixed class
 %%%

@@ -28,14 +28,16 @@ are used.  No relative algebraic closedness is needed.  Perfection, rank five an
 J-completeness of both sides and the image-base equality are explicit.
 
 **Status:** corrected conditional scalar one and the outside-point formula are proved (#9,
-R2a/b/c), with both perfections/rank-five bounds, separate exponential characteristics, both
-still-open ACF J-completeness inputs and the actual canonical image-tuple equality explicit. No
-RAC, extra target-genericity/freshness or scalar oracle is assumed. The full tuple-image
-consequence follows from B1 and these laws. The actual inducing/existence consumer is proved in
-`Reconstruct.Existence` for perfect ambient fields under both RAC bases and explicit completeness.
-General unconditional R1/R2, original-field chosen-perfection reconstruction, unconditional
-completeness and the literal/TOT/frozen source obligations remain open. The original scalar
-proof chooses over acl(a,x₀,t₀); the corrected route transports genericity geometrically instead.
+R2a/b/c), with both perfections/rank-five bounds, separate exponential characteristics, both ACF
+J-completeness inputs (proved by `jCompletenessACF`) and the actual canonical image-tuple
+equality explicit. No RAC, extra target-genericity/freshness or scalar oracle is assumed. The
+full tuple-image consequence follows from B1 and these laws. The actual inducing/existence
+consumer is proved in `Reconstruct.Existence` for perfect ambient fields under both RAC bases and
+explicit completeness. `Main` supplies both completeness inputs and proves reconstruction for
+arbitrary chosen perfections of the original fields (`exists_reconstruction`,
+`reconstruction_target`). The original-scope R1/R2 statements (#9), literal source obligations
+(#8) and frozen M4a record remain separate. The original scalar proof chooses over acl(a,x₀,t₀);
+the corrected route transports genericity geometrically instead.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.

@@ -13009,3 +13009,39 @@ structure is asserted. The remaining original construction/provenance dispositio
 separate, including the chosen-class field-map record. Full library/book, exhaustive
 committed-head dependency and exact-head CI evidence is reported on #8. I6b/I6c and the
 durable goal remain open; the original group/chunk and scheme/action obligations remain.
+
+
+## Checkpoint: the source-setting chosen-class field map (#8)
+
+`Interpretation.ClassFieldMap.exists_interpretedRingEquiv_ratio` proves the corrected
+source-setting counterpart of the chosen-class field reconstruction proposition, retaining
+the actual image base and the ratio decoding diagram. It works over arbitrary bases and
+perfect ambient fields at source rank five, in four independent universes. The target
+rank, characteristic exponents, both ACF completeness proofs and semantic image base are
+internal. Each mapped endpoint retains its individual independent-pair hypothesis; there
+is no RAC, infinite-base, target-rank, caller completeness or image-base premise.
+
+The field map is the actual corrected `interpretedRingEquiv`. Its two public coordinate
+equations cancel the same nonzero image-base factor to prove the ratio diagram. Source
+class members and their images have common-parameter semantic representatives, by the
+proved class descriptions and Frobenius transport; the diagram is nonvacuous. There is
+one new public theorem and no helper/private/internal/generated auxiliary declaration.
+This records more than bare field-isomorphism existence, but is not a new global
+reconstruction endpoint. Whole-lattice compatibility and base recovery remain the
+stronger RAC-base reconstruction conclusions; the literal decoder stays refuted.
+
+Both agents independently checked the exact theorem and proof. The combined golden
+retains every one of the 383 preceding selected types and 93 scoped records, adding only
+the four-universe theorem (384 selected standard-axiom declarations and 94 scoped records).
+The two priority stale Scalar/Base headers now distinguish their explicit internal inputs
+from the proved completeness producers and Main's unconditional chosen-perfection
+reconstruction. Their declarations and entire proof bodies are unchanged. The broader
+Frobenius-link/chart-route header audit is retained for a separate cleanup; original
+direct-link normalization, group/chunk and scheme/action obligations remain separate.
+
+All 48 original source statement blocks and 44 proofs are exact. Reversing the recorded
+progress annotations recovers the entire preceding source; the shared objective/completion
+criteria and frozen M4a record are unchanged. Full library/book, clean-head exhaustive
+dependency and exact-head CI evidence is reported on #8. I6b/I6c stay open pending the
+clause-by-clause disposition of the original literal construction/provenance. The durable
+goal and remaining true bypassed source obligations are incomplete.

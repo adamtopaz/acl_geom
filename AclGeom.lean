@@ -263,6 +263,7 @@ import AclGeom.Interpretation.TotalTransport
 import AclGeom.Interpretation.Field
 import AclGeom.Interpretation.Naturality
 import AclGeom.Interpretation.CompleteNaturality
+import AclGeom.Interpretation.ClassFieldMap
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Scalar
 import AclGeom.Reconstruct.Existence

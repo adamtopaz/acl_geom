@@ -177,6 +177,21 @@ TEST-11 is expressed by `geomLit_map_surjective`, `geomLit_map_eq_iff` and
 injectivity after quotienting. The functorial chapter displays their hypotheses and
 conclusions.
 
+# The source-setting class-field diagram
+%%%
+tag := "validation-class-field-diagram"
+%%%
+
+`exists_interpretedRingEquiv_ratio` retains an arbitrary chosen semantic base class and
+the representative decoding diagram `φ(x₁/x₂) = y₁/y₂` for its actual image class. Its
+only mathematical inputs beyond the fields/algebras are perfect ambient fields, source
+rank five, the closed-lattice isomorphism and the source independent pair. Target rank,
+both completeness proofs, characteristic exponents and image-base data are internal.
+No RAC or infinite-base input is assumed. This four-universe theorem has no helper or
+generated auxiliary declaration and keeps the corrected quotient/decoding construction.
+The refuted literal decoder and original source construction/provenance clauses have
+separate dispositions; this adds no new global reconstruction endpoint.
+
 # Reproducing the dependency audit
 %%%
 tag := "validation-dependencies"

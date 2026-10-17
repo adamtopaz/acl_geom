@@ -3031,8 +3031,9 @@ under these inputs, as are corrected ratio semantics and full carrier decoding a
 adjoining zero, corrected total geometric graphs and a named transported field structure.
 Conditional carrier and graph transport is proved below with a supplied canonical
 image-base equality and explicit carrier inputs. Conditional image-base existence and the
-field-isomorphism endpoint are proved below under explicit ACF completeness. Unconditional
-completeness and reconstruction remain open (issues 8 and 23).
+field-isomorphism endpoint are proved below under explicit ACF completeness. The
+source-setting theorem supplies those inputs internally; original literal provenance
+remains separate (issues 8 and 23).
 
 
 \begin{lemma}[coordinate bijection]\label{lem:mu-bij}
@@ -3071,7 +3072,7 @@ independently of the chosen presentation with parameter $a$.
 arbitrary fields, without perfection or configuration completeness.
 \lean{jClassEquiv} and \lean{jClassEquiv_jTupleOf} give the displayed bijection
 and its evaluation law, keeping the class description's perfection, rank-five
-and still-open ACF J-completeness hypotheses explicit. The domain remains
+and proved ACF J-completeness hypotheses explicit. The domain remains
 the geometric Frobenius class. Corrected generic class arithmetic is also proved under
 these inputs. Corrected ratio semantics and full carrier decoding after adjoining
 zero are also proved conditionally below, followed by total geometric graphs and a named
@@ -3425,8 +3426,9 @@ the same inputs, followed by full carrier decoding, corrected total geometric gr
 % a named transported field structure. Unconditional completeness, geometric naturality
 % and interpreted reconstruction remain open.
 a named transported field structure. Conditional carrier and graph transport is proved
-below with the canonical image-base equality and carrier inputs explicit. Image-base
-discharge, unconditional completeness and interpreted reconstruction remain open.
+below with the canonical image-base equality and carrier inputs explicit. Image-base data and
+completeness are supplied internally in the source-setting class-field theorem below. The
+original literal construction/provenance remains separate.
 The corrected predicate is displayed separately below;
 the literal predicate and its refutation remain preserved.
 \end{warning}
@@ -3501,8 +3503,8 @@ under the same inputs as described next, followed by full decoding with an adjoi
 total geometric graphs and a named transported field structure. Conditional carrier
 and graph transport is proved below with the canonical image-base equality and carrier
 inputs explicit. Conditional image-base existence and the field-isomorphism endpoint are proved
-below under explicit ACF completeness. Unconditional completeness and reconstruction
-remain open (issues 8 and 23).
+below under explicit ACF completeness. The source-setting theorem supplies those
+inputs internally. Original literal construction/provenance remains separate (issues 8 and 23).
 The later original definition and proofs retain their
 historical, refuted status.
 
@@ -3540,15 +3542,16 @@ $(j(zt,a),j(t,a))$ of class members, whose ratio is $z$.
 % No global Frobenius setoid is asserted. The later historical literal construction
 % and its proofs are preserved.
 This establishes the nonzero part of Lemma \ref{lem:decode-equiv} for the
-corrected geometric relation. Perfection, rank five and still-open ACF
+corrected geometric relation. Perfection, rank five and proved ACF
 J completeness remain explicit. The uniform rank-five input also supplies
 class soundness; no rank-four completeness theorem is claimed.
 The adjoined-zero extension gives full decoding as described next, followed by total geometric
 graphs and a named transported field structure under the same explicit inputs.
 Conditional carrier and graph transport is proved below with a supplied canonical
 image-base equality and explicit carrier inputs. Conditional image-base existence and the
-field-isomorphism endpoint are proved below under explicit ACF completeness. Unconditional
-completeness and reconstruction remain open (issues 8 and 23).
+field-isomorphism endpoint are proved below under explicit ACF completeness. The
+source-setting theorem supplies those inputs internally; original literal provenance
+remains separate (issues 8 and 23).
 This ratio construction does not use the global Frobenius setoid proved above.
 The later historical literal construction
 and its proofs are preserved.
@@ -3744,15 +3747,16 @@ Bijective decoding gives unique sums: \lean{ratioAddGraph_existsUnique}.
 % explicit. Image-base discharge and reconstruction remain open. The literal graph
 % description and argument below retain their historical/open status.
 Unique products follow from \lean{ratioMulGraph_existsUnique}.
-Both use explicit perfection, rank-five and still-open ACF J-completeness inputs.
+Both use explicit perfection, rank-five and proved ACF J-completeness inputs.
 This proves the corrected counterpart of the operation/TOT part of
 \cref{thm:total-field-graphs}. Common denominators must be existential:
 a specified denominator can put a nonzero numerator sum inside $\acl_k(a)$.
 A named transported field structure is formalized next. Conditional carrier and graph
 transport is proved later with the canonical image-base equality and carrier inputs
 explicit. Conditional image-base existence and the field-isomorphism endpoint are proved below
-under explicit ACF completeness. General inducing reconstruction remains open. The literal graph
-description and argument below retain their historical/open status.
+under explicit ACF completeness, and the source-setting theorem supplies those inputs
+internally. Main proves inducing reconstruction under the genuine RAC/rank-five hypotheses.
+The literal graph description and argument retain their original provenance.
 
 \subsection{The named transported field structure in Lean}
 
@@ -3784,12 +3788,13 @@ $\operatorname{RatioMulGraph}(r,s,t)$ holds exactly when $t=rs$.
 % reconstruction remain open.
 % The following literal construction and argument retain their historical/open status.
 This proves the corrected conditional field-transport obligation after
-\cref{lem:decode-equiv}, under explicit perfection, rank-five and still-open ACF
+\cref{lem:decode-equiv}, under explicit perfection, rank-five and proved ACF
 J-completeness inputs, over arbitrary base fields. Conditional carrier and graph
 transport is proved later with the canonical image-base equality and carrier inputs
 explicit. Conditional image-base existence and the field-isomorphism endpoint are proved below
-under explicit ACF completeness. Unconditional completeness, R1/R2 and interpreted
-reconstruction remain open.
+under explicit ACF completeness. The source-setting class-field theorem supplies
+those inputs internally. The original literal R1/R2 and construction arguments retain
+their separate provenance obligations.
 The following literal construction and argument retain their historical/open status.
 
 \subsection{Geometric graphs of addition and multiplication}
@@ -4002,6 +4007,35 @@ The advertised literal decoder is refuted as explained above; the intended
 field reconstruction is proved using the corrected coupled interpretation.
 \end{remark}
 
+\subsection{The chosen-class field map in the source setting}
+
+The theorem \lean{exists_interpretedRingEquiv_ratio} records the corrected counterpart
+of \cref{prop:interpreted-reconstruction}, retaining the chosen class and its decoding
+diagram. Let the ambient fields be perfect, let $\operatorname{trdeg}(K/k)\geq5$, let
+$e$ be a closed-lattice order isomorphism, and choose an independent pair $(x_0,a)$.
+It supplies an independent target pair $(x_0',a')$ with
+$e\circ j(x_0,a)=j(x_0',a')$, and a field isomorphism $\varphi:K\simeq L$ such that
+\[
+ \varphi(x_1/x_2)=y_1/y_2
+\]
+whenever $e\circ j(x_i,a)=j(y_i,a')$ for $i=1,2$, with all four endpoint independent
+pairs explicit. Arbitrary bases and four independent universes are allowed. Target rank,
+both characteristic exponents, both ACF completeness proofs and image-base data are
+internal; no relative algebraic closedness or infinite-base hypothesis is needed.
+
+The ratio diagram is not vacuous: every source class member has a common-parameter
+semantic representative, and its image has one in the target class by Frobenius
+transport and the proved class description. The field map is the actual corrected
+\lean{interpretedRingEquiv}; its two coordinate equations give the ratio identity by
+cancelling the same nonzero image-base factor. This adds one public theorem and no
+helper or generated auxiliary declaration. It is not a new global reconstruction
+endpoint. Compatibility with the whole lattice map and recovery of the bases remain
+the stronger RAC-base reconstruction conclusions.
+
+The advertised literal decoder remains refuted. The original proposition and proof
+are preserved above; original construction/provenance clauses and the true bypassed
+source statements retain their separate obligations.
+
 \section{Naturality, recovery of the base, and recovery of points}
 
 \subsection{Configuration naturality in Lean}
@@ -4050,11 +4084,12 @@ interpretation-relation transport is proved in the following subsections. Condit
 carrier and operation-graph transport is also proved below, with a supplied canonical
 image-base equality and explicit carrier inputs.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
-explicit ACF completeness. General interpreted reconstruction remains open
-(issues 8 and 23).
+explicit ACF completeness. The source-setting class-field theorem supplies those inputs
+internally. Original literal construction/provenance remains separate (issues 8 and 23).
 The original interpreted reconstruction statement and argument are preserved above;
-this first stage does not discharge the literal source predicates, unconditional
-completeness, base recovery or the scalar-one input.
+this relation-transport stage does not itself discharge literal source predicates
+or prove base recovery or scalar one. The later corrected consumers and Main supply
+the completeness inputs internally.
 
 
 \subsection{Frobenius-link naturality in Lean}
@@ -4120,8 +4155,9 @@ Coupled arithmetic and corrected totalization/ratio transport are proved in the
 following subsections, followed by conditional carrier and operation-graph transport
 with the canonical image-base equality and carrier inputs explicit. Conditional image-base
 existence and the field-isomorphism endpoint are proved below under explicit ACF completeness.
-General interpreted reconstruction, unconditional completeness,
-unconditional base recovery and the scalar-one input remain open (issues 8 and 23).
+The source-setting class-field theorem supplies completeness internally. Main proves
+RAC-base reconstruction; the original literal R1/R2 and construction arguments retain
+their separate provenance obligations (issues 8, 9 and 23).
 All original source statements and proofs retain their provenance.
 
 \subsection{Coupled arithmetic naturality in Lean}
@@ -4177,8 +4213,9 @@ total negation/nonzero addition, ratio equivalence and full-carrier graph preser
 Corrected totalization/ratio transport is proved in the following subsection, followed
 by conditional carrier and operation-graph transport with the image-base equality explicit.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
-explicit ACF completeness. General interpreted reconstruction, unconditional completeness,
-unconditional base recovery and scalar-one inputs remain open (issues 8 and 23).
+explicit ACF completeness. The source-setting class-field theorem supplies those inputs
+internally. Original literal R1/R2 and construction provenance remain separate
+(issues 8, 9 and 23).
 Original statements and proofs are preserved.
 
 \subsection{Corrected totalization and ratio naturality in Lean}
@@ -4232,8 +4269,8 @@ well-definedness and full-carrier graph preservation.
 Conditional carrier and operation-graph transport is proved in the following subsection,
 with the canonical image-base equality and carrier inputs explicit. Conditional image-base
 existence and the field-isomorphism endpoint are proved below under explicit ACF completeness.
-General interpreted reconstruction, unconditional completeness,
-unconditional base recovery and scalar-one inputs remain open (issues 8 and 23).
+The source-setting class-field theorem supplies completeness internally. Original
+literal R1/R2 and construction provenance remain separate (issues 8, 9 and 23).
 All original source statements and proofs are preserved.
 
 \subsection{Conditional carrier and graph naturality in Lean}
@@ -4360,7 +4397,7 @@ ring equivalences. Pointwise forward and inverse composite values are definition
 the decoding diagram commutes by the inverse laws. This proves the corrected counterpart of
 \cref{prop:interpreted-reconstruction}, given the canonical
 image-base equality and both carriers' perfection, rank-five, separate exponential-
-characteristic and still-open ACF-completeness inputs, across independent bases and universes.
+characteristic and proved ACF-completeness inputs, across independent bases and universes.
 The named consumers are the following conditional existence endpoint and conditional base
 recovery and corrected conditional scalar one below.
 Conditional image-base existence and the field-isomorphism endpoint are proved below under
@@ -4388,7 +4425,7 @@ equivalences, yielding
  \operatorname{Nonempty}(K\simeq_{\mathrm{ring}}L).
 \]
 Both perfections, separate exponential-characteristic parameters, source rank five and
-both still-open ACF $J$-completeness inputs remain explicit, across independent bases
+both proved ACF $J$-completeness inputs remain explicit, across independent bases
 and universes. No pair, target rank or image-base equality is supplied to this endpoint.
 
 % Earlier base-recovery progress scope (before conditional R1b; reported on issue 9):
@@ -4485,9 +4522,11 @@ proofs require the corrected interpretation and totalization in unconditional fo
 The accepted corrected total geometric graphs keep ACF completeness explicit;
 conditional carrier and graph transport is proved above with the canonical image-base
 equality and carrier inputs explicit. Conditional image-base existence and the field-isomorphism
-endpoint are proved above under explicit ACF completeness. Unconditional
-completeness and general recovery remain open. Corrected conditional base recovery and scalar
-one are proved below with explicit carrier inputs, with RAC for compatibility only.
+endpoint are proved above under explicit ACF completeness. The source-setting class-field
+theorem supplies completeness internally, and Main proves reconstruction under the genuine
+RAC/rank-five hypotheses. Corrected conditional base recovery and scalar one are proved
+below with explicit carrier inputs, with RAC for compatibility only. Their original literal
+arguments retain separate provenance obligations.
 The scope update was reported on issues 9 and 23 before changing this qualification.
 The original propositions and proofs are preserved below.
 The conditional point propagation later in this section takes their outputs as
@@ -4588,7 +4627,7 @@ base-range equality \lean{CrossBase.Compatible} for \lean{interpretedRingEquiv}.
 % and full reconstruction remain open.
 Both relatively algebraically closed bases and every existing carrier input
 remain explicit for compatibility: both perfections/rank-five bounds, separate
-exponential characteristics, both still-open ACF $J$-completeness hypotheses
+exponential characteristics, both proved ACF $J$-completeness hypotheses
 and the canonical image-base equality. Independent universes, finite bases
 and characteristics zero/two are included. The two accepted no-fresh ratio
 theorems are unchanged. This accepts corrected conditional R1b. Conditional
@@ -4699,7 +4738,7 @@ laws to the existing whole-lattice API are checked independently.
 % general unconditional R1/R2, unconditional completeness and the global,
 % literal, TOT, three-pair, tensor and frozen M4a obligations remain open.
 None of these three theorems assumes RAC. Both perfections/rank-five bounds,
-separate exponential characteristics, both still-open ACF $J$-completeness
+separate exponential characteristics, both proved ACF $J$-completeness
 hypotheses and the actual canonical image-base equality remain explicit.
 No extra target genericity, freshness witness, scalar oracle or rank increase
 is introduced. This accepts corrected conditional R2a/b/c. Conditional

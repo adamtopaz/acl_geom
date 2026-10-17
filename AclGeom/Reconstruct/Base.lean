@@ -39,13 +39,15 @@ derives that equality inline and proves `CrossBase.Compatible` under both RAC ba
 complete (#5/#9, R1a/C7b), without rank, freshness, perfection, completeness or an exponential
 characteristic; base membership names `IsRAC` explicitly. Corrected base recovery for the actual
 `interpretedRingEquiv` is complete (#9, conditional R1b) under both perfections/rank-five bounds,
-separate exponential characteristics, both still-open ACF J-completeness inputs and the canonical
-image-base equality, with both `IsRAC` hypotheses for compatibility. Corrected conditional scalar
-one and outside-point recovery are proved in `Reconstruct.Scalar` under the same carrier inputs,
-without RAC. The actual perfect-field inducing/existence consumer is proved in
-`Reconstruct.Existence` with both RAC bases and completeness explicit. General unconditional
-R1/R2, original-field `Induces` assembly, unconditional completeness, full reconstruction and
-literal source obligations remain open. The two ratio declarations are unchanged.
+separate exponential characteristics, both ACF J-completeness inputs (proved by
+`jCompletenessACF`) and the canonical image-base equality, with both `IsRAC` hypotheses for
+compatibility. Corrected conditional scalar one and outside-point recovery are proved in
+`Reconstruct.Scalar` under the same carrier inputs, without RAC. The actual perfect-field
+inducing/existence consumer is proved in `Reconstruct.Existence` with both RAC bases and
+completeness explicit. `Main` supplies both completeness inputs and proves reconstruction with
+original-field `Induces` assembly (`exists_reconstruction`). The original-scope R1/R2 statements
+(#9) and literal source obligations (#8) remain separate. The two ratio declarations are
+unchanged.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
