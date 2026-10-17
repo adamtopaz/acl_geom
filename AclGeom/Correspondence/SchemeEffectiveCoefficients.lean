@@ -15,7 +15,9 @@ Named consumer: faithful coefficient variation and the actual curve-action genus
 
 **Status:** the effective coefficient field and both tensor-ring action directions are proved
 for a given actual family and parameter-field evaluation. `SchemeEffectiveFunctionField` proves
-the field action and faithful coefficient variation; actual rank and the genus producer remain open.
+the field action and faithful coefficient variation. `SchemeActionGenus` derives the actual chart,
+rank and genus zero after constants in the faithful regular-affine curve case. Original-base
+descent and classification remain open.
 -/
 
 namespace AclGeom.SchemeGenericTranslate

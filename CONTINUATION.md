@@ -95,8 +95,16 @@ it is finite. The finite generation and one-variable hypotheses are derived inte
 place of an actual such curve over an ACF base is a DVR, without needing affineness. Every
 connected regular action on an affine curve now fixes each boundary place and supplies an actual
 fixed place internally. Order closedness comes from the actual action through uniform finite tensor
-sums and algebraic dual separation, in every characteristic. Rational-action regularization,
-completion/points identification and arbitrary-action classification remain open.
+sums and algebraic dual separation, in every characteristic. An actual integral locally finite-
+type group of dimension at least two acting regularly and faithfully on an integral affine
+locally finite-type dimension-one curve over an ACF base now internally supplies an actual
+affine chart, its parameter fraction field, coefficient point-map faithfulness and rank, and
+two independent regular curve variations from the same effective coefficients. Over an
+internally chosen algebraically closed constant extension K, the canonical tensor fraction
+field of the actual generic-stalk k(V) is a one-variable field of genus zero. Domains and all
+rank, separating-parameter and regularity inputs are internal. Original-base genus/rationality
+descent, non-affine and rational-action cases, completion/points identification and arbitrary-
+action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
 The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
@@ -13919,3 +13927,62 @@ input, two independent regular variations and genus. Constant-field rationality/
 descent remains separate. Rational regularization, completion/points identification, the
 normal subgroup and arbitrary-action classifier, group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original #21 items and the full durable goal stay open.
+
+
+## Checkpoint: actual regular-affine action genus zero after constants (#21)
+
+`SchemeGenericTranslate.exists_constantExtension_genus_eq_zero` takes only an ACF base k,
+an integral locally finite-type group object G of dimension at least two, an integral affine
+locally finite-type curve V of dimension one, its actual regular action and the genuine
+global-point kernel criterion. It internally chooses an algebraically closed constant
+extension K and proves genus zero for Frac(K tensor_k actual k(V)). The actual generic-stalk
+base algebra is retained. The tensor domain and one-variable witnesses are returned and
+bound in the conclusion. No chart, parameter-field, coefficient model, rank, separating-
+parameter, variation, regularity, domain, one-variable or genus certificate is supplied.
+This is the regular-affine case after constants; original-base genus descent and the
+non-affine, rational-action and arbitrary-classification obligations remain open.
+
+A finite chain of irreducible closed subsets gives a nonempty affine group chart retaining
+the required dimension bound. Its actual section algebra is finite type and integral, and
+its fraction field has the same lower rank bound. The chart inclusion and canonical map
+from its section algebra to its fraction field supply the actual family and evaluation.
+The original effective function-field producer is called once: the same s, independent v,
+raw cA, C0, lifted c0, field generation, essential finite type, both matrices, actual field
+comparisons and faithful ordinary variation are retained.
+
+Equal restrictions of chart points to the raw coefficient algebra imply equal evaluated
+matrices. Finite algebra generation gives equal tensor-coordinate automorphisms. Their
+literal spectrum pullbacks give equal parameter actions. Transport along the actual affine
+presentation and the terminal-parameter comparison reduces to the point-action kernel.
+The chart monomorphism gives equality of chart points. The coefficient-ring map into C0 and
+all scalar towers are constructed internally. The existing tensor-diagonal theorem then
+makes the parameter field algebraic over C0, allowing pure inseparability. The transcendence
+rank bound passes to C0 and its finite generation gives two independent ordinary derivations.
+
+The actual curve field's dimension and finite generation supply a separating parameter.
+The same faithful variation map sends the two coefficient derivations to independent
+coefficient-linear curve derivations, regular at every proper valuation subring containing
+C0. Only these curve derivations extend to the algebraic closure K of C0, using Mathlib's
+canonical algebra/tower structures. The ordinary coefficient derivations are never extended
+to a perfect or algebraically closed field. The canonical larger tensor fraction field is
+one-variable and its two independent regular derivations give genus zero.
+
+The generic matrix/containment criteria expose their premises; the actual genus consumer
+derives them. The shared finite-type section lemma is also used by the existing coefficient-
+family producer. The new source module split preserves the independently checked mathematical
+bodies, with literal extraction of that shared lemma. Six complete public signatures have
+been read in full. The independent audit finds four consumed private lemmas and three
+consumed generated internal proofs, all using standard axioms. Two unused generated public
+exports found during review were eliminated by explicit proof rewrites; none is retained.
+The issue report records full repository/book gates, the selected-scope and fresh whole-library
+checks, committed-head validation and exact CI. A finite inventory is not a coverage certificate.
+Original statement/proof/TEST blocks, the goal completion core and frozen M4a history are exact.
+
+Next: descend genus/rationality from the internally chosen constant extension to the original
+k(V), then continue the original normal-subgroup and arbitrary-action classifier. Non-affine
+and rational-action cases, regularization, completion/points identification, original group/
+chunk/six-point results, algebraization/descent and all true bypassed auxiliaries remain owed.
+`aclgeom.claude` retains the separately coordinated source-only constant-field descent task;
+no fresh peer proof approval is claimed. All eight original #21 items stay open and the full
+durable goal remains active and incomplete. Earlier checkpoint sections record their then-
+current frontiers; this checkpoint supplies their regular-affine genus consumer after constants.

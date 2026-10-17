@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import AclGeom.Correspondence.SchemeParameterBaseChange
-import AclGeom.Correspondence.SchemeGenericTranslate
+import AclGeom.Correspondence.SchemeFiniteTypeSections
 import Mathlib.LinearAlgebra.TensorProduct.Basis
 import Mathlib.RingTheory.FiniteType
 
@@ -18,8 +18,10 @@ Named consumer: its effective coefficient field and the actual point-map faithfu
 
 **Status:** the finite coefficient family is proved for regular actions on affine finite-type
 schemes over arbitrary fields. `SchemeEffectiveCoefficients` constructs its effective field and
-tensor-ring descent; `SchemeEffectiveFunctionField` proves the field action and faithful variation
-for given families over an ACF base. Actual point-map rank and the genus producer remain open.
+tensor-ring descent; `SchemeEffectiveFunctionField` proves the field action and faithful variation.
+`SchemeActionGenus` internally derives rank and genus zero after constants for actual faithful
+regular affine curve actions over an ACF base. Original-base descent and classification remain
+open.
 -/
 
 namespace AclGeom.SchemeParameterAction
@@ -134,14 +136,7 @@ theorem exists_generating_sectionsCoefficients
           sectionsTensorAut V (f ≫ (if e then g else g⁻¹))
               (1 ⊗ₜ[k] (i : Γ(V.left, ⊤))) =
             ∑ j, φ (c e i j) ⊗ₜ[k] v j := by
-  have : Algebra.FiniteType k Γ(V.left, ⊤) := by
-    have h := (V.hom.finiteType_appLE (isAffineOpen_top _) (isAffineOpen_top V.left)
-      (by simp)).comp (RingHom.FiniteType.of_surjective _
-        (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of k)).inv).2)
-    have htop : V.hom.appLE ⊤ ⊤ (by simp) = V.hom.appTop :=
-      Scheme.Hom.appLE_eq_app V.hom
-    rw [htop] at h
-    exact h
+  have : Algebra.FiniteType k Γ(V.left, ⊤) := finiteType_sections V
   have : IsMonHom (Iso.refl G).hom := inferInstanceAs (IsMonHom (𝟙 G))
   let : ModObj G ((Spec (.of Γ(V.left, ⊤))).asOver (Spec (.of k))) :=
     ModObj.ofIso (Iso.refl G) (sectionsSpecIso V)

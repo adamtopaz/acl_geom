@@ -2219,9 +2219,20 @@ independent sections and field generators
 finite matrix premises are derived internally. The formal Frobenius affine-family example
 (\lean{field_point_faithfulness_does_not_detect_coefficient_derivations}) refutes the attempted
 coefficient-detection inference from field-point faithfulness over the original parameter
-field; it does not refute this source lemma. Choosing the actual group chart and parameter
-field, point-map faithfulness/rank, independent regular variations, the genus producer and
-constant-field rationality/genus-zero descent remain open.
+field; it does not refute this source lemma. For an integral locally finite-type group of
+dimension at least two acting regularly and faithfully on an integral affine locally finite-type
+curve of dimension one over an algebraically closed base, the actual chart and parameter
+fraction field are now chosen internally. The same raw matrix gives point-map faithfulness,
+algebraicity over the effective coefficient field allowing inseparability, its rank bound and
+two independent regular curve variations. An internally chosen algebraically closed constant
+extension $K$ gives genus zero for the canonical field
+$\operatorname{Frac}(K\otimes_k k(V))$, with the actual generic-stalk $k(V)$, domains and
+one-variable witnesses internal
+(\lean{SchemeGenericTranslate.exists_constantExtension_genus_eq_zero}). Only the
+coefficient-linear curve variations are extended to $K$; ordinary coefficient derivations
+remain over the effective field. No chart, coefficient, rank, variation, regularity or genus
+certificate is a caller premise. Original-base rationality/genus-zero descent and non-affine
+and rational-action cases remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action
 regularization and the arbitrary-action classifier remain open. All eight original issue-21 work items stay open. The original lemma and

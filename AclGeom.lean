@@ -304,3 +304,5 @@ import AclGeom.Correspondence.SchemePlaceFixed
 import AclGeom.Functorial.ChoiceIndependence
 import AclGeom.Test.Validation
 import AclGeom.Test.TwoGenericSource
+
+import AclGeom.Correspondence.SchemeActionGenus
