@@ -19,6 +19,7 @@ import AclGeom.Correspondence.SchemePlaceFixed
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
+import AclGeom.Correspondence.PointwiseFaithfulness
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.Family
@@ -1983,3 +1984,59 @@ six-point and normal-subgroup producers, arbitrary-action classification, algebr
 descent remain separate obligations. No field/place-faithfulness equivalence is asserted.
 All eight original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain
 open; the full shared goal remains active and incomplete.
+
+
+# Faithful point parameters retain their field rank
+%%%
+tag := "faithful-point-coefficient-fields"
+%%%
+
+Over an algebraically closed field k, a finite-type domain A has enough k-points to detect
+nilpotence. Suppose restriction of its k-points to a coefficient ring B is injective. Let E
+be its fraction field and let C be a compatible coefficient field inside E. Then E is
+algebraic over C. All scalar maps and their compatibility remain visible in the theorem.
+The coefficient ring B need not itself be a domain or of finite type, and the five types
+may have independent universes.
+
+{docstring AclGeom.isAlgebraic_fractionRing_of_injective_points}
+
+This proves an algebraic input for the generic-action coefficient field in Lemma 8.4.
+It does not yet construct that field from a scheme action or prove its point-map faithfulness.
+No derivative, coefficient-variation or genus certificate is assumed or concluded here.
+
+An element of a finite-type k-algebra that vanishes at every k-point belongs to its
+nilradical. The proof uses the Jacobson property and the residue field at each maximal
+ideal: it is finite over k and hence embeds back into k. The algebra need not be reduced.
+
+{docstring AclGeom.isNilpotent_of_forall_algHom_eq_zero}
+
+A k-point of the tensor product of A with itself over B is a pair of k-points agreeing
+on B. Injective restriction makes them equal, so every tensor diagonal r tensor 1 minus
+1 tensor r is nilpotent.
+
+{docstring AclGeom.tensor_diagonal_isNilpotent_of_injective_points}
+
+If an element r is transcendental over a field, its powers are linearly independent.
+Flat extension of constants preserves that independence, so 1 tensor r is still
+transcendental over the left field.
+
+{docstring AclGeom.transcendental_one_tmul}
+
+Its tensor diagonal cannot be nilpotent: a nilpotent element is algebraic, and adding the
+left-field constant would make 1 tensor r algebraic. Mapping the coordinate-ring tensor
+diagonal into the tensor product of E with itself over C shows that every coordinate is
+algebraic over C. Writing a fraction as a quotient of two coordinates finishes the theorem.
+
+{docstring AclGeom.not_isNilpotent_tensor_diagonal}
+
+Nilpotence is essential: the field tensor product can be nonreduced in positive
+characteristic. The argument allows purely inseparable extensions and does not infer
+infinitesimal faithfulness from faithfulness on base-field points.
+
+The actual scheme-action coefficient-map construction, its rank comparison, faithful
+coefficient variation and genus-zero producer remain open. Constant-field rationality/genus
+zero descent is a separate next consumer. Rational-action regularization, the non-affine
+completion/points bridge, the normal-subgroup and arbitrary-action classification, original
+group/chunk/six-point producers, algebraization and descent remain obligations. All eight
+original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open;
+the full shared goal remains active and incomplete.

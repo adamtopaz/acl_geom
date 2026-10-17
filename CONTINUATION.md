@@ -13699,3 +13699,38 @@ rational-action regularization, non-affine completion/points bridge and extensio
 original group/chunk/six-point/normal-subgroup producers, arbitrary-action classification,
 algebraization and descent remain owed. No field/place-faithfulness equivalence is asserted.
 All eight original #21 work items remain open; the full durable goal stays active and incomplete.
+
+
+## Checkpoint: faithful point parameters and coefficient-field algebraicity (#21)
+
+`Correspondence.PointwiseFaithfulness` proves
+`isAlgebraic_fractionRing_of_injective_points`. Over an ACF base k, let A be a finite-type
+domain, B a coefficient ring and E its fraction field. For a compatible field C containing
+the coefficient image, injectivity of Hom_k(A,k) -> Hom_k(B,k) restriction implies that E/C
+is algebraic. All scalar maps and both compatibility towers remain explicit. The coefficient
+ring need not be a domain or finite type; k,B,A,C,E have independent universes. Purely
+inseparable extensions are permitted. No derivative, variation or genus premise is used.
+
+The proof first makes every tensor diagonal in A tensor_B A nilpotent: each k-point is a
+pair agreeing on B, hence equal, and the Jacobson/Nullstellensatz argument detects the
+nilradical of any finite-type k-algebra, including nonreduced ones. Powers of a transcendental
+element stay linearly independent after flat extension of constants; consequently its
+field-tensor diagonal is not nilpotent. Mapping the coordinate diagonal to E tensor_C E
+shows that every element of A is algebraic over C. Fractions finish the argument.
+
+The new module has five public API theorems and one consumed internal proof field, with no
+private declarations or generated public equations. The checkpoint report records strict
+checks, full types/dependencies/consumers, parent preservation, rendered book content and full
+library/book validation with exact-head CI. All original source statement/proof/TEST blocks,
+shared objective/completion core and frozen M4a history retain their provenance. A finite
+inventory is not a source-coverage certificate.
+
+This is the algebraic input for retaining the actual generic-action coefficient rank.
+The coefficient map and its faithfulness still have to be constructed from the actual scheme
+action. Generic-translate producers remain isolated while their actual function-field
+comparison is completed; they are not on main at this checkpoint. Coefficient variation,
+the genus producer and constant-field rationality/genus-zero descent remain open. The source
+rational-action regularization, completion/points bridge, original normal-subgroup and
+arbitrary-action classifier, group/chunk/six-point producers, algebraization and descent
+remain obligations. All eight original #21 rows stay open; the durable goal is active
+and incomplete.

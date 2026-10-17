@@ -28,6 +28,7 @@ import AclGeom.Correspondence.LocusDimension
 import AclGeom.Correspondence.LocusGenericFiber
 import AclGeom.Correspondence.Regular
 import AclGeom.Correspondence.RegularACF
+import AclGeom.Correspondence.PointwiseFaithfulness
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
 import AclGeom.Correspondence.AmbientAutomorphism
