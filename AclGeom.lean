@@ -287,6 +287,7 @@ import AclGeom.Transfer.JCorrectness
 import AclGeom.Transfer.MulDiagramProduct
 import AclGeom.Transfer.ProjectedConfigurations
 import AclGeom.Transfer.JRigidityStatement
+import AclGeom.Correspondence.CurveCosetAdditive
 import AclGeom.Functorial.ChoiceIndependence
 import AclGeom.Test.Validation
 import AclGeom.Test.TwoGenericSource

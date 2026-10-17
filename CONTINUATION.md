@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-17; #32)
+## Current status (2026-10-17; #5)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
@@ -68,7 +68,11 @@ normalized common Frobenius exponent over arbitrary bases and perfect ambient fi
 without a rank bound, supplied freshness or completeness. The literal integer uniqueness
 is refuted in characteristic zero, where the pair is equal and every integer works; the
 normalized exponent is zero. Original statements/proofs and both downstream proof
-qualifications retain their provenance (#32). The general curve-coset lemma remains open.
+qualifications retain their provenance (#32). The additive finite-correspondence case of
+curve-coset now constructs the actual closed subgroup, its prime principal ideal, connected
+coordinate spectrum, dimension one, both nonconstant projections and all three ideal/point
+cosets over ACF base and ambient fields, with no caller rank/freshness/completeness input.
+The general curve-coset lemma, torus case and constant-coordinate curves remain open.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -13389,3 +13393,52 @@ Full library/book, four strict modules, selected and whole-library dependency ch
 independent peer review and exact-head CI are reported on #32 before this checkpoint is
 final. The full durable goal and original/supplementary group/chunk, coherent-cover,
 general curve-coset, curve/scheme/action, algebraization and descent obligations stay open.
+
+
+## Checkpoint: additive finite-correspondence curve cosets (#5)
+
+`Correspondence.CurveCosetAdditive` proves
+`curveCoset_additive_of_finiteCorrespondence`, the additive finite-correspondence instance
+of source `lem:curve-coset`. Its inputs are actual pairs `(x₁,y₁)`, `(x₂,y₂)` with equal
+coordinate points, independent `x₁,x₂` and equal points of their sums, over ACF k and Ω.
+It needs no ambient-rank, caller freshness or completeness premise. The two field
+universes are independent. This proves the source additive-correspondence proof
+step followed by `addSubgroup_classification_of_connected`; Lean `addcorr` uses a
+different route.
+
+The theorem constructs an actual `AddSubgroup (Fin 2 → k)`, a prime generator F and
+base-field vectors g₁,g₂. It gives the canonical ideal I(H)=span{F}, exact closedness,
+connected prime spectrum of the canonical coordinate quotient, Krull dimension one,
+and both nonconstant projection witnesses. The three original generic curve ideals
+are exactly span{translate(-g₁) F}, span{translate(-g₂) F} and
+span{translate(-(g₁+g₂)) F}. Their base-field point loci are the three corresponding
+cosets. FreshAmbient supplies the additive core's two fresh elements internally;
+injectivity reflects the constant-value equations. Algebraically closed base-field
+roots choose the translations. Prime association, Nullstellensatz and Krull dimension
+then provide the actual subgroup data; no private declaration is promoted.
+
+The peer wrote the mathematical leaf a1d5939b. Its initial elaboration failure and the
+two intermediate inventory guard failures are retained in the peer evidence. The latter
+had three ordinary simp-generated equality lemmas, all with standard axioms, consumed
+only by the theorem. An explicit diagnostic checked their complete proof terms and
+consumers. The final proof replaces those simp arguments by direct rewrites/membership
+proofs; its full theorem type remains byte-identical to both intermediate versions.
+It has exactly one public declaration, two universes, type hash 3687643288 and no helper,
+private, internal or generated additions. No checking option was weakened.
+
+The final peer family passed under the canonical 20 GB cap. Root independently compiled
+that exact leaf and its shadow root import; all five Lean phases passed on their first
+try. A final Python path-parenthesization typo was corrected offline without repeating
+any passed phase. The final inventory and complete type agree exactly with the peer;
+all 392 preceding selected types and 102 preceding scoped declaration records stay exact.
+Integration copies that mathematical leaf verbatim. The source note is outside the
+original lemma/proof, and all original statement/proof blocks, TEST clauses, shared goal
+objective/completion core and frozen 117-item M4a history are preserved.
+
+Full library/book, strict leaf/root, selected and exhaustive dependency checks, peer
+review and exact-head CI are recorded on #5 before this checkpoint is final. The general
+connected-algebraic-group lemma, including the noncommutative g₁H/Hg₂ conclusion, its
+torus instance and constant-coordinate curves remain open. The curve-coset checklist
+row stays unchecked. Original group/chunk, coherent-cover, six-point, affine-action,
+scheme/action, algebraization and descent obligations and the full durable goal remain
+open. This restricted additive theorem does not complete the project.

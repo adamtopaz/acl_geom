@@ -8,6 +8,7 @@ import AclGeom.Correspondence.JRigidity
 import AclGeom.Transfer.JRigidityStatement
 import AclGeom.Correspondence.AdditiveThreePair
 import AclGeom.Correspondence.AdditiveSubgroupConnected
+import AclGeom.Correspondence.CurveCosetAdditive
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
@@ -1593,3 +1594,44 @@ the source annotations qualify the original orbit/polynomial arguments without c
 the proof blocks. The main reconstruction target already restricted exponent uniqueness
 to positive characteristic and is unchanged. Original group/chunk, coherent-cover,
 general curve-coset and scheme/action obligations remain open.
+
+
+# Additive finite-correspondence curves as cosets
+%%%
+tag := "additive-finite-correspondence-cosets"
+%%%
+
+The additive finite-correspondence case of blueprint `curve-coset` is now proved over
+algebraically closed base and ambient fields. Take actual pairs `(x₁,y₁)` and `(x₂,y₂)`
+with `[xᵢ]=[yᵢ]`, independent `x₁,x₂`, and `[x₁+x₂]=[y₁+y₂]`. The third curve is the
+locus of their sum. Both projections of each curve are nonconstant.
+
+{docstring AclGeom.curveCoset_additive_of_finiteCorrespondence}
+
+The conclusion constructs an actual additive subgroup `H ⊆ k²`, a prime polynomial
+`F` and two base-field vectors `g₁,g₂`. Its canonical vanishing ideal is exactly
+`span{F}` and its zero locus is `H`. The prime spectrum of `k[X₀,X₁]/I(H)` is connected
+and its Krull dimension is one. Separate witnesses show that both projections of `H`
+are nonconstant. These supply all the hypotheses of the already proved
+`AclGeom.addSubgroup_classification_of_connected`, the next step of the source
+additive-correspondence proof.
+
+All three actual curve ideals are the principal ideals of the corresponding translated
+polynomial. Their base-field point loci are exactly `g₁+H`, `g₂+H` and `(g₁+g₂)+H`.
+The sign of the polynomial translation is negative: a coset `g+H` has equation
+`translate (-g) F = 0`. The two field universes are independent. There is no ambient-rank,
+supplied freshness or completeness premise.
+
+The proof supplies the additive core's fresh elements internally in `FreshAmbient Ω`,
+then reflects its two constant-value equations to the original ambient field. Roots
+over the algebraically closed base choose the translations. Prime generators identify
+the three curve ideals; the Nullstellensatz gives the subgroup's canonical ideal.
+A translated nonzerodivisor in a maximal ideal of height two gives dimension one, and
+the prime quotient gives connectedness. The third constant is the sum of the first two.
+
+This is one new public theorem, with standard axioms and no helper, private, internal
+or generated additions. It proves the additive finite-correspondence instance used in
+the source's additive-correspondence argument. The general connected-algebraic-group
+lemma, the torus case and curves with a constant coordinate remain open on
+[#5](https://github.com/adamtopaz/acl_geom/issues/5). The noncommutative `g₁H` and `Hg₂`
+conclusion is not supplied by this additive theorem. The full shared goal remains open.
