@@ -13817,3 +13817,45 @@ Rational-action regularization, completion/points identification, the original n
 subgroup and arbitrary-action classifier, group/chunk/six-point producers, algebraization
 and descent remain obligations. All eight original #21 work items stay open; the full durable
 goal remains active and incomplete.
+
+
+## Checkpoint: the actual effective coefficient field and tensor-ring descent (#21)
+
+`SchemeGenericTranslate.exists_effective_sectionsTensorAut` constructs the effective
+coefficient field C0 inside any field C receiving a parameter-algebra map A -> C, for a
+G-action on an affine locally finite-type V over any field k and an actual Spec A-family g.
+It retains the same internally chosen algebra generators, k-independent sections and raw
+A-coefficients, together with every parameter-algebra evaluation formula from the previous
+checkpoint. C0 is exactly the field adjoin of the evaluated forward and inverse coefficients.
+The coefficient lifts generate C0 over k; essential finite type is derived internally.
+The actual tensor-coordinate automorphism and its inverse descend to C0 tensor Gamma(V),
+with their matrix formulas and literal comparison after the canonical injection into
+C tensor Gamma(V). No coefficient model, invariant-image, finite-generation or coordinate-
+action certificate is supplied by the caller. The given family g and field evaluation remain
+explicit inputs; this checkpoint does not select the actual group chart or parameter field.
+
+`TensorCoefficientDescent.exists_effective_tensorAut` constructs this field, its coefficient
+lifts and both descended matrix formulas from any such finite matrix. Its consumed restriction
+criterion `exists_tensorAut_of_generator_images` uses flatness to inject C0 tensor R into
+C tensor R, finite algebra generation to prove invariance of its image in both directions,
+and existing Mathlib range equivalences to restrict the automorphism. Both finite-image
+hypotheses of the criterion are discharged by the actual matrix in the scheme consumer.
+No ACF, domain, integrality or faithfulness hypothesis is used for this tensor-ring descent.
+
+Exactly three new module declarations are public theorems, with no private/internal or
+public equation/congruence wrappers. The restriction criterion is consumed by the finite-matrix
+constructor, which is consumed by the actual scheme producer. All three expanded public
+types were read in full; their dependencies are standard Lean axioms. The checkpoint issue
+report records full library/book checks, parent preservation and exact-head CI evidence.
+Original source statements/proofs/TEST blocks and the shared objective/completion core retain
+their provenance; source scope has not been narrowed.
+
+Next are the fraction-field lift and actual function-field comparison, choosing the actual
+group chart and parameter field, point-map faithfulness/rank, faithful coefficient variation
+and the genus producer. These must use the same raw matrix and effective field, with their
+needed hypotheses derived internally. Constant-field rationality/genus-zero descent remains
+separate. The formal Frobenius-twist refutation remains due alongside the corrected variation
+producer; ordinary infinitesimal faithfulness does not follow from field-point faithfulness.
+Rational regularization, completion/points identification, the original normal subgroup and
+arbitrary-action classifier, group/chunk/six-point producers, algebraization and descent remain
+obligations. All eight original #21 items stay open; the full durable goal remains active.
