@@ -9,6 +9,7 @@ import AclGeom.Transfer.JRigidityStatement
 import AclGeom.Correspondence.AdditiveThreePair
 import AclGeom.Correspondence.AdditiveSubgroupConnected
 import AclGeom.Correspondence.CurveCosetAdditive
+import AclGeom.Correspondence.CurveCosetCommutative
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
@@ -232,7 +233,7 @@ subsection through generic-extension (a)--(c). The two source qualifications
 remain: the joint component field can be properly larger than its endpoint
 image field, and an infinite absolute-degree equality alone does not imply
 independence. Field freeness supplies the latter conclusion. The original
-group/chunk, six-point, affine-action, curve-coset and coherent branch/normal-cover
+group/chunk, six-point, affine-action and coherent branch/normal-cover
 obligations remain separate. The selected parameter-family component identities
 are proved in the configuration chapter.
 
@@ -1387,7 +1388,8 @@ universal-domain hypothesis: they pass to the algebraically closed extension
 the injective embedding. Closure transport reuses `algHom_racl_image_eq_of_racl_eq`.
 The additive theorem omits the unused independence premise for the second triple and is
 therefore stronger than the source statement. The separate additive- and torus-subgroup
-classifications are proved below. The general curve-coset lemma remains an obligation.
+classifications are proved below. The general curve-coset lemma is proved at the end of
+this chapter.
 
 # Connected additive subgroups
 %%%
@@ -1419,7 +1421,7 @@ characteristic zero and `IsAdditive.coeff_eq_zero_of_ne_pow` in characteristic `
 the polynomials are linear in the first case and have only `p`-power exponents in the
 second. These give the additive part of blueprint `subgroup-classification` in its
 connected source scope. The multiplicative part follows next; the general curve-coset
-lemma remains open.
+lemma is proved at the end of this chapter.
 
 # Connected subgroups of the torus
 %%%
@@ -1454,7 +1456,7 @@ nonconstant projections make both exponents nonzero. Bézout's identity parametr
 primitive character kernel. If the subgroup missed a point of that kernel, a nonzero
 one-variable polynomial would make its preimage finite, contradicting infinitude of the
 subgroup. Translation then gives every coset equation. This proves part (b) of blueprint
-`subgroup-classification`; the general curve-coset result remains a separate obligation.
+`subgroup-classification`; the general curve-coset result is proved at the end of this chapter.
 
 # The simultaneous-coset lemma
 %%%
@@ -1542,7 +1544,7 @@ characteristic. The next section supplies its freshness internally and records t
 integer-uniqueness correction. The original three-pair additive and multiplicative
 correspondence statements are proved above without freshness hypotheses. The connected
 additive- and torus-subgroup classifications are also proved. The general curve-coset
-statement, coherent branch triples and their common normal cover remain open
+statement is proved below. Coherent branch triples and their common normal cover remain open
 in #5. The selected parameter-family component identities are proved in the configuration
 chapter. The geometric generic-point presentation bridge and full finite-coordinate
 generic-extension lemma are proved above, with the necessary ambient-size
@@ -1593,7 +1595,7 @@ uses equality of the pair directly there. Their true statements are already prov
 the source annotations qualify the original orbit/polynomial arguments without changing
 the proof blocks. The main reconstruction target already restricted exponent uniqueness
 to positive characteristic and is unchanged. Original group/chunk, coherent-cover,
-general curve-coset and scheme/action obligations remain open.
+scheme/action obligations remain open.
 
 
 # Additive finite-correspondence curves as cosets
@@ -1629,9 +1631,56 @@ the three curve ideals; the Nullstellensatz gives the subgroup's canonical ideal
 A translated nonzerodivisor in a maximal ideal of height two gives dimension one, and
 the prime quotient gives connectedness. The third constant is the sum of the first two.
 
-This is one new public theorem, with standard axioms and no helper, private, internal
-or generated additions. It proves the additive finite-correspondence instance used in
-the source's additive-correspondence argument. The general connected-algebraic-group
-lemma, the torus case and curves with a constant coordinate remain open on
-[#5](https://github.com/adamtopaz/acl_geom/issues/5). The noncommutative `g₁H` and `Hg₂`
-conclusion is not supplied by this additive theorem. The full shared goal remains open.
+This additive theorem has standard axioms and no helper, private, internal or generated
+additions. Its explicit polynomial ideals, projection witnesses and field-tuple input supply
+the source additive-correspondence argument. These retain their own useful scope alongside
+the general group theorem below. It allows abstract torus and constant-coordinate cases
+once the ambient group is presented as an `AlgebraicGroup`; no concrete such object is
+constructed in this chapter.
+The full shared goal remains open on [#5](https://github.com/adamtopaz/acl_geom/issues/5).
+
+
+# Generic curve products in algebraic groups
+%%%
+tag := "general-curve-cosets"
+%%%
+
+Blueprint `lem:curve-coset` is proved for closed irreducible curves in an algebraic group
+over an algebraically closed field. The ambient group need not be connected. Independence
+of the two generic points is expressed by a jointly generic point of the actual scheme
+product of their reduced induced subschemes. Its product need only belong to the third
+curve; the source's stronger genericity assumption implies this membership.
+
+{docstring AclGeom.curveCoset_of_genericProduct}
+
+The result constructs a `ConnectedAlgebraicGroup`, a genuine group morphism into the
+ambient group, a closed immersion and dimension one. Writing its image as `H`, the three
+curves are exactly `g₁ H`, `H g₂` and `g₁ H g₂`. There is no supplied subgroup, product
+irreducibility, operator restriction, ambient rank, freshness or completeness premise.
+The statement permits abstract torus and constant-coordinate cases once the ambient
+group is presented as an `AlgebraicGroup`. No concrete additive-plane or torus group
+object is constructed here; the earlier additive theorem has its own coordinate interface.
+
+For a commutative ambient group, all three are left cosets of the same subgroup:
+
+{docstring AclGeom.curveCoset_of_genericProduct_commutative}
+
+The proof first establishes integrality of the actual product of integral schemes over
+an algebraically closed field. It uses the existing domain theorem for tensor products
+of fields and scheme-theoretic dominance under flat base change. It does not identify the
+scheme product with the ordinary product topology. Closed-point density then turns the
+generic-product input into the product condition on all base-field points.
+
+Each translate of the first curve by a point of the second is a closed curve in the third
+of the same dimension, hence equal to it. A sandwich between two translated curves gives
+the closed subgroup set. The reduced induced scheme carries actual restricted unit,
+multiplication and inverse morphisms; a monic inclusion checks all group laws.
+
+{docstring AclGeom.exists_connectedClosedSubgroup_of_points}
+
+Finite type, quasi-compactness, separatedness and geometric integrality are derived.
+Thus the conclusion supplies the algebraic subgroup itself, rather than leaving its
+scheme structure as an open hypothesis. The source's original statement and proof remain
+preserved. Original group/chunk, six-point, affine-action, coherent-cover, algebraization
+and scheme/action/descent obligations remain open; this theorem does not supply an
+ambient algebraic group for an earlier group-extraction argument.

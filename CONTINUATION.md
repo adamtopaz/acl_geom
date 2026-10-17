@@ -72,7 +72,15 @@ qualifications retain their provenance (#32). The additive finite-correspondence
 curve-coset now constructs the actual closed subgroup, its prime principal ideal, connected
 coordinate spectrum, dimension one, both nonconstant projections and all three ideal/point
 cosets over ACF base and ambient fields, with no caller rank/freshness/completeness input.
-The general curve-coset lemma, torus case and constant-coordinate curves remain open.
+The general curve-coset lemma is now proved for closed irreducible curves over an ACF base,
+with an actual connected one-dimensional algebraic subgroup, a closed-immersion group morphism
+and all three noncommutative cosets. The commutative clause gives three left cosets of the
+same subgroup. The ambient group need not be connected. The existential jointly generic
+scheme-product input only requires its product to lie in the third curve; product integrality
+and all restricted group operations are derived. Abstract torus and constant-coordinate
+cases are permitted once the ambient group is presented as an AlgebraicGroup; this checkpoint
+constructs no concrete additive-plane or torus group object. The earlier additive theorem has
+its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
 items 1–117 remain frozen.
 
@@ -267,7 +275,7 @@ Current coverage overview (precise hypotheses and source obligations are in PROJ
 |---|---|
 | Foundations, perfection | Closure lattices, points, rank/independence transport, all-characteristic perfections and chosen-perfection naturality are proved. The public reconstruction target has the genuine RAC/source-rank-five hypotheses and supplies both ACF completeness proofs internally. Point reconstruction, automorphism variants, literal functor laws/exact fibres, the rank-five fully faithful Frobenius quotient and perfection-choice equivalence are proved. |
 | Configurations | Q/Q′/J soundness, geometric transport and semantic J assembly are proved in their stated scopes. The guarded affine-grid chart and Q completeness are proved for every ACF pair, keeping both guards explicit. The multiplication converse gives rank-five ACF Q′ and J completeness. Unguarded Q and arbitrary-field Q/Q′ correctness have proved refutations (#25/#27); general existential-witness descent and the remaining original group/chunk/action obligations stay open. |
-| Hard kernel | The source three-pair additive and literal multiplicative correspondence theorems, simultaneous-coset classification, j-rigidity and both connected additive/torus subgroup classifications are proved. Generic-point field freeness and numerical field degrees are proved; field-theoretic tensor components realize composite germs in an ACF ambient over an arbitrary base. The geometric fiber-product identification, packaged generic extension, general curve-coset, original group/chunk/six-point and scheme/action statements remain open (#5/#12/#21). |
+| Hard kernel | The source three-pair additive and literal multiplicative correspondence theorems, simultaneous-coset classification, j-rigidity and both connected additive/torus subgroup classifications are proved. Generic-point field freeness and numerical field degrees are proved; field-theoretic tensor components realize composite germs in an ACF ambient over an arbitrary base. The general curve-coset statement is proved with an actual connected closed algebraic subgroup. Original group/chunk/six-point and scheme/action statements remain open (#5/#12/#21); later dated checkpoints record the proved geometric and generic-extension bridges. |
 | Transfer | T1–T3, point/configuration lifts and their explicit-instance reflections are proved. Four-way J descent and geometric/semantic J correctness hold over perfect ambient fields at rank five, with no RAC or infinite-base hypothesis. General existential-witness descent remains a separate obligation (#7/#25). |
 | Interpretation, reconstruction, functorial | Corrected coupled interpretation semantics and the generic internal APIs under explicit carrier/completeness inputs are proved. The public reconstruction theorem discharges those completeness inputs internally. Frobenius kernel/uniqueness, public variants and perfection-choice equivalence are proved. The original two-generic embedded-field assertions have separate source validation, including the normal envelope and extension fixing the other rational field. Literal full-carrier TOT/ratio and original general interpretation/provenance obligations remain open (#8/#9/#23). |
 
@@ -275,7 +283,7 @@ Current priorities:
 
 1. Advance the remaining original and supplementary source mathematics, including the
    coordinate-ring/localization bridge to geometric fiber products, packaged generic extension,
-   general curve-coset, group/chunk/six-point and original scheme/action statements (#5/#12/#21).
+   group/chunk/six-point and original scheme/action statements (#5/#12/#21).
 2. Complete the source validation/disposition ledger and the literal interpretation/provenance
    work (#8–#10/#23), retaining every refutation and justified correction (#22/#25/#27/#31).
    True bypassed source statements remain obligations; the frozen M4a history is not a new
@@ -13442,3 +13450,48 @@ torus instance and constant-coordinate curves remain open. The curve-coset check
 row stays unchecked. Original group/chunk, coherent-cover, six-point, affine-action,
 scheme/action, algebraization and descent obligations and the full durable goal remain
 open. This restricted additive theorem does not complete the project.
+
+
+## Checkpoint: general algebraic-group curve cosets (#5)
+
+`Correspondence.CurveCoset.curveCoset_of_genericProduct` proves the main clause of
+`lem:curve-coset` in the scheme language of closed irreducible curves over an ACF base.
+Its genuine input consists of the three closed/irreducible/dimension-one curves and one
+jointly generic point of their actual reduced scheme product whose product lies in D.
+The source's genericity in D is stronger. The ambient algebraic group need not be connected.
+`CurveCosetCommutative.curveCoset_of_genericProduct_commutative` spells out the final source
+sentence, with all three left cosets and the third translation g₁*g₂.
+
+The theorem constructs H : ConnectedAlgebraicGroup, its actual group morphism into G,
+closed immersion, dimension one and all three noncommutative coset identities. There is
+no supplied subgroup, product integrality, restricted operation, ambient rank, freshness
+or completeness oracle. Abstract torus and constant-coordinate cases are permitted once the
+ambient group is presented as an AlgebraicGroup; no concrete additive-plane or torus object
+is constructed here. The earlier
+additive finite-correspondence theorem retains its stronger explicit polynomial ideals,
+projection witnesses and original field-tuple interface.
+
+`ClosedCurveDimension` proves equality of nested closed curves by the finite topological
+dimension chain argument. `GroupSchemePoints` gives actual translations and the closed-point
+equivalence. `CurveCosetGroup` proves the translation/sandwich argument at closed points.
+`IntegralProduct` proves integrality of products of arbitrary integral schemes over ACF,
+using the already proved field-tensor theorem and scheme-theoretic dominance under flat
+base change. `ReducedSubscheme` proves reduced induced schemes and their factorization.
+`CurveCosetGeneric` and `CurveCosetSource` supply the genuine generic-product input internally.
+`GroupSubobject` checks the group laws through a monomorphism. `ClosedSubgroup` restricts
+the actual unit, multiplication and inverse to the reduced scheme; Jacobson density,
+reducedness and product integrality supply every restriction. Finite type, separatedness,
+quasi-compactness and geometric integrality are derived.
+
+Both agents reviewed the mathematical route and checked the exact proof sources.
+Integration changes only module-status/bridge prose in these mathematical files. The
+original source statement/proof blocks, TEST clauses, shared objective/completion core
+and frozen M4a history remain exact. The source annotations distinguish this theorem from
+the separate missing producer of an ambient algebraic group in earlier source arguments.
+
+The issue report records strict module checks, complete types and declaration records,
+the generated definition proof fields and their actual consumers, full library/book,
+whole-library standard-dependency audit and exact-head CI. These are dependency and finite
+source-inventory checks, not a certificate of complete source coverage. Group/chunk,
+six-point, affine-action, coherent-cover, algebraization and scheme/action/descent remain
+open. The full durable goal remains active and incomplete.
