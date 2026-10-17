@@ -106,8 +106,15 @@ are retained, following the counterexamples reported on
 [issue #23](https://github.com/adamtopaz/acl_geom/issues/23#issuecomment-6210013012) and
 [its total-addition follow-up](https://github.com/adamtopaz/acl_geom/issues/23#issuecomment-6210631348).
 The corrected coupled negation/addition predicates have the proved semantics cited above.
-The literal full-carrier TOT/ratio-field construction and the remaining source provenance
-claims still require their own disposition.
+The additional theorem `blueprintRatioEq_no_decoder` rules out the advertised literal
+decoder on a fixed class, even after passage to the equivalence closure of the relation.
+`BlueprintTransport` proves literal predicate invariance and the correspondence of
+quotient carriers under lattice isomorphisms. It asserts no field structure on these
+carriers. The equivalence-relation assertion and the two prose-defined literal total
+operation graphs remain open. The bare field-isomorphism existence result is now stated
+without completeness inputs as `nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`;
+its bases need not be relatively algebraically closed. Remaining source provenance
+obligations still require their own disposition.
 
 # Dimension and endpoint hypotheses
 %%%

@@ -3618,6 +3618,18 @@ $\acl(a)$ (otherwise division by the base parameter $c$ inside $\acl(a,c)$ would
 $t$ there), and the class of $(j(ct,a),j(t,a))$ decodes to $c$.
 \end{proof}
 
+\begin{remark}[Literal decoder refutation in Lean]
+The original displayed decoder and its proof above are retained for provenance.
+Over an infinite base at rank five, \lean{blueprintRatioEq_no_decoder} proves
+that for some fixed Frobenius class no function on its pairs both respects the
+literal ratio relation and sends every semantic pair $(j(x,a),j(y,a))$ to $x/y$.
+This also prevents that decoding formula on a quotient by the equivalence closure.
+The error was reported on issue 8 before this annotation. The separate assertion
+that the literal relation itself is an equivalence remains open; its historical
+argument uses the already refuted \cref{lem:ratio-semantics}. The corrected ratio
+quotient and its bijective decoder above have proved semantics.
+\end{remark}
+
 Transport the field structure on $K$ across this equivalence.  This is substantially less
 error-prone than defining quotient addition with nested choices.  Nevertheless, naturality
 requires geometry-only graph predicates for the operations.
@@ -3793,6 +3805,21 @@ Thus it is a field equivalence.  Compose it on the left and right with the bijec
 \cref{lem:decode-equiv}, equipped with the transported field structures, to obtain
 $\widetilde\phi$.
 \end{proof}
+
+\begin{remark}[Literal invariance and the corrected reconstruction]
+The geometric invariance part of the preceding proof is independently proved by
+\lean{sumPoint_map_iff}, \lean{blueprintJAdd_map_iff}, \lean{blueprintJMul_map_iff},
+\lean{blueprintRatioEq_map_iff}, \lean{blueprintJNeg_map_iff} and
+\lean{blueprintJAddTotalNZ_map_iff}, over arbitrary fields and four independent
+universes. For an arbitrary base tuple and its actual image,
+\lean{blueprintRatioCarrierMap} gives the class-pair quotient correspondence with
+a named zero, using \lean{Quot}, hence the equivalence closure of the literal
+relation. No field structure or decoding is asserted on this carrier.
+Transcription and transport of the two prose-defined total operation graphs,
+and the remaining literal construction claims, remain separate obligations.
+The advertised literal decoder is refuted as explained above; the intended
+field reconstruction is proved using the corrected coupled interpretation.
+\end{remark}
 
 \section{Naturality, recovery of the base, and recovery of points}
 
@@ -4197,6 +4224,18 @@ completeness internally. The global Frobenius setoid is proved for perfect rank-
 ambient fields. The original literal R1/R2, interpreted-reconstruction and full-carrier
 TOT arguments retain their separate obligations (issues 8, 9 and 23).
 Original statements and proofs are preserved.
+
+\subsection{Field-isomorphism existence for perfect fields in Lean}
+
+\lean{nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField} supplies the
+preceding completeness inputs internally with \lean{jCompletenessACF}, transfers
+the rank-five bound to the target and chooses both characteristic exponents.
+It proves $\operatorname{Nonempty}(K\simeq_{\mathrm{ring}}L)$ from perfect
+ambient fields, source rank five and the closed-lattice order isomorphism,
+with arbitrary bases in four independent universes. No relatively algebraically
+closed base is required for this existence statement. Compatibility with the
+specified lattice map and recovery of the bases are additional conclusions of
+the public reconstruction theorem under its genuine base hypotheses.
 
 % Earlier recovery warning qualification (preserved before the graph checkpoint):
 % proofs require a corrected interpretation and non-generic totalization, which

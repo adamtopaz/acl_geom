@@ -23,6 +23,8 @@ import AclGeom.Interpretation.TotalOps
 import AclGeom.Interpretation.TotalTransport
 import AclGeom.Interpretation.Field
 import AclGeom.Interpretation.Naturality
+import AclGeom.Interpretation.CompleteNaturality
+import AclGeom.Counterexamples.BlueprintTransport
 import AclGeom.Counterexamples.GenericArithmetic
 
 open Verso.Genre Manual
@@ -53,7 +55,9 @@ conditional field-isomorphism existence are also proved below, keeping both
 ACF-completeness hypotheses explicit. Rank-five ACF `J` completeness is proved
 (`jCompletenessACF`) and supplies these inputs; inducing reconstruction is completed in the
 reconstruction chapter, whose public `reconstruction_target` discharges them internally. The
-statements of this chapter keep the inputs explicit.
+older statements of this chapter keep the inputs explicit. A new existence theorem below
+supplies them internally and needs only perfect ambient fields, source rank five and the
+closed-lattice isomorphism; its bases need not be relatively algebraically closed.
 The historical addition and multiplication incidences are projections
 of the `Q` and `Q′` predicates;
 they are relations on closed points, whose interalgebraic representatives
@@ -300,9 +304,47 @@ ratios. All its witnesses satisfy that class-membership relation:
 
 {docstring AclGeom.blueprintRatioEq_counterexample}
 
+The same counterexample rules out the advertised decoding function on a fixed class.
+Even passing to the equivalence closure of the literal relation cannot make a function
+respecting that relation send every semantic pair to its ratio:
+
+{docstring AclGeom.blueprintRatioEq_no_decoder}
+
 These refutations preserve the original predicates for provenance. The
 faithful generic arithmetic below follows the meet/join construction of
 EH95 Lemma 2.11, keeping the original tuple coordinates coupled.
+
+# Naturality of the literal predicates and quotient carriers
+%%%
+tag := "literal-arithmetic-naturality"
+%%%
+
+The geometric invariance assertion in the original interpreted-reconstruction proof is
+separate from the failed operation semantics. An order isomorphism of closed-subfield
+lattices preserves and reflects the literal predicates over arbitrary fields in four
+independent universes. No perfection, completeness or rank hypothesis is needed:
+
+{docstring AclGeom.sumPoint_map_iff}
+
+{docstring AclGeom.blueprintJAdd_map_iff}
+
+{docstring AclGeom.blueprintJMul_map_iff}
+
+{docstring AclGeom.blueprintRatioEq_map_iff}
+
+{docstring AclGeom.blueprintJNeg_map_iff}
+
+{docstring AclGeom.blueprintJAddTotalNZ_map_iff}
+
+The pointwise map also gives the quotient-carrier correspondence with an adjoined zero,
+for any base tuple and its actual image. These are quotients by the equivalence closure
+of the literal ratio relation; no field operations or decoding are asserted on them:
+
+{docstring AclGeom.blueprintRatioCarrierMap}
+
+The source assertion that the literal ratio relation is itself an equivalence, and the
+transcription and transport of its two prose-defined total operation graphs, remain open.
+This progress leaves the full I6b and I6c source-validation obligations open.
 
 # Coupled generic arithmetic
 %%%
@@ -551,6 +593,23 @@ supplied lattice map or recovery of the base fields; those are proved in the
 reconstruction chapter. General I6b/I6c in their original scope and all literal
 source/TOT obligations remain open; the rank-five global Frobenius setoid is proved above. The
 frozen M4a record is preserved.
+
+# Field-isomorphism existence for perfect ambient fields
+%%%
+tag := "perfect-field-isomorphism-existence"
+%%%
+
+The proved rank-five ACF completeness theorem supplies both completeness inputs of the
+conditional existence result. The target rank bound follows from the lattice isomorphism,
+and the characteristic exponents are chosen internally:
+
+{docstring AclGeom.nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField}
+
+This result needs only perfect ambient fields, source transcendence degree at least five
+and the closed-lattice order isomorphism, over arbitrary bases and four independent
+universes. It asserts existence of a field isomorphism. Compatibility with the supplied
+lattice map and recovery of the bases are additional conclusions of the public
+reconstruction theorem under its relatively algebraically closed base hypotheses.
 
 # Generic arithmetic on the fixed class
 %%%

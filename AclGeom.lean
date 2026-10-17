@@ -238,6 +238,7 @@ import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Counterexamples.GenericArithmetic
 import AclGeom.Counterexamples.GenericNegation
+import AclGeom.Counterexamples.BlueprintTransport
 import AclGeom.Counterexamples.EndpointImage
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic
@@ -252,6 +253,7 @@ import AclGeom.Interpretation.TotalOps
 import AclGeom.Interpretation.TotalTransport
 import AclGeom.Interpretation.Field
 import AclGeom.Interpretation.Naturality
+import AclGeom.Interpretation.CompleteNaturality
 import AclGeom.Reconstruct.Base
 import AclGeom.Reconstruct.Scalar
 import AclGeom.Reconstruct.Existence

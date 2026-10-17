@@ -39,8 +39,11 @@ itself (`blueprintJAdd_not_functional_on_class`,
 equivalence in the ratio section, stated literally as `BlueprintRatioEq`, relates
 `(j(x,a), j(y,a))` to `(j(κx,a), j(y,a))` inside one class although the
 decoded ratios differ (`blueprintRatioEq_counterexample`).  This is the
-formal refutation recorded in issue #23. Corrected coupled operations require
-class correctness and totalization; no characterization of their quotient is claimed.
+formal refutation recorded in issue #23. The named consequence
+`blueprintRatioEq_no_decoder` proves that on some fixed class there is no function
+on pairs that both respects the literal relation and decodes every semantic pair
+to its ratio. Thus the advertised decoder fails even after taking the equivalence
+closure; the intended field reconstruction uses the corrected coupled operations.
 
 The soundness direction of the configuration layer used here currently
 assumes an infinite base field.
@@ -48,7 +51,7 @@ assumes an infinite base field.
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** complete (refutation for issue #23).
+**Status:** literal generic-operation and ratio-decoder refutations proved (#8, #23).
 -/
 
 namespace AclGeom
@@ -604,6 +607,33 @@ theorem blueprintRatioEq_counterexample :
     have h1 : algebraMap k K κ = 1 :=
       mul_right_cancel₀ hx0 (h'.symm.trans (one_mul x).symm)
     exact (algebraMap k K).injective (h1.trans (map_one _).symm)
+
+/-- **The literal ratio quotient has no advertised decoder** (blueprint Lemma
+`lem:decode-equiv`). There is a fixed Frobenius class on whose pairs no function can
+both respect the blueprint ratio relation and send each semantic pair
+`(j(x,a), j(y,a))` to `x/y`. Thus passing to the quotient, even by the equivalence
+closure of that relation, cannot make the displayed decoding formula well-defined.
+This refutes that literal construction; it does not refute reconstruction by the
+corrected carrier. -/
+theorem blueprintRatioEq_no_decoder :
+    ∃ (x₀ a : K) (h₀ : AlgebraicIndependent k ![x₀, a]),
+      let B := {u : Fin 5 → Point k K // FrobEq (jTupleOf x₀ a h₀) u}
+      ¬ ∃ d : B × B → K,
+        (∀ r s : B × B, BlueprintRatioEq (jTupleOf x₀ a h₀)
+          (r.1.1, r.2.1) (s.1.1, s.2.1) → d r = d s) ∧
+        ∀ (x y : K) (hx : AlgebraicIndependent k ![x, a])
+          (hy : AlgebraicIndependent k ![y, a])
+          (hbx : FrobEq (jTupleOf x₀ a h₀) (jTupleOf x a hx))
+          (hby : FrobEq (jTupleOf x₀ a h₀) (jTupleOf y a hy)),
+          d (⟨jTupleOf x a hx, hbx⟩, ⟨jTupleOf y a hy, hby⟩) = x / y := by
+  obtain ⟨x, y, a, κ, hx, hy, hκx, hxx, hxy, hxκ, hrel, hne⟩ :=
+    blueprintRatioEq_counterexample (k := k) (K := K) htr
+  refine ⟨x, a, hx, ?_⟩
+  dsimp only
+  rintro ⟨d, hrespect, hdecode⟩
+  exact hne ((hdecode x y hx hy hxx hxy).symm.trans
+    ((hrespect (⟨_, hxx⟩, ⟨_, hxy⟩) (⟨_, hxκ⟩, ⟨_, hxy⟩) hrel).trans
+      (hdecode _ y hκx hy hxκ hxy)))
 
 end FrobeniusClass
 

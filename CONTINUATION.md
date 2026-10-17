@@ -12756,3 +12756,36 @@ branch triples, their common normal cover and the original group/chunk,
 six-point algebraic-group theorem, affine-action, general curve-coset,
 algebraization and scheme/action/descent obligations remain. The full shared
 goal and issue #5 stay open.
+
+## Literal predicate transport, decoder obstruction and perfect-field existence (#8)
+
+`Interpretation.CompleteNaturality` proves
+`nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`: perfect ambient fields,
+source transcendence degree at least five and a closed-subfield lattice order
+isomorphism imply `Nonempty (K ≃+* L)`. The four field universes are independent.
+Both algebraic-closure completeness proofs, the target rank bound and characteristic
+exponents are supplied internally. No RAC-base hypothesis is needed for bare existence;
+this statement does not assert that the isomorphism induces the given lattice map.
+
+`blueprintRatioEq_no_decoder` in `Counterexamples.GenericArithmetic` derives a named
+obstruction from the existing literal ratio counterexample: on some fixed Frobenius
+class no function on pairs both respects the literal relation and sends each semantic
+pair to its ratio. This prevents the advertised decoder even on the equivalence-closure
+quotient. It does not refute the intended field reconstruction, which is proved through
+the corrected coupled carrier. The error was reported on #8 before source annotations;
+all original statements, proofs and prose remain recoverable byte for byte.
+
+`Counterexamples.BlueprintTransport` separately proves transport of `SumPoint` and all
+five literal arithmetic/ratio/negation/total-nonzero-addition predicates, together with
+the class-pair `Quot` correspondence extended over zero for any raw base tuple and its
+actual image. These seven public declarations need only arbitrary fields and a lattice
+order isomorphism. The carrier uses equivalence closure and has no asserted field
+structure or decoder. The source assertion that the literal relation itself is an
+equivalence, and the transcription/transport of the two prose-defined total operation
+graphs, remain open. I6b and I6c remain unchecked. Bypassed true assertions are obligations.
+
+Both agents reviewed and independently checked the exact mathematical sources, retaining
+failed audit attempts and the import-order metadata diagnosis. The checkpoint's full
+library/book, strict-module, selected-type and whole-library dependency gates and exact
+committed-head CI are recorded on #8. This checkpoint does not finish source validation
+or the durable project goal.
