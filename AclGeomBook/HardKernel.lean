@@ -14,6 +14,7 @@ import AclGeom.Correspondence.AlgebraicGroupProduct
 import AclGeom.Correspondence.AffineGroupGeometry
 import AclGeom.Correspondence.AffineSchemeAction
 import AclGeom.Correspondence.SchemeCurveFunctionField
+import AclGeom.Correspondence.SchemePlaceBoundary
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
@@ -1816,7 +1817,83 @@ faithfulness, since nonreduced kernels can be invisible on k-points.
 
 These are genuine scheme/function-field bridges in the second work item of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21). The action input here is regular;
-the original source assumes a rational action. Rational-action regularization, the action
-on places, the arbitrary curve-action classifier, the normal-subgroup producer and the
-original algebraization/descent requirements remain separate. All eight original work
+the original source assumes a rational action. The next section constructs the places
+action for regular actions. Rational-action regularization, the connected-group fixed-place
+step, the arbitrary curve-action classifier, the normal-subgroup producer and the original
+algebraization/descent requirements remain separate. All eight original work
 items remain open, and the full shared goal remains active and incomplete.
+
+
+# Places and the boundary of an affine curve
+%%%
+tag := "scheme-curve-place-boundary"
+%%%
+
+A k-automorphism of a field transports a place by taking the preimage of its valuation ring.
+This reverses composition, giving a left action of the opposite group of field automorphisms.
+The fields and the base may have independent universes.
+
+{docstring AclGeom.Place.comap}
+
+{docstring AclGeom.Place.op_smul_eq_comap}
+
+The boundary of a k-subalgebra consists of places whose valuation rings fail to contain it.
+For a finitely generated subalgebra of a one-variable function field over an algebraically
+closed base, this set is finite: every boundary place is a pole of a nonzero generator.
+
+{docstring AclGeom.Place.boundary}
+
+{docstring AclGeom.Place.boundary_finite}
+
+{docstring AclGeom.Place.comap_mem_boundary_iff}
+
+The actual function field of an integral curve scheme now supplies discrete valuation rings
+for all its places over an algebraically closed base. The one-variable condition is derived
+from local finite type and scheme dimension one, using the same derived base algebra as the
+scheme action. No caller field-finiteness or one-variable certificate is needed.
+
+{docstring AclGeom.SchemePlaceAction.isDiscreteValuationRing_place}
+
+For a regular scheme action, pulling back fields and then pulling back valuation rings
+reverses composition twice. The result is a genuine left action of G(k) on the places of the
+actual generic-stalk function field. It is an explicit homomorphism to permutations; there
+is no global instance that must recover the scheme from its field.
+
+{docstring AclGeom.SchemePlaceAction.placeAction}
+
+{docstring AclGeom.SchemePlaceAction.placeAction_apply}
+
+The global-section model is the actual range of the generic-germ map in that field.
+Naturality of the generic germ shows that every automorphism over Spec k preserves this
+subalgebra. Applying that fact to the regular action proves boundary invariance, for any
+integral scheme, without requiring the scheme to be affine.
+
+{docstring AclGeom.SchemePlaceAction.globalSections}
+
+{docstring AclGeom.SchemePlaceAction.map_globalSections_algEquivOfIso}
+
+{docstring AclGeom.SchemePlaceAction.placeAction_mem_boundary_iff}
+
+For an affine integral curve locally of finite type and of dimension one, the model is
+finitely generated over k. Its boundary is finite when k is algebraically closed. Both
+finite generation and the one-variable field hypothesis are derived from the actual curve.
+
+{docstring AclGeom.SchemePlaceAction.globalSections_fg}
+
+{docstring AclGeom.SchemePlaceAction.boundary_finite}
+
+The boundary is also nonempty, over any base field. A transcendental element of the actual
+stalk field is a fraction of global sections. Some numerator or denominator has
+transcendental generic germ, and its pole place is a missing place of the model.
+
+{docstring AclGeom.SchemePlaceAction.boundary_nonempty}
+
+This supplies a finite, nonempty invariant set of valuation places for an actual affine
+curve over an algebraically closed field. It does not prove that a connected group fixes
+each place. The abstract finite-index argument is insufficient in positive characteristic;
+the remaining proof needs algebraic information about the regular action. The points–places
+identification, scheme extension and uniqueness, projective completion, rational-action
+regularization and arbitrary-action classification remain owed. No equivalence between
+field-action faithfulness and place-action faithfulness is asserted. All eight original work
+items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open, and the complete
+shared goal remains active and incomplete.

@@ -2169,10 +2169,29 @@ For a curve separated over $k$, \lean{ActionFunctionField.functionFieldAction_in
 proves injectivity under the explicit hypothesis that no nontrivial $k$-point acts as
 the identity scheme morphism. This point-kernel criterion is not asserted equivalent
 to scheme-theoretic faithfulness in positive characteristic. These results bridge
-schemes to the curve-field library; they do not regularize a rational action, construct
-the action on places or prove the arbitrary-action classification. All eight original
+schemes to the curve-field library; they do not regularize a rational action or prove
+the arbitrary-action classification. The following paragraph records the places bridge. All eight original
 issue-21 work items remain open. The original statement and proof retain their
 provenance unchanged.
+
+
+
+\paragraph{Lean status of places and the affine-curve boundary.}
+The actual regular scheme action now acts on places of the same generic-stalk field
+(\lean{SchemePlaceAction.placeAction}); contravariance of field pullback and valuation-ring
+pullback cancel. Every place of an actual integral locally finite-type curve of dimension
+one over an algebraically closed base is a discrete valuation ring
+(\lean{SchemePlaceAction.isDiscreteValuationRing_place}), with the one-variable hypothesis
+derived internally. The actual global-section subalgebra is preserved by every
+automorphism over $\operatorname{Spec} k$, so the places boundary is invariant
+(\lean{SchemePlaceAction.placeAction_mem_boundary_iff}). For an affine such curve, that
+boundary is nonempty over every field (\lean{SchemePlaceAction.boundary_nonempty}) and
+finite over an algebraically closed field (\lean{SchemePlaceAction.boundary_finite});
+finite generation is derived from the scheme. This is a valuation-place result. The
+points--places correspondence, extension and uniqueness on a scheme completion, the
+connected-group fixed-boundary step, rational-action regularization and the classifier
+remain open. All eight original issue-21 work items stay open. The original lemma and
+proof retain their provenance unchanged.
 
 % Original unguarded affine-grid-extraction from ed61c33, refuted in issue 27.
 \iffalse

@@ -88,8 +88,12 @@ The actual scheme/function-field bridge now derives the one-variable class for t
 generic stalk of an integral locally finite-type curve of dimension one over arbitrary fields.
 A regular scheme action gives a contravariant field-automorphism homomorphism on base-field
 points, injective for a separated scheme under the explicit point-action kernel criterion.
-Both results share one internally constructed base algebra. The places action, rational-action
-regularization and arbitrary-action classification remain open.
+Both results share one internally constructed base algebra. Actual regular actions now also
+act on places and preserve the global-section subalgebra. An affine integral locally finite-type
+curve of dimension one has a nonempty valuation-place boundary over any field; over an ACF base
+it is finite. The finite generation and one-variable hypotheses are derived internally. Every
+place of an actual such curve over an ACF base is a DVR, without needing affineness. The
+connected-group fixed-boundary step, rational-action regularization and classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
 The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
@@ -13587,7 +13591,52 @@ content, full library/book gates and exact-head CI. A finite dependency inventor
 a whole-source coverage certificate.
 
 The bridge takes a regular action; source Lemma affine-action takes a rational action.
-Rational-action regularization, the action on places, the normal-subgroup and original
+Rational-action regularization, the connected-group fixed-boundary step, the normal-subgroup and original
 group/chunk/six-point producers, arbitrary-action classification, algebraization and
 descent remain owed. All eight original #21 work items stay open. The complete durable
 goal remains active and incomplete.
+
+
+## Checkpoint: places of actual curves and their affine boundary (#21)
+
+`Curves.PlaceAction` transports a place along a k-field automorphism by preimage of its
+valuation ring. The opposite automorphism group acts on places. The boundary of a
+finitely generated subalgebra of a one-variable function field over an ACF base is finite:
+every boundary place is a pole of a nonzero generator. An automorphism preserving the
+subalgebra preserves this boundary. The generic field and the base have independent universes.
+
+`Correspondence.SchemePlaceAction` uses exactly ActionFunctionField.functionFieldAlgebra V.
+It derives the DVR instance for every place of an actual integral locally finite-type
+curve of scheme dimension one over an ACF base, using the actual curve field theorem.
+For an actual regular scheme action, the contravariant field map and the valuation-ring
+preimage reverse composition twice, giving a genuine left action of G(k) on places as an
+explicit homomorphism to permutations. No global scheme-recovery instance is introduced.
+
+The global-section model is the range of the actual generic-germ map, as a k-subalgebra
+via the existing base-algebra comparison. Germ naturality and the inverse scheme
+automorphism prove that every automorphism over Spec k preserves this range. Thus a
+regular action preserves its boundary for any integral scheme. For an affine curve,
+local finite type supplies finite generation of the model; dimension one supplies the
+one-variable function-field hypothesis. The resulting finite-boundary theorem has no
+caller-supplied preservation, finite-generation or field-finiteness oracle.
+
+`Correspondence.SchemePlaceBoundary` proves that an actual affine integral locally
+finite-type curve of dimension one has a NONEMPTY boundary, over arbitrary fields. It
+chooses a transcendental element of the actual stalk field and writes it as a fraction
+of global sections. If both generic germs were algebraic, their fraction would be
+algebraic. A transcendental section therefore has a pole place outside the model.
+
+The two agents independently read the proofs and strictly checked each other's modules.
+The checkpoint report records complete expanded types, axioms/internal consumers, parent
+preservation, actual book content and full library/book gates with exact-head CI. Source
+statements, proofs and TEST clauses, the goal objective/completion core and frozen M4a
+history retain their provenance. A finite inventory is not a source-coverage certificate.
+
+This is the valuation-place bridge for REGULAR actions. It does not identify places with
+points, construct a projective completion, extend scheme automorphisms to it, prove their
+uniqueness, or regularize a rational action. A connected group fixing each boundary place
+still needs a proof using the algebraic action; an abstract finite-index argument fails
+in positive characteristic. There is no field/place-faithfulness equivalence. The original
+group/chunk, six-point and normal-subgroup producers, arbitrary-action classification,
+algebraization and descent remain owed. All eight original #21 rows stay open, and the
+full durable goal remains active and incomplete.
