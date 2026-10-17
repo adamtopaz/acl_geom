@@ -26,6 +26,9 @@ import AclGeom.Interpretation.Naturality
 import AclGeom.Interpretation.CompleteNaturality
 import AclGeom.Counterexamples.BlueprintTransport
 import AclGeom.Counterexamples.GenericArithmetic
+import AclGeom.Counterexamples.RatioTransitivity
+import AclGeom.Counterexamples.RatioReflexivity
+import AclGeom.Counterexamples.BlueprintTotalGraphs
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -314,6 +317,40 @@ These refutations preserve the original predicates for provenance. The
 faithful generic arithmetic below follows the meet/join construction of
 EH95 Lemma 2.11, keeping the original tuple coordinates coupled.
 
+# Laws of the literal ratio relation
+%%%
+tag := "literal-ratio-laws"
+%%%
+
+The source separately asserts reflexivity, symmetry and transitivity of its literal
+ratio relation. Symmetry holds by exchanging the multiplier witnesses, for arbitrary
+base and endpoint tuples over arbitrary fields:
+
+{docstring AclGeom.BlueprintRatioEq.symm}
+
+Over perfect ambient fields at rank five, the relation is reflexive on every pair in
+the class of a semantic base tuple. Completeness and the characteristic exponent are
+supplied internally; the base field may be arbitrary:
+
+{docstring AclGeom.blueprintRatioEq_refl}
+
+Transitivity fails over arbitrary base and ambient fields at rank five:
+
+{docstring AclGeom.blueprintRatioEq_not_transitive}
+
+For independent `x,y,z,a`, write `j(c)=j(c,a)`. The pairs
+`r=(j(x),j(x))`, `m=(j(y),j(z))` and `t=(j(x),j(x²))` satisfy the first two
+literal relations but not the third. The positive witnesses use that the right input
+of literal multiplication contributes only its first and parameter points, and a square
+has the same first point. The negative direction uses the multiplication diagram and
+rank-three genericity alone. No perfection or completeness is needed for this refutation.
+
+Thus the literal relation cannot supply the advertised setoid. The corrected coupled
+ratio setoid and decoder are proved. The literal equivalence-closure carrier correspondence
+below asserts no field structure or decoder. The positive scalar families also now work
+over arbitrary bases when their scalar is specified; infinite bases are used to select
+scalars in the existential counterexamples.
+
 # Naturality of the literal predicates and quotient carriers
 %%%
 tag := "literal-arithmetic-naturality"
@@ -342,9 +379,46 @@ of the literal ratio relation; no field operations or decoding are asserted on t
 
 {docstring AclGeom.blueprintRatioCarrierMap}
 
-The source assertion that the literal ratio relation is itself an equivalence, and the
-transcription and transport of its two prose-defined total operation graphs, remain open.
+The literal equivalence-relation assertion is refuted above at transitivity; symmetry and
+fixed-class reflexivity in the source setting are proved. The following section transcribes
+the two raw operation recipes and proves their geometric invariance. Their totality and
+decoded-operation claims retain separate obligations, with no quotient operation descent
+asserted.
 This progress leaves the full I6b and I6c source-validation obligations open.
+
+# Literal operation recipes on representatives
+%%%
+tag := "literal-total-graph-formulas"
+%%%
+
+The original nonzero recipes use explicit literal ratio-relation witnesses to replace
+both inputs and compare the output. Every representative and arithmetic witness ranges
+over the chosen class. The zero clauses complete these recipes with the identities named
+in the source proof. The carrier here is the option of raw pairs of class members:
+
+{docstring AclGeom.BlueprintRatioAddGraph}
+
+{docstring AclGeom.BlueprintRatioMulGraph}
+
+Addition uses a common denominator, with a negation zero branch or a total nonzero
+addition branch. Multiplication uses two literal generic products, with their existing
+independence guards. No further independence or non-negation guard is added.
+
+The pointwise map sends a raw base tuple's class bijectively onto its actual image class:
+
+{docstring AclGeom.frobEqClassMap}
+
+Both recipe formulas are preserved and reflected over arbitrary fields in four
+independent universes, with all replacement, comparison, arithmetic and class witnesses:
+
+{docstring AclGeom.blueprintRatioAddGraph_map_iff}
+
+{docstring AclGeom.blueprintRatioMulGraph_map_iff}
+
+These are representative-level formulas with explicit relation witnesses. They do not
+replace those witnesses with quotient equality. The source totality and decoded-operation
+claims remain separately tracked. No quotient operation descent or field structure is
+asserted for these literal formulas.
 
 # Coupled generic arithmetic
 %%%

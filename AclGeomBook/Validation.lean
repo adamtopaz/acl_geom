@@ -110,8 +110,14 @@ The additional theorem `blueprintRatioEq_no_decoder` rules out the advertised li
 decoder on a fixed class, even after passage to the equivalence closure of the relation.
 `BlueprintTransport` proves literal predicate invariance and the correspondence of
 quotient carriers under lattice isomorphisms. It asserts no field structure on these
-carriers. The equivalence-relation assertion and the two prose-defined literal total
-operation graphs remain open. The bare field-isomorphism existence result is now stated
+carriers. `BlueprintRatioEq.symm` proves the literal symmetry assertion over arbitrary
+fields. `blueprintRatioEq_refl` proves fixed-class reflexivity over perfect ambient fields
+at rank five, with arbitrary bases and internally supplied completeness.
+`blueprintRatioEq_not_transitive` refutes transitivity over arbitrary fields at rank five,
+with no completeness or perfection hypothesis. The literal relation therefore does not
+define a setoid. `BlueprintTotalGraphs` transcribes both raw representative-level recipes
+and proves their geometric invariance with all literal replacement witnesses. Source
+totality, decoded-operation claims and the remaining provenance retain separate obligations. The bare field-isomorphism existence result is now stated
 without completeness inputs as `nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`;
 its bases need not be relatively algebraically closed. Remaining source provenance
 obligations still require their own disposition.

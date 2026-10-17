@@ -237,8 +237,11 @@ import AclGeom.Interpretation.FrobSetoid
 import AclGeom.Interpretation.ClassCoordinates
 import AclGeom.Interpretation.ClassArithmetic
 import AclGeom.Counterexamples.GenericArithmetic
+import AclGeom.Counterexamples.RatioTransitivity
+import AclGeom.Counterexamples.RatioReflexivity
 import AclGeom.Counterexamples.GenericNegation
 import AclGeom.Counterexamples.BlueprintTransport
+import AclGeom.Counterexamples.BlueprintTotalGraphs
 import AclGeom.Counterexamples.EndpointImage
 import AclGeom.Counterexamples.QDescent
 import AclGeom.Counterexamples.QSemantic

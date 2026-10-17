@@ -27,6 +27,12 @@ For `κ ≠ 1` they differ from `j(x+y, a)` and `j(xy, a)`, already in the
 `P`-coordinate, because `κx + y + a` and `x + y + a` (respectively `κxy + a`
 and `xy + a`) are not interalgebraic.
 
+The literal ratio relation is symmetric (`BlueprintRatioEq.symm`), by swapping its two
+multiplier witnesses. Its reflexivity over perfect ambient fields at rank five is proved
+in `Counterexamples.RatioReflexivity` (`blueprintRatioEq_refl`). Its transitivity fails
+over arbitrary fields at rank five (`blueprintRatioEq_not_transitive`, in
+`Counterexamples.RatioTransitivity`).
+
 This module states the blueprint graphs literally (`BlueprintJAdd`,
 `BlueprintJMul`) and proves both counterexamples
 (`blueprintJAdd_not_functional`, `blueprintJMul_not_functional`).  All the
@@ -45,13 +51,15 @@ on pairs that both respects the literal relation and decodes every semantic pair
 to its ratio. Thus the advertised decoder fails even after taking the equivalence
 closure; the intended field reconstruction uses the corrected coupled operations.
 
-The soundness direction of the configuration layer used here currently
-assumes an infinite base field.
+The base-scalar counterexamples choose a nontrivial scalar using an infinite base.
+The generic addition and multiplication producers themselves work over arbitrary fields
+at rank five.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
-**Status:** literal generic-operation and ratio-decoder refutations proved (#8, #23).
+**Status:** literal generic-operation/ratio-decoder refutations and ratio symmetry proved
+(#8, #23).
 -/
 
 namespace AclGeom
@@ -91,6 +99,16 @@ def BlueprintRatioEq (b : Fin 5 → Point k K)
     FrobEq b c₁ ∧ FrobEq b c₂ ∧ FrobEq b d₁ ∧ FrobEq b d₂ ∧
       BlueprintJMul r.1 c₁ d₁ ∧ BlueprintJMul r.2 c₁ d₂ ∧
       BlueprintJMul s.1 c₂ d₁ ∧ BlueprintJMul s.2 c₂ d₂
+
+/-- **The literal ratio relation is symmetric** (blueprint ratio section, after Lemma
+`ratio-semantics`). Swapping the two multiplier witnesses preserves all four class constraints
+and exchanges the two pairs of literal products. This is independent of ratio semantics and
+asserts neither reflexivity nor transitivity. -/
+theorem BlueprintRatioEq.symm {b : Fin 5 → Point k K}
+    {r s : (Fin 5 → Point k K) × (Fin 5 → Point k K)} (h : BlueprintRatioEq b r s) :
+    BlueprintRatioEq b s r := by
+  obtain ⟨c₁, c₂, d₁, d₂, hc₁, hc₂, hd₁, hd₂, m₁, m₂, m₃, m₄⟩ := h
+  exact ⟨c₂, c₁, d₁, d₂, hc₂, hc₁, hd₁, hd₂, m₃, m₄, m₁, m₂⟩
 
 end Defs
 
@@ -180,7 +198,7 @@ private theorem pair_za {κ : k} (hκ : κ ≠ 0) :
 
 /-- **The κ-family satisfies the blueprint addition graph**: for every
 `κ ∈ kˣ`, `JAdd(j(x,a), j(y,a), j(κx + y, a))`. -/
-theorem blueprintJAdd_kappa [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K) {κ : k}
+theorem blueprintJAdd_kappa (htr : (5 : Cardinal) ≤ Algebra.trdeg k K) {κ : k}
     (hκ : κ ≠ 0) :
     BlueprintJAdd (jTupleOf x a (AlgebraicIndependent.pair_zero_two hind))
         (jTupleOf y a (AlgebraicIndependent.pair_one_two hind))
@@ -223,7 +241,7 @@ theorem blueprintJAdd_kappa [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg
 /-- **The blueprint addition graph is not functional** (issue #23): for
 `κ ∉ {0, 1}`, both `j(x + y, a)` and `j(κx + y, a)` are `JAdd`-outputs of
 `(j(x,a), j(y,a))`, and they are distinct. -/
-theorem blueprintJAdd_not_functional [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+theorem blueprintJAdd_not_functional (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {κ : k} (hκ : κ ≠ 0) (hκ1 : κ ≠ 1) :
     BlueprintJAdd (jTupleOf x a (AlgebraicIndependent.pair_zero_two hind))
         (jTupleOf y a (AlgebraicIndependent.pair_one_two hind))
@@ -296,7 +314,7 @@ private theorem pair_zmul_a {κ : k} (hκ : κ ≠ 0) :
 
 /-- **The κ-family satisfies the blueprint multiplication graph**: for every
 `κ ∈ kˣ`, `JMul(j(x,a), j(y,a), j(κxy, a))`. -/
-theorem blueprintJMul_kappa [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
+theorem blueprintJMul_kappa (htr : (5 : Cardinal) ≤ Algebra.trdeg k K)
     {κ : k} (hκ : κ ≠ 0) :
     BlueprintJMul (jTupleOf x a (AlgebraicIndependent.pair_zero_two hind))
         (jTupleOf y a (AlgebraicIndependent.pair_one_two hind))
@@ -328,7 +346,7 @@ theorem blueprintJMul_kappa [Infinite k] (htr : (5 : Cardinal) ≤ Algebra.trdeg
 /-- **The blueprint multiplication graph is not functional** (issue #23):
 for `κ ∉ {0, 1}`, both `j(xy, a)` and `j(κxy, a)` are `JMul`-outputs of
 `(j(x,a), j(y,a))`, and they are distinct. -/
-theorem blueprintJMul_not_functional [Infinite k]
+theorem blueprintJMul_not_functional
     (htr : (5 : Cardinal) ≤ Algebra.trdeg k K) {κ : k} (hκ : κ ≠ 0) (hκ1 : κ ≠ 1) :
     BlueprintJMul (jTupleOf x a (AlgebraicIndependent.pair_zero_two hind))
         (jTupleOf y a (AlgebraicIndependent.pair_one_two hind))

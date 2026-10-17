@@ -34,8 +34,10 @@ The blueprint defines `JAdd` only on `J₁`, so `BlueprintJAddTotalNZ` requires 
 tuples to lie in `J₁`, and `BlueprintJNeg` requires its two witnesses to lie there, as displayed.
 Every tuple used here is `j(t, a)` for the literal parameter `a`, so class membership follows
 from `frobEq_jTupleOf_of_common`.  Only rank-five soundness is used; no completeness input
-appears.  The base field is infinite, as for `blueprintJAdd_kappa`.  The corrected
-counterparts `JNegTotalRel` and `JAddTotalNZRel` are in `AclGeom.Interpretation.TotalOps`.
+appears. The scalar families and conditional counterexamples for a specified scalar work
+over arbitrary base fields at rank five. The existential `_on_class` counterexamples use
+an infinite base to choose a nontrivial scalar. The corrected counterparts `JNegTotalRel`
+and `JAddTotalNZRel` are in `AclGeom.Interpretation.TotalOps`.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -82,6 +84,7 @@ include htr
 
 section Negation
 
+omit [Infinite k] in
 /-- **The κ-family satisfies the blueprint negation**: for every `c ∈ kˣ`,
 `JNeg(j(x, a), j(cx, a))` on the class of any `j(x₀, a)`. -/
 theorem blueprintJNeg_smul {x₀ x a : K} (h₀ : AlgebraicIndependent k ![x₀, a])
@@ -112,6 +115,7 @@ theorem blueprintJNeg_smul {x₀ x a : K} (h₀ : AlgebraicIndependent k ![x₀,
   convert blueprintJAdd_kappa T₂ htr one_ne_zero using 1
   exact jTupleOf_congr _ _ (by rw [map_one, map_neg]; ring)
 
+omit [Infinite k] in
 /-- **The blueprint negation is not functional** (issue #23): for `c ∉ {0, -1}`, both `j(cx, a)`
 and `j(-x, a)` are `JNeg`-partners of `j(x, a)`, and they are distinct.  This refutes the claim
 `JNeg(j(x, a), j(y, a)) ⇔ y = -x`. -/
@@ -140,6 +144,7 @@ theorem blueprintJNeg_not_functional {x₀ x a : K} (h₀ : AlgebraicIndependent
       (show a = algebraMap k K (-1) * x + a - x + (x + x) by rw [map_neg, map_one]; ring)
       (add_mem h' (add_mem hxx hxx)))
 
+omit [Infinite k] in
 /-- **Every generic tuple is its own blueprint negation** when `2 ≠ 0` in `k`:
 `JNeg(j(x, a), j(x, a))` holds although `j(x, a) ≠ j(-x, a)`. -/
 theorem blueprintJNeg_self {x₀ x a : K} (h₀ : AlgebraicIndependent k ![x₀, a])
@@ -174,6 +179,7 @@ end Negation
 
 section TotalNonzeroAddition
 
+omit [Infinite k] in
 /-- **The κ-family satisfies the blueprint total nonzero addition**: for independent `x, y, a`
 and every `κ ∈ kˣ`, `JAddTotalNZ(j(x, a), j(y, a), j(κx + y, a))` on the class of any
 `j(x₀, a)`. -/
@@ -241,6 +247,7 @@ theorem blueprintJAddTotalNZ_kappa {x₀ x y a : K} (h₀ : AlgebraicIndependent
   convert blueprintJAdd_kappa T₃ htr one_ne_zero using 1
   exact jTupleOf_congr _ _ (by rw [map_neg, map_one]; ring)
 
+omit [Infinite k] in
 /-- **Blueprint Lemma `total-nonzero-add` fails** (issue #23): for independent `x, y, a` and
 `κ ∉ {0, 1}`, both `j(κx + y, a)` and `j(x + y, a)` are `JAddTotalNZ`-outputs of
 `(j(x, a), j(y, a))`, and they are distinct. -/

@@ -3596,6 +3596,25 @@ Reflexivity, symmetry, and transitivity of \lean{RatioEq} now follow from equali
 $K$; use \cref{lem:ratio-semantics} to construct the setoid rather than manipulating
 witnesses.
 
+\begin{remark}[Literal ratio laws in Lean]\label{rem:literal-ratio-laws}
+The historical three-law assertion just above has separate Lean dispositions.
+\lean{BlueprintRatioEq.symm} proves symmetry for arbitrary raw tuples and fields.
+\lean{blueprintRatioEq_refl} proves reflexivity on all pairs of the class of a semantic
+base tuple over perfect ambient fields at rank five, with arbitrary bases and internally
+supplied characteristic and ACF completeness. The transitivity assertion is refuted by
+\lean{blueprintRatioEq_not_transitive} over arbitrary base and ambient fields at rank five.
+For independent $x,y,z,a$, write $j(c)=j(c,a)$. The pairs
+$r=(j(x),j(x))$, $m=(j(y),j(z))$ and $t=(j(x),j(x^2))$ satisfy
+$\operatorname{RatioEq}(r,m)$ and $\operatorname{RatioEq}(m,t)$, but not
+$\operatorname{RatioEq}(r,t)$. The positive witnesses use $[c^2]=[c]$ in the right
+multiplier coordinate; the negative direction uses multiplication incidences and rank
+three alone. The error was reported on issue 8 before these annotations. The original
+assertion and provenance are retained. The literal relation cannot supply the advertised
+setoid. The corrected coupled ratio relation has a proved setoid and decoder; the
+literal equivalence-closure carrier correspondence asserts neither decoding nor a field
+structure.
+\end{remark}
+
 Let \lean{NonzeroInterp} be the quotient and adjoin a new zero, for example with
 \lean{WithZero} or \lean{Option}.  Define
 \[
@@ -3624,9 +3643,10 @@ Over an infinite base at rank five, \lean{blueprintRatioEq_no_decoder} proves
 that for some fixed Frobenius class no function on its pairs both respects the
 literal ratio relation and sends every semantic pair $(j(x,a),j(y,a))$ to $x/y$.
 This also prevents that decoding formula on a quotient by the equivalence closure.
-The error was reported on issue 8 before this annotation. The separate assertion
-that the literal relation itself is an equivalence remains open; its historical
-argument uses the already refuted \cref{lem:ratio-semantics}. The corrected ratio
+The error was reported on issue 8 before this annotation. The historical
+equivalence-relation argument uses the already refuted \cref{lem:ratio-semantics};
+\cref{rem:literal-ratio-laws} records the transitivity refutation and the separately
+proved symmetry and fixed-class reflexivity assertions. The corrected ratio
 quotient and its bijective decoder above have proved semantics.
 \end{remark}
 
@@ -3742,6 +3762,23 @@ nonzero addition by choosing equivalent representatives with a common denominato
 applying \lean{JAddTotalNZ} to their numerators, and comparing the resulting ratio.  The zero
 case is detected by \lean{JNeg} on the two numerators.
 
+\begin{remark}[Literal recipe invariance in Lean]\label{rem:literal-recipe-invariance}
+The two recipes just stated are transcribed as \lean{BlueprintRatioAddGraph} and
+\lean{BlueprintRatioMulGraph}, on raw pairs of class members with a named zero. Every
+replacement and output comparison is an explicit literal \lean{BlueprintRatioEq}
+witness; all representatives and arithmetic witnesses range over the class. The named
+zero clauses are the completion supplied by the following proof's field identities.
+The multiplication guards are exactly those already present in \lean{BlueprintJMul}.
+
+The pointwise class bijection \lean{frobEqClassMap} and the two theorems
+\lean{blueprintRatioAddGraph_map_iff} and \lean{blueprintRatioMulGraph_map_iff}
+prove the geometric invariance assertion of the interpreted-reconstruction proof,
+over arbitrary fields in four independent universes. No ratio-relation witness is
+silently replaced by equality in its equivalence closure. These formulas assert no
+quotient operation descent, field structure, functionality or totality. The following
+historical theorem's totality and decoded-operation claims retain their own obligations.
+\end{remark}
+
 \begin{theorem}[total geometric field graphs]\label{thm:total-field-graphs}
 The geometry-only addition and multiplication graphs just described are total and
 functional, and for interpreted elements $r,s,t$ satisfy
@@ -3815,8 +3852,9 @@ universes. For an arbitrary base tuple and its actual image,
 \lean{blueprintRatioCarrierMap} gives the class-pair quotient correspondence with
 a named zero, using \lean{Quot}, hence the equivalence closure of the literal
 relation. No field structure or decoding is asserted on this carrier.
-Transcription and transport of the two prose-defined total operation graphs,
-and the remaining literal construction claims, remain separate obligations.
+The representative-level recipe formulas and their transport are now recorded in
+\cref{rem:literal-recipe-invariance}. Their totality and decoded-operation claims,
+and the remaining literal construction/provenance obligations, remain separate.
 The advertised literal decoder is refuted as explained above; the intended
 field reconstruction is proved using the corrected coupled interpretation.
 \end{remark}

@@ -30,16 +30,21 @@ Witness tuples on the target side are pulled back by the bijection
 This is invariance only. The literal predicates remain nonfunctional
 (`Counterexamples.GenericArithmetic`, `Counterexamples.GenericNegation`), and for some base tuple
 no function on class pairs both respects the literal ratio relation and sends each semantic pair to
-its ratio (`blueprintRatioEq_no_decoder`). The literal ratio relation is not known to be an
-equivalence relation, so the carriers are quotients by `Quot`, that is, by its equivalence closure,
-and no field structure or decoding is asserted on them. The literal total operation
-graphs of the source are prose definitions without a transcription here.
+its ratio (`blueprintRatioEq_no_decoder`). The literal ratio relation is not transitive
+(`blueprintRatioEq_not_transitive`), so the carriers are quotients by `Quot`,
+that is, by its equivalence closure,
+and no field structure or decoding is asserted on them. The literal operation recipes
+are transcribed on raw class-pair representatives in `Counterexamples.BlueprintTotalGraphs`,
+where their geometric invariance is proved; no quotient operation descent is asserted.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
 
 **Status:** literal predicate invariance and the literal carrier correspondence are proved
-(#8, #23). Equivalence of the literal ratio relation and the literal operation graphs remain open.
+(#8, #23). Literal ratio symmetry and fixed-class reflexivity over perfect ambient fields at
+rank five are proved; transitivity is refuted over arbitrary fields at rank five. The
+representative-level recipe invariance is proved in `Counterexamples.BlueprintTotalGraphs`;
+the source totality and decoded-operation claims retain separate obligations.
 -/
 
 namespace AclGeom

@@ -12789,3 +12789,45 @@ failed audit attempts and the import-order metadata diagnosis. The checkpoint's 
 library/book, strict-module, selected-type and whole-library dependency gates and exact
 committed-head CI are recorded on #8. This checkpoint does not finish source validation
 or the durable project goal.
+
+## Literal ratio laws and representative graph formulas (#8)
+
+The original three ratio-law assertions have separate dispositions. `BlueprintRatioEq.symm`
+proves symmetry for arbitrary raw tuples over arbitrary fields. `blueprintRatioEq_refl`
+proves reflexivity for all pairs in the class of a semantic base tuple over perfect ambient
+fields at rank five, with arbitrary bases. It normalizes both endpoints through internally
+supplied ACF completeness and characteristic, then uses one fresh multiplier and two honest
+products. `blueprintRatioEq_not_transitive` refutes transitivity over arbitrary base and
+ambient fields at rank five; no perfection or completeness is needed. Six private lemmas
+are consumed by this one refutation. The source error was reported on #8 (6229602246)
+before annotation changes. A setoid for the literal relation cannot be constructed.
+
+The generic addition/multiplication scalar producers and the supplied-scalar conditional
+counterexamples no longer carry stale infinite-base assumptions. Nine existing public
+types are strengthened by removing exactly one unused Infinite binder; proof bodies stay
+exact. The five negation/total-addition declarations use local `omit [Infinite k] in`,
+while the scalar-existence declarations keep their original Infinite binder and order.
+The audit verifies each changed type against its original type with that unused binder
+removed, and all other scoped API records remain exact. Every mathematical import consumer
+of the changed generic-arithmetic signatures is rebuilt, including GenericNegation and BPT.
+
+`BlueprintTotalGraphs` transcribes the literal addition and multiplication recipes on
+Option of raw pairs of class members. All replacement and comparison witnesses use the
+literal ratio relation. Every input, output and auxiliary representative is a class member;
+addition has the common denominator and negation/nonzero branches, and multiplication has
+exactly its existing generic-product guards. Named-zero equalities complete the nonzero
+recipes as specified by the source proof. `frobEqClassMap` and the two `_map_iff` theorems
+prove geometric invariance over arbitrary fields in four independent universes. The one
+internal proof constant of the class map is consumed, not a new public normalization API.
+No quotient operation descent, functionality, totality or field structure is asserted here.
+The source totality and decoded-operation statements retain their separate obligations.
+
+The corrected coupled ratio setoid, decoding, total field graphs and reconstruction remain
+proved. The literal equivalence-closure carrier correspondence remains a true geometric
+statement with no field/decoder payload. The unproved global connectivity sketch for that
+closure is not used or asserted. Original statement/proof blocks and complete source
+provenance are recoverable byte for byte; the goal objective/completion criteria and frozen
+M4a record remain exact. Source/TOTAL and original provenance obligations are not closed
+merely by these invariance proofs. Full library/book, strict, selected-type, exhaustive
+committed-head dependency and exact CI evidence are reported on #8. The durable goal remains
+incomplete.
