@@ -30,6 +30,7 @@ import AclGeom.Counterexamples.RatioTransitivity
 import AclGeom.Counterexamples.RatioReflexivity
 import AclGeom.Counterexamples.RatioGraphValues
 import AclGeom.Counterexamples.RatioConverse
+import AclGeom.Counterexamples.RatioMulGraphLaws
 import AclGeom.Counterexamples.BlueprintTotalGraphs
 
 open Verso.Genre Manual
@@ -377,8 +378,8 @@ The fresh multiplier uses the fifth rank; no larger rank or caller freshness ora
 needed. There is one public theorem and no auxiliary declarations.
 
 The forward implication remains refuted, as does transitivity. This converse supplies
-neither a setoid nor a quotient decoder. Literal operation totality and carefully scoped
-reverse operation laws remain separate obligations.
+neither a setoid nor a quotient decoder. The multiplication totality and representative
+reverse law are proved below; addition totality and reverse laws remain separate obligations.
 
 # Naturality of the literal predicates and quotient carriers
 %%%
@@ -411,9 +412,10 @@ of the literal ratio relation; no field operations or decoding are asserted on t
 The literal equivalence-relation assertion is refuted above at transitivity; symmetry and
 fixed-class reflexivity in the source setting are proved. The following section transcribes
 the two raw operation recipes and proves their geometric invariance. The advertised
-forward operation laws are refuted on semantic representatives below. Totality, reverse
-directions and the remaining provenance retain separate obligations, with no quotient
-operation descent asserted.
+forward operation laws are refuted on semantic representatives below. Multiplication
+totality and its representative reverse law are proved after those refutations. Addition
+totality, reverse laws and the remaining provenance retain separate obligations, with
+no quotient operation descent asserted.
 This progress leaves the full I6b and I6c source-validation obligations open.
 
 # Literal operation recipes on representatives
@@ -447,9 +449,9 @@ independent universes, with all replacement, comparison, arithmetic and class wi
 
 These are representative-level formulas with explicit relation witnesses. They do not
 replace those witnesses with quotient equality. The next section refutes the advertised
-forward operation laws on semantic representatives. Totality and reverse directions
-remain separately tracked. No quotient operation descent or field structure is asserted
-for these literal formulas.
+forward operation laws on semantic representatives. Multiplication totality and its
+representative reverse law are proved below; addition retains separate obligations.
+No quotient operation descent or field structure is asserted for these literal formulas.
 
 # Wrong values in the literal operation recipes
 %%%
@@ -479,12 +481,52 @@ supply every tuple's class membership. The addition proof uses the existing deno
 `y`; no extra independence or rank-six assumption is needed.
 
 These refute both forward advertised operation laws on semantic representatives.
-Totality remains a separate obligation. Reverse directions require a precise domain:
+The following section proves raw multiplication totality and its representative reverse
+law. Addition totality and reverse laws remain separate. Reverse directions require a
+precise domain:
 the raw addition clause at a zero input requires equality of output representatives,
 so equal ratios alone cannot justify replacing that output. No quotient functionality
 or descent is claimed. The corrected coupled graphs, decoding and reconstruction remain
 proved. The source error was reported on issue #8 before source annotations; the original
 statements and proofs are preserved.
+
+# Totality and the reverse law for literal multiplication
+%%%
+tag := "literal-multiplication-laws"
+%%%
+
+The raw multiplication recipe is total on the actual class of a semantic base tuple,
+over a perfect ambient field at transcendence degree at least five. The base field is
+arbitrary, and completeness and the characteristic exponent are supplied internally:
+
+{docstring AclGeom.blueprintRatioMulGraph_total}
+
+There is also a representative-level reverse product law for nonzero inputs. This is a
+correction of the invalid quotient statement: it concerns actual raw class pairs whose
+underlying tuples are identified with semantic representatives. For every such input and
+output, the cross-product equality expressing the product of their generator ratios
+implies the literal raw graph. It holds over arbitrary base and ambient fields at rank
+five, without perfection or completeness:
+
+{docstring AclGeom.blueprintRatioMulGraph_of_mul_ratio}
+
+For ratios `c=p/q` and `d=p'/q'`, choose `r'` fresh over `{a,c,d}` and `s'` fresh over
+`{a,c,d,r'}`. The replacement pairs `(j(cr',a),j(r',a))` and `(j(ds',a),j(s',a))`
+have two honest generic products. The true converse of ratio semantics supplies all
+input replacements and the comparison with any specified semantic output of product
+ratio `c*d`. Every auxiliary tuple belongs to the actual class.
+
+For totality, normalize the four input class members inline, choose an output denominator
+`e` fresh over `{a,c*d}`, and use the preceding reverse law with output
+`(j(c*d*e,a),j(e,a))`. A zero factor has output `none`. Every fresh choice is local and
+stays within rank five; no caller normalization or freshness oracle is supplied.
+There are exactly two public theorems and no auxiliary declarations.
+
+The forward product law remains refuted above. These results assert no quotient
+functionality, operation descent, decoder or field structure. Addition totality and its
+carefully scoped reverse laws remain separate obligations, as do the remaining original
+construction/provenance claims. The corrected coupled field graphs and reconstruction
+remain proved.
 
 # Coupled generic arithmetic
 %%%

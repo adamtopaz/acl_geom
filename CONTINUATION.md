@@ -12890,3 +12890,41 @@ source statement blocks and 44 proof blocks are unchanged; reversing the new ann
 recovers the entire preceding source. The shared objective/completion criteria and frozen
 M4a record remain exact. Full library/book, exact-head CI and exhaustive committed-head
 dependency evidence is reported on #8. I6b/I6c and the durable goal remain open.
+
+## Literal multiplication totality and representative reverse law (#8)
+
+`Counterexamples.RatioMulGraphLaws` has exactly two public theorems and no helpers,
+private or generated auxiliary declarations. `blueprintRatioMulGraph_of_mul_ratio`
+proves the NONZERO-input representative-level reverse product law, a correction of the
+invalid quotient statement. Its base is an actual semantic tuple `j(x₀,a)`; all six
+endpoint pair-independence proofs and the underlying tuple equalities for arbitrary raw
+class pairs `r,s,t` are explicit. The cross identity
+`p''*(q*q')=q''*(p*p')` implies the actual literal multiplication graph. Only arbitrary
+fields and rank five are required, without perfection or completeness.
+
+`blueprintRatioMulGraph_total` proves totality for arbitrary Option of raw class-pair
+inputs, over a perfect ambient field at rank five and an arbitrary base. It supplies
+characteristic and ACF completeness internally, normalizes the four input class members
+inline and chooses an output denominator fresh over `{a,c*d}`, then consumes the reverse
+law. Zero factors have output `none`. The reverse law chooses its replacement multipliers
+fresh over `{a,c,d}` and `{a,c,d,r'}`. Two κ=1 generic products and three applications of
+the true ratio-semantics converse retain every product/comparison/class witness. Fresh
+choices are local; no caller normalizer, freshness oracle or joint rank-six premise occurs.
+
+Both agents independently checked the exact source, retaining all 376 preceding selected
+types and all 85 preceding scoped records byte for byte. The expanded checks cover 378
+selected standard-axiom declarations and 87 scoped records, including both new public
+theorems in two independent universes. The final source differs from the reviewed first
+draft only in two header scope corrections and one line wrap: the equivalence-closure
+quotient exists, and these two results assert no functionality theorem.
+
+The forward literal product law remains refuted by `blueprintRatioMulGraph_wrong_product`.
+No quotient functionality, operation descent, decoder or field structure is asserted.
+Addition totality, its carefully scoped reverse laws and remaining original provenance
+obligations remain open. The separate zero-input addition reverse refutation is checked
+and reported on #8 (6230508633), awaiting integration with its corrected statement.
+All 48 original source statement blocks and 44 proof blocks remain exact; reversing the
+new annotations recovers the complete preceding source. The shared objective/completion
+criteria and frozen M4a record are unchanged; only the goal review date and frontier are
+updated. Full library/book, exhaustive committed-head dependency and exact-head CI evidence
+are reported on #8. I6b/I6c and the durable project goal remain open.

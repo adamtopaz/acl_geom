@@ -3792,8 +3792,9 @@ over arbitrary fields in four independent universes. No ratio-relation witness i
 silently replaced by equality in its equivalence closure. These formulas assert no
 quotient operation descent, field structure, functionality or totality. The following
 historical theorem's forward operation laws are refuted on semantic representatives in
-\cref{rem:literal-operation-values}; totality and reverse directions retain their own
-obligations.
+\cref{rem:literal-operation-values}. Multiplication totality and a corrected
+representative-level reverse law are proved in \cref{rem:literal-multiplication-laws};
+addition retains its separate obligations.
 \end{remark}
 
 \begin{theorem}[total geometric field graphs]\label{thm:total-field-graphs}
@@ -3855,12 +3856,38 @@ The scalar-family arithmetic producers give the outputs, and literal ratio refle
 supplies every replacement and output comparison. No quotient decoder is assumed.
 
 This refutes the forward laws on semantic representatives, independently of the
-already refuted literal decoder. Totality remains a separate obligation. Reverse
-directions require a precise domain: the raw zero-addition completion uses equality
+already refuted literal decoder. Multiplication totality and a corrected representative
+reverse law are recorded in \cref{rem:literal-multiplication-laws}; addition retains
+its separate obligations. Reverse directions require a precise domain: the raw zero-addition completion uses equality
 of representatives, which cannot be silently replaced by equality of ratios. No quotient
 functionality or operation descent is asserted here. The corrected coupled graphs have
 proved totality and exact operation laws. The error was reported on issue 8 before this
 annotation; every historical statement and proof above is preserved for provenance.
+\end{remark}
+
+\begin{remark}[True multiplication components in Lean]\label{rem:literal-multiplication-laws}
+The theorem \lean{blueprintRatioMulGraph_total} proves totality of the raw literal
+multiplication graph on the actual Frobenius class of a semantic base tuple, over perfect
+ambient fields at rank five and arbitrary bases. Input normalization, the characteristic
+exponent and ACF completeness are supplied internally.
+
+The theorem \lean{blueprintRatioMulGraph_of_mul_ratio} is a representative-level
+correction of the historical reverse product law, for nonzero semantic inputs. Its
+actual raw input and output pairs are identified with semantic tuples with parameter $a$;
+all six independent-pair hypotheses and the cross-product identity expressing
+$p''/q''=(p/q)(p'/q')$ are explicit. That identity implies the raw literal graph over
+arbitrary fields at rank five, with no perfection or completeness hypothesis.
+For $c=p/q$ and $d=p'/q'$, choose $r'$ fresh over $\{a,c,d\}$ and $s'$ fresh over
+$\{a,c,d,r'\}$. Two honest generic products on the replaced numerators and denominators,
+and the true converse of literal ratio semantics for every comparison, give the graph.
+Every auxiliary tuple belongs to the actual class. For totality, choose an output
+$(j(cde,a),j(e,a))$ with $e$ fresh over $\{a,cd\}$, then apply the reverse law; zero
+factors have output zero. Each fresh choice is local and uses at most the fifth rank.
+
+The forward product law remains refuted. These results supply no quotient functionality,
+operation descent, decoder or field structure. Addition totality, its carefully scoped
+reverse laws and the remaining original construction/provenance claims remain separate.
+The historical theorem and proof are preserved in full above.
 \end{remark}
 
 \begin{proposition}[field reconstructed from a chosen class]\label{prop:interpreted-reconstruction}

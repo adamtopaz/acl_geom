@@ -123,8 +123,13 @@ It does not restore the refuted forward implication or a quotient decoder.
 and proves their geometric invariance with all literal replacement witnesses.
 `blueprintRatioAddGraph_wrong_sum` and `blueprintRatioMulGraph_wrong_product` refute both
 forward advertised operation laws on explicit semantic representatives, over infinite
-bases and perfect ambient fields at rank five. No decoder is assumed. Totality, reverse
-directions and the remaining provenance retain separate obligations. The bare field-isomorphism existence result is now stated
+bases and perfect ambient fields at rank five. No decoder is assumed.
+`blueprintRatioMulGraph_total` separately proves raw multiplication totality on the actual
+class over perfect ambient fields at rank five, without caller completeness.
+`blueprintRatioMulGraph_of_mul_ratio` proves the corrected representative-level reverse
+law for nonzero semantic inputs over arbitrary fields at rank five. It retains explicit
+endpoint pair hypotheses and tuple identities and supplies no quotient operation descent.
+Addition totality, its carefully scoped reverse laws and remaining provenance stay open. The bare field-isomorphism existence result is now stated
 without completeness inputs as `nonempty_ringEquiv_of_closedIF_orderIso_of_perfectField`;
 its bases need not be relatively algebraically closed. Remaining source provenance
 obligations still require their own disposition.
