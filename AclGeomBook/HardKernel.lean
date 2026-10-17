@@ -465,8 +465,13 @@ coordinate ring for the dimension computation.
 
 This supplies the chosen-point component and dimension step used in
 (8.4c) and (8.6), allowing positive relative dimension on both sides.
-Identifying the parameter-field family members and carrying the other
-finite branches still require separate proofs. The geometric presentation
+For the actual six-point partial quadrangle, the configuration chapter now
+constructs the selected incidence germs over the closed parameter join, retaining
+the three parameter closures. Over the literal compositum $`k(s,t,u)`, each
+selected branch, including the composite, is a minimal prime of its original
+parameter-field ideal after extension. The other branches and normal cover,
+and the parameter-family locus forms of (8.4c) and (8.6), still require separate proofs.
+The geometric presentation
 step for arbitrary irreducible correspondence curves is proved above by
 `exists_idealOf_eq_iff`, with the necessary ambient-size condition.
 The full finite-coordinate generic-extension lemma is proved above.

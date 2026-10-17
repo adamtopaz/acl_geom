@@ -12268,3 +12268,113 @@ original byte outside the existing joint-component annotation. All 48 original
 mathematical statement blocks and 44 proof blocks, the goal's objective and
 completion criteria, and frozen M4a are byte-exact. This guide is append-only.
 All three mathematical sources are byte-exact to both independent freezes.
+
+
+## Selected six-point incidence branches (#5, source (8.4c))
+
+`IsPartialQuadrangle.exists_composing_closed_incidence_germs` starts only
+from the literal six-point partial quadrangle in an algebraically closed
+ambient. Over the closed parameter join S join T it constructs the actual
+incidence germs S′ to U′, U′ to T′ and S′ to T′ with the original point
+representatives. Their canonical coefficient sets have relative closures
+exactly T, S and U, and the third is the selected composite of the first two.
+The base field is arbitrary; its universe and the ambient universe are
+independent. All pair ranks, incidences and non-incidences are derived from
+the six-point rank predicate, not supplied as extra hypotheses.
+
+Distinct atoms give pair rank two. Equal rank of a pair and dependent triple
+puts the third point in the pair join; a rank-three triple excludes it.
+The existing private incidence constructor supplies the finite correspondences
+over their own closed parameter fields and over the common join. The existing
+private exact-base-change and monic-uniqueness proof preserves coefficient
+sets. A new consumed rank-one coefficient argument observes that a nonzero
+closed subfield of a point is the point. A zero coefficient closure would make
+the two distinct endpoints algebraically dependent over the original base.
+
+`IsPartialQuadrangle.exists_literal_composing_incidence_germs` proves the
+literal-field selected branch, again from only the partial quadrangle, now
+over arbitrary base and ambient fields. Put F = k(s,t,u), where s,t,u are
+the original representatives of S,T,U. The theorem constructs T and S germs
+over F with a literally shared middle and the original three family germs
+over k(t), k(s), k(u). Each of the first two F-ideals, and the composite
+ideal, is a minimal prime of the corresponding literal family ideal extended
+to F. The parameter u is algebraic over k(s,t) but need not lie in that
+generated field; it is explicitly included in F. The exact relative closures
+of these finite parameter sets are derived internally, not assumed. Their common closure
+is S join T. The existing private `incidencePair` constructor is reused.
+
+The new `FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange` has
+three actual uses in the literal source producer. For two finite-correspondence
+presentations with the same endpoints over nested intermediate fields E ≤ F,
+the larger-field ideal contains the extended smaller-field ideal. Existing
+canonical curve equations make both ideals principal. The mapped equation is
+nonzero, so the extended ideal has height at least one; the selected principal
+prime has height at most one. Mathlib's height criterion proves minimality.
+Neither coefficient field nor the ambient needs to be algebraically closed.
+The extensions may split, and the theorem does not replace minimality by
+an unjustified equality of ideals.
+
+The two focused proof modules add exactly three public theorems and five
+consumed private lemmas. The seven incidence/non-incidence facts are shared
+privately by the closed and literal producers. No old helper is promoted or
+duplicated. The previous eleven ParameterField declarations, including every
+private statement and proof, are unchanged. Outside the new import and appended
+section, documentation changes consist of the module header and one exactly
+whitelisted old docstring correcting its stale composition/chart/completeness
+status. The new closed theorem's statement also
+matches the preceding independently checked geometric-only freeze exactly.
+The stale header claim that initial charts and reconstruction completeness
+remain open is corrected: those results are already proved elsewhere.
+
+Both agents checked the two mathematical sources with empty strict logs and
+default checking limits. Root additionally recompiled the actual importer
+AclGeom.lean with an empty strict log; the peer's initial importer search had
+missed that root file. All nineteen affected declarations agree in raw type
+hash and declaring module and use only standard axioms. All eleven preceding
+rows are exact. The selected audit has 342 public standard-dependency statements,
+retaining all 339 preceding main statements and the geometric-only producer
+exactly. Root's full-root inventory scans took 104.68 and 107.18 seconds;
+these were completed checks, not abandoned runs. Full library/book,
+clean-commit whole-library and exact-head CI evidence belongs to the checkpoint
+report on #5. Dependency checks are distinct from source coverage.
+
+Peer proof freeze: `/tmp/acl_geom_claude_literal_sixpoint/frozen1`, manifest
+`1805241940b0abad16f428ed6e0d72eaa9ab3c6820c681ac517e493e6d6c1ada`.
+Root independent freeze: `/tmp/acl_geom_codex_literal_sixpoint_review/frozen1`,
+manifest `8d921370712f3c26df5cb3eed6a8b79636ed62bafd79e1afa982bad9b4837502`.
+The helper's earlier temporary checks had explicit-map/coercion elaboration
+errors and then long-line warnings; fixing these did not change checking limits.
+Peer's literal attempt one failed only on three subset `simp` calls whose sets
+were not yet determined; making the sets explicit gave the final empty logs.
+All failed attempts, inputs, logs and metrics remain archived. Crossed compiler
+messages caused one safe lock refusal before a root build started; the original
+runner intervals show no overlapping families. Both agents use the canonical
+inner slot in the shared capped runner, with a 20 GB cap, swap disabled and
+two threads.
+
+The root export and the configuration chapter now expose both source producers
+and the helper. The correspondence chapter and shared goal state precisely
+the selected-branch scope. Two obsolete book claims that the already-proved
+finite-tuple geometric fibre-product/function-field bridge remains open are
+corrected. The original source statements and proofs are untouched. The
+existing joint-component annotation alone records the new results; every
+one of the eleven status-correction OLD and NEW sides is unchanged. Reversing
+that exact whitelist and removing only the existing annotation still gives
+the original source byte-for-byte. All 48 original mathematical statement
+blocks, 44 proof blocks, goal objective/completion criteria and frozen M4a
+are exact. This guide is append-only. SelectedBaseChange differs from both
+freezes only by removing one final blank line; ParameterField is byte-exact after
+reversing the single exact old-docstring status correction. Every mathematical
+statement and proof is unchanged.
+
+These are the selected geometric and literal incidence steps of (8.4c).
+The other finite branches, a common normal cover, the higher-dimensional
+parameter-family locus forms of (8.4c) and (8.6), the source group/chunk uses and the
+full six-point algebraic-group theorem remain obligations. The original
+affine-action, general curve-coset, algebraization, scheme/action and descent
+statements also remain owed. All sixteen #5 checklist texts/order and states
+are preserved at this checkpoint; the six-point group row is not closed.
+The issue and shared goal remain open. A future conjugate-branch parametrization
+must preserve genericity over the coefficient field; arbitrary automorphisms
+of the base extension do not define a permutation action on its fixed ideal
+set. This qualifies a proposed audit interface, not the original source wording.

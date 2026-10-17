@@ -5,6 +5,7 @@ Authors: Adam Topaz, Codex, Claude
 -/
 import AclGeom.Config.PsiLattice
 import AclGeom.Correspondence.CurveEquation
+import AclGeom.Correspondence.SelectedBaseChange
 
 /-!
 # Parameter fields recovered from actual incidence germs
@@ -24,14 +25,31 @@ transposed first germ followed by the second selects the third; existing
 BaseChange and monic uniqueness prove preservation. Finite-generator
 presentations can split.
 
+For a partial quadrangle `(S, T, U, S', T', U')` the same construction gives the
+selected composite of blueprint (8.4c): over the closed join `S ∨ T`, the germs
+`S' → U'`, `U' → T'` and `S' → T'` have coefficient closures `T`, `S` and `U`, and
+the third is the composite of the first two
+(`IsPartialQuadrangle.exists_composing_closed_incidence_germs`). Its incidences and
+ranks are derived from the partial quadrangle alone. It identifies the selected
+geometric branch over the closed parameter field. Over the literal parameter fields,
+`IsPartialQuadrangle.exists_literal_composing_incidence_germs` presents the same three
+germs over `k(t)`, `k(s)` and `k(u)` and the first two over `F = k(s, t, u)`: there
+the composite germ, and each of the first two, is a minimal prime of the extension of
+the corresponding literal parameter-field germ, which may split
+(`FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange`). The other finite
+branches and the normal cover are not asserted.
+
 All helpers are consumed. No chart, action, group or coefficient-rank
 conclusion is a caller oracle.
 
 **Status:** the rank-two germ-parameter claim is proved over arbitrary fields.
 Over an algebraically closed ambient field, the three common-closed-base germs
 retain their full parameter closures and compose with the corrected orientation
-(#27). Composition over nonclosed function-field bases, group extraction, initial
-charts and configuration/reconstruction completeness remain open (#27/#5).
+(#27). The selected (8.4c) composite germ of a partial quadrangle is proved over its
+closed parameter join and, as a selected minimal prime, over the literal parameter
+fields. The other finite branches, the normal cover, the original group extraction and
+the full six-point theorem remain open (#27/#5). The guarded initial chart, rank-five
+configuration completeness and the public reconstruction theorem are proved elsewhere.
 
 This module is part of the formalization of the Evans–Hrushovski–Gismatullin
 reconstruction theorem; the source of truth is `sources/blueprint.tex`.
@@ -120,7 +138,9 @@ no chart, action, field-of-definition or prime-ideal conclusion is supplied.
 This proves the rank-two germ-parameter claim in the initial-chart proof of
 blueprint Lemma `affine-grid-extraction`. The canonical prime equations, their
 exact branch ideals and coefficient descent use the existing `CurveEquation` API.
-Group extraction, composition, initial charts and completeness remain open. -/
+Group extraction, the other finite branches and the normal cover remain open.
+Closed-base composition is proved below; the guarded initial chart and completeness
+are proved elsewhere. -/
 theorem Psi.exists_incidence_germs_with_full_coefficients (hw : w.Psi) :
     ∃ (P_A : FiniteCorrespondencePair
         ↥(IntermediateField.adjoin k {w.A₁.rep, w.A₂.rep}) K)
@@ -346,6 +366,253 @@ theorem Psi.exists_composing_closed_incidence_germs [IsAlgClosed K] (hw : w.Psi)
   rw [hQCS, hQCT, hQAT, hQBT]
 
 end QWitness
+
+/-! ### The selected composite germ of a partial quadrangle -/
+
+section PartialQuadrangle
+
+/-- The join of two distinct points has rank two. -/
+private theorem rankEq_two_sup_of_ne {P Q : Point k K} (hPQ : P ≠ Q) : RankEq 2 (P.1 ⊔ Q.1) := by
+  have hle (A B : Point k K) (hAB : A ≠ B) : A.rep ∉ racl k ({B.rep} : Set K) := by
+    intro h
+    apply hAB
+    have hAB' : A.1 ≤ B.1 := by
+      rw [← A.point_rep, ← B.point_rep]
+      exact ClosedIF.point_le_iff.2 h
+    exact Subtype.ext ((B.2.le_iff.1 hAB').resolve_left A.2.1)
+  have hind : AlgebraicIndependent k ![P.rep, Q.rep] :=
+    algebraicIndependent_pair (hle P Q hPQ) (hle Q P hPQ.symm)
+  have hspan : ClosedIF.point k P.rep ⊔ ClosedIF.point k Q.rep =
+      ⨆ i : Fin 2, ClosedIF.point k ((![P.rep, Q.rep] : Fin 2 → K) i) := by
+    apply le_antisymm
+    · apply sup_le
+      · exact le_iSup_of_le 0 (by simp)
+      · exact le_iSup_of_le 1 (by simp)
+    · apply iSup_le
+      intro i
+      fin_cases i
+      · exact le_sup_left
+      · exact le_sup_right
+  rw [← P.point_rep, ← Q.point_rep, hspan]
+  simpa using rankEq_iSup_point hind
+
+/-- A point on a rank-two triple join with a rank-two pair lies on the pair. -/
+private theorem le_sup_of_rankEq_two {A B C : ClosedIF k K} (hAB : RankEq 2 (A ⊔ B))
+    (h : RankEq 2 (A ⊔ B ⊔ C)) : C ≤ A ⊔ B := by
+  rw [RankEq.eq_of_le le_sup_left hAB h]
+  exact le_sup_right
+
+/-- A point on a rank-three triple join with a rank-two pair avoids the pair. -/
+private theorem not_le_sup_of_rankEq_three {A B C : ClosedIF k K} (hAB : RankEq 2 (A ⊔ B))
+    (h : RankEq 3 (A ⊔ B ⊔ C)) : ¬ C ≤ A ⊔ B := fun hC ↦ by
+  rw [sup_eq_left.2 hC] at h
+  have h2 := rankEq_iff_eRk.1 hAB
+  have h3 := rankEq_iff_eRk.1 h
+  rw [h2] at h3
+  exact absurd (ENat.natCast_inj.1 h3) (by decide)
+
+/-- The canonical coefficients of a correspondence presented over a point's field recover that
+point when the target is not algebraic over the source. -/
+private theorem coefficientClosure_eq_point {A : Point k K}
+    (E : IntermediateField k K) (hEA : E ≤ A.1.1)
+    (P : FiniteCorrespondencePair ↥E K) (hfree : P.target ∉ racl k ({P.source} : Set K)) :
+    racl k (P.curveCoefficientSet k E) = A.1.1 := by
+  let C : ClosedIF k K := ⟨racl k (P.curveCoefficientSet k E), isRAC_racl _⟩
+  have hCA : C ≤ A.1 := by
+    change racl k (P.curveCoefficientSet k E) ≤ A.1.1
+    calc
+      racl k (P.curveCoefficientSet k E) ≤ racl k (A.1 : Set K) := by
+        apply racl_mono
+        rintro _ ⟨d, rfl⟩
+        exact hEA (P.curveEquation.coeff d).2
+      _ = A.1.1 := isRAC_iff_racl_eq.mp A.1.2
+  have hC0 : C ≠ ⊥ := by
+    intro hC
+    apply hfree
+    have hbot : ∀ z ∈ P.curveCoefficientSet k E, z ∈ racl k ({P.source} : Set K) := by
+      intro z hz
+      have hzC : z ∈ C := subset_racl k _ hz
+      have hz0 : z ∈ (⊥ : ClosedIF k K) := hC ▸ hzC
+      exact racl_mono (Set.empty_subset _)
+        (mem_racl_empty_of_isAlgebraic (ClosedIF.mem_bot_iff.1 hz0))
+    have hsub : P.curveCoefficientSet k E ∪ {P.source} ⊆
+        (racl k ({P.source} : Set K) : Set K) :=
+      Set.union_subset hbot (Set.singleton_subset_iff.2 (subset_racl k _ rfl))
+    exact racl_le_of_subset_racl hsub
+      (mem_racl_adjoin_base_iff.mp (P.target_mem_racl_curveCoefficientField_source k E))
+  exact congrArg Subtype.val ((A.2.le_iff.1 hCA).resolve_left hC0)
+
+/-- The incidences and non-incidences of a partial quadrangle used by its composite germs. -/
+private theorem IsPartialQuadrangle.incidences {f : Fin 6 → Point k K}
+    (h : IsPartialQuadrangle f) :
+    (f 2).1 ≤ (f 0).1 ⊔ (f 1).1 ∧ (f 5).1 ≤ (f 1).1 ⊔ (f 3).1 ∧
+      (f 4).1 ≤ (f 0).1 ⊔ (f 5).1 ∧ (f 4).1 ≤ (f 2).1 ⊔ (f 3).1 ∧
+      ¬ (f 3).1 ≤ (f 0).1 ⊔ (f 1).1 ∧ ¬ (f 5).1 ≤ (f 0).1 ⊔ (f 1).1 ∧
+      ¬ (f 4).1 ≤ (f 0).1 ⊔ (f 1).1 := by
+  have hne (i j : Fin 6) (hij : i ≠ j) : f i ≠ f j := h.injective.ne hij
+  have hrank3 (s : Finset (Fin 6)) (hs : s.card = 3) (hq : s ∉ quadTriples) :=
+    h.rank_free s hs hq
+  have hST := rankEq_two_sup_of_ne (hne 0 1 (by decide))
+  refine ⟨le_sup_of_rankEq_two hST (by simpa only [sup_assoc] using h.rank_STU),
+    le_sup_of_rankEq_two (rankEq_two_sup_of_ne (hne 1 3 (by decide)))
+      (by simpa only [sup_assoc] using h.rank_S'TU'),
+    le_sup_of_rankEq_two (rankEq_two_sup_of_ne (hne 0 5 (by decide)))
+      (by simpa only [sup_assoc, sup_comm ((f 5).1)] using h.rank_STU'),
+    le_sup_of_rankEq_two (rankEq_two_sup_of_ne (hne 2 3 (by decide)))
+      (by simpa only [sup_assoc] using h.rank_S'T'U),
+    not_le_sup_of_rankEq_three hST (by
+      have := hrank3 {0, 1, 3} (by decide) (by decide)
+      simpa only [Finset.sup_insert, Finset.sup_singleton, sup_assoc] using this),
+    not_le_sup_of_rankEq_three hST (by
+      have := hrank3 {0, 1, 5} (by decide) (by decide)
+      simpa only [Finset.sup_insert, Finset.sup_singleton, sup_assoc] using this),
+    not_le_sup_of_rankEq_three hST (by
+      have := hrank3 {0, 1, 4} (by decide) (by decide)
+      simpa only [Finset.sup_insert, Finset.sup_singleton, sup_assoc] using this)⟩
+
+/-- **The selected composite germ of a partial quadrangle** (blueprint (8.4c), selected geometric
+branch). Let `(S, T, U, S', T', U') = (f 0, …, f 5)` be a partial quadrangle of points in an
+algebraically closed field `K`. Over the closed join `F = S ∨ T` there are finite correspondences
+`Γ^T : S' → U'`, `Γ^S : U' → T'` and `Γ^U : S' → T'` with the displayed representatives, whose
+canonical coefficient sets have relative closures exactly `T`, `S` and `U`, and the germ of `Γ^U`
+is the composite of the germs of `Γ^T` and `Γ^S`. The incidences, non-incidences and pair ranks
+are derived from the partial quadrangle. This identifies the selected geometric branch over the
+algebraically closed parameter field `S ∨ T`; composition over the literal parameter function
+fields, the other finite branches and the normal-cover argument are not asserted. -/
+theorem IsPartialQuadrangle.exists_composing_closed_incidence_germs [IsAlgClosed K]
+    {f : Fin 6 → Point k K} (h : IsPartialQuadrangle f) :
+    ∃ (G_T G_S G_U : FiniteCorrespondencePair ↥((f 0).1 ⊔ (f 1).1).1 K),
+      G_T.source = (f 3).rep ∧ G_T.target = (f 5).rep ∧
+      G_S.source = (f 5).rep ∧ G_S.target = (f 4).rep ∧
+      G_U.source = (f 3).rep ∧ G_U.target = (f 4).rep ∧
+      racl k (G_T.curveCoefficientSet k ((f 0).1 ⊔ (f 1).1).1) = (f 1).1.1 ∧
+      racl k (G_S.curveCoefficientSet k ((f 0).1 ⊔ (f 1).1).1) = (f 0).1.1 ∧
+      racl k (G_U.curveCoefficientSet k ((f 0).1 ⊔ (f 1).1).1) = (f 2).1.1 ∧
+      FiniteCorrespondenceGerm.Composes (FiniteCorrespondenceGerm.ofPair G_T)
+        (FiniteCorrespondenceGerm.ofPair G_S) (FiniteCorrespondenceGerm.ofPair G_U) := by
+  have hne (i j : Fin 6) (hij : i ≠ j) : f i ≠ f j := h.injective.ne hij
+  have hnle (i j : Fin 6) (hij : i ≠ j) : ¬ (f i).1 ≤ (f j).1 := fun hle ↦
+    hne i j hij (Subtype.ext (((f j).2.le_iff.1 hle).resolve_left (f i).2.1))
+  have hfree (i j : Fin 6) (hij : i ≠ j) : (f i).rep ∉ racl k ({(f j).rep} : Set K) := by
+    intro hm
+    apply hnle i j hij
+    rw [← (f i).point_rep, ← (f j).point_rep]
+    exact ClosedIF.point_le_iff.2 hm
+  obtain ⟨hU_ST, hU'_TS', hT'_SU', hT'_US', hS'F, hU'F, hT'F⟩ := h.incidences
+  let F : ClosedIF k K := (f 0).1 ⊔ (f 1).1
+  -- The germs over the parameter points.
+  obtain ⟨P_T, hPTS, hPTT⟩ := QWitness.exists_closed_incidencePair (f 1).1 (f 3) (f 5)
+    (hnle 3 1 (by decide)) (hnle 5 1 (by decide)) hU'_TS'
+  obtain ⟨P_S, hPSS, hPST⟩ := QWitness.exists_closed_incidencePair (f 0).1 (f 5) (f 4)
+    (hnle 5 0 (by decide)) (hnle 4 0 (by decide)) hT'_SU'
+  obtain ⟨P_U, hPUS, hPUT⟩ := QWitness.exists_closed_incidencePair (f 2).1 (f 3) (f 4)
+    (hnle 3 2 (by decide)) (hnle 4 2 (by decide)) hT'_US'
+  -- The same germs over the common closed parameter field.
+  obtain ⟨Q_T, hQTS, hQTT⟩ := QWitness.exists_closed_incidencePair F (f 3) (f 5) hS'F hU'F
+    (hU'_TS'.trans (sup_le_sup_right le_sup_right _))
+  obtain ⟨Q_S, hQSS, hQST⟩ := QWitness.exists_closed_incidencePair F (f 5) (f 4) hU'F hT'F
+    (hT'_SU'.trans (sup_le_sup_right le_sup_left _))
+  obtain ⟨Q_U, hQUS, hQUT⟩ := QWitness.exists_closed_incidencePair F (f 3) (f 4) hS'F hT'F
+    (hT'_US'.trans (sup_le_sup_right hU_ST _))
+  have : IsAlgClosed ↥(f 0).1.1 := QWitness.closed_isAlgClosed (f 0).1
+  have : IsAlgClosed ↥(f 1).1.1 := QWitness.closed_isAlgClosed (f 1).1
+  have : IsAlgClosed ↥(f 2).1.1 := QWitness.closed_isAlgClosed (f 2).1
+  have hcoeffT := QWitness.curveCoefficientSet_eq_of_baseChange (f 1).1.1 F.1
+    (show (f 1).1.1 ≤ F.1 from (le_sup_right : (f 1).1 ≤ F)) P_T Q_T
+      (hPTS.trans hQTS.symm) (hPTT.trans hQTT.symm)
+  have hcoeffS := QWitness.curveCoefficientSet_eq_of_baseChange (f 0).1.1 F.1
+    (show (f 0).1.1 ≤ F.1 from (le_sup_left : (f 0).1 ≤ F)) P_S Q_S
+      (hPSS.trans hQSS.symm) (hPST.trans hQST.symm)
+  have hcoeffU := QWitness.curveCoefficientSet_eq_of_baseChange (f 2).1.1 F.1
+    (show (f 2).1.1 ≤ F.1 from hU_ST) P_U Q_U
+      (hPUS.trans hQUS.symm) (hPUT.trans hQUT.symm)
+  have hT : racl k (Q_T.curveCoefficientSet k F.1) = (f 1).1.1 := by
+    rw [← hcoeffT]
+    exact coefficientClosure_eq_point _ le_rfl P_T (by rw [hPTS, hPTT]; exact hfree 5 3 (by decide))
+  have hS : racl k (Q_S.curveCoefficientSet k F.1) = (f 0).1.1 := by
+    rw [← hcoeffS]
+    exact coefficientClosure_eq_point _ le_rfl P_S (by rw [hPSS, hPST]; exact hfree 4 5 (by decide))
+  have hU : racl k (Q_U.curveCoefficientSet k F.1) = (f 2).1.1 := by
+    rw [← hcoeffU]
+    exact coefficientClosure_eq_point _ le_rfl P_U (by rw [hPUS, hPUT]; exact hfree 4 3 (by decide))
+  refine ⟨Q_T, Q_S, Q_U, hQTS, hQTT, hQSS, hQST, hQUS, hQUT, hT, hS, hU, ?_⟩
+  have hshared : Q_T.target = Q_S.source := hQTT.trans hQSS.symm
+  refine ⟨Q_T, Q_S, hshared, rfl, rfl, ?_⟩
+  change idealOf ↥F.1 ![Q_U.source, Q_U.target] = idealOf ↥F.1 ![Q_T.source, Q_S.target]
+  rw [hQUS, hQUT, hQTS, hQST]
+
+/-- **The literal composite germ of a partial quadrangle** (blueprint (8.4c), selected branch
+over the literal parameter fields). Let `(S, T, U, S', T', U') = (f 0, …, f 5)` be a partial
+quadrangle with representatives `s, t, u, s', t', u'`, and let `F = k(s, t, u)`. Over `F` there are
+finite correspondences `Γ^T : S' → U'` and `Γ^S : U' → T'`, and over the literal parameter fields
+`k(t)`, `k(s)` and `k(u)` finite correspondences with the same endpoints as `Γ^T`, `Γ^S` and the
+composite `S' → T'`. The ideals of `Γ^T`, of `Γ^S` and of their composite are minimal primes of the
+extensions to `F` of the corresponding literal parameter-field ideals. These extensions may split;
+the other minimal primes (other finite branches) and the normal cover are not asserted. -/
+theorem IsPartialQuadrangle.exists_literal_composing_incidence_germs
+    {f : Fin 6 → Point k K} (h : IsPartialQuadrangle f) :
+    ∃ (G_T G_S : FiniteCorrespondencePair
+        ↥(IntermediateField.adjoin k {(f 0).rep, (f 1).rep, (f 2).rep}) K)
+      (hTS : G_T.target = G_S.source)
+      (L_T : FiniteCorrespondencePair ↥(IntermediateField.adjoin k {(f 1).rep}) K)
+      (L_S : FiniteCorrespondencePair ↥(IntermediateField.adjoin k {(f 0).rep}) K)
+      (L_U : FiniteCorrespondencePair ↥(IntermediateField.adjoin k {(f 2).rep}) K),
+      G_T.source = (f 3).rep ∧ G_T.target = (f 5).rep ∧ G_S.target = (f 4).rep ∧
+      L_T.source = (f 3).rep ∧ L_T.target = (f 5).rep ∧
+      L_S.source = (f 5).rep ∧ L_S.target = (f 4).rep ∧
+      L_U.source = (f 3).rep ∧ L_U.target = (f 4).rep ∧
+      (G_T.comp G_S hTS).ideal ∈ Ideal.minimalPrimes (L_U.ideal.map (MvPolynomial.map
+        (IntermediateField.inclusion (IntermediateField.adjoin.mono k {(f 2).rep}
+          {(f 0).rep, (f 1).rep, (f 2).rep} (by simp)) : _ →+* _))) ∧
+      G_T.ideal ∈ Ideal.minimalPrimes (L_T.ideal.map (MvPolynomial.map
+        (IntermediateField.inclusion (IntermediateField.adjoin.mono k {(f 1).rep}
+          {(f 0).rep, (f 1).rep, (f 2).rep} (by simp)) : _ →+* _))) ∧
+      G_S.ideal ∈ Ideal.minimalPrimes (L_S.ideal.map (MvPolynomial.map
+        (IntermediateField.inclusion (IntermediateField.adjoin.mono k {(f 0).rep}
+          {(f 0).rep, (f 1).rep, (f 2).rep} (by simp)) : _ →+* _))) := by
+  obtain ⟨hU_ST, hU'_TS', hT'_SU', hT'_US', hS'F, hU'F, hT'F⟩ := h.incidences
+  have hnle (i j : Fin 6) (hij : i ≠ j) : ¬ (f i).1 ≤ (f j).1 := fun hle ↦
+    h.injective.ne hij (Subtype.ext (((f j).2.le_iff.1 hle).resolve_left (f i).2.1))
+  -- Exact closed spans of the literal parameter fields.
+  have hspan (i : Fin 6) : racl k {(f i).rep} = (f i).1.1 := by
+    rw [← (f i).point_rep]
+    rfl
+  have hST : racl k {(f 0).rep, (f 1).rep} = ((f 0).1 ⊔ (f 1).1).1 := by
+    rw [← coe_sup_point₂, (f 0).point_rep, (f 1).point_rep]
+  have hspanF : racl k {(f 0).rep, (f 1).rep, (f 2).rep} = ((f 0).1 ⊔ (f 1).1).1 := by
+    have hu : (f 2).rep ∈ racl k {(f 0).rep, (f 1).rep} := by
+      rw [hST]
+      exact ClosedIF.le_iff.1 hU_ST (f 2).mem_rep
+    rw [← hST]
+    refine le_antisymm (racl_le_of_subset_racl ?_) (racl_mono ?_)
+    · rintro _ (rfl | rfl | rfl)
+      · exact subset_racl k _ (Set.mem_insert _ _)
+      · exact subset_racl k _ (Set.mem_insert_of_mem _ (Set.mem_singleton _))
+      · exact hu
+    · rintro _ (rfl | rfl)
+      · exact Set.mem_insert _ _
+      · exact Set.mem_insert_of_mem _ (Set.mem_insert _ _)
+  -- Germs over the literal parameter fields and over `F`.
+  let L_T := QWitness.incidencePair (hspan 1) (f 3) (f 5) (hnle 3 1 (by decide))
+    (hnle 5 1 (by decide)) hU'_TS'
+  let L_S := QWitness.incidencePair (hspan 0) (f 5) (f 4) (hnle 5 0 (by decide))
+    (hnle 4 0 (by decide)) hT'_SU'
+  let L_U := QWitness.incidencePair (hspan 2) (f 3) (f 4) (hnle 3 2 (by decide))
+    (hnle 4 2 (by decide)) hT'_US'
+  let G_T := QWitness.incidencePair hspanF (f 3) (f 5) hS'F hU'F
+    (hU'_TS'.trans (sup_le_sup_right le_sup_right _))
+  let G_S := QWitness.incidencePair hspanF (f 5) (f 4) hU'F hT'F
+    (hT'_SU'.trans (sup_le_sup_right le_sup_left _))
+  let G_U := QWitness.incidencePair hspanF (f 3) (f 4) hS'F hT'F
+    (hT'_US'.trans (sup_le_sup_right hU_ST _))
+  have hcomp : G_T.comp G_S rfl = G_U := rfl
+  refine ⟨G_T, G_S, rfl, L_T, L_S, L_U, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_, ?_⟩
+  · rw [hcomp]
+    exact FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange _ L_U G_U rfl rfl
+  · exact FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange _ L_T G_T rfl rfl
+  · exact FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange _ L_S G_S rfl rfl
+
+end PartialQuadrangle
 
 end
 

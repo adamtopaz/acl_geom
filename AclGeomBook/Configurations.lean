@@ -143,6 +143,61 @@ permutations its hypothesis is checked by `decide`:
 
 {docstring AclGeom.IsPartialQuadrangle.comp_perm}
 
+# Six-point incidence branches
+%%%
+tag := "sixpoint-incidence-branches"
+%%%
+
+The source's six-point theorem begins with a partial quadrangle
+$`(S,T,U,S',T',U')`. Its four dependent triples describe the three incidence
+families $`S'\to U'`, $`U'\to T'` and $`S'\to T'`. The following theorem
+constructs these actual finite correspondences over the closed join
+$`S\vee T` in an algebraically closed ambient:
+
+{docstring AclGeom.IsPartialQuadrangle.exists_composing_closed_incidence_germs}
+
+Its only source hypothesis is the literal `IsPartialQuadrangle` predicate.
+Distinct points give the pair ranks, the four rank-two triples give the
+incidences, and the other rank-three triples keep the endpoints generic
+over the parameter join. The three canonical coefficient sets have relative
+closures exactly $`T`, $`S` and $`U`. A nonzero closed coefficient field
+inside a rank-one point is that point; if it were zero, the target would
+be algebraic over the source, contrary to their distinctness. Existing
+base change and monic uniqueness preserve these coefficient sets over the
+common closed join. The base field $`k` need not be algebraically closed.
+
+The literal parameter fields require a different comparison. Put
+$`F=k(s,t,u)`, using the chosen representatives of $`S,T,U`. The parameter
+$`u` is algebraic over $`k(s,t)` and need not belong to that generated
+field, so it is included in $`F` explicitly:
+
+{docstring AclGeom.IsPartialQuadrangle.exists_literal_composing_incidence_germs}
+
+This theorem works over arbitrary base and ambient fields, again from the
+partial quadrangle alone. It constructs the actual first two correspondences
+over $`F` and all three families over their literal fields $`k(t)`,
+$`k(s)` and $`k(u)`. Each selected ideal over $`F`, including the composite,
+is a minimal prime of the corresponding extended family ideal. Scalar
+extension may split an ideal, so the conclusion retains the selected branch.
+The helper has three actual uses in this source consumer:
+
+{docstring AclGeom.FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange}
+
+Both curve ideals have their existing canonical equations. The extended
+nonzero equation gives height at least one, and the selected principal
+prime has height at most one. Mathlib's height criterion gives minimality.
+No algebraic-closedness, supplied component or ideal conclusion is needed.
+Both source producers and the helper have two independent field universes.
+
+These results prove the selected geometric and literal branch steps of
+(8.4c). They do not construct the other branches' common normal cover,
+a group chunk or the algebraic group in the full six-point theorem.
+The parameter-family locus forms of (8.4c) and (8.6), the original group/chunk
+and scheme/action obligations remain separate. A branch
+parametrization by conjugate points must retain genericity over the
+chosen coefficient field; arbitrary base-field automorphisms need not
+preserve that field or its generic points.
+
 # The semantic relations
 %%%
 tag := "semantic-relations"
@@ -513,9 +568,12 @@ endpoints. It never transports the globally quantified Ψ.
 
 This covers the rank-two field-of-definition step. The common-closed-base
 composition step follows below. Relational germ composition is associative
-over arbitrary bases, as proved below. Its identification with components
-of geometric fiber products over nonclosed function-field bases, group chunks,
-the original scheme/action bridges and remaining source obligations remain open.
+over arbitrary bases, as proved below. The finite-tuple calculus already identifies
+it with the actual dominating
+components of geometric fiber products over arbitrary field bases in an ACF
+ambient. The literal six-point family branches are treated above. The remaining
+parameter-family identities, other branches, normal covers, group chunks and
+original scheme/action bridges remain obligations.
 Guarded initial charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.
 
@@ -569,8 +627,11 @@ equation at endpoints moved by an actual common-field endomorphism.
 The universally quantified Ψ is never transported.
 
 No new public rank wrapper, field definition, normalization interface or
-checking option is added. The geometric fiber-product/function-field bridge,
-group chunks, original scheme/action bridges and remaining source obligations remain open.
+checking option is added. The geometric fiber-product and generic-point
+presentation bridges are proved in the correspondence chapter. Literal selected
+six-point branches are treated above; the higher-dimensional family identities,
+other branches, normal covers, group chunks and original scheme/action bridges
+remain obligations.
 Guarded initial
 charts and rank-five ACF Q′/J completeness are proved below. Frozen M4a is
 unchanged.

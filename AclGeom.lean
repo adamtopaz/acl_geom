@@ -52,6 +52,7 @@ import AclGeom.Correspondence.ThreefoldIncidence
 import AclGeom.Correspondence.ScalarCompositionGeometry
 import AclGeom.Correspondence.TensorRealization
 import AclGeom.Correspondence.CurveEquation
+import AclGeom.Correspondence.SelectedBaseChange
 import AclGeom.Correspondence.CurveEquationTransport
 import AclGeom.Correspondence.FiniteCover
 import AclGeom.Correspondence.AlgebraicClosureTransport

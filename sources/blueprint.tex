@@ -1531,8 +1531,28 @@ five independent universes. A maximal independent subfamily, finite rank
 cancellation and integral tensor base change derive the component claim;
 quotient-to-range isomorphisms give its dimension.
 This supplies the chosen-point component step of (8.4c) and (8.6).
-The parameter-field family identities and the other finite branches
-remain obligations, alongside the separate original group/chunk statements.
+For the actual six-point partial quadrangle, the selected (8.4c)
+parameter-field branch is now proved by
+\lean{IsPartialQuadrangle.exists_composing_closed_incidence_germs} and
+\lean{IsPartialQuadrangle.exists_literal_composing_incidence_germs}.
+The only source input is the literal partial quadrangle: pair ranks,
+incidences and non-incidences are derived internally. Over the closed
+parameter join in an algebraically closed ambient, the three incidence
+germs retain coefficient closures exactly $T$, $S$ and $U$ and compose
+at the original endpoints. Over arbitrary fields, the literal parameter
+compositum is $F=k(s,t,u)$; $u$ need not lie in $k(s,t)$. The source
+families are presented over $k(t)$, $k(s)$ and $k(u)$. Each selected ideal
+over $F$, including the composite ideal, is a minimal prime of the
+corresponding extended family ideal. These extensions may split.
+The helper \lean{FiniteCorrespondencePair.ideal_mem_minimalPrimes_baseChange}
+has three actual uses: the nonzero extended equation gives height at
+least one, while the selected principal prime gives height at most one.
+All three public statements have two independent field universes.
+The other finite branches and their common normal cover, the
+parameter-family locus forms of (8.4c) and (8.6) and the separate original
+group/chunk statements remain obligations. A conjugate-branch
+parametrization must retain genericity over the chosen coefficient field;
+arbitrary base-field automorphisms need not preserve that field.
 The geometric generic-point presentation step is proved by
 \lean{exists_idealOf_eq_iff}: for any prime ideal $P$ in a polynomial ring
 with finitely many variables, the literal quotient $k[\iota]/P$ has an
