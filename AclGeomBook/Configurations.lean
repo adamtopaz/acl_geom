@@ -7,6 +7,7 @@ import VersoManual
 import AclGeom.Config.Correctness
 import AclGeom.Config.GuardedAffineGrid
 import AclGeom.Config.Completeness
+import AclGeom.Transfer.MulDiagramProduct
 import AclGeom.Config.JAssembly
 import AclGeom.Config.Transport
 import AclGeom.Config.PsiLattice
@@ -537,6 +538,41 @@ The two inner ratio inequalities follow from multiplication-diagram
 distinctness. Hence guarded Q completeness supplies Q′ completeness:
 
 {docstring AclGeom.q'Sem_of_q'Geom_of_guardedQCompleteness}
+
+# The product point over arbitrary fields
+%%%
+tag := "multiplication-product-arbitrary-fields"
+%%%
+
+The product clause has a stronger form over arbitrary base and ambient fields. An actual
+multiplication diagram, with actual bottom representatives `X=[x]`, `Y=[y]`, `V=[x/y]`,
+has product point `E=[xy]`:
+
+{docstring AclGeom.MulDiagram.product_point}
+
+No algebraic closedness, perfection, rank bound, RAC, infinite-base or freshness premise
+is assumed. All nondegeneracy and seven-line conditions are retained in `MulDiagram`.
+The two field universe levels are independent. There is one public theorem and no helper,
+private, internal or generated auxiliary declaration.
+
+Embed `K` into its algebraic closure and take the algebraic closure of `k` there as base.
+The diagram lifts to this algebraically closed pair, and its three bottom points keep
+the actual representatives. The rank-free full coordinate theorem above supplies the
+product equality there. Injectivity of the closed-field lift reflects exactly `E=[xy]`
+back to `K/k`.
+
+Only the product point is reflected. The auxiliary corner chosen over the algebraic
+closure need not belong to `K`, so this
+does not descend the full auxiliary table. That table still has both ACF hypotheses.
+The result strengthens the product clause of source `mul-diagram`; the original section's
+surrounding ACF discussion and its curve-coset proof retain their provenance. It does not
+assert that the original section lacked an implicit closed-field setting.
+
+The named consumers are that source product clause and the corrected Q′ statement on
+[#25](https://github.com/adamtopaz/acl_geom/issues/25). Corrected arbitrary-field Q/Q′
+statements and general existential-witness descent remain separate there; this result
+does not prove the refuted raw Q/Q′ equivalences. Original group/chunk, coherent-cover
+and scheme/action obligations remain open.
 
 # Semantic assembly of J
 %%%

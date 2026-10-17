@@ -15,11 +15,16 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-17; #10)
+## Current status (2026-10-17; #25)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
-five. The actual chart and its original-field coordinate descent are internal. The public
+five. The product-output clause now also holds over arbitrary fields for an actual diagram
+and representatives X=[x], Y=[y], V=[x/y], with no closedness, perfection or rank premise:
+`MulDiagram.product_point`. Only E=[xy] reflects from the algebraic closure; the full
+auxiliary table remains an ACF result. Corrected arbitrary-field Q/Q′ and general
+existential-witness descent remain separate on #25. The actual chart and its original-field
+coordinate descent are internal. The public
 `exists_reconstruction` and `reconstruction_target` now supply both completeness proofs
 internally. Their only hypotheses are the two original RAC bases, source rank five, the
 chosen perfections and lattice isomorphism. The exact Frobenius fibre and converse are
@@ -13231,3 +13236,43 @@ The full original/supplementary disposition audit remains open. In particular, #
 corrected arbitrary-field Q/Q′ and general witness-descent scope, the original group/chunk,
 coherent-branch/common-normal-cover and scheme/action statements remain obligations.
 The durable project goal stays active and incomplete.
+
+
+## Checkpoint: the multiplication-diagram product point over arbitrary fields (#25)
+
+`MulDiagram.product_point` in `Transfer.MulDiagramProduct` proves the product clause of
+source `mul-diagram` over arbitrary base and ambient fields. For an actual nondegenerate
+diagram and supplied actual representatives X=[x], Y=[y], V=[x/y], it returns E=[xy].
+No closedness, perfection, rank, RAC, infinite-base or freshness hypothesis is needed.
+The two field universes are independent. The module imports only MultiplicationConverse
+and LiftConfig, with one public theorem, standard axioms and no auxiliary declarations.
+
+The diagram lifts to the algebraic closure of K over the algebraic closure of k there.
+Lifted principal points retain x,y and x/y. The existing rank-free full coordinate theorem
+gives E=[xy] in that ACF pair; injectivity of the closed-field lift reflects the equality.
+Only the product point is reflected. The auxiliary corner need not lie in K, so no full
+table or general existential configuration-witness descent is claimed over arbitrary K.
+The existing full table remains proved for ACF base and ambient fields without rank.
+
+Both agents independently checked the exact mathematical leaf and root on 4e43a83.
+The draft needed no repair. The public type hash is 3813660894 in two universes.
+Integration changes only the leaf's header provenance wording: the source section first
+discusses ACF pairs, so this is described as a strengthening of its product clause,
+without asserting that the original section lacked an implicit ACF setting. The entire
+statement and proof body are exact. The one old mathematical file changes only its
+module header; all old statements and entire proof bodies remain exact.
+
+The selected scope expands to 388 standard-axiom declarations and 98 scoped records,
+preserving all 387 preceding types and 97 declaration records exactly. Both agents' full
+new type and declaration record agree. The original source lemma and proof remain exact;
+the source/book distinguish the stronger product point from the full ACF coordinate table,
+the still-open Q/Q′ correction and witness-descent scope, and original curve-coset/group
+proof provenance. A stale source paragraph no longer calls the proved four-way J theorem
+or ACF completeness open; the literal M6 defects retain their recorded dispositions.
+
+All 48 original source statements and 44 proofs, the shared objective/completion criteria
+and frozen 117-item M4a record are unchanged. Full library/book, three strict modules,
+selected types/inventory, clean-head exhaustive dependency and exact-head CI evidence
+are reported on #25 before this checkpoint is final. #7/#25 and the durable project goal
+remain open. Corrected arbitrary-field Q/Q′, general existential-witness descent and true
+group/chunk, coherent-cover and scheme/action obligations are not discharged here.

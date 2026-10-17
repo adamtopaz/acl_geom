@@ -1105,7 +1105,19 @@ The original proof of \cref{lem:mul-diagram} above is preserved.  Its use of
 \cref{lem:curve-coset} has not constructed the required ambient group; the
 proof gap is recorded at
 \href{https://github.com/adamtopaz/acl_geom/issues/12\#issuecomment-6155280744}{issue \#12}.
-The product-output assertion is now proved by
+The product-output assertion now has the stronger arbitrary-field form
+\lean{MulDiagram.product_point}: for an actual nondegenerate diagram with supplied
+representatives $X=[x]$, $Y=[y]$, $V=[x/y]$, its output is $E=[xy]$. No algebraic
+closedness, perfection, rank, RAC, infinite-base or freshness premise is required.
+Lift the diagram to the algebraically closed pair $\bar k\subseteq\overline K$;
+its bottom points keep those actual representatives. The rank-free full coordinate
+theorem there gives the product equality, which reflects along the injective lift of
+closed fields. Only this output is reflected: the auxiliary corner need not lie in $K$,
+so the full coordinate table over arbitrary fields is not asserted. This strengthens
+the product clause without changing the original section's surrounding ACF discussion
+or its proof provenance.
+
+The underlying semantic product-output result is
 \lean{q'Sem_of_qSem_of_mulDiagram}: over an algebraically closed ambient
 field of transcendence degree at least five, semantic $\Qrel$ together with
 an actual multiplication diagram gives semantic $\Qprel$.  No algebraic
@@ -2876,12 +2888,16 @@ characteristic zero fixes the ratio, and $(2,1)$-weighted homogeneity makes $s/x
 algebraic. In a rational function field this is a constant, contradicting the nonsquare
 property of a nonzero constant times $s$. The $\Qprel$ proof supplies the ratio using the
 multiplicative-correspondence quotient theorem and an independent fresh element.
-General witness descent remains a separate obligation. Lean also proves the semantic
-$\Jrel$ assembly and the point-level arrows $(1)\Leftrightarrow(2)$ and $(4)\Rightarrow(3)$; rank-five soundness
-$(1)\Rightarrow(4)$ also allows finite bases. The four-way theorem remains conditional on
-algebraically closed $\Jrel$ completeness, which the semantic assembly reduces to the still-open
-algebraically closed $\Qrel/\Qprel$ completeness inputs. The interpretation arguments using
-arbitrary-field projections must be reassessed against this correction.
+Corrected arbitrary-field Q/Q-prime statements and general existential-witness descent
+remain separate on issue 25; no such witness-descent theorem is asserted here.
+\lean{jDescent_tfae} proves the four-way $\Jrel$ equivalence over perfect ambient fields
+at rank five, with no RAC or infinite-base requirement. \lean{jCompletenessACF} supplies
+its ACF implication internally from proved guarded Q completeness and the multiplication
+converse. \lean{MulDiagram.product_point} now gives the product-output clause for actual
+representatives over arbitrary fields, but supplies no missing Q-projection point or
+auxiliary witness descent. The interpretation's original literal defects have their
+refutations and proved coupled replacements in \cref{rem:literal-m6-disposition}.
+The false original Q/Q-prime consequences and their proofs retain their provenance.
 \end{remark}
 
 \section[The Frobenius-class relation on J]

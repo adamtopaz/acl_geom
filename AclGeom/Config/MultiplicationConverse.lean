@@ -27,7 +27,12 @@ from the fresh parameter field to the original base.
 Coherent specialization to the original base then produces the full auxiliary
 coordinate table when the base is algebraically closed. This proves both
 converse clauses of blueprint Lemma `mul-diagram` under the stated ACF and
-rank-five hypotheses. Guarded geometric `Q` completeness is proved in `Config.GuardedAffineGrid`;
+rank-five hypotheses. An auxiliary extension removes the ambient rank bound for the full
+table when both fields are algebraically closed (`MulDiagram.exists_coordinates`).
+`Transfer.MulDiagramProduct` then strengthens the product point to arbitrary fields, for
+actual bottom representatives, with no closedness, perfection or rank premise. It reflects
+only the product point; no auxiliary table over arbitrary fields is asserted.
+Guarded geometric `Q` completeness is proved in `Config.GuardedAffineGrid`;
 together these give rank-five ACF `Q′` and `J` correctness in `Config.Completeness`.
 The original group-extraction statements remain separate source obligations.
 -/
