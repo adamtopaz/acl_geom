@@ -2187,10 +2187,15 @@ automorphism over $\operatorname{Spec} k$, so the places boundary is invariant
 (\lean{SchemePlaceAction.placeAction_mem_boundary_iff}). For an affine such curve, that
 boundary is nonempty over every field (\lean{SchemePlaceAction.boundary_nonempty}) and
 finite over an algebraically closed field (\lean{SchemePlaceAction.boundary_finite});
-finite generation is derived from the scheme. This is a valuation-place result. The
-points--places correspondence, extension and uniqueness on a scheme completion, the
-connected-group fixed-boundary step, rational-action regularization and the classifier
-remain open. All eight original issue-21 work items stay open. The original lemma and
+finite generation is derived from the scheme. For a connected algebraic group acting
+regularly on such an affine curve, every boundary place is fixed
+(\lean{SchemePlaceAction.placeAction_eq_of_mem_boundary}), and an actual fixed boundary
+place is chosen internally (\lean{SchemePlaceAction.exists_fixed_boundary_place}). The
+regular action supplies closed order conditions through uniform finite tensor sums and
+algebraic dual separation (\lean{ActionSemicontinuity.isClosed_setOf_le_ord}); the argument
+works in every characteristic. These are valuation-place results. The points--places
+correspondence, extension and uniqueness on a scheme completion, rational-action
+regularization and the arbitrary-action classifier remain open. All eight original issue-21 work items stay open. The original lemma and
 proof retain their provenance unchanged.
 
 % Original unguarded affine-grid-extraction from ed61c33, refuted in issue 27.

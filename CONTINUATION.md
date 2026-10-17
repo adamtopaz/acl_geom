@@ -92,8 +92,11 @@ Both results share one internally constructed base algebra. Actual regular actio
 act on places and preserve the global-section subalgebra. An affine integral locally finite-type
 curve of dimension one has a nonempty valuation-place boundary over any field; over an ACF base
 it is finite. The finite generation and one-variable hypotheses are derived internally. Every
-place of an actual such curve over an ACF base is a DVR, without needing affineness. The
-connected-group fixed-boundary step, rational-action regularization and classification remain open.
+place of an actual such curve over an ACF base is a DVR, without needing affineness. Every
+connected regular action on an affine curve now fixes each boundary place and supplies an actual
+fixed place internally. Order closedness comes from the actual action through uniform finite tensor
+sums and algebraic dual separation, in every characteristic. Rational-action regularization,
+completion/points identification and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
 The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
@@ -13591,7 +13594,7 @@ content, full library/book gates and exact-head CI. A finite dependency inventor
 a whole-source coverage certificate.
 
 The bridge takes a regular action; source Lemma affine-action takes a rational action.
-Rational-action regularization, the connected-group fixed-boundary step, the normal-subgroup and original
+Rational-action regularization, the original completion/points bridge, the normal-subgroup and original
 group/chunk/six-point producers, arbitrary-action classification, algebraization and
 descent remain owed. All eight original #21 work items stay open. The complete durable
 goal remains active and incomplete.
@@ -13634,9 +13637,65 @@ history retain their provenance. A finite inventory is not a source-coverage cer
 
 This is the valuation-place bridge for REGULAR actions. It does not identify places with
 points, construct a projective completion, extend scheme automorphisms to it, prove their
-uniqueness, or regularize a rational action. A connected group fixing each boundary place
-still needs a proof using the algebraic action; an abstract finite-index argument fails
-in positive characteristic. There is no field/place-faithfulness equivalence. The original
+uniqueness, or regularize a rational action. The next checkpoint proves the fixed-boundary
+step for connected regular actions on affine curves using the algebraic action and
+irreducibility; an abstract finite-index argument would fail in positive characteristic. There is no field/place-faithfulness equivalence. The original
 group/chunk, six-point and normal-subgroup producers, arbitrary-action classification,
 algebraization and descent remain owed. All eight original #21 rows stay open, and the
 full durable goal remains active and incomplete.
+
+
+## Checkpoint: a connected regular action fixes the affine boundary (#21)
+
+`Correspondence.SchemePlaceFixed` proves `SchemePlaceAction.placeAction_eq_of_mem_boundary`.
+The theorem takes an actual connected algebraic group, its regular ModObj action on an integral affine locally finite-type curve,
+scheme dimension one and a boundary place, over an ACF base. It proves that every k-point
+fixes that place. `exists_fixed_boundary_place` also chooses a genuine fixed boundary place
+internally from the existing nonempty-boundary theorem. There is no caller closedness,
+finite-generation, one-variable, finite-boundary, faithfulness or fixed-point oracle.
+The literal Lean namespace is `AclGeom.SchemePlaceAction`.
+
+`GroupPointTopology` transports the closed-point subspace topology to actual k-points as
+an explicit/local definition. The integral carrier and Jacobson density give an irreducible
+point space. Existing scheme translations supply the left homeomorphisms. No global Hom-set
+topology or joint continuity for the product of the point-space topologies is claimed.
+
+`Curves.PlaceTransport` proves normalized-order transport. Nonnegative sets agree; the
+uniformizer comparison factor is positive and divides one, hence is one. The theorem
+includes zero using its junk order. The zero-including order threshold is a k-subspace.
+`PlaceProfiles` chooses finite nonzero section samples distinguishing any finite family of
+places of a genuine fraction field, with three independent universes. Different valuation
+rings give different order signs for some nonzero fraction; a numerator or denominator
+then distinguishes their orders.
+
+`SchemeActionSections` gives the action on actual global sections as a finite tensor sum,
+uniform in every acting point of an affine group open. Its algebras are the explicit base
+maps through Gamma/Spec, not a silent identification with the range model. Generic-germ
+naturality turns the section formula into the actual function-field pullback formula.
+`ActionSemicontinuity` derives closedness of every order threshold for a nonzero section.
+At a point outside the threshold, algebraic dual separation of the zero-including order
+subspace supplies a linear form. The finite coefficient formula gives a genuine section
+whose basic open is a complement neighborhood. No finite-dimensionality of the function
+field or the order subspace is required.
+
+A private scheme gluing lemma uses those internally supplied closed conditions and finite
+profiles to express each orbit fiber as a closed intersection minus a finite closed union.
+`FiniteActionIrreducible` proves the finite-action argument: a finite locally closed cover
+of an irreducible space has an open member; translate its fiber to an open stabilizer and
+intersect two nonempty open translates. This uses the algebraic action in every
+characteristic, with no abstract finite-index argument. The public scheme theorem derives
+every premise of this private gluing step from the actual connected group/action/curve.
+
+Both agents read all proofs and independently checked the other's modules. Strict source
+checks, full expanded API types, declaration/axiom/internal-consumer inventories, parent
+preservation, actual book main content, full library/book gates and exact-head CI are
+recorded in the issue report. All original source statements/proofs/TEST clauses, the
+shared objective/completion core and frozen M4a history retain their provenance. A finite
+inventory is not a source-coverage certificate. The stale places-open module prose in
+ActionFunctionField is corrected without changing its mathematics.
+
+The result concerns valuation places for REGULAR actions on AFFINE curves. The original
+rational-action regularization, non-affine completion/points bridge and extension/uniqueness,
+original group/chunk/six-point/normal-subgroup producers, arbitrary-action classification,
+algebraization and descent remain owed. No field/place-faithfulness equivalence is asserted.
+All eight original #21 work items remain open; the full durable goal stays active and incomplete.

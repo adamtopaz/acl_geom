@@ -25,9 +25,9 @@ Scope. The input is a regular scheme action. The source lemma `lem:affine-action
 rational action; nothing here regularizes rational actions. The faithfulness hypothesis is the
 `k`-point kernel criterion. In characteristic `p` it is weaker than scheme-theoretic faithfulness,
 because a non-reduced kernel can have no nontrivial `k`-points.
-The actual curve function field is supplied by
-`SchemeCurveFunctionField` using the same base algebra. The action on places and the
-classification remain open.
+The actual curve function field is supplied by `SchemeCurveFunctionField` using the same base
+algebra. `SchemePlaceAction` supplies the regular action on places, and `SchemePlaceFixed` its
+fixed affine-boundary consumer. Arbitrary-action classification remains open.
 
 **Status:** the regular-action function-field homomorphism and its point-kernel injectivity
 criterion are proved. Rational-action regularization and classification remain open.

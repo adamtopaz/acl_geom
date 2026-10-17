@@ -15,6 +15,7 @@ import AclGeom.Correspondence.AffineGroupGeometry
 import AclGeom.Correspondence.AffineSchemeAction
 import AclGeom.Correspondence.SchemeCurveFunctionField
 import AclGeom.Correspondence.SchemePlaceBoundary
+import AclGeom.Correspondence.SchemePlaceFixed
 import AclGeom.Correspondence.MultiplicativeLiteral
 import AclGeom.Correspondence.MultiplicativeSubgroup
 import AclGeom.Correspondence.RegularACF
@@ -1889,11 +1890,96 @@ transcendental generic germ, and its pole place is a missing place of the model.
 {docstring AclGeom.SchemePlaceAction.boundary_nonempty}
 
 This supplies a finite, nonempty invariant set of valuation places for an actual affine
-curve over an algebraically closed field. It does not prove that a connected group fixes
-each place. The abstract finite-index argument is insufficient in positive characteristic;
-the remaining proof needs algebraic information about the regular action. The points–places
+curve over an algebraically closed field. The next section proves that an actual connected
+regular action fixes every boundary place, using the algebraic action and irreducibility.
+An abstract finite-index argument would be insufficient in positive characteristic. The points–places
 identification, scheme extension and uniqueness, projective completion, rational-action
 regularization and arbitrary-action classification remain owed. No equivalence between
 field-action faithfulness and place-action faithfulness is asserted. All eight original work
 items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open, and the complete
 shared goal remains active and incomplete.
+
+
+# A connected regular action fixes the affine boundary
+%%%
+tag := "connected-regular-fixed-boundary"
+%%%
+
+Let a connected algebraic group act regularly on an integral affine curve over an
+algebraically closed field, locally of finite type and of scheme dimension one. Every
+valuation place in the curve's boundary is fixed by every k-point of the group. The
+curve supplies all finite-generation and one-variable hypotheses internally.
+
+{docstring AclGeom.SchemePlaceAction.placeAction_eq_of_mem_boundary}
+
+The boundary is nonempty by the preceding curve theorem, so the proof also chooses an
+actual boundary place fixed by the entire point group. No fixed-place certificate is
+supplied by the caller, and no faithfulness assumption is needed for this step.
+
+{docstring AclGeom.SchemePlaceAction.exists_fixed_boundary_place}
+
+The group point space has an explicit Zariski topology transported from its closed points.
+It is irreducible for a connected algebraic group: the carrier is integral and its closed
+points are dense by the Jacobson property. Individual left translations are homeomorphisms,
+by the actual scheme translations already constructed. Joint continuity for the product
+of these point-space topologies is not asserted.
+
+{docstring AclGeom.GroupPointTopology.topology}
+
+{docstring AclGeom.GroupPointTopology.pointsHomeo}
+
+{docstring AclGeom.GroupPointTopology.irreducibleSpace}
+
+{docstring AclGeom.GroupPointTopology.leftMulHomeo}
+
+Orders transport along field automorphisms, including the junk order zero at the zero
+field element. The normalization factor is positive and divides one, hence equals one.
+The elements of order at least m together with zero form a k-subspace; including zero is
+necessary for positive m because the integer-valued order has no infinity value.
+
+{docstring AclGeom.Place.ord_comap}
+
+{docstring AclGeom.Place.ordFiltration}
+
+Finite nonzero global-section samples distinguish the finite boundary. Distinct valuation
+rings give a nonzero element with different order signs. Expressing it as a fraction of
+actual global sections shows that a numerator or denominator has different orders.
+The domain, base and fraction field can have independent universes in the sampling lemma.
+
+{docstring AclGeom.Place.exists_finset_ord_separating}
+
+The regular scheme action itself supplies closedness of order thresholds. On each affine
+open of the group, the pullback of a global section is a uniform finite tensor sum. Its
+coefficients are actual sections on that open and are chosen before the acting k-point.
+Evaluation gives the point action on global sections.
+
+{docstring AclGeom.SchemeActionSections.pointEval}
+
+{docstring AclGeom.SchemeActionSections.exists_pointAut_appTop_eq_sum}
+
+{docstring AclGeom.SchemeActionSections.pointEval_eq_zero_iff}
+
+At a point outside an order threshold, algebraic dual separation gives a linear form
+vanishing on the zero-including order subspace and nonzero at the moved section. Applied
+to the finite tensor formula, it gives a genuine section on the group whose basic open
+is a neighborhood in the complement. No finite-dimensionality of the whole function
+field, or of its order subspace, is needed. The sampled section must be nonzero.
+
+{docstring AclGeom.ActionSemicontinuity.isClosed_setOf_le_ord}
+
+The finite sample profiles express each orbit fiber as the intersection of a closed set
+and an open set, using exact integer order levels. A finite locally closed cover of an
+irreducible space has an open member. Translating its fiber gives an open stabilizer;
+intersecting two nonempty open translates forces every group element to fix the place.
+This argument works in every characteristic and uses the algebraic action. An abstract
+finite-index argument would not suffice in positive characteristic.
+
+{docstring AclGeom.FiniteAction.fixed_of_finite_locallyClosed_fibers}
+
+This proves the valuation-place fixed-boundary step for regular actions on affine curves.
+The original source assumes a rational action and uses a scheme completion. Rational-action
+regularization, the non-affine/completion and points–places bridges, the original group/chunk,
+six-point and normal-subgroup producers, arbitrary-action classification, algebraization and
+descent remain separate obligations. No field/place-faithfulness equivalence is asserted.
+All eight original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain
+open; the full shared goal remains active and incomplete.
