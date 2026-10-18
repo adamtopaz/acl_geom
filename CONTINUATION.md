@@ -133,8 +133,12 @@ covers and the full classifier remain owed. Every actual group-scheme automorphi
 is now identity or inversion over any field. Over an ACF base, an actual normal multiplicative
 subgroup of a connected algebraic group is central as a joint scheme identity, in every
 characteristic (`MultiplicativeRigidity.normal_multiplicativeGroup_conj`). The exponent,
-regular conjugation lift, separating point and constancy are internal. The arbitrary one-
-dimensional normal-subgroup/isogeny classification remains owed.
+regular conjugation lift, separating point and constancy are internal. The actual normal-Ga case now constructs a regular group character G to Gm and proves the
+joint scheme conjugation diagram of (8.4b), with only the actual group, inclusion and genuine
+normality as inputs (`AdditiveRigidity.normal_additiveGroup_conj`). Actual field-base Ga
+automorphisms are nonzero scalar maps. The parameter group is reduced; every characteristic
+is covered. Coefficient, regularity, global invertibility and character laws are internal.
+Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14406,3 +14410,42 @@ source finite covers, non-affine/rational actions, regularization, completion/po
 the full classifier, original group/chunk/six-point results, algebraization/descent and every
 true bypassed auxiliary remain owed. All eight original #21 items stay open; the full durable
 goal remains active/incomplete. Earlier checkpoints retain their then-current frontiers.
+
+
+## Checkpoint: the actual normal additive-subgroup character (#21)
+
+`AdditiveRigidity.normal_additiveGroup_conj` proves the normal-Ga case of (8.4b). From a
+connected algebraic group over an ACF base, an actual Ga group morphism into it and genuine
+normality, it constructs a regular group character to Gm and proves the actual joint scheme
+conjugation diagram. Coefficient, regularity, global invertibility and group laws are all
+internal. Every characteristic is covered; no group-dimension hypothesis is needed for this
+auxiliary statement. This does not identify arbitrary one-dimensional normal subgroups.
+
+Every actual Ga group-scheme automorphism over a field is multiplication by a nonzero
+scalar. Hopf-Spec full faithfulness gives a coordinate-algebra automorphism. Polynomial
+inverse degrees force degree one and the actual Hopf counit removes the constant. This is
+not a classification over arbitrary nonreduced coefficient rings. The parameter group in
+the regular-family consumer is reduced.
+
+Normality gives the regular conjugation lift. Evaluation at one gives a regular line map
+whose value at each base-field point is nonzero. Its pullback coordinate is a global
+section; Jacobson closed points make its basic open the whole group, so it is a global unit.
+The actual Laurent-algebra and spectrum maps give the regular Gm morphism, without assuming
+the parameter group affine. Monic cancellation proves multiplicativity of the conjugation
+slices; the scalar point formula gives the coefficient law. Reduced-product point
+extensionality proves the actual character's group laws and joint scheme diagram.
+
+Nine focused production modules preserve eleven independently checked prototype bodies.
+Every helper has a named consumer ending at the actual theorem; all generated proof
+dependencies have consumers. The expanded intrinsic types and direct signatures have zero
+omissions. No checking option is weakened. Full build/book, strict module checks, whole-
+library dependency/source fidelity and exact-head CI evidence are recorded on #21. Ownership,
+source review requests and serial compiler leases were coordinated through chit with
+aclgeom.claude; no fresh peer proof approval is claimed.
+
+The normal-Ga character and normal-Gm centrality are now actual source auxiliaries. Arbitrary
+one-dimensional normal-subgroup/isogeny classification, the dense-orbit curve coordinate,
+remaining source finite covers, non-affine/rational actions, regularization, completion/points,
+the full classifier, original group/chunk/six-point statements, algebraization/descent and
+every true bypassed auxiliary remain owed. All eight original #21 items and the full durable
+goal remain active/incomplete. Earlier checkpoints retain their then-current frontiers.

@@ -2173,6 +2173,23 @@ one-dimensional subgroup with $\Gm$ or $\Ga$, the required finite-isogeny classi
 non-affine/rational actions and the full classifier remain open. All eight original issue-21
 items remain open; the original statement and proof retain their provenance unchanged.
 
+\paragraph{Lean status of the normal additive-subgroup character in (8.4b).}
+Every actual group-scheme automorphism of $\Ga$ over a field is multiplication by a nonzero
+scalar (\lean{AdditiveRigidity.groupIso_eq_scale}). Polynomial inverse degrees force a
+linear coordinate and the Hopf counit removes its constant. Over an ACF base, an actual
+normal additive-subgroup morphism into a connected algebraic group internally supplies
+a regular group character $\chi:G\to\Gm$ and the actual joint scheme conjugation diagram
+of (8.4b) (\lean{AdditiveRigidity.normal_additiveGroup_conj}). Normality gives the regular
+conjugation lift. Evaluation at one gives a regular coefficient; its field-point values
+are nonzero, so its global section is a unit. Monic cancellation proves multiplicativity;
+reduced-product point extensionality proves the character laws and joint scheme diagram.
+No scalar, regularity or character certificate is a premise; every characteristic is
+covered. The parameter group is reduced. No automorphism classification over arbitrary
+nonreduced coefficient rings is asserted. This proves the normal-Ga case when the subgroup
+is presented as $\Ga$. Arbitrary one-dimensional normal-subgroup/isogeny classification,
+the dense-orbit coordinate construction and the full classifier remain open. All eight
+original issue-21 items and the full durable goal stay open; original provenance is unchanged.
+
 \paragraph{Lean status of the scheme/function-field bridge.}
 The theorem \lean{scheme_functionField_isFunctionFieldOneVar} derives the existing
 one-variable function-field hypothesis from an actual integral curve scheme, locally
