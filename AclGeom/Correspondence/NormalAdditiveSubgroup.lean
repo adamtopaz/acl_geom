@@ -28,9 +28,14 @@ parameter is reduced; no Aut-Ga representability over nonreduced rings is assert
 
 Identifying arbitrary one-dimensional normal subgroups with Ga or Gm, their required
 finite-isogeny classification, the dense-orbit curve coordinate, non-affine/rational actions,
-regularization, completion/points, the full classifier, original group/chunk/six-point
+regularization, projective presentation, the full classifier, original group/chunk/six-point
 results, algebraization/descent and every true bypassed auxiliary remain owed. All eight
 original #21 work items and the full durable goal stay open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.AdditiveRigidity

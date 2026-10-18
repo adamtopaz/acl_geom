@@ -23,9 +23,14 @@ the global coordinate ring with k[t]. No coordinate, chart, point, transitivity,
 normality or isomorphism certificate is supplied by the caller. Normality of the Ga
 subgroup is not needed for this auxiliary. Identifying arbitrary one-dimensional normal
 subgroups with Ga or Gm, their required isogeny classification, remaining source parameter
-covers, rational and non-affine actions, regularization, completion/points, the full original
+covers, rational and non-affine actions, regularization, projective presentation, the full original
 classifier and all true bypassed auxiliaries remain owed. All eight original #21 work
 items and the full durable goal stay open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.CurveGlobalCoordinate

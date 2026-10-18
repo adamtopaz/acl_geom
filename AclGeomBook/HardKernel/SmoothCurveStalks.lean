@@ -92,9 +92,11 @@ is a field; at every closed point it is a nonfield valuation ring and hence a DV
 
 These actual scheme and group consumers are ACF dimension-one results. They do not assert
 smooth-normality over arbitrary fields or in higher dimensions. The actual proper curve
-is an input to individual extension. Completion construction, jointly regular extensions
-of rational families, rational-action regularization and the full original rational/
-non-affine classifier remain owed. Original group/chunk/six-point statements,
+is an input to this earlier individual-extension theorem. The later CurveCompletion chapter
+now constructs the actual proper-normal model, ORIGINAL-curve open embedding and original-group
+individual extensions internally. Projective presentation, jointly regular extensions of
+rational families, rational-action regularization and the full original rational/non-affine
+classifier remain owed. Original group/chunk/six-point statements,
 algebraization/descent and every true bypassed auxiliary remain obligations. All eight
 original [#21](https://github.com/adamtopaz/acl_geom/issues/21) work items and the full
 durable goal remain active and incomplete. Original source statements and proofs are unchanged.

@@ -14,7 +14,7 @@ constructs a unique actual map from the spectrum of each place ring, with the pr
 generic-point map. Its closed-point image defines the actual center. Named consumer: the
 actual closed-point/place equivalence.
 
-The given proper normal curve is an actual input. Completion construction, joint regularity of
+The given proper normal curve is an actual input. Projective presentation, joint regularity of
 extended families, rational-action regularization and the full original classifier remain
 owed, alongside group/chunk/six-point statements, algebraization/descent and every true
 bypassed auxiliary. All eight original #21 work items and the full durable goal remain active
@@ -24,6 +24,11 @@ For actual smooth integral dimension-one curves over an ACF base, SmoothCurveSta
 derives integral closedness of every actual stalk and DVRs at closed points internally; its
 actual connected-group and individual proper-smooth extension consumers have no normality
 premise.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.CurvePointsPlaces

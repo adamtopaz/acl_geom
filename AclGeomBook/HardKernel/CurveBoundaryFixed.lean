@@ -80,8 +80,10 @@ base-field group points, as in the existing place API.
 {docstring AclGeom.CurveBoundary.fixed_boundary_places}
 
 The regular action on the ambient curve and the equivariant open are actual inputs.
-Construction of a proper normal completion and joint regularity of extended rational
-families remain owed. The following smooth-curve section now derives actual stalk normality
+The later CurveCompletion chapter now constructs the actual proper-normal model and ORIGINAL
+smooth separated ACF curve/group open embedding, with individual extensions internal.
+Projective presentation and joint regularity of extended rational families remain owed.
+The following smooth-curve section now derives actual stalk normality
 for smooth integral dimension-one curves over an ACF base, internally also for actual
 one-dimensional connected algebraic groups. The original rational/non-affine classifier
 and regularization, group/chunk/six-point statements,

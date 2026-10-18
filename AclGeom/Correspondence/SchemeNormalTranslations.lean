@@ -26,9 +26,14 @@ no degree-one, separability or N-isomorphic-to-Ga conclusion is asserted.
 This proves the finite-isogeny normal-subgroup step in the regular-affine case. The old
 whole-curve isomorphism theorem still requires a subgroup already presented as Ga; this
 new isogeny alone does not remove that premise. Rational/non-affine regularization,
-completion/points, the full original classifier, group/chunk/algebraization/descent and
+projective presentation, the full original classifier, group/chunk/algebraization/descent and
 all true bypassed auxiliaries remain owed. All eight original #21 items and the full
 durable goal stay open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemeNormalTranslations

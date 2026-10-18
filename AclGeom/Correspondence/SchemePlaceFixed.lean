@@ -19,10 +19,15 @@ then show every boundary place is fixed. A fixed boundary place is chosen intern
 
 Named source consumer: blueprint `lem:affine-action`, for a regular action on an affine
 integral locally finite-type curve of dimension one over an algebraically closed field.
-Rational regularization, completion and points/places identification remain separate.
+Rational regularization, projective presentation and joint regularity remain separate.
 
 **Status:** proved for actual connected regular actions on affine curves over algebraically
 closed fields, in every characteristic.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemePlaceAction

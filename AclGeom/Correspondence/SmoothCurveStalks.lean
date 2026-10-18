@@ -22,11 +22,16 @@ Every actual automorphism of a nonempty open in a proper smooth integral curve e
 uniquely to the entire curve, with normality internal. No local-normality, cotangent-rank,
 valuation or extension certificate is a premise.
 
-These are ACF dimension-one results. Completion construction, joint regularity of extended
+These are ACF dimension-one results. Projective presentation, joint regularity of extended
 rational families, rational-action regularization and the full original classifier remain
 owed. Original group/chunk/six-point statements, algebraization/descent and every true
 bypassed auxiliary remain obligations. All eight original #21 work items and the full durable
 goal remain active and incomplete.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SmoothCurveStalks

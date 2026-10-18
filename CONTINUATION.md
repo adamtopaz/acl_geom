@@ -207,10 +207,17 @@ valuation ring, and every actual closed-point stalk is a DVR. Normality, cotange
 and valuation inputs are internal. An actual one-dimensional connected algebraic group
 supplies smoothness through Mathlib internally. Every actual automorphism of a nonempty
 open in a proper smooth integral curve extends uniquely, with normality internal. These
-are ACF dimension-one results. Completion construction and joint regularity of extended
-rational families remain owed.
-Non-affine and rational-action cases, completion construction, normal-subgroup classification
-outside the proved regular-affine case and arbitrary-action classification remain open.
+are ACF dimension-one results. CurveCompletion now constructs an actual proper-normal integral
+dimension-one model and an actual open embedding of the ORIGINAL smooth separated ACF curve.
+Its actual one-dimensional connected algebraic-group consumer obtains smoothness internally
+and extends every automorphism of the ORIGINAL group scheme uniquely to the constructed curve.
+The parameter, both actual normalization charts, their literal overlap, all normal stalks,
+both valuative halves, SAME-field identification and original-curve embedding are internal.
+No completion, embedding, function-field isomorphism or extension certificate is supplied.
+The source's projective presentation remains owed; no projectivity or smoothness of the
+completed model is asserted. Jointly regular extended families, non-affine/rational-action
+cases, normal-subgroup classification outside the regular-affine case and arbitrary-action
+classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
 The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
@@ -14950,3 +14957,51 @@ original #21 work items and the full goal remain active and incomplete. No arbit
 or higher-dimensional smooth-normality theorem is asserted. Full local gates and exact-head
 CI are reported on #21. Chit coordinates standing Codex tracked ownership and the exclusive
 20 GB compiler lease with aclgeom.claude; no fresh peer approval is claimed.
+
+
+## 2026-10-18 actual proper-normal completion and ORIGINAL-curve embedding
+
+The current source consumer is `CurveCompletion.connectedGroup_completion_and_extensions` in
+`AclGeom/Correspondence/CurveCompletion/ConnectedGroupCompletion.lean`. It starts with an ACTUAL
+one-dimensional connected algebraic group over an ACF base and internally constructs an ACTUAL
+proper normal integral dimension-one curve, the ORIGINAL group's actual open embedding, and
+unique extensions of every actual original-group scheme automorphism. Mathlib supplies group
+smoothness internally. No completion, embedding, field-identification or extension certificate
+is a premise. These are individual extensions; no jointly regular parameter family is asserted.
+
+`exists_proper_normal_completion` supplies the same original-curve embedding for every actual
+smooth separated integral ACF dimension-one curve. The actual generic-stalk function field
+supplies a separating parameter internally. The integral closures of k[t] and k[t^-1] are
+finite Dedekind charts with that SAME fraction field. Their literal common normalized Laurent
+overlap is proved to be the principal localization of BOTH actual charts. The actual gluing
+is integral and finite type, with every actual stalk integrally closed and dimension at most
+one. A valuation contains a parameter or its inverse; integrality constructs the corresponding
+actual chart lift. The genuine gluing pullback and reciprocal-parameter identity prove
+uniqueness over the valuation ring. Both valuative halves and finite type prove actual
+properness. Three scoped heartbeat allowances pay for concrete scalar-dictionary reduction;
+all kernel checking remains enabled and each allowance is documented.
+
+The actual model's generic-stalk field is identified with the ORIGINAL field through an actual
+affine normalization chart. The earlier normal-curve extension theorem constructs the actual
+map from the original curve. A birational morphism to valuation stalks is an isomorphism on
+those actual stalks: valuation-ring maximality and fraction-field injectivity prove this
+internally. Spreading the rational inverse at every actual image point, followed by separated
+uniqueness, gives actual inverse morphisms onto an open subscheme. This proves the ORIGINAL
+curve's open immersion, rather than supplying it as an interface. Its dimension forces the
+actual completed model's dimension to equal one. Every new helper converges on this source
+consumer; unused restricted-scalar and preliminary lift prototypes are excluded.
+
+The source requests a nonsingular PROJECTIVE completion. The proved construction is PROPER
+NORMAL. No projective presentation or smoothness of the completed model is asserted. Those
+remaining source obligations, jointly regular extended rational families, the full original
+rational/non-affine classifier and regularization, original group/chunk/six-point statements,
+algebraization/descent and every true bypassed auxiliary remain owed. All eight original #21
+items and the full durable goal remain active and incomplete. Original source statements,
+proofs and TESTs, the goal completion core and frozen M4a history are unchanged. Older checkpoint
+paragraphs record their then-current frontier; their proper-normal completion/original-embedding
+obligation is superseded in this stated scope. Their proved mathematical bodies are unchanged.
+
+The 29 focused mathematical modules, current status comments, source/book/frontier claims and
+shared goal are updated together. Full local validation and exact-head CI evidence are reported
+on #21. Chit coordinates standing Codex tracked ownership and the exclusive 20 GB compiler lease
+with aclgeom.claude; no fresh peer approval is claimed.

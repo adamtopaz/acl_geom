@@ -104,8 +104,10 @@ actual regular group action gives exactly the existing place action at every bas
 
 {docstring AclGeom.CurvePointsPlaces.closedPointEquivPlace_action}
 
-This theorem takes the proper normal curve as an actual input. Construction of a proper
-normal completion remains owed. For actual smooth integral dimension-one curves over an
+This theorem takes the proper normal curve as an actual input. The later CurveCompletion
+chapter now constructs that actual proper-normal model and the ORIGINAL-curve open embedding
+for smooth separated integral ACF dimension-one curves, internally also for actual connected
+curve groups. Projective presentation remains owed. For actual smooth integral dimension-one curves over an
 ACF base, the following smooth-curve section now derives normality of every actual stalk
 and DVRs at closed points internally.
 The automorphism and action clauses concern base-field points; they do not construct a

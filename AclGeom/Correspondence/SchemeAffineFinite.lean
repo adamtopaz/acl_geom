@@ -24,9 +24,14 @@ parameter open, finite map, transitivity, regularity or isomorphism certificate 
 Every characteristic is included; no separability or scheme monomorphism is asserted.
 
 Arbitrary one-dimensional normal-subgroup/isogeny classification, rational/non-affine
-regularization, completion/points, the full original classifier, group/chunk/algebraization/
+regularization, projective presentation, the full original classifier, group/chunk/algebraization/
 descent and all true bypassed auxiliaries remain owed. All eight original #21 items and
 the full durable goal remain open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemeAffineFinite

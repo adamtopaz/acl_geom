@@ -20,9 +20,14 @@ generic-stalk field has genus zero and a transcendental generator over the origi
 Chart, parameter field, coefficients, rank, constants, one-variable instances, rationality
 and descent are internal. `SchemeAffinePointAction` uses these results to construct faithful
 original-base affine coordinates for the actual k-point action. Non-affine and rational-action
-cases, regularization, completion/
-points identification, the normal subgroup and arbitrary-action classifier remain open;
+cases, regularization, projective presentation, the normal subgroup and arbitrary-action
+classifier remain open;
 all eight original #21 items and the full durable goal stay open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemeCurveGenus

@@ -364,3 +364,4 @@ import AclGeom.Correspondence.SmoothCurveCotangentSplit
 import AclGeom.Correspondence.SmoothCurveLocalNormality
 import AclGeom.Correspondence.SmoothCurveStalkBase
 import AclGeom.Correspondence.SmoothCurveStalks
+import AclGeom.Correspondence.CurveCompletion.ConnectedGroupCompletion

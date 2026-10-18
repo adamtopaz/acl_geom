@@ -69,8 +69,10 @@ finiteness need not be an extra hypothesis.
 {docstring AclGeom.ProperCurve.isIso_of_isIso_functionFieldMap}
 
 These are individual map and automorphism extension theorems. A jointly regular family
-of extended automorphisms requires a separate proof. Construction of a proper normal
-completion remains owed. Over an ACF base, the following smooth-curve section derives
+of extended automorphisms requires a separate proof. The later CurveCompletion chapter now
+constructs the actual proper-normal model and ORIGINAL-curve open embedding for smooth separated
+integral ACF dimension-one curves, internally also for actual connected curve groups. Projective
+presentation remains owed. Over an ACF base, the following smooth-curve section derives
 normality of every actual stalk and individual extension for proper smooth curves internally.
 For a given
 actual proper normal dimension-one curve, the closed-point/place correspondence, literal

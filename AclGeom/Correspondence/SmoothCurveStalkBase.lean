@@ -16,11 +16,16 @@ scheme smoothness and local finite type supply formal smoothness and essential f
 closed-point residue fields are algebraic over the same ACF base algebra. Named consumer:
 actual smooth-curve stalk normality.
 
-These are ACF dimension-one results. Completion construction, joint regularity of extended
+These are ACF dimension-one results. Projective presentation, joint regularity of extended
 rational families, rational-action regularization and the full original classifier remain
 owed. Original group/chunk/six-point statements, algebraization/descent and every true
 bypassed auxiliary remain obligations. All eight original #21 work items and the full durable
 goal remain active and incomplete.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SmoothCurveStalks

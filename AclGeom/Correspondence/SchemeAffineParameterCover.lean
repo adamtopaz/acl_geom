@@ -19,11 +19,16 @@ no coordinate, dominance, algebraicity or finite-cover certificate is a caller p
 
 This is the GROUP PARAMETER cover. Inseparability is allowed. `SchemeAffineCurveDiagram`
 adds the actual SAME-coordinate joint scheme action diagram. Remaining source finite covers,
-including finiteness or an open-immersion property of the curve coordinate, non-affine/rational
+outside the proved regular-affine coordinate and parameter covers, non-affine/rational
 actions,
-regularization, completion/points identification, the normal subgroup and full classifier,
+regularization, projective presentation, the normal subgroup and full classifier,
 original group/chunk/six-point results, algebraization/descent and every true bypassed
 auxiliary remain owed. All eight original #21 items and the full durable goal stay open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemeAffineParameterCover

@@ -30,9 +30,14 @@ cover formulas hold over every coefficient algebra in the base universe.
 
 N is classified here up to actual finite Ga covers; no N-isomorphism, degree-one or
 separability conclusion is asserted. The arbitrary rational/non-affine classifier,
-regularization, completion/points, original group/chunk/six-point results,
+regularization, projective presentation, original group/chunk/six-point results,
 algebraization/descent and every true bypassed auxiliary remain owed. All eight original
 #21 work items and the full durable goal remain active and incomplete.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.RegularAffineModel

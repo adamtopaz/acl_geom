@@ -30,6 +30,13 @@ Changing all perfection choices gives equivalent source groupoids and the same g
 functor. Validation also proves the theorem on rational function fields over arbitrary
 bases and distinctness of Frobenius iterates in positive characteristic at positive transcendence degree.
 
+An actual smooth separated integral curve of dimension one over an algebraically closed
+field now has an internally constructed proper-normal completion and an actual open embedding
+of the ORIGINAL curve. The [connected-group consumer](AclGeom/Correspondence/CurveCompletion/ConnectedGroupCompletion.lean)
+derives smoothness internally and uniquely extends every automorphism of the original
+one-dimensional group scheme to that constructed curve. Projectivity, jointly regular
+extended families and the full original curve-action classification remain obligations.
+
 ## Layout
 
 * `AclGeom/` — the reconstruction formalization (a Lean library depending on Mathlib).

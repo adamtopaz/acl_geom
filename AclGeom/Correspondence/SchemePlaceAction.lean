@@ -28,6 +28,11 @@ construct a completion, regularize a rational action, or show that a connected g
 boundary; the classification of `lem:affine-action` remains open.
 
 **Status:** proved; the actual scheme and affine-curve consumers are checked independently.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemePlaceAction

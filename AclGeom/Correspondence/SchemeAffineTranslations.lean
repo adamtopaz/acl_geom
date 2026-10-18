@@ -24,9 +24,14 @@ The existing regular-affine producer is called once. No coordinate, translation,
 polynomial, factorization, nontriviality or finiteness certificate is a caller premise.
 Normality is not needed for this auxiliary statement. Arbitrary one-dimensional subgroup
 classification, the dense-orbit coordinate construction, non-affine/rational actions,
-regularization, completion/points, the full classifier, original group/chunk/six-point
+regularization, projective presentation, the full classifier, original group/chunk/six-point
 statements, algebraization/descent and all true bypassed auxiliaries remain owed. All eight
 original #21 work items and the full durable goal stay open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemeAffineTranslations

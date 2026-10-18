@@ -25,9 +25,14 @@ Named source consumer: the affine action formula in blueprint `lem:affine-action
  `SchemeAffineParameterCover` gives its finite surjective parameter cover on nonempty opens.
  `SchemeAffineCurveDiagram` adds the actual SAME-coordinate joint scheme action diagram.
  Remaining source finite-cover constructions,
- rational-action regularization, completion/points identification,
+ rational-action regularization, projective presentation,
  the normal subgroup and full classifier remain open. All eight original #21 items and
  the full durable goal stay open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemeAffinePointAction

@@ -24,10 +24,15 @@ injectivity on k-points; it does not assert a scheme monomorphism. Inseparabilit
 `SchemeAffineParameterCover` restricts this SAME morphism to an actual finite surjective map
 between nonempty parameter opens. `SchemeAffineCurveDiagram` adds the actual SAME-coordinate
 joint scheme action diagram. Remaining source finite-cover constructions, non-affine/rational
-actions, regularization, completion/points
-identification, the normal subgroup and full classifier, original group/chunk/six-point
+actions, regularization, projective presentation, the normal subgroup and full classifier,
+original group/chunk/six-point
 results, algebraization/descent and all true bypassed auxiliaries remain owed. All
 eight original #21 items and the full durable goal remain open.
+
+CurveCompletion now constructs the actual proper-normal dimension-one model and the ORIGINAL
+smooth separated ACF curve's open embedding internally. Its actual connected-group consumer
+derives smoothness and extends every original-group scheme automorphism uniquely. Projective
+presentation and jointly regular extended families remain separate obligations (#21).
 -/
 
 namespace AclGeom.SchemeAffineMorphism

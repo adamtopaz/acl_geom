@@ -17,6 +17,7 @@ import AclGeomBook.HardKernel.ProperCurveExtension
 import AclGeomBook.HardKernel.CurvePointsPlaces
 import AclGeomBook.HardKernel.CurveBoundaryFixed
 import AclGeomBook.HardKernel.SmoothCurveStalks
+import AclGeomBook.HardKernel.CurveCompletion
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Transfer.JRigidityStatement
 import AclGeom.Correspondence.AdditiveThreePair
@@ -1919,9 +1920,10 @@ transcendental generic germ, and its pole place is a missing place of the model.
 This supplies a finite, nonempty invariant set of valuation places for an actual affine
 curve over an algebraically closed field. The next section proves that an actual connected
 regular action fixes every boundary place, using the algebraic action and irreducibility.
-An abstract finite-index argument would be insufficient in positive characteristic. The points–places
-identification, scheme extension and uniqueness, projective completion, rational-action
-regularization and arbitrary-action classification remain owed. No equivalence between
+An abstract finite-index argument would be insufficient in positive characteristic. The later chapters prove the actual points–places identification and individual scheme
+extension/uniqueness for a proper normal curve, and construct the proper-normal model for the
+ORIGINAL smooth separated ACF curve/group. Projective presentation, jointly regular extended
+families, rational-action regularization and arbitrary-action classification remain owed. No equivalence between
 field-action faithfulness and place-action faithfulness is asserted. All eight original work
 items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open, and the complete
 shared goal remains active and incomplete.
@@ -2005,7 +2007,7 @@ finite-index argument would not suffice in positive characteristic.
 
 This proves the valuation-place fixed-boundary step for regular actions on affine curves.
 The original source assumes a rational action and uses a scheme completion. Rational-action
-regularization, the non-affine/completion and points–places bridges, the original group/chunk,
+regularization, the non-affine case, projective presentation and joint extension of rational families, the original group/chunk,
 six-point and normal-subgroup producers, arbitrary-action classification, algebraization and
 descent remain separate obligations. No field/place-faithfulness equivalence is asserted.
 All eight original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain
@@ -2064,7 +2066,7 @@ infinitesimal faithfulness from faithfulness on base-field points.
 The actual scheme-action coefficient-map construction, its rank comparison, faithful
 coefficient variation and genus-zero producer remain open. Constant-field rationality/genus
 zero descent is a separate next consumer. Rational-action regularization, the non-affine
-completion/points bridge, the normal-subgroup and arbitrary-action classification, original
+projective presentation and joint-family bridge, the normal-subgroup and arbitrary-action classification, original
 group/chunk/six-point producers, algebraization and descent remain obligations. All eight
 original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open;
 the full shared goal remains active and incomplete.
@@ -2140,8 +2142,7 @@ The construction proves the generic-field action for regular affine actions. Lat
 construct the effective field and faithful coefficient variation for a given family and field
 evaluation. The final regular-affine curve consumer chooses the actual chart and parameter
 field, derives coefficient rank and proves genus zero after constants. The final descent
-consumer proves original-base genus and rationality. Rational-action regularization, completion
-and points identification,
+consumer proves original-base genus and rationality. Rational-action regularization, projective presentation,
 the original normal-subgroup and arbitrary-action classifier, group/chunk/six-point results,
 algebraization and descent remain separate obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) remain open; the full shared goal remains
@@ -2198,7 +2199,7 @@ proved in the following section for a given family and parameter-field evaluatio
 section constructs its function-field action and faithful coefficient variation. The final
 regular-affine curve consumer derives point-map faithfulness, rank and genus zero after
 constants. The final descent consumer proves genus and rationality over the original base.
-Rational-action regularization, completion and points identification, the original normal
+Rational-action regularization, projective presentation, the original normal
 subgroup and arbitrary-action classifier, group/chunk/six-point statements, algebraization
 and descent remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2245,7 +2246,7 @@ curve consumer chooses the actual group chart and parameter field, derives point
 faithfulness and rank, and produces independent regular variations and genus zero after
 constants. The final descent consumer proves original-base genus and rationality.
 Rational-action regularization,
-completion and points identification, the normal-subgroup and arbitrary-action classifier,
+projective presentation, the normal-subgroup and arbitrary-action classifier,
 group/chunk/six-point statements, algebraization and descent remain obligations. All eight
 original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open;
 the full shared goal remains active and incomplete.
@@ -2303,8 +2304,7 @@ statement. The proved variation theorem uses the field generated by the actual c
 The following actual regular-affine curve consumer chooses the group chart and parameter
 field internally, derives coefficient point-map faithfulness and rank and obtains independent
 regular variations and genus zero after constants. The final descent consumer proves genus
-and rationality over the original base. Non-affine and rational-action cases, completion and
-points identification, the normal
+and rationality over the original base. Non-affine and rational-action cases, projective presentation, the normal
 subgroup and arbitrary-action classifier, group/chunk/six-point statements, algebraization and
 descent remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2370,7 +2370,7 @@ one-variable field, and two independent regular derivations give genus zero.
 
 The following finite-specialization consumer descends genus and rationality to the original
 base. Non-affine and rational-action cases,
-regularization, completion and points identification, the normal subgroup and arbitrary-action
+regularization, projective presentation, the normal subgroup and arbitrary-action
 classifier, original group/chunk/six-point results, algebraization and descent remain obligations.
 All eight original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open;
 the full shared goal remains active and incomplete.
@@ -2431,7 +2431,7 @@ constructs rational group parameters; the subsequent global-morphism consumer co
 actual regular group-scheme morphism with those same data. Its subsequent parameter-cover
 consumer gives a finite surjective map on nonempty opens. Curve-coordinate scheme/action
 diagrams and the remaining source finite-cover constructions remain owed. Non-affine and
-rational-action cases, regularization, completion and points identification, the normal
+rational-action cases, regularization, projective presentation, the normal
 subgroup and arbitrary-action classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2477,7 +2477,7 @@ The subsequent global-morphism consumer constructs an actual regular group-schem
 with these same data; its subsequent parameter-cover consumer gives a finite surjective map
 on nonempty opens. Curve-coordinate scheme/action diagrams and remaining source finite-cover
 constructions remain owed.
-Non-affine and rational-action cases, regularization, completion and points identification,
+Non-affine and rational-action cases, regularization, projective presentation,
 the normal subgroup and full classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2539,7 +2539,7 @@ following consumer constructs an actual global regular group-scheme morphism wit
 SAME data and proves its multiplication law. Its parameter-cover consumer gives a finite
 surjective map on nonempty opens. Curve-coordinate scheme/action diagrams, the remaining
 source finite-cover constructions, non-affine and rational-action cases,
-regularization, completion and points identification, the normal subgroup and full
+regularization, projective presentation, the normal subgroup and full
 classifier, original group/chunk/six-point results, algebraization/descent and true bypassed
 auxiliaries remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2593,8 +2593,7 @@ Its point-map agreement with the SAME affine representation gives injectivity on
 The following consumer constructs a finite surjective group-parameter cover on nonempty
 opens, with the actual commuting square. Inseparability is allowed and no scheme monomorphism
 is asserted. The next chapter proves the SAME-coordinate joint scheme action diagram.
-Remaining source finite-cover constructions, non-affine and rational-action cases, regularization, completion and points
-identification, the normal subgroup and full classifier, original group/chunk/six-point results,
+Remaining source finite-cover constructions, non-affine and rational-action cases, regularization, projective presentation, the normal subgroup and full classifier, original group/chunk/six-point results,
 algebraization/descent and every true bypassed auxiliary remain owed. All eight original
 work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared
 goal remains active and incomplete.
@@ -2669,7 +2668,7 @@ with the SAME global group morphism, rather than only an equality at generic poi
 This is the GROUP PARAMETER finite cover. Inseparability is allowed; no scheme monomorphism,
 global finiteness or degree-one function-field extension is asserted. The next chapter proves
 the SAME-coordinate joint scheme action diagram. Remaining source finite-cover constructions, non-affine and
-rational-action cases, regularization, completion/points identification, the normal subgroup
+rational-action cases, regularization, projective presentation, the normal subgroup
 and full classifier, original group/chunk/six-point results, algebraization/descent and every
 true bypassed auxiliary remain owed. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2727,7 +2726,7 @@ coordinates.
 This proves the joint diagram in the regular-affine case. The next chapter restricts the
 SAME coordinate to an open isomorphism and proves the joint diagram on that restriction.
 Remaining source finite covers,
-non-affine and rational-action cases, regularization, completion/points identification,
+non-affine and rational-action cases, regularization, projective presentation,
 the normal subgroup and full classifier, original group/chunk/six-point results,
 algebraization/descent and every true bypassed auxiliary remain owed. All eight original
 work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full durable
@@ -2795,7 +2794,7 @@ diagram alongside the new one.
 This proves the curve-coordinate cover in the regular-affine case of (8.4a), with the actual
 joint action diagram on that cover. Finiteness onto the whole affine line is not asserted.
 Remaining source finite covers, non-affine and rational-action cases, regularization,
-completion/points identification, the normal subgroup and full classifier, original group/
+projective presentation, the normal subgroup and full classifier, original group/
 chunk/six-point results, algebraization/descent and every true bypassed auxiliary remain
 owed. All eight original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21)
 stay open; the full durable goal remains active and incomplete.
@@ -2826,3 +2825,5 @@ stay open; the full durable goal remains active and incomplete.
 {include 0 AclGeomBook.HardKernel.CurveBoundaryFixed}
 
 {include 0 AclGeomBook.HardKernel.SmoothCurveStalks}
+
+{include 0 AclGeomBook.HardKernel.CurveCompletion}
