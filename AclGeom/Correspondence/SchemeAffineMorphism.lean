@@ -21,9 +21,11 @@ bound. No coordinate, local regular model, gluing, extension or morphism is a ca
 
 Unit and multiplication are actual scheme-morphism identities. The theorem asserts
 injectivity on k-points; it does not assert a scheme monomorphism. Inseparability is allowed.
-Scheme finite-cover coordinate maps, non-affine/rational actions, regularization, completion/
-points identification, the normal subgroup and full classifier, original group/chunk/six-
-point results, algebraization/descent and all true bypassed auxiliaries remain owed. All
+`SchemeAffineParameterCover` restricts this SAME morphism to an actual finite surjective map
+between nonempty parameter opens. Curve-coordinate scheme/action diagrams, remaining source
+finite-cover constructions, non-affine/rational actions, regularization, completion/points
+identification, the normal subgroup and full classifier, original group/chunk/six-point
+results, algebraization/descent and all true bypassed auxiliaries remain owed. All
 eight original #21 items and the full durable goal remain open.
 -/
 

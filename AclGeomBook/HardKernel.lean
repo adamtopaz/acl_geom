@@ -29,6 +29,7 @@ import AclGeom.Correspondence.SchemeCurveGenus
 import AclGeom.Correspondence.SchemeAffinePointAction
 import AclGeom.Correspondence.SchemeAffineParameters
 import AclGeom.Correspondence.SchemeAffineMorphism
+import AclGeom.Correspondence.SchemeAffineParameterCover
 import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -2412,8 +2413,10 @@ This proves descent of genus zero; no assertion about arbitrary genus under base
 The following consumer uses the fixed boundary place to construct faithful affine coordinates
 for the actual k-point action. The next coefficient theorem retains that same coordinate and
 constructs rational group parameters; the subsequent global-morphism consumer constructs an
-actual regular group-scheme morphism with those same data. Scheme finite-cover maps remain
-owed. Non-affine and rational-action cases, regularization, completion and points identification, the normal
+actual regular group-scheme morphism with those same data. Its subsequent parameter-cover
+consumer gives a finite surjective map on nonempty opens. Curve-coordinate scheme/action
+diagrams and the remaining source finite-cover constructions remain owed. Non-affine and
+rational-action cases, regularization, completion and points identification, the normal
 subgroup and arbitrary-action classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2456,7 +2459,9 @@ derives all of them internally.
 This theorem concerns k-points and the function field. The following consumer constructs
 rational coefficients on an actual group chart and proves a finite parameter-field extension.
 The subsequent global-morphism consumer constructs an actual regular group-scheme morphism
-with these same data. Scheme finite-cover maps remain owed.
+with these same data; its subsequent parameter-cover consumer gives a finite surjective map
+on nonempty opens. Curve-coordinate scheme/action diagrams and remaining source finite-cover
+constructions remain owed.
 Non-affine and rational-action cases, regularization, completion and points identification,
 the normal subgroup and full classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
@@ -2516,7 +2521,9 @@ coefficients a transcendence basis.
 
 This proves rational coefficient functions and the finite parameter-field input. The
 following consumer constructs an actual global regular group-scheme morphism with these
-SAME data and proves its multiplication law. Scheme finite-cover coordinate maps remain owed. Non-affine and rational-action cases,
+SAME data and proves its multiplication law. Its parameter-cover consumer gives a finite
+surjective map on nonempty opens. Curve-coordinate scheme/action diagrams, the remaining
+source finite-cover constructions, non-affine and rational-action cases,
 regularization, completion and points identification, the normal subgroup and full
 classifier, original group/chunk/six-point results, algebraization/descent and true bypassed
 auxiliaries remain obligations. All eight original work items of
@@ -2568,9 +2575,87 @@ that product, the point homomorphism's multiplication law and its unit law prove
 scheme unit and multiplication diagrams. This packages a genuine group-scheme morphism.
 Its point-map agreement with the SAME affine representation gives injectivity on k-points.
 
-Inseparability is allowed. No scheme monomorphism is asserted. Scheme finite-cover coordinate
-maps, non-affine and rational-action cases, regularization, completion and points identification,
-the normal subgroup and full classifier, original group/chunk/six-point results,
+The following consumer constructs a finite surjective group-parameter cover on nonempty
+opens, with the actual commuting square. Inseparability is allowed and no scheme monomorphism
+is asserted. Curve-coordinate scheme/action diagrams, remaining source finite-cover
+constructions, non-affine and rational-action cases, regularization, completion and points
+identification, the normal subgroup and full classifier, original group/chunk/six-point results,
 algebraization/descent and every true bypassed auxiliary remain owed. All eight original
 work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared
 goal remains active and incomplete.
+
+
+# A finite cover for the actual affine group parameters
+%%%
+tag := "actual-affine-parameter-cover"
+%%%
+
+The same global group-scheme morphism now gives an actual finite surjective map between
+nonempty opens of the original group and the standard affine group. The source hypotheses
+are unchanged: an ACF base, a connected algebraic-group package of dimension at least two,
+an integral affine locally finite-type dimension-one curve, its actual regular action and
+the genuine global k-point kernel criterion. The original generic-stalk generator, global
+faithful affine point homomorphism, actual group morphism, chart, rational coefficients,
+finite parameter field, transcendence basis and every generic/specialized formula are
+retained. Both internally proved tensor-domain witnesses remain bound in the result.
+No coordinate, dominance, algebraicity or finite-cover certificate is a caller premise.
+
+{docstring AclGeom.SchemeAffineParameterCover.exists_finite_parameter_cover}
+
+Pull back the two coordinates of the affine group along the actual global morphism and
+restrict to the original affine group chart. Full faithfulness of the existing algebraic
+Spec functor gives an actual coordinate-algebra map. Its point evaluations are the SAME
+multiplier and shift of the original faithful affine representation.
+
+{docstring AclGeom.AffineGroupScheme.exists_chart_coordinates}
+
+On points where the original denominator is nonzero, the old field formula identifies
+these regular coordinates with the two rational coefficients. To clear the denominator
+on the whole chart, multiply the difference by that denominator and test every k-point.
+Jacobson density makes the product nilpotent, hence zero in the chart domain. Cancellation
+and passage to its fraction field identify the SAME rational coefficients. Their already
+proved independence therefore makes the affine coordinate-algebra map injective.
+
+{docstring AclGeom.AffineGroupScheme.eval_injective_of_algebraicIndependent}
+
+Here injectivity is proved using the affine coordinate algebra's universal property and
+the polynomial algebra localized at its first coordinate. Evaluation of two independent
+coefficients is injective on the polynomial algebra, hence on that localization. The
+inverse identities on the affine coordinates give injectivity on the actual affine group
+coordinate algebra as well. No assertion about degree one or separability is used.
+
+{docstring AclGeom.AffineGroupScheme.exists_finite_chart}
+
+Agreement of two chart points on the affine coordinate algebra gives the same affine
+transformation. Global point faithfulness and the chart's open immersion give the same
+original chart point. The existing tensor-diagonal theorem therefore makes the chart
+fraction field algebraic over the fraction field of the affine coordinate algebra.
+Fraction-field algebraicity reflects to algebraicity of the chart ring over that algebra.
+
+{docstring AclGeom.GenericFiniteCover.exists_finite_away_of_injective_points}
+
+Choose finitely many algebra generators of the chart ring. Mathlib's common-multiple
+lemma supplies one nonzero base element multiplying every generator to an integral element.
+After inverting it, the generators are integral. Every localized denominator is already
+a unit in the localized base, so the whole localized extension is integral and of finite
+type, hence finite. Injectivity survives localization. This algebraic criterion allows
+independent universes for its two rings; the point criterion allows three universes.
+
+{docstring AclGeom.GenericFiniteCover.exists_finite_away}
+
+Take the actual Spec maps of these two localizations. Their maps into the original source
+chart and affine group are open immersions. The localized ring map gives a finite scheme
+morphism, and injectivity plus lying-over makes it surjective. Both opens are nonempty.
+The localization identity and the original coordinate pullback prove the actual square
+with the SAME global group morphism, rather than only an equality at generic points.
+
+{docstring AclGeom.GenericFiniteCover.exists_finite_open_square}
+
+This is the GROUP PARAMETER finite cover. Inseparability is allowed; no scheme monomorphism,
+global finiteness or degree-one function-field extension is asserted. Curve-coordinate
+scheme/action diagrams, the remaining source finite-cover constructions, non-affine and
+rational-action cases, regularization, completion/points identification, the normal subgroup
+and full classifier, original group/chunk/six-point results, algebraization/descent and every
+true bypassed auxiliary remain owed. All eight original work items of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
+active and incomplete.

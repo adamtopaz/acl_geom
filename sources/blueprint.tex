@@ -2256,8 +2256,12 @@ regular group-scheme morphism to the standard affine group, injective on $k$-poi
 unit and multiplication proved as actual scheme-morphism identities
 (\lean{SchemeAffineMorphism.exists_affine_morphism}). The regular principal-open model and
 translated-open gluing are internal; no regularity, extension or morphism certificate is
-a premise. Inseparability is allowed and no scheme monomorphism is asserted. Scheme finite-cover
-coordinate maps remain owed.
+a premise. These SAME data now restrict the actual group morphism to a finite surjective scheme
+map between internally chosen nonempty parameter opens, with the actual commuting square
+(\lean{SchemeAffineParameterCover.exists_finite_parameter_cover}). No dominance, algebraicity
+or finite-cover certificate is supplied by the caller. Inseparability is allowed and no scheme
+monomorphism or degree-one extension is asserted. Curve-coordinate scheme/action diagrams and
+the remaining source finite-cover constructions remain owed.
 Non-affine and rational-action cases remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action

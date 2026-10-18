@@ -119,7 +119,11 @@ an actual global regular group-scheme morphism to the standard affine group from
 data, injective on k-points, with actual unit/multiplication identities. Its principal-open
 model and translated-open gluing are internal. No regularity, extension or morphism
 certificate is a premise; no scheme monomorphism is asserted. Inseparability is allowed.
-Scheme finite-cover coordinate maps remain owed.
+The SAME global morphism now restricts, on internally chosen nonempty group and affine-group
+opens, to an actual finite surjective scheme map (`SchemeAffineParameterCover`). Its square
+commutes. No dominance, algebraicity or finite-cover certificate is a premise.
+Curve-coordinate scheme/action diagrams and the remaining source finite-cover constructions
+remain owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14199,3 +14203,60 @@ ownership, review requests and serial compiler leases were coordinated through c
 fresh peer proof approval was received or claimed. All eight original #21 items stay open;
 the full durable goal remains active and incomplete. Earlier checkpoint sections retain
 their then-current frontiers.
+
+
+## Checkpoint: the actual finite affine-group parameter cover (#21)
+
+`SchemeAffineParameterCover.exists_finite_parameter_cover` constructs a finite surjective
+scheme map between internally chosen nonempty opens of the original group and the standard
+affine group. Its actual square commutes with the SAME global group-scheme morphism. The
+only inputs are the genuine ACF base, connected algebraic-group package of dimension at
+least two, integral AFFINE locally finite-type dimension-one curve, actual REGULAR action
+and global k-point kernel criterion. The preceding actual morphism producer is called ONCE.
+The original generic-stalk generator, faithful affine point homomorphism, actual group
+morphism, chart, rational coefficients, finite parameter field, transcendence basis and all
+generic/specialized formulas are retained, with both internal tensor domains bound. No
+coordinate, dominance, algebraicity or finite-cover certificate is a premise.
+
+Full faithfulness of algebraic Spec gives the regular pullback coordinate map on the same
+actual chart. Its point evaluations agree with the same faithful affine representation.
+The original field formula and transcendence identify the multiplier and shift where the
+denominator is nonzero. Multiplying the cleared difference by that denominator makes it
+vanish at every point. Jacobson density and the chart domain give the cleared identities,
+including the original rational coefficients in its fraction field. Their independence
+makes the affine coordinate-algebra map injective. That injectivity is proved via the
+existing affine universal property and polynomial localization, not assumed as dominance.
+
+Agreement on the coordinate algebra identifies the affine transformation, then the actual
+group point by global faithfulness and the chart point by its open immersion. The existing
+tensor-diagonal criterion makes the chart fraction field algebraic over the coefficient
+fraction field. Algebraicity reflects to the chart ring. Mathlib chooses one common nonzero
+multiple making its finite algebra generators integral. Inverting it gives an integral
+finite-type algebra, hence a finite map. Its actual Spec map is surjective by injectivity
+and lying-over. Both localization maps are open immersions into the actual source chart
+and affine group. Localization compatibility proves the actual commuting square.
+
+Four focused modules preserve all seven independently checked prototype bodies literally,
+with concatenation and trailing blank-line normalization. Exactly seven declaration records
+are added: all public theorems, every supporting API consumed on the path to the actual
+producer, with no private, internal or generated extras. All seven expanded public types
+have been read in full; both fresh-meta and direct-type printing pass with zero omissions.
+Only standard axioms and zero unsafe declarations occur. Narrowing a helper import to the
+affine-group target model preserves all seven type hashes, universes, types and consumers;
+the actual consumer imports its parent producer explicitly. One commented finite budget of 600000 heartbeats supports its retained dependent
+fields/chart and literal comparison;
+kernel, lint and strict synthesis checking remain enabled. The issue report records full
+library/book gates, exact parent preservation, fresh whole-library staged/committed audits
+and exact-head CI. Original source statements/proofs/TEST blocks, the shared completion
+core and frozen M4a history retain their provenance. A finite inventory is not a coverage
+certificate.
+
+This is the GROUP PARAMETER finite cover, not a global finiteness or degree-one assertion.
+Inseparability remains allowed and no scheme monomorphism is asserted. Curve-coordinate
+scheme/action diagrams, the remaining source finite-cover constructions, non-affine and
+rational-action cases, regularization, completion/points identification, the normal subgroup
+and full classifier, original group/chunk/six-point results, algebraization/descent and every
+true bypassed auxiliary remain owed. Source ownership, review requests and serial compiler
+leases were coordinated through chit; no fresh peer proof approval is claimed. All eight
+original #21 items stay open and the full durable goal remains active and incomplete.
+Earlier checkpoint sections retain their then-current frontiers.

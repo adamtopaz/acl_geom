@@ -21,8 +21,10 @@ Named source consumer: the affine action formula in blueprint `lem:affine-action
  `SchemeAffineParameters` now uses the same coordinate to construct rational coefficients
  on an actual group chart and a finite extension of their two-parameter field.
  `SchemeAffineMorphism` lifts the SAME data to an actual global regular group-scheme morphism,
- with injective k-point map and actual unit/multiplication identities. Scheme finite-cover
- coordinate maps, rational-action regularization, completion/points identification,
+ with injective k-point map and actual unit/multiplication identities.
+ `SchemeAffineParameterCover` gives its finite surjective parameter cover on nonempty opens.
+ Curve-coordinate scheme/action diagrams, remaining source finite-cover constructions,
+ rational-action regularization, completion/points identification,
  the normal subgroup and full classifier remain open. All eight original #21 items and
  the full durable goal stay open.
 -/

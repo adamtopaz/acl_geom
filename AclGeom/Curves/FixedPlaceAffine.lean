@@ -22,7 +22,8 @@ A rational generator with a simple pole at a fixed place has an affine transform
  on k-points. `SchemeAffineParameters` constructs rational coefficients on an actual group
  chart and a finite extension of their two-parameter field. `SchemeAffineMorphism` lifts
  that same representation to a global regular group-scheme morphism, injective on k-points.
- Scheme finite-cover coordinate maps and the full classification remain open.
+ `SchemeAffineParameterCover` gives its finite surjective parameter cover on nonempty opens.
+ Curve-coordinate scheme/action diagrams and the full classification remain open.
 -/
 
 namespace AclGeom.FixedPlaceAffine
