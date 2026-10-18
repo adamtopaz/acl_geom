@@ -2211,6 +2211,23 @@ Arbitrary one-dimensional normal-subgroup/isogeny classification, the dense-orbi
 non-affine/rational actions and the full classifier remain open. All eight original issue-21
 items and the full durable goal stay open; the original statement and proof are unchanged.
 
+\paragraph{Lean status of the actual additive orbit cover.}
+For a genuine regular action on an integral affine locally finite-type curve of dimension
+one over an ACF base, the actual global point-kernel criterion and a monic $\Ga$ inclusion
+into an arbitrary algebraic group now internally choose a moved base-field point and its
+actual orbit map $\Ga\to V$. This map is finite and surjective, sends zero to the chosen
+point, and satisfies the actual joint translation-action scheme diagram and literal
+addition formula over every commutative coefficient algebra in the base universe
+(\lean{AdditiveOrbit.exists_finite_orbit_cover}). No orbit, point, nonconstancy, dominance
+or finite-cover certificate is supplied. Normality, connectedness and a group-dimension
+bound are not needed for this auxiliary. Separation of zero and one makes the polynomial
+image nonconstant, giving finiteness; the dimension-one prime-kernel argument and integral
+lying-over give surjectivity. This proves the orbit-cover step for a subgroup already
+presented as $\Ga$ in the regular-affine case, in every characteristic. Arbitrary
+one-dimensional normal-subgroup/isogeny classification, rational and non-affine actions
+and the full classifier remain owed. All eight original issue-21 items and the full
+durable goal stay open; the original statement and proof are unchanged.
+
 \paragraph{Lean status of the scheme/function-field bridge.}
 The theorem \lean{scheme_functionField_isFunctionFieldOneVar} derives the existing
 one-variable function-field hypothesis from an actual integral curve scheme, locally

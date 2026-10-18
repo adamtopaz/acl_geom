@@ -143,7 +143,13 @@ internally constructed actual finite surjective Ga map beta, with the SAME t/Phi
 and the literal generic-stalk pullback t to t+p(b) (`SchemeAffineTranslations`). The single
 nonconstant polynomial is additive over every coefficient algebra in the base universe.
 Normality is not needed for this auxiliary; no polynomial/factorization/finite-map certificate
-is supplied. Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
+is supplied. For any actual algebraic group acting regularly on the integral affine curve, a monic Ga
+inclusion and the genuine global point-kernel criterion now internally supply a moved point
+and its actual finite surjective orbit map Ga to V (`AdditiveOrbit.exists_finite_orbit_cover`).
+Its chosen origin, joint translation-action scheme diagram and literal addition over every
+coefficient algebra in the base universe are proved. No orbit, point, dominance, nonconstancy
+or finite-cover certificate is supplied. Normality, connectedness and a group-dimension
+bound are not needed. Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14496,3 +14502,42 @@ coordinate, remaining source finite covers, non-affine/rational actions, regular
 completion/points, the full classifier, original group/chunk/six-point statements,
 algebraization/descent and every true bypassed auxiliary remain owed. All eight original
 #21 work items and the full durable goal stay open. Older checkpoints retain their scopes.
+
+
+## Checkpoint: the actual finite Ga orbit cover (#21)
+
+`AdditiveOrbit.exists_finite_orbit_cover` proves the orbit-cover step for a subgroup already
+presented as Ga in a genuine regular action on an integral affine locally finite-type
+curve of dimension one over an ACF base. The ambient algebraic group is arbitrary. Its
+actual regular action, global point-kernel criterion and monic Ga inclusion internally
+choose a moved base-field point and its actual orbit map Ga to the original curve.
+
+The actual orbit map is finite and surjective, sends zero to that point, and satisfies the
+joint translation-action scheme diagram. For every commutative coefficient algebra in the
+base universe, acting by subgroup parameter b on orbit point c gives orbit point b+c. Every
+characteristic is included and inseparability is allowed. No orbit, point, nonconstancy,
+dominance or finite-cover certificate is a premise. Normality, connectedness and an ambient
+group-dimension bound are not needed for this auxiliary.
+
+The Ga point one is nonidentity; the monic inclusion and global kernel criterion give a
+nonidentity action, and reduced finite-type point extensionality supplies a moved point.
+Its orbit separates zero and one. Spec full faithfulness with the actual over-base equation
+recovers the affine algebra map. Separation forces a nonconstant polynomial image, whose
+evaluation is finite. A nonzero prime kernel in the dimension-one domain would be maximal;
+integrality would then make the polynomial ring a field, a contradiction. Integral
+lying-over and the actual affine-spectrum isomorphism give scheme surjectivity.
+
+Three focused modules preserve five checked prototype bodies. The generic categorical
+orbit laws and all affine algebra helpers have consumers ending at the actual orbit-cover
+theorem. Full build/book, strict module checks, expanded signatures, intrinsic dependency
+reports, source fidelity and whole-library dependency audit are reported on #21, followed
+by exact-head CI evidence. No checking option or heartbeat budget is changed. Source review,
+file ownership and compiler leases are coordinated through chit with aclgeom.claude;
+no fresh peer proof approval is claimed.
+
+Arbitrary one-dimensional normal-subgroup/isogeny classification, the orbit construction
+beyond the regular-affine Ga case, remaining source finite covers, rational/non-affine
+actions, regularization, completion/points, the full classifier, original group/chunk/
+six-point statements, algebraization/descent and every true bypassed auxiliary remain owed.
+All eight original #21 work items and the full durable goal stay open. Earlier checkpoints
+retain their scopes; historical M4a items1–117 remain frozen.

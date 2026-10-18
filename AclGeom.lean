@@ -320,3 +320,4 @@ import AclGeom.Correspondence.SchemeAffineCurveCover
 import AclGeom.Correspondence.NormalMultiplicativeSubgroup
 import AclGeom.Correspondence.NormalAdditiveSubgroup
 import AclGeom.Correspondence.SchemeAffineTranslations
+import AclGeom.Correspondence.SchemeAdditiveOrbit
