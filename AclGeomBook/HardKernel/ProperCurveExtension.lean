@@ -70,7 +70,9 @@ finiteness need not be an extra hypothesis.
 
 These are individual map and automorphism extension theorems. A jointly regular family
 of extended automorphisms requires a separate proof. Construction of a proper normal
-completion and the scheme API from smoothness to local normality remain owed. For a given
+completion remains owed. Over an ACF base, the following smooth-curve section derives
+normality of every actual stalk and individual extension for proper smooth curves internally.
+For a given
 actual proper normal dimension-one curve, the closed-point/place correspondence, literal
 stalk embeddings and automorphism compatibility are now proved in the following section. The original rational/non-affine classifier, regularization,
 group/chunk/six-point statements, algebraization/descent and every true bypassed auxiliary

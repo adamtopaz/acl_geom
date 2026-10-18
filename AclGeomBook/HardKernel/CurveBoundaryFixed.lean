@@ -81,8 +81,10 @@ base-field group points, as in the existing place API.
 
 The regular action on the ambient curve and the equivariant open are actual inputs.
 Construction of a proper normal completion and joint regularity of extended rational
-families remain owed. The smoothness-to-local-normality scheme API, the original rational/
-non-affine classifier and regularization, group/chunk/six-point statements,
+families remain owed. The following smooth-curve section now derives actual stalk normality
+for smooth integral dimension-one curves over an ACF base, internally also for actual
+one-dimensional connected algebraic groups. The original rational/non-affine classifier
+and regularization, group/chunk/six-point statements,
 algebraization/descent and every true bypassed auxiliary remain open. All eight original
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) work items and the full durable goal
 remain active and incomplete. Original source statements and proofs are unchanged.

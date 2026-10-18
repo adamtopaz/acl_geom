@@ -2317,6 +2317,25 @@ The arbitrary rational/non-affine classifier and the original source obligations
 owed. All eight original issue-21 items and the full durable goal stay open. The original
 statement and proof are unchanged.
 
+\paragraph{Lean status of actual smooth-curve local normality.}
+Over an algebraically closed field, \lean{SmoothCurveStalks.stalk_integrallyClosed}
+now derives integral closedness of EVERY actual stalk of an actual smooth integral
+dimension-one curve. Every actual stalk is a valuation ring, and every closed-point
+stalk is a DVR. Smoothness supplies local finite type and Noetherianity internally.
+The actual generic-stalk field and its canonical base algebra supply the one-variable
+rank; the actual closed-point residue algebra supplies its algebraic residue field.
+The residue section, conormal injection and differential rank force cotangent dimension
+at most one and a principal maximal ideal. No normality, regular-local-ring, cotangent-rank
+or valuation certificate is a premise. The actual one-dimensional connected algebraic-group
+consumer \lean{SmoothCurveStalks.connectedGroup_stalks} obtains smoothness from Mathlib
+internally. The theorem \lean{SmoothCurveStalks.properSmooth_existsUnique_iso_extension}
+extends every actual automorphism of a nonempty open in a proper smooth integral curve
+uniquely, with normality internal. These are ACF dimension-one results, not a claim about
+arbitrary fields or higher-dimensional smooth schemes. Completion construction and joint
+regularity of extended rational families remain owed, as do the full rational/non-affine
+classifier and the other original obligations. All eight original issue-21 work items
+and the full durable goal remain open. Original statements and proofs are unchanged.
+
 \paragraph{Lean status of the literal finite boundary.}
 The source finite-boundary assertion is now proved by \lean{CurveBoundary.fixed_boundary}
 for an actual integral separated finite-type dimension-one curve over an algebraically
@@ -2350,8 +2369,9 @@ local-ring comparison or transport certificate is a premise. The valuative crite
 constructs the unique place-spectrum map to the actual proper model; dimension-one
 valuation comparison identifies its center stalk with that place ring. This proves the
 point/place identification for a given actual proper normal model. Construction of a
-completion, the scheme API from smoothness to local normality, joint regularity of extended
-families, rational-action regularization and the full original classifier remain owed.
+completion, joint regularity of extended families, rational-action regularization and the
+full original classifier remain owed. The smooth-curve local-normality bridge is now proved
+over an ACF base by the actual stalk theorem above.
 All eight original issue-21 items and the full durable goal stay open. Original statements
 and proofs are unchanged.
 
@@ -2370,8 +2390,9 @@ contravariant generic-point formula. The theorem
 \lean{ProperCurve.isIso_of_isIso_functionFieldMap} consequently proves that an actual
 birational morphism between proper normal integral curves is an isomorphism; an extra
 finiteness premise is unnecessary. This proves the individual extension and degree-one-map
-assertions, not completion construction, points/places identification, the scheme API from
-smoothness to local normality, or joint regularity of an extended family. Rational-action
+assertions. The actual point/place theorem above supplies the identification for a given
+proper normal model; the smooth-curve theorem derives normality over an ACF base.
+Completion construction and joint regularity of an extended family remain owed. Rational-action
 regularization and the full classifier remain owed. All eight original issue-21 items and
 the full durable goal stay open. Original statements and proofs are unchanged.
 

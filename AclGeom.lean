@@ -359,3 +359,8 @@ import AclGeom.Correspondence.CurveBoundaryTopology
 import AclGeom.Correspondence.CurveBoundaryAction
 import AclGeom.Correspondence.CurveBoundaryFixed
 import AclGeom.Correspondence.ProperCurveBoundaryFixed
+import AclGeom.Correspondence.SmoothCurveDifferentials
+import AclGeom.Correspondence.SmoothCurveCotangentSplit
+import AclGeom.Correspondence.SmoothCurveLocalNormality
+import AclGeom.Correspondence.SmoothCurveStalkBase
+import AclGeom.Correspondence.SmoothCurveStalks

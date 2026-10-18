@@ -15,11 +15,16 @@ one. Every actual closed point gives an existing Place of the actual function fi
 lie in the canonical stalk image and Noetherianity follows internally from properness. Named
 consumer: closedPointEquivPlace.
 
-The given proper normal curve is an actual input. Completion construction, the scheme API from
-smoothness to local normality, joint regularity of extended families, rational-action
-regularization and the full original classifier remain owed, alongside group/chunk/six-point
-statements, algebraization/descent and every true bypassed auxiliary. All eight original #21
-work items and the full durable goal remain active and incomplete.
+The given proper normal curve is an actual input. Completion construction, joint regularity of
+extended families, rational-action regularization and the full original classifier remain
+owed, alongside group/chunk/six-point statements, algebraization/descent and every true
+bypassed auxiliary. All eight original #21 work items and the full durable goal remain active
+and incomplete.
+
+For actual smooth integral dimension-one curves over an ACF base, SmoothCurveStalks now
+derives integral closedness of every actual stalk and DVRs at closed points internally; its
+actual connected-group and individual proper-smooth extension consumers have no normality
+premise.
 -/
 
 namespace AclGeom.CurvePointsPlaces

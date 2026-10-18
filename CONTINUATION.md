@@ -201,8 +201,14 @@ constant SCHEME morphism: fixedness holds over every test scheme in the base uni
 No affine, normal or proper hypothesis or boundary/fixedness certificate is needed. For a
 given actual proper normal model, the SAME existing places whose actual centers are missing
 are fixed by the existing base-field-point action. The ambient regular action is an actual
-input. Completion construction, the smoothness-to-local-normality scheme API and joint
-regularity of extended rational families remain owed.
+input. `SmoothCurveStalks` now proves the local-normality bridge over an ACF base:
+every stalk of an actual smooth integral dimension-one curve is integrally closed and a
+valuation ring, and every actual closed-point stalk is a DVR. Normality, cotangent rank
+and valuation inputs are internal. An actual one-dimensional connected algebraic group
+supplies smoothness through Mathlib internally. Every actual automorphism of a nonempty
+open in a proper smooth integral curve extends uniquely, with normality internal. These
+are ACF dimension-one results. Completion construction and joint regularity of extended
+rational families remain owed.
 Non-affine and rational-action cases, completion construction, normal-subgroup classification
 outside the proved regular-affine case and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14903,3 +14909,44 @@ the smoothness-to-local-normality scheme API, arbitrary rational/non-affine clas
 original group/chunk/six-point statements, algebraization/descent and every true bypassed
 auxiliary remain owed. Original statements/proofs, full goal completion core and all eight
 original #21 work items remain unchanged and active.
+
+
+## Checkpoint: actual smooth curve stalks and proper extension (#21)
+
+`SmoothCurveStalks.stalk_integrallyClosed` derives integral closedness of EVERY actual stalk
+of a smooth integral dimension-one curve over an algebraically closed field. The same
+actual stalks are valuation rings, and every actual closed-point stalk is a DVR. No normality,
+regular-local-ring, cotangent-rank or valuation certificate is supplied. Smoothness supplies
+local finite type and Noetherianity internally. The function field is the actual generic
+stalk with the canonical base algebra; its one-variable class comes from the actual curve.
+
+At a closed point the actual residue field is algebraic over the SAME stalk base algebra.
+Algebraic closedness supplies an actual residue section. Mathlib's conormal retraction gives
+an injective cotangent map. Formal smoothness makes the finite differential module projective,
+hence free over the actual local ring. A separating transcendence basis of the one-variable
+fraction field gives differential rank one. Base change bounds the actual cotangent dimension
+by one, so the maximal ideal is principal and the ring is integrally closed. The generic
+stalk is a field; the old dimension-one valuation theorem and the closed-point nongeneric
+criterion give the valuation and DVR conclusions. Every new declaration reaches an actual
+scheme consumer; five focused modules contain eighteen named APIs and five USED internal
+proof fields. Independent full types include universes, axioms and consumer edges.
+
+`SmoothCurveStalks.connectedGroup_stalks` supplies all these actual stalk conclusions for
+an actual one-dimensional connected algebraic group over the ACF base. Mathlib's actual
+`smooth_of_grpObj` supplies smoothness from the genuine group and geometric reducedness.
+`properSmooth_existsUnique_iso_extension` proves that an actual automorphism of a nonempty
+open in a proper smooth integral curve extends uniquely to the whole curve, deriving every
+normal stalk internally before consuming the earlier actual proper-normal extension theorem.
+This discharges the source local-normality bridge and smooth-curve individual extension;
+it does not construct the proper model or jointly regular extended families.
+
+Current source/module/book/frontier claims are updated in the same change. Older checkpoint
+paragraphs above record their then-current frontier; their smooth-local-normality obligation
+is superseded in this ACF dimension-one scope by this checkpoint. Their proved mathematics
+and hypotheses are unchanged. Completion construction, jointly regular rational families,
+the full rational/non-affine classifier and regularization, original group/chunk/six-point
+statements, algebraization/descent and every true bypassed auxiliary remain owed. All eight
+original #21 work items and the full goal remain active and incomplete. No arbitrary-field
+or higher-dimensional smooth-normality theorem is asserted. Full local gates and exact-head
+CI are reported on #21. Chit coordinates standing Codex tracked ownership and the exclusive
+20 GB compiler lease with aclgeom.claude; no fresh peer approval is claimed.

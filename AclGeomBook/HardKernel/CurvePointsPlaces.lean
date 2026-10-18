@@ -105,7 +105,9 @@ actual regular group action gives exactly the existing place action at every bas
 {docstring AclGeom.CurvePointsPlaces.closedPointEquivPlace_action}
 
 This theorem takes the proper normal curve as an actual input. Construction of a proper
-normal completion and the scheme API from smoothness to local normality remain owed.
+normal completion remains owed. For actual smooth integral dimension-one curves over an
+ACF base, the following smooth-curve section now derives normality of every actual stalk
+and DVRs at closed points internally.
 The automorphism and action clauses concern base-field points; they do not construct a
 jointly regular family of extended automorphisms or an action over all coefficient algebras.
 The original rational/non-affine classifier, rational-action regularization, group/chunk/

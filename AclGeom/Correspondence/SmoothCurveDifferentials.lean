@@ -1,0 +1,89 @@
+/-
+Copyright (c) 2026 Adam Topaz. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Adam Topaz, Codex
+-/
+import AclGeom.Curves.Places
+import Mathlib.FieldTheory.SeparablyGenerated
+import Mathlib.RingTheory.AlgebraicIndependent.Adjoin
+import Mathlib.RingTheory.Etale.Field
+import Mathlib.RingTheory.Etale.Kaehler
+import Mathlib.RingTheory.Kaehler.Polynomial
+
+/-!
+# Differential rank of a one-variable field
+
+**Status:** proved over perfect fields for an essentially finite-type field of transcendence
+degree one, in independent universes. A separating transcendence basis and formally etale
+differential comparison give rank one. The existing one-variable function-field class supplies
+transcendence degree one. Named consumer: the actual smooth curve stalk cotangent bound.
+
+These are ACF dimension-one results. Completion construction, joint regularity of extended
+rational families, rational-action regularization and the full original classifier remain
+owed. Original group/chunk/six-point statements, algebraization/descent and every true
+bypassed auxiliary remain obligations. All eight original #21 work items and the full durable
+goal remain active and incomplete.
+-/
+
+namespace AclGeom.SmoothCurveStalks
+noncomputable section
+open scoped TensorProduct IntermediateField.algebraAdjoinAdjoin
+universe u v
+variable {k : Type u} {F : Type v} [Field k] [Field F] [Algebra k F]
+
+/-- The actual Kähler differential space of a separably generated one-variable field
+has dimension one. Named consumer: the actual smooth curve stalk's cotangent bound. -/
+theorem finrank_differential_eq_one [PerfectField k] [Algebra.EssFiniteType k F]
+    (htr : Algebra.trdeg k F = 1) :
+    Module.finrank F (KaehlerDifferential k F) = 1 := by
+  obtain ⟨s, hs, hsep⟩ := exists_isTranscendenceBasis_and_isSeparable_of_perfectField k F
+  have hcard : s.card = 1 := by
+    have h := hs.cardinalMk_eq_trdeg
+    rw [Cardinal.mk_coe_finset, htr] at h
+    exact_mod_cast h
+  have hr : Set.range ((↑) : s → F) = (s : Set F) := by ext; simp
+  let P := MvPolynomial s k
+  let A := Algebra.adjoin k (s : Set F)
+  let K := IntermediateField.adjoin k (s : Set F)
+  let e : P ≃ₐ[k] A := hs.1.aevalEquiv.trans
+    (Subalgebra.equivOfEq _ _ (congrArg (Algebra.adjoin k) hr))
+  let : Algebra P K := ((algebraMap A K).comp e.toRingHom).toAlgebra
+  have : IsScalarTower k P K := IsScalarTower.of_algebraMap_eq fun c ↦ by
+    symm
+    change algebraMap A K (e (algebraMap k P c)) = algebraMap k K c
+    rw [e.commutes, ← IsScalarTower.algebraMap_apply k A K]
+  have : IsFractionRing P K :=
+    IsFractionRing.of_ringEquiv_left e.toRingEquiv (fun _ ↦ rfl)
+  let : Algebra P F := ((algebraMap K F).comp (algebraMap P K)).toAlgebra
+  have : IsScalarTower P K F := IsScalarTower.of_algebraMap_eq' rfl
+  have : IsScalarTower k P F := IsScalarTower.of_algebraMap_eq fun c ↦ by
+    symm
+    change algebraMap K F (algebraMap P K (algebraMap k P c)) = algebraMap k F c
+    rw [← IsScalarTower.algebraMap_apply k P K, ← IsScalarTower.algebraMap_apply k K F]
+  have : Algebra.IsSeparable K F := hsep
+  have : Algebra.FormallyEtale P K :=
+    Algebra.FormallyEtale.of_isLocalization (nonZeroDivisors P)
+  have : Algebra.FormallyEtale K F := Algebra.FormallyEtale.of_isSeparable K F
+  have : Algebra.FormallyEtale P F := Algebra.FormallyEtale.comp P K F
+  let b := ((KaehlerDifferential.mvPolynomialBasis k s).baseChange F).map
+    (KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale k P F)
+  simpa only [Fintype.card_coe, hcard] using Module.finrank_eq_card_basis b
+
+/-- The existing genuine one-variable class has transcendence degree one.
+Named consumer: the actual smooth scheme's generic differential rank. -/
+theorem trdeg_eq_one_of_oneVar [IsFunctionFieldOneVar k F] : Algebra.trdeg k F = 1 := by
+  obtain ⟨t, ht, hfin⟩ := IsFunctionFieldOneVar.exists_transcendental_finite (k := k) (F := F)
+  have := hfin
+  have : Algebra.IsAlgebraic (Algebra.adjoin k ({t} : Set F)) F :=
+    Algebra.IsAlgebraic.trans (Algebra.adjoin k ({t} : Set F))
+      (IntermediateField.adjoin k ({t} : Set F)) F
+  apply le_antisymm
+  · simpa only [Cardinal.mk_singleton] using
+      Algebra.IsAlgebraic.trdeg_le_cardinalMk k ({t} : Set F)
+  · apply Cardinal.one_le_iff_ne_zero.mpr
+    intro hz
+    have : Algebra.IsAlgebraic k F := (trdeg_eq_zero_iff).mp hz
+    exact ht (Algebra.IsAlgebraic.isAlgebraic t)
+
+end
+end AclGeom.SmoothCurveStalks

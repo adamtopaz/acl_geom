@@ -14,11 +14,16 @@ one. The equivalence uses closed points, excluding the generic point. Its invers
 actual proper center, and literal membership is exactly the image of the canonical actual
 stalk embedding. Named consumer: exists_point_place_model.
 
-The given proper normal curve is an actual input. Completion construction, the scheme API from
-smoothness to local normality, joint regularity of extended families, rational-action
-regularization and the full original classifier remain owed, alongside group/chunk/six-point
-statements, algebraization/descent and every true bypassed auxiliary. All eight original #21
-work items and the full durable goal remain active and incomplete.
+The given proper normal curve is an actual input. Completion construction, joint regularity of
+extended families, rational-action regularization and the full original classifier remain
+owed, alongside group/chunk/six-point statements, algebraization/descent and every true
+bypassed auxiliary. All eight original #21 work items and the full durable goal remain active
+and incomplete.
+
+For actual smooth integral dimension-one curves over an ACF base, SmoothCurveStalks now
+derives integral closedness of every actual stalk and DVRs at closed points internally; its
+actual connected-group and individual proper-smooth extension consumers have no normality
+premise.
 -/
 
 namespace AclGeom.CurvePointsPlaces
