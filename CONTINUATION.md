@@ -138,7 +138,12 @@ joint scheme conjugation diagram of (8.4b), with only the actual group, inclusio
 normality as inputs (`AdditiveRigidity.normal_additiveGroup_conj`). Actual field-base Ga
 automorphisms are nonzero scalar maps. The parameter group is reduced; every characteristic
 is covered. Coefficient, regularity, global invertibility and character laws are internal.
-Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
+For the actual regular-affine action, a monic Ga subgroup now acts by translations after an
+internally constructed actual finite surjective Ga map beta, with the SAME t/Phi/global f
+and the literal generic-stalk pullback t to t+p(b) (`SchemeAffineTranslations`). The single
+nonconstant polynomial is additive over every coefficient algebra in the base universe.
+Normality is not needed for this auxiliary; no polynomial/factorization/finite-map certificate
+is supplied. Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14449,3 +14454,45 @@ remaining source finite covers, non-affine/rational actions, regularization, com
 the full classifier, original group/chunk/six-point statements, algebraization/descent and
 every true bypassed auxiliary remain owed. All eight original #21 items and the full durable
 goal remain active/incomplete. Earlier checkpoints retain their then-current frontiers.
+
+
+## Checkpoint: actual Ga subgroups act by translations after a finite map (#21)
+
+`SchemeAffineTranslations.exists_subgroup_translation_coordinate` proves the translation-
+identification step for a subgroup already presented as Ga in the actual regular-affine
+curve action. Its inputs are the genuine connected algebraic group of dimension at least
+two, integral affine locally finite-type dimension-one curve, regular action, global
+point-kernel criterion and actual monic Ga group morphism. It calls the existing producer
+once and retains that SAME original generic-stalk generator t, faithful point map Phi,
+global group morphism f, point comparison and generic-stalk affine formula.
+
+It internally constructs an actual Ga group map beta, finite and surjective as a scheme
+map, factoring the subgroup through the standard translation inclusion. Beta is injective
+on base-field points; inseparability is allowed. One nonconstant polynomial p with p(0)=0
+gives beta and is additive over every commutative coefficient algebra in the base universe.
+The literal subgroup pullback is t to t+p(b), with the SAME t and f. No coordinate,
+translation, polynomial, factorization, nontriviality or finite-map certificate is a premise.
+Normality is not needed for this auxiliary theorem.
+
+Over every field, an actual Ga group morphism into the affine group has polynomial unit
+multiplier, hence a constant; its unit law makes that constant one. The actual translation
+inclusion has a regular shift retraction and is monic. Cancellation proves the factor's
+group laws. A nonconstant polynomial makes the variable integral over evaluation's range;
+finite generation gives a finite ring map. Nonconstant substitution is injective and
+integral lying-over proves actual scheme surjectivity, in every characteristic. The actual
+endomorphism criterion asks for nontriviality at a base-field point; the complete consumer
+derives that witness internally from faithfulness and the monic subgroup.
+
+Five focused modules preserve eight checked prototype bodies. Every helper and all four
+compiler-generated proof dependencies have named consumers ending at the actual theorem.
+All twenty-one direct expanded public signatures and twenty-five intrinsic type/axiom/
+consumer reports have zero omissions. No checking option or heartbeat budget is changed.
+Full build/book, strict module checks, source fidelity, whole-library dependency audit and
+exact-head CI evidence are reported on #21. Source review and ownership are coordinated
+through chit with aclgeom.claude; no fresh peer proof approval is claimed.
+
+Arbitrary one-dimensional normal-subgroup/isogeny classification, the dense-orbit curve
+coordinate, remaining source finite covers, non-affine/rational actions, regularization,
+completion/points, the full classifier, original group/chunk/six-point statements,
+algebraization/descent and every true bypassed auxiliary remain owed. All eight original
+#21 work items and the full durable goal stay open. Older checkpoints retain their scopes.

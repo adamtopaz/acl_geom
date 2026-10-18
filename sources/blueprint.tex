@@ -2190,6 +2190,27 @@ is presented as $\Ga$. Arbitrary one-dimensional normal-subgroup/isogeny classif
 the dense-orbit coordinate construction and the full classifier remain open. All eight
 original issue-21 items and the full durable goal stay open; original provenance is unchanged.
 
+\paragraph{Lean status of the additive-subgroup translation identification.}
+For the genuine connected regular action on an integral affine locally finite-type curve
+of dimension one over an ACF base, with the point-kernel criterion and group dimension at
+least two, an actual monic $\Ga$ group morphism into $G$ now internally supplies a finite
+surjective $\Ga$ group map $\beta$ factoring the same global affine-group morphism through
+the standard translation inclusion
+(\lean{SchemeAffineTranslations.exists_subgroup_translation_coordinate}). Its base-field
+point map is injective; inseparability is allowed. The same original generic-stalk generator
+$t$ satisfies the literal subgroup pullback $t\mapsto t+p(b)$, for a single internally
+chosen nonconstant polynomial $p$ with $p(0)=0$. The polynomial gives $\beta$ and is additive
+over every commutative coefficient algebra in the base universe. The existing regular-affine
+producer is called once; no coordinate, translation, polynomial, factorization, nontriviality
+or finiteness certificate is a premise. Normality is not needed for this auxiliary. The
+supporting actual $\Ga$-to-affine factorization holds over every field: its multiplier is
+an invertible polynomial, hence constant, and the group unit makes it one. Polynomial
+integrality and lying-over prove the actual finite-surjective map in every characteristic.
+This identifies a subgroup already presented as $\Ga$ in the regular-affine setting.
+Arbitrary one-dimensional normal-subgroup/isogeny classification, the dense-orbit coordinate,
+non-affine/rational actions and the full classifier remain open. All eight original issue-21
+items and the full durable goal stay open; the original statement and proof are unchanged.
+
 \paragraph{Lean status of the scheme/function-field bridge.}
 The theorem \lean{scheme_functionField_isFunctionFieldOneVar} derives the existing
 one-variable function-field hypothesis from an actual integral curve scheme, locally
