@@ -109,9 +109,14 @@ base on its actual generic-stalk field (`SchemeCurveGenus`), with both one-varia
 and descent internal. For a connected algebraic-group package of dimension at least two,
 `SchemeAffinePointAction` now chooses a transcendental coordinate and an injective homomorphism
 from actual k-points into `AffineTransformation k`, with the literal field-pullback formula.
-The fixed boundary place, genus and faithful field action are internal. Rational/regular
-coefficient functions on the group, the scheme-group morphism and finite-cover parameter
-coordinates remain owed.
+The fixed boundary place, genus and faithful field action are internal. The same coordinate
+and global faithful point homomorphism now have rational coefficients on an internally chosen
+actual affine group chart (`SchemeAffineParameters`). The chart fraction field is finite over
+the two coefficients, which form a transcendence basis, with literal specialized and actual
+generic-translate formulas. Inseparability is allowed. No chart, coefficient, specialization,
+rank or finiteness certificate is a caller premise. Global regular coefficient maps, the
+scheme-group morphism and multiplication law, and scheme finite-cover coordinate maps remain
+owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14086,3 +14091,55 @@ algebraization/descent and every true bypassed auxiliary remain owed. Peer owner
 compiler leases were coordinated through chit; no fresh peer proof approval was received.
 All eight original #21 items stay open; the full durable goal remains active and incomplete.
 Earlier checkpoint sections record their then-current frontiers.
+
+
+## Checkpoint: actual rational affine coefficients and finite parameter field (#21)
+
+`SchemeAffineParameters.exists_affine_parameters` starts from a connected algebraic-group
+package of dimension at least two, an integral affine locally finite-type dimension-one
+curve V over an ACF base, its actual regular action and the genuine global k-point kernel
+criterion. It retains the same original-base transcendental generator of the actual generic-
+stalk field and global injective affine point homomorphism. It internally chooses an actual
+affine group chart and two rational coefficients. Their literal point specializations and
+actual generic-translate comparison are proved. The actual chart fraction field is finite
+over their field and they form a transcendence basis. Pure inseparability is allowed. No
+chart, coordinate, coefficient, specialization, rank or finiteness certificate is supplied.
+
+The common-denominator proof uses tensor coordinates and Cramer identities. Transcendence
+supplies a nonzero minor at one actual point; Jacobson density proves the cleared identities
+at every coefficient, including points where the minor vanishes. The actual section coaction
+specializes to the point action on generic germs and commutes with parameter base change.
+Thus the same coefficients describe the actual generic translate, with its canonical
+section/function-field comparison. Localizing the parameter ring only at the denominator,
+agreement on the two coefficients gives equal field actions, then equal group points by
+the global kernel criterion and equal chart points by its monomorphism. The two-coefficient
+algebra includes no unrelated inverse of the denominator. Point injectivity proves algebraicity
+over the coefficient field. Actual chart rank and essential finite type give independence
+and a finite field extension, without a separability claim.
+
+The five focused mathematical modules preserve the independently checked prototype bodies
+literally, with concatenation and trailing blank-line normalization. Their seventeen new
+records comprise eleven public APIs, three consumed public internal proofs and three consumed
+private proofs. Every helper has a named consumer. Two unused generated equation/congruence
+exports found during audit were removed by explicit rewrites; every retained type stayed
+exact. A broader fresh-meta signature check caught two fraction-field printing failures.
+Both tensor-domain witnesses are now proved internally and bound in the generic and actual
+conclusions, adding no caller premise. Both full strengthened statements and the unchanged
+remaining types were read in full; the fresh-meta and direct-type printing paths succeed.
+All eleven public types and six private/internal types and consumers have zero printer
+omissions and only standard axioms. The issue report
+records full library/book gates, selected statement preservation, fresh whole-library
+checks, committed-head validation and exact CI. A finite inventory is not a source-coverage
+certificate. Original statements/proofs/TEST blocks, goal completion core and frozen M4a
+history are exact.
+
+Next: global regular coefficient maps, the scheme-group morphism and multiplication law,
+and scheme finite-cover coordinate maps. The finite field extension alone is not that
+scheme theorem. Non-affine and rational-action cases, regularization, completion/points
+identification, the normal subgroup and full classifier, original group/chunk/six-point
+producers, algebraization/descent and every true bypassed auxiliary remain owed. Peer source
+ownership, review requests and serial compiler leases were coordinated through chit;
+no fresh peer proof approval was received. All eight original #21 items stay open; the full
+durable goal stays active and incomplete. Earlier checkpoint sections retain their then-
+current frontiers; this one supplies the actual regular-affine rational coefficient and
+parameter-field consumer.

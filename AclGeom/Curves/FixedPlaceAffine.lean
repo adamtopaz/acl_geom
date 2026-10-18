@@ -19,7 +19,9 @@ A rational generator with a simple pole at a fixed place has an affine transform
  field action, fixed place and genus zero explicitly. Its named consumer
  `SchemeAffinePointAction.exists_faithful_affine_coordinates` derives every input from the
  actual connected-group action on an affine curve. This constructs a group homomorphism
- on k-points; rational coefficient functions and scheme-group classification remain open.
+ on k-points. `SchemeAffineParameters` constructs rational coefficients on an actual group
+ chart and a finite extension of their two-parameter field. Global regular coefficient maps,
+ scheme-group morphisms and the full classification remain open.
 -/
 
 namespace AclGeom.FixedPlaceAffine

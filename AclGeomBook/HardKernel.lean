@@ -27,6 +27,7 @@ import AclGeom.Correspondence.SchemeEffectiveFunctionField
 import AclGeom.Correspondence.SchemeActionGenus
 import AclGeom.Correspondence.SchemeCurveGenus
 import AclGeom.Correspondence.SchemeAffinePointAction
+import AclGeom.Correspondence.SchemeAffineParameters
 import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -2408,8 +2409,9 @@ This proves descent of genus zero; no assertion about arbitrary genus under base
 {docstring AclGeom.RationalityDescent.genus_eq_zero_of_tensor}
 
 The following consumer uses the fixed boundary place to construct faithful affine coordinates
-for the actual k-point action. Rational/regular group coefficients and its scheme-group morphism
-remain owed. Non-affine and rational-action cases, regularization, completion and points identification, the normal
+for the actual k-point action. The next coefficient theorem retains that same coordinate and
+constructs rational group parameters. Global regular maps and the scheme-group morphism remain
+owed. Non-affine and rational-action cases, regularization, completion and points identification, the normal
 subgroup and arbitrary-action classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
@@ -2449,10 +2451,72 @@ derives all of them internally.
 
 {docstring AclGeom.FixedPlaceAffine.exists_faithful_affine_representation}
 
-This is a k-point/function-field theorem. Rational or regular coefficient functions on the
-actual group, their scheme-group morphism and finite-cover parameter coordinates remain owed.
+This theorem concerns k-points and the function field. The following consumer constructs
+rational coefficients on an actual group chart and proves a finite parameter-field extension.
+Global regular coefficient maps, a scheme-group morphism and scheme finite-cover maps remain
+owed.
 Non-affine and rational-action cases, regularization, completion and points identification,
 the normal subgroup and full classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
+active and incomplete.
+
+
+# Rational affine coefficients and the actual parameter field
+%%%
+tag := "actual-affine-parameters"
+%%%
+
+For a connected algebraic-group package G of dimension at least two, acting regularly on an
+integral affine locally finite-type dimension-one curve V over an algebraically closed k,
+the genuine global k-point kernel criterion now gives rational affine coefficients on an
+actual affine group chart. The same original-base generator of the actual generic-stalk
+field and the globally injective point homomorphism are retained. The chart fraction field
+is finite over the two coefficients, which form a transcendence basis. Pure inseparability
+is allowed. No chart, coordinate, coefficient, specialization, rank or finiteness certificate
+is a caller premise.
+
+{docstring AclGeom.SchemeAffineParameters.exists_affine_parameters}
+
+Write the chosen generator as a ratio of two actual global sections. The parameter coaction
+on these sections specializes to the genuine action on generic germs. In a vector-space
+basis of the curve field, transcendence supplies a nonzero two-coordinate minor at an actual
+parameter point. Cramer identities clear a common denominator. Every coefficient of their
+error vanishes at every base-field point, so the Jacobson property and the parameter domain
+make that error zero. This includes points where the chosen minor vanishes.
+
+{docstring AclGeom.AffineCoefficients.exists_cleared_coefficients}
+
+The cleared identity gives the affine formula at every specialization where the denominator
+is nonzero. Base-change naturality and the literal section/germ comparison identify the same
+formula with the actual generic translate on the canonical tensor fraction field. The
+reusable criterion displays its coordinate and pointwise affine hypotheses; the actual group
+consumer constructs them using the preceding faithful affine-coordinate theorem.
+Both tensor-domain witnesses are proved internally and bound in the returned conclusion,
+so its fraction-field structures remain available to downstream consumers.
+
+{docstring AclGeom.AffineCoefficients.exists_generic_family_coefficients}
+
+On the denominator localization, agreement on the two coefficients gives agreement on the
+chosen field generator, hence on the full field action. The actual global point-kernel
+criterion and the chart monomorphism then give equal parameter points. The coefficient
+algebra contains exactly the two rational coefficients: no unrelated denominator inverse is
+adjoined to it. The point-injectivity theorem makes the actual parameter fraction field
+algebraic over their field, including inseparable cases.
+
+{docstring AclGeom.AffineCoefficients.isAlgebraic_of_affine_specializations}
+
+The actual chart dimension supplies rank at least two. Essential finite type makes the
+algebraic extension finite, and two generators together with that rank bound make the two
+coefficients a transcendence basis.
+
+{docstring AclGeom.AffineCoefficients.finite_pair_parameters}
+
+This proves rational coefficient functions and the finite parameter-field input. Global
+regular coefficient maps, a scheme-group morphism and its multiplication law, and scheme
+finite-cover coordinate maps remain owed. Non-affine and rational-action cases,
+regularization, completion and points identification, the normal subgroup and full
+classifier, original group/chunk/six-point results, algebraization/descent and true bypassed
+auxiliaries remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
 active and incomplete.

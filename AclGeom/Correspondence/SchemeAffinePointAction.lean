@@ -18,8 +18,10 @@ Named source consumer: the affine action formula in blueprint `lem:affine-action
  generic-stalk field has an internally chosen transcendental generator on which the
  original point action is affine, through an injective group homomorphism. The fixed
  boundary place, one-variable field, genus and faithful field action are internal.
- Rational/regular coefficient functions on the group, a scheme-group morphism, finite-cover
- parameter coordinates, rational-action regularization, completion/points identification,
+ `SchemeAffineParameters` now uses the same coordinate to construct rational coefficients
+ on an actual group chart and a finite extension of their two-parameter field. Global regular
+ coefficient maps, a scheme-group morphism and scheme finite-cover coordinate maps remain open,
+ as do rational-action regularization, completion/points identification,
  the normal subgroup and full classifier remain open. All eight original #21 items and
  the full durable goal stay open.
 -/

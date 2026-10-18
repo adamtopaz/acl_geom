@@ -310,3 +310,5 @@ import AclGeom.Correspondence.SchemeActionGenus
 import AclGeom.Correspondence.SchemeCurveGenus
 
 import AclGeom.Correspondence.SchemeAffinePointAction
+
+import AclGeom.Correspondence.SchemeAffineParameters
