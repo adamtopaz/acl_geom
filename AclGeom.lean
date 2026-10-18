@@ -334,4 +334,10 @@ import AclGeom.Correspondence.NormalCoordinateConjugation
 import AclGeom.Correspondence.AffineConjugation
 import AclGeom.Correspondence.NormalCoordinateCharacter
 import AclGeom.Correspondence.RegularAffineModel
+import AclGeom.Correspondence.AffinePurelyInseparable
+import AclGeom.Correspondence.PolynomialFrobeniusFactor
+import AclGeom.Correspondence.FiniteGaLineCover
+import AclGeom.Correspondence.GaFrobenius
+import AclGeom.Correspondence.FiniteGaGroupCover
+import AclGeom.Correspondence.SchemeNormalWholeCurve
 import AclGeom.Correspondence.SchemeAffineWholeCurve

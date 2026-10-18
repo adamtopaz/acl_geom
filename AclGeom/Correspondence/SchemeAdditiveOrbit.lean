@@ -11,21 +11,16 @@ import AclGeom.Correspondence.SchemePointExt
 /-!
 # The actual finite surjective Ga orbit cover in a regular affine curve action
 
-**Status:** the orbit-cover step of Lemma 8.4 is proved for a subgroup already presented
-as Ga in a genuine regular action on an integral affine locally finite-type curve of
-dimension one over an ACF base. The ambient algebraic group is arbitrary. Its actual
-regular action, global point-kernel criterion and monic Ga inclusion internally supply a
-moved base-field point. The actual orbit map is finite and surjective, has the chosen
-origin, and satisfies the joint translation-action scheme diagram and literal addition
-over every commutative coefficient algebra in the base universe. Every characteristic is
-included. No orbit, point, nonconstancy, dominance or finite-cover certificate is a premise.
-
-Normality, connectedness and an ambient group-dimension bound are not needed for this
-auxiliary. Arbitrary one-dimensional normal-subgroup/isogeny classification, rational and
-non-affine actions, regularization, completion/points, the full original classifier and
-all true bypassed auxiliaries remain owed. All eight original #21 work items and the full
-durable goal stay open. This theorem supplies an actual orbit cover, not an identification
-of an arbitrary one-dimensional subgroup with Ga or a rational-action regularization.
+**Status:** the actual finite surjective Ga orbit is proved for a genuine regular action
+on an integral affine locally finite-type dimension-one curve over an ACF base. The Ga
+parameter morphism need only have nontrivial image at coordinate one; it need not be a
+scheme monomorphism. The old monic-Ga public signature is unchanged and derives this
+nontriviality internally. A moved point, actual orbit, origin, joint diagram and all-
+coefficient addition formula are internal. Named consumer:
+`RegularAffineModel.exists_whole_curve_model` constructs the Ga morphism from the actual
+normal subgroup's finite cover (#21). Rational/non-affine regularization, the full
+classifier and every true bypassed auxiliary remain owed. All eight original work items
+and the full durable goal remain open.
 -/
 
 namespace AclGeom.AdditiveOrbit
@@ -36,17 +31,19 @@ open CategoryTheory.MonObj CategoryTheory.GrpObj
 universe u
 variable {k : Type u} [Field k] [IsAlgClosed k]
 
-/-- The actual Ga subgroup has an internally chosen finite surjective orbit cover of the
-original affine curve, with its actual joint translation diagram. No orbit, base point,
-dominance, nonconstancy or finite-cover certificate is supplied by the caller. -/
-theorem exists_finite_orbit_cover
+/-- A Ga morphism whose coordinate-one point is nontrivial has an internally chosen
+finite surjective orbit cover. Named consumer: the actual finite cover of the normal subgroup.
+No scheme monomorphism of the Ga morphism is required. -/
+theorem exists_finite_orbit_cover_of_nontrivial_one
     (G : AlgebraicGroup k)
     (V : Over (Spec (.of k))) [IsIntegral V.left] [IsAffine V.left]
     [LocallyOfFiniteType V.hom] [ModObj G.toGroupScheme.X V]
     (hker : ∀ q : 𝟙_ (Over (Spec (.of k))) ⟶ G.toGroupScheme.X,
       ModObj.pointAct V q = 𝟙 V → q = 1)
     (hdimV : topologicalKrullDim V.left = 1)
-    (i : (AdditiveGroupScheme.algebraicGroup k 1).Hom G) [Mono i.hom.hom] :
+    (i : (AdditiveGroupScheme.algebraicGroup k 1).Hom G)
+    (hi : ((unitIsoSpecAsOver k).hom ≫ AffineSchemeAction.linePoint k (1 : k)) ≫
+      i.hom.hom ≠ 1) :
     ∃ p : 𝟙_ (Over (Spec (.of k))) ⟶ V,
       IsFinite (orbitMap i.hom.hom p).left ∧ Surjective (orbitMap i.hom.hom p).left ∧
       ((unitIsoSpecAsOver k).hom ≫ AffineSchemeAction.linePoint k (0 : k)) ≫
@@ -68,19 +65,8 @@ theorem exists_finite_orbit_cover
   have hQ₀ : Q 0 = 1 := by
     change (unitIsoSpecAsOver k).hom ≫ AffineSchemeAction.linePoint k (0 : k) = 1
     rw [AdditiveTranslation.linePoint_zero, comp_one]
-  have hQ₁ : Q 1 ≠ 1 := by
-    intro h
-    apply (one_ne_zero : (1 : k) ≠ 0)
-    apply AffineSchemeAction.linePoint_injective k
-    apply (cancel_epi (unitIsoSpecAsOver k).hom).mp
-    exact h.trans hQ₀.symm
   let g := Q 1 ≫ i.hom.hom
-  have hg : g ≠ 1 := by
-    intro h
-    apply hQ₁
-    apply (cancel_mono i.hom.hom).mp
-    rw [one_comp]
-    exact h
+  have hg : g ≠ 1 := hi
   have hact : ModObj.pointAct V g ≠ 𝟙 V := fun h ↦ hg (hker g h)
   obtain ⟨p, hp⟩ : ∃ p : 𝟙_ (Over (Spec (.of k))) ⟶ V,
       p ≫ ModObj.pointAct V g ≠ p := by
@@ -111,5 +97,43 @@ theorem exists_finite_orbit_cover
       simp only [comp_lift_assoc, lift_fst_assoc, lift_snd_assoc]
     _ = _ := by
       rw [← Category.assoc, ← Hom.mul_def, AdditiveTranslation.linePoint_mul]
+
+/-- The actual Ga subgroup has an internally chosen finite surjective orbit cover of the
+original affine curve, with its actual joint translation diagram. No orbit, base point,
+dominance, nonconstancy or finite-cover certificate is supplied by the caller. -/
+theorem exists_finite_orbit_cover
+    (G : AlgebraicGroup k)
+    (V : Over (Spec (.of k))) [IsIntegral V.left] [IsAffine V.left]
+    [LocallyOfFiniteType V.hom] [ModObj G.toGroupScheme.X V]
+    (hker : ∀ q : 𝟙_ (Over (Spec (.of k))) ⟶ G.toGroupScheme.X,
+      ModObj.pointAct V q = 𝟙 V → q = 1)
+    (hdimV : topologicalKrullDim V.left = 1)
+    (i : (AdditiveGroupScheme.algebraicGroup k 1).Hom G) [Mono i.hom.hom] :
+    ∃ p : 𝟙_ (Over (Spec (.of k))) ⟶ V,
+      IsFinite (orbitMap i.hom.hom p).left ∧ Surjective (orbitMap i.hom.hom p).left ∧
+      ((unitIsoSpecAsOver k).hom ≫ AffineSchemeAction.linePoint k (0 : k)) ≫
+        orbitMap i.hom.hom p = p ∧
+      μ[(AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X] ≫ orbitMap i.hom.hom p =
+        lift (fst (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X
+          (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X ≫ i.hom.hom)
+          (snd (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X
+            (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X ≫ orbitMap i.hom.hom p) ≫
+              γ[G.toGroupScheme.X, V] ∧
+      ∀ (C : Type u) [CommRing C] [Algebra k C] (b c : C),
+        lift (AffineSchemeAction.linePoint k b ≫ i.hom.hom)
+          (AffineSchemeAction.linePoint k c ≫ orbitMap i.hom.hom p) ≫ γ[G.toGroupScheme.X, V] =
+            AffineSchemeAction.linePoint k (b + c) ≫ orbitMap i.hom.hom p := by
+  apply exists_finite_orbit_cover_of_nontrivial_one G V hker hdimV i
+  intro h
+  have h₁ : (unitIsoSpecAsOver k).hom ≫ AffineSchemeAction.linePoint k (1 : k) = 1 := by
+    apply (cancel_mono i.hom.hom).mp
+    rw [one_comp]
+    exact h
+  have h₀ : (unitIsoSpecAsOver k).hom ≫ AffineSchemeAction.linePoint k (0 : k) = 1 := by
+    rw [AdditiveTranslation.linePoint_zero, comp_one]
+  apply (one_ne_zero : (1 : k) ≠ 0)
+  apply AffineSchemeAction.linePoint_injective k
+  exact (cancel_epi (unitIsoSpecAsOver k).hom).mp (h₁.trans h₀.symm)
+
 end
 end AclGeom.AdditiveOrbit

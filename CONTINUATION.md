@@ -172,7 +172,14 @@ joint action diagram, regular surjective multiplier character chi and actual nor
 conjugation lift's scalar diagram after beta (`RegularAffineModel.exists_model`). ONE
 curve-cover producer call chooses all coordinates. The literal affine action, multiplication
 and finite-coordinate conjugation formulas hold over every coefficient algebra. Beta is
-never inverted. The curve coordinate is an isomorphism of opens. Normal-subgroup
+never inverted. The original coupled coordinate is an isomorphism of opens. The new
+`RegularAffineModel.exists_whole_curve_model` now gives the ENTIRE original curve as Ga
+for the SAME t/f, without assuming N is Ga or supplying a monic Ga subgroup. A finite
+surjective GROUP alpha:Ga to N is constructed internally; its composite with beta is
+relative Frobenius. A nontrivial coordinate-one image suffices for the actual finite orbit
+and whole-curve construction. The two old monic-Ga public signatures remain unchanged as
+wrappers. All character/conjugation data and all-coefficient formulas are retained.
+No N-isomorphism, degree-one or separability conclusion is asserted. Normal-subgroup
 classification outside this regular-affine case remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
@@ -14729,3 +14736,36 @@ through chit with aclgeom.claude; no fresh peer approval is claimed.
 The arbitrary rational/non-affine classifier, regularization, completion/points, original
 group/chunk/six-point results, algebraization/descent and all true bypassed auxiliaries
 remain owed. All eight original#21 work items and the full durable goal remain open.
+
+
+## Checkpoint: the entire original curve from the actual normal subgroup (#21)
+
+`RegularAffineModel.exists_whole_curve_model` calls the existing coupled-model producer
+ONCE and retains the SAME t/f/chi/beta/normal conjugation lift. The actual connected normal
+CLOSED subgroup N is not assumed Ga or affine. Its finite point-injective beta:N to Ga
+internally produces a finite surjective GROUP alpha:Ga to N, with alpha followed by beta
+relative Frobenius. All coefficient-algebra cover formulas are proved. The Ga coordinate-
+one point has nontrivial image in G, so the weaker finite-orbit criterion gives a moved
+point and finite surjective orbit without any Ga scheme-mono premise. The whole-curve
+criterion glues the SAME generator globally, proves the resulting map an actual V to Ga
+isomorphism and retains the global joint action/all-coefficient ax+b. The regular character,
+finite-coordinate normal conjugation and literal affine group law are retained.
+
+Universal injectivity of Spec(A) to Spec(R) gives uniqueness of restrictions of embeddings
+of Frac(A) into its algebraic closure; fraction-ring extensionality gives pure inseparability.
+A common exponent puts powers of integral coordinate elements in Frac(k[T]). Normality of
+k[T], not of the original curve, puts them in k[T]. Inverse coefficient Frobenius makes the
+map k-linear. This constructs the scheme cover; zero/one separation gives finiteness and
+surjectivity. Alpha's group laws follow from beta's point injectivity and reduced-source
+scheme extensionality, never categorical beta cancellation. Both old monic-Ga public
+signatures are unchanged as wrappers of the weaker criteria. Six focused new mathematical
+modules, two focused criteria and one book section converge on the actual source theorem.
+Build/book, strict full-type/dependency/source-fidelity gates and exact-head CI are reported
+on#21. Ownership and the exclusive20GB compiler lease are coordinated through chit with
+aclgeom.claude; no fresh peer approval is claimed.
+
+The new theorem removes the Ga-presentation premise in the actual regular-affine consumer.
+It does not identify N with Ga or assert degree one/separability of the covers. Rational/
+non-affine regularization, completion/points, the full original classifier, group/chunk/
+six-point results, algebraization/descent and every true bypassed auxiliary remain owed.
+All eight original#21 work items and the full durable goal stay active and incomplete.
