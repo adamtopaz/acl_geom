@@ -15,11 +15,14 @@ literal commuting square; both inverse identities are internal. In the proper-ov
 consumer, Noetherianity is derived. This proves individual translation/automorphism extension
 in source Lemma 8.4.
 
-Completion construction, identification of points with places, deriving local normality from
-smoothness in the scheme API, joint regularity of extended families, rational-action
-regularization, the full original classifier, group/chunk/six-point statements,
-algebraization/descent and every true bypassed auxiliary remain owed. All eight original #21
-work items and the full durable goal remain active and incomplete.
+For a given actual proper normal integral dimension-one curve, the closed-point/place
+identification is now proved by CurvePointsPlaces.exists_point_place_model, including actual
+stalk ring equivalences and automorphism compatibility. The given proper normal curve is an
+actual input. Completion construction, the scheme API from smoothness to local normality,
+joint regularity of extended families, rational-action regularization and the full original
+classifier remain owed, alongside group/chunk/six-point statements, algebraization/descent and
+every true bypassed auxiliary. All eight original #21 work items and the full durable goal
+remain active and incomplete.
 -/
 
 namespace AclGeom.ProperCurve

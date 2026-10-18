@@ -187,11 +187,16 @@ actual nonempty open extends uniquely to the whole proper normal curve, with its
 square. An actual function-field isomorphism gives a unique global curve isomorphism; an
 actual birational morphism is an isomorphism. Local normality is explicit integral closedness
 of stalks, and proper-over-field consumers derive Noetherianity internally. No extension or
-isomorphism certificate is supplied. Completion construction, points/places identification,
-the smoothness-to-local-normality scheme API and joint regularity of extended families
-remain owed.
-Non-affine and rational-action cases, completion/points identification, the normal subgroup
-and arbitrary-action classification remain open.
+isomorphism certificate is supplied. For a given actual proper normal integral curve of
+dimension one over any field, `CurvePointsPlaces.exists_point_place_model` now identifies
+actual closed points with actual places. ONE internally constructed equivalence retains
+literal stalk-image membership, actual stalk/place-ring isomorphisms with their canonical
+field embeddings, the inverse actual proper center, every actual curve automorphism and
+actual regular group actions at base-field points. The one-variable class and Noetherianity
+are internal. Completion construction, the smoothness-to-local-normality scheme API and
+joint regularity of extended families remain owed.
+Non-affine and rational-action cases, completion construction, normal-subgroup classification
+outside the proved regular-affine case and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
 The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
@@ -14816,3 +14821,37 @@ families, rational-action regularization and the full arbitrary-action classifie
 owed, alongside original group/chunk/six-point results, algebraization/descent and every
 true bypassed auxiliary. The original source statements/proofs and full goal endpoint
 are unchanged. All eight original #21 items and the full durable goal remain open.
+
+
+## Checkpoint: actual closed points and places of proper normal curves (#21)
+
+`CurvePointsPlaces.exists_point_place_model` proves the actual point/place identification
+for a given proper normal integral dimension-one curve over every field. Normality is
+explicit integral closedness of the actual stalks. The actual generic-stalk function field
+is internally one-variable; properness over the field supplies Noetherianity internally.
+No point/place, center, local-ring comparison or transport certificate is supplied.
+
+ONE internally constructed equivalence between actual closed points and existing places
+retains literal membership in the image of the canonical stalk embedding. Each actual
+stalk is isomorphic to the SAME place ring, with the literal canonical field map retained.
+Every place has a unique actual proper valuation-spectrum model map; its closed-point
+image is the inverse center. Dimension-one valuation comparison recovers the place ring.
+The generic point is excluded from the closed-point subtype. Every actual curve
+automorphism corresponds to comap by its actual function-field automorphism; the actual
+regular group action agrees with the existing place action at all base-field points.
+
+Ten focused mathematical modules contain 28 named APIs and 21 used internal proof fields;
+every new declaration converges on this actual source consumer. Eight parent proper-curve
+API types and all old mathematical bodies are unchanged. Full local library/book, strict
+checks, complete type/axiom/consumer inventory, fidelity and exact-head CI evidence are
+reported on #21. Codex retains tracked-path ownership under the standing chit agreement
+with aclgeom.claude and coordinates the exclusive20GB compiler lease; no fresh peer
+approval is claimed.
+
+This takes the actual proper normal model as an input. Completion construction, the
+scheme API from smoothness to local normality, joint regularity of extended automorphism
+families, rational-action regularization and the original rational/non-affine classifier
+remain owed. The action compatibility is at base-field points, not a new all-coefficient
+family theorem. Original group/chunk/six-point statements, algebraization/descent and every
+true bypassed auxiliary remain obligations. Original statements/proofs, the full goal
+endpoint and all eight original #21 work items remain unchanged and active.

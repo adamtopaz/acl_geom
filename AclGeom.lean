@@ -345,3 +345,13 @@ import AclGeom.Correspondence.NormalCurveStalks
 import AclGeom.Correspondence.ProperCurveExtension
 import AclGeom.Correspondence.ProperCurveFunctionField
 import AclGeom.Correspondence.ProperCurveOpenExtension
+import AclGeom.Correspondence.CurvePointTopology
+import AclGeom.Correspondence.CurveStalkValuation
+import AclGeom.Correspondence.CurveClosedPointPlace
+import AclGeom.Correspondence.CurvePlaceModel
+import AclGeom.Correspondence.CurvePlaceCenter
+import AclGeom.Correspondence.CurvePointPlaceInverse
+import AclGeom.Correspondence.CurveStalkNaturality
+import AclGeom.Correspondence.CurvePointPlaceEquivalence
+import AclGeom.Correspondence.CurvePointPlaceAutomorphisms
+import AclGeom.Correspondence.SchemeCurvePointPlaceModel
