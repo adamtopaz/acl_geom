@@ -156,6 +156,12 @@ and global morphism f now give an actual isomorphism of the ENTIRE original curv
 the SAME f gives the global joint action diagram and ax+b over every coefficient algebra
 in the base universe. Transitivity, coordinate regularity and the isomorphism are internal.
 No normality, chart, point, transitivity, regularity or isomorphism certificate is supplied.
+The actual regular-affine action now also supplies a globally finite surjective morphism
+to the standard affine group, without a Ga premise (`SchemeAffineFinite`). With a monic Ga
+subgroup, the SAME generator and globally finite surjective morphism give the whole-curve
+isomorphism and joint action diagram in one producer call. The full inverse image of the
+parameter open is identified before applying target-local finiteness. No degree-one,
+separability or scheme-monomorphism conclusion is asserted.
 Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
@@ -14593,3 +14599,44 @@ regularization, completion/points, the full classifier, original group/chunk/six
 statements, algebraization/descent and all true bypassed auxiliaries remain owed. All eight
 original #21 work items and the full durable goal stay open. Earlier checkpoints retain
 their scopes; historical M4a items1–117 remain frozen.
+
+
+## Checkpoint: the globally finite affine morphism for the same whole curve (#21)
+
+`SchemeAffineFinite.exists_finite_surjective_morphism` proves global finiteness and
+surjectivity of the actual morphism to the standard affine group, constructed internally
+from the genuine connected regular action on an integral affine locally finite-type curve
+of dimension one over an ACF base, group dimension at least two and the global point-kernel
+criterion. No Ga subgroup is needed. The original generator, point homomorphism and literal
+affine function-field formula are retained.
+
+`SchemeAffineFinite.exists_finite_morphism_whole_curve` adds the genuine monic Ga subgroup
+and constructs the SAME generator and globally finite surjective morphism in the entire
+original curve's Ga isomorphism, global joint action diagram and ax+b formula over every
+coefficient algebra in the base universe. One parameter-cover producer call supplies all
+data. No coordinate, parameter open, finite map, transitivity, regularity or isomorphism
+certificate is a premise. Every characteristic is included. No separability, degree-one
+conclusion or scheme monomorphism is asserted.
+
+The generic group criterion first proves point surjectivity by intersecting nonempty
+translated target opens. Jacobson closed points and point injectivity identify the FULL
+inverse image of the target open with the original source open. The actual pullback is
+therefore isomorphic to that source, with its finite-surjective parameter map. Translate
+this square and use finiteness and surjectivity local at the TARGET. The target's connected
+algebraic-group package supplies irreducibility; the source need not be connected. The
+previous whole-curve proof is factored into a given-data criterion, preserving the original
+public existence signature exactly.
+
+Three focused new modules and the refactored wrapper are checked independently before
+integration; each new helper reaches an actual action consumer. One narrowly scoped
+transparent-elaboration option resolves Mathlib's finite-property instance; it does not
+change kernel checking. Full build/book, strict module checks, expanded type/dependency
+reports, whole-library standard-axiom audit, source fidelity and exact-head CI evidence are
+reported on #21. Ownership, source-review requests and compiler leases are coordinated
+through chit with aclgeom.claude; no fresh peer proof approval is claimed.
+
+Arbitrary one-dimensional normal-subgroup/isogeny classification, construction beyond the
+regular-affine case, rational/non-affine regularization, completion/points, the full original
+classifier, original group/chunk/six-point statements, algebraization/descent and every true
+bypassed auxiliary remain owed. All eight original #21 items and the full durable goal stay
+open. Earlier checkpoints retain their scopes; historical M4a items1–117 remain frozen.

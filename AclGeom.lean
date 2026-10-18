@@ -321,4 +321,7 @@ import AclGeom.Correspondence.NormalMultiplicativeSubgroup
 import AclGeom.Correspondence.NormalAdditiveSubgroup
 import AclGeom.Correspondence.SchemeAffineTranslations
 import AclGeom.Correspondence.SchemeAdditiveOrbit
+import AclGeom.Correspondence.GroupFiniteMorphism
+import AclGeom.Correspondence.WholeCurveCoordinateCriterion
+import AclGeom.Correspondence.SchemeAffineFinite
 import AclGeom.Correspondence.SchemeAffineWholeCurve
