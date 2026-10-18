@@ -13,10 +13,10 @@ import AclGeom.Curves.CoefficientVariationFaithfulness
 Named consumer: faithful coefficient variation and the actual curve-action genus theorem.
 
 **Status:** the actual effective-field action and faithful coefficient variation are proved
-for a given family and field evaluation over an ACF base. `SchemeActionGenus` internally chooses
-the actual group chart and parameter field, derives coefficient rank and independent regular
-variations, and proves genus zero after constants for faithful regular affine curve actions.
-Original-base descent, non-affine and rational-action cases and classification remain open.
+for a given family and field evaluation over an ACF base. `SchemeActionGenus` chooses the actual
+chart and parameter field, derives rank and independent regular variations and proves genus zero
+after constants. `SchemeCurveGenus` proves original-base genus and rationality for faithful
+regular affine curve actions. Non-affine and rational-action cases and classification stay open.
 -/
 
 namespace AclGeom.SchemeGenericTranslate

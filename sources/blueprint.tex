@@ -2231,8 +2231,13 @@ one-variable witnesses internal
 (\lean{SchemeGenericTranslate.exists_constantExtension_genus_eq_zero}). Only the
 coefficient-linear curve variations are extended to $K$; ordinary coefficient derivations
 remain over the effective field. No chart, coefficient, rank, variation, regularity or genus
-certificate is a caller premise. Original-base rationality/genus-zero descent and non-affine
-and rational-action cases remain open.
+certificate is a caller premise. Finite-coefficient specialization now descends a rational
+generator of this canonical tensor fraction field to the original one-variable field
+(\lean{RationalityDescent.exists_generator_of_tensor_generator}). The actual regular-affine
+curve has genus zero and a transcendental generator over the original base on its actual
+generic-stalk field (\lean{SchemeCurveGenus.genus_eq_zero},
+\lean{SchemeCurveGenus.exists_generator}), with both one-variable instances, constants and
+descent internal. Non-affine and rational-action cases remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action
 regularization and the arbitrary-action classifier remain open. All eight original issue-21 work items stay open. The original lemma and

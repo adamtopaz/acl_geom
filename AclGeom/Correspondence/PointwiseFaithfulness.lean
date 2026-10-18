@@ -22,8 +22,9 @@ coefficient map cannot lower the function-field transcendence degree. Pure insep
 is permitted; no infinitesimal-faithfulness shortcut is used.
 
 **Status:** proved. `SchemeActionCoefficientAlgebraicity` supplies the actual coefficient-map
-application; `SchemeActionGenus` derives rank and genus zero after constants for faithful regular
-affine curve actions. Original-base descent and arbitrary-action classification remain open.
+application; `SchemeActionGenus` derives rank and genus zero after constants. `SchemeCurveGenus`
+proves original-base genus and rationality for faithful regular affine curve actions. Non-affine
+and rational-action cases and arbitrary-action classification remain open.
 -/
 
 namespace AclGeom

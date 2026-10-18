@@ -306,3 +306,5 @@ import AclGeom.Test.Validation
 import AclGeom.Test.TwoGenericSource
 
 import AclGeom.Correspondence.SchemeActionGenus
+
+import AclGeom.Correspondence.SchemeCurveGenus

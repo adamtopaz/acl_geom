@@ -102,9 +102,13 @@ affine chart, its parameter fraction field, coefficient point-map faithfulness a
 two independent regular curve variations from the same effective coefficients. Over an
 internally chosen algebraically closed constant extension K, the canonical tensor fraction
 field of the actual generic-stalk k(V) is a one-variable field of genus zero. Domains and all
-rank, separating-parameter and regularity inputs are internal. Original-base genus/rationality
-descent, non-affine and rational-action cases, completion/points identification and arbitrary-
-action classification remain open.
+rank, separating-parameter and regularity inputs are internal. Finite-coefficient localization
+and specialization now descend rationality from any constant extension of an ACF base. The
+actual regular-affine action has genus zero and a transcendental generator over the original
+base on its actual generic-stalk field (`SchemeCurveGenus`), with both one-variable instances
+and descent internal. The fractional-linear/affine-coordinate action description is next.
+Non-affine and rational-action cases, completion/points identification, the normal subgroup
+and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
 The earlier additive theorem has its own coordinate interface. Original group extraction and scheme/action/descent remain owed.
 Read PROJECT_GOAL.md for the unchanged full endpoint and current source obligations. The historical M4a
@@ -13986,3 +13990,54 @@ chunk/six-point results, algebraization/descent and all true bypassed auxiliarie
 no fresh peer proof approval is claimed. All eight original #21 items stay open and the full
 durable goal remains active and incomplete. Earlier checkpoint sections record their then-
 current frontiers; this checkpoint supplies their regular-affine genus consumer after constants.
+
+
+## Checkpoint: original-base genus and rational coordinates for actual affine actions (#21)
+
+`SchemeCurveGenus.genus_eq_zero` and `SchemeCurveGenus.exists_generator` prove genus zero
+and choose a transcendental generator over the ORIGINAL algebraically closed base for the
+actual generic-stalk field of V. Genuine hypotheses: integral locally finite-type group G of
+dimension at least two, integral AFFINE locally finite-type dimension-one V, actual REGULAR
+action and the global k-point kernel criterion. The public curve theorem supplies the original
+one-variable instance. The preceding actual producer internally chooses K and supplies its
+tensor domain, larger one-variable instance and genus zero. Rationality descent removes that
+constant extension. No chart, coefficient model, rank, constants, one-variable, genus or
+rationality certificate is a caller premise. The project's connected group package supplies
+integrality; bare connected nonreduced groups are not silently treated as integral.
+
+`RationalityDescent.exists_generator_of_tensor_generator` works with k/F/K in three independent
+universes, with ACF k, arbitrary field K/k and a one-variable F/k. The rational generator of
+canonical Frac(K tensor_k F) is the explicit mathematical premise. K need not be ACF. All
+finite models, common denominators, nonvanishing and specializations are internal. The generic
+genus-zero criterion has both one-variable instances explicit and K ACF; the actual scheme
+consumer supplies every instance and rationality premise internally. No arbitrary-genus
+base-change invariance is asserted.
+
+The proof chooses finite field generators of F and polynomial fractions for their images.
+A common nonzero tensor denominator clears u and every inverse polynomial denominator.
+A tensor basis selects a finite-type constant subalgebra containing all coefficients and
+cleared numerators. Injectivity gives an embedded common localization in the canonical
+fraction field. A nonzero basis coordinate and the Jacobson/residue-field theorem choose
+a k-point preserving the denominator. The actual localization map to F fixes all of F and
+sends selected K-coefficients into k. The inverse table forces specialized denominators to
+be units. Every original field generator lies in k(t), so this is F; the one-variable
+hypothesis rules out algebraic t.
+
+The two new modules preserve the independently checked mathematical bodies literally. All
+four expanded public types have been read in full, with zero printer omissions. The nine
+new declaration records contain four public theorems, four explicit consumed private proofs
+and one consumed private simp proof. Only standard axioms occur; no unsafe declarations or
+unused generated exports are present. The proof chain is specialization -> rationality
+descent -> genus-zero descent -> actual original-base genus -> actual rational coordinate.
+Validation evidence for the committed checkpoint is recorded on #21. Original source
+statements/proofs/TEST blocks, the shared completion core and frozen M4a history are preserved.
+
+Next: combine the original-base coordinate with the actual field/place action and fixed
+boundary place for the fractional-linear and affine-coordinate description. Non-affine and
+rational-action cases, regularization, completion/points identification, the normal subgroup
+and arbitrary-action classifier, original group/chunk/six-point results, algebraization and
+descent and all true bypassed auxiliaries remain owed. Peer source ownership, review requests
+and serial compiler leases were coordinated through chit; no fresh peer proof approval was
+received. All eight original #21 items and the full durable goal remain open. Earlier
+checkpoint sections retain their then-current frontiers; this checkpoint supplies their
+regular-affine original-base genus/rationality descent consumer.

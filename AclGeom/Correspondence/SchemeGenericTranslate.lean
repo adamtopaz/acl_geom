@@ -19,8 +19,9 @@ Named consumer: the coefficient-field reparametrization in the curve-action genu
 **Status:** proved for regular actions on integral affine schemes over an ACF base.
 `SchemeEffectiveFunctionField` constructs the effective-field action and faithful coefficient
 variation for a given family and field evaluation. `SchemeActionGenus` chooses the actual chart
-and proves genus zero after constants in the faithful regular-affine curve case. Original-base
-genus descent and arbitrary-action classification remain open.
+and proves genus zero after constants; `SchemeCurveGenus` descends genus and rationality to the
+original base for faithful regular affine curve actions. Non-affine and rational-action cases
+and arbitrary-action classification remain open.
 -/
 
 namespace AclGeom.SchemeGenericTranslate

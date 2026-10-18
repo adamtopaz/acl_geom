@@ -20,8 +20,9 @@ Named source consumer: the genus step of blueprint `lem:affine-action` (#21).
 an integral locally finite-type group of dimension at least two acting regularly and
 faithfully on an integral affine locally finite-type dimension-one curve over an ACF base.
 All chart, coefficient, rank, regularity, domain and one-variable inputs are derived.
-Original-base genus/rationality descent, non-affine and rational-action cases, the normal
-subgroup and arbitrary-action classifier remain open; all eight original #21 items stay open.
+`SchemeCurveGenus` descends genus and rationality to the original base. Non-affine and rational-
+action cases, the normal subgroup and arbitrary-action classifier remain open; all eight
+original #21 items stay open.
 -/
 
 namespace AclGeom.SchemeGenericTranslate
@@ -91,7 +92,7 @@ private theorem exists_separating_function [PerfectField k]
 /-- A faithful regular action of an integral locally finite-type group of dimension at least
  two on an integral affine curve has genus zero after an internally chosen algebraically
  closed constant extension. Every chart, coefficient, rank and regularity premise is derived
- from the actual action. Original-base descent is the next named consumer. -/
+ from the actual action. Named consumer: original-base genus in `SchemeCurveGenus`. -/
 theorem exists_constantExtension_genus_eq_zero [IsAlgClosed k]
     (G : Over (Spec (.of k))) [GrpObj G] [IsIntegral G.left]
     [LocallyOfFiniteType G.hom]

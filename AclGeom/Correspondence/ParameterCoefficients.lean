@@ -19,9 +19,9 @@ Named consumer: its effective coefficient field and the actual point-map faithfu
 **Status:** the finite coefficient family is proved for regular actions on affine finite-type
 schemes over arbitrary fields. `SchemeEffectiveCoefficients` constructs its effective field and
 tensor-ring descent; `SchemeEffectiveFunctionField` proves the field action and faithful variation.
-`SchemeActionGenus` internally derives rank and genus zero after constants for actual faithful
-regular affine curve actions over an ACF base. Original-base descent and classification remain
-open.
+`SchemeActionGenus` derives rank and genus zero after constants. `SchemeCurveGenus` descends
+genus and rationality to the original base for actual faithful regular affine curve actions.
+Non-affine and rational-action cases and arbitrary-action classification remain open.
 -/
 
 namespace AclGeom.SchemeParameterAction
