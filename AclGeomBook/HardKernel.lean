@@ -13,6 +13,7 @@ import AclGeomBook.HardKernel.FiniteAffineMorphism
 import AclGeomBook.HardKernel.NormalSubgroupIsogeny
 import AclGeomBook.HardKernel.RegularAffineModel
 import AclGeomBook.HardKernel.NormalWholeCurve
+import AclGeomBook.HardKernel.ProperCurveExtension
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Transfer.JRigidityStatement
 import AclGeom.Correspondence.AdditiveThreePair
@@ -2814,3 +2815,5 @@ stay open; the full durable goal remains active and incomplete.
 {include 0 AclGeomBook.HardKernel.RegularAffineModel}
 
 {include 0 AclGeomBook.HardKernel.NormalWholeCurve}
+
+{include 0 AclGeomBook.HardKernel.ProperCurveExtension}

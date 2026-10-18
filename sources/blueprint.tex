@@ -2317,6 +2317,26 @@ The arbitrary rational/non-affine classifier and the original source obligations
 owed. All eight original issue-21 items and the full durable goal stay open. The original
 statement and proof are unchanged.
 
+\paragraph{Lean status of individual proper-curve extension.}
+The namespace \lean{ProperCurve} now proves two extension assertions in the proof above,
+over every field. For an actual nonempty open immersion $j:U\to X$ into an integral
+proper normal curve, \lean{ProperCurve.existsUnique_iso_extension} extends every actual
+automorphism $a$ of $U$ uniquely to an automorphism $F$ of the entire $X$, with
+$F\circ j=j\circ a$ in ordinary function-composition order. Normality is the integral closedness of all
+actual stalks, dimension at most one suffices, and properness supplies Noetherianity.
+No extension or inverse certificate is a premise. The general rational-map extension
+uses Mathlib's valuative criterion and stalk spreading-out; separatedness gives uniqueness.
+The theorem \lean{ProperCurve.existsUnique_iso_of_functionFieldEquiv} constructs a unique
+curve isomorphism from an actual isomorphism of the generic-stalk fields, with the literal
+contravariant generic-point formula. The theorem
+\lean{ProperCurve.isIso_of_isIso_functionFieldMap} consequently proves that an actual
+birational morphism between proper normal integral curves is an isomorphism; an extra
+finiteness premise is unnecessary. This proves the individual extension and degree-one-map
+assertions, not completion construction, points/places identification, the scheme API from
+smoothness to local normality, or joint regularity of an extended family. Rational-action
+regularization and the full classifier remain owed. All eight original issue-21 items and
+the full durable goal stay open. Original statements and proofs are unchanged.
+
 \paragraph{Lean status of the scheme/function-field bridge.}
 The theorem \lean{scheme_functionField_isFunctionFieldOneVar} derives the existing
 one-variable function-field hypothesis from an actual integral curve scheme, locally

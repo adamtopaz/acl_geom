@@ -181,6 +181,15 @@ and whole-curve construction. The two old monic-Ga public signatures remain unch
 wrappers. All character/conjugation data and all-coefficient formulas are retained.
 No N-isomorphism, degree-one or separability conclusion is asserted. Normal-subgroup
 classification outside this regular-affine case remains owed.
+The actual proper-normal-curve extension assertions are now proved over every field
+(`ProperCurve`). Rational maps to proper targets extend uniquely; an automorphism of an
+actual nonempty open extends uniquely to the whole proper normal curve, with its commuting
+square. An actual function-field isomorphism gives a unique global curve isomorphism; an
+actual birational morphism is an isomorphism. Local normality is explicit integral closedness
+of stalks, and proper-over-field consumers derive Noetherianity internally. No extension or
+isomorphism certificate is supplied. Completion construction, points/places identification,
+the smoothness-to-local-normality scheme API and joint regularity of extended families
+remain owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14769,3 +14778,41 @@ It does not identify N with Ga or assert degree one/separability of the covers. 
 non-affine regularization, completion/points, the full original classifier, group/chunk/
 six-point results, algebraization/descent and every true bypassed auxiliary remain owed.
 All eight original#21 work items and the full durable goal stay active and incomplete.
+
+
+## Checkpoint: unique extension on actual proper normal curves (#21)
+
+`ProperCurve.existsUnique_iso_extension` proves the original proof's individual
+translation/automorphism extension assertion: for an actual nonempty open immersion
+j:U to X and automorphism a of U, there is a unique actual automorphism F of the whole
+proper normal integral curve X with j followed by F equal to a followed by j. Dimension
+at most one suffices; every field is allowed. The actual integral closedness of every
+stalk expresses normality. Properness over the field supplies Noetherianity internally.
+No global extension, inverse, field isomorphism or regularity certificate is a premise.
+
+The more general `existsUnique_extension` treats rational maps from normal integral
+locally Noetherian curves to proper targets over a separated base. The actual scheme
+dimension bounds stalk dimensions. Local normality/Noetherianity give a local Dedekind
+domain and hence valuation ring, including the generic field stalk. Mathlib's valuative
+criterion extends the generic map over each stalk, and its spreading-out theorem fills
+the entire rational-map domain. Separatedness gives a unique global extension. An actual
+open map is turned into the rational map internally; the two extensions of a and its
+inverse have inverse identities because they agree on the dense original open.
+
+`existsUnique_iso_of_functionFieldEquiv` constructs the unique global isomorphism of
+two actual proper normal curves with the prescribed generic-stalk field isomorphism.
+`isIso_of_isIso_functionFieldMap` derives this field isomorphism from an actual dominant
+morphism's field map and identifies the global isomorphism with that morphism. It proves
+the birational/degree-one-map assertion in the original genus-zero proof without an
+extra finiteness premise. Four focused mathematical modules and eight named theorems
+converge on the two actual source consumers; no private or generated artifacts remain.
+Full local library/book, strict type/axiom/consumer/fidelity gates and exact-head CI are
+reported on #21. Standing ownership and the exclusive20GB compiler leases are coordinated
+through chit with aclgeom.claude; no fresh peer approval is claimed.
+
+No proper completion has been constructed here. The identification of places with
+points, the scheme API from smoothness to local normality, jointly regular automorphism
+families, rational-action regularization and the full arbitrary-action classifier remain
+owed, alongside original group/chunk/six-point results, algebraization/descent and every
+true bypassed auxiliary. The original source statements/proofs and full goal endpoint
+are unchanged. All eight original #21 items and the full durable goal remain open.

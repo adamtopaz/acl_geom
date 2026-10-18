@@ -341,3 +341,7 @@ import AclGeom.Correspondence.GaFrobenius
 import AclGeom.Correspondence.FiniteGaGroupCover
 import AclGeom.Correspondence.SchemeNormalWholeCurve
 import AclGeom.Correspondence.SchemeAffineWholeCurve
+import AclGeom.Correspondence.NormalCurveStalks
+import AclGeom.Correspondence.ProperCurveExtension
+import AclGeom.Correspondence.ProperCurveFunctionField
+import AclGeom.Correspondence.ProperCurveOpenExtension
