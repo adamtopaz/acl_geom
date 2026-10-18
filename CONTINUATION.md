@@ -193,8 +193,16 @@ actual closed points with actual places. ONE internally constructed equivalence 
 literal stalk-image membership, actual stalk/place-ring isomorphisms with their canonical
 field embeddings, the inverse actual proper center, every actual curve automorphism and
 actual regular group actions at base-field points. The one-variable class and Noetherianity
-are internal. Completion construction, the smoothness-to-local-normality scheme API and
-joint regularity of extended families remain owed.
+are internal. The literal finite-boundary assertion is now proved by `CurveBoundary`.
+An actual connected algebraic-group regular action on an integral separated finite-type
+curve over an ACF base, with an actual equivariant nonempty open immersion, internally gives
+a finite closed-point complement and a field-point for each missing point. Its orbit is a
+constant SCHEME morphism: fixedness holds over every test scheme in the base universe.
+No affine, normal or proper hypothesis or boundary/fixedness certificate is needed. For a
+given actual proper normal model, the SAME existing places whose actual centers are missing
+are fixed by the existing base-field-point action. The ambient regular action is an actual
+input. Completion construction, the smoothness-to-local-normality scheme API and joint
+regularity of extended rational families remain owed.
 Non-affine and rational-action cases, completion construction, normal-subgroup classification
 outside the proved regular-affine case and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14855,3 +14863,43 @@ remain owed. The action compatibility is at base-field points, not a new all-coe
 family theorem. Original group/chunk/six-point statements, algebraization/descent and every
 true bypassed auxiliary remain obligations. Original statements/proofs, the full goal
 endpoint and all eight original #21 work items remain unchanged and active.
+
+
+## Checkpoint: literal finite curve boundaries are fixed jointly (#21)
+
+`CurveBoundary.fixed_boundary` proves the source finite-boundary assertion for an actual
+integral separated finite-type dimension-one curve over an algebraically closed field,
+an actual connected algebraic-group regular action and an actual equivariant nonempty
+open immersion. No affine, normal or proper hypothesis is needed. Literal complement
+finiteness and closedness are derived, and every actual missing point is supplied with
+an internally constructed field-point. Its orbit is a constant SCHEME morphism. Composing
+that identity proves fixedness over every test scheme in the base universe, hence every
+commutative coefficient algebra there. No boundary or fixed-point certificate is a premise.
+
+The generic point lies in the nonempty open. Points outside are closed with coheight one;
+Noetherianity follows from finite type and Mathlib bounds the closed complement by finitely
+many coheight-one points. Actual equivariance and inverse point automorphisms preserve the
+literal complement. Density of group closed points puts the entire orbit in that finite
+closed set. Irreducibility makes its continuous image constant, and reduced-source
+closed-point detection gives the actual scheme-morphism identity. The group identity
+identifies its value with the SAME original boundary point. Finiteness alone works over
+every field, without separatedness; the joint fixedness theorem uses the ACF base.
+
+`CurveBoundary.fixed_boundary_places` retains the literal joint boundary conclusion for a
+GIVEN actual proper normal curve and proves that the SAME existing places whose actual
+proper centers are outside the open are fixed by the existing base-field-point place
+action. It uses the actual point/place equivalence; properness supplies finite type and
+separatedness internally. Normality remains explicit integral closedness of every stalk.
+The scheme-boundary fixedness is joint on all test schemes; the place formula is at
+base-field group points. Four focused modules and ten named APIs converge on these actual
+source consumers, without private/generated artifacts. Full gates and exact-head CI are
+reported on #21. Standing Codex tracked ownership, source-review requests and exclusive
+20 GB compiler leases are coordinated through chit with aclgeom.claude; no fresh peer
+approval is claimed.
+
+The ambient regular action and equivariant open are actual inputs. No completion or joint
+regularization of an extended rational family is constructed here. Completion construction,
+the smoothness-to-local-normality scheme API, arbitrary rational/non-affine classification,
+original group/chunk/six-point statements, algebraization/descent and every true bypassed
+auxiliary remain owed. Original statements/proofs, full goal completion core and all eight
+original #21 work items remain unchanged and active.

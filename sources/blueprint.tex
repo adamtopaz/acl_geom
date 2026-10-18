@@ -2317,6 +2317,26 @@ The arbitrary rational/non-affine classifier and the original source obligations
 owed. All eight original issue-21 items and the full durable goal stay open. The original
 statement and proof are unchanged.
 
+\paragraph{Lean status of the literal finite boundary.}
+The source finite-boundary assertion is now proved by \lean{CurveBoundary.fixed_boundary}
+for an actual integral separated finite-type dimension-one curve over an algebraically
+closed field, with an actual connected algebraic-group regular action and an actual
+equivariant nonempty open immersion. Its literal complement is internally proved finite
+and closed-pointed. Each missing point has an internally constructed field-point whose
+orbit is a constant scheme morphism. Fixedness therefore holds over every test scheme
+in the base universe, including all commutative coefficient algebras there. No affine,
+normal or proper hypothesis, boundary certificate or fixed-point certificate is used.
+Finiteness follows from the actual Noetherian closed complement and the dimension-one
+coheight bound. Density of group closed points and connectedness give a constant orbit;
+reduced-source closed-point detection gives the actual morphism identity. For a GIVEN
+proper normal curve, \lean{CurveBoundary.fixed_boundary_places} also proves that the SAME
+places whose actual proper centers are outside the open are fixed by the existing
+base-field-point place action. The ambient regular action is an actual input. Completion
+construction and joint regularity of extended rational families remain owed, together
+with the full original classifier and other source obligations. All eight original
+issue-21 work items and the full durable goal remain open. Original statements and proofs
+are unchanged.
+
 \paragraph{Lean status of the actual proper-curve point/place model.}
 For a given actual proper integral dimension-one curve over any field with integrally
 closed actual stalks, \lean{CurvePointsPlaces.exists_point_place_model} constructs ONE

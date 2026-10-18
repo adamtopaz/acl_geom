@@ -355,3 +355,7 @@ import AclGeom.Correspondence.CurveStalkNaturality
 import AclGeom.Correspondence.CurvePointPlaceEquivalence
 import AclGeom.Correspondence.CurvePointPlaceAutomorphisms
 import AclGeom.Correspondence.SchemeCurvePointPlaceModel
+import AclGeom.Correspondence.CurveBoundaryTopology
+import AclGeom.Correspondence.CurveBoundaryAction
+import AclGeom.Correspondence.CurveBoundaryFixed
+import AclGeom.Correspondence.ProperCurveBoundaryFixed

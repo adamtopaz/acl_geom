@@ -15,6 +15,7 @@ import AclGeomBook.HardKernel.RegularAffineModel
 import AclGeomBook.HardKernel.NormalWholeCurve
 import AclGeomBook.HardKernel.ProperCurveExtension
 import AclGeomBook.HardKernel.CurvePointsPlaces
+import AclGeomBook.HardKernel.CurveBoundaryFixed
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Transfer.JRigidityStatement
 import AclGeom.Correspondence.AdditiveThreePair
@@ -2820,3 +2821,5 @@ stay open; the full durable goal remains active and incomplete.
 {include 0 AclGeomBook.HardKernel.ProperCurveExtension}
 
 {include 0 AclGeomBook.HardKernel.CurvePointsPlaces}
+
+{include 0 AclGeomBook.HardKernel.CurveBoundaryFixed}
