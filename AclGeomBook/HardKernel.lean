@@ -26,6 +26,7 @@ import AclGeom.Correspondence.SchemeEffectiveCoefficients
 import AclGeom.Correspondence.SchemeEffectiveFunctionField
 import AclGeom.Correspondence.SchemeActionGenus
 import AclGeom.Correspondence.SchemeCurveGenus
+import AclGeom.Correspondence.SchemeAffinePointAction
 import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -2406,10 +2407,52 @@ This proves descent of genus zero; no assertion about arbitrary genus under base
 
 {docstring AclGeom.RationalityDescent.genus_eq_zero_of_tensor}
 
-Next: use the original-base rational coordinate with the actual field/place action and fixed
-boundary place to obtain the fractional-linear and affine-coordinate description. Non-affine
-and rational-action cases, regularization, completion and points identification, the normal
+The following consumer uses the fixed boundary place to construct faithful affine coordinates
+for the actual k-point action. Rational/regular group coefficients and its scheme-group morphism
+remain owed. Non-affine and rational-action cases, regularization, completion and points identification, the normal
 subgroup and arbitrary-action classifier, original group/chunk/six-point results, algebraization
+and descent remain obligations. All eight original work items of
+[#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
+active and incomplete.
+
+
+# Faithful affine coordinates for actual group points
+%%%
+tag := "actual-affine-point-action"
+%%%
+
+For a connected algebraic-group package G of dimension at least two, acting regularly on an
+integral affine locally finite-type dimension-one curve V over an algebraically closed k,
+the genuine global k-point kernel criterion now gives an original-base rational coordinate
+and an injective group homomorphism from G(k) into AffineTransformation k. On the actual
+generic-stalk field, pullback by each point sends the chosen generator t to `a*t+b` with a
+nonzero. No fixed place, one-variable, genus, rational-coordinate or field-faithfulness
+certificate is a caller premise. Integrality comes from the connected group package.
+
+{docstring AclGeom.SchemeAffinePointAction.exists_faithful_affine_coordinates}
+
+The actual fixed-boundary theorem supplies a place fixed by every point; the original-base
+genus theorem supplies genus zero on the same field. Choose a generator with its single
+simple pole at that place. Its transform has order minus one there. If the Möbius denominator
+had a nonzero linear coefficient, its order would also be minus one; the numerator has order
+zero or minus one. The crossed identity contradicts additivity of order, so the denominator
+is constant and the transform is affine. This proof works in every characteristic.
+
+{docstring AclGeom.FixedPlaceAffine.exists_affine_of_fixed_pole}
+
+Transcendence makes evaluation of affine transformations at t injective. Pullback reverses
+composition of field automorphisms, giving exactly the existing affine-group multiplication.
+Equality of the images of the field generator implies equality of the field automorphisms;
+faithfulness then makes the point homomorphism injective. The reusable criterion exposes the
+faithful opposite field action, fixed place and genus premises; the actual scheme consumer
+derives all of them internally.
+
+{docstring AclGeom.FixedPlaceAffine.exists_faithful_affine_representation}
+
+This is a k-point/function-field theorem. Rational or regular coefficient functions on the
+actual group, their scheme-group morphism and finite-cover parameter coordinates remain owed.
+Non-affine and rational-action cases, regularization, completion and points identification,
+the normal subgroup and full classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
 active and incomplete.

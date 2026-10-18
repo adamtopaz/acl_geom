@@ -106,7 +106,12 @@ rank, separating-parameter and regularity inputs are internal. Finite-coefficien
 and specialization now descend rationality from any constant extension of an ACF base. The
 actual regular-affine action has genus zero and a transcendental generator over the original
 base on its actual generic-stalk field (`SchemeCurveGenus`), with both one-variable instances
-and descent internal. The fractional-linear/affine-coordinate action description is next.
+and descent internal. For a connected algebraic-group package of dimension at least two,
+`SchemeAffinePointAction` now chooses a transcendental coordinate and an injective homomorphism
+from actual k-points into `AffineTransformation k`, with the literal field-pullback formula.
+The fixed boundary place, genus and faithful field action are internal. Rational/regular
+coefficient functions on the group, the scheme-group morphism and finite-cover parameter
+coordinates remain owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14041,3 +14046,43 @@ and serial compiler leases were coordinated through chit; no fresh peer proof ap
 received. All eight original #21 items and the full durable goal remain open. Earlier
 checkpoint sections retain their then-current frontiers; this checkpoint supplies their
 regular-affine original-base genus/rationality descent consumer.
+
+
+## Checkpoint: faithful affine coordinates for the actual k-point action (#21)
+
+`SchemeAffinePointAction.exists_faithful_affine_coordinates` gives a transcendental original-
+base generator of the actual generic-stalk field and an injective group homomorphism from
+G(k) into `AffineTransformation k`, with the literal pullback formula for every actual point.
+G is the connected algebraic-group package, of dimension at least two; V is integral,
+affine, locally finite type and dimension one over an ACF base. Its actual regular action
+and genuine global k-point kernel criterion are the only action inputs. The package supplies
+integrality. The fixed boundary place, one-variable field, genus and faithful field action
+are all chosen or proved internally. No coordinate or classification certificate is supplied.
+
+`FixedPlaceAffine.exists_affine_of_fixed_pole` eliminates the nonconstant Möbius denominator
+coefficient by orders at the fixed simple pole. In the nonzero-coefficient case, the
+transformed generator and denominator have order minus one, whereas the numerator has order
+zero or minus one; their crossed identity is impossible. Its generic representation consumer
+chooses a generator at the given place using genus zero. Transcendence makes affine evaluation
+injective. Pullback's reversed composition gives exactly the existing affine multiplication.
+Equality on the generator gives equality of field automorphisms, then faithfulness of the
+point representation. The scheme consumer derives every generic criterion premise.
+
+The two focused mathematical bodies are literal to the independently checked frozen source,
+up to trailing blank-line normalization at splitting. The eight new declarations consist of
+three public APIs, two explicit private helpers, one consumed private proof and two consumed
+public internal proofs. Every non-API declaration has a named consumer; unused simplifier
+exports found in the first prototype were removed with explicit quotient identities. All
+three expanded public types were read in full, with zero printer omissions and only standard
+axioms. The issue report records the full library/book gates, parent preservation, fresh
+whole-library dependencies, committed-head checks and exact CI. The original statement/proof/
+TEST blocks, shared completion core and frozen 117-item M4a history retain their provenance.
+
+This is a k-point/function-field theorem. Next are rational or regular coefficient functions
+on the actual group, their scheme-group morphism and finite-cover parameter coordinates.
+Non-affine and rational-action cases, regularization, completion/points identification,
+the normal subgroup and full classifier, original group/chunk/six-point producers,
+algebraization/descent and every true bypassed auxiliary remain owed. Peer ownership and
+compiler leases were coordinated through chit; no fresh peer proof approval was received.
+All eight original #21 items stay open; the full durable goal remains active and incomplete.
+Earlier checkpoint sections record their then-current frontiers.

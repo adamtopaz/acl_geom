@@ -17,7 +17,10 @@ coefficient determinant to be nonzero.
 
 This is the genus-zero Möbius checkpoint in blueprint Lemma 8.4.
 
-**Status:** in progress (M4b, issue #13, P7).
+**Status:** proved for a supplied rational generator or genus-zero one-variable field.
+`FixedPlaceAffine` uses the fractional-linear expression at a fixed pole; the actual
+regular-affine scheme consumer derives its rationality inputs in `SchemeCurveGenus`.
+The full source action classification remains open (#21).
 -/
 
 namespace AclGeom

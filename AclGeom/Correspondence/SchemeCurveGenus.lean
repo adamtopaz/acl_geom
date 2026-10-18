@@ -18,7 +18,9 @@ acting regularly on an integral affine locally finite-type dimension-one curve o
 algebraically closed base, with the genuine global-point kernel criterion. The actual
 generic-stalk field has genus zero and a transcendental generator over the original base.
 Chart, parameter field, coefficients, rank, constants, one-variable instances, rationality
-and descent are internal. Non-affine and rational-action cases, regularization, completion/
+and descent are internal. `SchemeAffinePointAction` uses these results to construct faithful
+original-base affine coordinates for the actual k-point action. Non-affine and rational-action
+cases, regularization, completion/
 points identification, the normal subgroup and arbitrary-action classifier remain open;
 all eight original #21 items and the full durable goal stay open.
 -/
@@ -62,8 +64,8 @@ theorem genus_eq_zero
   exact RationalityDescent.genus_eq_zero_of_tensor hg
 
 /-- The actual generic-stalk field of this regular affine curve has a transcendental
- generator over its original base. Named next consumer: the original-base fractional-linear
- description and affine-action classification. -/
+ generator over its original base. Named consumer: the actual faithful affine point-action
+ coordinates in `SchemeAffinePointAction`. -/
 theorem exists_generator
     (G : Over (Spec (.of k))) [GrpObj G] [IsIntegral G.left]
     [LocallyOfFiniteType G.hom]
