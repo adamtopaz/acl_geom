@@ -11,6 +11,7 @@ import AclGeomBook.HardKernel.AdditiveOrbit
 import AclGeomBook.HardKernel.WholeAffineCurve
 import AclGeomBook.HardKernel.FiniteAffineMorphism
 import AclGeomBook.HardKernel.NormalSubgroupIsogeny
+import AclGeomBook.HardKernel.RegularAffineModel
 import AclGeom.Correspondence.JRigidity
 import AclGeom.Transfer.JRigidityStatement
 import AclGeom.Correspondence.AdditiveThreePair
@@ -2808,3 +2809,5 @@ stay open; the full durable goal remains active and incomplete.
 {include 0 AclGeomBook.HardKernel.FiniteAffineMorphism}
 
 {include 0 AclGeomBook.HardKernel.NormalSubgroupIsogeny}
+
+{include 0 AclGeomBook.HardKernel.RegularAffineModel}

@@ -329,4 +329,9 @@ import AclGeom.Correspondence.AffineNormalTranslations
 import AclGeom.Correspondence.NormalTranslationImage
 import AclGeom.Correspondence.NormalTranslationIsogeny
 import AclGeom.Correspondence.SchemeNormalTranslations
+import AclGeom.Correspondence.AffineDilation
+import AclGeom.Correspondence.NormalCoordinateConjugation
+import AclGeom.Correspondence.AffineConjugation
+import AclGeom.Correspondence.NormalCoordinateCharacter
+import AclGeom.Correspondence.RegularAffineModel
 import AclGeom.Correspondence.SchemeAffineWholeCurve

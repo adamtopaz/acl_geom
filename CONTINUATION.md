@@ -167,8 +167,13 @@ case, a finite surjective point-injective N to Ga morphism now factors the SAME 
 translations (`SchemeNormalTranslations`). The SAME t has the literal subgroup formula
 t to t+b. N is not assumed Ga or affine; all finite, image and coordinate data are internal.
 No degree-one or N-isomorphic-to-Ga conclusion is asserted. The old whole-curve isomorphism
-still requires a subgroup already presented as Ga. Normal-subgroup classification outside
-this regular-affine case remains owed.
+still requires a subgroup already presented as Ga. The SAME t/f now also give the coupled model with an actual curve/line open isomorphism,
+joint action diagram, regular surjective multiplier character chi and actual normal
+conjugation lift's scalar diagram after beta (`RegularAffineModel.exists_model`). ONE
+curve-cover producer call chooses all coordinates. The literal affine action, multiplication
+and finite-coordinate conjugation formulas hold over every coefficient algebra. Beta is
+never inverted. The curve coordinate is an isomorphism of opens. Normal-subgroup
+classification outside this regular-affine case remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14694,3 +14699,33 @@ outside this regular-affine case, the full original classifier, original group/c
 six-point statements, algebraization/descent and every true bypassed auxiliary remain owed.
 All eight original#21 items and the full durable goal remain open. Earlier checkpoints
 retain their scopes; historical M4a items1–117 remain frozen.
+
+
+## Checkpoint: one coupled regular-affine model (#21)
+
+`RegularAffineModel.exists_model` starts with the genuine connected regular-affine action,
+its global point-kernel criterion and dimensions, and an actual connected one-dimensional
+normal CLOSED subgroup N. ONE `SchemeAffineCurveCover` call chooses the SAME original
+transcendental generator t and affine-group morphism f. The finite parameter square gives
+global finiteness/surjectivity of f. The same curve coordinate restricts to an isomorphism
+of nonempty curve/line opens with its literal generic value and joint action diagram.
+The actual N has a finite surjective point-injective beta:N to Ga factoring the same f.
+The actual multiplier projection has a scaling section and all-coefficient group law,
+so chi=f followed by projection is a regular surjective group character. The actual normal
+conjugation lift is chosen internally; transport through the standard affine conjugation
+diagram proves the joint scalar identity after beta. Literal affine action, multiplication
+and beta-coordinate conjugation are retained over every coefficient algebra.
+
+N is not assumed Ga or affine. No coordinate, finite map, chart or diagram certificate
+is supplied. Cancellation uses only the translation inclusion; beta is never inverted or
+cancelled as mono. There is no degree-one, separability or N-isomorphic-to-Ga assertion.
+The curve coordinate is an isomorphism of opens; the old whole-curve theorem still needs
+an actual monic Ga subgroup. Five focused mathematical modules feed the actual consumer;
+a new focused book section preserves existing pages. No new checking option or heartbeat
+budget is introduced. Build/book, strict checks, source/dependency fidelity and exact-head
+CI are reported on#21. File ownership and the exclusive20GB compiler lease are coordinated
+through chit with aclgeom.claude; no fresh peer approval is claimed.
+
+The arbitrary rational/non-affine classifier, regularization, completion/points, original
+group/chunk/six-point results, algebraization/descent and all true bypassed auxiliaries
+remain owed. All eight original#21 work items and the full durable goal remain open.
