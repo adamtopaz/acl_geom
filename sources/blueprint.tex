@@ -2260,8 +2260,14 @@ a premise. These SAME data now restrict the actual group morphism to a finite su
 map between internally chosen nonempty parameter opens, with the actual commuting square
 (\lean{SchemeAffineParameterCover.exists_finite_parameter_cover}). No dominance, algebraicity
 or finite-cover certificate is supplied by the caller. Inseparability is allowed and no scheme
-monomorphism or degree-one extension is asserted. Curve-coordinate scheme/action diagrams and
-the remaining source finite-cover constructions remain owed.
+monomorphism or degree-one extension is asserted. The SAME original generator now spreads to
+a regular coordinate on an actual nonempty curve open, with its literal generic-point value.
+On an actual nonempty open of $G\times V$, that coordinate and the SAME global group morphism
+intertwine the original and standard affine scheme actions
+(\lean{SchemeAffineCurveDiagram.exists_curve_action_diagram}). Every open and generic lift
+is constructed internally; no normality or intertwining certificate is a premise. Finiteness
+or an open-immersion property of the curve coordinate and the remaining source finite covers
+remain owed.
 Non-affine and rational-action cases remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action

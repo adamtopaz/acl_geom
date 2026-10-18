@@ -315,3 +315,4 @@ import AclGeom.Correspondence.SchemeAffineParameters
 
 import AclGeom.Correspondence.SchemeAffineMorphism
 import AclGeom.Correspondence.SchemeAffineParameterCover
+import AclGeom.Correspondence.SchemeAffineCurveDiagram

@@ -30,6 +30,7 @@ import AclGeom.Correspondence.SchemeAffinePointAction
 import AclGeom.Correspondence.SchemeAffineParameters
 import AclGeom.Correspondence.SchemeAffineMorphism
 import AclGeom.Correspondence.SchemeAffineParameterCover
+import AclGeom.Correspondence.SchemeAffineCurveDiagram
 import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -2577,8 +2578,8 @@ Its point-map agreement with the SAME affine representation gives injectivity on
 
 The following consumer constructs a finite surjective group-parameter cover on nonempty
 opens, with the actual commuting square. Inseparability is allowed and no scheme monomorphism
-is asserted. Curve-coordinate scheme/action diagrams, remaining source finite-cover
-constructions, non-affine and rational-action cases, regularization, completion and points
+is asserted. The next chapter proves the SAME-coordinate joint scheme action diagram.
+Remaining source finite-cover constructions, non-affine and rational-action cases, regularization, completion and points
 identification, the normal subgroup and full classifier, original group/chunk/six-point results,
 algebraization/descent and every true bypassed auxiliary remain owed. All eight original
 work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared
@@ -2652,10 +2653,67 @@ with the SAME global group morphism, rather than only an equality at generic poi
 {docstring AclGeom.GenericFiniteCover.exists_finite_open_square}
 
 This is the GROUP PARAMETER finite cover. Inseparability is allowed; no scheme monomorphism,
-global finiteness or degree-one function-field extension is asserted. Curve-coordinate
-scheme/action diagrams, the remaining source finite-cover constructions, non-affine and
+global finiteness or degree-one function-field extension is asserted. The next chapter proves
+the SAME-coordinate joint scheme action diagram. Remaining source finite-cover constructions, non-affine and
 rational-action cases, regularization, completion/points identification, the normal subgroup
 and full classifier, original group/chunk/six-point results, algebraization/descent and every
 true bypassed auxiliary remain owed. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
 active and incomplete.
+
+
+# The same curve coordinate and the joint scheme action diagram
+%%%
+tag := "actual-affine-curve-diagram"
+%%%
+
+The same original-base transcendental generator now becomes a regular coordinate on an actual
+nonempty open of the curve. Its generic-point value is literally the standard line point at
+that generator. On an actual nonempty open of G times V, the original scheme action and the
+standard affine scheme action commute with this coordinate and the SAME global group
+morphism. The parent finite group-parameter producer is called once, retaining every original
+point homomorphism, parameter cover, chart, rational coefficient and generic tensor formula.
+The only action inputs are still the genuine connected regular action on the integral affine
+locally finite-type dimension-one curve, group dimension at least two and global point-kernel
+criterion, over an ACF base. No coordinate, generic lift, normality or intertwining certificate
+is supplied by the caller.
+
+{docstring AclGeom.SchemeAffineCurveDiagram.exists_curve_action_diagram}
+
+Mathlib's existing generic-point spreading theorem represents the actual line point at the
+chosen generator by a morphism from a dense open of the original curve. This also proves
+compatibility with the base. Lifting the actual generic point to that open gives the literal
+coordinate equality; an unrelated rational parameter is never substituted.
+
+{docstring AclGeom.CurveAffineCoordinate.exists_partial_coordinate}
+
+For an actual curve automorphism, form the actual pullback of its translated coordinate open
+with the original coordinate open. Pulling back the chosen generic point by the actual
+function-field automorphism gives a point of this pullback, so it is nonempty. Its map from
+the generic field is dominant: composing with its open immersion into the original curve is
+the original generic-point morphism. Equality there gives equality of the two actual maps
+into the separated line, because the source is reduced. The standard affine point-action
+formula computes the other side over the same field.
+
+{docstring AclGeom.CurveAffineCoordinate.linePoint_comp_pointAct}
+
+{docstring AclGeom.CurveAffineCoordinate.equivariance_on_pullback}
+
+For the joint diagram, first take the product of the group and coordinate open, then pull
+back the curve coordinate open along the actual action. This is an actual open in G times V.
+The unit action and the lifted generic point prove it nonempty. At each base-field point,
+the preceding pullback identity proves the required formula for its group element and curve
+point. The product is integral over the ACF base, so the joint open is reduced; it is also
+locally finite type. Mathlib's point extensionality theorem upgrades these point identities
+to the actual joint scheme-morphism identity, using the SAME global group morphism's point
+coordinates.
+
+{docstring AclGeom.CurveAffineCoordinate.exists_joint_diagram}
+
+This proves the joint diagram in the regular-affine case. Finiteness or an open-immersion
+property of the curve coordinate has not yet been proved. Remaining source finite covers,
+non-affine and rational-action cases, regularization, completion/points identification,
+the normal subgroup and full classifier, original group/chunk/six-point results,
+algebraization/descent and every true bypassed auxiliary remain owed. All eight original
+work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full durable
+goal remains active and incomplete.

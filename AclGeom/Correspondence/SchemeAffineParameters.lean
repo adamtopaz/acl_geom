@@ -24,7 +24,8 @@ This is rational coefficient and parameter-field evidence. `SchemeAffineMorphism
 these SAME data to an actual global regular group-scheme morphism to the standard affine
 group, injective on k-points, with actual unit and multiplication identities.
 `SchemeAffineParameterCover` now gives its finite surjective parameter cover on nonempty opens.
-Curve-coordinate scheme/action diagrams, remaining source finite-cover constructions,
+`SchemeAffineCurveDiagram` adds the actual SAME-coordinate joint scheme action diagram.
+Remaining source finite-cover constructions,
 non-affine and rational-action cases, regularization, completion/points identification,
 the normal subgroup and full classifier, original group/chunk/six-point
 results, algebraization/descent and true bypassed auxiliaries remain open. All eight original

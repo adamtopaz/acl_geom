@@ -122,8 +122,11 @@ certificate is a premise; no scheme monomorphism is asserted. Inseparability is 
 The SAME global morphism now restricts, on internally chosen nonempty group and affine-group
 opens, to an actual finite surjective scheme map (`SchemeAffineParameterCover`). Its square
 commutes. No dominance, algebraicity or finite-cover certificate is a premise.
-Curve-coordinate scheme/action diagrams and the remaining source finite-cover constructions
-remain owed.
+`SchemeAffineCurveDiagram` now spreads the SAME generator to a regular map on an actual
+nonempty curve open with its literal generic-point value, and proves the actual joint
+scheme action diagram with the SAME global group morphism on a nonempty open of G times V.
+No coordinate, normality or intertwining certificate is supplied. Finiteness or an open-
+immersion property of the curve coordinate and remaining source finite covers remain owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14260,3 +14263,56 @@ true bypassed auxiliary remain owed. Source ownership, review requests and seria
 leases were coordinated through chit; no fresh peer proof approval is claimed. All eight
 original #21 items stay open and the full durable goal remains active and incomplete.
 Earlier checkpoint sections retain their then-current frontiers.
+
+
+## Checkpoint: the same curve coordinate and joint scheme action diagram (#21)
+
+`SchemeAffineCurveDiagram.exists_curve_action_diagram` adds an actual nonempty curve open,
+a regular line coordinate with the SAME literal generic-point value, and an actual joint
+scheme action diagram on a nonempty open of the original group times the curve. Its only
+inputs are the genuine ACF base, connected algebraic-group package of dimension at least
+two, integral AFFINE locally finite-type dimension-one curve, actual REGULAR action and
+global k-point kernel criterion. The parent finite group-parameter producer is called ONCE.
+The SAME original generic-stalk generator, faithful affine point homomorphism, global group
+morphism, finite group-parameter cover, chart, rational coefficients, transcendence basis,
+finite parameter field and every generic/specialized formula are retained, with both internal
+tensor-domain witnesses bound. No coordinate, generic lift, normality or intertwining
+certificate is a caller premise.
+
+Mathlib spreads the actual line point at the original generator to a dense curve open.
+The actual generic point lifts to this open and has precisely the required coordinate.
+For each curve automorphism, its function-field pullback lifts that point to the actual
+common pullback open. This makes the open nonempty. The lifted generic morphism is dominant,
+because composing with the open immersion to the original curve gives its generic point.
+The affine field formula and actual standard point-action computation therefore prove the
+slice identity as actual scheme morphisms into the separated line, by reduced-source
+extensionality. No normalization or scheme completion is used.
+
+For the joint identity, pull the curve coordinate open back along the actual action on the
+product of the group and coordinate open. This is an actual open in G times V; the unit
+action gives a point over the original generic field, proving nonemptiness. The slice
+identity handles every base-field point. Product integrality over the ACF base gives a
+reduced joint open, and Mathlib point extensionality proves the actual joint scheme diagram.
+The SAME global group morphism provides its affine coordinates. The curve need not be normal.
+
+Three focused modules preserve four independently checked prototype bodies literally, with
+concatenation and trailing blank-line normalization. Exactly five public theorems are added;
+each supporting API has a named consumer ending at the actual action theorem. Two generated
+exports in the first prototype were eliminated by explicit instance/association identities;
+all five public types stayed exact. All five complete expanded public types were read;
+both printing paths succeed without omissions and use only standard axioms. One commented
+finite600000-heartbeat budget supports the actual consumer's retained dependent chart and
+fields; the default200000 budget timed out. Kernel, lint and strict synthesis checking remain
+enabled. Full library/book gates, fresh whole-library and committed-head dependency checks
+and exact-head CI are recorded on #21. Original statements/proofs/TEST blocks, shared goal
+completion core and frozen117-item M4a history retain their provenance. A finite declaration
+inventory is not a whole-source coverage certificate. Ownership, source review requests and
+serial compiler leases were coordinated with aclgeom.claude; no fresh peer proof approval is
+claimed.
+
+The curve coordinate's finiteness or open-immersion property has not yet been proved.
+Remaining source finite covers, non-affine and rational-action cases, regularization,
+completion/points identification, the normal subgroup and full classifier, original group/
+chunk/six-point results, algebraization/descent and every true bypassed auxiliary remain owed.
+All eight original #21 items stay open and the full durable goal remains active/incomplete.
+Earlier checkpoints retain their then-current frontiers.
