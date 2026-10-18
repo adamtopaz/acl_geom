@@ -15,7 +15,7 @@ v4.34.0) was committed and pushed as `8a54b54` (#20, closed). The complete
 local build and rendered book pass; reproduction and measurements appear at
 the end of this guide. Verso uses the compatible stable tag for the toolchain.
 
-## Current status (2026-10-17; #5)
+## Current status (2026-10-18; #5)
 
 Guarded affine-grid extraction and Q completeness are now proved for every ACF pair,
 and the multiplication converse gives ACF J completeness at transcendence degree at least
@@ -129,7 +129,12 @@ No coordinate, normality or intertwining certificate is supplied. `SchemeAffineC
 now restricts the GIVEN old coordinate to an isomorphism of nonempty curve and line opens,
 finite/surjective onto its target open, with the joint action diagram for the SAME t and
 group morphism on this restriction. All old data are retained; remaining source finite
-covers and the full classifier remain owed.
+covers and the full classifier remain owed. Every actual group-scheme automorphism of Gm
+is now identity or inversion over any field. Over an ACF base, an actual normal multiplicative
+subgroup of a connected algebraic group is central as a joint scheme identity, in every
+characteristic (`MultiplicativeRigidity.normal_multiplicativeGroup_conj`). The exponent,
+regular conjugation lift, separating point and constancy are internal. The arbitrary one-
+dimensional normal-subgroup/isogeny classification remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14359,3 +14364,45 @@ identification, the normal subgroup and full classifier, original group/chunk/si
 results, algebraization/descent and every true bypassed auxiliary remain owed. All eight
 original #21 work items stay open, and the full durable goal remains active/incomplete.
 Earlier checkpoints retain their then-current frontiers.
+
+
+## Checkpoint: actual normal multiplicative subgroups are central (#21)
+
+`MultiplicativeRigidity.normal_multiplicativeGroup_conj` proves the torus alternative in the
+original proof of Lemma 8.4: a normal multiplicative-subgroup morphism into a connected
+algebraic group over an ACF base is central as an actual morphism G times Gm to G. Its only
+inputs are that actual group, actual group morphism and genuine normal-subgroup property.
+No exponent, regular conjugation lift, constancy or action certificate is supplied by the
+caller. All characteristics, including two, are covered; no group-dimension hypothesis is
+needed for this auxiliary statement.
+
+Hopf-Spec full faithfulness lifts every actual Gm group-scheme automorphism to the actual
+coordinate Hopf algebra. Mathlib's group-algebra bialgebra-map classification gives an
+endomorphism of the integers, and the inverse forces its value at one to be one or minus
+one. Thus the scheme automorphism is identity or inversion over any field. This theorem
+concerns group-scheme automorphisms, rather than arbitrary abstract automorphisms of k-points.
+
+Normality supplies the regular conjugation lift internally. In a general cartesian monoidal
+category, restricting such a lift at a group point gives an actual group-object isomorphism;
+monic cancellation proves its group law and inverse. For the actual connected algebraic
+group, choose a multiplicative point distinct from its inverse. Closed orbit fibers and
+Jacobson density cover the group by two closed sets; irreducibility and the unit select the
+identity alternative. The integral product is reduced, so point extensionality proves the
+actual joint conjugation identity. No smoothness, completion or characteristic-zero argument
+is used.
+
+Three focused modules preserve four checked prototype bodies by concatenation. Every helper
+has a named consumer ending at the actual centrality theorem. Unused generated simplification
+artifacts in the first generic group-normalization proof were removed using explicit group
+identities. All generated dependencies retained in the final inventory have consumers.
+No checking option is weakened. Full build/book, strict touched-module checks, expanded
+signature/dependency/source-fidelity audit and exact-head CI evidence are recorded on #21.
+Ownership, truth/API review requests and serial compiler leases were coordinated through
+chit with aclgeom.claude; no fresh peer proof approval is claimed.
+
+This proves the torus alternative for a normal subgroup already presented as Gm. It does
+not classify arbitrary one-dimensional normal subgroups or their finite isogenies. Remaining
+source finite covers, non-affine/rational actions, regularization, completion/points,
+the full classifier, original group/chunk/six-point results, algebraization/descent and every
+true bypassed auxiliary remain owed. All eight original #21 items stay open; the full durable
+goal remains active/incomplete. Earlier checkpoints retain their then-current frontiers.

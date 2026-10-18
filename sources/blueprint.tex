@@ -2156,6 +2156,23 @@ an arbitrary source action, the required normal-subgroup producer, birational
 identifications, algebraization and descent remain open (issue 21). The original
 lemma and proof above retain their provenance unchanged.
 
+\paragraph{Lean status of the torus alternative in Lemma 8.4.}
+Every actual group-scheme automorphism of $\Gm$ over any field is identity or inversion
+(\lean{MultiplicativeRigidity.groupIso_eq_id_or_inv}). Mathlib's group-algebra bialgebra-map
+classification supplies the exponent internally, and invertibility forces it to be $1$ or
+$-1$; Hopf--Spec full faithfulness preserves the actual scheme morphism. Over an ACF base,
+an actual normal multiplicative-subgroup morphism into a connected algebraic group is
+central as an identity of morphisms from $G\times\Gm$ to $G$
+(\lean{MultiplicativeRigidity.normal_multiplicativeGroup_conj}). The normality property
+supplies the regular conjugation lift; no exponent or constancy certificate is a premise.
+An internally chosen point distinct from its inverse separates the two automorphisms,
+including in characteristic two. Closed orbit fibers and irreducibility force identity;
+reduced-product point extensionality proves the joint scheme identity. This proves the
+torus alternative when the normal subgroup is presented as $\Gm$. Identifying an arbitrary
+one-dimensional subgroup with $\Gm$ or $\Ga$, the required finite-isogeny classification,
+non-affine/rational actions and the full classifier remain open. All eight original issue-21
+items remain open; the original statement and proof retain their provenance unchanged.
+
 \paragraph{Lean status of the scheme/function-field bridge.}
 The theorem \lean{scheme_functionField_isFunctionFieldOneVar} derives the existing
 one-variable function-field hypothesis from an actual integral curve scheme, locally
