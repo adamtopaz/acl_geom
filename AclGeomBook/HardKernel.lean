@@ -31,6 +31,7 @@ import AclGeom.Correspondence.SchemeAffineParameters
 import AclGeom.Correspondence.SchemeAffineMorphism
 import AclGeom.Correspondence.SchemeAffineParameterCover
 import AclGeom.Correspondence.SchemeAffineCurveDiagram
+import AclGeom.Correspondence.SchemeAffineCurveCover
 import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -2710,10 +2711,78 @@ coordinates.
 
 {docstring AclGeom.CurveAffineCoordinate.exists_joint_diagram}
 
-This proves the joint diagram in the regular-affine case. Finiteness or an open-immersion
-property of the curve coordinate has not yet been proved. Remaining source finite covers,
+This proves the joint diagram in the regular-affine case. The next chapter restricts the
+SAME coordinate to an open isomorphism and proves the joint diagram on that restriction.
+Remaining source finite covers,
 non-affine and rational-action cases, regularization, completion/points identification,
 the normal subgroup and full classifier, original group/chunk/six-point results,
 algebraization/descent and every true bypassed auxiliary remain owed. All eight original
 work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full durable
 goal remains active and incomplete.
+
+
+# The same curve coordinate as an open isomorphism
+%%%
+tag := "actual-affine-curve-cover"
+%%%
+
+The GIVEN old regular curve coordinate now restricts to an isomorphism between internally
+chosen nonempty curve and standard-line opens. This is finite and surjective onto its target
+open. The SAME generator t and global group morphism give the joint scheme action diagram on
+the restricted coordinate. The parent action producer is called once; its old coordinate,
+generic lift, old joint diagram, finite group-parameter cover and every chart/tensor datum
+remain in the result. The only inputs are still the genuine connected regular action on an
+integral AFFINE locally finite-type dimension-one curve, group dimension at least two and
+global point-kernel criterion, over an ACF base. No normality, coordinate or birationality
+certificate is supplied.
+
+{docstring AclGeom.SchemeAffineCurveCover.exists_curve_coordinate_cover}
+
+The proof first identifies the actual standard-line generic stalk with the field generated
+by t. Evaluation is injective by transcendence; its extension to fraction fields is surjective
+because its field range contains the generator. The actual base algebra and literal generic
+Spec map are retained.
+
+{docstring AclGeom.CurveCoordinateCover.spec_functionField_isScalarTower}
+
+{docstring AclGeom.CurveCoordinateCover.lineEval_injective_of_transcendental}
+
+{docstring AclGeom.CurveCoordinateCover.exists_line_functionField_equiv}
+
+{docstring AclGeom.CurveCoordinateCover.linePoint_baseChange}
+
+The old open immersion identifies the original and open-curve function fields. Transport t
+along this actual map; the given generic identities then identify the coordinate's function-
+field pullback with the line equivalence. Thus its birationality is derived internally.
+
+{docstring AclGeom.CurveCoordinateCover.isIso_functionFieldMap_of_isOpenImmersion}
+
+The existing inverse-rational-map construction gives an isomorphism of nonempty opens. Its
+forward-map law identifies the actual morphism, giving the literal restriction square.
+
+{docstring AclGeom.BirationalGluing.partialIsoOfMutualInversePartialMaps_toRationalMap}
+
+{docstring AclGeom.BirationalGluing.partialIsoOfMutualInverseRationalMaps_toRationalMap}
+
+{docstring AclGeom.CurveCoordinateCover.exists_openIso_of_isIso_functionFieldMap}
+
+The original generic point lifts to the new open. Cancelling the old open immersion proves
+that its new lift factors the GIVEN old lift, so the coordinate is literally the restriction
+of the old x, with the SAME t. No normality of the original curve is needed.
+
+{docstring AclGeom.CurveCoordinateCover.exists_coordinate_restriction_iso}
+
+The existing joint-diagram argument is factored for a GIVEN coordinate and generic lift.
+It serves both the old public producer, whose type is unchanged, and the new restriction.
+The actual action consumer supplies both generic identities internally and retains the old
+diagram alongside the new one.
+
+{docstring AclGeom.CurveAffineCoordinate.exists_joint_diagram_on_coordinate}
+
+This proves the curve-coordinate cover in the regular-affine case of (8.4a), with the actual
+joint action diagram on that cover. Finiteness onto the whole affine line is not asserted.
+Remaining source finite covers, non-affine and rational-action cases, regularization,
+completion/points identification, the normal subgroup and full classifier, original group/
+chunk/six-point results, algebraization/descent and every true bypassed auxiliary remain
+owed. All eight original work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21)
+stay open; the full durable goal remains active and incomplete.

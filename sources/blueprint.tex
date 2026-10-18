@@ -2265,9 +2265,13 @@ a regular coordinate on an actual nonempty curve open, with its literal generic-
 On an actual nonempty open of $G\times V$, that coordinate and the SAME global group morphism
 intertwine the original and standard affine scheme actions
 (\lean{SchemeAffineCurveDiagram.exists_curve_action_diagram}). Every open and generic lift
-is constructed internally; no normality or intertwining certificate is a premise. Finiteness
-or an open-immersion property of the curve coordinate and the remaining source finite covers
-remain owed.
+is constructed internally; no normality or intertwining certificate is a premise. The GIVEN
+old curve coordinate now restricts to an isomorphism of internally chosen nonempty curve and
+line opens, finite and surjective onto its target open, with the joint action diagram for the
+SAME generator and group morphism on this restriction
+(\lean{SchemeAffineCurveCover.exists_curve_coordinate_cover}). Every old datum is retained;
+no normality, birationality or coordinate certificate is an extra input. Remaining source
+finite covers remain owed.
 Non-affine and rational-action cases remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action

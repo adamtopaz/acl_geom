@@ -24,7 +24,8 @@ A rational generator with a simple pole at a fixed place has an affine transform
  that same representation to a global regular group-scheme morphism, injective on k-points.
  `SchemeAffineParameterCover` gives its finite surjective parameter cover on nonempty opens.
  `SchemeAffineCurveDiagram` adds the actual SAME-coordinate joint scheme action diagram.
- Finiteness of the curve coordinate and the full classification remain open.
+ `SchemeAffineCurveCover` adds its same-coordinate open isomorphism and joint diagram.
+ The full source classification remains open.
 -/
 
 namespace AclGeom.FixedPlaceAffine

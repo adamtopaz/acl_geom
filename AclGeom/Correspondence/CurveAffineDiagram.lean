@@ -15,7 +15,8 @@ regular coordinate on an actual nonempty curve open and the actual joint scheme 
 diagram on a nonempty open of the group times the curve. Every open and generic lift is
 chosen internally. Product integrality and Mathlib point extensionality prove the joint
 identity. Named consumer: `SchemeAffineCurveDiagram` supplies all premises internally.
-This criterion does not assert that the coordinate map is finite or an open immersion.
+The given-coordinate form also serves `SchemeAffineCurveCover`, which constructs an
+open-isomorphism restriction internally from the SAME original generator.
 -/
 
 namespace AclGeom.CurveAffineCoordinate
@@ -27,28 +28,27 @@ variable {k : Type u} [Field k] [IsAlgClosed k]
 attribute [local instance] ActionFunctionField.functionFieldAlgebra
   ActionFunctionField.isIso_hom_left
 
-/-- The supplied affine field formula for an actual group morphism gives a regular curve
- coordinate with the SAME generic value and an actual joint scheme action diagram on a
- nonempty open of the group times the curve. All opens and generic lifts are chosen
- internally. Named consumer: `SchemeAffineCurveDiagram.exists_curve_action_diagram`. -/
-theorem exists_joint_diagram
+/-- The supplied actual coordinate and generic lift, with the affine field formula, give
+ the joint scheme action diagram on a nonempty open of the group times the original curve.
+ Named consumers: `exists_joint_diagram` and
+ `SchemeAffineCurveCover.exists_curve_coordinate_cover`. -/
+theorem exists_joint_diagram_on_coordinate
     (G : ConnectedAlgebraicGroup k)
     (V : Over (Spec (.of k))) [IsIntegral V.left] [LocallyOfFiniteType V.hom]
     [ModObj G.toGroupScheme.X V]
     (t : V.left.functionField)
+    (U : Over (Spec (.of k))) (j : U ⟶ V) [IsOpenImmersion j.left]
+    (x : U ⟶ (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X)
+    (g : (Spec V.left.functionField).asOver (Spec (.of k)) ⟶ U)
+    (hgj : g ≫ j = SchemeGenericTranslate.genericParameter V)
+    (hgx : g ≫ x = AffineSchemeAction.linePoint k t)
     (f : G.toGroupScheme.X ⟶ (AffineGroupScheme.algebraicGroup k).toGroupScheme.X)
     (hfield : ∀ q : 𝟙_ (Over (Spec (.of k))) ⟶ G.toGroupScheme.X,
       (ActionFunctionField.functionFieldAction G.toAlgebraicGroup V q).unop t =
         algebraMap k V.left.functionField
           ((AffineGroupScheme.pointsMulEquiv k (q ≫ f)).multiplier : k) * t +
         algebraMap k V.left.functionField (AffineGroupScheme.pointsMulEquiv k (q ≫ f)).shift) :
-    ∃ (U : Over (Spec (.of k))) (j : U ⟶ V)
-      (x : U ⟶ (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X)
-      (g : (Spec V.left.functionField).asOver (Spec (.of k)) ⟶ U),
-      IsOpenImmersion j.left ∧ Nonempty U.left ∧
-      g ≫ j = SchemeGenericTranslate.genericParameter V ∧
-      g ≫ x = AffineSchemeAction.linePoint k t ∧
-      ∃ (D : Over (Spec (.of k))) (i : D ⟶ G.toGroupScheme.X ⊗ V)
+    ∃ (D : Over (Spec (.of k))) (i : D ⟶ G.toGroupScheme.X ⊗ V)
         (s z : D ⟶ U), IsOpenImmersion i.left ∧ Nonempty D.left ∧
         s ≫ j = i ≫ snd G.toGroupScheme.X V ∧
         z ≫ j = i ≫ γ[G.toGroupScheme.X, V] ∧
@@ -56,22 +56,7 @@ theorem exists_joint_diagram
   classical
   let GX := G.toGroupScheme.X
   let L := (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X
-  obtain ⟨P, hPbase, hPgen⟩ := exists_partial_coordinate V t
-  let U : Over (Spec (.of k)) := Over.mk (P.domain.ι ≫ V.hom)
-  let j : U ⟶ V := Over.homMk P.domain.ι
-  let x : U ⟶ L := Over.homMk P.hom hPbase
-  let g : (Spec V.left.functionField).asOver (Spec (.of k)) ⟶ U :=
-    Over.homMk P.genericLift (by
-      change P.genericLift ≫ (P.domain.ι ≫ V.hom) = _
-      rw [← Category.assoc, P.genericLift_ι]
-      exact Over.w (SchemeGenericTranslate.genericParameter V))
-  have hgj : g ≫ j = SchemeGenericTranslate.genericParameter V :=
-    Over.OverMorphism.ext P.genericLift_ι
-  have hgx : g ≫ x = AffineSchemeAction.linePoint k t := Over.OverMorphism.ext hPgen
   have hU : Nonempty U.left := ⟨g.left (IsLocalRing.closedPoint V.left.functionField)⟩
-  have hj : IsOpenImmersion j.left := by
-    change IsOpenImmersion P.domain.ι
-    infer_instance
   have : IsIntegral U.left := isIntegral_of_isOpenImmersion j.left
   have : LocallyOfFiniteType U.hom := by rw [← Over.w j]; infer_instance
   have : IsIntegral (GX ⊗ U).left := isIntegral_pullback_of_isAlgClosed GX.hom U.hom
@@ -106,7 +91,7 @@ theorem exists_joint_diagram
   have : LocallyOfFiniteType D.hom := by
     rw [← Over.w (pullback.fst m j)]
     infer_instance
-  refine ⟨U, j, x, g, hj, hU, hgj, hgx, D, i, s, z, hi, hD, hsj, hzj, ?_⟩
+  refine ⟨D, i, s, z, hi, hD, hsj, hzj, ?_⟩
   apply Over.OverMorphism.ext
   have : LocallyOfFiniteType ((z ≫ x).left ≫ L.hom) := by
     rw [Over.w (z ≫ x)]
@@ -167,5 +152,65 @@ theorem exists_joint_diagram
       (p.left (IsLocalRing.closedPoint k)) at he
   rw [hpy] at he
   exact he
+end
+end AclGeom.CurveAffineCoordinate
+
+namespace AclGeom.CurveAffineCoordinate
+noncomputable section
+open CategoryTheory AlgebraicGeometry CategoryTheory.Limits
+open CategoryTheory.MonoidalCategory CategoryTheory.CartesianMonoidalCategory CategoryTheory.MonObj
+universe u
+variable {k : Type u} [Field k] [IsAlgClosed k]
+attribute [local instance] ActionFunctionField.functionFieldAlgebra
+  ActionFunctionField.isIso_hom_left
+
+/-- The supplied affine field formula for an actual group morphism gives a regular curve
+ coordinate with the SAME generic value and an actual joint scheme action diagram on a
+ nonempty open of the group times the curve. All opens and generic lifts are chosen
+ internally. Named consumer: `SchemeAffineCurveDiagram.exists_curve_action_diagram`. -/
+theorem exists_joint_diagram
+    (G : ConnectedAlgebraicGroup k)
+    (V : Over (Spec (.of k))) [IsIntegral V.left] [LocallyOfFiniteType V.hom]
+    [ModObj G.toGroupScheme.X V]
+    (t : V.left.functionField)
+    (f : G.toGroupScheme.X ⟶ (AffineGroupScheme.algebraicGroup k).toGroupScheme.X)
+    (hfield : ∀ q : 𝟙_ (Over (Spec (.of k))) ⟶ G.toGroupScheme.X,
+      (ActionFunctionField.functionFieldAction G.toAlgebraicGroup V q).unop t =
+        algebraMap k V.left.functionField
+          ((AffineGroupScheme.pointsMulEquiv k (q ≫ f)).multiplier : k) * t +
+        algebraMap k V.left.functionField (AffineGroupScheme.pointsMulEquiv k (q ≫ f)).shift) :
+    ∃ (U : Over (Spec (.of k))) (j : U ⟶ V)
+      (x : U ⟶ (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X)
+      (g : (Spec V.left.functionField).asOver (Spec (.of k)) ⟶ U),
+      IsOpenImmersion j.left ∧ Nonempty U.left ∧
+      g ≫ j = SchemeGenericTranslate.genericParameter V ∧
+      g ≫ x = AffineSchemeAction.linePoint k t ∧
+      ∃ (D : Over (Spec (.of k))) (i : D ⟶ G.toGroupScheme.X ⊗ V)
+        (s z : D ⟶ U), IsOpenImmersion i.left ∧ Nonempty D.left ∧
+        s ≫ j = i ≫ snd G.toGroupScheme.X V ∧
+        z ≫ j = i ≫ γ[G.toGroupScheme.X, V] ∧
+        z ≫ x = lift (i ≫ fst G.toGroupScheme.X V ≫ f) (s ≫ x) ≫ AffineSchemeAction.smul k := by
+  classical
+  let GX := G.toGroupScheme.X
+  let L := (AdditiveGroupScheme.algebraicGroup k 1).toGroupScheme.X
+  obtain ⟨P, hPbase, hPgen⟩ := exists_partial_coordinate V t
+  let U : Over (Spec (.of k)) := Over.mk (P.domain.ι ≫ V.hom)
+  let j : U ⟶ V := Over.homMk P.domain.ι
+  let x : U ⟶ L := Over.homMk P.hom hPbase
+  let g : (Spec V.left.functionField).asOver (Spec (.of k)) ⟶ U :=
+    Over.homMk P.genericLift (by
+      change P.genericLift ≫ (P.domain.ι ≫ V.hom) = _
+      rw [← Category.assoc, P.genericLift_ι]
+      exact Over.w (SchemeGenericTranslate.genericParameter V))
+  have hgj : g ≫ j = SchemeGenericTranslate.genericParameter V :=
+    Over.OverMorphism.ext P.genericLift_ι
+  have hgx : g ≫ x = AffineSchemeAction.linePoint k t := Over.OverMorphism.ext hPgen
+  have hU : Nonempty U.left := ⟨g.left (IsLocalRing.closedPoint V.left.functionField)⟩
+  have hj : IsOpenImmersion j.left := by
+    change IsOpenImmersion P.domain.ι
+    infer_instance
+  obtain ⟨D, i, s, z, hi, hD, hsj, hzj, hdiagram⟩ :=
+    exists_joint_diagram_on_coordinate G V t U j x g hgj hgx f hfield
+  exact ⟨U, j, x, g, hj, hU, hgj, hgx, D, i, s, z, hi, hD, hsj, hzj, hdiagram⟩
 end
 end AclGeom.CurveAffineCoordinate

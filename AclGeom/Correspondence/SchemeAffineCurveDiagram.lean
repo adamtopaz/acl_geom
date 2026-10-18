@@ -17,8 +17,9 @@ SAME global group morphism. The parent is called once; all faithful point, finit
 parameter cover, chart, rational coefficient and tensor data are retained. No coordinate,
 generic lift, normality or intertwining certificate is a caller premise.
 
-Finiteness or an open-immersion property of the curve coordinate has not yet been proved.
-Remaining source finite covers, non-affine and rational-action cases, regularization,
+`SchemeAffineCurveCover` restricts this SAME coordinate to an open isomorphism and gives
+the joint diagram on that restriction. Remaining source finite covers,
+ non-affine and rational-action cases, regularization,
 completion/points identification, the normal subgroup and full classifier, original group/
 chunk/six-point results, algebraization/descent and every true bypassed auxiliary remain
 owed. All eight original #21 items and the full durable goal stay open.

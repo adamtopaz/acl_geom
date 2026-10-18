@@ -125,8 +125,11 @@ commutes. No dominance, algebraicity or finite-cover certificate is a premise.
 `SchemeAffineCurveDiagram` now spreads the SAME generator to a regular map on an actual
 nonempty curve open with its literal generic-point value, and proves the actual joint
 scheme action diagram with the SAME global group morphism on a nonempty open of G times V.
-No coordinate, normality or intertwining certificate is supplied. Finiteness or an open-
-immersion property of the curve coordinate and remaining source finite covers remain owed.
+No coordinate, normality or intertwining certificate is supplied. `SchemeAffineCurveCover`
+now restricts the GIVEN old coordinate to an isomorphism of nonempty curve and line opens,
+finite/surjective onto its target open, with the joint action diagram for the SAME t and
+group morphism on this restriction. All old data are retained; remaining source finite
+covers and the full classifier remain owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14315,4 +14318,44 @@ Remaining source finite covers, non-affine and rational-action cases, regulariza
 completion/points identification, the normal subgroup and full classifier, original group/
 chunk/six-point results, algebraization/descent and every true bypassed auxiliary remain owed.
 All eight original #21 items stay open and the full durable goal remains active/incomplete.
+Earlier checkpoints retain their then-current frontiers.
+
+
+## Checkpoint: the given curve coordinate restricts to an open isomorphism (#21)
+
+`SchemeAffineCurveCover.exists_curve_coordinate_cover` calls the previous actual action
+producer ONCE and retains every old datum. The GIVEN old coordinate x restricts to an
+isomorphism between internally chosen nonempty curve and standard-line opens, finite and
+surjective onto its target open. The new generic lift factors the GIVEN old lift; the
+restriction square is literal. The SAME original t and global group morphism satisfy the
+joint scheme action diagram on the restricted coordinate. Inputs remain exactly the genuine
+ACF/connected-group/regular-action/affine-curve/dimension/global-point-kernel hypotheses.
+No normality, birationality, coordinate or generic-lift certificate is supplied by the caller.
+
+Transcendence gives injective evaluation on the actual standard-line coordinate algebra.
+Extending to its actual generic-stalk field and using k(t)=k(V) gives a field equivalence,
+compatible with the actual base algebra and generic Spec map. The old curve open immersion
+identifies the original and open-curve function fields. Transporting t along that map and
+using the old generic identities proves that the GIVEN x induces an isomorphism of function
+fields. The existing mutual-inverse-rational-map construction then supplies an isomorphism
+of nonempty opens. Its new forward-map law proves the actual restriction square. The generic
+point lifts to the new curve open, and mono cancellation gives the required factorization.
+
+Four focused new modules supply the field, birational-morphism, coordinate-restriction and
+actual-action layers. The old joint-diagram proof is factored for a GIVEN coordinate/lift;
+its previous public theorem keeps its exact type and delegates after choosing its coordinate.
+The moved joint proof is reused, and every supporting API has a named consumer ending at the
+actual cover. There are eleven new named public APIs; generated proof dependencies are
+included in the declaration audit. A finite600000-heartbeat budget supports the actual
+consumer's retained dependent data and two curve opens; no checking is weakened. Full
+build/book, strict touched-module checks, dependency/signature/source-fidelity checks and
+exact-head CI evidence are recorded on #21. Ownership and source review were coordinated
+through chit with aclgeom.claude; no fresh peer proof approval is claimed.
+
+Finiteness is onto the chosen line OPEN. The group parameter cover may remain inseparable;
+no scheme monomorphism or degree-one group field extension is asserted. Remaining source
+finite covers, non-affine and rational-action cases, regularization, completion/points
+identification, the normal subgroup and full classifier, original group/chunk/six-point
+results, algebraization/descent and every true bypassed auxiliary remain owed. All eight
+original #21 work items stay open, and the full durable goal remains active/incomplete.
 Earlier checkpoints retain their then-current frontiers.
