@@ -2262,6 +2262,23 @@ actions, the full classifier and the other original source obligations remain ow
 All eight original issue-21 items and the full durable goal stay open; the original
 statement and proof are unchanged.
 
+\paragraph{Lean status of the actual normal subgroup up to finite isogeny.}
+For the genuine connected regular-affine curve action over an ACF base, an arbitrary
+connected normal closed subgroup $N$ of dimension one now has an internally constructed
+finite surjective group morphism $\beta:N\to\Ga$
+(\lean{SchemeNormalTranslations.exists_normal_subgroup_translation_isogeny}). It is
+injective on base-field points and factors the same affine-group morphism through
+translations. The same original generic-stalk generator satisfies $t\mapsto t+b$ at every
+subgroup point of $\beta$-coordinate $b$. The subgroup is not assumed $\Ga$ or affine;
+no coordinate, affine morphism, translation or finite-map certificate is supplied.
+A relative-diagonal argument proves the ambient finite point-injective map is a
+homeomorphism. Normality forces its closed dimension-one subgroup image to be exactly
+translations. Every characteristic is included; no degree-one or $N\simeq\Ga$ conclusion
+is asserted. The old whole-curve isomorphism still requires a subgroup already presented
+as $\Ga$. Rational/non-affine regularization and the full classifier remain owed.
+All eight original issue-21 items and the full durable goal stay open; the original
+statement and proof are unchanged.
+
 \paragraph{Lean status of the scheme/function-field bridge.}
 The theorem \lean{scheme_functionField_isFunctionFieldOneVar} derives the existing
 one-variable function-field hypothesis from an actual integral curve scheme, locally

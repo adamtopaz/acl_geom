@@ -324,4 +324,9 @@ import AclGeom.Correspondence.SchemeAdditiveOrbit
 import AclGeom.Correspondence.GroupFiniteMorphism
 import AclGeom.Correspondence.WholeCurveCoordinateCriterion
 import AclGeom.Correspondence.SchemeAffineFinite
+import AclGeom.Correspondence.FinitePointInjectivity
+import AclGeom.Correspondence.AffineNormalTranslations
+import AclGeom.Correspondence.NormalTranslationImage
+import AclGeom.Correspondence.NormalTranslationIsogeny
+import AclGeom.Correspondence.SchemeNormalTranslations
 import AclGeom.Correspondence.SchemeAffineWholeCurve

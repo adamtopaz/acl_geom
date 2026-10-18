@@ -162,7 +162,13 @@ subgroup, the SAME generator and globally finite surjective morphism give the wh
 isomorphism and joint action diagram in one producer call. The full inverse image of the
 parameter open is identified before applying target-local finiteness. No degree-one,
 separability or scheme-monomorphism conclusion is asserted.
-Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
+For every actual connected one-dimensional normal CLOSED subgroup N in this regular-affine
+case, a finite surjective point-injective N to Ga morphism now factors the SAME f through
+translations (`SchemeNormalTranslations`). The SAME t has the literal subgroup formula
+t to t+b. N is not assumed Ga or affine; all finite, image and coordinate data are internal.
+No degree-one or N-isomorphic-to-Ga conclusion is asserted. The old whole-curve isomorphism
+still requires a subgroup already presented as Ga. Normal-subgroup classification outside
+this regular-affine case remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14640,3 +14646,51 @@ regular-affine case, rational/non-affine regularization, completion/points, the 
 classifier, original group/chunk/six-point statements, algebraization/descent and every true
 bypassed auxiliary remain owed. All eight original #21 items and the full durable goal stay
 open. Earlier checkpoints retain their scopes; historical M4a items1–117 remain frozen.
+
+
+## Checkpoint: the actual normal subgroup has a finite isogeny to translations (#21)
+
+`SchemeNormalTranslations.exists_normal_subgroup_translation_isogeny` starts with the
+genuine connected regular action on an integral affine locally finite-type curve of
+dimension one over an ACF base, group dimension at least two and the global point-kernel
+criterion. An arbitrary actual connected normal CLOSED subgroup N of dimension one is
+supplied as a genuine subgroup, with Mathlib's joint conjugation property. N is not
+assumed Ga or affine. One finite-affine producer call supplies the SAME original generic-
+stalk generator t and globally finite surjective group morphism f. It internally
+constructs a finite surjective point-injective beta:N to Ga, the actual translation
+factorization beta followed by inclusion equals i followed by f, and the literal field
+formula t to t+b for every subgroup point of beta-coordinate b.
+
+The relative diagonal of a finite point-injective morphism is closed and contains every
+closed point of its Jacobson relative product, hence is surjective. Universal injectivity
+and finite surjectivity give an actual homeomorphism. The image of the closed subgroup N
+therefore has dimension one. Its point subgroup is normal and nontrivial; the ordinary
+affine-group commutator and scaling formulas supply every translation. Jacobson density
+places the translation curve in the image. A proper larger irreducible closed image would
+give a length-two chain above a closed point, contradicting dimension one. The existing
+shift retraction defines beta; reduced-source extensionality proves the factorization,
+and monic cancellation gives the group laws. Separated postcomposition cancellation proves
+finiteness, and equality of images proves surjectivity.
+
+Every characteristic is included. No coordinate, affine morphism, translation or finite-
+map certificate is a premise. No degree-one, separability or N-isomorphic-to-Ga conclusion
+is asserted. The old whole-curve isomorphism theorem still requires a subgroup already
+presented as Ga; this new finite isogeny alone does not remove that premise.
+
+Five focused mathematical modules preserve the checked prototypes. The new helpers have
+consumers ending at the actual source theorem. Unused generated group-normalization and
+dimension-equation artifacts found by the independent inventory were removed by explicit
+associativity and length equalities. No new checking option or heartbeat budget is used.
+Six existing late book sections move into focused modules with unchanged titles, tags and
+prose; only trailing separator whitespace is normalized. Existing page paths are preserved,
+and one new normal-isogeny section is added. HardKernel is
+again below3000 lines (#18). Full build/book, strict checks, full-type/dependency and
+source-fidelity audit, whole-library standard axioms and exact-head CI are reported on#21.
+Ownership, source-review requests and compiler leases are coordinated through chit with
+aclgeom.claude; no fresh peer approval is claimed.
+
+Rational/non-affine regularization, completion/points, normal-subgroup classification
+outside this regular-affine case, the full original classifier, original group/chunk/
+six-point statements, algebraization/descent and every true bypassed auxiliary remain owed.
+All eight original#21 items and the full durable goal remain open. Earlier checkpoints
+retain their scopes; historical M4a items1–117 remain frozen.
