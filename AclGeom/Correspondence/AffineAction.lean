@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Adam Topaz
 -/
 import AclGeom.Correspondence.GroupChunk
+import Mathlib.Tactic.LinearCombination
 
 /-!
 # The affine group action and its fixed points
@@ -218,3 +219,37 @@ end AffineTransformation
 end
 
 end AclGeom
+
+namespace AclGeom.AffineTransformation
+noncomputable section
+variable {k F : Type*} [Field k] [Field F] [Algebra k F]
+
+/-- Transcendence makes evaluation of affine transformations injective.
+ Named consumers: the fixed-place representation and the actual local coefficient map. -/
+theorem eval_injective {t : F} (ht : Transcendental k t) :
+    Function.Injective (fun A : AffineTransformation k ↦
+      algebraMap k F (A.multiplier : k) * t + algebraMap k F A.shift) := by
+  intro A B h
+  change algebraMap k F (A.multiplier : k) * t + algebraMap k F A.shift =
+    algebraMap k F (B.multiplier : k) * t + algebraMap k F B.shift at h
+  by_cases ha : (A.multiplier : k) = (B.multiplier : k)
+  · have hb : A.shift = B.shift := by
+      apply (algebraMap k F).injective
+      rw [ha] at h
+      exact add_left_cancel h
+    exact AffineTransformation.ext (Units.ext ha) hb
+  · have hd : algebraMap k F ((A.multiplier : k) - (B.multiplier : k)) ≠ 0 :=
+      (map_ne_zero _).2 (sub_ne_zero.mpr ha)
+    have he : t = algebraMap k F
+        ((B.shift - A.shift) / ((A.multiplier : k) - (B.multiplier : k))) := by
+      rw [map_div₀]
+      apply (eq_div_iff hd).2
+      rw [map_sub, map_sub]
+      linear_combination h
+    exfalso
+    apply ht
+    rw [he]
+    exact isAlgebraic_algebraMap _
+
+end
+end AclGeom.AffineTransformation

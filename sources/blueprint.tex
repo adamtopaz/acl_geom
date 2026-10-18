@@ -2251,8 +2251,13 @@ actual affine group chart
 specializations and actual generic-translate comparison are retained. The actual chart
 fraction field is finite over the two coefficients, which form a transcendence basis;
 inseparability is allowed. No chart, coordinate, coefficient, specialization, rank or
-finiteness certificate is a caller premise. Global regular coefficient maps, the scheme-group
-morphism and multiplication law, and scheme finite-cover coordinate maps remain owed.
+finiteness certificate is a caller premise. These SAME data now construct an actual global
+regular group-scheme morphism to the standard affine group, injective on $k$-points, with
+unit and multiplication proved as actual scheme-morphism identities
+(\lean{SchemeAffineMorphism.exists_affine_morphism}). The regular principal-open model and
+translated-open gluing are internal; no regularity, extension or morphism certificate is
+a premise. Inseparability is allowed and no scheme monomorphism is asserted. Scheme finite-cover
+coordinate maps remain owed.
 Non-affine and rational-action cases remain open.
 The preceding boundary results concern valuation places. The points--places
 correspondence, extension and uniqueness on a scheme completion, rational-action

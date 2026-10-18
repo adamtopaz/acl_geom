@@ -28,6 +28,7 @@ import AclGeom.Correspondence.SchemeActionGenus
 import AclGeom.Correspondence.SchemeCurveGenus
 import AclGeom.Correspondence.SchemeAffinePointAction
 import AclGeom.Correspondence.SchemeAffineParameters
+import AclGeom.Correspondence.SchemeAffineMorphism
 import AclGeom.Curves.FrobeniusCoefficientCounterexample
 import AclGeom.Correspondence.GeometricPrime
 import AclGeom.Correspondence.GenericExtension
@@ -2410,7 +2411,8 @@ This proves descent of genus zero; no assertion about arbitrary genus under base
 
 The following consumer uses the fixed boundary place to construct faithful affine coordinates
 for the actual k-point action. The next coefficient theorem retains that same coordinate and
-constructs rational group parameters. Global regular maps and the scheme-group morphism remain
+constructs rational group parameters; the subsequent global-morphism consumer constructs an
+actual regular group-scheme morphism with those same data. Scheme finite-cover maps remain
 owed. Non-affine and rational-action cases, regularization, completion and points identification, the normal
 subgroup and arbitrary-action classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
@@ -2453,8 +2455,8 @@ derives all of them internally.
 
 This theorem concerns k-points and the function field. The following consumer constructs
 rational coefficients on an actual group chart and proves a finite parameter-field extension.
-Global regular coefficient maps, a scheme-group morphism and scheme finite-cover maps remain
-owed.
+The subsequent global-morphism consumer constructs an actual regular group-scheme morphism
+with these same data. Scheme finite-cover maps remain owed.
 Non-affine and rational-action cases, regularization, completion and points identification,
 the normal subgroup and full classifier, original group/chunk/six-point results, algebraization
 and descent remain obligations. All eight original work items of
@@ -2512,11 +2514,63 @@ coefficients a transcendence basis.
 
 {docstring AclGeom.AffineCoefficients.finite_pair_parameters}
 
-This proves rational coefficient functions and the finite parameter-field input. Global
-regular coefficient maps, a scheme-group morphism and its multiplication law, and scheme
-finite-cover coordinate maps remain owed. Non-affine and rational-action cases,
+This proves rational coefficient functions and the finite parameter-field input. The
+following consumer constructs an actual global regular group-scheme morphism with these
+SAME data and proves its multiplication law. Scheme finite-cover coordinate maps remain owed. Non-affine and rational-action cases,
 regularization, completion and points identification, the normal subgroup and full
 classifier, original group/chunk/six-point results, algebraization/descent and true bypassed
 auxiliaries remain obligations. All eight original work items of
 [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared goal remains
 active and incomplete.
+
+
+# The global affine-group morphism of the actual action
+%%%
+tag := "actual-affine-group-morphism"
+%%%
+
+For a connected algebraic-group package G of dimension at least two acting regularly on an
+integral affine locally finite-type dimension-one curve V over an algebraically closed k,
+the genuine global k-point kernel criterion now constructs an actual global regular
+group-scheme morphism to the standard affine group. Its k-point map is injective. The
+SAME original generic-stalk generator, global faithful point homomorphism, actual chart,
+rational coefficients, finite parameter-field extension, transcendence basis and literal
+generic/specialized formulas are retained. Both tensor-domain witnesses remain internal
+and bound. No coordinate, regular local model, gluing, extension or morphism certificate is
+a caller premise.
+
+{docstring AclGeom.SchemeAffineMorphism.exists_affine_morphism}
+
+Invert the product of the nonzero multiplier numerator and denominator in the actual chart
+ring. On this principal open the multiplier is a unit and the shift is regular, so the
+universal property of the existing affine coordinate algebra gives an actual Spec morphism
+to the standard affine group. The Jacobson property supplies a genuine point on this open.
+Every point specialization agrees with the SAME faithful affine representation, because
+evaluation of affine transformations at the transcendental generator is injective.
+
+{docstring AclGeom.RegularGroupMorphism.exists_local_model}
+
+{docstring AclGeom.AffineTransformation.eval_injective}
+
+Translate the nonempty source open by every actual group point and translate its target map
+by the corresponding point homomorphism. These source opens contain every closed point and
+cover the group: apply the Jacobson density theorem to the closed complement of their union.
+On overlaps, the local maps agree at every k-point. The source is reduced and locally finite
+type and the target is separated and locally finite type, so Mathlib's existing morphism
+extensionality theorem proves equality of the actual morphisms. Glue them and check the
+base compatibility locally. The chosen original point of the open also gives the formula
+for every group point of the glued map.
+
+{docstring AclGeom.RegularGroupMorphism.exists_extension}
+
+The actual product of G with itself is integral over the ACF base. Point extensionality on
+that product, the point homomorphism's multiplication law and its unit law prove the actual
+scheme unit and multiplication diagrams. This packages a genuine group-scheme morphism.
+Its point-map agreement with the SAME affine representation gives injectivity on k-points.
+
+Inseparability is allowed. No scheme monomorphism is asserted. Scheme finite-cover coordinate
+maps, non-affine and rational-action cases, regularization, completion and points identification,
+the normal subgroup and full classifier, original group/chunk/six-point results,
+algebraization/descent and every true bypassed auxiliary remain owed. All eight original
+work items of [#21](https://github.com/adamtopaz/acl_geom/issues/21) stay open; the full shared
+goal remains active and incomplete.

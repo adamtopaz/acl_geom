@@ -114,9 +114,12 @@ and global faithful point homomorphism now have rational coefficients on an inte
 actual affine group chart (`SchemeAffineParameters`). The chart fraction field is finite over
 the two coefficients, which form a transcendence basis, with literal specialized and actual
 generic-translate formulas. Inseparability is allowed. No chart, coefficient, specialization,
-rank or finiteness certificate is a caller premise. Global regular coefficient maps, the
-scheme-group morphism and multiplication law, and scheme finite-cover coordinate maps remain
-owed.
+rank or finiteness certificate is a caller premise. `SchemeAffineMorphism` now constructs
+an actual global regular group-scheme morphism to the standard affine group from these SAME
+data, injective on k-points, with actual unit/multiplication identities. Its principal-open
+model and translated-open gluing are internal. No regularity, extension or morphism
+certificate is a premise; no scheme monomorphism is asserted. Inseparability is allowed.
+Scheme finite-cover coordinate maps remain owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14143,3 +14146,56 @@ no fresh peer proof approval was received. All eight original #21 items stay ope
 durable goal stays active and incomplete. Earlier checkpoint sections retain their then-
 current frontiers; this one supplies the actual regular-affine rational coefficient and
 parameter-field consumer.
+
+
+## Checkpoint: the global regular affine-group morphism (#21)
+
+`SchemeAffineMorphism.exists_affine_morphism` constructs an actual group-scheme morphism
+from the connected algebraic-group package to the standard affine group, with injective
+k-point map. Its only inputs are the genuine ACF base, group dimension at least two,
+integral AFFINE locally finite-type dimension-one curve, actual REGULAR action and global
+k-point kernel criterion. The preceding parameter producer is called ONCE. The SAME original
+generic-stalk generator, faithful affine point homomorphism, chart, rational coefficients,
+finite parameter-field extension, transcendence basis and actual generic/specialized formulas
+are retained, including both internally proved bound tensor-domain witnesses. No coordinate,
+local regular model, gluing, extension or scheme morphism is supplied by the caller.
+
+On the principal open obtained by inverting the product of multiplier numerator and
+denominator, the rational multiplier is a unit and the shift is regular. The existing
+coordinate algebra's universal property constructs the actual affine-group Spec map.
+Jacobson density chooses a point on that open. Transcendental affine evaluation identifies
+its point map with the same global representation. The elementary evaluation-injectivity
+proof was moved literally from its old consumed private fixed-place helper into the common
+`AffineTransformation.eval_injective` API; both old and new consumers use it. Its type hash,
+universes and axioms are exact, and no duplicate local proof remains.
+
+Translates of the open cover every closed point. Jacobson density applied to the closed
+complement proves that they cover the whole group. On actual pullback overlaps, the local
+point formulas and Mathlib's reduced-source morphism extensionality give compatibility.
+Mathlib gluing constructs the global scheme map and local checks give its base compatibility.
+The chosen original point gives the formula at every group point. The actual group product
+is integral; point extensionality there and the point homomorphism's laws prove the actual
+unit and multiplication diagrams. The map is packaged as a genuine group-scheme homomorphism.
+
+The three focused mathematical modules and the promoted common proof preserve the checked
+prototype bodies literally. The nine added records comprise four public APIs (one promoted),
+four consumed explicit private helpers and one consumed public internal proof. Fourteen
+generated normalization facts, including twelve unused ones, were eliminated by replacing
+two group-tactic calls with explicit cancellation. All nine retained types stayed exact.
+All four expanded public statements and all five private/internal types and consumers were
+read in full; fresh-meta and direct-type printing succeed with zero omissions. Only standard
+axioms and zero unsafe declarations occur. One commented finite600000-heartbeat budget
+supports the actual producer's dependent data; strict synthesis, lint and kernel checking
+remain enabled. The issue report records full library/book checks, declaration promotion,
+parent preservation, fresh whole-library staged/committed audits and exact-head CI.
+Original statements/proofs/TEST blocks, goal completion core and frozen M4a history are exact.
+A finite inventory is not a source-coverage certificate.
+
+No scheme monomorphism is asserted and inseparability is allowed. Scheme finite-cover
+coordinate maps, non-affine and rational-action cases, regularization, completion/points
+identification, the normal subgroup and full classifier, original group/chunk/six-point
+producers, algebraization/descent and every true bypassed auxiliary remain owed. Peer
+ownership, review requests and serial compiler leases were coordinated through chit; no
+fresh peer proof approval was received or claimed. All eight original #21 items stay open;
+the full durable goal remains active and incomplete. Earlier checkpoint sections retain
+their then-current frontiers.

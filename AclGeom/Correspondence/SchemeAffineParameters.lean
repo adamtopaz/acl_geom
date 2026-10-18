@@ -20,9 +20,11 @@ which form a transcendence basis. Literal generic and specialized action formula
 Both tensor-domain witnesses are proved internally and bound in the result.
 No coordinate, coefficient, specialization, rank or finiteness certificate is a caller premise.
 
-This is rational coefficient and parameter-field evidence. Global regular coefficient maps,
-a scheme-group morphism, its multiplication law and scheme finite-cover coordinate maps
-remain owed. Non-affine and rational-action cases, regularization, completion/points
+This is rational coefficient and parameter-field evidence. `SchemeAffineMorphism` lifts
+these SAME data to an actual global regular group-scheme morphism to the standard affine
+group, injective on k-points, with actual unit and multiplication identities. Scheme
+finite-cover coordinate maps remain owed. Non-affine and rational-action cases, regularization,
+completion/points
 identification, the normal subgroup and full classifier, original group/chunk/six-point
 results, algebraization/descent and true bypassed auxiliaries remain open. All eight original
 #21 items and the full durable goal stay open.

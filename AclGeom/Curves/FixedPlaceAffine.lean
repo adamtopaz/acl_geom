@@ -20,8 +20,9 @@ A rational generator with a simple pole at a fixed place has an affine transform
  `SchemeAffinePointAction.exists_faithful_affine_coordinates` derives every input from the
  actual connected-group action on an affine curve. This constructs a group homomorphism
  on k-points. `SchemeAffineParameters` constructs rational coefficients on an actual group
- chart and a finite extension of their two-parameter field. Global regular coefficient maps,
- scheme-group morphisms and the full classification remain open.
+ chart and a finite extension of their two-parameter field. `SchemeAffineMorphism` lifts
+ that same representation to a global regular group-scheme morphism, injective on k-points.
+ Scheme finite-cover coordinate maps and the full classification remain open.
 -/
 
 namespace AclGeom.FixedPlaceAffine
@@ -92,32 +93,6 @@ theorem exists_affine_of_fixed_pole {t : F} (ht : Transcendental k t)
   rw [map_div₀, map_div₀, div_mul_eq_mul_div, ← add_div]
   exact (eq_div_iff hdF).2 hrel
 
-omit [IsAlgClosed k] [IsFunctionFieldOneVar k F] in
-private theorem affine_eval_injective {t : F} (ht : Transcendental k t) :
-    Function.Injective (fun A : AffineTransformation k ↦
-      algebraMap k F (A.multiplier : k) * t + algebraMap k F A.shift) := by
-  intro A B h
-  change algebraMap k F (A.multiplier : k) * t + algebraMap k F A.shift =
-    algebraMap k F (B.multiplier : k) * t + algebraMap k F B.shift at h
-  by_cases ha : (A.multiplier : k) = (B.multiplier : k)
-  · have hb : A.shift = B.shift := by
-      apply (algebraMap k F).injective
-      rw [ha] at h
-      exact add_left_cancel h
-    exact AffineTransformation.ext (Units.ext ha) hb
-  · have hd : algebraMap k F ((A.multiplier : k) - (B.multiplier : k)) ≠ 0 :=
-      (map_ne_zero _).2 (sub_ne_zero.mpr ha)
-    have he : t = algebraMap k F
-        ((B.shift - A.shift) / ((A.multiplier : k) - (B.multiplier : k))) := by
-      rw [map_div₀]
-      apply (eq_div_iff hd).2
-      rw [map_sub, map_sub]
-      linear_combination h
-    exfalso
-    apply ht
-    rw [he]
-    exact isAlgebraic_algebraMap _
-
 /-- A faithful opposite function-field action fixing a place in genus zero has faithful
  affine coordinates. The actual scheme consumer derives the fixed place, genus and faithful
  field action from its genuine curve/action hypotheses. -/
@@ -139,7 +114,7 @@ theorem exists_faithful_affine_representation {Γ : Type*} [Group Γ]
   let A (g : Γ) : AffineTransformation k := ⟨Units.mk0 (a g) (ha g), b g⟩
   let ε (T : AffineTransformation k) : F :=
     algebraMap k F (T.multiplier : k) * t + algebraMap k F T.shift
-  have hε : Function.Injective ε := affine_eval_injective ht
+  have hε : Function.Injective ε := AffineTransformation.eval_injective ht
   have hA (g : Γ) : ε (A g) = (ρ g).unop t := (hab g).symm
   let Φ : Γ →* AffineTransformation k := {
     toFun := A
