@@ -149,7 +149,14 @@ and its actual finite surjective orbit map Ga to V (`AdditiveOrbit.exists_finite
 Its chosen origin, joint translation-action scheme diagram and literal addition over every
 coefficient algebra in the base universe are proved. No orbit, point, dominance, nonconstancy
 or finite-cover certificate is supplied. Normality, connectedness and a group-dimension
-bound are not needed. Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
+bound are not needed. For the genuine connected regular-affine action of group dimension
+at least two with an actual monic Ga subgroup, the SAME original generic-stalk generator t
+and global morphism f now give an actual isomorphism of the ENTIRE original curve V with Ga
+(`CurveGlobalCoordinate.exists_whole_curve_coordinate`). Its generic value is literally t;
+the SAME f gives the global joint action diagram and ax+b over every coefficient algebra
+in the base universe. Transitivity, coordinate regularity and the isomorphism are internal.
+No normality, chart, point, transitivity, regularity or isomorphism certificate is supplied.
+Arbitrary one-dimensional normal-subgroup/isogeny classification remains owed.
 Non-affine and rational-action cases, completion/points identification, the normal subgroup
 and arbitrary-action classification remain open.
 The tuple-locus-to-scheme-curves and jointly generic product bridge remains separate.
@@ -14541,3 +14548,48 @@ actions, regularization, completion/points, the full classifier, original group/
 six-point statements, algebraization/descent and every true bypassed auxiliary remain owed.
 All eight original #21 work items and the full durable goal stay open. Earlier checkpoints
 retain their scopes; historical M4a items1–117 remain frozen.
+
+
+## Checkpoint: the whole original affine curve and global action diagram (#21)
+
+`CurveGlobalCoordinate.exists_whole_curve_coordinate` starts with the genuine connected
+regular action on an integral affine locally finite-type dimension-one curve over an ACF
+base, group dimension at least two, the global point-kernel criterion and an actual monic
+Ga subgroup. One call to the existing producer chooses the SAME original generic-stalk
+generator t and global group morphism f, injective on base-field points. It internally
+constructs an actual isomorphism of the ENTIRE original curve with Ga, with literal generic
+value t, the SAME f in the global joint action diagram, and ax+b over every commutative
+coefficient algebra in the base universe. Every characteristic is included; inseparability
+is allowed. No normality, coordinate, chart, point, transitivity, regularity or isomorphism
+certificate is supplied by the caller.
+
+The actual finite surjective Ga orbit gives transitivity on base-field points. Translates
+of a pointed old coordinate chart cover the curve. The existing affine pullback formulas
+make those translated charts compatible; reduced-source point extensionality and Mathlib
+gluing give the global regular coordinate. Generic categorical action laws keep composition
+explicit. Product integrality proves the actual joint scheme action diagram everywhere.
+Spec full faithfulness recovers the actual coordinate and line-cover algebra maps. A prime
+over bottom makes the cover map injective. Their nonconstant polynomial composite is finite;
+integral closure in the original generated fraction field identifies the coordinate ring
+with k[t]. The isomorphism criterion itself works over every field and needs no normality,
+dimension or finiteness premise for the supplied surjective line cover.
+
+Four focused modules preserve eleven independently checked prototype bodies. All fourteen
+named public APIs and seven retained generated proof dependencies have consumers ending
+at the actual theorem. Full expanded signatures, intrinsic hashes/universes/axioms/consumer
+reports have zero omissions. No checking option or heartbeat budget is changed. A temporary
+serial harness rejected a repeated completed request label; its terminal result was observed
+before a fresh capped family continued the remaining work. The earlier kernel timeout was
+removed by using categorical associativity lemmas instead of definitional reassociation
+of concrete scheme maps. Final proofs check at the default budgets in roughly one or two
+seconds per prototype. Full build/book, strict module checks, source fidelity, whole-library
+dependency audit and exact-head CI evidence are reported on #21. Ownership, source-review
+requests and compiler leases are coordinated through chit with aclgeom.claude; no fresh
+peer proof approval was received or claimed.
+
+Arbitrary one-dimensional normal-subgroup/isogeny classification, construction beyond the
+regular-affine Ga case, remaining source parameter covers, rational/non-affine actions,
+regularization, completion/points, the full classifier, original group/chunk/six-point
+statements, algebraization/descent and all true bypassed auxiliaries remain owed. All eight
+original #21 work items and the full durable goal stay open. Earlier checkpoints retain
+their scopes; historical M4a items1–117 remain frozen.
